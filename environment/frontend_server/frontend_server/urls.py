@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^update_environment/$', translator_views.update_environment, name='update_environment'),
     url(r'^path_tester/$', translator_views.path_tester, name='path_tester'),
     url(r'^path_tester_update/$', translator_views.path_tester_update, name='path_tester_update'),
+    url(r'^chat_with_persona/$', translator_views.chat_with_persona, name='chat_with_persona'),
     path('admin/', admin.site.urls),
 ]

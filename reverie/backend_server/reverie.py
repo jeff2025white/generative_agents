@@ -18,6 +18,15 @@ term "personas" to refer to generative agents, "associative memory" to refer
 to the memory stream, and "reverie" to refer to the overarching simulation 
 framework.
 """
+# python 3.10 compatibility monkey-patch for django 2.2
+import collections
+import collections.abc
+collections.Iterable = collections.abc.Iterable
+collections.Mapping = collections.abc.Mapping
+collections.MutableMapping = collections.abc.MutableMapping
+collections.Sequence = collections.abc.Sequence
+collections.MutableSequence = collections.abc.MutableSequence
+
 import json
 import numpy
 import datetime
@@ -398,6 +407,7 @@ class ReverieServer:
           #  "persona": {"Klaus Mueller": {"movement": [38, 12]}}, 
           #  "meta": {curr_time: <datetime>}}
           curr_move_file = f"{sim_folder}/movement/{self.step}.json"
+          os.makedirs(os.path.dirname(curr_move_file), exist_ok=True)
           with open(curr_move_file, "w") as outfile: 
             outfile.write(json.dumps(movements, indent=2))
 
@@ -599,17 +609,36 @@ class ReverieServer:
 
 
 if __name__ == '__main__':
-  # rs = ReverieServer("base_the_ville_isabella_maria_klaus", 
-  #                    "July1_the_ville_isabella_maria_klaus-step-3-1")
-  # rs = ReverieServer("July1_the_ville_isabella_maria_klaus-step-3-20", 
-  #                    "July1_the_ville_isabella_maria_klaus-step-3-21")
-  # rs.open_server()
+  import sys
+  # Check for command line arguments: python reverie.py <fork_name> <new_name> [auto_run_steps]
+  if len(sys.argv) >= 3:
+    origin = sys.argv[1].strip()
+    target = sys.argv[2].strip()
+    
+    auto_run_steps = None
+    if len(sys.argv) >= 4:
+      try:
+        auto_run_steps = int(sys.argv[3].strip())
+      except ValueError:
+        pass
+        
+    print(f"Forking simulation: {origin} -> {target}")
+    rs = ReverieServer(origin, target)
+    
+    if auto_run_steps is not None:
+      print(f"Auto-running simulation for {auto_run_steps} steps...")
+      rs.start_server(auto_run_steps)
+      print("Saving simulation...")
+      rs.save()
+      print("Simulation saved and completed!")
+    else:
+      rs.open_server()
+  else:
+    origin = input("Enter the name of the forked simulation: ").strip()
+    target = input("Enter the name of the new simulation: ").strip()
 
-  origin = input("Enter the name of the forked simulation: ").strip()
-  target = input("Enter the name of the new simulation: ").strip()
-
-  rs = ReverieServer(origin, target)
-  rs.open_server()
+    rs = ReverieServer(origin, target)
+    rs.open_server()
 
 
 

@@ -298,6 +298,12 @@
 	                                   backgroundColor: "#ffffff",
 	                                   border:"solid",
 	                                   borderRadius:"10px"}).setDepth(3);
+
+	    // Make sprite interactive (clickable)
+	    new_sprite.setInteractive();
+	    new_sprite.on('pointerdown', function() {
+	      openChat(persona_name.replace(/ /g, "_"));
+	    });
 	  }
 
 	  // Create the player's walking animations from the texture atlas. These are
@@ -548,8 +554,177 @@
 	}
 
 	// Control button binders
-	var play_button=document.getElementById("play_button");
-	var pause_button=document.getElementById("pause_button");
+		var play_button=document.getElementById("play_button");
+		var pause_button=document.getElementById("pause_button");
+
+// =====================================================================
+// CHAT SYSTEM - 用户与角色对话功能
+// =====================================================================
+
+// 当前对话状态
+var chatState = {
+  personaName: "",          // 下划线格式 e.g. "Isabella_Rodriguez"
+  displayName: "",          // 空格格式 e.g. "Isabella Rodriguez"
+  conversationHistory: [],  // 对话历史 [{role: "user"/"assistant", content: "..."}]
+  isWaiting: false          // 是否正在等待回复
+};
+
+function openChat(personaNameUnderscore) {
+  chatState.personaName = personaNameUnderscore;
+  chatState.displayName = personaNameUnderscore.replace(/_/g, " ");
+  chatState.conversationHistory = [];
+  chatState.isWaiting = false;
+
+  document.getElementById("chat-persona-display-name").innerText = chatState.displayName;
+  document.getElementById("chat-messages").innerHTML = 
+    '<p style="color:#888; text-align:center; font-style:italic;">Start a conversation with ' + chatState.displayName + '...</p>';
+  document.getElementById("chat-input").value = "";
+  document.getElementById("chat-modal").style.display = "block";
+  
+  // Focus input
+  setTimeout(function() {
+    document.getElementById("chat-input").focus();
+  }, 100);
+}
+
+function closeChat() {
+  document.getElementById("chat-modal").style.display = "none";
+  chatState.personaName = "";
+  chatState.conversationHistory = [];
+}
+
+function appendMessage(role, content, personaName) {
+  var messagesDiv = document.getElementById("chat-messages");
+  
+  // 如果是第一条消息，清除占位文字
+  if (chatState.conversationHistory.length <= 1 && role === "user") {
+    messagesDiv.innerHTML = "";
+  }
+
+  var msgDiv = document.createElement("div");
+  msgDiv.style.marginBottom = "12px";
+  msgDiv.style.display = "flex";
+  msgDiv.style.flexDirection = "column";
+  
+  if (role === "user") {
+    msgDiv.style.alignItems = "flex-end";
+    msgDiv.innerHTML = 
+      '<div style="background:#4CAF50; color:white; padding:8px 14px; border-radius:12px 12px 0 12px; max-width:80%; word-wrap:break-word;">' +
+      escapeHtml(content) +
+      '</div>' +
+      '<span style="font-size:0.75em; color:#999; margin-top:2px;">You</span>';
+  } else {
+    msgDiv.innerHTML = 
+      '<div style="background:#e8e8e8; color:#333; padding:8px 14px; border-radius:12px 12px 12px 0; max-width:80%; word-wrap:break-word;">' +
+      escapeHtml(content) +
+      '</div>' +
+      '<span style="font-size:0.75em; color:#999; margin-top:2px;">' + escapeHtml(personaName || chatState.displayName) + '</span>';
+  }
+  
+  messagesDiv.appendChild(msgDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function showTypingIndicator() {
+  var messagesDiv = document.getElementById("chat-messages");
+  var typingDiv = document.createElement("div");
+  typingDiv.id = "typing-indicator";
+  typingDiv.style.marginBottom = "12px";
+  typingDiv.innerHTML = 
+    '<div style="background:#e8e8e8; color:#999; padding:8px 14px; border-radius:12px 12px 12px 0; display:inline-block;">' +
+    '<span style="font-style:italic;">' + escapeHtml(chatState.displayName) + ' is thinking...</span>' +
+    '</div>';
+  messagesDiv.appendChild(typingDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  var el = document.getElementById("typing-indicator");
+  if (el) el.remove();
+}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.appendChild(document.createTextNode(text));
+  return div.innerHTML;
+}
+
+function sendChatMessage() {
+  if (chatState.isWaiting) return;
+  
+  var input = document.getElementById("chat-input");
+  var message = input.value.trim();
+  if (!message) return;
+
+  // 清空输入框
+  input.value = "";
+
+  // 显示用户消息
+  appendMessage("user", message);
+  
+  // 添加到历史
+  chatState.conversationHistory.push({role: "user", content: message});
+
+  // 禁用发送按钮
+  chatState.isWaiting = true;
+  var sendBtn = document.getElementById("chat-send-btn");
+  sendBtn.disabled = true;
+  sendBtn.style.opacity = "0.5";
+
+  // 显示"正在思考"
+  showTypingIndicator();
+
+  // 发送请求到后端
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "{% url 'chat_with_persona' %}", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onload = function() {
+    removeTypingIndicator();
+    chatState.isWaiting = false;
+    sendBtn.disabled = false;
+    sendBtn.style.opacity = "1";
+
+    if (xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      var reply = resp.reply;
+      appendMessage("assistant", reply, resp.persona_name);
+      chatState.conversationHistory.push({role: "assistant", content: reply});
+    } else {
+      var errMsg = "Error: ";
+      try {
+        errMsg += JSON.parse(xhr.responseText).error;
+      } catch(e) {
+        errMsg += "Request failed (status " + xhr.status + ")";
+      }
+      appendMessage("assistant", errMsg, "System");
+    }
+
+    // 重新 focus 输入框
+    input.focus();
+  };
+  xhr.onerror = function() {
+    removeTypingIndicator();
+    chatState.isWaiting = false;
+    sendBtn.disabled = false;
+    sendBtn.style.opacity = "1";
+    appendMessage("assistant", "Error: Network request failed. Is the server running?", "System");
+  };
+  xhr.timeout = 65000;
+  xhr.ontimeout = function() {
+    removeTypingIndicator();
+    chatState.isWaiting = false;
+    sendBtn.disabled = false;
+    sendBtn.style.opacity = "1";
+    appendMessage("assistant", "Error: Request timed out. The LLM might be too slow.", "System");
+  };
+
+  xhr.send(JSON.stringify({
+    sim_code: sim_code.trim(),
+    persona_name: chatState.personaName,
+    user_message: message,
+    conversation_history: chatState.conversationHistory.slice(0, -1) // 不含刚添加 of user message（后端会自己加）
+  }));
+}
 </script>
 
 

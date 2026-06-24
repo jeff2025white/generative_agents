@@ -357,26 +357,38 @@ def run_gpt_prompt_task_decomp(persona,
     return prompt_input
 
   def __func_clean_up(gpt_response, prompt=""):
-    print ("TOODOOOOOO")
-    print (gpt_response)
-    print ("-==- -==- -==- ")
-
-    # TODO SOMETHING HERE sometimes fails... See screenshot
+    import re
     temp = [i.strip() for i in gpt_response.split("\n")]
-    _cr = []
     cr = []
-    for count, i in enumerate(temp): 
-      if count != 0: 
-        _cr += [" ".join([j.strip () for j in i.split(" ")][3:])]
-      else: 
-        _cr += [i]
-    for count, i in enumerate(_cr): 
+    
+    for i in temp:
+      if "(duration in minutes:" not in i:
+        continue
       k = [j.strip() for j in i.split("(duration in minutes:")]
       task = k[0]
-      if task[-1] == ".": 
+      
+      # Strip leading numbers/bullets (e.g., "1) ", "1. ", "- ")
+      task = re.sub(r'^\d+[\s\).:-]+', '', task).strip()
+      task = re.sub(r'^-\s+', '', task).strip()
+      
+      # Strip leading "<Agent Name> is " or "<First Name> is " or just "is "
+      firstname = persona.scratch.get_str_firstname()
+      fullname = persona.name
+      if task.startswith(fullname + " is "):
+        task = task[len(fullname + " is "):].strip()
+      elif task.startswith(firstname + " is "):
+        task = task[len(firstname + " is "):].strip()
+      elif task.startswith("is "):
+        task = task[3:].strip()
+        
+      if task and task[-1] == ".": 
         task = task[:-1]
-      duration = int(k[1].split(",")[0].strip())
-      cr += [[task, duration]]
+        
+      try:
+        duration = int(k[1].split(",")[0].strip())
+        cr += [[task, duration]]
+      except:
+        pass
 
     total_expected_min = int(prompt.split("(total duration in minutes")[-1]
                                    .split("):")[0].strip())
@@ -393,6 +405,9 @@ def run_gpt_prompt_task_decomp(persona,
         for j in range(i_duration): 
           curr_min_slot += [(i_task, count)]       
     curr_min_slot = curr_min_slot[1:]   
+
+    if not curr_min_slot:
+      curr_min_slot = [(task, total_expected_min)]
 
     if len(curr_min_slot) > total_expected_min: 
       last_task = curr_min_slot[60]
@@ -414,12 +429,12 @@ def run_gpt_prompt_task_decomp(persona,
     return cr
 
   def __func_validate(gpt_response, prompt=""): 
-    # TODO -- this sometimes generates error 
     try: 
-      __func_clean_up(gpt_response)
+      res = __func_clean_up(gpt_response, prompt=prompt)
+      if not res:
+        return False
     except: 
-      pass
-      # return False
+      return False
     return gpt_response
 
   def get_fail_safe(): 
@@ -553,13 +568,12 @@ def run_gpt_prompt_action_sector(action_description,
 
 
   def __func_clean_up(gpt_response, prompt=""):
-    cleaned_response = gpt_response.split("}")[0]
+    cleaned_response = gpt_response.split("}")[0].strip()
+    cleaned_response = cleaned_response.strip("{").strip("}").strip()
     return cleaned_response
 
   def __func_validate(gpt_response, prompt=""): 
     if len(gpt_response.strip()) < 1: 
-      return False
-    if "}" not in gpt_response:
       return False
     if "," in gpt_response: 
       return False
@@ -683,13 +697,12 @@ def run_gpt_prompt_action_arena(action_description,
     return prompt_input
 
   def __func_clean_up(gpt_response, prompt=""):
-    cleaned_response = gpt_response.split("}")[0]
+    cleaned_response = gpt_response.split("}")[0].strip()
+    cleaned_response = cleaned_response.strip("{").strip("}").strip()
     return cleaned_response
 
   def __func_validate(gpt_response, prompt=""): 
     if len(gpt_response.strip()) < 1: 
-      return False
-    if "}" not in gpt_response:
       return False
     if "," in gpt_response: 
       return False

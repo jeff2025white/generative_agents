@@ -8,6 +8,8 @@ import random
 import json
 from os import listdir
 import os
+import re
+import requests as http_requests
 
 import datetime
 from django.shortcuts import render, redirect, HttpResponseRedirect
@@ -312,6 +314,147 @@ def path_tester_update(request):
     outfile.write(json.dumps(camera, indent=2))
 
   return HttpResponse("received")
+
+
+def chat_with_persona(request):
+    """
+    Web API: 用户通过网页与角色对话。
+    POST 请求，JSON 格式：
+    {
+      "sim_code": "sim_20260624_192342",
+      "persona_name": "Isabella_Rodriguez",  // 下划线分隔
+      "user_message": "你今天有什么计划？",
+      "conversation_history": [
+        {"role": "user", "content": "你好"},
+        {"role": "assistant", "content": "你好！我是Isabella..."}
+      ]
+    }
+    返回 JSON：
+    {
+      "reply": "角色的回复文本",
+      "persona_name": "Isabella Rodriguez"
+    }
+    """
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        sim_code = data["sim_code"]
+        persona_name_underscore = data["persona_name"]
+        persona_name = persona_name_underscore.replace("_", " ")
+        user_message = data["user_message"]
+        conversation_history = data.get("conversation_history", [])
+
+        # === 1. 加载角色的 scratch.json（身份信息） ===
+        memory_base = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+        if not os.path.exists(memory_base):
+            return JsonResponse({"error": f"Persona '{persona_name}' not found in sim '{sim_code}'"}, status=404)
+
+        with open(f"{memory_base}/scratch.json", encoding="utf-8") as f:
+            scratch = json.load(f)
+
+        # === 2. 加载角色的 associative_memory/nodes.json（记忆流） ===
+        with open(f"{memory_base}/associative_memory/nodes.json", encoding="utf-8") as f:
+            nodes = json.load(f)
+
+        # 提取最近的事件和想法（最多各取 10 条）
+        recent_events = []
+        recent_thoughts = []
+        for count in range(len(nodes.keys()), 0, -1):
+            node_id = f"node_{count}"
+            if node_id not in nodes:
+                continue
+            node = nodes[node_id]
+            if node["type"] == "event" and len(recent_events) < 10:
+                recent_events.append(node["description"])
+            elif node["type"] == "thought" and len(recent_thoughts) < 10:
+                recent_thoughts.append(node["description"])
+            if len(recent_events) >= 10 and len(recent_thoughts) >= 10:
+                break
+
+        # === 3. 构建角色身份上下文（ISS - Identity Stable Set） ===
+        iss = f"""Name: {scratch.get('name', persona_name)}
+Age: {scratch.get('age', 'unknown')}
+Innate traits: {scratch.get('innate', '')}
+Learned traits: {scratch.get('learned', '')}
+Currently: {scratch.get('currently', '')}
+Lifestyle: {scratch.get('lifestyle', '')}
+Daily plan requirement: {scratch.get('daily_plan_req', '')}
+Current time: {scratch.get('curr_time', '')}"""
+
+        # === 4. 构建系统 Prompt ===
+        events_str = "\n".join(f"- {e}" for e in recent_events) if recent_events else "No recent events."
+        thoughts_str = "\n".join(f"- {t}" for t in recent_thoughts) if recent_thoughts else "No recent thoughts."
+
+        system_prompt = f"""You are {persona_name}, a character in a small town called Smallville.
+Here is your basic information:
+{iss}
+
+Your recent experiences:
+{events_str}
+
+Your recent thoughts:
+{thoughts_str}
+
+Current action: {scratch.get('act_description', 'idle')}
+Current location: {scratch.get('act_address', 'unknown')}
+
+Instructions:
+- Stay in character as {persona_name} at all times.
+- Respond naturally based on your personality, memories, and current situation.
+- Keep responses concise (1-3 sentences).
+- If the user speaks Chinese, respond in Chinese. If the user speaks English, respond in English.
+- Do not break character or mention that you are an AI."""
+
+        # === 5. 构建对话消息列表 ===
+        messages = [{"role": "system", "content": system_prompt}]
+
+        # 添加历史对话（最多保留最近 10 轮）
+        for msg in conversation_history[-20:]:
+            messages.append({
+                "role": msg["role"],
+                "content": msg["content"]
+            })
+
+        # 添加当前用户消息
+        messages.append({"role": "user", "content": user_message})
+
+        # === 6. 调用 Ollama 本地模型 ===
+        # Ollama 提供 OpenAI 兼容 API：http://localhost:11434/v1/chat/completions
+        ollama_response = http_requests.post(
+            "http://localhost:11434/v1/chat/completions",
+            json={
+                "model": "qwen2.5:7b",  # 可改为 "deepseek-r1:8b"
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 300,
+                "stream": False
+            },
+            timeout=60
+        )
+        ollama_response.raise_for_status()
+        result = ollama_response.json()
+        reply = result["choices"][0]["message"]["content"].strip()
+
+        # 清理 deepseek-r1 的 <think>...</think> 标签（如果使用 deepseek-r1 模型）
+        import re
+        reply = re.sub(r'<think>.*?</think>', '', reply, flags=re.DOTALL).strip()
+
+        return JsonResponse({
+            "reply": reply,
+            "persona_name": persona_name
+        })
+
+    except FileNotFoundError as e:
+        return JsonResponse({"error": f"File not found: {str(e)}"}, status=404)
+    except http_requests.exceptions.ConnectionError:
+        return JsonResponse({"error": "Cannot connect to Ollama. Is it running on localhost:11434?"}, status=503)
+    except http_requests.exceptions.Timeout:
+        return JsonResponse({"error": "Ollama response timed out"}, status=504)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 
 
 

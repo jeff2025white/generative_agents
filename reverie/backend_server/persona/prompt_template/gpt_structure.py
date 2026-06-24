@@ -12,6 +12,8 @@ import time
 from utils import *
 
 openai.api_key = openai_api_key
+if openai_api_base:
+  openai.api_base = openai_api_base
 
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)
@@ -20,14 +22,17 @@ def ChatGPT_single_request(prompt):
   temp_sleep()
 
   completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": prompt}]
+    model=gpt35_model, 
+    messages=[
+      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
+      {"role": "user", "content": prompt}
+    ]
   )
   return completion["choices"][0]["message"]["content"]
 
 
 # ============================================================================
-# #####################[SECTION 1: CHATGPT-3 STRUCTURE] ######################
+# # ####################[SECTION 1: CHATGPT-3 STRUCTURE] ######################
 # ============================================================================
 
 def GPT4_request(prompt): 
@@ -46,8 +51,11 @@ def GPT4_request(prompt):
 
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-4", 
-    messages=[{"role": "user", "content": prompt}]
+    model=gpt4_model, 
+    messages=[
+      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
+      {"role": "user", "content": prompt}
+    ]
     )
     return completion["choices"][0]["message"]["content"]
   
@@ -71,8 +79,11 @@ def ChatGPT_request(prompt):
   # temp_sleep()
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": prompt}]
+    model=gpt35_model, 
+    messages=[
+      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
+      {"role": "user", "content": prompt}
+    ]
     )
     return completion["choices"][0]["message"]["content"]
   
@@ -208,18 +219,23 @@ def GPT_request(prompt, gpt_parameter):
   """
   temp_sleep()
   try: 
-    response = openai.Completion.create(
-                model=gpt_parameter["engine"],
-                prompt=prompt,
-                temperature=gpt_parameter["temperature"],
-                max_tokens=gpt_parameter["max_tokens"],
-                top_p=gpt_parameter["top_p"],
-                frequency_penalty=gpt_parameter["frequency_penalty"],
-                presence_penalty=gpt_parameter["presence_penalty"],
-                stream=gpt_parameter["stream"],
-                stop=gpt_parameter["stop"],)
-    return response.choices[0].text
-  except: 
+    stop_sequence = gpt_parameter.get("stop", None)
+    response = openai.ChatCompletion.create(
+                model=gpt35_model,
+                messages=[
+                  {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
+                  {"role": "user", "content": prompt}
+                ],
+                temperature=gpt_parameter.get("temperature", 0.0),
+                max_tokens=gpt_parameter.get("max_tokens", 100),
+                top_p=gpt_parameter.get("top_p", 1.0),
+                frequency_penalty=gpt_parameter.get("frequency_penalty", 0.0),
+                presence_penalty=gpt_parameter.get("presence_penalty", 0.0),
+                stop=stop_sequence)
+    return response.choices[0].message.content
+  except Exception as e: 
+    if debug:
+      print(f"GPT_request error: {e}")
     print ("TOKEN LIMIT EXCEEDED")
     return "TOKEN LIMIT EXCEEDED"
 
@@ -273,12 +289,27 @@ def safe_generate_response(prompt,
   return fail_safe_response
 
 
-def get_embedding(text, model="text-embedding-ada-002"):
+def get_embedding(text, model=embedding_model):
   text = text.replace("\n", " ")
   if not text: 
     text = "this is blank"
-  return openai.Embedding.create(
-          input=[text], model=model)['data'][0]['embedding']
+  
+  # Call local Ollama for embedding
+  response = openai.Embedding.create(
+          input=[text], 
+          model=model, 
+          api_base=ollama_api_base, 
+          api_key="ollama"
+  )
+  embedding = response['data'][0]['embedding']
+  
+  # Pad or truncate the embedding to match the 1536-dimensional database
+  if len(embedding) < 1536:
+    embedding = embedding + [0.0] * (1536 - len(embedding))
+  elif len(embedding) > 1536:
+    embedding = embedding[:1536]
+    
+  return embedding
 
 
 if __name__ == '__main__':
