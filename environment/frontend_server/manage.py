@@ -3,6 +3,16 @@
 import os
 import sys
 
+# python 3.10 compatibility monkey-patch for django 2.2
+import collections
+import collections.abc
+collections.Iterable = collections.abc.Iterable
+collections.Mapping = collections.abc.Mapping
+collections.MutableMapping = collections.abc.MutableMapping
+collections.Sequence = collections.abc.Sequence
+collections.MutableSequence = collections.abc.MutableSequence
+
+
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'frontend_server.settings')
