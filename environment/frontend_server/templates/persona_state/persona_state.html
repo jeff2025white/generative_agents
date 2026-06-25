@@ -10,7 +10,7 @@
 </style>
 
 
-<h3 style="width:80%; margin:0 auto; margin-top:5em; padding:1em; padding-left:3.5em; padding-right:2em; border-radius:10px; padding-top:3em"><a href="{{request.META.HTTP_REFERER}}">< Return to simulation</a></h3>
+<h3 style="width:80%; margin:0 auto; margin-top:5em; padding:1em; padding-left:3.5em; padding-right:2em; border-radius:10px; padding-top:3em"><a href="{{request.META.HTTP_REFERER}}">< 返回模拟器</a></h3>
 
 
 <div class="media" style="width:80%; margin:0 auto; margin-top:2em; background-color:#EEEEEE; padding:1em; padding-left:3.5em; padding-right:2em; border-radius:10px; padding-top:3em">
@@ -29,26 +29,26 @@
     </div>
     <div style="">
 
-		  <h3 style="font-size:1.65em"><strong>Basic information</strong></h3>
+		  <h3 style="font-size:1.65em"><strong>基本信息</strong></h3>
 		  <table class="scratch_table" style="width:100%">
 			  <tr>
-			    <td style="width:20%; font-weight:800">First name</td>
+			    <td style="width:20%; font-weight:800">名字</td>
 			    <td>{{scratch.first_name}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Last name</td>
+			    <td style="font-weight:800">姓氏</td>
 			    <td>{{scratch.last_name}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Age</td>
+			    <td style="font-weight:800">年龄</td>
 			    <td>{{scratch.age}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Current time</td>
+			    <td style="font-weight:800">当前时间</td>
 			    <td>{{scratch.curr_time}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Current tile</td>
+			    <td style="font-weight:800">当前坐标</td>
 			    <td>{{scratch.curr_tile}}</td>
 			  </tr>
 			</table>
@@ -56,18 +56,18 @@
 
 
 			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>Settings</strong></h3>
+			<h3 style="font-size:1.65em"><strong>基础设置</strong></h3>
 		  <table class="scratch_table" style="width:100%">
 			  <tr>
-			    <td style="width:20%; font-weight:800">Vision Radius</td>
+			    <td style="width:20%; font-weight:800">视野半径 (Vision Radius)</td>
 			    <td>{{scratch.vision_r}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Attention Bandwidth</td>
+			    <td style="font-weight:800">注意通道带宽 (Attention Bandwidth)</td>
 			    <td>{{scratch.att_bandwidth}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Retention</td>
+			    <td style="font-weight:800">记忆留存度 (Retention)</td>
 			    <td>{{scratch.retention}}</td>
 			  </tr>
 			</table>
@@ -75,22 +75,22 @@
 
 
 			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>Personality and Lifestyle</strong></h3>
+			<h3 style="font-size:1.65em"><strong>性格特质与生活方式</strong></h3>
 			<table class="scratch_table" style="width:100%">
 			  <tr>
-			    <td style="font-weight:800">Innate tendency</td>
+			    <td style="font-weight:800">先天特质</td>
 			    <td>{{scratch.innate}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Learned tendency</td>
+			    <td style="font-weight:800">后天特质</td>
 			    <td>{{scratch.learned}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Currently</td>
+			    <td style="font-weight:800">近期状态</td>
 			    <td>{{scratch.currently}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Lifestyle</td>
+			    <td style="font-weight:800">生活方式</td>
 			    <td>{{scratch.lifestyle}}</td>
 			  </tr>
 			</table>
@@ -98,10 +98,10 @@
 
 
 			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em; "><strong>Current Action State</strong></h3>
+			<h3 style="font-size:1.65em; "><strong>当前动作状态</strong></h3>
 			<table class="scratch_table" style="width:100%">
 			  <tr>
-			    <td style="width:20%; font-weight:800">Daily Requirement</td>
+			    <td style="width:20%; font-weight:800">每日核心需求</td>
 			    <td>
 			    	<ol>
 			    	{% for i in scratch.daily_req %}
@@ -111,7 +111,7 @@
 			    </td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Daily Schedule</td>
+			    <td style="font-weight:800">今日日程规划</td>
 			    <td>
 			    	<ol>
 			    	{% for i in scratch.f_daily_schedule %}
@@ -121,23 +121,23 @@
 			    </td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Action Address</td>
+			    <td style="font-weight:800">动作执行地点</td>
 			    <td>{{scratch.act_address}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Action Start Time</td>
+			    <td style="font-weight:800">动作开始时间</td>
 			    <td>{{scratch.act_start_time}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Action Duration</td>
+			    <td style="font-weight:800">持续时间 (分)</td>
 			    <td>{{scratch.act_duration}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Action Description</td>
+			    <td style="font-weight:800">动作详细描述</td>
 			    <td>{{scratch.act_description}}</td>
 			  </tr>
 			  <tr>
-			    <td style="font-weight:800">Action Pronunciatio</td>
+			    <td style="font-weight:800">动作表情符号</td>
 			    <td>{{scratch.act_pronunciatio}}</td>
 			  </tr>
 			</table>
@@ -146,8 +146,8 @@
 
 
 			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>Agent's Memory</strong></h3>
-			<h4 style="font-size:1.45em"><strong>Event</strong></h4>
+			<h3 style="font-size:1.65em"><strong>智能体记忆流 (Memory Stream)</strong></h3>
+			<h4 style="font-size:1.45em"><strong>观察到的事件记忆 (Events)</strong></h4>
 			<div class="" style="width:100%">
 			  {% for node_details in a_mem_event %}
 				  <p>
@@ -176,15 +176,15 @@
 			<br>
 
 			
-			<h4 style="font-size:1.45em"><strong>Agent's Conversation History</strong></h4>
+			<h4 style="font-size:1.45em"><strong>对话历史记忆 (Conversations)</strong></h4>
 			<div class="" style="width:100%">
 			  {% for node_details in a_mem_chat %}
 				  <p>
-				  	Created: {{ node_details.created }} 
+				  	记录时间: {{ node_details.created }} 
 				  	<br>
-				  	Description: {{ node_details.description }}
+				  	对话概要: {{ node_details.description }}
 				  	<br>
-				  	Filling: <br>
+				  	对话实录: <br>
 				  	{% for name, utt in node_details.filling %}
 				  	<span style="font-style: italic;">{{ name }}</span>: {{ utt }}<br>
 				  	{% endfor %}
@@ -193,13 +193,13 @@
 			</div>
 			<br>
 
-			<h4 style="font-size:1.45em"><strong>Agent's Thought</strong></h4>
+			<h4 style="font-size:1.45em"><strong>反思想法记忆 (Thoughts)</strong></h4>
 			<div class="" style="width:100%">
 			  {% for node_details in a_mem_thought %}
 				  <p>
 				  	[node_{{ node_details.node_count }}] {{ node_details.created }}: <strong>{{ node_details.description }}</strong> 
 
-				  	<br>(Depth: {{ node_details.depth }}; Evidence: {{ node_details.filling }})
+				  	<br>(想法深度: {{ node_details.depth }}; 推导依据: {{ node_details.filling }})
 				  	
 				  </p> 
 			  {% endfor %}

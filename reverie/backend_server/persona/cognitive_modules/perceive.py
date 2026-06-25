@@ -12,15 +12,29 @@ from global_methods import *
 from persona.prompt_template.gpt_structure import *
 from persona.prompt_template.run_gpt_prompt import *
 
+# [OPTIMIZATION] In-memory cache for poignancy scores to avoid repeated LLM
+# calls for the same persona + event description combination.
+_poignancy_cache = {}
+
 def generate_poig_score(persona, event_type, description): 
   if "is idle" in description: 
     return 1
 
+  # Check poignancy cache
+  cache_key = f"{persona.name}:{event_type}:{description}"
+  if cache_key in _poignancy_cache:
+    return _poignancy_cache[cache_key]
+
   if event_type == "event": 
-    return run_gpt_prompt_event_poignancy(persona, description)[0]
+    score = run_gpt_prompt_event_poignancy(persona, description)[0]
   elif event_type == "chat": 
-    return run_gpt_prompt_chat_poignancy(persona, 
+    score = run_gpt_prompt_chat_poignancy(persona, 
                            persona.scratch.act_description)[0]
+  else:
+    score = 1
+
+  _poignancy_cache[cache_key] = score
+  return score
 
 def perceive(persona, maze): 
   """

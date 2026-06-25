@@ -36,6 +36,7 @@ import math
 import os
 import shutil
 import traceback
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from selenium import webdriver
 
@@ -43,6 +44,8 @@ from global_methods import *
 from utils import *
 from maze import *
 from persona.persona import *
+from persona.prompt_template.gpt_structure import save_cache_to_disk
+import requests
 
 ##############################################################################
 #                                  REVERIE                                   #
@@ -152,6 +155,14 @@ class ReverieServer:
     # used to communicate the code and step information to the frontend. 
     # Note that step file is removed as soon as the frontend opens up the 
     # simulation. 
+    try:
+      requests.post("http://localhost:8000/api/init_sim/", json={
+        "sim_code": self.sim_code,
+        "step": self.step
+      }, timeout=5)
+    except Exception as e:
+      print(f"Warning: Failed to initialize simulation on frontend API: {e}")
+
     curr_sim_code = dict()
     curr_sim_code["sim_code"] = self.sim_code
     with open(f"{fs_temp_storage}/curr_sim_code.json", "w") as outfile: 
@@ -194,6 +205,9 @@ class ReverieServer:
     for persona_name, persona in self.personas.items(): 
       save_folder = f"{sim_folder}/personas/{persona_name}/bootstrap_memory"
       persona.save(save_folder)
+
+    # [OPTIMIZATION] Flush LLM prompt cache to disk on save
+    save_cache_to_disk()
 
 
   def start_path_tester_server(self): 
@@ -317,23 +331,76 @@ class ReverieServer:
       if int_counter == 0: 
         break
 
-      # <curr_env_file> file is the file that our frontend outputs. When the
-      # frontend has done its job and moved the personas, then it will put a 
-      # new environment file that matches our step count. That's when we run 
-      # the content of this for loop. Otherwise, we just wait. 
-      curr_env_file = f"{sim_folder}/environment/{self.step}.json"
-      if check_if_file_exists(curr_env_file):
-        # If we have an environment file, it means we have a new perception
-        # input to our personas. So we first retrieve it.
-        try: 
-          # Try and save block for robustness of the while loop.
-          with open(curr_env_file) as json_file:
-            new_env = json.load(json_file)
-            env_retrieved = True
-        except: 
+      env_retrieved = False
+      # We check the environment state via Django HTTP API (Option 3 API Gateway)
+      try:
+        response = requests.get(f"http://localhost:8000/api/get_environment/?sim_code={self.sim_code}&step={self.step}", timeout=5)
+        if response.status_code == 200:
+          new_env = response.json()
+          env_retrieved = True
+      except Exception as e:
+        pass
+
+      if not env_retrieved:
+        # Fallback to local files for backward compatibility
+        curr_env_file = f"{sim_folder}/environment/{self.step}.json"
+        if check_if_file_exists(curr_env_file):
+          try: 
+            with open(curr_env_file) as json_file:
+              new_env = json.load(json_file)
+              env_retrieved = True
+          except: 
+            pass
+
+      if not env_retrieved:
+        # Decouple: If no environment is found (browser is closed/refreshing),
+        # backend runs independently by using its own tracked persona tiles.
+        new_env = {}
+        for p_name, p_tile in self.personas_tile.items():
+          new_env[p_name] = {"x": p_tile[0], "y": p_tile[1]}
+        env_retrieved = True
+        
+        # Notify Django of this environment state so the database is updated
+        try:
+          requests.post("http://localhost:8000/process_environment/", json={
+            "sim_code": self.sim_code,
+            "step": self.step,
+            "environment": new_env
+          }, timeout=2)
+        except Exception as post_err:
           pass
       
-        if env_retrieved: 
+      if env_retrieved: 
+          # Retrieve and inject user pending actions (chats/instructions)
+          processed_ids = []
+          try:
+            response = requests.get(f"http://localhost:8000/api/get_pending_actions/?sim_code={self.sim_code}", timeout=5)
+            if response.status_code == 200:
+              pending_actions = response.json()
+              if pending_actions:
+                from persona.cognitive_modules.converse import load_history_via_whisper
+                whispers_to_inject = []
+                for action in pending_actions:
+                  p_name = action["persona_name"]
+                  a_type = action["action_type"]
+                  content = action["content"]
+                  
+                  if p_name in self.personas:
+                    if a_type == "chat":
+                      whispers_to_inject.append([p_name, content])
+                    elif a_type == "instruction":
+                      whispers_to_inject.append([p_name, f"Task instruction from user: {content}"])
+                    processed_ids.append(action["id"])
+                
+                if whispers_to_inject:
+                  print(f"Injecting user actions into memory: {whispers_to_inject}")
+                  load_history_via_whisper(self.personas, whispers_to_inject)
+                  
+                # Acknowledge processed IDs
+                requests.post("http://localhost:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
+          except Exception as e:
+            print(f"Warning: Failed to fetch/process pending actions: {e}")
+
           # This is where we go through <game_obj_cleanup> to clean up all 
           # object actions that were used in this cylce. 
           for key, val in game_obj_cleanup.items(): 
@@ -379,21 +446,29 @@ class ReverieServer:
           # This is where the core brains of the personas are invoked. 
           movements = {"persona": dict(), 
                        "meta": dict()}
-          for persona_name, persona in self.personas.items(): 
-            # <next_tile> is a x,y coordinate. e.g., (58, 9)
-            # <pronunciatio> is an emoji. e.g., "\ud83d\udca4"
-            # <description> is a string description of the movement. e.g., 
-            #   writing her next novel (editing her novel) 
-            #   @ double studio:double studio:common room:sofa
-            next_tile, pronunciatio, description = persona.move(
+
+          # [OPTIMIZATION] Phase 2: Run persona.move() in parallel threads
+          # Each persona's cognitive pipeline is independent per step, so we
+          # can safely parallelize across personas.
+          def _move_persona(persona_name, persona):
+            return persona_name, persona.move(
               self.maze, self.personas, self.personas_tile[persona_name], 
               self.curr_time)
-            movements["persona"][persona_name] = {}
-            movements["persona"][persona_name]["movement"] = next_tile
-            movements["persona"][persona_name]["pronunciatio"] = pronunciatio
-            movements["persona"][persona_name]["description"] = description
-            movements["persona"][persona_name]["chat"] = (persona
-                                                          .scratch.chat)
+
+          with ThreadPoolExecutor(max_workers=len(self.personas)) as executor:
+            futures = []
+            for persona_name, persona in self.personas.items():
+              futures.append(executor.submit(_move_persona, persona_name, persona))
+            
+            for future in as_completed(futures):
+              persona_name, (next_tile, pronunciatio, description) = future.result()
+              self.personas_tile[persona_name] = next_tile
+              movements["persona"][persona_name] = {}
+              movements["persona"][persona_name]["movement"] = next_tile
+              movements["persona"][persona_name]["pronunciatio"] = pronunciatio
+              movements["persona"][persona_name]["description"] = description
+              movements["persona"][persona_name]["chat"] = (self.personas[persona_name]
+                                                              .scratch.chat)
 
           # Include the meta information about the current stage in the 
           # movements dictionary. 
@@ -406,6 +481,16 @@ class ReverieServer:
           # {"persona": {"Maria Lopez": {"movement": [58, 9]}},
           #  "persona": {"Klaus Mueller": {"movement": [38, 12]}}, 
           #  "meta": {curr_time: <datetime>}}
+          # POST movements to Django API (Option 3 API Gateway)
+          try:
+            requests.post("http://localhost:8000/api/post_movement/", json={
+              "sim_code": self.sim_code,
+              "step": self.step,
+              "movements": movements
+            }, timeout=5)
+          except Exception as e:
+            print(f"Warning: Failed to post movement to Django API: {e}")
+
           curr_move_file = f"{sim_folder}/movement/{self.step}.json"
           os.makedirs(os.path.dirname(curr_move_file), exist_ok=True)
           with open(curr_move_file, "w") as outfile: 
@@ -415,6 +500,15 @@ class ReverieServer:
           # current time moves by <sec_per_step> amount. 
           self.step += 1
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
+          print(f"[{self.sim_code}] Step: {self.step} | Game Time: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')}")
+
+          # Periodically save the simulation state to disk (every 10 steps)
+          if self.step % 10 == 0:
+            print(f"[{self.sim_code}] Step {self.step}: Auto-saving simulation state...")
+            try:
+              self.save()
+            except Exception as save_err:
+              print(f"Warning: Failed to auto-save: {save_err}")
 
           int_counter -= 1
           

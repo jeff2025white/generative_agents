@@ -32,5 +32,13 @@ urlpatterns = [
     url(r'^path_tester/$', translator_views.path_tester, name='path_tester'),
     url(r'^path_tester_update/$', translator_views.path_tester_update, name='path_tester_update'),
     url(r'^chat_with_persona/$', translator_views.chat_with_persona, name='chat_with_persona'),
+    
+    # API endpoints for database/memory based IPC
+    url(r'^api/init_sim/$', translator_views.api_init_sim, name='api_init_sim'),
+    url(r'^api/get_environment/$', translator_views.api_get_environment, name='api_get_environment'),
+    url(r'^api/post_movement/$', translator_views.api_post_movement, name='api_post_movement'),
+    url(r'^api/get_pending_actions/$', translator_views.api_get_pending_actions, name='api_get_pending_actions'),
+    url(r'^api/post_instruction/$', translator_views.api_post_instruction, name='api_post_instruction'),
+    
     path('admin/', admin.site.urls),
 ]

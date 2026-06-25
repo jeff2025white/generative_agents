@@ -107,13 +107,16 @@
 	// <movement_speed> determines how fast we move at each upate cylce. 
 	let movement_speed = 32; 
 
-	// <timer_max> determines how frequently our update function will query the 
-	// frontend server. If it's higher, we wait longer cycles. 
-	let timer_max = 0;
-	let timer = timer_max;
+	// <last_query_time> determines when we last queried the frontend server.
+	let last_query_time = 0;
 
 	// <phase> -- there are three phases: "process," "update," and "execute."
 	let phase = "update"; // or "update" or "execute"
+	let is_paused = false;
+	let focus_persona_target = "";
+	window.setFocusPersona = function(name) {
+		focus_persona_target = name;
+	};
 
 	// Variables for storing movements that are sent from the backend server.
 	let execute_movement;
@@ -337,19 +340,22 @@
 
 	function update(time, delta) {
 		// *** SETUP PLAY AND PAUSE BUTTON *** 
-		let play_context = this;
-		function game_resume() {  
-			play_context.scene.resume();
-		}  
 		play_button.onclick = function(){
-			game_resume();
+			is_paused = false;
 		};
-		function game_pause() {  
-			play_context.scene.pause();
-		}  
 		pause_button.onclick = function(){
-			game_pause();
+			is_paused = true;
 		};
+
+		if (is_paused) {
+			// Stop all persona animations
+			for (let i=0; i<Object.keys(personas).length; i++) {
+				let curr_persona_name = Object.keys(personas)[i];
+				personas[curr_persona_name].anims.stop();
+			}
+			player.body.setVelocity(0);
+			return;
+		}
 
 	  // *** MOVE CAMERA *** 
 	  // This is where we finish up the camera setting we started in the create() 
@@ -358,6 +364,12 @@
 	  const camera_speed = 400;
 	  // Stop any previous movement from the last frame
 	  player.body.setVelocity(0);
+
+	  // If any arrow key is pressed, break the focus lock and follow the player again
+	  if (cursors.left.isDown || cursors.right.isDown || cursors.up.isDown || cursors.down.isDown) {
+	  	this.cameras.main.startFollow(player);
+	  }
+
 	  if (cursors.left.isDown) {
 	    player.body.setVelocityX(-camera_speed);
 	  } 
@@ -369,6 +381,17 @@
 	  } 
 	  if (cursors.down.isDown) {
 	    player.body.setVelocityY(camera_speed);
+	  }
+
+	  // Check if camera needs to focus/lock on a persona
+	  if (focus_persona_target !== "") {
+	  	let target_sprite = personas[focus_persona_target];
+	  	if (target_sprite) {
+	  		this.cameras.main.startFollow(target_sprite);
+	  		player.x = target_sprite.x;
+	  		player.y = target_sprite.y;
+	  	}
+	  	focus_persona_target = "";
 	  }
 
 	  // console.log("phase: " + phase + ", step: " + step);
@@ -408,10 +431,10 @@
 	    // We do this by continuously asking the backend server if it is ready. 
 	    // The backend server is ready when it returns a json that has a key-val
 	    // pair with "<move>": true.
-	    // Note that we do not want to overburden the backend too much by 
-	    // over-querying; so, we have a timer set so we only query it once every
-	    // timer_max cycles. 
-	    if (timer <= 0) {
+	    // We only query once every 1000ms (1 second) to avoid overloading the backend.
+	    let now = Date.now();
+	    if (now - last_query_time >= 1000) {
+	      last_query_time = now;
 	      var update_xobj = new XMLHttpRequest();
 	      update_xobj.overrideMimeType("application/json");
 	      update_xobj.open('POST', "{% url 'update_environment' %}", true);
@@ -422,13 +445,11 @@
 	              execute_movement = JSON.parse(update_xobj.responseText)
 	              phase = "execute";
 	            }
-	            timer = timer_max;
 	          }
 	        }
 	      });
 	      update_xobj.send(JSON.stringify({"step": step, "sim_code": sim_code }));   
 	    }
-	    timer = timer - 1; 
 	  } 
 
 	  else { 
@@ -521,6 +542,7 @@
 	        phase = "process";
 	        execute_count = execute_count_max + 1;
 	        step = step + 1;
+	        document.getElementById("game-step-content").innerHTML = step;
 	      }
 	    }
 

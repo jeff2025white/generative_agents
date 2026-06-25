@@ -216,6 +216,12 @@ class Persona:
       new_day = "New day"
     self.scratch.curr_time = curr_time
 
+    # [OPTIMIZATION] Fast path: if the persona is mid-walk on a planned path
+    # and it's not a new day, skip the full cognitive pipeline to avoid
+    # unnecessary LLM calls.
+    if self.scratch.planned_path and not new_day:
+      return self.execute(maze, personas, None)
+
     # Main cognitive sequence begins here. 
     perceived = self.perceive(maze)
     retrieved = self.retrieve(perceived)

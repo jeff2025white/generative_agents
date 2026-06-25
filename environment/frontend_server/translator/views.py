@@ -17,6 +17,7 @@ from django.http import HttpResponse, JsonResponse
 from global_methods import *
 
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 
 def landing(request): 
@@ -108,39 +109,100 @@ def home(request):
   f_curr_sim_code = "temp_storage/curr_sim_code.json"
   f_curr_step = "temp_storage/curr_step.json"
 
-  if not check_if_file_exists(f_curr_step): 
+  # We first read the active sim_code to filter results correctly
+  if not check_if_file_exists(f_curr_sim_code):
     context = {}
     template = "home/error_start_backend.html"
     return render(request, template, context)
 
   with open(f_curr_sim_code) as json_file:  
     sim_code = json.load(json_file)["sim_code"]
-  
-  with open(f_curr_step) as json_file:  
-    step = json.load(json_file)["step"]
 
-  os.remove(f_curr_step)
+  # Try to find the latest step that has completed movement data in the database
+  latest_completed = SimState.objects.filter(sim_code=sim_code, is_movement_ready=True).order_by('-step').first()
+  if latest_completed:
+    step = latest_completed.step
+  else:
+    # If no completed step is found, fall back to the absolute latest step in SimState
+    latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
+    if latest_state:
+      step = latest_state.step
+    else:
+      # File-based fallback
+      if check_if_file_exists(f_curr_step):
+        with open(f_curr_step) as json_file:  
+          step = json.load(json_file)["step"]
+        os.remove(f_curr_step)
+      else:
+        file_count = []
+        env_dir = f"storage/{sim_code}/environment"
+        if os.path.exists(env_dir):
+          for i in find_filenames(env_dir, ".json"):
+            x = i.split("/")[-1].strip()
+            if x[0] != ".": 
+              file_count += [int(x.split(".")[0])]
+        
+        move_files = []
+        move_dir = f"storage/{sim_code}/movement"
+        if os.path.exists(move_dir):
+          for i in find_filenames(move_dir, ".json"):
+            x = i.split("/")[-1].strip()
+            if x[0] != ".": 
+              move_files += [int(x.split(".")[0])]
+
+        if move_files:
+          step = max(move_files)
+        elif file_count:
+          step = max(file_count)
+        else:
+          step = 0
 
   persona_names = []
   persona_names_set = set()
-  for i in find_filenames(f"storage/{sim_code}/personas", ""): 
-    x = i.split("/")[-1].strip()
-    if x[0] != ".": 
-      persona_names += [[x, x.replace(" ", "_")]]
-      persona_names_set.add(x)
+  
+  sim_persona_dir = f"storage/{sim_code}/personas"
+  if not os.path.exists(sim_persona_dir):
+    sim_persona_dir = f"compressed_storage/{sim_code}/personas"
+    
+  if os.path.exists(sim_persona_dir):
+    for i in find_filenames(sim_persona_dir, ""): 
+      x = i.split("/")[-1].strip()
+      if x[0] != ".": 
+        persona_names += [[x, x.replace(" ", "_")]]
+        persona_names_set.add(x)
 
   persona_init_pos = []
   file_count = []
-  for i in find_filenames(f"storage/{sim_code}/environment", ".json"):
-    x = i.split("/")[-1].strip()
-    if x[0] != ".": 
-      file_count += [int(x.split(".")[0])]
-  curr_json = f'storage/{sim_code}/environment/{str(max(file_count))}.json'
-  with open(curr_json) as json_file:  
-    persona_init_pos_dict = json.load(json_file)
-    for key, val in persona_init_pos_dict.items(): 
-      if key in persona_names_set: 
-        persona_init_pos += [[key, val["x"], val["y"]]]
+  env_dir = f"storage/{sim_code}/environment"
+  if os.path.exists(env_dir):
+    for i in find_filenames(env_dir, ".json"):
+      x = i.split("/")[-1].strip()
+      if x[0] != ".": 
+        file_count += [int(x.split(".")[0])]
+
+  if not file_count:
+    # Try reading from SimState environment field
+    try:
+      sim_state = SimState.objects.get(sim_code=sim_code, step=step)
+      if sim_state.environment and sim_state.environment != "{}":
+        persona_init_pos_dict = json.loads(sim_state.environment)
+        for key, val in persona_init_pos_dict.items(): 
+          if key in persona_names_set: 
+            persona_init_pos += [[key, val["x"], val["y"]]]
+    except SimState.DoesNotExist:
+      pass
+      
+    if not persona_init_pos:
+      context = {}
+      template = "home/error_start_backend.html"
+      return render(request, template, context)
+  else:
+    curr_json = f'storage/{sim_code}/environment/{str(max(file_count))}.json'
+    with open(curr_json) as json_file:  
+      persona_init_pos_dict = json.load(json_file)
+      for key, val in persona_init_pos_dict.items(): 
+        if key in persona_names_set: 
+          persona_init_pos += [[key, val["x"], val["y"]]]
 
   context = {"sim_code": sim_code,
              "step": step, 
@@ -240,57 +302,49 @@ def path_tester(request):
   return render(request, template, context)
 
 
+@csrf_exempt
 def process_environment(request): 
-  """
-  <FRONTEND to BACKEND> 
-  This sends the frontend visual world information to the backend server. 
-  It does this by writing the current environment representation to 
-  "storage/environment.json" file. 
-
-  ARGS:
-    request: Django request
-  RETURNS: 
-    HttpResponse: string confirmation message. 
-  """
-  # f_curr_sim_code = "temp_storage/curr_sim_code.json"
-  # with open(f_curr_sim_code) as json_file:  
-  #   sim_code = json.load(json_file)["sim_code"]
-
   data = json.loads(request.body)
   step = data["step"]
   sim_code = data["sim_code"]
   environment = data["environment"]
 
-  with open(f"storage/{sim_code}/environment/{step}.json", "w") as outfile:
+  # Save to Database
+  sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
+  sim_state.environment = json.dumps(environment)
+  sim_state.save()
+
+  # Write-Through to Disk
+  curr_env_file = f"storage/{sim_code}/environment/{step}.json"
+  os.makedirs(os.path.dirname(curr_env_file), exist_ok=True)
+  with open(curr_env_file, "w") as outfile:
     outfile.write(json.dumps(environment, indent=2))
 
   return HttpResponse("received")
 
 
+@csrf_exempt
 def update_environment(request): 
-  """
-  <BACKEND to FRONTEND> 
-  This sends the backend computation of the persona behavior to the frontend
-  visual server. 
-  It does this by reading the new movement information from 
-  "storage/movement.json" file.
-
-  ARGS:
-    request: Django request
-  RETURNS: 
-    HttpResponse
-  """
-  # f_curr_sim_code = "temp_storage/curr_sim_code.json"
-  # with open(f_curr_sim_code) as json_file:  
-  #   sim_code = json.load(json_file)["sim_code"]
-
   data = json.loads(request.body)
   step = data["step"]
   sim_code = data["sim_code"]
 
   response_data = {"<step>": -1}
-  if (check_if_file_exists(f"storage/{sim_code}/movement/{step}.json")):
-    with open(f"storage/{sim_code}/movement/{step}.json") as json_file: 
+  
+  # Try Database first
+  try:
+    sim_state = SimState.objects.get(sim_code=sim_code, step=step)
+    if sim_state.is_movement_ready:
+      response_data = json.loads(sim_state.movement)
+      response_data["<step>"] = step
+      return JsonResponse(response_data)
+  except SimState.DoesNotExist:
+    pass
+
+  # Fallback to Disk
+  move_file = f"storage/{sim_code}/movement/{step}.json"
+  if (check_if_file_exists(move_file)):
+    with open(move_file) as json_file: 
       response_data = json.load(json_file)
       response_data["<step>"] = step
 
@@ -441,6 +495,21 @@ Instructions:
         import re
         reply = re.sub(r'<think>.*?</think>', '', reply, flags=re.DOTALL).strip()
 
+        # === 7. Queue the chat message as a PendingAction for backend simulation integration ===
+        try:
+            latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
+            step = latest_state.step if latest_state else 0
+            
+            SimPendingAction.objects.create(
+                sim_code=sim_code,
+                persona_name=persona_name,
+                step=step,
+                action_type="chat",
+                content=f"User said: {user_message}"
+            )
+        except Exception as queue_err:
+            pass
+
         return JsonResponse({
             "reply": reply,
             "persona_name": persona_name
@@ -454,6 +523,115 @@ Instructions:
         return JsonResponse({"error": "Ollama response timed out"}, status=504)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+@csrf_exempt
+def api_init_sim(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST required"}, status=400)
+  
+  data = json.loads(request.body)
+  sim_code = data["sim_code"]
+  step = data["step"]
+  
+  sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
+  sim_state.is_movement_ready = False
+  sim_state.save()
+  
+  # Write to temp_storage/curr_sim_code.json for backwards-compatibility
+  f_curr_sim_code = "temp_storage/curr_sim_code.json"
+  os.makedirs(os.path.dirname(f_curr_sim_code), exist_ok=True)
+  with open(f_curr_sim_code, "w") as outfile:
+    json.dump({"sim_code": sim_code}, outfile, indent=2)
+    
+  return JsonResponse({"status": "success"})
+
+
+@csrf_exempt
+def api_get_environment(request):
+  sim_code = request.GET.get("sim_code")
+  step = int(request.GET.get("step"))
+  
+  try:
+    sim_state = SimState.objects.get(sim_code=sim_code, step=step)
+    if sim_state.environment and sim_state.environment != "{}":
+      return JsonResponse(json.loads(sim_state.environment))
+  except (SimState.DoesNotExist, ValueError):
+    pass
+    
+  return JsonResponse({"ready": False}, status=404)
+
+
+@csrf_exempt
+def api_post_movement(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST required"}, status=400)
+    
+  data = json.loads(request.body)
+  sim_code = data["sim_code"]
+  step = data["step"]
+  movements = data["movements"]
+  
+  # Save to Database
+  sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
+  sim_state.movement = json.dumps(movements)
+  sim_state.is_movement_ready = True
+  sim_state.save()
+  
+  # Write-Through to Disk (Persistence)
+  curr_move_file = f"storage/{sim_code}/movement/{step}.json"
+  os.makedirs(os.path.dirname(curr_move_file), exist_ok=True)
+  with open(curr_move_file, "w") as outfile:
+    outfile.write(json.dumps(movements, indent=2))
+    
+  return JsonResponse({"status": "success"})
+
+
+@csrf_exempt
+def api_get_pending_actions(request):
+  if request.method == "POST":
+    # Acknowledge and mark processed
+    data = json.loads(request.body)
+    processed_ids = data.get("processed_ids", [])
+    SimPendingAction.objects.filter(id__in=processed_ids).update(processed=True)
+    return JsonResponse({"status": "acknowledged"})
+    
+  # GET request to retrieve actions
+  sim_code = request.GET.get("sim_code")
+  actions = SimPendingAction.objects.filter(sim_code=sim_code, processed=False)
+  actions_data = []
+  for act in actions:
+    actions_data.append({
+      "id": act.id,
+      "persona_name": act.persona_name,
+      "action_type": act.action_type,
+      "content": act.content,
+      "step": act.step
+    })
+  return JsonResponse(actions_data, safe=False)
+
+
+@csrf_exempt
+def api_post_instruction(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST required"}, status=400)
+    
+  data = json.loads(request.body)
+  sim_code = data["sim_code"]
+  persona_name = data["persona_name"].replace("_", " ")
+  instruction = data["instruction"]
+  
+  latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
+  step = latest_state.step if latest_state else 0
+  
+  action = SimPendingAction.objects.create(
+    sim_code=sim_code,
+    persona_name=persona_name,
+    step=step,
+    action_type="instruction",
+    content=instruction
+  )
+  return JsonResponse({"status": "queued", "id": action.id})
 
 
 

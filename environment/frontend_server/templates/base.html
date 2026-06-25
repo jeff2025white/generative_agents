@@ -15,7 +15,7 @@ Author: Joon Sung Park (joonspk@stanford.edu)
 
 </head>
  
-<body class="top-navigation" style="background-color: white">
+<body class="top-navigation" style="background-color: #0F172A; color: #F1F5F9;">
   {% block content %}
 	{% endblock content %}
 
@@ -29,7 +29,136 @@ Author: Joon Sung Park (joonspk@stanford.edu)
 	<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=Xha1v8a6ENHDAgZ2dJoH85LCl6H1VwpYfgwfbgau8r4&cl=ffffff&w=a"></script>
 	<style type="text/css">
 		#clustrmaps-widget-v2 {
-			display: none !important
+			display: none !important;
+		}
+
+		/* Premium Dark Theme Styles */
+		body {
+			background-color: #0F172A !important;
+			color: #E2E8F0 !important;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			color: #F8FAFC !important;
+		}
+
+		/* Main container background overrides */
+		div[style*="background-color: #FDFDFD"], div[style*="background-color:#FDFDFD"] {
+			background-color: #1E293B !important;
+			border-color: #334155 !important;
+		}
+
+		/* Character media cards */
+		.media, div[style*="background-color:#F5F5F5"], div[style*="background-color: #F5F5F5"] {
+			background-color: #1E293B !important;
+			border: 1px solid #334155 !important;
+			color: #E2E8F0 !important;
+			box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		}
+		
+		/* Card texts inside media body */
+		.media-body div {
+			color: #94A3B8 !important;
+		}
+		.media-body h4 {
+			color: #F8FAFC !important;
+		}
+		.media-body strong {
+			color: #CBD5E1 !important;
+		}
+		.media-body span {
+			color: #E2E8F0 !important;
+		}
+
+		/* Buttons */
+		.btn-default {
+			background-color: #1E293B !important;
+			color: #E2E8F0 !important;
+			border-color: #475569 !important;
+			background-image: none !important;
+			text-shadow: none !important;
+			box-shadow: none !important;
+			transition: all 0.15s ease-in-out;
+		}
+		.btn-default:hover {
+			background-color: #334155 !important;
+			color: #F8FAFC !important;
+			border-color: #64748B !important;
+		}
+		.btn-success {
+			background-color: #10B981 !important;
+			border-color: #10B981 !important;
+			background-image: none !important;
+			text-shadow: none !important;
+			box-shadow: none !important;
+		}
+		.btn-success:hover {
+			background-color: #059669 !important;
+			border-color: #059669 !important;
+		}
+
+		/* Lines */
+		hr {
+			border-color: #334155 !important;
+		}
+
+		/* Custom scrollbar for dark mode */
+		::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+		}
+		::-webkit-scrollbar-track {
+			background: #0F172A;
+		}
+		::-webkit-scrollbar-thumb {
+			background: #334155;
+			border-radius: 4px;
+		}
+		::-webkit-scrollbar-thumb:hover {
+			background: #475569;
+		}
+
+		/* Chat modal styling */
+		#chat-modal > div {
+			background-color: #1E293B !important;
+			color: #F8FAFC !important;
+			border: 1px solid #334155 !important;
+			box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+		}
+		#chat-modal div[style*="background:#4CAF50"] {
+			background: #10B981 !important;
+		}
+		#chat-messages {
+			background-color: #0F172A !important;
+			border-bottom: 1px solid #334155 !important;
+		}
+		#chat-messages p[style*="color:#888"] {
+			color: #64748B !important;
+		}
+		#chat-messages div[style*="background:#e8e8e8"] {
+			background-color: #334155 !important;
+			color: #E2E8F0 !important;
+		}
+		#chat-messages div[style*="background:#4CAF50"] {
+			background-color: #10B981 !important;
+			color: #FFFFFF !important;
+		}
+		#chat-input {
+			background-color: #0F172A !important;
+			color: #F8FAFC !important;
+			border: 1px solid #334155 !important;
+		}
+		#chat-input::placeholder {
+			color: #475569 !important;
+		}
+		#chat-send-btn {
+			background-color: #10B981 !important;
+			border-color: #10B981 !important;
+		}
+		#chat-send-btn:hover {
+			background-color: #059669 !important;
+			border-color: #059669 !important;
 		}
 	</style>
 </body>
