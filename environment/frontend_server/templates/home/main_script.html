@@ -747,6 +747,103 @@ function sendChatMessage() {
     conversation_history: chatState.conversationHistory.slice(0, -1) // 不含刚添加 of user message（后端会自己加）
   }));
 }
+
+// =====================================================================
+// PLAN SYSTEM - 计划弹窗 (行动清单)
+// =====================================================================
+
+function openPlan(personaNameUnderscore) {
+  let displayName = personaNameUnderscore.replace(/_/g, " ");
+  document.getElementById("plan-persona-display-name").innerText = displayName;
+  
+  let planContent = document.getElementById("plan-content");
+  planContent.innerHTML = '<p style="color:#64748B; text-align:center; font-style:italic; padding: 20px;">正在获取最新行动清单...</p>';
+  document.getElementById("plan-modal").style.display = "block";
+
+  // 通过 Ajax 获取数据
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/api/get_persona_schedule/?sim_code=" + sim_code.trim() + "&persona_name=" + personaNameUnderscore, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      renderPlanModal(resp.daily_req, resp.f_daily_schedule);
+    } else {
+      planContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">获取计划失败: ' + xhr.statusText + '</p>';
+    }
+  };
+  xhr.onerror = function() {
+    planContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">网络请求失败，请确保服务正常运行。</p>';
+  };
+  xhr.send();
+}
+
+function closePlan() {
+  document.getElementById("plan-modal").style.display = "none";
+}
+
+// 格式化渲染行动清单
+function renderPlanModal(dailyReq, schedule) {
+  let planContent = document.getElementById("plan-content");
+  let html = "";
+  
+  // 1. 核心需求部分
+  html += '<div style="margin-bottom: 24px;">';
+  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:12px; border-left: 4px solid #3B82F6; padding-left: 8px;">🎯 核心需求 (Daily Requirements)</h4>';
+  if (dailyReq && dailyReq.length > 0) {
+    html += '  <ul style="padding-left:20px; color:#94A3B8; line-height: 1.6em; margin:0;">';
+    for (let i = 0; i < dailyReq.length; i++) {
+      html += '    <li style="margin-bottom:4px;">' + escapeHtml(dailyReq[i]) + '</li>';
+    }
+    html += '  </ul>';
+  } else {
+    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无核心需求描述</p>';
+  }
+  html += '</div>';
+  
+  // 2. 时间轴日程表部分
+  html += '<div>';
+  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:16px; border-left: 4px solid #10B981; padding-left: 8px;">⏳ 今日日程清单 (Schedule)</h4>';
+  if (schedule && schedule.length > 0) {
+    html += '  <div style="position:relative; padding-left: 20px; border-left: 2px solid #334155; margin-left: 8px; display:flex; flex-direction:column; gap:16px;">';
+    
+    let totalMinutes = 0;
+    for (let i = 0; i < schedule.length; i++) {
+      let act = schedule[i][0];
+      let duration = schedule[i][1];
+      
+      // 计算起止时间
+      let startHour = Math.floor(totalMinutes / 60);
+      let startMin = totalMinutes % 60;
+      totalMinutes += duration;
+      let endHour = Math.floor(totalMinutes / 60);
+      let endMin = totalMinutes % 60;
+      
+      // 格式化时间字符串 e.g., "08:30"
+      let startTimeStr = (startHour < 10 ? "0" : "") + startHour + ":" + (startMin < 10 ? "0" : "") + startMin;
+      let endTimeStr = (endHour < 10 ? "0" : "") + endHour + ":" + (endMin < 10 ? "0" : "") + endMin;
+      
+      html += '    <div style="position:relative;">';
+      // 时间轴上的圆点
+      html += '      <div style="position:absolute; left:-27px; top:4px; width:12px; height:12px; border-radius:50%; background:#10B981; border:2px solid #0F172A;"></div>';
+      // 行程内容块
+      html += '      <div style="background:#1E293B; border:1px solid #334155; border-radius:8px; padding:10px 14px; transition: all 0.2s ease-in-out;" onmouseover="this.style.borderColor=\'#10B981\'; this.style.background=\'#24334C\'" onmouseout="this.style.borderColor=\'#334155\'; this.style.background=\'#1E293B\'">';
+      html += '        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">';
+      html += '          <strong style="color:#10B981; font-size:0.9em;">' + startTimeStr + ' - ' + endTimeStr + '</strong>';
+      html += '          <span style="color:#64748B; font-size:0.8em; font-weight:bold;">' + duration + ' 分钟</span>';
+      html += '        </div>';
+      html += '        <div style="color:#E2E8F0; font-size:0.95em;">' + escapeHtml(act) + '</div>';
+      html += '      </div>';
+      html += '    </div>';
+    }
+    
+    html += '  </div>';
+  } else {
+    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无日程安排数据</p>';
+  }
+  html += '</div>';
+  
+  planContent.innerHTML = html;
+}
 </script>
 
 

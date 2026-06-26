@@ -447,7 +447,44 @@ Lifestyle: {scratch.get('lifestyle', '')}
 Daily plan requirement: {scratch.get('daily_plan_req', '')}
 Current time: {scratch.get('curr_time', '')}"""
 
-        # === 4. 构建系统 Prompt ===
+        # === 4. 获取当前在同一个区域（Arena）的其他小人，注入到上下文 ===
+        target_address = scratch.get('act_address', '')
+        target_arena = ""
+        if target_address:
+            parts = target_address.split(":")
+            if len(parts) >= 3:
+                target_arena = ":".join(parts[:3])
+        
+        nearby_personas = []
+        personas_dir = f"storage/{sim_code}/personas"
+        if os.path.exists(personas_dir):
+            for other_name in os.listdir(personas_dir):
+                if other_name == persona_name:
+                    continue
+                other_scratch_path = f"{personas_dir}/{other_name}/bootstrap_memory/scratch.json"
+                if os.path.exists(other_scratch_path):
+                    try:
+                        with open(other_scratch_path, encoding="utf-8") as f_other:
+                            other_scratch = json.load(f_other)
+                        other_address = other_scratch.get("act_address", "")
+                        if other_address:
+                            other_parts = other_address.split(":")
+                            if len(other_parts) >= 3:
+                                other_arena = ":".join(other_parts[:3])
+                                if other_arena.lower() == target_arena.lower():
+                                    nearby_personas.append({
+                                        "name": other_scratch.get("name", other_name),
+                                        "action": other_scratch.get("act_description", "idle")
+                                    })
+                    except Exception:
+                        pass
+        
+        if nearby_personas:
+            nearby_str = "\n".join(f"- {p['name']} (is {p['action']})" for p in nearby_personas)
+        else:
+            nearby_str = "No other characters are in your immediate area."
+
+        # === 5. 构建系统 Prompt ===
         events_str = "\n".join(f"- {e}" for e in recent_events) if recent_events else "No recent events."
         thoughts_str = "\n".join(f"- {t}" for t in recent_thoughts) if recent_thoughts else "No recent thoughts."
 
@@ -461,12 +498,15 @@ Your recent experiences:
 Your recent thoughts:
 {thoughts_str}
 
-Current action: {scratch.get('act_description', 'idle')}
 Current location: {scratch.get('act_address', 'unknown')}
+Current action: {scratch.get('act_description', 'idle')}
+
+People currently in your immediate area (same room/arena):
+{nearby_str}
 
 Instructions:
 - Stay in character as {persona_name} at all times.
-- Respond naturally based on your personality, memories, and current situation.
+- Respond naturally based on your personality, memories, current situation, and who is currently nearby.
 - Keep responses concise (1-3 sentences).
 - If the user speaks Chinese, respond in Chinese. If the user speaks English, respond in English.
 - Do not break character or mention that you are an AI."""
@@ -649,6 +689,34 @@ def api_post_instruction(request):
     content=instruction
   )
   return JsonResponse({"status": "queued", "id": action.id})
+
+
+@csrf_exempt
+def api_get_persona_schedule(request):
+  """
+  获取指定小人当日的每日核心需求(daily_req)和实时日程行动清单(f_daily_schedule)。
+  """
+  sim_code = request.GET.get("sim_code")
+  persona_name = request.GET.get("persona_name").replace("_", " ")
+  
+  memory = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+  if not os.path.exists(memory): 
+    memory = f"compressed_storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+      
+  if not os.path.exists(memory):
+    return JsonResponse({"error": f"Persona '{persona_name}' not found"}, status=404)
+      
+  try:
+    with open(memory + "/scratch.json", encoding="utf-8") as json_file:  
+      scratch = json.load(json_file)
+    return JsonResponse({
+      "persona_name": persona_name,
+      "daily_req": scratch.get("daily_req", []),
+      "f_daily_schedule": scratch.get("f_daily_schedule", [])
+    })
+  except Exception as e:
+    return JsonResponse({"error": str(e)}, status=500)
+
 
 
 

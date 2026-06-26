@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^api/post_movement/$', translator_views.api_post_movement, name='api_post_movement'),
     url(r'^api/get_pending_actions/$', translator_views.api_get_pending_actions, name='api_get_pending_actions'),
     url(r'^api/post_instruction/$', translator_views.api_post_instruction, name='api_post_instruction'),
+    url(r'^api/get_persona_schedule/$', translator_views.api_get_persona_schedule, name='api_get_persona_schedule'),
     
     path('admin/', admin.site.urls),
 ]
