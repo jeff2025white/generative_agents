@@ -35,9 +35,9 @@ def _load_cache():
     if os.path.exists(_cache_file):
       with open(_cache_file, "r", encoding="utf-8") as f:
         _cache = json.load(f)
-      print(f"[Cache] Loaded {len(_cache)} cached responses.")
+      print(f"[缓存] 已成功加载 {len(_cache)} 条响应缓存。")
   except Exception as e:
-    print(f"[Cache] Failed to load cache: {e}")
+    print(f"[缓存] 加载缓存失败: {e}")
     _cache = {}
 
 def _save_cache():
@@ -45,7 +45,7 @@ def _save_cache():
     with open(_cache_file, "w", encoding="utf-8") as f:
       json.dump(_cache, f, ensure_ascii=False)
   except Exception as e:
-    print(f"[Cache] Failed to save cache: {e}")
+    print(f"[缓存] 保存缓存失败: {e}")
 
 def _cache_key(prompt, extra=""):
   raw = prompt + str(extra)
@@ -58,7 +58,7 @@ def _get_cached(key):
     if val is not None:
       _cache_hits += 1
       if _cache_hits % 50 == 0:
-        print(f"[Cache] Stats: {_cache_hits} hits / {_cache_misses} misses")
+        print(f"[缓存统计] 命中次数: {_cache_hits} / 未命中次数: {_cache_misses}")
     return val
 
 def _set_cached(key, value):
@@ -77,7 +77,7 @@ def save_cache_to_disk():
   """Call this to flush cache to disk (e.g., on simulation save/exit)."""
   with _cache_lock:
     _save_cache()
-    print(f"[Cache] Saved {len(_cache)} entries. Hits: {_cache_hits}, Misses: {_cache_misses}")
+    print(f"[缓存] 已保存 {len(_cache)} 条缓存。当前统计 - 命中次数: {_cache_hits}, 未命中次数: {_cache_misses}")
 
 # ============================================================================
 

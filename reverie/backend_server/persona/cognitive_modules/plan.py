@@ -617,6 +617,14 @@ def _determine_action(persona, maze):
 
   act_desp, act_dura = persona.scratch.f_daily_schedule[curr_index] 
 
+  # Bug fix: adjust duration of the action if we started mid-action (e.g. at start of simulation)
+  task_start_min = sum([d for t, d in persona.scratch.f_daily_schedule[:curr_index]])
+  today_min_elapsed = persona.scratch.curr_time.hour * 60 + persona.scratch.curr_time.minute
+  corrected_act_dura = (task_start_min + act_dura) - today_min_elapsed
+  if corrected_act_dura > 0:
+    print(f"[修正首个动作时长] 智能体: {persona.scratch.name}, 动作: {act_desp}, 原始计划时长: {act_dura}分钟, 当天已流逝时间: {today_min_elapsed}分钟, 修正后实际执行剩余时长: {corrected_act_dura}分钟")
+    act_dura = corrected_act_dura
+
 
 
   # Finding the target location of the action and creating action-related

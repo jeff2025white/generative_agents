@@ -32,6 +32,8 @@ def execute(persona, maze, personas, plan):
   OUTPUT: 
     execution
   """
+  if not plan:
+    plan = ""
   if "<random>" in plan and persona.scratch.planned_path == []: 
     persona.scratch.act_path_set = False
 

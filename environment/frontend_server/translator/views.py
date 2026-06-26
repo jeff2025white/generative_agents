@@ -392,6 +392,7 @@ def chat_with_persona(request):
     if request.method != "POST":
         return JsonResponse({"error": "Only POST allowed"}, status=405)
 
+    chat_active_file = None
     try:
         data = json.loads(request.body)
         sim_code = data["sim_code"]
@@ -399,6 +400,15 @@ def chat_with_persona(request):
         persona_name = persona_name_underscore.replace("_", " ")
         user_message = data["user_message"]
         conversation_history = data.get("conversation_history", [])
+
+        # Create lock file to signal backend to pause Ollama usage during user chat
+        chat_active_file = f"temp_storage/chat_active_{sim_code}.json"
+        try:
+            os.makedirs(os.path.dirname(chat_active_file), exist_ok=True)
+            with open(chat_active_file, "w", encoding="utf-8") as f:
+                json.dump({"active": True}, f)
+        except Exception:
+            pass
 
         # === 1. 加载角色的 scratch.json（身份信息） ===
         memory_base = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
@@ -471,7 +481,7 @@ Instructions:
                 "content": msg["content"]
             })
 
-        # 添加当前用户消息
+        # 添加当前 user message
         messages.append({"role": "user", "content": user_message})
 
         # === 6. 调用 Ollama 本地模型 ===
@@ -485,7 +495,7 @@ Instructions:
                 "max_tokens": 300,
                 "stream": False
             },
-            timeout=60
+            timeout=120
         )
         ollama_response.raise_for_status()
         result = ollama_response.json()
@@ -523,6 +533,13 @@ Instructions:
         return JsonResponse({"error": "Ollama response timed out"}, status=504)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    finally:
+        if chat_active_file:
+            try:
+                if os.path.exists(chat_active_file):
+                    os.remove(chat_active_file)
+            except Exception:
+                pass
 
 
 @csrf_exempt

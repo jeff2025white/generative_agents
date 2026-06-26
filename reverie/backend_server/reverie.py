@@ -38,8 +38,6 @@ import shutil
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from selenium import webdriver
-
 from global_methods import *
 from utils import *
 from maze import *
@@ -331,6 +329,15 @@ class ReverieServer:
       if int_counter == 0: 
         break
 
+      # Check if chat is active in frontend and pause if so to free up Ollama
+      chat_active_file = f"{fs_temp_storage}/chat_active_{self.sim_code}.json"
+      check_count = 0
+      while os.path.exists(chat_active_file):
+        if check_count % 10 == 0:
+          print(f"[Backend] Chat active in frontend for sim {self.sim_code}. Pausing backend step execution to free up Ollama...")
+        time.sleep(1.0)
+        check_count += 1
+
       env_retrieved = False
       # We check the environment state via Django HTTP API (Option 3 API Gateway)
       try:
@@ -500,15 +507,15 @@ class ReverieServer:
           # current time moves by <sec_per_step> amount. 
           self.step += 1
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
-          print(f"[{self.sim_code}] Step: {self.step} | Game Time: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')}")
+          print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
           # Periodically save the simulation state to disk (every 10 steps)
           if self.step % 10 == 0:
-            print(f"[{self.sim_code}] Step {self.step}: Auto-saving simulation state...")
+            print(f"[{self.sim_code}] 第 {self.step} 步: 正在自动保存模拟状态...")
             try:
               self.save()
             except Exception as save_err:
-              print(f"Warning: Failed to auto-save: {save_err}")
+              print(f"警告: 自动保存失败: {save_err}")
 
           int_counter -= 1
           
@@ -716,15 +723,15 @@ if __name__ == '__main__':
       except ValueError:
         pass
         
-    print(f"Forking simulation: {origin} -> {target}")
+    print(f"正在复制/创建模拟副本: {origin} -> {target}")
     rs = ReverieServer(origin, target)
     
     if auto_run_steps is not None:
-      print(f"Auto-running simulation for {auto_run_steps} steps...")
+      print(f"正在自动运行模拟，共计 {auto_run_steps} 步...")
       rs.start_server(auto_run_steps)
-      print("Saving simulation...")
+      print("正在保存模拟状态...")
       rs.save()
-      print("Simulation saved and completed!")
+      print("模拟已保存并成功完成！")
     else:
       rs.open_server()
   else:

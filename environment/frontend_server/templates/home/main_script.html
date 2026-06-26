@@ -731,7 +731,7 @@ function sendChatMessage() {
     sendBtn.style.opacity = "1";
     appendMessage("assistant", "Error: Network request failed. Is the server running?", "System");
   };
-  xhr.timeout = 65000;
+  xhr.timeout = 180000;
   xhr.ontimeout = function() {
     removeTypingIndicator();
     chatState.isWaiting = false;
