@@ -198,13 +198,25 @@ def GPT4_safe_generate_response(prompt,
   if verbose: 
     print ("CHAT GPT PROMPT")
     print (prompt)
+def clean_json_str(raw_str):
+  s = raw_str.strip()
+  # Remove markdown block symbols if present
+  if s.startswith("```json"):
+    s = s[7:]
+  elif s.startswith("```"):
+    s = s[3:]
+  if s.endswith("```"):
+    s = s[:-3]
+  s = s.strip()
+  return s
 
   for i in range(repeat): 
 
     try: 
-      curr_gpt_response = GPT4_request(prompt).strip()
-      end_index = curr_gpt_response.rfind('}') + 1
-      curr_gpt_response = curr_gpt_response[:end_index]
+      raw_resp = GPT4_request(prompt)
+      cleaned_resp = clean_json_str(raw_resp)
+      end_index = cleaned_resp.rfind('}') + 1
+      curr_gpt_response = cleaned_resp[:end_index]
       curr_gpt_response = json.loads(curr_gpt_response)["output"]
       
       if func_validate(curr_gpt_response, prompt=prompt): 
@@ -243,9 +255,9 @@ def ChatGPT_safe_generate_response(prompt,
     raw_response = ""
     try: 
       raw_response = ChatGPT_request(prompt)
-      curr_gpt_response = raw_response.strip()
-      end_index = curr_gpt_response.rfind('}') + 1
-      curr_gpt_response = curr_gpt_response[:end_index]
+      cleaned_resp = clean_json_str(raw_response)
+      end_index = cleaned_resp.rfind('}') + 1
+      curr_gpt_response = cleaned_resp[:end_index]
       curr_gpt_response = json.loads(curr_gpt_response)["output"]
       
       if func_validate(curr_gpt_response, prompt=prompt): 

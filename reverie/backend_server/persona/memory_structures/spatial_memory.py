@@ -56,8 +56,11 @@ class MemoryTree:
     EXAMPLE STR OUTPUT
       "bedroom, kitchen, dining room, office, bathroom"
     """
-    x = ", ".join(list(self.tree[curr_world].keys()))
-    return x
+    curr_world = curr_world.strip().lower()
+    for w in self.tree:
+      if w.strip().lower() == curr_world:
+        return ", ".join(list(self.tree[w].keys()))
+    return ""
 
 
   def get_str_accessible_sector_arenas(self, sector): 
@@ -75,11 +78,15 @@ class MemoryTree:
     EXAMPLE STR OUTPUT
       "bedroom, kitchen, dining room, office, bathroom"
     """
-    curr_world, curr_sector = sector.split(":")
+    curr_world, curr_sector = [x.strip().lower() for x in sector.split(":")]
     if not curr_sector: 
       return ""
-    x = ", ".join(list(self.tree[curr_world][curr_sector].keys()))
-    return x
+    for w in self.tree:
+      if w.strip().lower() == curr_world:
+        for s in self.tree[w]:
+          if s.strip().lower() == curr_sector:
+            return ", ".join(list(self.tree[w][s].keys()))
+    return ""
 
 
   def get_str_accessible_arena_game_objects(self, arena):
@@ -96,16 +103,33 @@ class MemoryTree:
     EXAMPLE STR OUTPUT
       "phone, charger, bed, nightstand"
     """
-    curr_world, curr_sector, curr_arena = arena.split(":")
+    curr_world, curr_sector, curr_arena = [x.strip().lower() for x in arena.split(":")]
 
     if not curr_arena: 
       return ""
 
-    try: 
-      x = ", ".join(list(self.tree[curr_world][curr_sector][curr_arena]))
-    except: 
-      x = ", ".join(list(self.tree[curr_world][curr_sector][curr_arena.lower()]))
-    return x
+    for w in self.tree:
+      if w.strip().lower() == curr_world:
+        for s in self.tree[w]:
+          if s.strip().lower() == curr_sector:
+            for a in self.tree[w][s]:
+              if a.strip().lower() == curr_arena:
+                return ", ".join(list(self.tree[w][s][a]))
+    return ""
+
+
+  def find_nearest_object(self, obj_name):
+    obj_name_lower = obj_name.strip().lower()
+    # Fuzzy prefix match to strip 'the Ville:' or similar if it is prepended
+    for w in self.tree:
+      w_clean = w.split(":")[-1].strip().lower()
+      for s in self.tree[w]:
+        for a in self.tree[w][s]:
+          for obj in self.tree[w][s][a]:
+            if obj.strip().lower() == obj_name_lower or obj_name_lower in obj.strip().lower():
+              return f"{w}:{s}:{a}:{obj}"
+    return None
+
 
 
 if __name__ == '__main__':

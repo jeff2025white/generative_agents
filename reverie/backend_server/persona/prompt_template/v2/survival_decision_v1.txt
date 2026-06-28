@@ -1,0 +1,33 @@
+# Prompt Template for Agent Survival Decisions
+
+!<INPUT 0>!
+
+Current Status:
+- Satiety (0-100): !<INPUT 1>!
+- Stamina (0-100): !<INPUT 2>!
+- Health (0-100): !<INPUT 3>!
+- Inventory: !<INPUT 4>!
+
+Nearby Elements & Resources:
+!<INPUT 5>!
+
+Task: What is the next survival action for !<INPUT 6>!? 
+Choose one action from: "Gather" (harvest items from a nearby resource tile), "Consume" (eat/drink food from inventory), "Rest" (recover stamina at a bed/sofa), or "Idle" (do nothing).
+Also specify the target object name (e.g. "apple_tree", "bed", "stove", "water_source", or the name of a food item in inventory like "apple").
+
+Response format:
+Respond ONLY in valid JSON format:
+{
+  "action": "<Gather/Consume/Rest/Idle>",
+  "target": "<target_object_name>",
+  "reasoning": "<brief explanation of the choice>"
+}
+Do not include any explanation outside of the JSON block.
+<commentblockmarker>###</commentblockmarker>
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Satiety value
+Input 2: Stamina value
+Input 3: Health value
+Input 4: Inventory description
+Input 5: List of nearby interactive resources
+Input 6: Agent's first name

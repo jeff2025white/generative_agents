@@ -111,17 +111,37 @@ def run_gpt_prompt_daily_plan(persona,
     return prompt_input
 
   def __func_clean_up(gpt_response, prompt=""):
+    import re
     cr = []
-    _cr = gpt_response.split(")")
-    for i in _cr: 
-      if i[-1].isdigit(): 
-        i = i[:-1].strip()
-        if i[-1] == "." or i[-1] == ",": 
-          cr += [i[:-1].strip()]
+    lines = gpt_response.replace('\r', '').split('\n')
+    for line in lines:
+      line = line.strip()
+      if not line:
+        continue
+      line = re.sub(r'^(?:\d+[\.\)]|[\-\*])\s*', '', line).strip()
+      if line:
+        if line[-1] in ['.', ',']:
+          line = line[:-1].strip()
+        cr.append(line)
+        
+    if len(cr) <= 1:
+      parts = re.split(r'\d+[\.\)]\s*', gpt_response)
+      cr = []
+      for part in parts:
+        part = part.strip()
+        if not part:
+          continue
+        if part[-1] in ['.', ',']:
+          part = part[:-1].strip()
+        cr.append(part)
+        
     return cr
 
   def __func_validate(gpt_response, prompt=""):
-    try: __func_clean_up(gpt_response, prompt="")
+    try: 
+      res = __func_clean_up(gpt_response, prompt="")
+      if not res or len(res) < 2:
+        return False
     except: 
       return False
     return True
@@ -2922,6 +2942,73 @@ def run_gpt_generate_iterative_chat_utt(maze, init_persona, target_persona, retr
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
   return output, [output, prompt, gpt_param, prompt_input, fail_safe]
+
+
+def run_gpt_prompt_survival_decision(persona, nearby_resources, verbose=False):
+  def create_prompt_input(persona, nearby_resources):
+    inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
+    res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+    prompt_input = [
+      persona.scratch.get_str_iss(),
+      str(persona.scratch.satiety),
+      str(persona.scratch.stamina),
+      str(persona.scratch.health),
+      inv_str,
+      res_str,
+      persona.scratch.get_str_firstname()
+    ]
+    return prompt_input
+
+  def __func_clean_up(gpt_response, prompt=""):
+    try:
+      cleaned = clean_json_str(gpt_response)
+      # In ChatGPT_safe_generate_response, the JSON might already be parsed, or output key accessed.
+      # If it's a string, we load it. If it's already a dict, we return it.
+      if isinstance(cleaned, dict):
+        return cleaned
+      # Look for outer brackets
+      start = cleaned.find("{")
+      end = cleaned.rfind("}") + 1
+      if start != -1 and end != -1:
+        cleaned = cleaned[start:end]
+      data = json.loads(cleaned)
+      return data
+    except Exception as e:
+      print(f"Error cleaning up survival response: {e}, raw: {gpt_response}")
+      return {"action": "Idle", "target": "none", "reasoning": "Fallback default"}
+
+  def __func_validate(gpt_response, prompt=""):
+    try:
+      cleaned = clean_json_str(gpt_response)
+      start = cleaned.find("{")
+      end = cleaned.rfind("}") + 1
+      if start != -1 and end != -1:
+        cleaned = cleaned[start:end]
+      data = json.loads(cleaned)
+      if "action" in data and "target" in data:
+        return True
+    except:
+      pass
+    return False
+
+  def get_fail_safe():
+    return {"action": "Idle", "target": "none", "reasoning": "Fail-safe triggered"}
+
+  prompt_template = "persona/prompt_template/v2/survival_decision_v1.txt"
+  prompt_input = create_prompt_input(persona, nearby_resources)
+  prompt = generate_prompt(prompt_input, prompt_template)
+  
+  example_output = '{"action": "Consume", "target": "apple", "reasoning": "Satiety is critical."}'
+  special_instruction = "Select the best survival action and target based on stats."
+  
+  output = ChatGPT_safe_generate_response(
+    prompt, example_output, special_instruction,
+    repeat=3, fail_safe_response=get_fail_safe(),
+    func_validate=__func_validate, func_clean_up=__func_clean_up,
+    verbose=verbose
+  )
+  return output
+
 
 
 

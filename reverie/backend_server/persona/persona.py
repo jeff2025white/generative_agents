@@ -216,11 +216,23 @@ class Persona:
       new_day = "New day"
     self.scratch.curr_time = curr_time
 
+    # Check metabolic conditions to bypass fast-path and trigger interruption
+    is_starving = self.scratch.satiety < 30.0
+    is_exhausted = self.scratch.stamina < 20.0
+
     # [OPTIMIZATION] Fast path: if the persona is mid-walk on a planned path
     # and it's not a new day, skip the full cognitive pipeline to avoid
     # unnecessary LLM calls.
-    if self.scratch.planned_path and not new_day:
+    if self.scratch.planned_path and not new_day and not (is_starving or is_exhausted):
       return self.execute(maze, personas, None)
+
+    # Interruption logic: Clear current planned paths and activities
+    if (is_starving or is_exhausted) and (self.scratch.planned_path or self.scratch.act_address):
+      print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
+      self.scratch.planned_path = []
+      self.scratch.act_path_set = False
+      self.scratch.chatting_with = None
+      self.scratch.chat = None
 
     # Main cognitive sequence begins here. 
     perceived = self.perceive(maze)

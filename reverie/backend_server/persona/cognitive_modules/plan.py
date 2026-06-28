@@ -483,10 +483,33 @@ def _long_term_planning(persona, new_day):
                                                           wake_up_hour)
   elif new_day == "New day":
     revise_identity(persona)
+    persona.scratch.daily_req = generate_first_daily_plan(persona, wake_up_hour)
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - TODO
-    # We need to create a new daily_req here...
-    persona.scratch.daily_req = persona.scratch.daily_req
+  # Hard constraints to enforce realistic daily requirements and avoid LLM plan loss
+  if persona.name == "Isabella Rodriguez":
+    print(f"=== [日程约束修正] Isabella Rodriguez 日程强制绑定为咖啡店值守 ===")
+    persona.scratch.daily_req = [
+      "wake up and complete the morning routine at 6:00 am",
+      "eat breakfast at 7:00 am",
+      "open Hobbs Cafe and work at the counter from 8:00 am to 12:00 pm",
+      "have lunch at 12:00 pm",
+      "work at the counter of Hobbs Cafe from 1:00 pm to 5:00 pm",
+      "work at the counter of Hobbs Cafe from 5:00 pm to 8:00 pm",
+      "relax and watch TV from 8:00 pm to 11:00 pm",
+      "go to bed at 11:00 pm"
+    ]
+  elif persona.name == "Klaus Mueller":
+    print(f"=== [日程约束修正] Klaus Mueller 日程强制绑定为前往图书馆和在咖啡厅就餐 ===")
+    persona.scratch.daily_req = [
+      "wake up and complete the morning routine at 7:00 am",
+      "eat breakfast at 8:00 am",
+      "go to the library at Oak Hill College and write his research paper from 9:00 am to 12:00 pm",
+      "have lunch at Hobbs Cafe from 12:00 pm to 1:00 pm",
+      "continue writing his research paper at Oak Hill College library from 1:00 pm to 5:00 pm",
+      "have dinner at Hobbs Cafe from 5:00 pm to 6:00 pm",
+      "relax in his dorm room from 6:00 pm to 11:00 pm",
+      "go to bed at 11:00 pm"
+    ]
 
   # Based on the daily_req, we create an hourly schedule for the persona, 
   # which is a list of todo items with a time duration (in minutes) that 
@@ -631,19 +654,67 @@ def _determine_action(persona, maze):
   # variables.
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   # act_sector = maze.access_tile(persona.scratch.curr_tile)["sector"]
-  act_sector = generate_action_sector(act_desp, persona, maze)
-  act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
-  act_address = f"{act_world}:{act_sector}:{act_arena}"
-  act_game_object = generate_action_game_object(act_desp, act_address,
-                                                persona, maze)
-  new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
-  act_pron = generate_action_pronunciatio(act_desp, persona)
-  act_event = generate_action_event_triple(act_desp, persona)
-  # Persona's actions also influence the object states. We set those up here. 
-  act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
-  act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
-  act_obj_event = generate_act_obj_event_triple(act_game_object, 
-                                                act_obj_desp, persona)
+  
+  is_coffee_flow = False
+  if "serving coffee" in act_desp.lower():
+    is_coffee_flow = True
+    act_sector = "Hobbs Cafe"
+    act_arena = "cafe"
+    act_game_object = "cafe customer seating"
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    act_pron = "💁"
+    act_event = (persona.name, "serve", "coffee to Klaus")
+    act_obj_desp = "served with coffee"
+    act_obj_pron = "☕"
+    act_obj_event = ("cafe customer seating", "has", "served coffee")
+  elif "brewing coffee" in act_desp.lower():
+    is_coffee_flow = True
+    act_sector = "Hobbs Cafe"
+    act_arena = "cafe"
+    act_game_object = "coffee maker"
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    act_pron = "☕"
+    act_event = (persona.name, "brew", "coffee")
+    act_obj_desp = "brewing coffee"
+    act_obj_pron = "♨️"
+    act_obj_event = ("coffee maker", "is", "brewing coffee")
+  elif "waiting for coffee" in act_desp.lower():
+    is_coffee_flow = True
+    act_sector = "Hobbs Cafe"
+    act_arena = "cafe"
+    act_game_object = "cafe customer seating"
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    act_pron = "⌛"
+    act_event = (persona.name, "waiting for", "coffee")
+    act_obj_desp = "empty"
+    act_obj_pron = "🍽️"
+    act_obj_event = ("cafe customer seating", "is", "empty")
+  elif "drinking coffee" in act_desp.lower():
+    is_coffee_flow = True
+    act_sector = "Hobbs Cafe"
+    act_arena = "cafe"
+    act_game_object = "cafe customer seating"
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    act_pron = "☕"
+    act_event = (persona.name, "drink", "coffee")
+    act_obj_desp = "empty"
+    act_obj_pron = "🍽️"
+    act_obj_event = ("cafe customer seating", "is", "empty")
+
+  if not is_coffee_flow:
+    act_sector = generate_action_sector(act_desp, persona, maze)
+    act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
+    act_address = f"{act_world}:{act_sector}:{act_arena}"
+    act_game_object = generate_action_game_object(act_desp, act_address,
+                                                  persona, maze)
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    act_pron = generate_action_pronunciatio(act_desp, persona)
+    act_event = generate_action_event_triple(act_desp, persona)
+    # Persona's actions also influence the object states. We set those up here. 
+    act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
+    act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
+    act_obj_event = generate_act_obj_event_triple(act_game_object, 
+                                                  act_obj_desp, persona)
 
   # Adding the action to persona's queue. 
   persona.scratch.add_new_action(new_address, 
@@ -744,6 +815,14 @@ def _should_react(persona, retrieved, personas):
     if (target_persona.name in init_persona.scratch.chatting_with_buffer): 
       if init_persona.scratch.chatting_with_buffer[target_persona.name] > 0: 
         return False
+
+    # Coordinated coffee flow check: Isabella and Klaus meet at Hobbs Cafe counter
+    if (init_persona.name == "Klaus Mueller" and target_persona.name == "Isabella Rodriguez") or \
+       (init_persona.name == "Isabella Rodriguez" and target_persona.name == "Klaus Mueller"):
+      if "hobbs cafe" in init_persona.scratch.act_address.lower() and \
+         "hobbs cafe" in target_persona.scratch.act_address.lower():
+         print(f"=== [协同物理操作链触发] Klaus 和 Isabella 会面，强制开启咖啡对话 ===")
+         return True
 
     if generate_decide_to_talk(init_persona, target_persona, retrieved): 
 
@@ -865,6 +944,68 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                            act_start_time)
 
 
+def inject_coffee_flow(p, role, chatting_end_time):
+  # 1. Calculate the minute of the day when the chat ends
+  chat_end_min = chatting_end_time.hour * 60 + chatting_end_time.minute
+  
+  # 2. Rebuild f_daily_schedule
+  new_schedule = []
+  elapsed = 0
+  rest_schedule = []
+  
+  for task, dur in p.scratch.f_daily_schedule:
+    if elapsed + dur <= chat_end_min:
+      new_schedule.append([task, dur])
+      elapsed += dur
+    elif elapsed < chat_end_min and elapsed + dur > chat_end_min:
+      past_dur = chat_end_min - elapsed
+      new_schedule.append([task, past_dur])
+      
+      future_dur = (elapsed + dur) - chat_end_min
+      rest_schedule.append([task, future_dur])
+      elapsed += dur
+    else:
+      rest_schedule.append([task, dur])
+      elapsed += dur
+      
+  # 3. Define the custom workflow blocks
+  workflow_blocks = []
+  if role == "barista":
+    workflow_blocks = [
+      ["brewing coffee at the coffee maker", 5],
+      ["serving coffee to Klaus", 2]
+    ]
+  elif role == "customer":
+    workflow_blocks = [
+      ["waiting for coffee to be served", 7],
+      ["drinking coffee", 15]
+    ]
+    
+  workflow_duration = sum(b[1] for b in workflow_blocks)
+  new_schedule.extend(workflow_blocks)
+  
+  # 4. Append the rest of the schedule, adjusting durations
+  remaining_to_subtract = workflow_duration
+  for task, dur in rest_schedule:
+    if remaining_to_subtract > 0:
+      if dur > remaining_to_subtract:
+        new_schedule.append([task, dur - remaining_to_subtract])
+        remaining_to_subtract = 0
+      else:
+        remaining_to_subtract -= dur
+    else:
+      new_schedule.append([task, dur])
+      
+  total_sum = sum(b[1] for b in new_schedule)
+  if total_sum < 1440:
+    new_schedule.append(["sleeping", 1440 - total_sum])
+  elif total_sum > 1440:
+    new_schedule[-1][1] -= (total_sum - 1440)
+    
+  p.scratch.f_daily_schedule = new_schedule
+  print(f"[注入成功] {p.name} 的日程表已成功注入咖啡协同动作，新日程总时长: {sum(b[1] for b in p.scratch.f_daily_schedule)} 分钟")
+
+
 def _chat_react(maze, persona, focused_event, reaction_mode, personas):
   # There are two personas -- the persona who is initiating the conversation
   # and the persona who is the target. We get the persona instances here. 
@@ -911,6 +1052,15 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
       act_obj_event, act_start_time)
 
+  # Check if Klaus and Isabella triggered conversation
+  if (init_persona.name == "Klaus Mueller" and target_persona.name == "Isabella Rodriguez") or \
+     (init_persona.name == "Isabella Rodriguez" and target_persona.name == "Klaus Mueller"):
+     print(f"=== [协同物理操作链] 正在向 Isabella 和 Klaus 注入咖啡制作和消费任务流 ===")
+     isabella = personas["Isabella Rodriguez"]
+     klaus = personas["Klaus Mueller"]
+     inject_coffee_flow(isabella, "barista", chatting_end_time)
+     inject_coffee_flow(klaus, "customer", chatting_end_time)
+
 
 def _wait_react(persona, reaction_mode): 
   p = persona
@@ -936,6 +1086,103 @@ def _wait_react(persona, reaction_mode):
     act_pronunciatio, act_obj_description, act_obj_pronunciatio, act_obj_event)
 
 
+def decide_survival_action(persona, maze):
+  import json
+  # Get all objects the persona knows about
+  objs = set()
+  for w in persona.s_mem.tree:
+    for s in persona.s_mem.tree[w]:
+      for a in persona.s_mem.tree[w][s]:
+        for obj in persona.s_mem.tree[w][s][a]:
+          objs.add(obj)
+  objs_list = list(objs)
+
+  # Call GPT to decide survival action
+  decision = run_gpt_prompt_survival_decision(persona, objs_list)
+  action = decision.get("action", "Idle")
+  target = decision.get("target", "none")
+  reasoning = decision.get("reasoning", "")
+
+  print(f"[{persona.name}] 经过LLM生存分析做出决策: Action={action}, Target={target}, 原因={reasoning}")
+
+  if action == "Idle" or target == "none":
+    # Idle action
+    persona.scratch.act_address = f"{persona.scratch.living_area}"
+    persona.scratch.act_description = "idling to conserve energy"
+    persona.scratch.act_duration = 10
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "💤"
+    persona.scratch.act_event = (persona.name, "idle", "none")
+    persona.scratch.act_path_set = False
+    return persona.scratch.act_address
+
+  # Resolve object address
+  address = persona.s_mem.find_nearest_object(target)
+  if not address:
+    # Fallback to living area
+    address = f"{persona.scratch.living_area}"
+
+  if action == "Consume":
+    # Check if target is in inventory (case-insensitive)
+    item_key = target.strip().lower()
+    in_inv = False
+    for k in persona.scratch.inventory:
+      if k.strip().lower() == item_key and persona.scratch.inventory[k] > 0:
+        in_inv = True
+        break
+    
+    if not in_inv:
+      print(f"[{persona.name}] 背包中没有 {target}！修改动作为 Gather 从环境获取。")
+      action = "Gather"
+      # Prioritize cafe customer seating or behind the cafe counter
+      if "cafe customer seating" in objs_list:
+        target = "cafe customer seating"
+      elif "behind the cafe counter" in objs_list:
+        target = "behind the cafe counter"
+      else:
+        target = "refrigerator" if "refrigerator" in objs_list else "apple_tree"
+      address = persona.s_mem.find_nearest_object(target) or address
+
+
+  if action == "Gather":
+    persona.scratch.act_address = address
+    persona.scratch.act_description = f"gathering from {target}"
+    persona.scratch.act_duration = 15
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "🍎"
+    persona.scratch.act_event = (persona.name, "gather", target)
+    persona.scratch.act_obj_description = f"being harvested by {persona.scratch.first_name}"
+    persona.scratch.act_obj_pronunciatio = "🍎"
+    persona.scratch.act_obj_event = (target, "harvested_by", persona.name)
+    persona.scratch.act_path_set = False
+
+  elif action == "Consume":
+    persona.scratch.act_address = address
+    persona.scratch.act_description = f"consuming {target}"
+    persona.scratch.act_duration = 5
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "🍴"
+    persona.scratch.act_event = (persona.name, "consume", target)
+    persona.scratch.act_obj_description = f"being eaten by {persona.scratch.first_name}"
+    persona.scratch.act_obj_pronunciatio = "🍴"
+    persona.scratch.act_obj_event = (target, "consumed_by", persona.name)
+    persona.scratch.act_path_set = False
+
+  elif action == "Rest":
+    persona.scratch.act_address = address
+    persona.scratch.act_description = f"resting at {target}"
+    persona.scratch.act_duration = 30
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "🛌"
+    persona.scratch.act_event = (persona.name, "rest", target)
+    persona.scratch.act_obj_description = f"being rested on by {persona.scratch.first_name}"
+    persona.scratch.act_obj_pronunciatio = "🛌"
+    persona.scratch.act_obj_event = (target, "rested_on_by", persona.name)
+    persona.scratch.act_path_set = False
+
+  return persona.scratch.act_address
+
+
 def plan(persona, maze, personas, new_day, retrieved): 
   """
   Main cognitive function of the chain. It takes the retrieved memory and 
@@ -958,6 +1205,20 @@ def plan(persona, maze, personas, new_day, retrieved):
   OUTPUT 
     The target action address of the persona (persona.scratch.act_address).
   """ 
+  # Intercept for survival if satiety/stamina is low!
+  is_starving = persona.scratch.satiety < 30.0
+  is_exhausted = persona.scratch.stamina < 20.0
+  if is_starving or is_exhausted:
+    # If they are currently executing a survival action, let them finish it!
+    # Otherwise, if they finished or are just starting, trigger survival choice.
+    act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
+    if persona.scratch.act_check_finished() or not act_desc or \
+       (not act_desc.startswith("gathering") and \
+        not act_desc.startswith("consuming") and \
+        not act_desc.startswith("resting") and \
+        not act_desc.startswith("idling")):
+      return decide_survival_action(persona, maze)
+
   # PART 1: Generate the hourly schedule. 
   if new_day: 
     _long_term_planning(persona, new_day)

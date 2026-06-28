@@ -45,6 +45,21 @@ class Scratch:
     self.lifestyle = None
     self.living_area = None
 
+    # Physiological metabolic states
+    self.satiety = 100.0
+    self.stamina = 100.0
+    self.health = 100.0
+    # Inventory state
+    self.inventory = {}
+    # Skills system
+    self.skills = {
+      "farming": {"level": 1, "xp": 0},
+      "cooking": {"level": 1, "xp": 0},
+      "gathering": {"level": 1, "xp": 0}
+    }
+    # Personal knowledge base
+    self.personal_knowledge = {}
+
     # REFLECTION VARIABLES
     self.concept_forget = 100
     self.daily_reflection_time = 60 * 3
@@ -184,6 +199,18 @@ class Scratch:
       self.lifestyle = scratch_load["lifestyle"]
       self.living_area = scratch_load["living_area"]
 
+      # Load physiological and skill parameters
+      self.satiety = scratch_load.get("satiety", 100.0)
+      self.stamina = scratch_load.get("stamina", 100.0)
+      self.health = scratch_load.get("health", 100.0)
+      self.inventory = scratch_load.get("inventory", {})
+      self.skills = scratch_load.get("skills", {
+        "farming": {"level": 1, "xp": 0},
+        "cooking": {"level": 1, "xp": 0},
+        "gathering": {"level": 1, "xp": 0}
+      })
+      self.personal_knowledge = scratch_load.get("personal_knowledge", {})
+
       self.concept_forget = scratch_load["concept_forget"]
       self.daily_reflection_time = scratch_load["daily_reflection_time"]
       self.daily_reflection_size = scratch_load["daily_reflection_size"]
@@ -261,6 +288,14 @@ class Scratch:
     scratch["currently"] = self.currently
     scratch["lifestyle"] = self.lifestyle
     scratch["living_area"] = self.living_area
+
+    # Save physiological and skill parameters
+    scratch["satiety"] = self.satiety
+    scratch["stamina"] = self.stamina
+    scratch["health"] = self.health
+    scratch["inventory"] = self.inventory
+    scratch["skills"] = self.skills
+    scratch["personal_knowledge"] = self.personal_knowledge
 
     scratch["concept_forget"] = self.concept_forget
     scratch["daily_reflection_time"] = self.daily_reflection_time
@@ -514,6 +549,8 @@ class Scratch:
     self.act_start_time = self.curr_time
     
     self.act_path_set = False
+    self.serving_memory_written = False
+    self.drinking_memory_written = False
 
 
   def act_time_str(self): 

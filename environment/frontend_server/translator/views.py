@@ -508,7 +508,7 @@ Instructions:
 - Stay in character as {persona_name} at all times.
 - Respond naturally based on your personality, memories, current situation, and who is currently nearby.
 - Keep responses concise (1-3 sentences).
-- If the user speaks Chinese, respond in Chinese. If the user speaks English, respond in English.
+- Always respond in Chinese by default (请默认使用中文进行回答)。
 - Do not break character or mention that you are an AI."""
 
         # === 5. 构建对话消息列表 ===
@@ -716,6 +716,58 @@ def api_get_persona_schedule(request):
     })
   except Exception as e:
     return JsonResponse({"error": str(e)}, status=500)
+
+
+def api_get_persona_memories(request):
+  """
+  获取指定小人的最新记忆列表。
+  """
+  sim_code = request.GET.get("sim_code")
+  persona_name = request.GET.get("persona_name").replace("_", " ")
+  
+  memory = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+  if not os.path.exists(memory): 
+    memory = f"compressed_storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+      
+  if not os.path.exists(memory):
+    return JsonResponse({"error": f"Persona '{persona_name}' not found"}, status=404)
+      
+  try:
+    nodes_path = os.path.join(memory, "associative_memory", "nodes.json")
+    if not os.path.exists(nodes_path):
+      return JsonResponse({"memories": []})
+      
+    with open(nodes_path, encoding="utf-8") as json_file:  
+      nodes_data = json.load(json_file)
+    
+    # Extract nodes details
+    memories = []
+    for node_id, node_details in nodes_data.items():
+      # Filter for event or thought types to show meaningful memories
+      if node_details.get("type") in ["event", "thought"]:
+        memories.append({
+          "id": node_id,
+          "created": node_details.get("created", ""),
+          "type": node_details.get("type", ""),
+          "description": node_details.get("description", ""),
+          "poignancy": node_details.get("poignancy", 1)
+        })
+        
+    # Sort memories by node index descending (latest first)
+    def get_node_index(m):
+      try:
+        return int(m["id"].split("_")[1])
+      except:
+        return 0
+    memories.sort(key=get_node_index, reverse=True)
+    
+    return JsonResponse({
+      "persona_name": persona_name,
+      "memories": memories
+    })
+  except Exception as e:
+    return JsonResponse({"error": str(e)}, status=500)
+
 
 
 

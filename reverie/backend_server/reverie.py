@@ -154,7 +154,7 @@ class ReverieServer:
     # Note that step file is removed as soon as the frontend opens up the 
     # simulation. 
     try:
-      requests.post("http://localhost:8000/api/init_sim/", json={
+      requests.post("http://127.0.0.1:8000/api/init_sim/", json={
         "sim_code": self.sim_code,
         "step": self.step
       }, timeout=5)
@@ -329,6 +329,8 @@ class ReverieServer:
       if int_counter == 0: 
         break
 
+      step_start_time = time.time()
+
       # Check if chat is active in frontend and pause if so to free up Ollama
       chat_active_file = f"{fs_temp_storage}/chat_active_{self.sim_code}.json"
       check_count = 0
@@ -341,7 +343,7 @@ class ReverieServer:
       env_retrieved = False
       # We check the environment state via Django HTTP API (Option 3 API Gateway)
       try:
-        response = requests.get(f"http://localhost:8000/api/get_environment/?sim_code={self.sim_code}&step={self.step}", timeout=5)
+        response = requests.get(f"http://127.0.0.1:8000/api/get_environment/?sim_code={self.sim_code}&step={self.step}", timeout=5)
         if response.status_code == 200:
           new_env = response.json()
           env_retrieved = True
@@ -369,7 +371,7 @@ class ReverieServer:
         
         # Notify Django of this environment state so the database is updated
         try:
-          requests.post("http://localhost:8000/process_environment/", json={
+          requests.post("http://127.0.0.1:8000/process_environment/", json={
             "sim_code": self.sim_code,
             "step": self.step,
             "environment": new_env
@@ -381,7 +383,7 @@ class ReverieServer:
           # Retrieve and inject user pending actions (chats/instructions)
           processed_ids = []
           try:
-            response = requests.get(f"http://localhost:8000/api/get_pending_actions/?sim_code={self.sim_code}", timeout=5)
+            response = requests.get(f"http://127.0.0.1:8000/api/get_pending_actions/?sim_code={self.sim_code}", timeout=5)
             if response.status_code == 200:
               pending_actions = response.json()
               if pending_actions:
@@ -404,7 +406,7 @@ class ReverieServer:
                   load_history_via_whisper(self.personas, whispers_to_inject)
                   
                 # Acknowledge processed IDs
-                requests.post("http://localhost:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
+                requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
           except Exception as e:
             print(f"Warning: Failed to fetch/process pending actions: {e}")
 
@@ -447,6 +449,24 @@ class ReverieServer:
                        None, None, None)
               self.maze.remove_event_from_tile(blank, new_tile)
 
+          # Apply metabolic decay and recovery for each persona per step
+          for persona_name, persona in self.personas.items():
+            act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
+            if "sleeping" in act_desc or "sleep" in act_desc:
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.2)
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 2.0)
+            elif "resting" in act_desc or "rest" in act_desc:
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.3)
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 1.5)
+            else:
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.5)
+              decay_stamina = 1.0 if persona.scratch.planned_path else 0.5
+              persona.scratch.stamina = max(0.0, persona.scratch.stamina - decay_stamina)
+            
+            # Health penalty if starving
+            if persona.scratch.satiety <= 0.0:
+              persona.scratch.health = max(0.0, persona.scratch.health - 2.0)
+
           # Then we need to actually have each of the personas perceive and
           # move. The movement for each of the personas comes in the form of
           # x y coordinates where the persona will move towards. e.g., (50, 34)
@@ -476,6 +496,11 @@ class ReverieServer:
               movements["persona"][persona_name]["description"] = description
               movements["persona"][persona_name]["chat"] = (self.personas[persona_name]
                                                               .scratch.chat)
+              # Include physiological values in movements payload for the frontend/replay
+              movements["persona"][persona_name]["satiety"] = self.personas[persona_name].scratch.satiety
+              movements["persona"][persona_name]["stamina"] = self.personas[persona_name].scratch.stamina
+              movements["persona"][persona_name]["health"] = self.personas[persona_name].scratch.health
+              movements["persona"][persona_name]["inventory"] = self.personas[persona_name].scratch.inventory
 
           # Include the meta information about the current stage in the 
           # movements dictionary. 
@@ -490,7 +515,7 @@ class ReverieServer:
           #  "meta": {curr_time: <datetime>}}
           # POST movements to Django API (Option 3 API Gateway)
           try:
-            requests.post("http://localhost:8000/api/post_movement/", json={
+            requests.post("http://127.0.0.1:8000/api/post_movement/", json={
               "sim_code": self.sim_code,
               "step": self.step,
               "movements": movements
@@ -507,7 +532,7 @@ class ReverieServer:
           # current time moves by <sec_per_step> amount. 
           self.step += 1
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
-          print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')}")
+          print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')} | 实际计算耗时: {time.time() - step_start_time:.2f}秒")
 
           # Periodically save the simulation state to disk (every 10 steps)
           if self.step % 10 == 0:
@@ -711,10 +736,36 @@ class ReverieServer:
 
 if __name__ == '__main__':
   import sys
+
+  def setup_logging(target):
+    import os
+    logs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "logs"))
+    os.makedirs(logs_dir, exist_ok=True)
+    log_file_path = os.path.join(logs_dir, f"{target}.log")
+    
+    class Tee(object):
+      def __init__(self, *files):
+        self.files = files
+      def write(self, obj):
+        for f in self.files:
+          f.write(obj)
+          f.flush()
+      def flush(self):
+        for f in self.files:
+          f.flush()
+          
+    try:
+      log_file = open(log_file_path, "a", encoding="utf-8")
+      sys.stdout = Tee(sys.stdout, log_file)
+      sys.stderr = Tee(sys.stderr, log_file)
+    except Exception as e:
+      print(f"Warning: Failed to set up file logging: {e}")
+
   # Check for command line arguments: python reverie.py <fork_name> <new_name> [auto_run_steps]
   if len(sys.argv) >= 3:
     origin = sys.argv[1].strip()
     target = sys.argv[2].strip()
+    setup_logging(target)
     
     auto_run_steps = None
     if len(sys.argv) >= 4:
@@ -737,6 +788,7 @@ if __name__ == '__main__':
   else:
     origin = input("Enter the name of the forked simulation: ").strip()
     target = input("Enter the name of the new simulation: ").strip()
+    setup_logging(target)
 
     rs = ReverieServer(origin, target)
     rs.open_server()

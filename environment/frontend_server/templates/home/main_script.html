@@ -844,6 +844,68 @@ function renderPlanModal(dailyReq, schedule) {
   
   planContent.innerHTML = html;
 }
+
+// =====================================================================
+// MEMORY SYSTEM - 记忆弹窗 (记忆列表描述)
+// =====================================================================
+
+function openMemory(personaNameUnderscore) {
+  let displayName = personaNameUnderscore.replace(/_/g, " ");
+  document.getElementById("memory-persona-display-name").innerText = displayName;
+  
+  let memoryContent = document.getElementById("memory-content");
+  memoryContent.innerHTML = '<p style="color:#64748B; text-align:center; font-style:italic; padding: 20px;">正在获取角色记忆描述...</p>';
+  document.getElementById("memory-modal").style.display = "block";
+
+  // 通过 Ajax 获取数据
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/api/get_persona_memories/?sim_code=" + sim_code.trim() + "&persona_name=" + personaNameUnderscore, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      renderMemoryModal(resp.memories);
+    } else {
+      memoryContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">获取记忆失败: ' + xhr.statusText + '</p>';
+    }
+  };
+  xhr.onerror = function() {
+    memoryContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">网络请求失败，请确保服务正常运行。</p>';
+  };
+  xhr.send();
+}
+
+function closeMemory() {
+  document.getElementById("memory-modal").style.display = "none";
+}
+
+// 格式化渲染记忆清单
+function renderMemoryModal(memories) {
+  let memoryContent = document.getElementById("memory-content");
+  let html = "";
+  
+  html += '<div style="margin-bottom: 24px;">';
+  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:12px; border-left: 4px solid #F59E0B; padding-left: 8px;">🧠 角色记忆描述 (Memories)</h4>';
+  if (memories && memories.length > 0) {
+    html += '  <ul style="padding-left:0px; list-style-type:none; color:#94A3B8; line-height: 1.6em; margin:0;">';
+    for (let i = 0; i < memories.length; i++) {
+      html += '    <li style="margin-bottom:10px; border-bottom: 1px dashed #334155; padding-bottom: 10px;">';
+      html += '      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">';
+      html += '        <strong style="color: #F59E0B; font-size:0.9em;">' + escapeHtml(memories[i].created) + '</strong>';
+      if (memories[i].poignancy) {
+        html += '        <span style="font-size: 0.8em; color: #10B981; font-weight:bold; background:#1E293B; border:1px solid #334155; padding:2px 6px; border-radius:4px;">重要度: ' + memories[i].poignancy + '</span>';
+      }
+      html += '      </div>';
+      html += '      <div style="color:#E2E8F0; font-size:0.95em;">' + escapeHtml(memories[i].description) + '</div>';
+      html += '    </li>';
+    }
+    html += '  </ul>';
+  } else {
+    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无记忆描述</p>';
+  }
+  html += '</div>';
+  
+  memoryContent.innerHTML = html;
+}
 </script>
 
 
