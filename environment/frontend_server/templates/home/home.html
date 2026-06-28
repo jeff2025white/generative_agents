@@ -60,14 +60,15 @@
 					</div>
 					<div style="font-size: 0.9em; color: #334155; line-height: 1.4em;">
 						<div style="margin-bottom: 3px;"><strong>当前动作:</strong> <span id="current_action__{{ p_name_os }}"></span></div>
+						<div style="margin-bottom: 3px;"><strong>下一步动作:</strong> <span id="next_action__{{ p_name_os }}"></span></div>
 						<div style="margin-bottom: 3px;"><strong>当前位置:</strong> <span id="target_address__{{ p_name_os }}"></span></div>
 						<div style="margin-bottom: 10px;"><strong>当前对话:</strong> <span id="chat__{{ p_name_os }}"></span></div>
 					</div>
-					<div style="margin-top: 10px; display: flex; gap: 8px; border-top: 1px solid #334155; padding-top: 10px; justify-content: flex-end; flex-wrap: wrap;">
-						<button onclick="openPlan('{{ p_name_os }}')" class="btn btn-primary btn-xs" style="font-size:0.8em; padding: 3px 8px; background-color: #3B82F6; border-color: #3B82F6;">📅 计划</button>
-						<button onclick="openMemory('{{ p_name_os }}')" class="btn btn-warning btn-xs" style="font-size:0.8em; padding: 3px 8px; background-color: #F59E0B; border-color: #F59E0B; color: white;">🧠 记忆</button>
-						<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" style="font-size:0.8em; padding: 3px 8px;" class="btn btn-default btn-xs">🔍 状态</a>
-						<button onclick="openChat('{{ p_name_os }}')" class="btn btn-success btn-xs" style="font-size:0.8em; padding: 3px 8px; background-color: #10B981; border-color: #10B981;">💬 聊天</button>
+					<div style="margin-top: 10px; display: flex; gap: 4px; border-top: 1px solid #334155; padding-top: 10px; justify-content: space-between; flex-wrap: nowrap;">
+						<button onclick="openPlan('{{ p_name_os }}')" class="btn btn-primary btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #3B82F6; border-color: #3B82F6; flex: 1 1 auto; text-align: center;">📅 计划</button>
+						<button onclick="openMemory('{{ p_name_os }}')" class="btn btn-warning btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #F59E0B; border-color: #F59E0B; color: white; flex: 1 1 auto; text-align: center;">🧠 记忆</button>
+						<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" style="font-size:0.75em; padding: 3px 5px; flex: 1 1 auto; text-align: center;" class="btn btn-default btn-xs">🔍 状态</a>
+						<button onclick="openChat('{{ p_name_os }}')" class="btn btn-success btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #10B981; border-color: #10B981; flex: 1 1 auto; text-align: center;">💬 聊天</button>
 					</div>
 				</div>
 			</div>
@@ -126,7 +127,7 @@
     
     <!-- 标题栏 -->
     <div style="background:#F59E0B; color:white; padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
-      <h4 style="margin:0; font-size:1.2em; font-weight:bold; color:white !important;">🧠 <span id="memory-persona-display-name"></span> 的记忆描述</h4>
+      <h4 style="margin:0; font-size:1.2em; font-weight:bold; color:white !important;">🧠 <span id="memory-persona-display-name"></span> 参与决策的记忆</h4>
       <button onclick="closeMemory()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer; outline:none;">&times;</button>
     </div>
 

@@ -182,6 +182,19 @@ def ChatGPT_request(prompt):
     return "ChatGPT ERROR"
 
 
+def clean_json_str(raw_str):
+  s = raw_str.strip()
+  # Remove markdown block symbols if present
+  if s.startswith("```json"):
+    s = s[7:]
+  elif s.startswith("```"):
+    s = s[3:]
+  if s.endswith("```"):
+    s = s[:-3]
+  s = s.strip()
+  return s
+
+
 def GPT4_safe_generate_response(prompt, 
                                    example_output,
                                    special_instruction,
@@ -198,17 +211,6 @@ def GPT4_safe_generate_response(prompt,
   if verbose: 
     print ("CHAT GPT PROMPT")
     print (prompt)
-def clean_json_str(raw_str):
-  s = raw_str.strip()
-  # Remove markdown block symbols if present
-  if s.startswith("```json"):
-    s = s[7:]
-  elif s.startswith("```"):
-    s = s[3:]
-  if s.endswith("```"):
-    s = s[:-3]
-  s = s.strip()
-  return s
 
   for i in range(repeat): 
 
@@ -231,6 +233,7 @@ def clean_json_str(raw_str):
       pass
 
   return fail_safe_response
+
 
 
 def ChatGPT_safe_generate_response(prompt, 

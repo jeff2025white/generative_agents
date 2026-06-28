@@ -100,6 +100,7 @@
 	let pre_anims_direction_dict = {};
 
 	let curr_maze = "the_ville";
+	var persona_retrieved_memories = {};
 
 	// <tile_width> is the width of one individual tile (tiles are square)
 	let tile_width = 32;
@@ -564,9 +565,15 @@
 		      }
 	        // action_description += description_content + "<br>";
 
+	        let next_action = execute_movement["persona"][curr_persona_name]["next_action"] || "None";
+	        let retrieved_memories = execute_movement["persona"][curr_persona_name]["retrieved_memories"] || [];
+
 	        document.getElementById("current_action__"+curr_persona_name_os).innerHTML = description_content.split("@")[0];
+	        document.getElementById("next_action__"+curr_persona_name_os).innerHTML = next_action;
 	        document.getElementById("target_address__"+curr_persona_name_os).innerHTML = description_content.split("@")[1];
 	        document.getElementById("chat__"+curr_persona_name_os).innerHTML = chat_content;
+
+	        persona_retrieved_memories[curr_persona_name_os] = retrieved_memories;
 	      }
 	      
 	    }
@@ -849,29 +856,51 @@ function renderPlanModal(dailyReq, schedule) {
 // MEMORY SYSTEM - 记忆弹窗 (记忆列表描述)
 // =====================================================================
 
+var persona_translated_memories = {};
+
 function openMemory(personaNameUnderscore) {
   let displayName = personaNameUnderscore.replace(/_/g, " ");
   document.getElementById("memory-persona-display-name").innerText = displayName;
   
   let memoryContent = document.getElementById("memory-content");
-  memoryContent.innerHTML = '<p style="color:#64748B; text-align:center; font-style:italic; padding: 20px;">正在获取角色记忆描述...</p>';
   document.getElementById("memory-modal").style.display = "block";
 
-  // 通过 Ajax 获取数据
+  // 直接从本地缓存读取参与决策的记忆
+  let memories = persona_retrieved_memories[personaNameUnderscore] || [];
+  if (memories.length === 0) {
+    renderMemoryModal([]);
+    return;
+  }
+
+  // 检查是否已有该组记忆的汉化缓存
+  let cacheKey = JSON.stringify(memories);
+  if (persona_translated_memories[personaNameUnderscore] && persona_translated_memories[personaNameUnderscore].key === cacheKey) {
+    renderMemoryModal(persona_translated_memories[personaNameUnderscore].val);
+    return;
+  }
+
+  // 否则，显示汉化中，异步请求后台翻译接口
+  memoryContent.innerHTML = '<p style="color:#64748B; text-align:center; font-style:italic; padding: 20px;">正在翻译关联决策记忆...</p>';
+
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "/api/get_persona_memories/?sim_code=" + sim_code.trim() + "&persona_name=" + personaNameUnderscore, true);
+  xhr.open("POST", "/api/translate_memories/", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
     if (xhr.status === 200) {
       var resp = JSON.parse(xhr.responseText);
+      persona_translated_memories[personaNameUnderscore] = {
+        key: cacheKey,
+        val: resp.memories
+      };
       renderMemoryModal(resp.memories);
     } else {
-      memoryContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">获取记忆失败: ' + xhr.statusText + '</p>';
+      renderMemoryModal(memories);
     }
   };
   xhr.onerror = function() {
-    memoryContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">网络请求失败，请确保服务正常运行。</p>';
+    renderMemoryModal(memories);
   };
-  xhr.send();
+  xhr.send(JSON.stringify({ memories: memories }));
 }
 
 function closeMemory() {
@@ -884,23 +913,34 @@ function renderMemoryModal(memories) {
   let html = "";
   
   html += '<div style="margin-bottom: 24px;">';
-  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:12px; border-left: 4px solid #F59E0B; padding-left: 8px;">🧠 角色记忆描述 (Memories)</h4>';
+  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:12px; border-left: 4px solid #F59E0B; padding-left: 8px;">🧠 参与当前决策的关联记忆</h4>';
   if (memories && memories.length > 0) {
     html += '  <ul style="padding-left:0px; list-style-type:none; color:#94A3B8; line-height: 1.6em; margin:0;">';
     for (let i = 0; i < memories.length; i++) {
+      let typeLabel = "";
+      let labelColor = "#3B82F6"; // default blue
+      if (memories[i].type === "perceived_event") {
+        typeLabel = "感知到的事件";
+        labelColor = "#10B981"; // green
+      } else if (memories[i].type === "retrieved_event") {
+        typeLabel = "关联历史事件";
+        labelColor = "#F59E0B"; // yellow
+      } else if (memories[i].type === "retrieved_thought") {
+        typeLabel = "关联历史想法";
+        labelColor = "#EC4899"; // pink
+      }
+      
       html += '    <li style="margin-bottom:10px; border-bottom: 1px dashed #334155; padding-bottom: 10px;">';
       html += '      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">';
-      html += '        <strong style="color: #F59E0B; font-size:0.9em;">' + escapeHtml(memories[i].created) + '</strong>';
-      if (memories[i].poignancy) {
-        html += '        <span style="font-size: 0.8em; color: #10B981; font-weight:bold; background:#1E293B; border:1px solid #334155; padding:2px 6px; border-radius:4px;">重要度: ' + memories[i].poignancy + '</span>';
-      }
+      html += '        <strong style="color: #94A3B8; font-size:0.85em;">' + escapeHtml(memories[i].created || "历史记忆") + '</strong>';
+      html += '        <span style="font-size: 0.75em; color: ' + labelColor + '; font-weight:bold; background:#1E293B; border:1px solid #334155; padding:2px 6px; border-radius:4px;">' + typeLabel + '</span>';
       html += '      </div>';
       html += '      <div style="color:#E2E8F0; font-size:0.95em;">' + escapeHtml(memories[i].description) + '</div>';
       html += '    </li>';
     }
     html += '  </ul>';
   } else {
-    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无记忆描述</p>';
+    html += '  <p style="color:#94A3B8; font-style:italic; margin-left:8px; line-height: 1.5em;">当前步骤中没有触发新的决策检索。<br/><span style="font-size: 0.85em; color: #64748B;">（小人可能正处于 mid-walk 快速寻路移动状态，或者生理状态正常、无需调整日程。点击右侧“🔍 状态”按钮在新窗口中可以查看其完整的历史记忆库）</span></p>';
   }
   html += '</div>';
   

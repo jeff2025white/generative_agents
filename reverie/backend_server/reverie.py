@@ -493,14 +493,77 @@ class ReverieServer:
               movements["persona"][persona_name] = {}
               movements["persona"][persona_name]["movement"] = next_tile
               movements["persona"][persona_name]["pronunciatio"] = pronunciatio
+              
               movements["persona"][persona_name]["description"] = description
-              movements["persona"][persona_name]["chat"] = (self.personas[persona_name]
-                                                              .scratch.chat)
+              
+              p_inst = self.personas[persona_name]
+              movements["persona"][persona_name]["chat"] = p_inst.scratch.chat
+
               # Include physiological values in movements payload for the frontend/replay
-              movements["persona"][persona_name]["satiety"] = self.personas[persona_name].scratch.satiety
-              movements["persona"][persona_name]["stamina"] = self.personas[persona_name].scratch.stamina
-              movements["persona"][persona_name]["health"] = self.personas[persona_name].scratch.health
-              movements["persona"][persona_name]["inventory"] = self.personas[persona_name].scratch.inventory
+              movements["persona"][persona_name]["satiety"] = p_inst.scratch.satiety
+              movements["persona"][persona_name]["stamina"] = p_inst.scratch.stamina
+              movements["persona"][persona_name]["health"] = p_inst.scratch.health
+              movements["persona"][persona_name]["inventory"] = p_inst.scratch.inventory
+
+              # Calculate next action
+              curr_index = p_inst.scratch.get_f_daily_schedule_index()
+              next_action = "None"
+              if curr_index + 1 < len(p_inst.scratch.f_daily_schedule):
+                next_action = p_inst.scratch.f_daily_schedule[curr_index + 1][0]
+              movements["persona"][persona_name]["next_action"] = next_action
+              
+              # Helper to format datetime safely
+              def format_dt(dt):
+                if not dt:
+                  return ""
+                if isinstance(dt, str):
+                  return dt
+                try:
+                  return dt.strftime("%Y-%m-%d %H:%M:%S")
+                except:
+                  return str(dt)
+
+              # Serialize retrieved memories (deduplicated & capped to top 20 to prevent MemoryError)
+              retrieved_mems = []
+              seen_mems = set()
+              if hasattr(p_inst.scratch, "last_retrieved_memories") and p_inst.scratch.last_retrieved_memories:
+                for event_desc, details in p_inst.scratch.last_retrieved_memories.items():
+                  # Perceived event
+                  curr_ev = details.get("curr_event")
+                  if curr_ev and curr_ev.description not in seen_mems:
+                    seen_mems.add(curr_ev.description)
+                    retrieved_mems.append({
+                      "type": "perceived_event",
+                      "description": curr_ev.description,
+                      "created": format_dt(curr_ev.created)
+                    })
+                  # Retrieved events
+                  for e in details.get("events", []):
+                    if e.description not in seen_mems:
+                      seen_mems.add(e.description)
+                      retrieved_mems.append({
+                        "type": "retrieved_event",
+                        "description": e.description,
+                        "created": format_dt(e.created),
+                        "poignancy": e.poignancy if hasattr(e, "poignancy") else 1
+                      })
+                  # Retrieved thoughts
+                  for t in details.get("thoughts", []):
+                    if t.description not in seen_mems:
+                      seen_mems.add(t.description)
+                      retrieved_mems.append({
+                        "type": "retrieved_thought",
+                        "description": t.description,
+                        "created": format_dt(t.created),
+                        "poignancy": t.poignancy if hasattr(t, "poignancy") else 1
+                      })
+              
+              # Sort non-perceived memories by poignancy (higher is more important)
+              perceived_list = [m for m in retrieved_mems if m["type"] == "perceived_event"]
+              other_list = [m for m in retrieved_mems if m["type"] != "perceived_event"]
+              other_list.sort(key=lambda x: x.get("poignancy", 1), reverse=True)
+              
+              movements["persona"][persona_name]["retrieved_memories"] = (perceived_list + other_list)[:20]
 
           # Include the meta information about the current stage in the 
           # movements dictionary. 
@@ -514,14 +577,18 @@ class ReverieServer:
           #  "persona": {"Klaus Mueller": {"movement": [38, 12]}}, 
           #  "meta": {curr_time: <datetime>}}
           # POST movements to Django API (Option 3 API Gateway)
-          try:
-            requests.post("http://127.0.0.1:8000/api/post_movement/", json={
-              "sim_code": self.sim_code,
-              "step": self.step,
-              "movements": movements
-            }, timeout=5)
-          except Exception as e:
-            print(f"Warning: Failed to post movement to Django API: {e}")
+          # Fire-and-forget: use a background thread so we never block the sim loop
+          import threading
+          def _post_movement(sim_code, step, movements):
+            try:
+              requests.post("http://127.0.0.1:8000/api/post_movement/", json={
+                "sim_code": sim_code,
+                "step": step,
+                "movements": movements
+              }, timeout=15)
+            except Exception as e:
+              print(f"Warning: Failed to post movement to Django API: {e}")
+          threading.Thread(target=_post_movement, args=(self.sim_code, self.step, movements), daemon=True).start()
 
           curr_move_file = f"{sim_folder}/movement/{self.step}.json"
           os.makedirs(os.path.dirname(curr_move_file), exist_ok=True)

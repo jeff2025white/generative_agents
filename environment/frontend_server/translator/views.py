@@ -16,9 +16,72 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse, JsonResponse
 from global_methods import *
 
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+
+def translate_to_chinese(text):
+  if not text or not isinstance(text, str):
+    return text
+  s = text.strip()
+  if not s or s.lower() == "none":
+    return text
+  if not any(c.isalpha() for c in s):
+    return text
+  
+  import sys
+  backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server"))
+  if backend_path not in sys.path:
+    sys.path.append(backend_path)
+  
+  try:
+    from persona.prompt_template.gpt_structure import ChatGPT_single_request
+    prompt = (
+      "Translate the following English phrase from a virtual agent simulation into natural and concise Chinese. "
+      "Return ONLY the Chinese translation. Do not include any explanations, quotes, or notes.\n\n"
+      f"English: {s}\n"
+      "Chinese:"
+    )
+    translated = ChatGPT_single_request(prompt)
+    if "error" in translated.lower() or not translated.strip():
+      return text
+    res = translated.strip()
+    if res.startswith('"') and res.endswith('"'):
+      res = res[1:-1].strip()
+    if res.startswith("'") and res.endswith("'"):
+      res = res[1:-1].strip()
+    return res
+  except Exception as e:
+    return text
+
+def translate_movements_in_place(movements):
+  if not movements or "persona" not in movements:
+    return movements
+  for persona_name, p_data in movements["persona"].items():
+    # 1. description
+    desc = p_data.get("description", "")
+    if desc:
+      if "@" in desc:
+        act_part, loc_part = desc.split("@", 1)
+        translated_act = translate_to_chinese(act_part.strip())
+        translated_loc = translate_to_chinese(loc_part.strip())
+        p_data["description"] = f"{translated_act} @ {translated_loc}"
+      else:
+        p_data["description"] = translate_to_chinese(desc)
+    
+    # 2. next_action
+    next_act = p_data.get("next_action", "")
+    if next_act:
+      p_data["next_action"] = translate_to_chinese(next_act)
+      
+    # 3. chat
+    chat_data = p_data.get("chat")
+    if chat_data:
+      translated_chat = []
+      for speaker, utterance in chat_data:
+        translated_chat.append([speaker, translate_to_chinese(utterance)])
+      p_data["chat"] = translated_chat
+      
+  return movements
 
 def landing(request): 
   context = {}
@@ -283,15 +346,40 @@ def replay_persona_state(request, sim_code, step, persona_name):
     elif node_details["type"] == "thought":
       a_mem_thought += [node_details]
   
+  # Translate scratch variables
+  translated_scratch = scratch.copy()
+  for field in ["innate", "learned", "currently", "lifestyle", "daily_plan_req"]:
+    if field in scratch:
+      translated_scratch[field] = translate_to_chinese(scratch[field])
+
+  # Copy and translate associative memory nodes
+  translated_event = []
+  for node in a_mem_event:
+    n = node.copy()
+    n["description"] = translate_to_chinese(node.get("description", ""))
+    translated_event.append(n)
+
+  translated_thought = []
+  for node in a_mem_thought:
+    n = node.copy()
+    n["description"] = translate_to_chinese(node.get("description", ""))
+    translated_thought.append(n)
+
+  translated_chat = []
+  for node in a_mem_chat:
+    n = node.copy()
+    n["description"] = translate_to_chinese(node.get("description", ""))
+    translated_chat.append(n)
+  
   context = {"sim_code": sim_code,
              "step": step,
              "persona_name": persona_name, 
              "persona_name_underscore": persona_name_underscore, 
-             "scratch": scratch,
+             "scratch": translated_scratch,
              "spatial": spatial,
-             "a_mem_event": a_mem_event,
-             "a_mem_chat": a_mem_chat,
-             "a_mem_thought": a_mem_thought}
+             "a_mem_event": translated_event,
+             "a_mem_chat": translated_chat,
+             "a_mem_thought": translated_thought}
   template = "persona_state/persona_state.html"
   return render(request, template, context)
 
@@ -629,11 +717,22 @@ def api_post_movement(request):
   step = data["step"]
   movements = data["movements"]
   
+  # We keep movements in their original English on the dashboard cards to maximize performance
+  
   # Save to Database
   sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
   sim_state.movement = json.dumps(movements)
   sim_state.is_movement_ready = True
   sim_state.save()
+  
+  # Periodic cleanup: every 50 steps, delete old rows to prevent DB bloat
+  if step > 0 and step % 50 == 0:
+    try:
+      cutoff = step - 100
+      if cutoff > 0:
+        SimState.objects.filter(sim_code=sim_code, step__lt=cutoff).delete()
+    except Exception:
+      pass
   
   # Write-Through to Disk (Persistence)
   curr_move_file = f"storage/{sim_code}/movement/{step}.json"
@@ -709,10 +808,19 @@ def api_get_persona_schedule(request):
   try:
     with open(memory + "/scratch.json", encoding="utf-8") as json_file:  
       scratch = json.load(json_file)
+      
+    daily_req = scratch.get("daily_req", [])
+    translated_daily_req = [translate_to_chinese(req) for req in daily_req]
+    
+    f_daily_schedule = scratch.get("f_daily_schedule", [])
+    translated_schedule = []
+    for act, duration in f_daily_schedule:
+      translated_schedule.append([translate_to_chinese(act), duration])
+
     return JsonResponse({
       "persona_name": persona_name,
-      "daily_req": scratch.get("daily_req", []),
-      "f_daily_schedule": scratch.get("f_daily_schedule", [])
+      "daily_req": translated_daily_req,
+      "f_daily_schedule": translated_schedule
     })
   except Exception as e:
     return JsonResponse({"error": str(e)}, status=500)
@@ -749,7 +857,7 @@ def api_get_persona_memories(request):
           "id": node_id,
           "created": node_details.get("created", ""),
           "type": node_details.get("type", ""),
-          "description": node_details.get("description", ""),
+          "description": translate_to_chinese(node_details.get("description", "")),
           "poignancy": node_details.get("poignancy", 1)
         })
         
@@ -767,6 +875,26 @@ def api_get_persona_memories(request):
     })
   except Exception as e:
     return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+def api_translate_memories(request):
+  """
+  On-demand translation of a list of retrieved memories to Chinese.
+  """
+  if request.method == "POST":
+    try:
+      data = json.loads(request.body)
+      memories = data.get("memories", [])
+      translated_mems = []
+      for mem in memories:
+        m = mem.copy()
+        if "description" in m:
+          m["description"] = translate_to_chinese(m["description"])
+        translated_mems.append(m)
+      return JsonResponse({"memories": translated_mems})
+    except Exception as e:
+      return JsonResponse({"error": str(e)}, status=500)
+  return JsonResponse({"error": "POST method required"}, status=400)
 
 
 

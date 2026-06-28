@@ -172,6 +172,7 @@ class Scratch:
     # destination tile. 
     # e.g., [(50, 10), (49, 10), (48, 10), ...]
     self.planned_path = []
+    self.last_retrieved_memories = {}
 
     if check_if_file_exists(f_saved): 
       # If we have a bootstrap file, load that here. 

@@ -85,13 +85,33 @@
 			    </div>
 			    <div style="">
 					  <p style="font-size:1.2em"><strong>Current Action:</strong> <br><span id="current_action__{{ p.underscore }}"></span></p>
+					  <p style="font-size:1.2em"><strong>Next Action:</strong> <br><span id="next_action__{{ p.underscore }}"></span></p>
 					  <p style="font-size:1.2em"><strong>Location:</strong> <br><span id="target_address__{{ p.underscore }}"></span></p>
 					  <p style="font-size:1.2em"><strong>Current Conversation:</strong> <br><span id="chat__{{ p.underscore }}"></span></p>
+					</div>
+					<div style="margin-top: 10px; display: flex; gap: 8px;">
+						<button onclick="openMemory('{{ p.underscore }}')" class="btn btn-warning btn-xs" style="font-size:0.8em; padding: 3px 8px; background-color: #F59E0B; border-color: #F59E0B; color: white;">🧠 记忆</button>
 					</div>
 			  </div>
 			</div>	
 		{% endfor %}
 
+		<!-- ===== 记忆弹窗 ===== -->
+		<div id="memory-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; backdrop-filter: blur(4px);">
+		  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; max-height:85vh; background:#1E293B; border:1px solid #334155; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04); display:flex; flex-direction:column; overflow:hidden;">
+		    
+		    <!-- 标题栏 -->
+		    <div style="background:#F59E0B; color:white; padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+		      <h4 style="margin:0; font-size:1.2em; font-weight:bold; color:white !important;">🧠 <span id="memory-persona-display-name"></span> 参与决策的记忆</h4>
+		      <button onclick="closeMemory()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer; outline:none;">&times;</button>
+		    </div>
+
+		    <!-- 记忆内容区域 -->
+		    <div id="memory-content" style="flex:1; overflow-y:auto; padding:20px; background:#0F172A; color:#E2E8F0;">
+		      <!-- 记忆列表描述 -->
+		    </div>
+		  </div>
+		</div>
 
 	</div>
 </div>

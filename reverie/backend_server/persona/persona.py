@@ -237,6 +237,7 @@ class Persona:
     # Main cognitive sequence begins here. 
     perceived = self.perceive(maze)
     retrieved = self.retrieve(perceived)
+    self.scratch.last_retrieved_memories = retrieved
     plan = self.plan(maze, personas, new_day, retrieved)
     self.reflect()
 
