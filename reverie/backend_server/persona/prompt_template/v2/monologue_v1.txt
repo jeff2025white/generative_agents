@@ -1,0 +1,30 @@
+# Prompt Template for Agent Inner Monologue
+
+!<INPUT 0>!
+
+Current Action and Location:
+- Action: !<INPUT 2>!
+
+Current Physiological State:
+!<INPUT 1>!
+
+Recent thoughts and observations:
+!<INPUT 3>!
+
+Task: As !<INPUT 4>!, what are you thinking to yourself right now? 
+Write your inner monologue (1-3 sentences) in Chinese. It should reflect your current task, traits, physiological status (e.g., if you are tired, hungry, happy, or stressed), and plans.
+Also, provide an emoji representation of your current emotion/status (e.g., 💭, ☕, 😫, 🧠, 🍳).
+
+Response format:
+Respond ONLY in valid JSON format:
+{
+  "monologue": "<your monologue text in Chinese>",
+  "emoji": "<one or two emojis representing your state>"
+}
+Do not include any explanation outside of the JSON block.
+<commentblockmarker>###</commentblockmarker>
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Physiological state summary
+Input 2: Current action description
+Input 3: Recent memories/thoughts
+Input 4: Agent's name

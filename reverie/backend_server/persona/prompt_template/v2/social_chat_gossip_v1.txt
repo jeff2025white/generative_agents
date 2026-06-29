@@ -1,0 +1,35 @@
+# Prompt Template for Social Conversation and Gossip/Rumor Spreading
+
+You are !<INPUT 0>!.
+You are conversing with !<INPUT 1>!.
+
+Current context:
+!<INPUT 3>!
+
+Here are some memories and rumors you retrieved from your mind:
+!<INPUT 2>!
+
+Current conversation history:
+!<INPUT 4>!
+
+Task: Write the next utterance in the conversation as !<INPUT 5>!. 
+In your response, decide:
+1. What information or gossip you want to share. You can tell the truth, exaggerate, or spread/create a rumor to make it more interesting or serve your goals, depending on your personality and relationship.
+2. How to console, comfort, or interact with !<INPUT 1>! (offering emotional support or gossip).
+3. If the conversation is complete (e.g., after exchanging enough info or saying goodbye), set "end" to true. Otherwise, set it to false.
+
+Response format:
+Respond ONLY in valid JSON format:
+{
+  "utterance": "<your next line of dialogue in Chinese>",
+  "end": <true/false>,
+  "reasoning": "<brief explanation of your conversational strategy or gossip/rumor choice>"
+}
+Do not include any explanation outside of the JSON block.
+<commentblockmarker>###</commentblockmarker>
+Input 0: Initiator/Speaker's ISS and name
+Input 1: Interlocutor's name and traits
+Input 2: Retrieved memories/knowledge
+Input 3: Context of where/how you met
+Input 4: Previous lines of conversation
+Input 5: Speaker's first name

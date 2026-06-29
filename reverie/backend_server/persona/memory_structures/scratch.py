@@ -25,6 +25,8 @@ class Scratch:
     # WORLD INFORMATION
     # Perceived world time. 
     self.curr_time = None
+    # Current simulation step number.
+    self.curr_step = None
     # Current x,y tile coordinate of the persona. 
     self.curr_tile = None
     # Perceived world daily requirement. 
@@ -157,6 +159,7 @@ class Scratch:
     # It comes in the form of: [["Dolores Murphy", "Hi"], 
     #                           ["Maeve Jenson", "Hi"] ...]
     self.chat = None
+    self.last_chat = None
     # <chatting_with_buffer>  
     # e.g., ["Dolores Murphy"] = self.vision_r
     self.chatting_with_buffer = dict()
@@ -250,6 +253,7 @@ class Scratch:
 
       self.chatting_with = scratch_load["chatting_with"]
       self.chat = scratch_load["chat"]
+      self.last_chat = scratch_load.get("last_chat", None)
       self.chatting_with_buffer = scratch_load["chatting_with_buffer"]
       if scratch_load["chatting_end_time"]: 
         self.chatting_end_time = datetime.datetime.strptime(
@@ -332,6 +336,7 @@ class Scratch:
 
     scratch["chatting_with"] = self.chatting_with
     scratch["chat"] = self.chat
+    scratch["last_chat"] = self.last_chat
     scratch["chatting_with_buffer"] = self.chatting_with_buffer
     if self.chatting_end_time: 
       scratch["chatting_end_time"] = (self.chatting_end_time
@@ -582,7 +587,7 @@ class Scratch:
     if not self.act_address: 
       return True
       
-    if self.chatting_with: 
+    if self.chatting_with and self.chatting_with != "<creator>": 
       end_time = self.chatting_end_time
     else: 
       x = self.act_start_time

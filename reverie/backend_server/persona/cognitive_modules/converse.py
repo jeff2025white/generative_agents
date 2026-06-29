@@ -74,6 +74,10 @@ def generate_agent_chat(maze,
 
 
 def agent_chat_v1(maze, init_persona, target_persona): 
+  """
+  DEPRECATED: This legacy function is no longer used in the refactored 
+  lazy-execution Chat Skill Pack architecture.
+  """
   # Chat version optimized for speed via batch generation
   curr_context = (f"{init_persona.scratch.name} " + 
               f"was {init_persona.scratch.act_description} " + 
@@ -124,7 +128,12 @@ def generate_one_utterance(maze, init_persona, target_persona, retrieved, curr_c
   return x["utterance"], x["end"]
 
 def agent_chat_v2(maze, init_persona, target_persona): 
+  """
+  DEPRECATED: This legacy function is no longer used in the refactored 
+  lazy-execution Chat Skill Pack architecture.
+  """
   curr_chat = []
+
   print ("July 23")
 
   for i in range(8): 

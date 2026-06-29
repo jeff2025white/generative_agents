@@ -72,3 +72,21 @@
 | 命令 | 描述 | 示例 | 备注 |
 | :--- | :--- | :--- | :--- |
 | `start path tester mode` | 开启路径测试服务。 | `start path tester mode` | **警告**：此操作会**清空并删除**当前 fork 的模拟文件夹。退出后需要重启才能运行普通模拟。 |
+
+---
+
+## 7. 智能体物理行为与“技能包 (Skill Packs)”映射表
+
+以下整理了模拟器当前智能体（Isabella Rodriguez, Klaus Mueller, Maria Lopez）在日常日程中所能执行的行为动作与重构后的物理技能包的映射关系：
+
+| 技能包类名 | 承载目标动作 (Action) | 物理前置条件 (can_execute) | 大模型微认知 (cognitive_decision) | 物理/数值结算效果 (on_arrive) |
+| :--- | :--- | :--- | :--- | :--- |
+| **`SleepSkillPack`** | `sleeping`, `dreaming`, `resting` | 位于自己的卧室且临近床铺（`bed`） | 决策当夜是否说梦话或记录梦境 | 精力值（Stamina）开始高效恢复。 |
+| **`StudySkillPack`** | `writing research paper`, `studying physics`, `reading` | 位于配有书桌、椅子或图书馆区域 | 决定研究的小专题，生成个人知识库记录 | 获得学习/研究 XP 经验值。 |
+| **`GamingSkillPack`** | `streaming games on Twitch`, `gaming` | 位于自己卧室电脑桌附近 | 决定直播游戏名、标题及招呼台词 | 直播金钱收益，娱乐经验 XP 增长。 |
+| **`GroomingSkillPack`** | `brushing teeth`, `washing face`, `getting dressed` | 靠近浴室水槽（`sink`）、镜子或衣柜 | 无 | Stamina 轻微恢复，精神状态回满。 |
+| **`RecreationSkillPack`** | `watching TV`, `relaxing in dorm room` | 靠近电视（`tv`）或沙发（`sofa`） | 决定观看的电视节目单并生成内心吐槽 | Stamina 恢复，减缓大脑疲劳度。 |
+| **`ConsumeSkillPack`** | `eating breakfast`, `having lunch`, `drinking coffee` | 背包中持有对应食物或饮料项 | 无 | 消耗背包食物，饱食度 +40，生命值 +5。 |
+| **`CoffeeServiceSkillPack`** | `brewing coffee`, `serving coffee`, `drinking coffee` | 位于 Hobbs Cafe 且靠近咖啡机或餐桌 | 决定向顾客打招呼的对话内容 | 煮咖啡：使咖啡机繁忙；送咖啡：在顾客餐桌注入 `served` 事件并同步为双方写入协作记忆。 |
+| **`CookSkillPack`** | `preparing dinner`, `cooking` | 靠近厨房炉灶（`stove`）或微波炉且背包有原料 | 依据背包原料决策做的菜品，生成烹饪独白 | 扣减原料背包，成品熟食放入背包，增加 Cooking XP。 |
+

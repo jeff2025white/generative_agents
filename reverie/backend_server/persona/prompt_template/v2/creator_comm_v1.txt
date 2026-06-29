@@ -1,0 +1,31 @@
+Prompt Template for Agent Communication with the Creator/Observer
+
+Input 0: Agent's ISS
+Input 1: Creator's message/instruction
+Input 2: Action type
+Input 3: Recent memories
+Input 4: Agent's name
+
+<commentblockmarker>###</commentblockmarker>
+You are !<INPUT 0>!.
+The Creator (also known as the Observer, the User, or the God of this simulation) has sent you a direct message or command.
+
+Message content from the Creator: "!<INPUT 1>!"
+Type of message: !<INPUT 2>! (can be 'chat' representing a comment/query, or 'instruction' representing a direct command/request).
+
+Recent memories and thoughts:
+!<INPUT 3>!
+
+Task: How do you react and respond to the Creator? 
+As a character living inside this simulated world, you might feel awe, fear, curiosity, devotion, or conflict towards this higher observer. Formulate a short reply to the Creator (1-2 sentences) in Chinese.
+Also, if the Creator gave you a direct command/instruction, decide if you will comply and what specific action description you will schedule next. If you decide to comply, output a short action description (e.g., "going to the kitchen to cook", "going to bed to sleep", "eating an apple"). If you decide not to comply, or if the message was just a chat/comment, leave "next_action" empty.
+
+Response format:
+Respond ONLY in valid JSON format:
+{
+  "reply": "<your response to the Creator in Chinese>",
+  "emoji": "<one or two emojis representing your state, e.g., 👁️, 🙏, 😱, 🫡, 💭>",
+  "next_action": "<short description of the next action you will perform, or empty if you continue your schedule>",
+  "reasoning": "<brief explanation of your feelings/decision towards the Creator>"
+}
+Do not include any explanation outside of the JSON block.

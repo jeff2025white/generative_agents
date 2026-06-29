@@ -182,7 +182,7 @@ class Persona:
     reflect(self)
 
 
-  def move(self, maze, personas, curr_tile, curr_time):
+  def move(self, maze, personas, curr_tile, curr_time, step=None):
     """
     This is the main cognitive function where our main sequence is called. 
 
@@ -193,6 +193,7 @@ class Persona:
       curr_tile: A tuple that designates the persona's current tile location 
                  in (row, col) form. e.g., (58, 39)
       curr_time: datetime instance that indicates the game's current time. 
+      step: Current simulation step number.
     OUTPUT: 
       execution: A triple set that contains the following components: 
         <next_tile> is a x,y coordinate. e.g., (58, 9)
@@ -203,6 +204,17 @@ class Persona:
     """
     # Updating persona's scratch memory with <curr_tile>. 
     self.scratch.curr_tile = curr_tile
+    self.scratch.curr_step = step
+
+    # 死亡拦截器：如果生命值归零，则角色“已死”，原地冻结且不参与任何认知计算（ReAct / step 运算）
+    if self.scratch.health <= 0.0:
+      addr = self.scratch.act_address if self.scratch.act_address else self.scratch.living_area
+      self.scratch.act_description = "已死"
+      self.scratch.planned_path = []
+      self.scratch.act_path_set = False
+      self.scratch.chat = None
+      self.scratch.chatting_with = None
+      return curr_tile, "💀", f"已死 @ {addr}"
 
     # We figure out whether the persona started a new day, and if it is a new
     # day, whether it is the very first day of the simulation. This is 

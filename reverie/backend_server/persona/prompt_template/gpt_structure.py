@@ -261,7 +261,11 @@ def ChatGPT_safe_generate_response(prompt,
       cleaned_resp = clean_json_str(raw_response)
       end_index = cleaned_resp.rfind('}') + 1
       curr_gpt_response = cleaned_resp[:end_index]
-      curr_gpt_response = json.loads(curr_gpt_response)["output"]
+      data = json.loads(curr_gpt_response)
+      if isinstance(data, dict) and "output" in data:
+        curr_gpt_response = data["output"]
+      else:
+        curr_gpt_response = data
       
       if func_validate(curr_gpt_response, prompt=prompt): 
         return func_clean_up(curr_gpt_response, prompt=prompt)
@@ -374,7 +378,7 @@ def generate_prompt(curr_input, prompt_lib_file):
     curr_input = [curr_input]
   curr_input = [str(i) for i in curr_input]
 
-  f = open(prompt_lib_file, "r")
+  f = open(prompt_lib_file, "r", encoding="utf-8")
   prompt = f.read()
   f.close()
   for count, i in enumerate(curr_input):   

@@ -26,7 +26,20 @@ def print_run_prompts(prompt_template=None,
                       prompt_input=None,
                       prompt=None, 
                       output=None): 
+  curr_step = getattr(persona.scratch, 'curr_step', None) if (persona and hasattr(persona, 'scratch')) else None
+  curr_time = getattr(persona.scratch, 'curr_time', None) if (persona and hasattr(persona, 'scratch')) else None
+  time_str = "N/A"
+  if curr_time:
+    if isinstance(curr_time, str):
+      time_str = curr_time
+    else:
+      try:
+        time_str = curr_time.strftime('%Y-%m-%d %H:%M:%S')
+      except:
+        time_str = str(curr_time)
+
   print (f"=== 提示词模板：{prompt_template}")
+  print (f"时间步 (Step): {curr_step if curr_step is not None else 'N/A'} | 游戏时间 (Game Time): {time_str}")
   print ("~~~ 智能体人物 (persona)   -------------------------------------------")
   print (persona.name, "\n")
   print ("~~~ GPT 模型参数 (gpt_param) -----------------------------------------")
@@ -57,6 +70,7 @@ def print_run_prompts(prompt_template=None,
     agent_log_path = os.path.join(logs_dir, f"{persona.name.replace(' ', '_')}.log")
     with open(agent_log_path, "a", encoding="utf-8") as f:
       f.write(f"=== 提示词模板：{prompt_template}\n")
+      f.write(f"时间步 (Step): {curr_step if curr_step is not None else 'N/A'} | 游戏时间 (Game Time): {time_str}\n")
       f.write("~~~ 智能体人物 (persona)   -------------------------------------------\n")
       f.write(f"{persona.name}\n\n")
       f.write("~~~ GPT 模型参数 (gpt_param) -----------------------------------------\n")

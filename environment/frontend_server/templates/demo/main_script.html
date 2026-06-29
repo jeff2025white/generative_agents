@@ -393,16 +393,13 @@
 	                                              curr_y * tile_width]; 
 	        let pronunciatio_content = all_movement[step][curr_persona_name.replace("_", " ")]["pronunciatio"];
 	        let description_content = all_movement[step][curr_persona_name.replace("_", " ")]["description"];
-	        let chat_content_raw = all_movement[step][curr_persona_name.replace("_", " ")]["chat"];
-
 	        let chat_content = "";
-	        if (chat_content_raw != null ){
-		        for (let j=0; j<chat_content_raw.length; j++) { 
-		        	chat_content += chat_content_raw[j][0] + ": " + chat_content_raw[j][1] + "<br>"
-		        }
-		      } else {
-		      	chat_content = "<em>None at the moment</em>"
-		      }
+	        if (all_movement[step] && all_movement[step][curr_persona_name.replace("_", " ")]) {
+	          chat_content = all_movement[step][curr_persona_name.replace("_", " ")]["last_chat"] || "None at the moment";
+	        }
+	        if (!chat_content || chat_content === "None at the moment") {
+	          chat_content = "<em>None at the moment</em>";
+	        }
 
 	       	// This is what gives the pronunciatio balloon the name initials. We 
 	        // use regex to extract the initials of the personas. 

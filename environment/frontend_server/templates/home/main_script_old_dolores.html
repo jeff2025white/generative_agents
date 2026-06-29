@@ -436,20 +436,33 @@
 	        let curr_persona_name = Object.keys(personas)[i];
 	        let curr_persona_name_os = curr_persona_name.replace(/ /g,"_");
 	        let description_content = execute_movement["persona"][curr_persona_name]["description"];
-	        let chat_content = ""
-
-	        if (execute_movement["persona"][curr_persona_name]["chat"] != null ){
-		        for (let j=0; j<execute_movement["persona"][curr_persona_name]["chat"].length; j++) { 
-		        	chat_content += execute_movement["persona"][curr_persona_name]["chat"][j][0] + ": " + execute_movement["persona"][curr_persona_name]["chat"][j][1] + "<br>"
-		        }
-		      } else {
-		      	chat_content = "<em>None at the moment</em>"
-		      }
+	        let chat_content = execute_movement["persona"][curr_persona_name]["last_chat"] || "None at the moment";
+	        if (chat_content === "None at the moment") {
+	          chat_content = "<em>None at the moment</em>";
+	        }
 	        // action_description += description_content + "<br>";
 
 	        document.getElementById("current_action__"+curr_persona_name_os).innerHTML = description_content.split("@")[0];
 	        document.getElementById("target_address__"+curr_persona_name_os).innerHTML = description_content.split("@")[1];
 	        document.getElementById("chat__"+curr_persona_name_os).innerHTML = chat_content;
+
+	        // Update physiological status bars and values
+	        let satiety_val = execute_movement["persona"][curr_persona_name]["satiety"];
+	        let stamina_val = execute_movement["persona"][curr_persona_name]["stamina"];
+	        let health_val = execute_movement["persona"][curr_persona_name]["health"];
+
+	        if (satiety_val !== undefined) {
+	          document.getElementById("satiety_val__" + curr_persona_name_os).innerText = Math.round(satiety_val);
+	          document.getElementById("satiety_bar__" + curr_persona_name_os).style.width = Math.round(satiety_val) + "%";
+	        }
+	        if (stamina_val !== undefined) {
+	          document.getElementById("stamina_val__" + curr_persona_name_os).innerText = Math.round(stamina_val);
+	          document.getElementById("stamina_bar__" + curr_persona_name_os).style.width = Math.round(stamina_val) + "%";
+	        }
+	        if (health_val !== undefined) {
+	          document.getElementById("health_val__" + curr_persona_name_os).innerText = Math.round(health_val);
+	          document.getElementById("health_bar__" + curr_persona_name_os).style.width = Math.round(health_val) + "%";
+	        }
 	      }
 	      
 	    }

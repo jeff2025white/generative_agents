@@ -2944,10 +2944,19 @@ def run_gpt_generate_iterative_chat_utt(maze, init_persona, target_persona, retr
   return output, [output, prompt, gpt_param, prompt_input, fail_safe]
 
 
-def run_gpt_prompt_survival_decision(persona, nearby_resources, verbose=False):
-  def create_prompt_input(persona, nearby_resources):
+def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context=None, physiological_rules=None, cooperative_context=None, verbose=False):
+  def create_prompt_input(persona, nearby_resources, temporal_context, physiological_rules, cooperative_context):
     inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
     res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+    
+    # Defaults if not provided
+    if not temporal_context:
+      temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
+    if not physiological_rules:
+      physiological_rules = "- Eating food (Consume action) restores +40 Satiety.\n- Resting (Rest action) restores +40 Stamina.\n- If Satiety reaches 0, Health decays by -2.0 per step."
+    if not cooperative_context:
+      cooperative_context = "No special requests or cooperative events are currently active nearby."
+      
     prompt_input = [
       persona.scratch.get_str_iss(),
       str(persona.scratch.satiety),
@@ -2955,6 +2964,9 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, verbose=False):
       str(persona.scratch.health),
       inv_str,
       res_str,
+      temporal_context,
+      physiological_rules,
+      cooperative_context,
       persona.scratch.get_str_firstname()
     ]
     return prompt_input
@@ -2995,7 +3007,7 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, verbose=False):
     return {"action": "Idle", "target": "none", "reasoning": "Fail-safe triggered"}
 
   prompt_template = "persona/prompt_template/v2/survival_decision_v1.txt"
-  prompt_input = create_prompt_input(persona, nearby_resources)
+  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, physiological_rules, cooperative_context)
   prompt = generate_prompt(prompt_input, prompt_template)
   
   example_output = '{"action": "Consume", "target": "apple", "reasoning": "Satiety is critical."}'

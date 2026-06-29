@@ -19,6 +19,23 @@ from global_methods import *
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 
+import threading
+_translation_cache = {}
+_translation_cache_lock = threading.Lock()
+_translation_cache_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "temp_storage", "translation_cache.json"))
+
+def _load_translation_cache():
+  global _translation_cache
+  try:
+    os.makedirs(os.path.dirname(_translation_cache_file), exist_ok=True)
+    if os.path.exists(_translation_cache_file):
+      with open(_translation_cache_file, "r", encoding="utf-8") as f:
+        _translation_cache = json.load(f)
+  except Exception as e:
+    print(f"Warning: Failed to load translation cache: {e}")
+
+_load_translation_cache()
+
 def translate_to_chinese(text):
   if not text or not isinstance(text, str):
     return text
@@ -27,6 +44,11 @@ def translate_to_chinese(text):
     return text
   if not any(c.isalpha() for c in s):
     return text
+
+  # Check cache first
+  with _translation_cache_lock:
+    if s in _translation_cache:
+      return _translation_cache[s]
   
   import sys
   backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server"))
@@ -49,6 +71,17 @@ def translate_to_chinese(text):
       res = res[1:-1].strip()
     if res.startswith("'") and res.endswith("'"):
       res = res[1:-1].strip()
+      
+    # Update cache
+    if res and res != s:
+      with _translation_cache_lock:
+        _translation_cache[s] = res
+        try:
+          with open(_translation_cache_file, "w", encoding="utf-8") as f:
+            json.dump(_translation_cache, f, ensure_ascii=False, indent=2)
+        except Exception as save_err:
+          print(f"Warning: Failed to save translation cache: {save_err}")
+          
     return res
   except Exception as e:
     return text
@@ -80,6 +113,16 @@ def translate_movements_in_place(movements):
       for speaker, utterance in chat_data:
         translated_chat.append([speaker, translate_to_chinese(utterance)])
       p_data["chat"] = translated_chat
+      
+    # 4. last_chat
+    last_chat = p_data.get("last_chat", "")
+    if last_chat and last_chat != "None at the moment":
+      if ": " in last_chat:
+        speaker, utterance = last_chat.split(": ", 1)
+        translated_utterance = translate_to_chinese(utterance)
+        p_data["last_chat"] = f"{speaker}: {translated_utterance}"
+      else:
+        p_data["last_chat"] = translate_to_chinese(last_chat)
       
   return movements
 
@@ -397,6 +440,14 @@ def process_environment(request):
   sim_code = data["sim_code"]
   environment = data["environment"]
 
+  # Record that frontend is active (heartbeat)
+  try:
+    os.makedirs("temp_storage", exist_ok=True)
+    with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
+      json.dump({"last_active": time.time()}, f)
+  except Exception as e:
+    print(f"Error marking frontend active in process_environment: {e}")
+
   # Save to Database
   sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
   sim_state.environment = json.dumps(environment)
@@ -417,6 +468,14 @@ def update_environment(request):
   step = data["step"]
   sim_code = data["sim_code"]
 
+  # Record that frontend is active (heartbeat)
+  try:
+    os.makedirs("temp_storage", exist_ok=True)
+    with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
+      json.dump({"last_active": time.time()}, f)
+  except Exception as e:
+    print(f"Error marking frontend active in update_environment: {e}")
+
   response_data = {"<step>": -1}
   
   # Try Database first
@@ -425,6 +484,7 @@ def update_environment(request):
     if sim_state.is_movement_ready:
       response_data = json.loads(sim_state.movement)
       response_data["<step>"] = step
+      response_data = translate_movements_in_place(response_data)
       return JsonResponse(response_data)
   except SimState.DoesNotExist:
     pass
@@ -435,6 +495,7 @@ def update_environment(request):
     with open(move_file) as json_file: 
       response_data = json.load(json_file)
       response_data["<step>"] = step
+      response_data = translate_movements_in_place(response_data)
 
   return JsonResponse(response_data)
 
@@ -489,156 +550,15 @@ def chat_with_persona(request):
         user_message = data["user_message"]
         conversation_history = data.get("conversation_history", [])
 
-        # Create lock file to signal backend to pause Ollama usage during user chat
-        chat_active_file = f"temp_storage/chat_active_{sim_code}.json"
-        try:
-            os.makedirs(os.path.dirname(chat_active_file), exist_ok=True)
-            with open(chat_active_file, "w", encoding="utf-8") as f:
-                json.dump({"active": True}, f)
-        except Exception:
-            pass
+        # Chat active file lock removed.
+        pass
 
-        # === 1. 加载角色的 scratch.json（身份信息） ===
-        memory_base = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
-        if not os.path.exists(memory_base):
-            return JsonResponse({"error": f"Persona '{persona_name}' not found in sim '{sim_code}'"}, status=404)
-
-        with open(f"{memory_base}/scratch.json", encoding="utf-8") as f:
-            scratch = json.load(f)
-
-        # === 2. 加载角色的 associative_memory/nodes.json（记忆流） ===
-        with open(f"{memory_base}/associative_memory/nodes.json", encoding="utf-8") as f:
-            nodes = json.load(f)
-
-        # 提取最近的事件和想法（最多各取 10 条）
-        recent_events = []
-        recent_thoughts = []
-        for count in range(len(nodes.keys()), 0, -1):
-            node_id = f"node_{count}"
-            if node_id not in nodes:
-                continue
-            node = nodes[node_id]
-            if node["type"] == "event" and len(recent_events) < 10:
-                recent_events.append(node["description"])
-            elif node["type"] == "thought" and len(recent_thoughts) < 10:
-                recent_thoughts.append(node["description"])
-            if len(recent_events) >= 10 and len(recent_thoughts) >= 10:
-                break
-
-        # === 3. 构建角色身份上下文（ISS - Identity Stable Set） ===
-        iss = f"""Name: {scratch.get('name', persona_name)}
-Age: {scratch.get('age', 'unknown')}
-Innate traits: {scratch.get('innate', '')}
-Learned traits: {scratch.get('learned', '')}
-Currently: {scratch.get('currently', '')}
-Lifestyle: {scratch.get('lifestyle', '')}
-Daily plan requirement: {scratch.get('daily_plan_req', '')}
-Current time: {scratch.get('curr_time', '')}"""
-
-        # === 4. 获取当前在同一个区域（Arena）的其他小人，注入到上下文 ===
-        target_address = scratch.get('act_address', '')
-        target_arena = ""
-        if target_address:
-            parts = target_address.split(":")
-            if len(parts) >= 3:
-                target_arena = ":".join(parts[:3])
-        
-        nearby_personas = []
-        personas_dir = f"storage/{sim_code}/personas"
-        if os.path.exists(personas_dir):
-            for other_name in os.listdir(personas_dir):
-                if other_name == persona_name:
-                    continue
-                other_scratch_path = f"{personas_dir}/{other_name}/bootstrap_memory/scratch.json"
-                if os.path.exists(other_scratch_path):
-                    try:
-                        with open(other_scratch_path, encoding="utf-8") as f_other:
-                            other_scratch = json.load(f_other)
-                        other_address = other_scratch.get("act_address", "")
-                        if other_address:
-                            other_parts = other_address.split(":")
-                            if len(other_parts) >= 3:
-                                other_arena = ":".join(other_parts[:3])
-                                if other_arena.lower() == target_arena.lower():
-                                    nearby_personas.append({
-                                        "name": other_scratch.get("name", other_name),
-                                        "action": other_scratch.get("act_description", "idle")
-                                    })
-                    except Exception:
-                        pass
-        
-        if nearby_personas:
-            nearby_str = "\n".join(f"- {p['name']} (is {p['action']})" for p in nearby_personas)
-        else:
-            nearby_str = "No other characters are in your immediate area."
-
-        # === 5. 构建系统 Prompt ===
-        events_str = "\n".join(f"- {e}" for e in recent_events) if recent_events else "No recent events."
-        thoughts_str = "\n".join(f"- {t}" for t in recent_thoughts) if recent_thoughts else "No recent thoughts."
-
-        system_prompt = f"""You are {persona_name}, a character in a small town called Smallville.
-Here is your basic information:
-{iss}
-
-Your recent experiences:
-{events_str}
-
-Your recent thoughts:
-{thoughts_str}
-
-Current location: {scratch.get('act_address', 'unknown')}
-Current action: {scratch.get('act_description', 'idle')}
-
-People currently in your immediate area (same room/arena):
-{nearby_str}
-
-Instructions:
-- Stay in character as {persona_name} at all times.
-- Respond naturally based on your personality, memories, current situation, and who is currently nearby.
-- Keep responses concise (1-3 sentences).
-- Always respond in Chinese by default (请默认使用中文进行回答)。
-- Do not break character or mention that you are an AI."""
-
-        # === 5. 构建对话消息列表 ===
-        messages = [{"role": "system", "content": system_prompt}]
-
-        # 添加历史对话（最多保留最近 10 轮）
-        for msg in conversation_history[-20:]:
-            messages.append({
-                "role": msg["role"],
-                "content": msg["content"]
-            })
-
-        # 添加当前 user message
-        messages.append({"role": "user", "content": user_message})
-
-        # === 6. 调用 Ollama 本地模型 ===
-        # Ollama 提供 OpenAI 兼容 API：http://localhost:11434/v1/chat/completions
-        ollama_response = http_requests.post(
-            "http://localhost:11434/v1/chat/completions",
-            json={
-                "model": "qwen2.5:7b",  # 可改为 "deepseek-r1:8b"
-                "messages": messages,
-                "temperature": 0.7,
-                "max_tokens": 300,
-                "stream": False
-            },
-            timeout=120
-        )
-        ollama_response.raise_for_status()
-        result = ollama_response.json()
-        reply = result["choices"][0]["message"]["content"].strip()
-
-        # 清理 deepseek-r1 的 <think>...</think> 标签（如果使用 deepseek-r1 模型）
-        import re
-        reply = re.sub(r'<think>.*?</think>', '', reply, flags=re.DOTALL).strip()
-
-        # === 7. Queue the chat message as a PendingAction for backend simulation integration ===
+        # === 6. Queue the chat message as a PendingAction for backend simulation integration ===
         try:
             latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
             step = latest_state.step if latest_state else 0
             
-            SimPendingAction.objects.create(
+            pending_action = SimPendingAction.objects.create(
                 sim_code=sim_code,
                 persona_name=persona_name,
                 step=step,
@@ -646,7 +566,28 @@ Instructions:
                 content=f"User said: {user_message}"
             )
         except Exception as queue_err:
-            pass
+            return JsonResponse({"error": f"Failed to queue pending action: {str(queue_err)}"}, status=500)
+
+        # === 7. Poll database and wait for the backend to process the step and write response ===
+        import time
+        reply = None
+        for _ in range(150): # Max wait 30 seconds (150 * 0.2s)
+            time.sleep(0.2)
+            try:
+                # Refresh from DB
+                act = SimPendingAction.objects.get(id=pending_action.id)
+                if act.response:
+                    reply = act.response
+                    break
+            except Exception:
+                break
+
+        if reply is None:
+            reply = "我听到了你的声音，创造者。"
+
+        # Strip deepseek thoughts if any
+        import re
+        reply = re.sub(r'<think>.*?</think>', '', reply, flags=re.DOTALL).strip()
 
         return JsonResponse({
             "reply": reply,
@@ -662,12 +603,7 @@ Instructions:
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     finally:
-        if chat_active_file:
-            try:
-                if os.path.exists(chat_active_file):
-                    os.remove(chat_active_file)
-            except Exception:
-                pass
+        pass
 
 
 @csrf_exempt

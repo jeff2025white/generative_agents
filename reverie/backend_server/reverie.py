@@ -331,14 +331,7 @@ class ReverieServer:
 
       step_start_time = time.time()
 
-      # Check if chat is active in frontend and pause if so to free up Ollama
-      chat_active_file = f"{fs_temp_storage}/chat_active_{self.sim_code}.json"
-      check_count = 0
-      while os.path.exists(chat_active_file):
-        if check_count % 10 == 0:
-          print(f"[Backend] Chat active in frontend for sim {self.sim_code}. Pausing backend step execution to free up Ollama...")
-        time.sleep(1.0)
-        check_count += 1
+      # Chat active pause mechanism removed.
 
       env_retrieved = False
       # We check the environment state via Django HTTP API (Option 3 API Gateway)
@@ -349,6 +342,46 @@ class ReverieServer:
           env_retrieved = True
       except Exception as e:
         pass
+
+      # Heartbeat lock step sync: check if frontend browser is active
+      frontend_active = False
+      frontend_active_file = f"{fs_temp_storage}/frontend_active_{self.sim_code}.json"
+      if os.path.exists(frontend_active_file):
+        try:
+          with open(frontend_active_file, "r") as f:
+            status = json.load(f)
+            if time.time() - status.get("last_active", 0) < 10.0:
+              frontend_active = True
+        except Exception:
+          pass
+
+      # If frontend is active and we don't have the environment yet, wait for the frontend to post it
+      if frontend_active and not env_retrieved:
+        print(f"[Backend] Frontend is active. Waiting for frontend to advance to step {self.step}...")
+        while not env_retrieved:
+          # Chat active pause mechanism removed.
+          
+          # Check if frontend heartbeat expired (closed or stopped)
+          try:
+            with open(frontend_active_file, "r") as f:
+              status = json.load(f)
+              if time.time() - status.get("last_active", 0) >= 10.0:
+                print(f"[Backend] Frontend heartbeat expired (inactive) during step wait. Fallback to independent run.")
+                break
+          except Exception:
+            pass
+
+          try:
+            response = requests.get(f"http://127.0.0.1:8000/api/get_environment/?sim_code={self.sim_code}&step={self.step}", timeout=5)
+            if response.status_code == 200:
+              new_env = response.json()
+              env_retrieved = True
+              print(f"[Backend] Received environment for step {self.step} from frontend.")
+              break
+          except Exception:
+            pass
+
+          time.sleep(0.5)
 
       if not env_retrieved:
         # Fallback to local files for backward compatibility
@@ -387,26 +420,44 @@ class ReverieServer:
             if response.status_code == 200:
               pending_actions = response.json()
               if pending_actions:
-                from persona.cognitive_modules.converse import load_history_via_whisper
-                whispers_to_inject = []
                 for action in pending_actions:
                   p_name = action["persona_name"]
                   a_type = action["action_type"]
                   content = action["content"]
+                  action_id = action["id"]
                   
                   if p_name in self.personas:
-                    if a_type == "chat":
-                      whispers_to_inject.append([p_name, content])
-                    elif a_type == "instruction":
-                      whispers_to_inject.append([p_name, f"Task instruction from user: {content}"])
-                    processed_ids.append(action["id"])
-                
-                if whispers_to_inject:
-                  print(f"Injecting user actions into memory: {whispers_to_inject}")
-                  load_history_via_whisper(self.personas, whispers_to_inject)
+                    p = self.personas[p_name]
+                    print(f"=== [造物主沟通指令注入] {p.name} 接收到指令: {content} (类型: {a_type}) ===")
+                    
+                    target_str = json.dumps({
+                      "id": action_id,
+                      "action_type": a_type,
+                      "content": content
+                    })
+                    
+                    p.scratch.add_new_action(
+                      f"<creator> {target_str}",
+                      1,
+                      "communicating with the Creator",
+                      "👁️",
+                      (p.name, "creator_comm", "creator"),
+                      None,
+                      None,
+                      {},
+                      None,
+                      None,
+                      None,
+                      (None, None, None),
+                      p.scratch.curr_time
+                    )
+                    # Reset pathing to take effect immediately
+                    p.scratch.planned_path = []
+                    p.scratch.act_path_set = False
+                    processed_ids.append(action_id)
                   
-                # Acknowledge processed IDs
-                requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
+                if processed_ids:
+                  requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
           except Exception as e:
             print(f"Warning: Failed to fetch/process pending actions: {e}")
 
@@ -451,21 +502,32 @@ class ReverieServer:
 
           # Apply metabolic decay and recovery for each persona per step
           for persona_name, persona in self.personas.items():
+            # If already dead, freeze all values to 0.0 and bypass decay calculations
+            if persona.scratch.health <= 0.0:
+              persona.scratch.satiety = 0.0
+              persona.scratch.stamina = 0.0
+              persona.scratch.health = 0.0
+              continue
+
             act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
+            # 1. 饱食度代谢
             if "sleeping" in act_desc or "sleep" in act_desc:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.2)
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 2.0)
-            elif "resting" in act_desc or "rest" in act_desc:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.3)
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 1.5)
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.008)
             else:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.5)
-              decay_stamina = 1.0 if persona.scratch.planned_path else 0.5
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.015)
+              
+            # 2. 精力消耗与恢复
+            if "sleeping" in act_desc or "sleep" in act_desc:
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.05)
+            elif "resting" in act_desc or "rest" in act_desc:
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.03)
+            else:
+              decay_stamina = 0.022 if persona.scratch.planned_path else 0.015
               persona.scratch.stamina = max(0.0, persona.scratch.stamina - decay_stamina)
             
-            # Health penalty if starving
+            # 3. 饥饿扣血惩罚
             if persona.scratch.satiety <= 0.0:
-              persona.scratch.health = max(0.0, persona.scratch.health - 2.0)
+              persona.scratch.health = max(0.0, persona.scratch.health - 0.05)
 
           # Then we need to actually have each of the personas perceive and
           # move. The movement for each of the personas comes in the form of
@@ -480,7 +542,7 @@ class ReverieServer:
           def _move_persona(persona_name, persona):
             return persona_name, persona.move(
               self.maze, self.personas, self.personas_tile[persona_name], 
-              self.curr_time)
+              self.curr_time, self.step)
 
           with ThreadPoolExecutor(max_workers=len(self.personas)) as executor:
             futures = []
@@ -498,6 +560,10 @@ class ReverieServer:
               
               p_inst = self.personas[persona_name]
               movements["persona"][persona_name]["chat"] = p_inst.scratch.chat
+              last_chat_val = "None at the moment"
+              if getattr(p_inst.scratch, 'last_chat', None):
+                last_chat_val = f"{p_inst.name}: {p_inst.scratch.last_chat}"
+              movements["persona"][persona_name]["last_chat"] = last_chat_val
 
               # Include physiological values in movements payload for the frontend/replay
               movements["persona"][persona_name]["satiety"] = p_inst.scratch.satiety
@@ -506,10 +572,13 @@ class ReverieServer:
               movements["persona"][persona_name]["inventory"] = p_inst.scratch.inventory
 
               # Calculate next action
-              curr_index = p_inst.scratch.get_f_daily_schedule_index()
-              next_action = "None"
-              if curr_index + 1 < len(p_inst.scratch.f_daily_schedule):
-                next_action = p_inst.scratch.f_daily_schedule[curr_index + 1][0]
+              if p_inst.scratch.health <= 0.0:
+                next_action = "已死"
+              else:
+                curr_index = p_inst.scratch.get_f_daily_schedule_index()
+                next_action = "None"
+                if curr_index + 1 < len(p_inst.scratch.f_daily_schedule):
+                  next_action = p_inst.scratch.f_daily_schedule[curr_index + 1][0]
               movements["persona"][persona_name]["next_action"] = next_action
               
               # Helper to format datetime safely

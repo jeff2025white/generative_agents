@@ -2,16 +2,25 @@
 
 !<INPUT 0>!
 
+Temporal Context:
+!<INPUT 6>!
+
 Current Status:
 - Satiety (0-100): !<INPUT 1>!
 - Stamina (0-100): !<INPUT 2>!
 - Health (0-100): !<INPUT 3>!
 - Inventory: !<INPUT 4>!
 
-Nearby Elements & Resources:
+Physiological Rules & Outcomes:
+!<INPUT 7>!
+
+Nearby Elements & Resources (including Micro-states):
 !<INPUT 5>!
 
-Task: What is the next survival action for !<INPUT 6>!? 
+Cooperative Context / Social Expectations:
+!<INPUT 8>!
+
+Task: What is the next survival action for !<INPUT 9>!? 
 Choose one action from: "Gather" (harvest items from a nearby resource tile), "Consume" (eat/drink food from inventory), "Rest" (recover stamina at a bed/sofa), or "Idle" (do nothing).
 Also specify the target object name (e.g. "apple_tree", "bed", "stove", "water_source", or the name of a food item in inventory like "apple").
 
@@ -29,5 +38,8 @@ Input 1: Satiety value
 Input 2: Stamina value
 Input 3: Health value
 Input 4: Inventory description
-Input 5: List of nearby interactive resources
-Input 6: Agent's first name
+Input 5: List of nearby interactive resources (including object states)
+Input 6: Temporal Context
+Input 7: Physiological Rules
+Input 8: Cooperative Context
+Input 9: Agent's first name

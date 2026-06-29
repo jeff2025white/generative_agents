@@ -816,14 +816,6 @@ def _should_react(persona, retrieved, personas):
       if init_persona.scratch.chatting_with_buffer[target_persona.name] > 0: 
         return False
 
-    # Coordinated coffee flow check: Isabella and Klaus meet at Hobbs Cafe counter
-    if (init_persona.name == "Klaus Mueller" and target_persona.name == "Isabella Rodriguez") or \
-       (init_persona.name == "Isabella Rodriguez" and target_persona.name == "Klaus Mueller"):
-      if "hobbs cafe" in init_persona.scratch.act_address.lower() and \
-         "hobbs cafe" in target_persona.scratch.act_address.lower():
-         print(f"=== [协同物理操作链触发] Klaus 和 Isabella 会面，强制开启咖啡对话 ===")
-         return True
-
     if generate_decide_to_talk(init_persona, target_persona, retrieved): 
 
       return True
@@ -1013,11 +1005,11 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
   target_persona = personas[reaction_mode[9:].strip()]
   curr_personas = [init_persona, target_persona]
 
-  # Actually creating the conversation here. 
-  convo, duration_min = generate_convo(maze, init_persona, target_persona)
-  convo_summary = generate_convo_summary(init_persona, convo)
-  inserted_act = convo_summary
-  inserted_act_dur = duration_min
+  # In the refactored Chat Skill Pack architecture, we perform lazy execution.
+  # We do not generate dialogue at the planning stage. Instead, we use a placeholder action
+  # and a default duration (10 minutes). The dialogue is generated dynamically upon arrival.
+  inserted_act = f"having a conversation with {target_persona.name}"
+  inserted_act_dur = 10
 
   act_start_time = target_persona.scratch.act_start_time
 
@@ -1048,18 +1040,9 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
     act_obj_event = (None, None, None)
 
     _create_react(p, inserted_act, inserted_act_dur,
-      act_address, act_event, chatting_with, convo, chatting_with_buffer, chatting_end_time,
+      act_address, act_event, chatting_with, None, chatting_with_buffer, chatting_end_time,
       act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
       act_obj_event, act_start_time)
-
-  # Check if Klaus and Isabella triggered conversation
-  if (init_persona.name == "Klaus Mueller" and target_persona.name == "Isabella Rodriguez") or \
-     (init_persona.name == "Isabella Rodriguez" and target_persona.name == "Klaus Mueller"):
-     print(f"=== [协同物理操作链] 正在向 Isabella 和 Klaus 注入咖啡制作和消费任务流 ===")
-     isabella = personas["Isabella Rodriguez"]
-     klaus = personas["Klaus Mueller"]
-     inject_coffee_flow(isabella, "barista", chatting_end_time)
-     inject_coffee_flow(klaus, "customer", chatting_end_time)
 
 
 def _wait_react(persona, reaction_mode): 
@@ -1097,8 +1080,65 @@ def decide_survival_action(persona, maze):
           objs.add(obj)
   objs_list = list(objs)
 
+  # Query environment micro-states and cooperative details
+  object_states = []
+  cooperative_events = []
+  
+  for obj in objs_list:
+    address = persona.s_mem.find_nearest_object(obj)
+    if address and address in maze.address_tiles:
+      tiles = list(maze.address_tiles[address])
+      events_on_obj = []
+      for tile in tiles:
+        tile_details = maze.access_tile(tile)
+        if tile_details and tile_details["events"]:
+          for ev in tile_details["events"]:
+            ev_str = str(ev)
+            events_on_obj.append(ev_str)
+            if any(kw in ev_str.lower() for kw in ["waiting", "serve", "served"]):
+              cooperative_events.append(f"{ev_str} (at {obj})")
+      if events_on_obj:
+        object_states.append(f"{obj} (current state: {', '.join(events_on_obj)})")
+      else:
+        object_states.append(f"{obj} (idle/normal)")
+    else:
+      object_states.append(f"{obj} (normal)")
+
+  # Compile Temporal Context
+  curr_time_str = persona.scratch.curr_time.strftime("%A %B %d, %Y, %I:%M %p") if persona.scratch.curr_time else "Unknown"
+  act_desc = persona.scratch.act_description if persona.scratch.act_description else "None"
+  act_dur = persona.scratch.act_duration if persona.scratch.act_duration else 0
+  temporal_context = f"- Current Time: {curr_time_str}\n- Active Scheduled Action: '{act_desc}' (Planned duration remaining: {act_dur} minutes)"
+
+  # Compile Physiological Rules
+  physiological_rules = (
+      "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
+      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.\n"
+      "- Resting (Rest action) restores +40.0 Stamina.\n"
+      "- Normal activities decay Satiety by -0.008 per step, and walking decays Satiety by -0.015 per step.\n"
+      "- If Satiety reaches 0.0, Health decays by -2.0 per step."
+  )
+
+  # Compile Cooperative Context
+  cooperative_context = ""
+  if cooperative_events:
+    cooperative_context += "Active cooperative/social events nearby:\n" + "\n".join([f"- {ev}" for ev in cooperative_events])
+  else:
+    cooperative_context += "No special cooperative tasks or wait states are active nearby."
+
+  curr_sector = maze.get_tile_path(persona.scratch.curr_tile, "sector").lower() if (persona.scratch.curr_tile and maze.get_tile_path(persona.scratch.curr_tile, "sector")) else ""
+  is_worker = any(job in persona.scratch.learned.lower() for job in ["owner", "barista", "employee", "worker", "staff"]) and curr_sector in persona.scratch.learned.lower()
+  if is_worker:
+    cooperative_context += f"\n- NOTE: You are a staff/owner of the current area ({curr_sector}). You do not need to wait for others to serve you food/drink; you have direct access to resources and can gather or prepare food yourself."
+
   # Call GPT to decide survival action
-  decision = run_gpt_prompt_survival_decision(persona, objs_list)
+  decision = run_gpt_prompt_survival_decision(
+      persona, 
+      object_states, 
+      temporal_context=temporal_context, 
+      physiological_rules=physiological_rules, 
+      cooperative_context=cooperative_context
+  )
   action = decision.get("action", "Idle")
   target = decision.get("target", "none")
   reasoning = decision.get("reasoning", "")
@@ -1260,7 +1300,7 @@ def plan(persona, maze, personas, new_day, retrieved):
   # Step 3: Chat-related state clean up. 
   # If the persona is not chatting with anyone, we clean up any of the 
   # chat-related states here. 
-  if persona.scratch.act_event[1] != "chat with":
+  if persona.scratch.act_event[1] not in ["chat with", "creator_comm"]:
     persona.scratch.chatting_with = None
     persona.scratch.chat = None
     persona.scratch.chatting_end_time = None
