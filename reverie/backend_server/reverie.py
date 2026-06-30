@@ -515,37 +515,37 @@ class ReverieServer:
             
             # 1. 饱食度（Satiety）代谢
             if "sleeping" in act_desc or "sleep" in act_desc:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.008)
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.04)
             else:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.015)
+              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.08)
               
             # 2. 精力（Stamina）消耗与恢复
             if "sleeping" in act_desc or "sleep" in act_desc:
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.05)
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.15)
             elif "resting" in act_desc or "rest" in act_desc:
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.03)
+              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.08)
             else:
-              decay_stamina = 0.022 if persona.scratch.planned_path else 0.015
+              decay_stamina = 0.07 if persona.scratch.planned_path else 0.04
               persona.scratch.stamina = max(0.0, persona.scratch.stamina - decay_stamina)
 
             # 3. 情绪/幸福度（Mood）状态更新
             # A. 基础更新：社交增加，独处自然衰减
             if persona.scratch.chatting_with and persona.scratch.chatting_with not in ["", "<creator>"]:
               persona.scratch.last_social_time = self.curr_time
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.15)
+              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.30)
             else:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.015)
+              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.06)
             
             # B. 生理指标联动：饱腹与充足精力提供额外情绪增益/惩罚
             if persona.scratch.satiety >= 80.0:
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.01)  # 饱食的幸福增益
+              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.02)  # 饱食的幸福增益
             elif persona.scratch.satiety < 20.0:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.05)  # 饥饿的抑郁惩罚
+              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.08)  # 饥饿的抑郁惩罚
               
             if persona.scratch.stamina >= 80.0:
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.01)  # 精力充沛增益
+              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.02)  # 精力充沛增益
             elif persona.scratch.stamina < 20.0:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.04)  # 疲惫抑郁惩罚
+              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.06)  # 疲惫抑郁惩罚
 
             # 4. 健康度（Health）状态扣减与恢复
             # A. 饥饿扣血惩罚
