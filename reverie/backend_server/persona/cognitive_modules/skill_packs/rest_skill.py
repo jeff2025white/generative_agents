@@ -7,7 +7,13 @@ class RestSkillPack(BaseSkillPack):
         self.associated_xp = "" # Rest doesn't have an associated skill tree XP in bootstrap
 
     def can_execute(self, persona, target, maze) -> bool:
-        # Physical check: Target object must exist in spatial memory
+        # 1. If currently standing on a restable object (bed/sofa/chair), they can rest.
+        curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+        if curr_obj:
+            curr_obj_lower = curr_obj.lower()
+            if any(w in curr_obj_lower for w in ["bed", "sofa", "couch", "chair", "bench"]):
+                return True
+        # 2. Fallback: Target object must exist in spatial memory
         return persona.s_mem.find_nearest_object(target) is not None
 
     def get_target_tiles(self, persona, target, maze) -> list:

@@ -239,12 +239,24 @@ class Persona:
       return self.execute(maze, personas, None)
 
     # Interruption logic: Clear current planned paths and activities
-    if (is_starving or is_exhausted) and (self.scratch.planned_path or self.scratch.act_address):
+    curr_act = self.scratch.act_description.lower() if self.scratch.act_description else ""
+    is_resolving_starvation = any(kw in curr_act for kw in ["consume", "eating", "eat", "cook", "gathering", "gather"])
+    is_resolving_exhaustion = any(kw in curr_act for kw in ["resting", "rest", "sleeping", "sleep", "idling", "idle"])
+
+    should_interrupt = False
+    if is_starving and not is_resolving_starvation:
+      should_interrupt = True
+    elif is_exhausted and not is_resolving_exhaustion:
+      should_interrupt = True
+
+    if should_interrupt and (self.scratch.planned_path or self.scratch.act_address):
       print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
       self.scratch.planned_path = []
       self.scratch.act_path_set = False
       self.scratch.chatting_with = None
       self.scratch.chat = None
+      self.scratch.act_address = None
+      self.scratch.act_description = None
 
     # Main cognitive sequence begins here. 
     perceived = self.perceive(maze)
