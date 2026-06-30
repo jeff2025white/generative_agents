@@ -193,8 +193,16 @@ def execute(persona, maze, personas, plan):
 
     # Actually setting the <planned_path> and <act_path_set>. We cut the 
     # first element in the planned_path because it includes the curr_tile. 
-    persona.scratch.planned_path = path[1:]
-    persona.scratch.act_path_set = True
+    if not path:
+      print(f"=== [物理阻碍] {persona.name} 寻路失败，无法触达目标，清除当前动作以重新决策 ===")
+      persona.scratch.planned_path = []
+      persona.scratch.act_path_set = False
+      persona.scratch.act_address = None
+      persona.scratch.act_description = None
+      persona.scratch.act_event = None
+    else:
+      persona.scratch.planned_path = path[1:]
+      persona.scratch.act_path_set = True
   
   # Setting up the next immediate step. We stay at our curr_tile if there is
   # no <planned_path> left, but otherwise, we go to the next tile in the path.
@@ -215,11 +223,24 @@ def execute(persona, maze, personas, plan):
       skill = SKILL_REGISTRY.get(action.lower())
       if skill:
         if skill.can_execute(persona, target, maze):
+          print(f"=== [物理调试] {persona.name} 触达终点，开始调用 {action} 的 on_arrive ===")
           skill.on_arrive(persona, target, maze, personas)
         else:
           print(f"=== [物理阻碍] {persona.name} 无法执行 {action}，前置物理条件未满足 ===")
+          # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
+          persona.scratch.planned_path = []
+          persona.scratch.act_path_set = False
+          persona.scratch.act_address = None
+          persona.scratch.act_description = None
+          persona.scratch.act_event = None
 
   description = f"{persona.scratch.act_description}"
+  if not persona.scratch.act_address:
+    actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+    description = f"idling @ {actual_address}"
+    execution = ret, persona.scratch.act_pronunciatio, description
+    return execution
+
   if "<creator>" in persona.scratch.act_address:
     actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
     description += f" @ {actual_address}"

@@ -1,0 +1,42 @@
+# Prompt Template for Agent Demand-Driven Planning Decisions Legend (Discarded by parser split)
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Satiety value
+Input 2: Stamina value
+Input 3: Health value
+Input 4: Mood value
+Input 5: Inventory description
+Input 6: List of nearby interactive resources (including object states)
+Input 7: Temporal Context
+Input 8: Homeostasis & World Rules
+Input 9: Cooperative Context
+Input 10: Agent's first name
+Input 11: Last action description
+<commentblockmarker>###</commentblockmarker>
+!<INPUT 0>!
+
+Temporal Context:
+!<INPUT 7>!
+
+Previous Activity Context:
+- Last Action: !<INPUT 11>!
+
+Current Status:
+- Satiety (0-100): !<INPUT 1>!
+- Stamina (0-100): !<INPUT 2>!
+- Health (0-100): !<INPUT 3>!
+- Mood (0-100): !<INPUT 4>!
+- Inventory: !<INPUT 5>!
+
+Homeostasis & World Rules:
+!<INPUT 8>!
+
+Nearby Elements & Resources (including Micro-states):
+!<INPUT 6>!
+
+Cooperative Context / Social Expectations:
+!<INPUT 9>!
+
+Task: What is the next planned action for !<INPUT 10>! to balance their stats and fulfill their daily role/goals? 
+Describe what !<INPUT 10>! wants to do next in a simple, natural language sentence. Write it from !<INPUT 10>!'s perspective, stating their physiological need or goal, and what target object/location they plan to use.
+Example: "I am feeling extremely hungry and my inventory is empty, so I want to gather some food from the refrigerator."
+Answer in one sentence.

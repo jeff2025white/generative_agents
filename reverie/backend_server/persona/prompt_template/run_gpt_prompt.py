@@ -901,17 +901,23 @@ def run_gpt_prompt_pronunciatio(action_description, persona, verbose=False):
 
 
 
-
-
-
-
-
 def run_gpt_prompt_event_triple(action_description, persona, verbose=False): 
   def create_prompt_input(action_description, persona): 
     if "(" in action_description: 
       action_description = action_description.split("(")[-1].split(")")[0]
+      
+    # Load action_schema.json
+    import os
+    schema_path = os.path.join("persona", "prompt_template", "v2", "action_schema.json")
+    try:
+      with open(schema_path, "r", encoding="utf-8") as f:
+        schema_str = f.read()
+    except Exception as e:
+      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate."
+
     prompt_input = [persona.name, 
                     action_description,
+                    schema_str,
                     persona.name]
     return prompt_input
   
@@ -3030,21 +3036,35 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
   return output
 
 
-def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=None, rules=None, cooperative_context=None, verbose=False):
-  def create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context):
+def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None"):
+  def create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc):
     inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
     res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
     
     if not temporal_context:
       temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
     if not rules:
-      rules = (
-        "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).\n"
-        "- Gathering food (Gather action) adds items to inventory.\n"
-        "- Resting (Rest action) restores Stamina (+40.0 Stamina).\n"
-        "- Socializing (Socialize action) restores Mood (+30.0 Mood).\n"
+      rules_list = [
+        "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).",
+        "- Gathering food (Gather action) adds items to inventory.",
+        "- Resting (Rest action) restores Stamina (+40.0 Stamina).",
+        "- Socializing (Socialize action) restores Mood (+30.0 Mood).",
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
-      )
+      ]
+      
+      # Inject critical survival priorities
+      if persona.scratch.satiety < 30.0:
+        if not persona.scratch.inventory:
+          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting 'refrigerator' or 'stove' to get food first!")
+        else:
+          # Find any non-empty food item
+          food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
+          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! You have food in your inventory. You MUST immediately select 'Consume' targeting '{food_item}' to eat!")
+          
+      if persona.scratch.stamina < 30.0:
+        rules_list.insert(0, f"- CRITICAL: Stamina ({persona.scratch.stamina:.1f}) is critically low! You MUST immediately select 'Rest' targeting 'bed' or 'sofa' to sleep and restore stamina.")
+
+      rules = "\n".join(rules_list)
     if not cooperative_context:
       cooperative_context = "No special requests or cooperative events are currently active nearby."
       
@@ -3059,12 +3079,15 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
       temporal_context,
       rules,
       cooperative_context,
-      persona.scratch.get_str_firstname()
+      persona.scratch.get_str_firstname(),
+      str(last_action_desc)
     ]
     return prompt_input
 
   def __func_clean_up(gpt_response, prompt=""):
     try:
+      if isinstance(gpt_response, dict):
+        return gpt_response
       cleaned = clean_json_str(gpt_response)
       if isinstance(cleaned, dict):
         return cleaned
@@ -3080,12 +3103,15 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
 
   def __func_validate(gpt_response, prompt=""):
     try:
-      cleaned = clean_json_str(gpt_response)
-      start = cleaned.find("{")
-      end = cleaned.rfind("}") + 1
-      if start != -1 and end != -1:
-        cleaned = cleaned[start:end]
-      data = json.loads(cleaned)
+      if isinstance(gpt_response, dict):
+        data = gpt_response
+      else:
+        cleaned = clean_json_str(gpt_response)
+        start = cleaned.find("{")
+        end = cleaned.rfind("}") + 1
+        if start != -1 and end != -1:
+          cleaned = cleaned[start:end]
+        data = json.loads(cleaned)
       if "action" in data and "target" in data and "detail" in data and "duration" in data:
         return True
     except:
@@ -3096,12 +3122,149 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
     return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fail-safe triggered"}
 
   prompt_template = "persona/prompt_template/v2/demand_decision_v1.txt"
-  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context)
+  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc)
   prompt = generate_prompt(prompt_input, prompt_template)
   
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
-  special_instruction = "Select the best action, target, detail and duration based on stats and identity goals."
   
+  # Assemble dynamic special instruction based on critical survival stats
+  special_instruction = "Select the best action, target, detail and duration based on stats and identity goals. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs and leaving work to eat or rest is fully authorized."
+  if persona.scratch.satiety < 30.0:
+    if not persona.scratch.inventory:
+      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST choose 'Gather' targeting 'refrigerator' or 'stove' to get food first!"
+    else:
+      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
+      special_instruction += f" CRITICAL: Satiety is critically low! You MUST choose 'Consume' targeting '{food_item}' to eat immediately!"
+  elif persona.scratch.stamina < 30.0:
+    special_instruction += " CRITICAL: Stamina is critically low! You MUST choose 'Rest' targeting 'bed' or 'sofa' to sleep immediately!"
+
+  output = ChatGPT_safe_generate_response(
+    prompt, example_output, special_instruction,
+    repeat=3, fail_safe_response=get_fail_safe(),
+    func_validate=__func_validate, func_clean_up=__func_clean_up,
+    verbose=verbose
+  )
+  return output
+
+
+def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None"):
+  def create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc):
+    inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
+    res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+    
+    if not temporal_context:
+      temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
+    if not rules:
+      rules = "No special homeostasis rules."
+    if not cooperative_context:
+      cooperative_context = "No special requests or cooperative events are currently active nearby."
+      
+    prompt_input = [
+      persona.scratch.get_str_iss(),
+      f"{persona.scratch.satiety:.1f}",
+      f"{persona.scratch.stamina:.1f}",
+      f"{persona.scratch.health:.1f}",
+      f"{persona.scratch.mood:.1f}",
+      inv_str,
+      res_str,
+      temporal_context,
+      rules,
+      cooperative_context,
+      persona.scratch.get_str_firstname(),
+      str(last_action_desc)
+    ]
+    return prompt_input
+
+  prompt_template = "persona/prompt_template/v2/demand_decision_thinking_v1.txt"
+  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc)
+  prompt = generate_prompt(prompt_input, prompt_template)
+  
+  # Assemble dynamic special instruction based on critical survival stats
+  special_instruction = "State what you plan to do next in a simple, natural language sentence. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs is fully authorized."
+  if persona.scratch.satiety < 30.0:
+    if not persona.scratch.inventory:
+      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST state that you plan to gather food from a nearby refrigerator or stove first!"
+    else:
+      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
+      special_instruction += f" CRITICAL: Satiety is critically low! You MUST state that you plan to eat/consume the {food_item} from your inventory immediately!"
+  elif persona.scratch.stamina < 30.0:
+    special_instruction += " CRITICAL: Stamina is critically low! You MUST state that you plan to sleep or rest immediately!"
+
+  prompt += f"\n{special_instruction}\nAnswer:"
+
+  output = ChatGPT_request(prompt)
+  if "ChatGPT ERROR" in output or not output.strip():
+    output = "I want to rest for a while."
+  else:
+    output = output.strip()
+  return output
+
+
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False):
+  import os
+  import json
+  
+  # Load action_schema.json
+  schema_path = os.path.join("persona", "prompt_template", "v2", "action_schema.json")
+  try:
+    with open(schema_path, "r", encoding="utf-8") as f:
+      schema_str = f.read()
+  except Exception as e:
+    # Fallback default schema text if file read fails
+    schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate, Idle."
+
+  res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+  
+  prompt_input = [
+    thinking_text,
+    schema_str,
+    res_str,
+    firstname
+  ]
+  
+  prompt_template = "persona/prompt_template/v2/action_translation_v1.txt"
+  prompt = generate_prompt(prompt_input, prompt_template)
+  
+  example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
+  special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
+
+  def __func_clean_up(gpt_response, prompt=""):
+    try:
+      if isinstance(gpt_response, dict):
+        return gpt_response
+      cleaned = clean_json_str(gpt_response)
+      if isinstance(cleaned, dict):
+        return cleaned
+      start = cleaned.find("{")
+      end = cleaned.rfind("}") + 1
+      if start != -1 and end != -1:
+        cleaned = cleaned[start:end]
+      data = json.loads(cleaned)
+      return data
+    except Exception as e:
+      print(f"Error cleaning up translation response: {e}, raw: {gpt_response}")
+      return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fallback default"}
+
+  def __func_validate(gpt_response, prompt=""):
+    try:
+      if isinstance(gpt_response, dict):
+        data = gpt_response
+      else:
+        cleaned = clean_json_str(gpt_response)
+        start = cleaned.find("{")
+        end = cleaned.rfind("}") + 1
+        if start != -1 and end != -1:
+          cleaned = cleaned[start:end]
+        data = json.loads(cleaned)
+      if "action" in data and "target" in data and "detail" in data and "duration" in data:
+        return True
+    except:
+      pass
+    return False
+
+  def get_fail_safe():
+    return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fail-safe triggered"}
+
   output = ChatGPT_safe_generate_response(
     prompt, example_output, special_instruction,
     repeat=3, fail_safe_response=get_fail_safe(),

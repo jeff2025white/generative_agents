@@ -440,13 +440,15 @@ def process_environment(request):
   sim_code = data["sim_code"]
   environment = data["environment"]
 
-  # Record that frontend is active (heartbeat)
-  try:
-    os.makedirs("temp_storage", exist_ok=True)
-    with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
-      json.dump({"last_active": time.time()}, f)
-  except Exception as e:
-    print(f"Error marking frontend active in process_environment: {e}")
+  # Record that frontend is active (heartbeat) if not requested by backend
+  is_backend = data.get("is_backend", False)
+  if not is_backend:
+    try:
+      os.makedirs("temp_storage", exist_ok=True)
+      with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
+        json.dump({"last_active": time.time()}, f)
+    except Exception as e:
+      print(f"Error marking frontend active in process_environment: {e}")
 
   # Save to Database
   sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)

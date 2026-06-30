@@ -1262,18 +1262,50 @@ def decide_demand_action(persona, maze):
   curr_time_str = persona.scratch.curr_time.strftime("%A %B %d, %Y, %I:%M %p") if persona.scratch.curr_time else "Unknown"
   temporal_context = f"- Current Time: {curr_time_str}"
 
-  # Compile Homeostasis & World Rules
-  physiological_rules = (
-      "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
-      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.\n"
-      "- Resting (Rest action) restores +40.0 Stamina.\n"
-      "- Socializing (Socialize action) restores +30.0 Mood.\n"
-      "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.\n"
-      "- Normal activities decay Stamina by -0.015 per step, walking decays Stamina by -0.022 per step.\n"
-      "- Sleeping restores Stamina by +0.05 per step, resting restores Stamina by +0.03 per step.\n"
-      "- Switch Cost: Changing tasks/actions in under 15 minutes consumes a high penalty of -5.0 Stamina.\n"
+  # Compile Homeostasis & World Rules dynamically based on stats and inventory
+  rules_list = [
+      "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
+      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.",
+      "- Resting (Rest action) restores +40.0 Stamina.",
+      "- Socializing (Socialize action) restores +30.0 Mood.",
+      "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.",
+      "- Normal activities decay Stamina by -0.015 per step, walking decays Stamina by -0.022 per step.",
+      "- Sleeping restores Stamina by +0.05 per step, resting restores Stamina by +0.03 per step.",
+      "- Switch Cost: Changing tasks/actions in under 15 minutes consumes a high penalty of -5.0 Stamina.",
       "- If Satiety reaches 0.0, Health decays by -0.05 per step."
-  )
+  ]
+
+  # Inject critical biological/environmental physics rules based on current state (What they touch/can utilize)
+  if persona.scratch.satiety < 40.0:
+    rules_list.insert(0, f"- PHYSICAL WARNING: Your Satiety ({persona.scratch.satiety:.1f}) is low! If Satiety drops to 0.0, the physical world engine will degrade your Health by -0.05 per step until you die.")
+    # Check if they have food in inventory to utilize
+    has_food = False
+    for k, v in persona.scratch.inventory.items():
+      if v > 0:
+        rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You have food ({k}) in your inventory! You can utilize the 'Consume' action targeting '{k}' to restore Satiety immediately.")
+        has_food = True
+        break
+    if not has_food:
+      rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: Since your inventory is empty, you CANNOT eat directly. You MUST utilize a nearby physical device (like refrigerator, stove, or counter) with the 'Gather' action to get food first.")
+  
+  if persona.scratch.stamina < 40.0:
+    rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, and normal activities decay it by -0.015 per step.")
+    rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You can utilize the 'Rest' action targeting 'bed' or 'sofa' to sleep and restore Stamina.")
+
+  # Inject critical survival priorities (< 30.0) - Satiety (Life) overrides Stamina (Rest)
+  if persona.scratch.satiety < 30.0:
+    if not persona.scratch.inventory:
+      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting 'refrigerator' or 'stove' to get food first!")
+    else:
+      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
+      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! You have food in your inventory. You MUST immediately select 'Consume' targeting '{food_item}' to eat!")
+  elif persona.scratch.stamina < 30.0:
+    rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Stamina ({persona.scratch.stamina:.1f}) is critically low! You MUST immediately select 'Rest' targeting 'bed' or 'sofa' to sleep and restore stamina.")
+
+  # Add Survival Privilege rule under survival mode
+  rules_list.append("- Survival Privilege: Daily plan requirements and lifestyle guidelines are non-binding recommendations. You are fully authorized and encouraged to leave work, rest, or eat at any time to maintain Satiety and Stamina above 40.0.")
+
+  physiological_rules = "\n".join(rules_list)
 
   # Compile Cooperative Context
   cooperative_context = ""
@@ -1287,21 +1319,67 @@ def decide_demand_action(persona, maze):
   if is_worker:
     cooperative_context += f"\n- NOTE: You are a staff/owner of the current area ({curr_sector}). You do not need to wait for others to serve you food/drink; you have direct access to resources and can gather or prepare food yourself."
 
-  # Call GPT to decide dynamic action
-  decision = run_gpt_prompt_demand_decision(
+  # Capture last action context
+  last_action_desc = getattr(persona.scratch, 'last_action_desc', "None")
+
+  # Two-Stage Decision-Translation Pipeline:
+  # Phase 1: Cognitive Thinking (Natural language intent)
+  thinking_text = run_gpt_prompt_demand_thinking(
       persona, 
       object_states, 
       temporal_context=temporal_context, 
       rules=physiological_rules, 
-      cooperative_context=cooperative_context
+      cooperative_context=cooperative_context,
+      last_action_desc=last_action_desc
   )
+  print(f"[{persona.name}] 阶段一自由思考打算: '{thinking_text}'")
+
+  # Phase 2: Action Translation (Standard physical instruction conversion)
+  decision = run_gpt_prompt_action_translation(
+      thinking_text,
+      object_states,
+      persona.scratch.get_str_firstname()
+  )
+
   action = decision.get("action", "Idle")
+  if action is None: action = "Idle"
+  action = str(action)
+
   target = decision.get("target", "none")
+  if target is None: target = "none"
+  target = str(target)
+
   act_desp = decision.get("detail", "idling")
-  act_dura = decision.get("duration", 10)
+  if act_desp is None: act_desp = "idling"
+  act_desp = str(act_desp)
+
+  default_dura = 2 if action == "Consume" else 10
+  act_dura = decision.get("duration", default_dura)
+  if act_dura is None: act_dura = default_dura
+  try:
+    act_dura = int(act_dura)
+  except:
+    act_dura = default_dura
+
   reasoning = decision.get("reasoning", "")
+  if reasoning is None: reasoning = ""
+  reasoning = str(reasoning)
 
   print(f"[{persona.name}] 需求驱动实时决策: Action={action}, Target={target}, Duration={act_dura} min, Detail='{act_desp}', 原因={reasoning}")
+
+  # Write alignment verify log to file
+  try:
+    log_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "logs"))
+    os.makedirs(log_dir, exist_ok=True)
+    verify_log_path = os.path.join(log_dir, "translation_verify.log")
+    with open(verify_log_path, "a", encoding="utf-8") as f:
+      f.write(f"[{persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S') if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str)) else str(persona.scratch.curr_time)}] Persona: {persona.name}\n")
+      f.write(f" - Phase 1 (Intent): \"{thinking_text}\"\n")
+      f.write(f" - Phase 2 (Mapped): Action={action}, Target={target}, Detail='{act_desp}', Duration={act_dura}\n")
+      f.write(f" - Reasoning       : {reasoning}\n")
+      f.write("-" * 80 + "\n")
+  except Exception as e:
+    pass
 
   # Fallback check
   if not act_desp:
@@ -1364,6 +1442,8 @@ def plan(persona, maze, personas, new_day, retrieved):
   # Unify scheduling and survival intercepts into one real-time demand-driven decision engine
   act_desc = persona.scratch.act_description if persona.scratch.act_description else ""
   if persona.scratch.act_check_finished() or not act_desc:
+    if act_desc:
+      persona.scratch.last_action_desc = act_desc
     decide_demand_action(persona, maze)
 
   # PART 3: If you perceived an event that needs to be responded to (saw 

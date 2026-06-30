@@ -1,9 +1,24 @@
-# Prompt Template for Agent Demand-Driven Planning Decisions
-
+# Prompt Template for Agent Demand-Driven Planning Decisions Legend (Discarded by parser split)
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Satiety value
+Input 2: Stamina value
+Input 3: Health value
+Input 4: Mood value
+Input 5: Inventory description
+Input 6: List of nearby interactive resources (including object states)
+Input 7: Temporal Context
+Input 8: Homeostasis & World Rules
+Input 9: Cooperative Context
+Input 10: Agent's first name
+Input 11: Last action description
+<commentblockmarker>###</commentblockmarker>
 !<INPUT 0>!
 
 Temporal Context:
 !<INPUT 7>!
+
+Previous Activity Context:
+- Last Action: !<INPUT 11>!
 
 Current Status:
 - Satiety (0-100): !<INPUT 1>!
@@ -25,6 +40,14 @@ Task: What is the next planned action for !<INPUT 10>! to balance their stats an
 Choose one action category from: "Consume" (eat/drink food from inventory), "Gather" (harvest items or prepare food from a nearby resource tile), "Rest" (recover stamina at a bed/sofa), "Work" (perform professional or daily duties), "Socialize" (chat or interact with other personas), "Recreate" (relax, watch TV, play games, read), or "Idle" (do nothing).
 Also specify the target object/person name (e.g. "refrigerator", "bed", "stove", the name of another resident, or a food item in inventory), and the duration of the action in minutes (between 10 and 120 minutes). Write a descriptive "detail" representing the action's actual description (e.g., "having a light lunch", "brewing coffee", "chatting with Klaus Mueller", "writing a research paper").
 
+CRITICAL HOMEOSTASIS RULES:
+1. Biological survival is the absolute highest priority. If any biological status (Satiety or Stamina) is low (below 30.0), the agent MUST prioritize the specific recovery actions needed to restore that low status (Consume/Gather for Satiety, Rest for Stamina) over Work, Socializing, or Recreation.
+2. If Satiety is low (< 30.0) and inventory is not empty, the agent MUST immediately select "Consume" to eat food from inventory.
+3. If Satiety is low (< 30.0) and inventory is empty, the agent MUST immediately select "Gather" targeting a food resource like "refrigerator" or "stove" (even if it is in another room or building like the kitchen or Hobbs Cafe) to acquire food.
+4. If Stamina is low (< 30.0), the agent MUST immediately select "Rest" targeting a "bed" or "sofa" to sleep.
+5. If Mood is low (< 30.0), the agent should choose "Recreate" or "Socialize" to stabilize mood.
+6. If a status is not low (i.e., Satiety or Stamina is >= 30.0), the agent MUST NOT select recovery actions for that status (like "Rest" for Stamina, or "Consume"/"Gather" for Satiety) if the other status is low (< 30.0) and needs urgent recovery. Focus only on recovering the low status.
+
 Response format:
 Respond ONLY in valid JSON format:
 {
@@ -35,15 +58,3 @@ Respond ONLY in valid JSON format:
   "reasoning": "<brief explanation of the choice based on current stats and roles>"
 }
 Do not include any explanation outside of the JSON block.
-<commentblockmarker>###</commentblockmarker>
-Input 0: Agent's ISS (Identity Stable Set)
-Input 1: Satiety value
-Input 2: Stamina value
-Input 3: Health value
-Input 4: Mood value
-Input 5: Inventory description
-Input 6: List of nearby interactive resources (including object states)
-Input 7: Temporal Context
-Input 8: Homeostasis & World Rules
-Input 9: Cooperative Context
-Input 10: Agent's first name

@@ -408,7 +408,8 @@ class ReverieServer:
           requests.post("http://127.0.0.1:8000/process_environment/", json={
             "sim_code": self.sim_code,
             "step": self.step,
-            "environment": new_env
+            "environment": new_env,
+            "is_backend": True
           }, timeout=2)
         except Exception as post_err:
           pass
@@ -703,13 +704,13 @@ class ReverieServer:
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
           print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')} | 实际计算耗时: {time.time() - step_start_time:.2f}秒")
 
-          # Periodically save the simulation state to disk (every 10 steps)
-          if self.step % 10 == 0:
-            print(f"[{self.sim_code}] 第 {self.step} 步: 正在自动保存模拟状态...")
-            try:
-              self.save()
-            except Exception as save_err:
-              print(f"警告: 自动保存失败: {save_err}")
+          # Periodically save the simulation state to disk (Disabled as frontend & backend are synced)
+          # if self.step % 10 == 0:
+          #   print(f"[{self.sim_code}] 第 {self.step} 步: 正在自动保存模拟状态...")
+          #   try:
+          #     self.save()
+          #   except Exception as save_err:
+          #     print(f"警告: 自动保存失败: {save_err}")
 
           int_counter -= 1
           

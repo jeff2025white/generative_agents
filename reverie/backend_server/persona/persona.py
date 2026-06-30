@@ -230,7 +230,7 @@ class Persona:
 
     # Check metabolic conditions to bypass fast-path and trigger interruption
     is_starving = self.scratch.satiety < 30.0
-    is_exhausted = self.scratch.stamina < 20.0
+    is_exhausted = self.scratch.stamina < 30.0
 
     # [OPTIMIZATION] Fast path: if the persona is mid-walk on a planned path
     # and it's not a new day, skip the full cognitive pipeline to avoid
@@ -240,17 +240,23 @@ class Persona:
 
     # Interruption logic: Clear current planned paths and activities
     curr_act = self.scratch.act_description.lower() if self.scratch.act_description else ""
-    is_resolving_starvation = any(kw in curr_act for kw in ["consume", "eating", "eat", "cook", "gathering", "gather"])
-    is_resolving_exhaustion = any(kw in curr_act for kw in ["resting", "rest", "sleeping", "sleep", "idling", "idle"])
+    predicate = self.scratch.act_event[1].lower() if (self.scratch.act_event and len(self.scratch.act_event) > 1 and self.scratch.act_event[1]) else ""
+    is_resolving_starvation = any(kw in curr_act or kw in predicate for kw in ["consume", "eating", "eat", "cook", "gathering", "gather", "pancake", "food", "breakfast", "lunch", "dinner", "snack"])
+    is_resolving_exhaustion = any(kw in curr_act or kw in predicate for kw in ["resting", "rest", "sleeping", "sleep", "idling", "idle", "nap", "snooze"])
 
     should_interrupt = False
-    if is_starving and not is_resolving_starvation:
+    if is_starving and is_exhausted:
+      # If both crises are active, as long as they are resolving one of them, do not interrupt
+      if not (is_resolving_starvation or is_resolving_exhaustion):
+        should_interrupt = True
+    elif is_starving and not is_resolving_starvation:
       should_interrupt = True
     elif is_exhausted and not is_resolving_exhaustion:
       should_interrupt = True
 
     if should_interrupt and (self.scratch.planned_path or self.scratch.act_address):
       print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
+      self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
       self.scratch.planned_path = []
       self.scratch.act_path_set = False
       self.scratch.chatting_with = None

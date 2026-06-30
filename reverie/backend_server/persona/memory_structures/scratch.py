@@ -48,7 +48,7 @@ class Scratch:
     self.living_area = None
 
     # Physiological metabolic states
-    self.satiety = 100.0
+    self.satiety = 40.0
     self.stamina = 100.0
     self.health = 100.0
     # Psychological and switching state
@@ -209,7 +209,7 @@ class Scratch:
       self.living_area = scratch_load["living_area"]
 
       # Load physiological and skill parameters
-      self.satiety = scratch_load.get("satiety", 100.0)
+      self.satiety = scratch_load.get("satiety", 40.0)
       self.stamina = scratch_load.get("stamina", 100.0)
       self.health = scratch_load.get("health", 100.0)
       self.mood = scratch_load.get("mood", 100.0)

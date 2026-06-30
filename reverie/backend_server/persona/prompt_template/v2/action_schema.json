@@ -1,0 +1,34 @@
+{
+  "categories": {
+    "Consume": {
+      "verbs": ["consume", "eat", "drink", "have", "snack"],
+      "description": "Consume food or drink to restore Satiety and Health.",
+      "allowed_targets": ["apple", "cooked meal", "snack", "pancake", "food"]
+    },
+    "Gather": {
+      "verbs": ["gather", "get", "take", "harvest", "prepare"],
+      "description": "Gather food from resources to add to inventory.",
+      "allowed_targets": ["refrigerator", "stove", "cafe counter", "apple_tree", "kitchen sink"]
+    },
+    "Rest": {
+      "verbs": ["rest", "sleep", "nap", "idle", "relax"],
+      "description": "Rest or sleep to restore Stamina.",
+      "allowed_targets": ["bed", "sofa", "couch", "library sofa", "chair"]
+    },
+    "Work": {
+      "verbs": ["work", "teach", "write", "research", "study", "organize"],
+      "description": "Perform professional, academic, or daily tasks.",
+      "allowed_targets": ["desk", "computer", "classroom podium", "library desk"]
+    },
+    "Socialize": {
+      "verbs": ["socialize", "chat", "talk", "communicate"],
+      "description": "Interact or chat with other people to restore Mood.",
+      "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"]
+    },
+    "Recreate": {
+      "verbs": ["recreate", "play", "watch", "sing", "listen"],
+      "description": "Leisure, games, or music to improve Mood.",
+      "allowed_targets": ["game console", "TV", "piano", "easel"]
+    }
+  }
+}

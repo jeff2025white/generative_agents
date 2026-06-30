@@ -6,7 +6,20 @@ class GatherSkillPack(BaseSkillPack):
         self.name = "gather"
         self.associated_xp = "gathering"
 
+    def _clean_target(self, target) -> str:
+        t_lower = target.lower() if target else ""
+        if "refrigerator" in t_lower or "fridge" in t_lower:
+            return "refrigerator"
+        if "stove" in t_lower or "kitchen" in t_lower:
+            return "stove"
+        if "cafe" in t_lower or "counter" in t_lower:
+            return "cafe counter"
+        if "apple" in t_lower or "tree" in t_lower:
+            return "apple tree"
+        return target
+
     def can_execute(self, persona, target, maze) -> bool:
+        clean_target = self._clean_target(target)
         # 1. If currently standing on/near a source object, they can gather.
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         if curr_obj:
@@ -14,15 +27,17 @@ class GatherSkillPack(BaseSkillPack):
             if any(w in curr_obj_lower for w in ["apple_tree", "tree", "refrigerator", "fridge", "cafe", "counter"]):
                 return True
         # 2. Fallback: Target object must exist in spatial memory
-        return persona.s_mem.find_nearest_object(target) is not None
+        return persona.s_mem.find_nearest_object(clean_target) is not None
 
     def get_target_tiles(self, persona, target, maze) -> list:
-        address = persona.s_mem.find_nearest_object(target)
+        clean_target = self._clean_target(target)
+        address = persona.s_mem.find_nearest_object(clean_target)
         if address and address in maze.address_tiles:
             return list(maze.address_tiles[address])
         return []
 
     def on_arrive(self, persona, target, maze, personas):
+        print(f"=== [物理调试] {persona.name} 已经进入 gather_skill.on_arrive()，当前背包: {persona.scratch.inventory} ===")
         # 1. Resource output settlement
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         curr_obj = curr_obj.lower() if curr_obj else ""
@@ -47,3 +62,10 @@ class GatherSkillPack(BaseSkillPack):
             persona.scratch.skills[self.associated_xp]["level"] += 1
             persona.scratch.skills[self.associated_xp]["xp"] = 0
             print(f"=== [技能升级] {persona.name} 采集技能提升至 Lv.{persona.scratch.skills[self.associated_xp]['level']}! ===")
+            
+        # Force immediate action release upon arrival to avoid duration deadlock
+        persona.scratch.planned_path = []
+        persona.scratch.act_path_set = False
+        persona.scratch.act_address = None
+        persona.scratch.act_description = None
+        persona.scratch.act_event = None
