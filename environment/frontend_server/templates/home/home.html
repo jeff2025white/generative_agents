@@ -88,11 +88,12 @@
 						<div style="margin-bottom: 3px;"><strong>位置:</strong> <span id="target_address__{{ p_name_os }}"></span></div>
 						<div style="margin-bottom: 10px;"><strong>对话:</strong> <span id="chat__{{ p_name_os }}"></span></div>
 					</div>
-					<div style="margin-top: 10px; display: flex; gap: 4px; border-top: 1px solid #334155; padding-top: 10px; justify-content: space-between; flex-wrap: nowrap;">
-						<button onclick="openPlan('{{ p_name_os }}')" class="btn btn-primary btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #3B82F6; border-color: #3B82F6; flex: 1 1 auto; text-align: center;">📅 计划</button>
-						<button onclick="openMemory('{{ p_name_os }}')" class="btn btn-warning btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #F59E0B; border-color: #F59E0B; color: white; flex: 1 1 auto; text-align: center;">🧠 记忆</button>
-						<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" style="font-size:0.75em; padding: 3px 5px; flex: 1 1 auto; text-align: center;" class="btn btn-default btn-xs">🔍 状态</a>
-						<button onclick="openChat('{{ p_name_os }}')" class="btn btn-success btn-xs" style="font-size:0.75em; padding: 3px 5px; background-color: #10B981; border-color: #10B981; flex: 1 1 auto; text-align: center;">💬 聊天</button>
+					<div style="margin-top: 10px; display: flex; gap: 4px; border-top: 1px solid #334155; padding-top: 10px; justify-content: space-between; flex-wrap: wrap;">
+						<button onclick="openPlan('{{ p_name_os }}')" class="btn btn-primary btn-xs" style="font-size:0.75em; padding: 3px 4px; background-color: #3B82F6; border-color: #3B82F6; flex: 1 1 auto; text-align: center;">📅 计划</button>
+						<button onclick="openMemory('{{ p_name_os }}')" class="btn btn-warning btn-xs" style="font-size:0.75em; padding: 3px 4px; background-color: #F59E0B; border-color: #F59E0B; color: white; flex: 1 1 auto; text-align: center;">🧠 记忆</button>
+						<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" style="font-size:0.75em; padding: 3px 4px; flex: 1 1 auto; text-align: center;" class="btn btn-default btn-xs">🔍 状态</a>
+						<button onclick="openChat('{{ p_name_os }}')" class="btn btn-success btn-xs" style="font-size:0.75em; padding: 3px 4px; background-color: #10B981; border-color: #10B981; flex: 1 1 auto; text-align: center;">💬 聊天</button>
+						<button onclick="openRelationship('{{ p_name_os }}')" class="btn btn-danger btn-xs" style="font-size:0.75em; padding: 3px 4px; background-color: #EC4899; border-color: #EC4899; color: white; flex: 1 1 auto; text-align: center;">❤️ 关系</button>
 					</div>
 				</div>
 			</div>
@@ -107,7 +108,12 @@
     <!-- 标题栏 -->
     <div style="background:#4CAF50; color:white; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
       <h4 style="margin:0; font-size:1.2em;">💬 Chat with <span id="chat-persona-display-name"></span></h4>
-      <button onclick="closeChat()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer;">&times;</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button id="chat-audio-toggle" onclick="toggleTts()" style="background:#388E3C; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.85em; cursor:pointer; outline:none; font-weight:bold; display:flex; align-items:center; gap:4px; transition: background 0.2s;">
+          🔊 Audio: ON
+        </button>
+        <button onclick="closeChat()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer; outline:none; line-height:1;">&times;</button>
+      </div>
     </div>
 
     <!-- 消息区域 -->
@@ -158,6 +164,23 @@
     <!-- 记忆内容区域 -->
     <div id="memory-content" style="flex:1; overflow-y:auto; padding:20px; background:#0F172A; color:#E2E8F0;">
       <!-- 记忆列表描述 -->
+    </div>
+  </div>
+</div>
+
+<!-- ===== 关系弹窗 (关系图谱文字描述) ===== -->
+<div id="relationship-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; backdrop-filter: blur(4px);">
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; max-height:85vh; background:#1E293B; border:1px solid #334155; border-radius:12px; box-shadow:0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.04); display:flex; flex-direction:column; overflow:hidden;">
+    
+    <!-- 标题栏 -->
+    <div style="background:#EC4899; color:white; padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+      <h4 style="margin:0; font-size:1.2em; font-weight:bold; color:white !important;">❤️ <span id="relationship-persona-display-name"></span> 的社会关系图谱</h4>
+      <button onclick="closeRelationship()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer; outline:none;">&times;</button>
+    </div>
+
+    <!-- 关系内容区域 -->
+    <div id="relationship-content" style="flex:1; overflow-y:auto; padding:20px; background:#0F172A; color:#E2E8F0;">
+      <!-- 关系列表 -->
     </div>
   </div>
 </div>

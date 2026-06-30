@@ -529,6 +529,13 @@ class ReverieServer:
             if persona.scratch.satiety <= 0.0:
               persona.scratch.health = max(0.0, persona.scratch.health - 0.05)
 
+            # 4. 情绪与社交状态更新
+            if persona.scratch.chatting_with and persona.scratch.chatting_with not in ["", "<creator>"]:
+              persona.scratch.last_social_time = self.curr_time
+              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.15)
+            else:
+              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.015)
+
           # Then we need to actually have each of the personas perceive and
           # move. The movement for each of the personas comes in the form of
           # x y coordinates where the persona will move towards. e.g., (50, 34)

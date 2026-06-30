@@ -4,6 +4,7 @@ from persona.cognitive_modules.skill_packs.rest_skill import RestSkillPack
 from persona.cognitive_modules.skill_packs.cook_skill import CookSkillPack
 from persona.cognitive_modules.skill_packs.coffee_service_skill import CoffeeServiceSkillPack
 from persona.cognitive_modules.skill_packs.chat_skill import ChatSkillPack
+from persona.cognitive_modules.skill_packs.singing_skill import SingingSkillPack
 
 SKILL_REGISTRY = {
     "gather": GatherSkillPack(),
@@ -13,6 +14,10 @@ SKILL_REGISTRY = {
     "brew": CoffeeServiceSkillPack(),
     "serve": CoffeeServiceSkillPack(),
     "drink": CoffeeServiceSkillPack(),
+    
+    # Singing skill registration
+    "sing": SingingSkillPack(),
+    "singing": SingingSkillPack(),
     
     # Pluggable Chat Skill Pack mapping
     "chat with": ChatSkillPack(),

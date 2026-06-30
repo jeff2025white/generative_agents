@@ -51,13 +51,18 @@ class Scratch:
     self.satiety = 100.0
     self.stamina = 100.0
     self.health = 100.0
+    # Psychological and switching state
+    self.mood = 100.0
+    self.last_social_time = None
+    self.last_action_switch_time = None
     # Inventory state
     self.inventory = {}
     # Skills system
     self.skills = {
       "farming": {"level": 1, "xp": 0},
       "cooking": {"level": 1, "xp": 0},
-      "gathering": {"level": 1, "xp": 0}
+      "gathering": {"level": 1, "xp": 0},
+      "singing": {"level": 1, "xp": 0}
     }
     # Personal knowledge base
     self.personal_knowledge = {}
@@ -207,12 +212,23 @@ class Scratch:
       self.satiety = scratch_load.get("satiety", 100.0)
       self.stamina = scratch_load.get("stamina", 100.0)
       self.health = scratch_load.get("health", 100.0)
+      self.mood = scratch_load.get("mood", 100.0)
+      
+      lst_str = scratch_load.get("last_social_time", None)
+      self.last_social_time = datetime.datetime.strptime(lst_str, "%B %d, %Y, %H:%M:%S") if lst_str else None
+      
+      last_switch_str = scratch_load.get("last_action_switch_time", None)
+      self.last_action_switch_time = datetime.datetime.strptime(last_switch_str, "%B %d, %Y, %H:%M:%S") if last_switch_str else None
+
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
         "farming": {"level": 1, "xp": 0},
         "cooking": {"level": 1, "xp": 0},
-        "gathering": {"level": 1, "xp": 0}
+        "gathering": {"level": 1, "xp": 0},
+        "singing": {"level": 1, "xp": 0}
       })
+      if "singing" not in self.skills:
+        self.skills["singing"] = {"level": 1, "xp": 0}
       self.personal_knowledge = scratch_load.get("personal_knowledge", {})
 
       self.concept_forget = scratch_load["concept_forget"]
@@ -298,6 +314,9 @@ class Scratch:
     scratch["satiety"] = self.satiety
     scratch["stamina"] = self.stamina
     scratch["health"] = self.health
+    scratch["mood"] = self.mood
+    scratch["last_social_time"] = self.last_social_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_social_time else None
+    scratch["last_action_switch_time"] = self.last_action_switch_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_action_switch_time else None
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -536,6 +555,19 @@ class Scratch:
                      act_obj_pronunciatio, 
                      act_obj_event, 
                      act_start_time=None): 
+    # Check for action switch and apply oscillation check
+    if action_description != self.act_description:
+      if not self.last_action_switch_time:
+        self.last_action_switch_time = self.curr_time
+      elif self.curr_time:
+        elapsed = (self.curr_time - self.last_action_switch_time).total_seconds() / 60.0
+        # If task switched too fast (less than 15 mins) and the new action is not idling/sleeping,
+        # apply a stamina penalty.
+        if elapsed < 15.0 and action_description and "idle" not in action_description.lower() and "sleep" not in action_description.lower():
+          self.stamina = max(0.0, self.stamina - 5.0)
+          print(f"=== [物理振荡惩罚] {self.name} 从 '{self.act_description}' 切换到 '{action_description}' 耗时仅 {elapsed:.1f} 分钟，扣除精力 5.0，剩余精力: {self.stamina:.1f} ===")
+      self.last_action_switch_time = self.curr_time
+
     self.act_address = action_address
     self.act_duration = action_duration
     self.act_description = action_description

@@ -1,6 +1,5 @@
 import json
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
-from persona.prompt_template.gpt_structure import ChatGPT_safe_generate_response
 
 class CookSkillPack(BaseSkillPack):
     def __init__(self):
@@ -33,7 +32,7 @@ class CookSkillPack(BaseSkillPack):
         special_instruction = "Select a dish using the ingredients. Respond only in JSON."
         
         try:
-            response = ChatGPT_safe_generate_response(
+            response = self.run_skill_llm_request(
                 prompt, example_output, special_instruction,
                 repeat=2, fail_safe_response={"dish": "cooked apple", "monologue": "Cooking some apples."},
                 verbose=False

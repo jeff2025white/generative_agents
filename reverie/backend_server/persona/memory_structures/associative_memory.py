@@ -64,6 +64,19 @@ class AssociativeMemory:
 
     self.embeddings = json.load(open(f_saved + "/embeddings.json"))
 
+    # Load social relationship graph
+    self.graph_path = f_saved + "/social_relationship_graph.json"
+    import os
+    if os.path.exists(self.graph_path):
+      try:
+        with open(self.graph_path, "r", encoding="utf-8") as f:
+          self.social_relationship_graph = json.load(f)
+      except Exception as e:
+        print(f"Warning: Failed to load social relationship graph from {self.graph_path}: {e}")
+        self.social_relationship_graph = {"relations": {}}
+    else:
+      self.social_relationship_graph = {"relations": {}}
+
     nodes_load = json.load(open(f_saved + "/nodes.json"))
     for count in range(len(nodes_load.keys())): 
       node_id = f"node_{str(count+1)}"
@@ -148,6 +161,43 @@ class AssociativeMemory:
 
     with open(out_json+"/embeddings.json", "w") as outfile:
       json.dump(self.embeddings, outfile)
+
+    # Save social relationship graph
+    with open(out_json+"/social_relationship_graph.json", "w", encoding="utf-8") as outfile:
+      json.dump(self.social_relationship_graph, outfile, ensure_ascii=False, indent=2)
+
+
+  def update_relationship(self, target_name, relation_type=None, trust_delta=0, trust_absolute=None, recent_event=None):
+    if "relations" not in self.social_relationship_graph:
+      self.social_relationship_graph["relations"] = {}
+    
+    if target_name not in self.social_relationship_graph["relations"]:
+      self.social_relationship_graph["relations"][target_name] = {
+        "relationship": "stranger",
+        "trust": 0.5,
+        "recent_events": []
+      }
+    
+    rel = self.social_relationship_graph["relations"][target_name]
+    if relation_type:
+      rel["relationship"] = relation_type
+    
+    if trust_absolute is not None:
+      rel["trust"] = max(0.0, min(1.0, trust_absolute))
+    elif trust_delta != 0:
+      rel["trust"] = max(0.0, min(1.0, rel["trust"] + trust_delta))
+      
+    if recent_event:
+      if "recent_events" not in rel:
+        rel["recent_events"] = []
+      rel["recent_events"].append(recent_event)
+      if len(rel["recent_events"]) > 5:
+        rel["recent_events"].pop(0)
+
+  def get_relationship(self, target_name):
+    if "relations" not in self.social_relationship_graph:
+      return None
+    return self.social_relationship_graph["relations"].get(target_name, None)
 
 
   def add_event(self, created, expiration, s, p, o, 

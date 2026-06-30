@@ -4,7 +4,6 @@ import sqlite3
 import re
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.prompt_template.gpt_structure import (
-    ChatGPT_safe_generate_response,
     generate_prompt,
     get_embedding
 )
@@ -130,7 +129,7 @@ class ChatSkillPack(BaseSkillPack):
                 "next_action": content if action_type == "instruction" else ""
             }
 
-            decision = ChatGPT_safe_generate_response(
+            decision = self.run_skill_llm_request(
                 prompt,
                 example_output='{"reply": "是的，造物主，我正前往寝室。", "emoji": "🫡", "next_action": "going to bed", "reasoning": "Awe towards creator"}',
                 special_instruction="Provide valid JSON containing reply, emoji, and next_action.",
@@ -188,7 +187,7 @@ class ChatSkillPack(BaseSkillPack):
                 "emoji": "💭"
             }
 
-            decision = ChatGPT_safe_generate_response(
+            decision = self.run_skill_llm_request(
                 prompt,
                 example_output='{"monologue": "肚子有点饿了，等会儿去冰箱找点吃的吧。", "emoji": "💭"}',
                 special_instruction="Provide valid JSON containing monologue and emoji.",
@@ -231,11 +230,20 @@ class ChatSkillPack(BaseSkillPack):
                 for s, u in convo:
                     history_str += f"{s}: {u}\n"
 
+                # Inject social relationship graph constraints into context
+                rel = speaker.a_mem.get_relationship(listener.name)
+                rel_str = ""
+                if rel:
+                    rel_str = f" Relation status: {rel.get('relationship', 'acquaintance')} (Trust level: {rel.get('trust', 0.5):.2f})."
+                    if rel.get("recent_events"):
+                        rel_str += f" Recent interactions: {', '.join(rel['recent_events'])}."
+                speaker_context = f"{curr_context}{rel_str}"
+
                 prompt_input = [
                     speaker.scratch.get_str_iss(),
                     listener.name,
                     mems_str,
-                    curr_context,
+                    speaker_context,
                     history_str if history_str else "No conversation started yet.",
                     speaker.scratch.first_name
                 ]
@@ -256,7 +264,7 @@ class ChatSkillPack(BaseSkillPack):
                     "end": True if turn >= 3 else False
                 }
 
-                turn_decision = ChatGPT_safe_generate_response(
+                turn_decision = self.run_skill_llm_request(
                     prompt,
                     example_output='{"utterance": "你听说Isabella最近研发了新的咖啡吗？听说味道特别棒！", "end": false, "reasoning": "Spreading a nice rumor about Isabella"}',
                     special_instruction="Provide valid JSON containing utterance and end.",
@@ -348,9 +356,23 @@ class ChatSkillPack(BaseSkillPack):
                 except Exception as ge:
                     print(f"Warning: Gossip extraction failed: {ge}")
 
+                # Update relationship graph for both parties in synchronization
+                persona.a_mem.update_relationship(
+                    target_p.name,
+                    relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
+                    trust_delta=0.05,
+                    recent_event=convo_summary
+                )
+                target_p.a_mem.update_relationship(
+                    persona.name,
+                    relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
+                    trust_delta=0.05,
+                    recent_event=convo_summary
+                )
+
                 # Physiological recovery
                 persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
-                print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，恢复精力至 {persona.scratch.stamina:.1f} ===")
+                print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
 
         # Trigger LLM cognitive decision
@@ -520,8 +542,22 @@ class ChatSkillPack(BaseSkillPack):
             except Exception as ge:
                 print(f"Warning: Gossip extraction failed: {ge}")
 
+            # Update relationship graph for both parties
+            persona.a_mem.update_relationship(
+                target_p.name,
+                relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
+                trust_delta=0.05,
+                recent_event=convo_summary
+            )
+            target_p.a_mem.update_relationship(
+                persona.name,
+                relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
+                trust_delta=0.05,
+                recent_event=convo_summary
+            )
+
             # 4. Metabolic / physiological effect for the initiator
             persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
 
-            print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，恢复精力至 {persona.scratch.stamina:.1f} ===")
+            print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
 

@@ -1223,49 +1223,148 @@ def decide_survival_action(persona, maze):
   return persona.scratch.act_address
 
 
+def decide_demand_action(persona, maze):
+  import json
+  # Get all objects the persona knows about
+  objs = set()
+  for w in persona.s_mem.tree:
+    for s in persona.s_mem.tree[w]:
+      for a in persona.s_mem.tree[w][s]:
+        for obj in persona.s_mem.tree[w][s][a]:
+          objs.add(obj)
+  objs_list = list(objs)
+
+  # Query environment micro-states and cooperative details
+  object_states = []
+  cooperative_events = []
+  
+  for obj in objs_list:
+    address = persona.s_mem.find_nearest_object(obj)
+    if address and address in maze.address_tiles:
+      tiles = list(maze.address_tiles[address])
+      events_on_obj = []
+      for tile in tiles:
+        tile_details = maze.access_tile(tile)
+        if tile_details and tile_details["events"]:
+          for ev in tile_details["events"]:
+            ev_str = str(ev)
+            events_on_obj.append(ev_str)
+            if any(kw in ev_str.lower() for kw in ["waiting", "serve", "served"]):
+              cooperative_events.append(f"{ev_str} (at {obj})")
+      if events_on_obj:
+        object_states.append(f"{obj} (current state: {', '.join(events_on_obj)})")
+      else:
+        object_states.append(f"{obj} (idle/normal)")
+    else:
+      object_states.append(f"{obj} (normal)")
+
+  # Compile Temporal Context
+  curr_time_str = persona.scratch.curr_time.strftime("%A %B %d, %Y, %I:%M %p") if persona.scratch.curr_time else "Unknown"
+  temporal_context = f"- Current Time: {curr_time_str}"
+
+  # Compile Homeostasis & World Rules
+  physiological_rules = (
+      "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
+      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.\n"
+      "- Resting (Rest action) restores +40.0 Stamina.\n"
+      "- Socializing (Socialize action) restores +30.0 Mood.\n"
+      "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.\n"
+      "- Normal activities decay Stamina by -0.015 per step, walking decays Stamina by -0.022 per step.\n"
+      "- Sleeping restores Stamina by +0.05 per step, resting restores Stamina by +0.03 per step.\n"
+      "- Switch Cost: Changing tasks/actions in under 15 minutes consumes a high penalty of -5.0 Stamina.\n"
+      "- If Satiety reaches 0.0, Health decays by -0.05 per step."
+  )
+
+  # Compile Cooperative Context
+  cooperative_context = ""
+  if cooperative_events:
+    cooperative_context += "Active cooperative/social events nearby:\n" + "\n".join([f"- {ev}" for ev in cooperative_events])
+  else:
+    cooperative_context += "No special cooperative tasks or wait states are active nearby."
+
+  curr_sector = maze.get_tile_path(persona.scratch.curr_tile, "sector").lower() if (persona.scratch.curr_tile and maze.get_tile_path(persona.scratch.curr_tile, "sector")) else ""
+  is_worker = any(job in persona.scratch.learned.lower() for job in ["owner", "barista", "employee", "worker", "staff"]) and curr_sector in persona.scratch.learned.lower()
+  if is_worker:
+    cooperative_context += f"\n- NOTE: You are a staff/owner of the current area ({curr_sector}). You do not need to wait for others to serve you food/drink; you have direct access to resources and can gather or prepare food yourself."
+
+  # Call GPT to decide dynamic action
+  decision = run_gpt_prompt_demand_decision(
+      persona, 
+      object_states, 
+      temporal_context=temporal_context, 
+      rules=physiological_rules, 
+      cooperative_context=cooperative_context
+  )
+  action = decision.get("action", "Idle")
+  target = decision.get("target", "none")
+  act_desp = decision.get("detail", "idling")
+  act_dura = decision.get("duration", 10)
+  reasoning = decision.get("reasoning", "")
+
+  print(f"[{persona.name}] 需求驱动实时决策: Action={action}, Target={target}, Duration={act_dura} min, Detail='{act_desp}', 原因={reasoning}")
+
+  # Fallback check
+  if not act_desp:
+    act_desp = "idling to conserve energy"
+    act_dura = 10
+
+  # Resolve sector, arena, object
+  act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
+  
+  # Check if target is a known object with a specific address
+  address = persona.s_mem.find_nearest_object(target)
+  if address:
+    new_address = address
+  else:
+    # Use standard prompt resolvers
+    act_sector = generate_action_sector(act_desp, persona, maze)
+    act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
+    act_address = f"{act_world}:{act_sector}:{act_arena}"
+    act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
+    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+
+  act_pron = generate_action_pronunciatio(act_desp, persona)
+  act_event = generate_action_event_triple(act_desp, persona)
+  
+  # Persona's actions also influence the object states. We set those up here. 
+  try:
+    act_game_object = new_address.split(":")[-1]
+  except:
+    act_game_object = "none"
+  act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
+  act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
+  act_obj_event = generate_act_obj_event_triple(act_game_object, act_obj_desp, persona)
+
+  # Adding the action to persona's queue. 
+  persona.scratch.add_new_action(new_address, 
+                                 int(act_dura), 
+                                 act_desp, 
+                                 act_pron, 
+                                 act_event,
+                                 None,
+                                 None,
+                                 None,
+                                 None,
+                                 act_obj_desp, 
+                                 act_obj_pron, 
+                                 act_obj_event)
+  return persona.scratch.act_address
+
+
 def plan(persona, maze, personas, new_day, retrieved): 
   """
   Main cognitive function of the chain. It takes the retrieved memory and 
   perception, as well as the maze and the first day state to conduct both 
   the long term and short term planning for the persona. 
-
-  INPUT: 
-    maze: Current <Maze> instance of the world. 
-    personas: A dictionary that contains all persona names as keys, and the 
-              Persona instance as values. 
-    new_day: This can take one of the three values. 
-      1) <Boolean> False -- It is not a "new day" cycle (if it is, we would
-         need to call the long term planning sequence for the persona). 
-      2) <String> "First day" -- It is literally the start of a simulation,
-         so not only is it a new day, but also it is the first day. 
-      2) <String> "New day" -- It is a new day. 
-    retrieved: dictionary of dictionary. The first layer specifies an event,
-               while the latter layer specifies the "curr_event", "events", 
-               and "thoughts" that are relevant.
-  OUTPUT 
-    The target action address of the persona (persona.scratch.act_address).
   """ 
-  # Intercept for survival if satiety/stamina is low!
-  is_starving = persona.scratch.satiety < 30.0
-  is_exhausted = persona.scratch.stamina < 20.0
-  if is_starving or is_exhausted:
-    # If they are currently executing a survival action, let them finish it!
-    # Otherwise, if they finished or are just starting, trigger survival choice.
-    act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
-    if persona.scratch.act_check_finished() or not act_desc or \
-       (not act_desc.startswith("gathering") and \
-        not act_desc.startswith("consuming") and \
-        not act_desc.startswith("resting") and \
-        not act_desc.startswith("idling")):
-      return decide_survival_action(persona, maze)
+  # If it is a new day, revise identity, but do NOT generate a rigid hourly schedule
+  if new_day == "New day":
+    revise_identity(persona)
 
-  # PART 1: Generate the hourly schedule. 
-  if new_day: 
-    _long_term_planning(persona, new_day)
-
-  # PART 2: If the current action has expired, we want to create a new plan.
-  if persona.scratch.act_check_finished(): 
-    _determine_action(persona, maze)
+  # Unify scheduling and survival intercepts into one real-time demand-driven decision engine
+  act_desc = persona.scratch.act_description if persona.scratch.act_description else ""
+  if persona.scratch.act_check_finished() or not act_desc:
+    decide_demand_action(persona, maze)
 
   # PART 3: If you perceived an event that needs to be responded to (saw 
   # another persona), and retrieved relevant information. 

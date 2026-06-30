@@ -762,6 +762,66 @@ def api_get_persona_schedule(request):
     return JsonResponse({"error": str(e)}, status=500)
 
 
+@csrf_exempt
+def api_get_persona_relationship(request):
+  """
+  获取指定小人的社会关系图谱，并翻译成中文返回给前端。
+  """
+  sim_code = request.GET.get("sim_code")
+  persona_name = request.GET.get("persona_name").replace("_", " ")
+  
+  memory = f"storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+  if not os.path.exists(memory): 
+    memory = f"compressed_storage/{sim_code}/personas/{persona_name}/bootstrap_memory"
+      
+  if not os.path.exists(memory):
+    return JsonResponse({"error": f"Persona '{persona_name}' not found"}, status=404)
+      
+  try:
+    graph_path = os.path.join(memory, "associative_memory", "social_relationship_graph.json")
+    if not os.path.exists(graph_path):
+      return JsonResponse({"relations": {}})
+      
+    with open(graph_path, encoding="utf-8") as json_file:  
+      graph_data = json.load(json_file)
+    
+    relations = graph_data.get("relations", {})
+    translated_relations = {}
+    
+    # 关系翻译映射表
+    rel_translation = {
+      "friend": "朋友",
+      "colleague": "同事",
+      "acquaintance": "熟人",
+      "enemy": "对手/敌人",
+      "stranger": "陌生人",
+      "best_friend": "至交好友",
+      "family": "家人",
+      "partner": "伴侣"
+    }
+    
+    for name, info in relations.items():
+      eng_rel = info.get("relationship", "acquaintance").lower()
+      cn_rel = rel_translation.get(eng_rel, translate_to_chinese(eng_rel))
+      
+      # 翻译近期交互事件
+      recent_events = info.get("recent_events", [])
+      cn_events = [translate_to_chinese(evt) for evt in recent_events]
+      
+      translated_relations[name] = {
+        "relationship": cn_rel,
+        "trust": info.get("trust", 0.5),
+        "recent_events": cn_events
+      }
+      
+    return JsonResponse({
+      "persona_name": persona_name,
+      "relations": translated_relations
+    })
+  except Exception as e:
+    return JsonResponse({"error": str(e)}, status=500)
+
+
 def api_get_persona_memories(request):
   """
   获取指定小人的最新记忆列表。

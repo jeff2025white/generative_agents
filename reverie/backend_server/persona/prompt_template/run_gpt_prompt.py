@@ -1285,7 +1285,15 @@ def run_gpt_prompt_decide_to_talk(persona, target_persona, retrieved,test_input=
       last_chatted_time = last_chat.created.strftime("%B %d, %Y, %H:%M:%S")
       last_chat_about = last_chat.description
 
-    context = ""
+    # Inject social relationship graph constraints into context
+    rel = init_persona.a_mem.get_relationship(target_persona.name)
+    rel_str = ""
+    if rel:
+      rel_str = f"In {init_persona.name}'s mind, {target_persona.name} is a {rel.get('relationship', 'acquaintance')} (Trust level: {rel.get('trust', 0.5):.2f}). "
+      if rel.get("recent_events"):
+        rel_str += f"Recent interactions include: {', '.join(rel['recent_events'])}. "
+
+    context = rel_str
     for c_node in retrieved["events"]: 
       curr_desc = c_node.description.split(" ")
       curr_desc[2:3] = ["was"]
@@ -3020,6 +3028,88 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
     verbose=verbose
   )
   return output
+
+
+def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=None, rules=None, cooperative_context=None, verbose=False):
+  def create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context):
+    inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
+    res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+    
+    if not temporal_context:
+      temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
+    if not rules:
+      rules = (
+        "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).\n"
+        "- Gathering food (Gather action) adds items to inventory.\n"
+        "- Resting (Rest action) restores Stamina (+40.0 Stamina).\n"
+        "- Socializing (Socialize action) restores Mood (+30.0 Mood).\n"
+        "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
+      )
+    if not cooperative_context:
+      cooperative_context = "No special requests or cooperative events are currently active nearby."
+      
+    prompt_input = [
+      persona.scratch.get_str_iss(),
+      f"{persona.scratch.satiety:.1f}",
+      f"{persona.scratch.stamina:.1f}",
+      f"{persona.scratch.health:.1f}",
+      f"{persona.scratch.mood:.1f}",
+      inv_str,
+      res_str,
+      temporal_context,
+      rules,
+      cooperative_context,
+      persona.scratch.get_str_firstname()
+    ]
+    return prompt_input
+
+  def __func_clean_up(gpt_response, prompt=""):
+    try:
+      cleaned = clean_json_str(gpt_response)
+      if isinstance(cleaned, dict):
+        return cleaned
+      start = cleaned.find("{")
+      end = cleaned.rfind("}") + 1
+      if start != -1 and end != -1:
+        cleaned = cleaned[start:end]
+      data = json.loads(cleaned)
+      return data
+    except Exception as e:
+      print(f"Error cleaning up demand response: {e}, raw: {gpt_response}")
+      return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fallback default"}
+
+  def __func_validate(gpt_response, prompt=""):
+    try:
+      cleaned = clean_json_str(gpt_response)
+      start = cleaned.find("{")
+      end = cleaned.rfind("}") + 1
+      if start != -1 and end != -1:
+        cleaned = cleaned[start:end]
+      data = json.loads(cleaned)
+      if "action" in data and "target" in data and "detail" in data and "duration" in data:
+        return True
+    except:
+      pass
+    return False
+
+  def get_fail_safe():
+    return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fail-safe triggered"}
+
+  prompt_template = "persona/prompt_template/v2/demand_decision_v1.txt"
+  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context)
+  prompt = generate_prompt(prompt_input, prompt_template)
+  
+  example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
+  special_instruction = "Select the best action, target, detail and duration based on stats and identity goals."
+  
+  output = ChatGPT_safe_generate_response(
+    prompt, example_output, special_instruction,
+    repeat=3, fail_safe_response=get_fail_safe(),
+    func_validate=__func_validate, func_clean_up=__func_clean_up,
+    verbose=verbose
+  )
+  return output
+
 
 
 

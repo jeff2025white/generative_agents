@@ -624,6 +624,82 @@ var chatState = {
   isWaiting: false          // 是否正在等待回复
 };
 
+// Audio TTS state
+var ttsEnabled = true;
+
+function toggleTts() {
+  ttsEnabled = !ttsEnabled;
+  var btn = document.getElementById("chat-audio-toggle");
+  if (ttsEnabled) {
+    btn.innerHTML = "🔊 Audio: ON";
+    btn.style.background = "#388E3C";
+  } else {
+    btn.innerHTML = "🔇 Audio: OFF";
+    btn.style.background = "#D32F2F";
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  }
+}
+
+function speakText(text, displayName) {
+  if (!ttsEnabled || !('speechSynthesis' in window)) return;
+
+  // Cancel any ongoing speech
+  window.speechSynthesis.cancel();
+
+  // Strip emojis and html if any
+  var cleanText = text.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]/g, "");
+  
+  var utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.lang = "zh-CN";
+
+  // Check if character is singing (e.g. contains ♪, 唱, 歌, sing, song)
+  var isSinging = /♪|唱|歌|sing|song/i.test(text);
+
+  if (isSinging) {
+    // Singing: higher pitch, slightly slower rate to sound melodic/rhythmic
+    utterance.pitch = 1.35;
+    utterance.rate = 0.82;
+    console.log("=== [AI Singing] Synthesizing singing vocals for: " + displayName);
+  } else {
+    // Normal speech: standard parameters
+    utterance.pitch = 1.0;
+    utterance.rate = 1.05;
+    console.log("=== [AI Speaking] Synthesizing speech for: " + displayName);
+  }
+
+  // Choose voice by gender / character name
+  var voices = window.speechSynthesis.getVoices();
+  if (voices && voices.length > 0) {
+    var selectedVoice = null;
+    var nameLower = displayName.toLowerCase();
+    
+    // Female characters
+    if (nameLower.includes("isabella") || nameLower.includes("maria")) {
+      // Find a female voice or a default Chinese voice
+      selectedVoice = voices.find(function(v) { 
+        return v.lang.includes("ZH") && (v.name.toLowerCase().includes("xiaoxiao") || v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("mei")); 
+      });
+    } else { // Male characters (Klaus etc.)
+      selectedVoice = voices.find(function(v) { 
+        return v.lang.includes("ZH") && (v.name.toLowerCase().includes("yunjian") || v.name.toLowerCase().includes("male") || v.name.toLowerCase().includes("kangkang")); 
+      });
+    }
+
+    if (!selectedVoice) {
+      // Fallback to any Chinese voice
+      selectedVoice = voices.find(function(v) { return v.lang.includes("ZH") || v.lang.includes("zh"); });
+    }
+
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
+  }
+
+  window.speechSynthesis.speak(utterance);
+}
+
 function openChat(personaNameUnderscore) {
   chatState.personaName = personaNameUnderscore;
   chatState.displayName = personaNameUnderscore.replace(/_/g, " ");
@@ -744,6 +820,7 @@ function sendChatMessage() {
       var reply = resp.reply;
       appendMessage("assistant", reply, resp.persona_name);
       chatState.conversationHistory.push({role: "assistant", content: reply});
+      speakText(reply, chatState.displayName);
     } else {
       var errMsg = "Error: ";
       try {
@@ -971,6 +1048,105 @@ function renderMemoryModal(memories) {
   html += '</div>';
   
   memoryContent.innerHTML = html;
+}
+
+// =====================================================================
+// RELATIONSHIP SYSTEM - 关系图谱弹窗
+// =====================================================================
+
+function openRelationship(personaNameUnderscore) {
+  let displayName = personaNameUnderscore.replace(/_/g, " ");
+  document.getElementById("relationship-persona-display-name").innerText = displayName;
+  
+  let relationshipContent = document.getElementById("relationship-content");
+  relationshipContent.innerHTML = '<p style="color:#64748B; text-align:center; font-style:italic; padding: 20px;">正在获取最新社会关系图谱...</p>';
+  document.getElementById("relationship-modal").style.display = "block";
+
+  // 通过 Ajax 获取关系数据
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/api/get_persona_relationship/?sim_code=" + sim_code.trim() + "&persona_name=" + personaNameUnderscore, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var resp = JSON.parse(xhr.responseText);
+      renderRelationshipModal(resp.relations);
+    } else {
+      relationshipContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">获取关系失败: ' + xhr.statusText + '</p>';
+    }
+  };
+  xhr.onerror = function() {
+    relationshipContent.innerHTML = '<p style="color:#EF4444; text-align:center; padding: 20px;">网络请求失败，请确保服务正常运行。</p>';
+  };
+  xhr.send();
+}
+
+function closeRelationship() {
+  document.getElementById("relationship-modal").style.display = "none";
+}
+
+function renderRelationshipModal(relations) {
+  let relationshipContent = document.getElementById("relationship-content");
+  let html = "";
+  
+  html += '<div style="margin-bottom: 12px;">';
+  html += '  <h4 style="color:#F8FAFC !important; font-size:1.1em; font-weight:bold; margin-bottom:16px; border-left: 4px solid #EC4899; padding-left: 8px;">❤️ 社交关系与好感度 (文字图谱)</h4>';
+  
+  let names = Object.keys(relations || {});
+  if (names.length > 0) {
+    html += '  <div style="display:flex; flex-direction:column; gap:16px;">';
+    for (let i = 0; i < names.length; i++) {
+      let targetName = names[i];
+      let info = relations[targetName];
+      let relationshipType = info.relationship || "陌生人";
+      let trustScore = info.trust || 0.5;
+      let recentEvents = info.recent_events || [];
+      
+      // 颜色根据信任度决定
+      let trustPercentage = Math.round(trustScore * 100);
+      let barColor = "#EC4899"; // default pink
+      if (trustScore >= 0.8) barColor = "#EF4444"; // red
+      else if (trustScore >= 0.6) barColor = "#F59E0B"; // orange
+      else if (trustScore >= 0.4) barColor = "#10B981"; // green
+      
+      html += '    <div style="background:#1E293B; border:1px solid #334155; border-radius:10px; padding:16px; transition: all 0.2s ease-in-out;" onmouseover="this.style.borderColor=\'#EC4899\'" onmouseout="this.style.borderColor=\'#334155\'">';
+      // 第一行: 名字与关系头衔
+      html += '      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">';
+      html += '        <span style="font-size:1.1em; font-weight:bold; color:#F8FAFC;">' + escapeHtml(targetName) + '</span>';
+      html += '        <span style="font-size: 0.8em; color: white; font-weight:bold; background:#EC4899; border:1px solid #EC4899; padding:3px 8px; border-radius:6px;">' + escapeHtml(relationshipType) + '</span>';
+      html += '      </div>';
+      
+      // 第二行: 信任值进度条
+      html += '      <div style="margin-bottom:12px;">';
+      html += '        <div style="display:flex; justify-content:space-between; font-size:0.8em; color:#94A3B8; margin-bottom:4px;">';
+      html += '          <span>信任好感度</span>';
+      html += '          <span style="color:' + barColor + '; font-weight:bold;">' + trustPercentage + '%</span>';
+      html += '        </div>';
+      html += '        <div style="width:100%; height:8px; background:#0F172A; border-radius:4px; overflow:hidden;">';
+      html += '          <div style="width:' + trustPercentage + '%; height:100%; background:' + barColor + '; border-radius:4px;"></div>';
+      html += '        </div>';
+      html += '      </div>';
+      
+      // 第三行: 最近接触描述
+      html += '      <div>';
+      html += '        <div style="font-size:0.8em; color:#64748B; font-weight:bold; margin-bottom:6px;">📖 近期互动事件</div>';
+      if (recentEvents && recentEvents.length > 0) {
+        html += '        <ul style="padding-left:16px; color:#E2E8F0; font-size:0.88em; margin:0; line-height:1.5em; display:flex; flex-direction:column; gap:4px;">';
+        for (let j = 0; j < recentEvents.length; j++) {
+          html += '          <li>' + escapeHtml(recentEvents[j]) + '</li>';
+        }
+        html += '        </ul>';
+      } else {
+        html += '        <p style="color:#64748B; font-style:italic; font-size:0.85em; margin:0;">暂无近期接触记忆碎片</p>';
+      }
+      html += '      </div>';
+      
+      html += '    </div>';
+    }
+    html += '  </div>';
+  } else {
+    html += '  <p style="color:#94A3B8; font-style:italic; margin-left:8px; line-height: 1.5em;">当前智能体尚未与其他任何人建立社交关系图谱。<br/><span style="font-size: 0.85em; color: #64748B;">（在后续的模拟社交中，一旦他们产生对话，系统将自动开始计算、沉淀并记录信任值和互动摘要）</span></p>';
+  }
+  html += '</div>';
+  relationshipContent.innerHTML = html;
 }
 </script>
 
