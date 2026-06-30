@@ -15,9 +15,10 @@ class SingingSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
-        # 1. Restore 5 points of Stamina as singing boosts mood
+        # 1. Restore Stamina and Mood as singing boosts happiness
         persona.scratch.stamina = min(100.0, persona.scratch.stamina + 5.0)
-        print(f"=== [技能物理结算] {persona.name} 唱了一首歌! 精力值恢复至: {persona.scratch.stamina:.1f} ===")
+        persona.scratch.mood = min(100.0, persona.scratch.mood + 15.0)
+        print(f"=== [技能物理结算] {persona.name} 唱了一首歌! 精力值恢复至: {persona.scratch.stamina:.1f}, 情绪值恢复至: {persona.scratch.mood:.1f} ===")
 
         # 2. Skill level & XP settlement
         if self.associated_xp in persona.scratch.skills:

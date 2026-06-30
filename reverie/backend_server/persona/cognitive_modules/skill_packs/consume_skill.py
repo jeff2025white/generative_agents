@@ -31,7 +31,8 @@ class ConsumeSkillPack(BaseSkillPack):
         # 2. Metabolic changes
         persona.scratch.satiety = min(100.0, persona.scratch.satiety + 40.0)
         persona.scratch.health = min(100.0, persona.scratch.health + 5.0)
-        print(f"=== [技能物理结算] {persona.name} 食用了 {target}! 饱食度: {persona.scratch.satiety:.1f}, 生命值: {persona.scratch.health:.1f} ===")
+        persona.scratch.mood = min(100.0, persona.scratch.mood + 10.0)
+        print(f"=== [技能物理结算] {persona.name} 食用了 {target}! 饱食度: {persona.scratch.satiety:.1f}, 生命值: {persona.scratch.health:.1f}, 情绪值: {persona.scratch.mood:.1f} ===")
         
         # 3. Cooking skill settlement
         persona.scratch.skills[self.associated_xp]["xp"] += 10
