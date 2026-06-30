@@ -7,7 +7,13 @@ class GatherSkillPack(BaseSkillPack):
         self.associated_xp = "gathering"
 
     def can_execute(self, persona, target, maze) -> bool:
-        # Physical check: Target object must exist in persona's spatial memory
+        # 1. If currently standing on/near a source object, they can gather.
+        curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+        if curr_obj:
+            curr_obj_lower = curr_obj.lower()
+            if any(w in curr_obj_lower for w in ["apple_tree", "tree", "refrigerator", "fridge", "cafe", "counter"]):
+                return True
+        # 2. Fallback: Target object must exist in spatial memory
         return persona.s_mem.find_nearest_object(target) is not None
 
     def get_target_tiles(self, persona, target, maze) -> list:
@@ -18,15 +24,22 @@ class GatherSkillPack(BaseSkillPack):
 
     def on_arrive(self, persona, target, maze, personas):
         # 1. Resource output settlement
-        if "apple_tree" in target.lower():
+        curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+        curr_obj = curr_obj.lower() if curr_obj else ""
+        target_lower = target.lower()
+        
+        if "apple_tree" in target_lower or "tree" in target_lower or "apple_tree" in curr_obj or "tree" in curr_obj:
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 2
             print(f"=== [技能物理结算] {persona.name} 成功从苹果树采集苹果 x2! 背包: {persona.scratch.inventory} ===")
-        elif "refrigerator" in target.lower() or "fridge" in target.lower():
+        elif "refrigerator" in target_lower or "fridge" in target_lower or "refrigerator" in curr_obj or "fridge" in curr_obj:
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
             print(f"=== [技能物理结算] {persona.name} 从冰箱获取了苹果 x1! 背包: {persona.scratch.inventory} ===")
-        elif "cafe" in target.lower() or "seating" in target.lower() or "counter" in target.lower():
+        elif "cafe" in target_lower or "seating" in target_lower or "counter" in target_lower or "cafe" in curr_obj or "counter" in curr_obj:
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 2
             print(f"=== [技能物理结算] {persona.name} 在咖啡馆获取了食物 (苹果 x2)! 背包: {persona.scratch.inventory} ===")
+        else:
+            persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
+            print(f"=== [技能物理结算] {persona.name} 采集获得了苹果 x1! 背包: {persona.scratch.inventory} ===")
         
         # 2. Skill level & XP settlement
         persona.scratch.skills[self.associated_xp]["xp"] += 10
