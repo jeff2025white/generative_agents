@@ -65,7 +65,8 @@ class ReverieServer:
     # reverie/meta/json's fork variable. 
     self.sim_code = sim_code
     sim_folder = f"{fs_storage}/{self.sim_code}"
-    copyanything(fork_folder, sim_folder)
+    if self.fork_sim_code != self.sim_code:
+      copyanything(fork_folder, sim_folder)
 
     with open(f"{sim_folder}/reverie/meta.json") as json_file:  
       reverie_meta = json.load(json_file)
@@ -576,6 +577,7 @@ class ReverieServer:
               movements["persona"][persona_name]["satiety"] = p_inst.scratch.satiety
               movements["persona"][persona_name]["stamina"] = p_inst.scratch.stamina
               movements["persona"][persona_name]["health"] = p_inst.scratch.health
+              movements["persona"][persona_name]["mood"] = p_inst.scratch.mood
               movements["persona"][persona_name]["inventory"] = p_inst.scratch.inventory
 
               # Calculate next action

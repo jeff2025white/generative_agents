@@ -585,6 +585,7 @@
 	        let satiety_val = execute_movement["persona"][curr_persona_name]["satiety"];
 	        let stamina_val = execute_movement["persona"][curr_persona_name]["stamina"];
 	        let health_val = execute_movement["persona"][curr_persona_name]["health"];
+	        let mood_val = execute_movement["persona"][curr_persona_name]["mood"];
 
 	        if (satiety_val !== undefined) {
 	          document.getElementById("satiety_val__" + curr_persona_name_os).innerText = Math.round(satiety_val);
@@ -597,6 +598,10 @@
 	        if (health_val !== undefined) {
 	          document.getElementById("health_val__" + curr_persona_name_os).innerText = Math.round(health_val);
 	          document.getElementById("health_bar__" + curr_persona_name_os).style.width = Math.round(health_val) + "%";
+	        }
+	        if (mood_val !== undefined) {
+	          document.getElementById("mood_val__" + curr_persona_name_os).innerText = Math.round(mood_val);
+	          document.getElementById("mood_bar__" + curr_persona_name_os).style.width = Math.round(mood_val) + "%";
 	        }
 
 	        persona_retrieved_memories[curr_persona_name_os] = retrieved_memories;
@@ -906,7 +911,7 @@ function renderPlanModal(dailyReq, schedule) {
     }
     html += '  </ul>';
   } else {
-    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无核心需求描述</p>';
+    html += '  <p style="color:#94A3B8; font-style:italic; margin-left:8px; font-size:0.9em; line-height: 1.5em;">💡 自主意识驱动中：在新版去特化架构下，核心生存目标已深度融入智能体的长期记忆与生理代谢规则。角色不再依赖静态硬编码的规则列表，而是由大脑根据实时场景自主选择如何实现其终极意图。</p>';
   }
   html += '</div>';
   
@@ -948,7 +953,7 @@ function renderPlanModal(dailyReq, schedule) {
     
     html += '  </div>';
   } else {
-    html += '  <p style="color:#64748B; font-style:italic; margin-left:8px;">暂无日程安排数据</p>';
+    html += '  <p style="color:#94A3B8; font-style:italic; margin-left:8px; font-size:0.9em; line-height: 1.5em;">💡 实时需求驱动已启用：当前模拟已切换为由“生理与情绪指标”驱动的实时自适应行为。智能体放弃了硬编码的僵硬整日规划表，转而根据饱腹度、精力、健康及情绪值等状态，在每个动作周期自主选择最优的下一步行动，体现出更高的环境适应力和自决策理性。</p>';
   }
   html += '</div>';
   
