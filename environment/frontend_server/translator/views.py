@@ -353,6 +353,249 @@ def replay(request, sim_code, step):
   return render(request, template, context)
 
 
+def _load_json_if_exists(path):
+  if path and os.path.exists(path):
+    with open(path, "r", encoding="utf-8") as f:
+      return json.load(f)
+  return None
+
+
+def _load_sim_meta(sim_code):
+  candidate_paths = [
+    os.path.join("storage", sim_code, "reverie", "meta.json"),
+    os.path.join("compressed_storage", sim_code, "meta.json"),
+    os.path.join("environment", "frontend_server", "storage", sim_code, "reverie", "meta.json"),
+  ]
+  for path in candidate_paths:
+    data = _load_json_if_exists(path)
+    if data:
+      return data
+  return {}
+
+
+def _derive_sim_time(sim_code, step, scratch):
+  meta = _load_sim_meta(sim_code)
+  start_date = meta.get("start_date")
+  sec_per_step = meta.get("sec_per_step")
+  if start_date and sec_per_step is not None:
+    try:
+      curr_dt = datetime.datetime.strptime(
+        start_date + " 00:00:00", "%B %d, %Y %H:%M:%S"
+      ) + datetime.timedelta(seconds=int(step) * int(sec_per_step))
+      return curr_dt.strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+      pass
+  return scratch.get("curr_time", "")
+
+
+def _load_persona_movement_snapshot(sim_code, step, persona_name):
+  try:
+    sim_state = (
+      SimState.objects.filter(sim_code=sim_code, step__lte=step, is_movement_ready=True)
+      .order_by("-step")
+      .first()
+    )
+    if sim_state and sim_state.movement:
+      movement = json.loads(sim_state.movement)
+      if movement.get("persona", {}).get(persona_name):
+        return movement["persona"][persona_name]
+  except Exception:
+    pass
+
+  candidate_paths = [
+    os.path.join("storage", sim_code, "movement", f"{step}.json"),
+    os.path.join("compressed_storage", sim_code, "master_movement.json"),
+  ]
+  for path in candidate_paths:
+    data = _load_json_if_exists(path)
+    if not data:
+      continue
+    if path.endswith("master_movement.json"):
+      step_key = str(step)
+      if step_key in data and persona_name in data[step_key]:
+        return data[step_key][persona_name]
+    elif data.get("persona", {}).get(persona_name):
+      return data["persona"][persona_name]
+  return {}
+
+
+def _build_environment_candidates(spatial):
+  area_candidates = []
+  flat_objects = []
+  seen_objects = set()
+
+  for world_name, sectors in (spatial or {}).items():
+    if not isinstance(sectors, dict):
+      continue
+    for sector_name, arenas in sectors.items():
+      if not isinstance(arenas, dict):
+        continue
+      for arena_name, objects in arenas.items():
+        if not objects:
+          continue
+        clean_objects = [obj for obj in objects if obj]
+        if not clean_objects:
+          continue
+        area_candidates.append(
+          {
+            "world": world_name,
+            "sector": sector_name,
+            "arena": arena_name,
+            "objects": clean_objects,
+          }
+        )
+        for obj in clean_objects:
+          lowered = obj.strip().lower()
+          if lowered not in seen_objects:
+            seen_objects.add(lowered)
+            flat_objects.append(obj)
+
+  area_candidates.sort(key=lambda item: (item["sector"], item["arena"]))
+  return area_candidates, flat_objects
+
+
+def _build_decision_rules(status_values):
+  satiety = float(status_values.get("satiety", 0.0) or 0.0)
+  stamina = float(status_values.get("stamina", 0.0) or 0.0)
+  inventory = status_values.get("inventory", {}) or {}
+  rules = [
+    "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
+    "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
+    "- Resting (Rest action) restores +40.0 Stamina.",
+    "- Socializing (Socialize action) restores +30.0 Mood.",
+    "- Survival Privilege: Daily plan requirements and lifestyle guidelines are non-binding recommendations.",
+  ]
+
+  has_food = False
+  for item_name, count in inventory.items():
+    if count and count > 0:
+      has_food = True
+      if satiety < 40.0:
+        rules.insert(
+          0,
+          f"- AVAILABLE PHYSICAL RULE: You have food ({item_name}) in your inventory and can select 'Consume' targeting '{item_name}'.",
+        )
+      break
+
+  if satiety < 40.0 and not has_food:
+    rules.insert(
+      0,
+      "- AVAILABLE PHYSICAL RULE: Inventory is empty, so you must use Gather on a valid food source like refrigerator, stove, cafe counter, or apple tree before consuming.",
+    )
+  if stamina < 40.0:
+    rules.insert(
+      0,
+      "- AVAILABLE PHYSICAL RULE: You can use Rest targeting bed or sofa to restore Stamina.",
+    )
+  if satiety < 30.0:
+    if has_food:
+      food_item = next((k for k, v in inventory.items() if v and v > 0), "food")
+      rules.insert(
+        0,
+        f"- CRITICAL HOMEOPATHY RULE: Satiety is critically low, so you must immediately Consume targeting '{food_item}'.",
+      )
+    else:
+      rules.insert(
+        0,
+        "- CRITICAL HOMEOPATHY RULE: Satiety is critically low, inventory is empty, so you must Gather from refrigerator, stove, cafe counter, or apple tree first.",
+      )
+  elif stamina < 30.0:
+    rules.insert(
+      0,
+      "- CRITICAL HOMEOPATHY RULE: Stamina is critically low, so you must immediately Rest targeting bed or sofa.",
+    )
+
+  return rules
+
+
+def _load_recent_decision_logs(persona_name, limit=8):
+  logs_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "translation_verify.jsonl")
+  )
+  if not os.path.exists(logs_path):
+    return []
+
+  interesting = {"decision_snapshot", "target_resolution", "retarget_invalid_food_source"}
+  matched = []
+  with open(logs_path, "r", encoding="utf-8") as f:
+    for line in f:
+      line = line.strip()
+      if not line:
+        continue
+      try:
+        entry = json.loads(line)
+      except Exception:
+        continue
+      if entry.get("persona") != persona_name:
+        continue
+      if entry.get("event") not in interesting:
+        continue
+      matched.append(entry)
+  return matched[-limit:]
+
+
+def _translate_inventory_items(inventory):
+  translated = []
+  for item_name, count in (inventory or {}).items():
+    if count and count > 0:
+      translated.append({
+        "name": translate_to_chinese(item_name),
+        "count": count,
+      })
+  return translated
+
+
+def _translate_environment_candidates(area_candidates):
+  translated = []
+  for area in area_candidates:
+    translated.append({
+      "world": translate_to_chinese(area.get("world", "")),
+      "sector": translate_to_chinese(area.get("sector", "")),
+      "arena": translate_to_chinese(area.get("arena", "")),
+      "objects": [translate_to_chinese(obj) for obj in area.get("objects", [])],
+    })
+  return translated
+
+
+def _translate_retrieved_memories(memories):
+  translated = []
+  for mem in memories or []:
+    translated.append({
+      **mem,
+      "description": translate_to_chinese(mem.get("description", "")),
+    })
+  return translated
+
+
+def _translate_recent_decision_logs(logs):
+  translated = []
+  for log in logs or []:
+    copied = dict(log)
+    if copied.get("event") == "decision_snapshot":
+      copied["intent_zh"] = translate_to_chinese(copied.get("intent", ""))
+      decision = copied.get("decision")
+      if isinstance(decision, dict):
+        copied["decision_zh"] = {
+          "action": translate_to_chinese(str(decision.get("action", ""))),
+          "target": translate_to_chinese(str(decision.get("target", ""))),
+          "detail": translate_to_chinese(str(decision.get("detail", ""))),
+          "duration": decision.get("duration", ""),
+          "reasoning": translate_to_chinese(str(decision.get("reasoning", ""))),
+        }
+      else:
+        copied["decision_zh"] = translate_to_chinese(str(decision))
+    elif copied.get("event") == "target_resolution":
+      copied["target_zh"] = translate_to_chinese(copied.get("target", ""))
+      copied["new_address_zh"] = translate_to_chinese(copied.get("new_address", ""))
+      copied["act_description_zh"] = translate_to_chinese(copied.get("act_description", ""))
+    elif copied.get("event") == "retarget_invalid_food_source":
+      copied["original_target_zh"] = translate_to_chinese(copied.get("original_target", ""))
+      copied["fallback_target_zh"] = translate_to_chinese(copied.get("fallback_target", ""))
+      copied["valid_sources_zh"] = [translate_to_chinese(str(x)) for x in copied.get("valid_sources", [])]
+    translated.append(copied)
+  return translated
+
+
 def replay_persona_state(request, sim_code, step, persona_name): 
   sim_code = sim_code
   step = int(step)
@@ -389,40 +632,73 @@ def replay_persona_state(request, sim_code, step, persona_name):
     elif node_details["type"] == "thought":
       a_mem_thought += [node_details]
   
-  # Translate scratch variables
-  translated_scratch = scratch.copy()
-  for field in ["innate", "learned", "currently", "lifestyle", "daily_plan_req"]:
-    if field in scratch:
-      translated_scratch[field] = translate_to_chinese(scratch[field])
-
-  # Copy and translate associative memory nodes
-  translated_event = []
-  for node in a_mem_event:
-    n = node.copy()
-    n["description"] = translate_to_chinese(node.get("description", ""))
-    translated_event.append(n)
-
-  translated_thought = []
-  for node in a_mem_thought:
-    n = node.copy()
-    n["description"] = translate_to_chinese(node.get("description", ""))
-    translated_thought.append(n)
-
-  translated_chat = []
-  for node in a_mem_chat:
-    n = node.copy()
-    n["description"] = translate_to_chinese(node.get("description", ""))
-    translated_chat.append(n)
+  movement_snapshot = _load_persona_movement_snapshot(sim_code, step, persona_name)
+  area_candidates, flat_objects = _build_environment_candidates(spatial)
+  live_inventory = movement_snapshot.get("inventory", scratch.get("inventory", {})) or {}
+  live_status = {
+    "satiety": movement_snapshot.get("satiety", scratch.get("satiety", 0.0)),
+    "stamina": movement_snapshot.get("stamina", scratch.get("stamina", 0.0)),
+    "health": movement_snapshot.get("health", scratch.get("health", 0.0)),
+    "mood": movement_snapshot.get("mood", scratch.get("mood", 0.0)),
+    "inventory": live_inventory,
+  }
+  raw_description = movement_snapshot.get("description", "")
+  current_action = raw_description.split("@")[0].strip() if "@" in raw_description else raw_description
+  current_address = raw_description.split("@", 1)[1].strip() if "@" in raw_description else scratch.get("act_address", "")
+  valid_food_sources = [obj for obj in flat_objects if obj.lower() in {"refrigerator", "stove", "cafe counter", "behind the cafe counter", "apple tree"}]
+  retrieved_memories = movement_snapshot.get("retrieved_memories", []) or []
+  decision_rules = _build_decision_rules(live_status)
+  recent_decision_logs = _load_recent_decision_logs(persona_name)
+  derived_sim_time = _derive_sim_time(sim_code, step, scratch)
+  translated_inventory_items = _translate_inventory_items(live_inventory)
+  translated_environment_candidates = _translate_environment_candidates(area_candidates)
+  translated_flat_objects = [translate_to_chinese(obj) for obj in flat_objects]
+  translated_valid_food_sources = [translate_to_chinese(obj) for obj in valid_food_sources]
+  translated_retrieved_memories = _translate_retrieved_memories(retrieved_memories)
+  translated_decision_rules = [translate_to_chinese(rule) for rule in decision_rules]
+  translated_recent_decision_logs = _translate_recent_decision_logs(recent_decision_logs)
+  translated_current_action = translate_to_chinese(current_action)
+  translated_current_address = translate_to_chinese(current_address)
+  translated_last_chat = translate_to_chinese(movement_snapshot.get("last_chat", ""))
+  translated_scratch_currently = translate_to_chinese(scratch.get("currently", ""))
+  translated_innate = translate_to_chinese(scratch.get("innate", ""))
+  translated_learned = translate_to_chinese(scratch.get("learned", ""))
+  translated_lifestyle = translate_to_chinese(scratch.get("lifestyle", ""))
   
   context = {"sim_code": sim_code,
              "step": step,
              "persona_name": persona_name, 
              "persona_name_underscore": persona_name_underscore, 
-             "scratch": translated_scratch,
+             "scratch": scratch,
              "spatial": spatial,
-             "a_mem_event": translated_event,
-             "a_mem_chat": translated_chat,
-             "a_mem_thought": translated_thought}
+             "a_mem_event": a_mem_event,
+             "a_mem_chat": a_mem_chat,
+             "a_mem_thought": a_mem_thought,
+             "live_status": live_status,
+             "translated_inventory_items": translated_inventory_items,
+             "derived_sim_time": derived_sim_time,
+             "current_action": current_action,
+             "translated_current_action": translated_current_action,
+             "current_address": current_address,
+             "translated_current_address": translated_current_address,
+             "last_chat": movement_snapshot.get("last_chat", ""),
+             "translated_last_chat": translated_last_chat,
+             "retrieved_memories": retrieved_memories,
+             "translated_retrieved_memories": translated_retrieved_memories,
+             "decision_rules": decision_rules,
+             "translated_decision_rules": translated_decision_rules,
+             "environment_candidates": area_candidates,
+             "translated_environment_candidates": translated_environment_candidates,
+             "flat_objects": flat_objects,
+             "translated_flat_objects": translated_flat_objects,
+             "valid_food_sources": valid_food_sources,
+             "translated_valid_food_sources": translated_valid_food_sources,
+             "recent_decision_logs": recent_decision_logs,
+             "translated_recent_decision_logs": translated_recent_decision_logs,
+             "translated_scratch_currently": translated_scratch_currently,
+             "translated_innate": translated_innate,
+             "translated_learned": translated_learned,
+             "translated_lifestyle": translated_lifestyle}
   template = "persona_state/persona_state.html"
   return render(request, template, context)
 
@@ -431,6 +707,42 @@ def path_tester(request):
   context = {}
   template = "path_tester/path_tester.html"
   return render(request, template, context)
+
+
+QUERY_HINTS = ["什么", "如何", "为什么", "吗", "？", "?", "状态", "情况", "记得", "计划", "关系", "在哪", "做什么"]
+NOTIFY_HINTS = ["通知", "提醒你", "告诉你", "FYI", "仅供参考", "记住这件事"]
+INSTRUCTION_HINTS = ["先", "去", "请", "不要", "立刻", "马上", "停止", "执行", "帮我"]
+
+
+def classify_creator_message(user_message):
+  text = str(user_message or "").strip()
+  if not text:
+    return {"message_mode": "query"}
+  if any(token in text for token in NOTIFY_HINTS):
+    return {"message_mode": "notify"}
+  if text.endswith(("?", "？")) or any(token in text for token in QUERY_HINTS):
+    return {"message_mode": "query"}
+  if any(token in text for token in INSTRUCTION_HINTS):
+    return {"message_mode": "instruction"}
+  return {"message_mode": "query"}
+
+
+def _normalize_conversation_history(conversation_history):
+  if isinstance(conversation_history, list):
+    return conversation_history[:12]
+  return []
+
+
+def _resolve_pending_action_reply(action):
+  status = str(getattr(action, "status", "") or "")
+  response = getattr(action, "response", None)
+  if status == "failed":
+    cleaned = str(response or "").strip()
+    return "__FAILED__", cleaned or "NPC chat processing failed"
+  if status == "replied":
+    cleaned = str(response or "").strip()
+    return "reply", cleaned if cleaned else None
+  return "pending", None
 
 
 @csrf_exempt
@@ -550,7 +862,9 @@ def chat_with_persona(request):
         persona_name_underscore = data["persona_name"]
         persona_name = persona_name_underscore.replace("_", " ")
         user_message = data["user_message"]
-        conversation_history = data.get("conversation_history", [])
+        conversation_history = _normalize_conversation_history(data.get("conversation_history", []))
+        classification = classify_creator_message(user_message)
+        message_mode = data.get("message_mode") or classification["message_mode"]
 
         # Chat active file lock removed.
         pass
@@ -565,7 +879,10 @@ def chat_with_persona(request):
                 persona_name=persona_name,
                 step=step,
                 action_type="chat",
-                content=f"User said: {user_message}"
+                message_mode=message_mode,
+                content=f"User said: {user_message}",
+                conversation_history=json.dumps(conversation_history, ensure_ascii=False),
+                status="queued"
             )
         except Exception as queue_err:
             return JsonResponse({"error": f"Failed to queue pending action: {str(queue_err)}"}, status=500)
@@ -578,14 +895,17 @@ def chat_with_persona(request):
             try:
                 # Refresh from DB
                 act = SimPendingAction.objects.get(id=pending_action.id)
-                if act.response:
-                    reply = act.response
+                result_type, result_payload = _resolve_pending_action_reply(act)
+                if result_type == "__FAILED__":
+                    return JsonResponse({"error": result_payload}, status=502)
+                if result_type == "reply":
+                    reply = result_payload
                     break
             except Exception:
                 break
 
         if reply is None:
-            reply = "我听到了你的声音，创造者。"
+            reply = "我暂时没组织好回答，请再问我一次。"
 
         # Strip deepseek thoughts if any
         import re
@@ -593,7 +913,8 @@ def chat_with_persona(request):
 
         return JsonResponse({
             "reply": reply,
-            "persona_name": persona_name
+            "persona_name": persona_name,
+            "message_mode": message_mode
         })
 
     except FileNotFoundError as e:
@@ -684,22 +1005,31 @@ def api_post_movement(request):
 @csrf_exempt
 def api_get_pending_actions(request):
   if request.method == "POST":
-    # Acknowledge and mark processed
     data = json.loads(request.body)
+    processing_ids = data.get("processing_ids", [])
     processed_ids = data.get("processed_ids", [])
-    SimPendingAction.objects.filter(id__in=processed_ids).update(processed=True)
+    failed_ids = data.get("failed_ids", [])
+    if processing_ids:
+      SimPendingAction.objects.filter(id__in=processing_ids).update(status="processing")
+    if processed_ids:
+      SimPendingAction.objects.filter(id__in=processed_ids).update(processed=True, status="replied")
+    if failed_ids:
+      SimPendingAction.objects.filter(id__in=failed_ids).update(processed=True, status="failed")
     return JsonResponse({"status": "acknowledged"})
     
   # GET request to retrieve actions
   sim_code = request.GET.get("sim_code")
-  actions = SimPendingAction.objects.filter(sim_code=sim_code, processed=False)
+  actions = SimPendingAction.objects.filter(sim_code=sim_code, processed=False, status="queued")
   actions_data = []
   for act in actions:
     actions_data.append({
       "id": act.id,
       "persona_name": act.persona_name,
       "action_type": act.action_type,
+      "message_mode": act.message_mode,
       "content": act.content,
+      "conversation_history": act.conversation_history,
+      "status": act.status,
       "step": act.step
     })
   return JsonResponse(actions_data, safe=False)
@@ -723,7 +1053,10 @@ def api_post_instruction(request):
     persona_name=persona_name,
     step=step,
     action_type="instruction",
-    content=instruction
+    message_mode="instruction",
+    content=instruction,
+    conversation_history="[]",
+    status="queued"
   )
   return JsonResponse({"status": "queued", "id": action.id})
 

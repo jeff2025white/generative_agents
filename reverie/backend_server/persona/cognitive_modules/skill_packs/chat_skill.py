@@ -2,12 +2,18 @@ import json
 import datetime
 import sqlite3
 import re
+from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.prompt_template.gpt_structure import (
     generate_prompt,
     get_embedding
 )
 from persona.cognitive_modules.retrieve import new_retrieve
+from persona.cognitive_modules.creator_chat_context import (
+    build_creator_query_context,
+    build_creator_instruction_context,
+    build_creator_notify_context,
+)
 
 class ChatSkillPack(BaseSkillPack):
     def __init__(self):
@@ -31,14 +37,14 @@ class ChatSkillPack(BaseSkillPack):
         # Social chats happen adjacent to the target persona.
         return [persona.scratch.curr_tile]
 
-    def _update_pending_action(self, action_id, reply):
+    def _update_pending_action(self, action_id, reply, status="replied"):
         db_path = "G:\\generative_agents\\environment\\frontend_server\\db.sqlite3"
         try:
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
             cursor.execute(
-                "UPDATE translator_simpendingaction SET response = ?, processed = 1 WHERE id = ?",
-                (reply, action_id)
+                "UPDATE translator_simpendingaction SET response = ?, processed = 1, status = ? WHERE id = ?",
+                (reply, status, action_id)
             )
             conn.commit()
             conn.close()
@@ -59,63 +65,58 @@ class ChatSkillPack(BaseSkillPack):
                 action_id = action_data["id"]
                 action_type = action_data["action_type"]
                 content = action_data["content"]
+                message_mode = action_data.get("message_mode") or ("instruction" if action_type == "instruction" else "query")
+                conversation_history = action_data.get("conversation_history", [])
+                if isinstance(conversation_history, str):
+                    try:
+                        conversation_history = json.loads(conversation_history)
+                    except Exception:
+                        conversation_history = []
             except Exception as e:
                 print(f"Error parsing creator target in cognitive_decision: {e}")
-                return {"mode": "creator", "reply": "I hear you, Creator.", "emoji": "👁️", "next_action": ""}
+                return {"mode": "creator", "reply": "我听到了你的声音，创造者。", "emoji": "👁️", "next_action": ""}
 
-            # 1. Physical and physiological state
-            curr_loc = persona.scratch.act_address if persona.scratch.act_address else "Unknown"
-            curr_act = persona.scratch.act_description if persona.scratch.act_description else "Idle"
-            phys_state = (
-                f"- Satiety (饱腹度): {persona.scratch.satiety:.1f}/100.0\n"
-                f"- Stamina (精力值): {persona.scratch.stamina:.1f}/100.0\n"
-                f"- Current Location (当前物理位置): {curr_loc}\n"
-                f"- Current Action (当前执行动作): {curr_act}"
-            )
-
-            # 2. Schedule and plans
-            f_daily_schedule = persona.scratch.f_daily_schedule if persona.scratch.f_daily_schedule else []
-            schedule_lines = []
-            for act_name, duration in f_daily_schedule:
-                schedule_lines.append(f"- {act_name} (for {duration} minutes)")
-            schedule_str = "\n".join(schedule_lines)
-            plans_str = f"Today's Schedule:\n{schedule_str}"
-
-            # 3. Contextual memories queried dynamically by creator message
-            focal_points = [content, persona.name]
-            retrieved = new_retrieve(persona, focal_points, 5)
-            all_mems = []
-            for k, val in retrieved.items():
-                for node in val:
-                    all_mems.append(node.embedding_key)
-            mems_str = "\n".join([f"- {m}" for m in list(set(all_mems))[:5]])
-            
-            if not mems_str:
-                # Fallback to the latest 5 nodes from memory stream
-                nodes_keys = list(persona.a_mem.id_to_node.keys())
-                latest_keys = nodes_keys[-5:]
-                latest_mems = [persona.a_mem.id_to_node[k].embedding_key for k in latest_keys]
-                mems_str = "\n".join([f"- {m}" for m in latest_mems])
-
-            # 4. Generate prompt V2
-            prompt_input = [
-                persona.scratch.get_str_iss(),
-                content,
-                action_type,
-                phys_state,
-                plans_str,
-                mems_str,
-                persona.name
-            ]
-            prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/creator_comm_v2.txt")
+            if message_mode == "instruction":
+                sections = build_creator_instruction_context(persona, maze, content, conversation_history)
+                prompt_input = [
+                    persona.name,
+                    content,
+                    sections["self_state"],
+                    sections["environment"],
+                    sections["memories"],
+                    sections["history"],
+                ]
+                prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/creator_instruction_v1.txt")
+            elif message_mode == "notify":
+                sections = build_creator_notify_context(persona, maze, content, conversation_history)
+                prompt_input = [
+                    persona.name,
+                    content,
+                    sections["self_state"],
+                    sections["memories"],
+                    sections["history"],
+                ]
+                prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/creator_notify_v1.txt")
+            else:
+                sections = build_creator_query_context(persona, maze, content, conversation_history)
+                prompt_input = [
+                    persona.name,
+                    content,
+                    sections["self_state"],
+                    sections["environment"],
+                    sections["plans"],
+                    sections["memories"],
+                    sections["relationships"],
+                    sections["history"],
+                ]
+                prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/creator_query_v1.txt")
 
             def cc_val(resp, prompt=""):
                 try:
-                    if isinstance(resp, dict):
-                        return "reply" in resp
-                    data = json.loads(resp)
-                    return "reply" in data
-                except:
+                    data = resp if isinstance(resp, dict) else json.loads(resp)
+                    reply = str(data.get("reply", "")).strip()
+                    return bool(reply) and "next_action" in data
+                except Exception:
                     return False
 
             def cc_clean(resp, prompt=""):
@@ -124,15 +125,22 @@ class ChatSkillPack(BaseSkillPack):
                 return json.loads(resp)
 
             fail_safe = {
-                "reply": "遵从您的指令，造物主。" if action_type == "instruction" else "我听到了您的声音，造物主。",
+                "reply": (
+                    "我记住了这条通知。"
+                    if message_mode == "notify"
+                    else "遵从您的指令，造物主。"
+                    if message_mode == "instruction"
+                    else "我听到了你的提问，创造者。"
+                ),
                 "emoji": "👁️",
-                "next_action": content if action_type == "instruction" else ""
+                "next_action": content if message_mode == "instruction" else "",
+                "reasoning": "Fallback creator communication response",
             }
 
             decision = self.run_skill_llm_request(
                 prompt,
                 example_output='{"reply": "是的，造物主，我正前往寝室。", "emoji": "🫡", "next_action": "going to bed", "reasoning": "Awe towards creator"}',
-                special_instruction="Provide valid JSON containing reply, emoji, and next_action.",
+                special_instruction="Provide valid JSON containing a non-empty reply, emoji, next_action, and reasoning.",
                 repeat=3,
                 fail_safe_response=fail_safe,
                 func_validate=cc_val,
@@ -142,6 +150,7 @@ class ChatSkillPack(BaseSkillPack):
             decision["mode"] = "creator"
             decision["action_id"] = action_id
             decision["content"] = content
+            decision["message_mode"] = message_mode
             return decision
 
         # ----------------------------------------------------
@@ -380,11 +389,14 @@ class ChatSkillPack(BaseSkillPack):
         mode = decision.get("mode", "monologue")
 
         if mode == "creator":
-            reply = decision.get("reply", "我听到了您的声音，造物主。")
+            reply = str(decision.get("reply", "") or "").strip()
+            if not reply:
+                reply = "我暂时没组织好回答，请再问我一次。"
             emoji = decision.get("emoji", "👁️")
-            next_action = decision.get("next_action", "")
+            next_action = str(decision.get("next_action", "") or "").strip()
             action_id = decision.get("action_id")
             content = decision.get("content", "")
+            message_mode = decision.get("message_mode", "query")
 
             # 1. Update database
             if action_id:
@@ -392,7 +404,7 @@ class ChatSkillPack(BaseSkillPack):
 
             # 2. Visual rendering
             persona.scratch.act_pronunciatio = emoji
-            persona.scratch.act_description = f"responding to Creator: {reply}"
+            persona.scratch.act_description = "communicating with the Creator"
 
             # 3. Update chat history and last_chat state
             user_msg = content
@@ -403,7 +415,7 @@ class ChatSkillPack(BaseSkillPack):
             persona.scratch.last_chat = reply
 
             # 3. Add to memory stream
-            desc = f"{persona.name} received message from Creator and replied: '{reply}'"
+            desc = f"{persona.name} handled creator {message_mode}: '{user_msg}' -> '{reply}'"
             is_emb = get_embedding(desc)
             persona.a_mem.add_event(
                 persona.scratch.curr_time, None,
@@ -417,7 +429,7 @@ class ChatSkillPack(BaseSkillPack):
             persona.scratch.stamina = min(100.0, persona.scratch.stamina + 20.0)
 
             # 5. Handle compliance task scheduling
-            if next_action:
+            if message_mode == "instruction" and next_action:
                 # Find target object (heuristic mapping)
                 target_obj = "bed"
                 if any(kw in next_action.lower() for kw in ["cook", "stove", "kitchen", "meal"]):
@@ -442,6 +454,7 @@ class ChatSkillPack(BaseSkillPack):
                     next_action,
                     "🫡",
                     (persona.name, "execute", target_obj),
+                    build_action_command(None, target_obj, source="chat_followup", raw_action="execute"),
                     None,
                     None,
                     {},
@@ -560,4 +573,3 @@ class ChatSkillPack(BaseSkillPack):
             persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
 
             print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
-

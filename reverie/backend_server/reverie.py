@@ -42,6 +42,7 @@ from global_methods import *
 from utils import *
 from maze import *
 from persona.persona import *
+from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.prompt_template.gpt_structure import save_cache_to_disk
 import requests
 
@@ -416,7 +417,7 @@ class ReverieServer:
       
       if env_retrieved: 
           # Retrieve and inject user pending actions (chats/instructions)
-          processed_ids = []
+          processing_ids = []
           try:
             response = requests.get(f"http://127.0.0.1:8000/api/get_pending_actions/?sim_code={self.sim_code}", timeout=5)
             if response.status_code == 200:
@@ -425,7 +426,9 @@ class ReverieServer:
                 for action in pending_actions:
                   p_name = action["persona_name"]
                   a_type = action["action_type"]
+                  message_mode = action.get("message_mode", "query")
                   content = action["content"]
+                  conversation_history = action.get("conversation_history", "[]")
                   action_id = action["id"]
                   
                   if p_name in self.personas:
@@ -435,7 +438,9 @@ class ReverieServer:
                     target_str = json.dumps({
                       "id": action_id,
                       "action_type": a_type,
-                      "content": content
+                      "message_mode": message_mode,
+                      "content": content,
+                      "conversation_history": conversation_history,
                     })
                     
                     p.scratch.add_new_action(
@@ -444,6 +449,7 @@ class ReverieServer:
                       "communicating with the Creator",
                       "👁️",
                       (p.name, "creator_comm", "creator"),
+                      build_action_command("creator_comm", "creator", source="creator_injection", raw_action="creator_comm"),
                       None,
                       None,
                       {},
@@ -456,10 +462,10 @@ class ReverieServer:
                     # Reset pathing to take effect immediately
                     p.scratch.planned_path = []
                     p.scratch.act_path_set = False
-                    processed_ids.append(action_id)
+                    processing_ids.append(action_id)
                   
-                if processed_ids:
-                  requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processed_ids": processed_ids}, timeout=5)
+                if processing_ids:
+                  requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processing_ids": processing_ids}, timeout=5)
           except Exception as e:
             print(f"Warning: Failed to fetch/process pending actions: {e}")
 
@@ -962,7 +968,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

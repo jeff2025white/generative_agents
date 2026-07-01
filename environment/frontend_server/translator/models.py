@@ -19,9 +19,12 @@ class SimPendingAction(models.Model):
     persona_name = models.CharField(max_length=255)
     step = models.IntegerField(db_index=True)
     action_type = models.CharField(max_length=50) # 'chat', 'whisper', 'instruction'
+    message_mode = models.CharField(max_length=32, default="query", db_index=True)
     content = models.TextField()
+    conversation_history = models.TextField(default="[]")
     created_at = models.DateTimeField(auto_now_add=True)
     processed = models.BooleanField(default=False)
+    status = models.CharField(max_length=32, default="queued", db_index=True)
     response = models.TextField(blank=True, null=True)
 
     def __str__(self):
