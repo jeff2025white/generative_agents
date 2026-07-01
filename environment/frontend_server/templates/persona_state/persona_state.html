@@ -4,277 +4,336 @@
 {% block content %}
 
 <style>
-	.scratch_table {
-		font-size: 1.3em;
-	}
+  .state-shell {
+    width: 88%;
+    margin: 0 auto;
+    margin-top: 4em;
+    margin-bottom: 6em;
+  }
+  .state-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  }
+  .state-title {
+    font-size: 1.25em;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 14px;
+  }
+  .state-subtitle {
+    font-size: 0.9em;
+    color: #64748B;
+    margin-bottom: 16px;
+  }
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .kv-item {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .kv-label {
+    font-size: 0.8em;
+    color: #64748B;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .kv-value {
+    color: #0F172A;
+    font-size: 1em;
+    word-break: break-word;
+  }
+  .mono-box {
+    background: #0F172A;
+    color: #E2E8F0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.92em;
+    line-height: 1.6em;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag-chip {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #E2F2FF;
+    color: #0C4A6E;
+    border: 1px solid #BAE6FD;
+    font-size: 0.88em;
+    font-weight: 700;
+  }
+  .log-item, .memory-item, .env-item {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .log-event {
+    color: #7C3AED;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .small-note {
+    color: #64748B;
+    font-size: 0.86em;
+  }
 </style>
 
 
-<h3 style="width:80%; margin:0 auto; margin-top:5em; padding:1em; padding-left:3.5em; padding-right:2em; border-radius:10px; padding-top:3em"><a href="{{request.META.HTTP_REFERER}}">< 返回模拟器</a></h3>
-
-
-<div class="media" style="width:80%; margin:0 auto; margin-top:2em; background-color:#EEEEEE; padding:1em; padding-left:3.5em; padding-right:2em; border-radius:10px; padding-top:3em">
-  <div class="media-left media">
-    <a href="#">
-    	{% with 'assets/characters/profile/'|add:persona_name_underscore|add:'.png' as image_static %}
-      <img class="media-object" src="{% static image_static %}" style="width:5em">
-      {% endwith %}
-    </a>
+<div class="state-shell">
+  <div style="margin-bottom: 18px;">
+    <a href="{{request.META.HTTP_REFERER}}" style="font-size: 1.05em; font-weight: 700;">< 返回模拟器</a>
   </div>
-  <div class="media-body" style='padding-left:3em; padding-top:0.5em; padding-bottom:1em'>
-  	<div class="row">
-    	<h1 class="col-md-8" style="margin-bottom:0.8em; font-size:2em; ">
-    		{{persona_name}}
-    	</h1>
+
+  <div class="state-card" style="display:flex; gap:20px; align-items:center;">
+    <div>
+      {% with 'assets/characters/profile/'|add:persona_name_underscore|add:'.png' as image_static %}
+      <img class="media-object" src="{% static image_static %}" style="width:6em; border-radius: 10px; border:1px solid #CBD5E1;">
+      {% endwith %}
     </div>
-    <div style="">
+    <div style="flex:1;">
+      <div style="font-size:2em; font-weight:900; color:#0F172A;">{{persona_name}}</div>
+      <div class="state-subtitle">这个页面只展示接近 LLM 当前决策输入的关键信息，不再展示旧版空计划或全量记忆流。</div>
+      <div class="tag-list">
+        <span class="tag-chip">Step {{ step }}</span>
+        <span class="tag-chip">当前时间 {{ derived_sim_time }}</span>
+        <span class="tag-chip">当前位置 {{ scratch.curr_tile }}</span>
+      </div>
+    </div>
+  </div>
 
-		  <h3 style="font-size:1.65em"><strong>基本信息</strong></h3>
-		  <table class="scratch_table" style="width:100%">
-			  <tr>
-			    <td style="width:20%; font-weight:800">名字</td>
-			    <td>{{scratch.first_name}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">姓氏</td>
-			    <td>{{scratch.last_name}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">年龄</td>
-			    <td>{{scratch.age}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">当前时间</td>
-			    <td>{{scratch.curr_time}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">当前坐标</td>
-			    <td>{{scratch.curr_tile}}</td>
-			  </tr>
-			</table>
-			<br>
+  <div class="state-card">
+    <div class="state-title">当前决策结果</div>
+    <div class="kv-grid">
+      <div class="kv-item">
+        <div class="kv-label">当前动作</div>
+        <div class="kv-value">{{ translated_current_action|default:"暂无" }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">解析后位置</div>
+        <div class="kv-value">{{ translated_current_address|default:"暂无" }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">最近对话</div>
+        <div class="kv-value">{{ translated_last_chat|default:"当前没有对话" }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">当前状态描述</div>
+        <div class="kv-value">{{ translated_scratch_currently|default:"" }}</div>
+      </div>
+    </div>
+  </div>
 
+  <div class="state-card">
+    <div class="state-title">状态与背包</div>
+    <div class="kv-grid">
+      <div class="kv-item">
+        <div class="kv-label">Satiety</div>
+        <div class="kv-value">{{ live_status.satiety|floatformat:1 }} / 100.0</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">Stamina</div>
+        <div class="kv-value">{{ live_status.stamina|floatformat:1 }} / 100.0</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">Health</div>
+        <div class="kv-value">{{ live_status.health|floatformat:1 }} / 100.0</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">Mood</div>
+        <div class="kv-value">{{ live_status.mood|floatformat:1 }} / 100.0</div>
+      </div>
+    </div>
+    <div style="margin-top: 16px;">
+      <div class="kv-label" style="margin-bottom:10px;">背包</div>
+      {% if translated_inventory_items %}
+      <div class="tag-list">
+        {% for item in translated_inventory_items %}
+          <span class="tag-chip">{{ item.name }} x{{ item.count }}</span>
+        {% empty %}
+          <span class="small-note">当前背包为空</span>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="small-note">当前背包为空</div>
+      {% endif %}
+    </div>
+  </div>
 
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>基础设置</strong></h3>
-		  <table class="scratch_table" style="width:100%">
-			  <tr>
-			    <td style="width:20%; font-weight:800">视野半径 (Vision Radius)</td>
-			    <td>{{scratch.vision_r}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">注意通道带宽 (Attention Bandwidth)</td>
-			    <td>{{scratch.att_bandwidth}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">记忆留存度 (Retention)</td>
-			    <td>{{scratch.retention}}</td>
-			  </tr>
-			</table>
-			<br>
+  <div class="state-card">
+    <div class="state-title">动态决策规则</div>
+    <div class="state-subtitle">这一栏对应当前会动态喂给 LLM 的关键物理/生理规则。</div>
+    <div class="mono-box">{% for rule in translated_decision_rules %}{{ rule }}
+{% endfor %}</div>
+  </div>
 
+  <div class="state-card">
+    <div class="state-title">环境候选</div>
+    <div class="state-subtitle">这部分来自 `spatial_memory`，是当前角色已知世界对象的近似视图。</div>
+    <div style="margin-bottom: 16px;">
+      <div class="kv-label" style="margin-bottom:10px;">已知食物源</div>
+      <div class="tag-list">
+        {% for obj in translated_valid_food_sources %}
+          <span class="tag-chip">{{ obj }}</span>
+        {% empty %}
+          <span class="small-note">当前空间记忆里没有合法食物源对象</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div style="margin-bottom: 16px;">
+      <div class="kv-label" style="margin-bottom:10px;">已知对象</div>
+      <div class="tag-list">
+        {% for obj in translated_flat_objects|slice:":30" %}
+          <span class="tag-chip">{{ obj }}</span>
+        {% empty %}
+          <span class="small-note">暂无对象</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <div class="kv-label" style="margin-bottom:10px;">已知区域</div>
+      {% for area in translated_environment_candidates|slice:":16" %}
+      <div class="env-item">
+        <div style="font-weight:800; color:#0F172A; margin-bottom:8px;">{{ area.sector }} / {{ area.arena }}</div>
+        <div class="tag-list">
+          {% for obj in area.objects %}
+            <span class="tag-chip">{{ obj }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% empty %}
+      <div class="small-note">暂无空间对象候选。</div>
+      {% endfor %}
+    </div>
+  </div>
 
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>性格特质与生活方式</strong></h3>
-			<table class="scratch_table" style="width:100%">
-			  <tr>
-			    <td style="font-weight:800">先天特质</td>
-			    <td>{{scratch.innate}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">后天特质</td>
-			    <td>{{scratch.learned}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">近期状态</td>
-			    <td>{{scratch.currently}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">生活方式</td>
-			    <td>{{scratch.lifestyle}}</td>
-			  </tr>
-			</table>
-			<br>
+  <div class="state-card">
+    <div class="state-title">本轮决策记忆</div>
+    <div class="state-subtitle">这里只展示这一轮真正参与决策检索的记忆，不展示整库。</div>
+    {% for mem in translated_retrieved_memories %}
+    <div class="memory-item">
+      <div style="display:flex; justify-content:space-between; gap:12px; margin-bottom:6px;">
+        <div style="font-weight:800; color:#0F172A;">{{ mem.type }}</div>
+        <div class="small-note">{{ mem.created }}</div>
+      </div>
+      <div style="color:#334155;">{{ mem.description }}</div>
+    </div>
+    {% empty %}
+    <div class="small-note">这一轮没有记录到 retrieved memories，可能当前动作未触发新的检索。</div>
+    {% endfor %}
+  </div>
 
+  <div class="state-card">
+    <div class="state-title">最新决策日志</div>
+    <div class="state-subtitle">这部分直接来自 `translation_verify.jsonl` 的最新相关条目。</div>
+    {% for log in translated_recent_decision_logs %}
+    <div class="log-item">
+      <div class="log-event">{{ log.event }}{% if log.sim_time %} · {{ log.sim_time }}{% endif %}</div>
+      {% if log.event == "decision_snapshot" %}
+        <div class="kv-label">意图</div>
+        <div class="kv-value" style="margin-bottom:10px;">{{ log.intent_zh }}</div>
+        <div class="kv-label">结构化决策</div>
+        <div class="mono-box" style="padding:10px 12px;">{{ log.decision_zh }}</div>
+      {% elif log.event == "target_resolution" %}
+        <div class="kv-label">目标</div>
+        <div class="kv-value" style="margin-bottom:8px;">{{ log.target_zh }}</div>
+        <div class="kv-label">解析后位置</div>
+        <div class="kv-value" style="margin-bottom:8px;">{{ log.new_address_zh }}</div>
+        <div class="kv-label">动作描述</div>
+        <div class="kv-value">{{ log.act_description_zh }}</div>
+      {% elif log.event == "retarget_invalid_food_source" %}
+        <div class="kv-label">原始目标</div>
+        <div class="kv-value" style="margin-bottom:8px;">{{ log.original_target_zh }}</div>
+        <div class="kv-label">回退目标</div>
+        <div class="kv-value" style="margin-bottom:8px;">{{ log.fallback_target_zh }}</div>
+        <div class="kv-label">合法食物源</div>
+        <div class="mono-box" style="padding:10px 12px;">{{ log.valid_sources_zh }}</div>
+      {% else %}
+        <div class="mono-box" style="padding:10px 12px;">{{ log }}</div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="small-note">还没有找到这个角色的最近决策日志。</div>
+    {% endfor %}
+  </div>
 
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>生理状态与背包 (Status & Inventory)</strong></h3>
-			<table class="scratch_table" style="width:100%">
-			  <tr>
-			    <td style="width:20%; font-weight:800">饱腹度 (Satiety)</td>
-			    <td>{{scratch.satiety|floatformat:1}} / 100.0</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">精力值 (Stamina)</td>
-			    <td>{{scratch.stamina|floatformat:1}} / 100.0</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">健康值 (Health)</td>
-			    <td>{{scratch.health|floatformat:1}} / 100.0</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">情绪值 (Mood)</td>
-			    <td>{{scratch.mood|floatformat:1}} / 100.0</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">背包 (Inventory)</td>
-			    <td>
-			    	<ul style="margin: 0; padding-left: 1.2em;">
-			    	{% for item, count in scratch.inventory.items %}
-			    	  <li>{{ item }}: {{ count }}</li>
-			    	{% empty %}
-			    	  <li>暂无物品</li>
-			    	{% endfor %}
-			    	</ul>
-			    </td>
-			  </tr>
-			</table>
-			<br>
+  <div class="state-card">
+    <div class="state-title">决策稳定性日志</div>
+    <div class="state-subtitle">这部分直接来自 `decision_stability.jsonl`，用于解释为什么本轮切换被接受、拦截，或某个动作刚刚完成。</div>
+    {% for log in translated_recent_decision_stability_logs %}
+    <div class="log-item">
+      <div class="log-event">{{ log.event }}{% if log.curr_step != None %} · Step {{ log.curr_step }}{% endif %}</div>
+      {% if log.event == "switch_blocked" or log.event == "switch_accepted" %}
+        <div class="kv-grid">
+          <div class="kv-item">
+            <div class="kv-label">旧签名</div>
+            <div class="mono-box" style="padding:10px 12px;">{{ log.old_signature_zh }}</div>
+          </div>
+          <div class="kv-item">
+            <div class="kv-label">新签名</div>
+            <div class="mono-box" style="padding:10px 12px;">{{ log.new_signature_zh }}</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;" class="kv-grid">
+          <div class="kv-item">
+            <div class="kv-label">来源</div>
+            <div class="kv-value">{{ log.source_zh|default:"暂无" }}</div>
+          </div>
+          <div class="kv-item">
+            <div class="kv-label">动作描述</div>
+            <div class="kv-value">{{ log.description_zh|default:"暂无" }}</div>
+          </div>
+        </div>
+        {% if log.commit_until_step != None %}
+        <div class="small-note" style="margin-top: 10px;">承诺窗口持续到 Step {{ log.commit_until_step }}</div>
+        {% endif %}
+      {% elif log.event == "action_completed" %}
+        <div class="kv-label">完成动作签名</div>
+        <div class="mono-box" style="padding:10px 12px;">{{ log.signature_zh }}</div>
+      {% else %}
+        <div class="mono-box" style="padding:10px 12px;">{{ log }}</div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="small-note">还没有找到这个角色的决策稳定性日志。</div>
+    {% endfor %}
+  </div>
 
-
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>职业技能与经验 (Skills & XP)</strong></h3>
-			<table class="scratch_table" style="width:100%">
-			  <thead>
-			    <tr>
-			      <th style="width:33%; font-weight:800">技能名称 (Skill)</th>
-			      <th style="width:33%; font-weight:800">等级 (Level)</th>
-			      <th style="width:34%; font-weight:800">经验值 (XP)</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    {% for skill_name, skill_info in scratch.skills.items %}
-			    <tr>
-			      <td>
-			        {% if skill_name == "farming" %}耕作 (Farming)
-			        {% elif skill_name == "cooking" %}烹饪 (Cooking)
-			        {% elif skill_name == "gathering" %}采集 (Gathering)
-			        {% elif skill_name == "singing" %}唱歌 (Singing)
-			        {% else %}{{ skill_name }}{% endif %}
-			      </td>
-			      <td>{{ skill_info.level }}</td>
-			      <td>{{ skill_info.xp }}</td>
-			    </tr>
-			    {% empty %}
-			    <tr>
-			      <td colspan="3">暂无技能数据</td>
-			    </tr>
-			    {% endfor %}
-			  </tbody>
-			</table>
-			<br>
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em; "><strong>当前动作状态</strong></h3>
-			<table class="scratch_table" style="width:100%">
-			  <tr>
-			    <td style="width:20%; font-weight:800">每日核心需求</td>
-			    <td>
-			    	<ol>
-			    	{% for i in scratch.daily_req %}
-			    	  <li>{{ i }}</li>
-			    	{% endfor %}
-			    	</ol>
-			    </td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">今日日程规划</td>
-			    <td>
-			    	<ol>
-			    	{% for i in scratch.f_daily_schedule %}
-			    	  <li>{{ i }}</li>
-			    	{% endfor %}
-			    	</ol>
-			    </td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">动作执行地点</td>
-			    <td>{{scratch.act_address}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">动作开始时间</td>
-			    <td>{{scratch.act_start_time}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">持续时间 (分)</td>
-			    <td>{{scratch.act_duration}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">动作详细描述</td>
-			    <td>{{scratch.act_description}}</td>
-			  </tr>
-			  <tr>
-			    <td style="font-weight:800">动作表情符号</td>
-			    <td>{{scratch.act_pronunciatio}}</td>
-			  </tr>
-			</table>
-			<br>
-
-
-
-			<hr style="border:solid; border-width:1px">
-			<h3 style="font-size:1.65em"><strong>智能体记忆流 (Memory Stream)</strong></h3>
-			<h4 style="font-size:1.45em"><strong>观察到的事件记忆 (Events)</strong></h4>
-			<div class="" style="width:100%">
-			  {% for node_details in a_mem_event %}
-				  <p>
-				  	<!-- <strong>Node ID: node_{{ node_details.node_count }}</strong><br> -->
-				  	<!-- Node Count: {{ node_details.node_count }} ||  -->
-				  	<!-- Type Count: {{ node_details.type_count }}  -->
-				  	<!-- <br> -->
-				  	[node_{{ node_details.node_count }}] {{ node_details.created }}: <strong>{{ node_details.description }}</strong>
-				  	<!-- || -->
-				  	<!-- Expiration: {{ node_details.expiration }} -->
-				  	<!-- <br> -->
-				  	<!-- S, P, O 
-				  	 node_details.subject , 
-				  	 node_details.predicate , 
-				  	 node_details.object 
-				  	<br> -->
-				  	<!-- Description: {{ node_details.description }} -->
-				  	<!-- <br> -->
-				  	<!-- Keywords: {{ node_details.keywords }} -->
-				  	<!-- <br> -->
-				  	<!-- Filling: {{ node_details.filling }} -->
-				  </p> 
-				   
-			  {% endfor %}
-			</div>
-			<br>
-
-			
-			<h4 style="font-size:1.45em"><strong>对话历史记忆 (Conversations)</strong></h4>
-			<div class="" style="width:100%">
-			  {% for node_details in a_mem_chat %}
-				  <p>
-				  	记录时间: {{ node_details.created }} 
-				  	<br>
-				  	对话概要: {{ node_details.description }}
-				  	<br>
-				  	对话实录: <br>
-				  	{% for name, utt in node_details.filling %}
-				  	<span style="font-style: italic;">{{ name }}</span>: {{ utt }}<br>
-				  	{% endfor %}
-				  </p> 
-			  {% endfor %}
-			</div>
-			<br>
-
-			<h4 style="font-size:1.45em"><strong>反思想法记忆 (Thoughts)</strong></h4>
-			<div class="" style="width:100%">
-			  {% for node_details in a_mem_thought %}
-				  <p>
-				  	[node_{{ node_details.node_count }}] {{ node_details.created }}: <strong>{{ node_details.description }}</strong> 
-
-				  	<br>(想法深度: {{ node_details.depth }}; 推导依据: {{ node_details.filling }})
-				  	
-				  </p> 
-			  {% endfor %}
-			</div>
-			<br>
-
-
-
-		</div>
+  <div class="state-card">
+    <div class="state-title">长期身份设定</div>
+    <div class="kv-grid">
+      <div class="kv-item">
+        <div class="kv-label">先天特质</div>
+        <div class="kv-value">{{ translated_innate }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">后天特质</div>
+        <div class="kv-value">{{ translated_learned }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">近期状态</div>
+        <div class="kv-value">{{ translated_scratch_currently }}</div>
+      </div>
+      <div class="kv-item">
+        <div class="kv-label">生活方式</div>
+        <div class="kv-value">{{ translated_lifestyle }}</div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock content %}

@@ -12,6 +12,31 @@ import time
 sys.path.append('../../')
 
 from global_methods import *
+from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
+from persona.cognitive_modules.action_target_resolver import (
+  resolve_known_arena_address,
+  resolve_known_object_address,
+)
+from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.food_sources import (
+  VALID_GATHER_FOOD_SOURCES,
+  is_valid_gather_food_source,
+  normalize_food_source_target,
+)
+from persona.cognitive_modules.social_trigger import (
+  choose_social_focus,
+  compute_social_cooldown,
+  compute_social_opportunity_score,
+  log_social_decision,
+  should_auto_initiate_social_chat,
+  social_hard_block,
+)
+from persona.cognitive_modules.social_dialogue_log import (
+  build_dialogue_id,
+  clear_social_dialogue_state,
+  log_social_dialogue,
+  set_social_dialogue_state,
+)
 from persona.prompt_template.run_gpt_prompt import *
 from persona.cognitive_modules.retrieve import *
 from persona.cognitive_modules.converse import *
@@ -239,14 +264,140 @@ def generate_action_pronunciatio(act_desp, persona):
     "🧈🍞"
   """
   if debug: print ("GNS FUNCTION: <generate_action_pronunciatio>")
-  try: 
-    x = run_gpt_prompt_pronunciatio(act_desp, persona)[0]
-  except: 
-    x = "🙂"
+  desc = str(act_desp or "").lower()
 
-  if not x: 
-    return "🙂"
-  return x
+  emoji_rules = [
+    (["chat", "talk", "conversation"], "💬"),
+    (["sleep", "bed", "rest", "nap"], "🛌"),
+    (["refrigerator", "fridge", "gather food", "food items"], "🍎"),
+    (["eat", "consume", "meal", "snack", "drink"], "🍴"),
+    (["stove", "cook", "cooking", "prepare food"], "🍳"),
+    (["apple tree", "apples", "harvest"], "🍎"),
+    (["cafe counter", "coffee", "brew"], "☕"),
+    (["library", "study", "research", "write", "computer", "desk"], "📚"),
+    (["work", "office", "classroom"], "💼"),
+    (["piano", "sing", "music", "guitar", "harp"], "🎵"),
+    (["game console", "tv", "television", "pool table"], "🎮"),
+    (["lifting weight", "exercise", "fitness", "workout"], "🏋️"),
+    (["walk", "go to", "moving"], "🚶"),
+  ]
+
+  for keywords, emoji in emoji_rules:
+    if any(keyword in desc for keyword in keywords):
+      return emoji
+  return "🙂"
+
+
+def _describe_satiety(satiety):
+  if satiety >= 90:
+    return ("well fed", "Your stomach feels full and stable.", "Food does not need your attention right now.", "Hunger is not a meaningful concern at the moment.")
+  if satiety >= 70:
+    return ("slightly hungry", "You notice a mild appetite, but it is easy to ignore.", "You can continue normal activity while casually keeping food in mind.", "If this keeps dropping, food will start competing with other goals.")
+  if satiety >= 50:
+    return ("hungry", "You feel noticeably hungry and food is starting to sound appealing.", "Eating should enter your near-term plan.", "If ignored, hunger may begin to distort priorities.")
+  if satiety >= 30:
+    return ("clearly hungry", "You feel clearly hungry and food is becoming harder to ignore.", "Finding food should become your main near-term priority. Leisure, exercise, or emotional unwinding should usually wait until you have secured food.", "If this continues to drop, the body will become weak and health may eventually suffer.")
+  if satiety >= 15:
+    return ("severely hungry", "Your hunger is intense and physically distracting.", "Getting food should outweigh leisure, exploration, or exercise.", "Continuing to ignore food now risks a rapid slide toward physical danger.")
+  return ("starving", "Your body feels close to starvation and survival is in danger.", "You should treat obtaining food as the immediate priority.", "If this keeps falling, health damage and death become imminent.")
+
+
+def _describe_stamina(stamina):
+  if stamina >= 90:
+    return ("energetic", "You feel physically fresh and capable.", "High-effort activity is fully manageable.", "Fatigue is not currently limiting your choices.")
+  if stamina >= 70:
+    return ("steady", "Your body still feels capable and responsive.", "Work, travel, and active tasks remain reasonable.", "Rest is not urgent yet.")
+  if stamina >= 50:
+    return ("somewhat tired", "You can feel fatigue building in the background.", "You can continue acting, but rest should begin entering your planning horizon.", "If you keep spending energy, your next choices may narrow.")
+  if stamina >= 30:
+    return ("tired", "You feel distinctly tired and less resilient.", "High-effort activity is becoming a worse tradeoff than rest.", "If stamina keeps dropping, recovery will soon need priority.")
+  if stamina >= 15:
+    return ("very exhausted", "Your body feels heavily drained.", "Rest should outweigh optional activity.", "Ignoring fatigue now risks poor choices and escalating physical strain.")
+  return ("exhausted", "You feel close to collapse from fatigue.", "Rest should be treated as an immediate need.", "Continuing activity now is physically unsafe.")
+
+
+def _describe_health(health):
+  if health >= 90:
+    return ("feeling healthy", "Your body feels normal and uninjured.", "You do not need to prioritize treatment.", "Health is stable right now.")
+  if health >= 70:
+    return ("lightly injured", "You feel some discomfort or minor injury.", "You can still act, but recovery should stay on your radar.", "Further strain may worsen your condition.")
+  if health >= 50:
+    return ("injured", "Your body feels hurt enough to affect judgment and comfort.", "Recovery and safer choices should become more important.", "Pushing too hard may deepen the injury.")
+  if health >= 30:
+    return ("badly injured", "Your body feels seriously hurt and vulnerable.", "Treatment and safety should become a high-priority concern.", "Risky activity may sharply worsen your condition.")
+  if health >= 15:
+    return ("dangerously injured", "Your physical condition feels dangerous.", "Survival-oriented recovery should outweigh ordinary goals.", "Ignoring treatment could push you toward collapse.")
+  return ("near collapse", "Your body feels close to breaking down.", "Preserving life and seeking recovery should override almost everything else.", "Further harm could be fatal.")
+
+
+def _describe_mood(mood):
+  if mood >= 90:
+    return ("very positive", "You feel upbeat, receptive, and open to enjoyable activity.", "Leisure, curiosity, and social behavior feel naturally appealing.", "Mood is not a limiting factor.")
+  if mood >= 60:
+    return ("stable", "Your mood feels steady and workable.", "You can engage normally with work, people, or leisure.", "Mood does not currently demand attention.")
+  if mood >= 40:
+    return ("slightly low", "You feel a little emotionally flat.", "Pleasant activity or social contact may become more attractive.", "If this declines further, motivation may weaken.")
+  if mood >= 30:
+    return ("low", "You feel noticeably low and less motivated.", "Mood-repairing activity should start to compete with neutral tasks.", "If ignored, you may become more avoidant or passive.")
+  if mood >= 15:
+    return ("very low", "You feel emotionally strained and unhappy.", "Comfort, support, or restorative activity should rise in priority.", "Low mood may start to distort decision quality.")
+  return ("near breakdown", "You feel emotionally overwhelmed.", "Immediate relief, support, or emotional recovery should matter greatly.", "If this worsens, normal decision-making may become unstable.")
+
+
+def _build_homeostasis_status_summary(persona):
+  """Builds descriptive homeostasis text so the LLM sees feelings and urgency, not just raw numbers."""
+  satiety = float(persona.scratch.satiety)
+  stamina = float(persona.scratch.stamina)
+  health = float(persona.scratch.health)
+  mood = float(persona.scratch.mood)
+
+  satiety_label, satiety_feel, satiety_hint, satiety_risk = _describe_satiety(satiety)
+  stamina_label, stamina_feel, stamina_hint, stamina_risk = _describe_stamina(stamina)
+  health_label, health_feel, health_hint, health_risk = _describe_health(health)
+  mood_label, mood_feel, mood_hint, mood_risk = _describe_mood(mood)
+
+  priorities = [
+    ("satiety", satiety, 100.0 - satiety, satiety_label),
+    ("stamina", stamina, 100.0 - stamina, stamina_label),
+    ("health", health, 100.0 - health, health_label),
+    ("mood", mood, 100.0 - mood, mood_label),
+  ]
+  priorities.sort(key=lambda item: item[2], reverse=True)
+  top_need, top_value, _, top_label = priorities[0]
+
+  if top_need == "satiety" and satiety < 50:
+    overall_summary = (
+      f"Overall Summary: You are still functional overall, but hunger is currently the most pressing need. "
+      f"With Satiety at {satiety:.1f}, getting food should usually be your next action and should outweigh leisure, exercise, or emotional comfort unless another need is in immediate crisis."
+    )
+  elif top_need == "stamina" and stamina < 50:
+    overall_summary = (
+      f"Overall Summary: Fatigue is the most pressing internal pressure right now. "
+      f"With Stamina at {stamina:.1f}, rest should compete strongly against optional activity."
+    )
+  elif top_need == "health" and health < 70:
+    overall_summary = (
+      f"Overall Summary: Physical recovery and safety should weigh heavily in your choices. "
+      f"With Health at {health:.1f}, risky or strenuous activity deserves caution."
+    )
+  elif top_need == "mood" and mood < 50:
+    overall_summary = (
+      f"Overall Summary: Emotional recovery is becoming a meaningful need. "
+      f"With Mood at {mood:.1f}, comforting or restorative activity should become more attractive."
+    )
+  else:
+    overall_summary = (
+      f"Overall Summary: Your most noticeable internal signal right now is {top_need} ({top_label}) at {top_value:.1f}. "
+      f"Keep that pressure in mind when choosing your next action."
+    )
+
+  return "\n".join([
+    f"- Satiety Interpretation: {satiety_label}. Feeling: {satiety_feel} Behavioral Hint: {satiety_hint} Risk: {satiety_risk}",
+    f"- Stamina Interpretation: {stamina_label}. Feeling: {stamina_feel} Behavioral Hint: {stamina_hint} Risk: {stamina_risk}",
+    f"- Health Interpretation: {health_label}. Feeling: {health_feel} Behavioral Hint: {health_hint} Risk: {health_risk}",
+    f"- Mood Interpretation: {mood_label}. Feeling: {mood_feel} Behavioral Hint: {mood_hint} Risk: {mood_risk}",
+    overall_summary,
+  ])
 
 
 def generate_action_event_triple(act_desp, persona): 
@@ -726,6 +877,7 @@ def _determine_action(persona, maze):
                                  None,
                                  None,
                                  None,
+                                 None,
                                  act_obj_desp, 
                                  act_obj_pron, 
                                  act_obj_event)
@@ -775,6 +927,22 @@ def _choose_retrieved(persona, retrieved):
   return None
 
 
+def _decrement_chatting_with_buffer(persona):
+  """
+  Decrease chat cooldown counters without allowing negative values to accumulate.
+  """
+  stale_names = []
+  for persona_name, buffer_count in persona.scratch.chatting_with_buffer.items():
+    if persona_name == persona.scratch.chatting_with:
+      continue
+    next_count = max(0, int(buffer_count) - 1)
+    persona.scratch.chatting_with_buffer[persona_name] = next_count
+    if next_count == 0:
+      stale_names += [persona_name]
+  for persona_name in stale_names:
+    del persona.scratch.chatting_with_buffer[persona_name]
+
+
 def _should_react(persona, retrieved, personas): 
   """
   Determines what form of reaction the persona should exihibit given the 
@@ -792,32 +960,99 @@ def _should_react(persona, retrieved, personas):
               <Persona> instance as values. 
   """
   def lets_talk(init_persona, target_persona, retrieved):
-    if (not target_persona.scratch.act_address 
-        or not target_persona.scratch.act_description
-        or not init_persona.scratch.act_address
-        or not init_persona.scratch.act_description): 
+    hard_blocked, hard_reasons = social_hard_block(init_persona, target_persona)
+    score_detail = compute_social_opportunity_score(init_persona, target_persona, retrieved)
+    log_social_dialogue(
+      init_persona,
+      "trigger",
+      "chat_candidate",
+      target_name=target_persona.name,
+      payload={
+        "blocked": hard_blocked,
+        "hard_block_reasons": hard_reasons,
+        "score": score_detail,
+      },
+    )
+    log_social_decision(
+      init_persona,
+      target_persona.name,
+      "chat_candidate",
+      {
+        "blocked": hard_blocked,
+        "hard_block_reasons": hard_reasons,
+        "score": score_detail,
+      },
+    )
+    if hard_blocked:
+      log_social_dialogue(
+        init_persona,
+        "trigger",
+        "chat_rejected_hard_block",
+        target_name=target_persona.name,
+        payload={"reasons": hard_reasons},
+      )
+      return False
+    if score_detail["total"] < 0.24:
+      log_social_dialogue(
+        init_persona,
+        "trigger",
+        "chat_rejected_low_score",
+        target_name=target_persona.name,
+        payload={"score": score_detail},
+      )
+      log_social_decision(
+        init_persona,
+        target_persona.name,
+        "chat_rejected_low_score",
+        {
+          "score": score_detail,
+        },
+      )
       return False
 
-    if ("sleeping" in target_persona.scratch.act_description 
-        or "sleeping" in init_persona.scratch.act_description): 
-      return False
+    if should_auto_initiate_social_chat(score_detail):
+      log_social_dialogue(
+        init_persona,
+        "trigger",
+        "chat_auto_initiate",
+        target_name=target_persona.name,
+        payload={
+          "score": score_detail,
+          "reason": "high_opportunity_score",
+        },
+      )
+      log_social_decision(
+        init_persona,
+        target_persona.name,
+        "chat_auto_initiate",
+        {
+          "score": score_detail,
+          "reason": "high_opportunity_score",
+        },
+      )
+      return True
 
-    if init_persona.scratch.curr_time.hour == 23: 
-      return False
-
-    if "<waiting>" in target_persona.scratch.act_address: 
-      return False
-
-    if (target_persona.scratch.chatting_with 
-      or init_persona.scratch.chatting_with): 
-      return False
-
-    if (target_persona.name in init_persona.scratch.chatting_with_buffer): 
-      if init_persona.scratch.chatting_with_buffer[target_persona.name] > 0: 
-        return False
-
-    if generate_decide_to_talk(init_persona, target_persona, retrieved): 
-
+    llm_wants_to_talk = generate_decide_to_talk(init_persona, target_persona, retrieved)
+    log_social_dialogue(
+      init_persona,
+      "trigger",
+      "chat_llm_decision",
+      target_name=target_persona.name,
+      payload={
+        "score": score_detail,
+        "llm_initiate": bool(llm_wants_to_talk),
+      },
+    )
+    log_social_decision(
+      init_persona,
+      target_persona.name,
+      "chat_llm_decision",
+      {
+        "score": score_detail,
+        "llm_initiate": bool(llm_wants_to_talk),
+      },
+    )
+    if llm_wants_to_talk: 
       return True
 
     return False
@@ -926,6 +1161,7 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                            inserted_act,
                            act_pronunciatio,
                            act_event,
+                           None,
                            chatting_with,
                            chat,
                            chatting_with_buffer,
@@ -1019,6 +1255,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
     chatting_end_time = temp_curr_time + datetime.timedelta(minutes=inserted_act_dur)
   else: 
     chatting_end_time = curr_time + datetime.timedelta(minutes=inserted_act_dur)
+  dialogue_id = build_dialogue_id(init_persona, target_persona)
 
   for role, p in [("init", init_persona), ("target", target_persona)]: 
     if role == "init": 
@@ -1026,13 +1263,15 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       act_event = (p.name, "chat with", target_persona.name)
       chatting_with = target_persona.name
       chatting_with_buffer = {}
-      chatting_with_buffer[target_persona.name] = 800
+      score_detail = compute_social_opportunity_score(p, target_persona, focused_event)
+      chatting_with_buffer[target_persona.name] = compute_social_cooldown(p, target_persona, focused_event, score_detail)
     elif role == "target": 
       act_address = f"<persona> {init_persona.name}"
       act_event = (p.name, "chat with", init_persona.name)
       chatting_with = init_persona.name
       chatting_with_buffer = {}
-      chatting_with_buffer[init_persona.name] = 800
+      score_detail = compute_social_opportunity_score(p, init_persona, focused_event)
+      chatting_with_buffer[init_persona.name] = compute_social_cooldown(p, init_persona, focused_event, score_detail)
 
     act_pronunciatio = "💬" 
     act_obj_description = None
@@ -1043,6 +1282,29 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       act_address, act_event, chatting_with, None, chatting_with_buffer, chatting_end_time,
       act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
       act_obj_event, act_start_time)
+    set_social_dialogue_state(p, dialogue_id, partner_name=chatting_with, role=role)
+    log_social_decision(
+      p,
+      chatting_with,
+      "chat_react_enqueued",
+      {
+        "cooldown": chatting_with_buffer.get(chatting_with),
+        "inserted_act": inserted_act,
+        "chatting_end_time": chatting_end_time,
+      },
+    )
+    log_social_dialogue(
+      p,
+      "schedule",
+      "chat_react_enqueued",
+      target_name=chatting_with,
+      dialogue_id=dialogue_id,
+      payload={
+        "cooldown": chatting_with_buffer.get(chatting_with),
+        "inserted_act": inserted_act,
+        "chatting_end_time": chatting_end_time,
+      },
+    )
 
 
 def _wait_react(persona, reaction_mode): 
@@ -1113,7 +1375,7 @@ def decide_survival_action(persona, maze):
   # Compile Physiological Rules
   physiological_rules = (
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
-      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.\n"
+      "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.\n"
       "- Resting (Rest action) restores +40.0 Stamina.\n"
       "- Normal activities decay Satiety by -0.008 per step, and walking decays Satiety by -0.015 per step.\n"
       "- If Satiety reaches 0.0, Health decays by -2.0 per step."
@@ -1153,6 +1415,7 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "💤"
     persona.scratch.act_event = (persona.name, "idle", "none")
+    persona.scratch.act_command = build_action_command("rest", "none", source="survival_direct", raw_action="idle")
     persona.scratch.act_path_set = False
     return persona.scratch.act_address
 
@@ -1180,7 +1443,7 @@ def decide_survival_action(persona, maze):
       elif "behind the cafe counter" in objs_list:
         target = "behind the cafe counter"
       else:
-        target = "refrigerator" if "refrigerator" in objs_list else "apple_tree"
+        target = "refrigerator" if "refrigerator" in objs_list else "apple tree"
       address = persona.s_mem.find_nearest_object(target) or address
 
 
@@ -1191,6 +1454,7 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "🍎"
     persona.scratch.act_event = (persona.name, "gather", target)
+    persona.scratch.act_command = build_action_command("gather", target, source="survival_direct", raw_action="gather")
     persona.scratch.act_obj_description = f"being harvested by {persona.scratch.first_name}"
     persona.scratch.act_obj_pronunciatio = "🍎"
     persona.scratch.act_obj_event = (target, "harvested_by", persona.name)
@@ -1203,6 +1467,7 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "🍴"
     persona.scratch.act_event = (persona.name, "consume", target)
+    persona.scratch.act_command = build_action_command("consume", target, source="survival_direct", raw_action="consume")
     persona.scratch.act_obj_description = f"being eaten by {persona.scratch.first_name}"
     persona.scratch.act_obj_pronunciatio = "🍴"
     persona.scratch.act_obj_event = (target, "consumed_by", persona.name)
@@ -1215,6 +1480,7 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "🛌"
     persona.scratch.act_event = (persona.name, "rest", target)
+    persona.scratch.act_command = build_action_command("rest", target, source="survival_direct", raw_action="rest")
     persona.scratch.act_obj_description = f"being rested on by {persona.scratch.first_name}"
     persona.scratch.act_obj_pronunciatio = "🛌"
     persona.scratch.act_obj_event = (target, "rested_on_by", persona.name)
@@ -1225,6 +1491,27 @@ def decide_survival_action(persona, maze):
 
 def decide_demand_action(persona, maze):
   import json
+  if persona.scratch.should_hold_after_recent_consume():
+    persona.scratch.act_address = persona.scratch.act_address or persona.scratch.living_area
+    persona.scratch.act_description = "idling briefly to stabilize after eating"
+    persona.scratch.act_duration = 5
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "💤"
+    persona.scratch.act_event = (persona.name, "idle", "none")
+    persona.scratch.act_command = build_action_command("idle", "none", source="stability_cooldown", raw_action="idle", detail=persona.scratch.act_description)
+    persona.scratch.act_path_set = False
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": persona.name,
+        "event": "post_consume_hold",
+        "curr_step": persona.scratch.curr_step,
+        "satiety": persona.scratch.satiety,
+        "recent_completed_action_signature": persona.scratch.recent_completed_action_signature,
+      }
+    )
+    return persona.scratch.act_address
+
   # Get all objects the persona knows about
   objs = set()
   for w in persona.s_mem.tree:
@@ -1233,6 +1520,7 @@ def decide_demand_action(persona, maze):
         for obj in persona.s_mem.tree[w][s][a]:
           objs.add(obj)
   objs_list = list(objs)
+  gatherable_food_targets = [obj for obj in objs_list if is_valid_gather_food_source(obj)]
 
   # Query environment micro-states and cooperative details
   object_states = []
@@ -1261,11 +1549,12 @@ def decide_demand_action(persona, maze):
   # Compile Temporal Context
   curr_time_str = persona.scratch.curr_time.strftime("%A %B %d, %Y, %I:%M %p") if persona.scratch.curr_time else "Unknown"
   temporal_context = f"- Current Time: {curr_time_str}"
+  status_summary = _build_homeostasis_status_summary(persona)
 
   # Compile Homeostasis & World Rules dynamically based on stats and inventory
   rules_list = [
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
-      "- Gathering food (Gather action) from resources (like apple_tree, refrigerator, cafe counter) adds items to inventory.",
+      "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
       "- Resting (Rest action) restores +40.0 Stamina.",
       "- Socializing (Socialize action) restores +30.0 Mood.",
       "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.",
@@ -1286,7 +1575,7 @@ def decide_demand_action(persona, maze):
         has_food = True
         break
     if not has_food:
-      rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: Since your inventory is empty, you CANNOT eat directly. You MUST utilize a nearby physical device (like refrigerator, stove, or counter) with the 'Gather' action to get food first.")
+      rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: Since your inventory is empty, you CANNOT eat directly. You MUST utilize a valid nearby food source (like refrigerator, stove, cafe counter, or apple tree) with the 'Gather' action to get food first.")
   
   if persona.scratch.stamina < 40.0:
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, and normal activities decay it by -0.015 per step.")
@@ -1295,7 +1584,7 @@ def decide_demand_action(persona, maze):
   # Inject critical survival priorities (< 30.0) - Satiety (Life) overrides Stamina (Rest)
   if persona.scratch.satiety < 30.0:
     if not persona.scratch.inventory:
-      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting 'refrigerator' or 'stove' to get food first!")
+      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!")
     else:
       food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
       rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! You have food in your inventory. You MUST immediately select 'Consume' targeting '{food_item}' to eat!")
@@ -1328,6 +1617,7 @@ def decide_demand_action(persona, maze):
       persona, 
       object_states, 
       temporal_context=temporal_context, 
+      status_summary=status_summary,
       rules=physiological_rules, 
       cooperative_context=cooperative_context,
       last_action_desc=last_action_desc
@@ -1364,21 +1654,88 @@ def decide_demand_action(persona, maze):
   reasoning = decision.get("reasoning", "")
   if reasoning is None: reasoning = ""
   reasoning = str(reasoning)
+  has_food_inventory = any(v > 0 for v in persona.scratch.inventory.values())
+  normalized_target = normalize_food_source_target(target)
+  if action.lower() == "consume" and not has_food_inventory and is_valid_gather_food_source(normalized_target):
+    append_debug_log(
+      "translation_verify.jsonl",
+      {
+        "persona": persona.name,
+        "event": "coerce_consume_source_to_gather",
+        "original_action": action,
+        "original_target": target,
+        "coerced_target": normalized_target,
+        "reason": "inventory_empty_food_source_target",
+      }
+    )
+    action = "Gather"
+    target = normalized_target
+    if normalized_target == "refrigerator":
+      act_desp = "opening the refrigerator to gather food items"
+    elif normalized_target == "stove":
+      act_desp = "preparing food from the stove"
+    elif normalized_target == "cafe counter":
+      act_desp = "getting prepared food from the cafe counter"
+    elif normalized_target == "apple tree":
+      act_desp = "gathering apples from the apple tree"
 
-  print(f"[{persona.name}] 需求驱动实时决策: Action={action}, Target={target}, Duration={act_dura} min, Detail='{act_desp}', 原因={reasoning}")
+  if action.lower() == "gather":
+    normalized_target = normalize_food_source_target(target)
+    if persona.scratch.satiety < 40.0 and not has_food_inventory:
+      if not is_valid_gather_food_source(normalized_target):
+        fallback_target = None
+        for candidate in ["refrigerator", "stove", "cafe counter", "apple tree"]:
+          if candidate in gatherable_food_targets:
+            fallback_target = candidate
+            break
+        if not fallback_target and gatherable_food_targets:
+          fallback_target = normalize_food_source_target(gatherable_food_targets[0])
+        if fallback_target:
+          append_debug_log(
+            "translation_verify.jsonl",
+            {
+              "persona": persona.name,
+              "event": "retarget_invalid_food_source",
+              "original_target": target,
+              "fallback_target": fallback_target,
+              "valid_sources": gatherable_food_targets,
+            }
+          )
+          target = fallback_target
+          if "refrigerator" in fallback_target:
+            act_desp = "opening the refrigerator to gather food items"
+          elif "stove" in fallback_target:
+            act_desp = "preparing food from the stove"
+          elif "cafe counter" in fallback_target:
+            act_desp = "getting prepared food from the cafe counter"
+          elif "apple tree" in fallback_target:
+            act_desp = "gathering apples from the apple tree"
+          reasoning = f"{reasoning} [retargeted to valid food source]"
 
-  # Write alignment verify log to file
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+
   try:
-    log_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "logs"))
-    os.makedirs(log_dir, exist_ok=True)
-    verify_log_path = os.path.join(log_dir, "translation_verify.log")
-    with open(verify_log_path, "a", encoding="utf-8") as f:
-      f.write(f"[{persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S') if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str)) else str(persona.scratch.curr_time)}] Persona: {persona.name}\n")
-      f.write(f" - Phase 1 (Intent): \"{thinking_text}\"\n")
-      f.write(f" - Phase 2 (Mapped): Action={action}, Target={target}, Detail='{act_desp}', Duration={act_dura}\n")
-      f.write(f" - Reasoning       : {reasoning}\n")
-      f.write("-" * 80 + "\n")
-  except Exception as e:
+    sim_time = (persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S')
+                if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str))
+                else str(persona.scratch.curr_time))
+    append_debug_log(
+      "translation_verify.jsonl",
+      {
+        "sim_time": sim_time,
+        "persona": persona.name,
+        "event": "decision_snapshot",
+        "intent": thinking_text,
+        "decision": decision,
+        "stats": {
+          "satiety": persona.scratch.satiety,
+          "stamina": persona.scratch.stamina,
+          "health": persona.scratch.health,
+          "mood": persona.scratch.mood,
+        },
+        "inventory": persona.scratch.inventory,
+      }
+    )
+  except Exception:
     pass
 
   # Fallback check
@@ -1386,32 +1743,94 @@ def decide_demand_action(persona, maze):
     act_desp = "idling to conserve energy"
     act_dura = 10
 
+  def tighten_food_action_description(skill_id, raw_target, resolved_address, current_description):
+    if str(skill_id or "").lower() != "gather":
+      return current_description
+    normalized_target = normalize_food_source_target(raw_target)
+    address_text = str(resolved_address or "").lower()
+    if normalized_target == "refrigerator" or address_text.endswith(":refrigerator"):
+      return "opening the refrigerator to gather food items"
+    if normalized_target == "stove" or address_text.endswith(":stove"):
+      return "preparing food from the stove"
+    if normalized_target == "cafe counter" or address_text.endswith(":behind the cafe counter"):
+      return "getting prepared food from the cafe counter"
+    if normalized_target == "apple tree" or address_text.endswith(":apple tree"):
+      return "gathering apples from the apple tree"
+    return current_description
+
   # Resolve sector, arena, object
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
+  resolution_meta = None
+  arena_only_skills = {"use", "work", "study", "leisure_use"}
   
-  # Check if target is a known object with a specific address
-  address = persona.s_mem.find_nearest_object(target)
-  if address:
-    new_address = address
+  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+    new_address = f"<persona> {target}"
+    resolution_meta = {"kind": "persona_target", "matched": target}
   else:
-    # Use standard prompt resolvers
-    act_sector = generate_action_sector(act_desp, persona, maze)
-    act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
-    act_address = f"{act_world}:{act_sector}:{act_arena}"
-    act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
-    new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+    # Check if target is a known object with a specific address
+    address, resolved_name, resolved_kind = resolve_known_object_address(persona, target, act_desp)
+    if address:
+      new_address = address
+      resolution_meta = {"kind": resolved_kind, "matched": resolved_name}
+    else:
+      arena_address, resolved_name, resolved_kind = resolve_known_arena_address(maze, target, act_desp)
+      if arena_address and normalized_skill_id in arena_only_skills:
+        new_address = arena_address
+        resolution_meta = {"kind": resolved_kind, "matched": resolved_name}
+      else:
+        # Use standard prompt resolvers
+        act_sector = generate_action_sector(act_desp, persona, maze)
+        act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
+        act_address = f"{act_world}:{act_sector}:{act_arena}"
+        if normalized_skill_id in arena_only_skills:
+          new_address = act_address
+          resolution_meta = {"kind": "arena_fallback", "matched": act_address}
+        else:
+          act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
+          new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
 
-  act_pron = generate_action_pronunciatio(act_desp, persona)
-  act_event = generate_action_event_triple(act_desp, persona)
+  act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
+
+  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+    act_pron = "💬"
+    act_event = (persona.name, "chat with", target)
+  else:
+    act_pron = generate_action_pronunciatio(act_desp, persona)
+    act_event = generate_action_event_triple(act_desp, persona)
+  try:
+    sim_time = (persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S')
+                if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str))
+                else str(persona.scratch.curr_time))
+    append_debug_log(
+      "translation_verify.jsonl",
+      {
+        "sim_time": sim_time,
+        "persona": persona.name,
+        "event": "target_resolution",
+        "target": target,
+        "new_address": new_address,
+        "act_description": act_desp,
+        "act_event": act_event,
+        "act_command_skill": normalized_skill_id,
+        "resolution_meta": resolution_meta,
+      }
+    )
+  except Exception:
+    pass
   
   # Persona's actions also influence the object states. We set those up here. 
-  try:
-    act_game_object = new_address.split(":")[-1]
-  except:
-    act_game_object = "none"
-  act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
-  act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
-  act_obj_event = generate_act_obj_event_triple(act_game_object, act_obj_desp, persona)
+  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+    act_obj_desp = None
+    act_obj_pron = None
+    act_obj_event = (None, None, None)
+  else:
+    try:
+      act_game_object = new_address.split(":")[-1]
+    except:
+      act_game_object = "none"
+    act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
+    act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
+    act_obj_event = generate_act_obj_event_triple(act_game_object, act_obj_desp, persona)
 
   # Adding the action to persona's queue. 
   persona.scratch.add_new_action(new_address, 
@@ -1419,6 +1838,7 @@ def decide_demand_action(persona, maze):
                                  act_desp, 
                                  act_pron, 
                                  act_event,
+                                 build_action_command(action, target, source="decision_translation", raw_action=action, detail=act_desp),
                                  None,
                                  None,
                                  None,
@@ -1457,7 +1877,36 @@ def plan(persona, maze, personas, new_day, retrieved):
   #                     ["thoughts"] = [<ConceptNode>, ...]}
   focused_event = False
   if retrieved.keys(): 
-    focused_event = _choose_retrieved(persona, retrieved)
+    social_focus, social_candidates = choose_social_focus(persona, retrieved, personas)
+    log_social_dialogue(
+      persona,
+      "trigger",
+      "social_focus_scan",
+      payload={
+        "candidate_count": len(social_candidates),
+        "candidates": social_candidates[:5],
+        "selected_target": (
+          social_focus.get("curr_event").subject
+          if social_focus and social_focus.get("curr_event")
+          else None
+        ),
+      },
+    )
+    log_social_decision(
+      persona,
+      None,
+      "social_focus_scan",
+      {
+        "candidate_count": len(social_candidates),
+        "candidates": social_candidates[:5],
+        "selected_target": (
+          social_focus.get("curr_event").subject
+          if social_focus and social_focus.get("curr_event")
+          else None
+        ),
+      },
+    )
+    focused_event = social_focus if social_focus else _choose_retrieved(persona, retrieved)
   
   # Step 2: Once we choose an event, we need to determine whether the
   #         persona will take any actions for the perceived event. There are
@@ -1479,19 +1928,60 @@ def plan(persona, maze, personas, new_day, retrieved):
   # Step 3: Chat-related state clean up. 
   # If the persona is not chatting with anyone, we clean up any of the 
   # chat-related states here. 
-  if persona.scratch.act_event[1] not in ["chat with", "creator_comm"]:
+  act_event = persona.scratch.act_event
+  act_verb = act_event[1] if isinstance(act_event, (list, tuple)) and len(act_event) > 1 else None
+  if act_verb not in ["chat with", "creator_comm"]:
     persona.scratch.chatting_with = None
     persona.scratch.chat = None
     persona.scratch.chatting_end_time = None
-  # We want to make sure that the persona does not keep conversing with each
-  # other in an infinite loop. So, chatting_with_buffer maintains a form of 
-  # buffer that makes the persona wait from talking to the same target 
-  # immediately after chatting once. We keep track of the buffer value here. 
-  curr_persona_chat_buffer = persona.scratch.chatting_with_buffer
-  for persona_name, buffer_count in curr_persona_chat_buffer.items():
-    if persona_name != persona.scratch.chatting_with: 
-      persona.scratch.chatting_with_buffer[persona_name] -= 1
+    clear_social_dialogue_state(persona)
+  _decrement_chatting_with_buffer(persona)
 
+  return persona.scratch.act_address
+
+
+def plan_social_reaction(persona, maze, personas, retrieved):
+  """
+  Evaluate only social chat opportunities during fast-path movement steps.
+  """
+  if not retrieved:
+    _decrement_chatting_with_buffer(persona)
+    return persona.scratch.act_address
+
+  social_focus, social_candidates = choose_social_focus(persona, retrieved, personas)
+  log_social_dialogue(
+    persona,
+    "trigger",
+    "periodic_social_scan",
+    payload={
+      "candidate_count": len(social_candidates),
+      "candidates": social_candidates[:5],
+      "selected_target": (
+        social_focus.get("curr_event").subject
+        if social_focus and social_focus.get("curr_event")
+        else None
+      ),
+    },
+  )
+  log_social_decision(
+    persona,
+    None,
+    "periodic_social_scan",
+    {
+      "candidate_count": len(social_candidates),
+      "candidates": social_candidates[:5],
+      "selected_target": (
+        social_focus.get("curr_event").subject
+        if social_focus and social_focus.get("curr_event")
+        else None
+      ),
+    },
+  )
+  if social_focus:
+    reaction_mode = _should_react(persona, social_focus, personas)
+    if reaction_mode and reaction_mode[:9] == "chat with":
+      _chat_react(maze, persona, social_focus, reaction_mode, personas)
+  _decrement_chatting_with_buffer(persona)
   return persona.scratch.act_address
 
 

@@ -10,6 +10,11 @@ import sys
 sys.path.append('../../')
 
 from global_methods import *
+from persona.cognitive_modules.action_command_utils import (
+  build_decision_signature,
+  infer_action_command_from_event,
+)
+from persona.cognitive_modules.debug_log import append_debug_log
 
 class Scratch: 
   def __init__(self, f_saved): 
@@ -55,6 +60,11 @@ class Scratch:
     self.mood = 100.0
     self.last_social_time = None
     self.last_action_switch_time = None
+    self.decision_commit_until_step = None
+    self.last_decision_signature = None
+    self.last_decision_reason = None
+    self.recent_completed_action_signature = None
+    self.recent_completed_action_step = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -147,6 +157,7 @@ class Scratch:
     # <event_form> represents the event triple that the persona is currently 
     # engaged in. 
     self.act_event = (self.name, None, None)
+    self.act_command = infer_action_command_from_event(self.act_event, source="init")
 
     # <obj_description> is a string description of the object action. 
     self.act_obj_description = None
@@ -169,6 +180,10 @@ class Scratch:
     # e.g., ["Dolores Murphy"] = self.vision_r
     self.chatting_with_buffer = dict()
     self.chatting_end_time = None
+    self.social_dialogue_id = None
+    self.social_dialogue_partner = None
+    self.social_dialogue_role = None
+    self.social_dialogue_started_step = None
 
     # <path_set> is True if we've already calculated the path the persona will
     # take to execute this action. That path is stored in the persona's 
@@ -219,6 +234,11 @@ class Scratch:
       
       last_switch_str = scratch_load.get("last_action_switch_time", None)
       self.last_action_switch_time = datetime.datetime.strptime(last_switch_str, "%B %d, %Y, %H:%M:%S") if last_switch_str else None
+      self.decision_commit_until_step = scratch_load.get("decision_commit_until_step", None)
+      self.last_decision_signature = scratch_load.get("last_decision_signature", None)
+      self.last_decision_reason = scratch_load.get("last_decision_reason", None)
+      self.recent_completed_action_signature = scratch_load.get("recent_completed_action_signature", None)
+      self.recent_completed_action_step = scratch_load.get("recent_completed_action_step", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -262,6 +282,7 @@ class Scratch:
       self.act_description = scratch_load["act_description"]
       self.act_pronunciatio = scratch_load["act_pronunciatio"]
       self.act_event = tuple(scratch_load["act_event"])
+      self.act_command = scratch_load.get("act_command", infer_action_command_from_event(self.act_event, source="load"))
 
       self.act_obj_description = scratch_load["act_obj_description"]
       self.act_obj_pronunciatio = scratch_load["act_obj_pronunciatio"]
@@ -277,6 +298,10 @@ class Scratch:
                                             "%B %d, %Y, %H:%M:%S")
       else:
         self.chatting_end_time = None
+      self.social_dialogue_id = scratch_load.get("social_dialogue_id", None)
+      self.social_dialogue_partner = scratch_load.get("social_dialogue_partner", None)
+      self.social_dialogue_role = scratch_load.get("social_dialogue_role", None)
+      self.social_dialogue_started_step = scratch_load.get("social_dialogue_started_step", None)
 
       self.act_path_set = scratch_load["act_path_set"]
       self.planned_path = scratch_load["planned_path"]
@@ -317,6 +342,11 @@ class Scratch:
     scratch["mood"] = self.mood
     scratch["last_social_time"] = self.last_social_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_social_time else None
     scratch["last_action_switch_time"] = self.last_action_switch_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_action_switch_time else None
+    scratch["decision_commit_until_step"] = self.decision_commit_until_step
+    scratch["last_decision_signature"] = self.last_decision_signature
+    scratch["last_decision_reason"] = self.last_decision_reason
+    scratch["recent_completed_action_signature"] = self.recent_completed_action_signature
+    scratch["recent_completed_action_step"] = self.recent_completed_action_step
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -348,6 +378,7 @@ class Scratch:
     scratch["act_description"] = self.act_description
     scratch["act_pronunciatio"] = self.act_pronunciatio
     scratch["act_event"] = self.act_event
+    scratch["act_command"] = self.act_command
 
     scratch["act_obj_description"] = self.act_obj_description
     scratch["act_obj_pronunciatio"] = self.act_obj_pronunciatio
@@ -362,6 +393,10 @@ class Scratch:
                                         .strftime("%B %d, %Y, %H:%M:%S"))
     else: 
       scratch["chatting_end_time"] = None
+    scratch["social_dialogue_id"] = self.social_dialogue_id
+    scratch["social_dialogue_partner"] = self.social_dialogue_partner
+    scratch["social_dialogue_role"] = self.social_dialogue_role
+    scratch["social_dialogue_started_step"] = self.social_dialogue_started_step
 
     scratch["act_path_set"] = self.act_path_set
     scratch["planned_path"] = self.planned_path
@@ -547,6 +582,7 @@ class Scratch:
                      action_description,
                      action_pronunciatio, 
                      action_event,
+                     action_command,
                      chatting_with, 
                      chat, 
                      chatting_with_buffer,
@@ -555,30 +591,55 @@ class Scratch:
                      act_obj_pronunciatio, 
                      act_obj_event, 
                      act_start_time=None): 
-    # Check for action switch and apply oscillation check
-    if action_description != self.act_description:
-      if not self.last_action_switch_time:
-        self.last_action_switch_time = self.curr_time
-      elif self.curr_time:
-        elapsed = (self.curr_time - self.last_action_switch_time).total_seconds() / 60.0
-        # If task switched too fast (less than 15 mins) and the new action is not idling/sleeping,
-        # apply a stamina penalty.
-        if elapsed < 15.0 and action_description and "idle" not in action_description.lower() and "sleep" not in action_description.lower():
-          self.stamina = max(0.0, self.stamina - 5.0)
-          print(f"=== [物理振荡惩罚] {self.name} 从 '{self.act_description}' 切换到 '{action_description}' 耗时仅 {elapsed:.1f} 分钟，扣除精力 5.0，剩余精力: {self.stamina:.1f} ===")
+    resolved_action_command = action_command or infer_action_command_from_event(action_event, source="add_new_action")
+    next_signature = build_decision_signature(
+      resolved_action_command,
+      action_event=action_event,
+      action_description=action_description,
+      action_address=action_address,
+    )
+    if not self.should_accept_action_switch(next_signature, resolved_action_command, action_description):
+      return False
+
+    previous_signature = self.last_decision_signature
+    if previous_signature != next_signature:
       self.last_action_switch_time = self.curr_time
+      append_debug_log(
+        "decision_stability.jsonl",
+        {
+          "persona": self.name,
+          "event": "switch_accepted",
+          "curr_step": self.curr_step,
+          "old_signature": previous_signature,
+          "new_signature": next_signature,
+          "source": resolved_action_command.get("source") if isinstance(resolved_action_command, dict) else None,
+          "description": action_description,
+        }
+      )
+    self.last_decision_signature = dict(next_signature)
+    self.last_decision_reason = action_description
+    self.decision_commit_until_step = self._next_commit_window_step(next_signature)
 
     self.act_address = action_address
     self.act_duration = action_duration
     self.act_description = action_description
     self.act_pronunciatio = action_pronunciatio
     self.act_event = action_event
+    self.act_command = resolved_action_command
 
     self.chatting_with = chatting_with
     self.chat = chat 
     if chatting_with_buffer: 
       self.chatting_with_buffer.update(chatting_with_buffer)
     self.chatting_end_time = chatting_end_time
+    predicate = None
+    if action_event and len(action_event) > 1:
+      predicate = action_event[1]
+    if predicate != "chat with":
+      self.social_dialogue_id = None
+      self.social_dialogue_partner = None
+      self.social_dialogue_role = None
+      self.social_dialogue_started_step = None
 
     self.act_obj_description = act_obj_description
     self.act_obj_pronunciatio = act_obj_pronunciatio
@@ -589,6 +650,204 @@ class Scratch:
     self.act_path_set = False
     self.serving_memory_written = False
     self.drinking_memory_written = False
+    return True
+
+
+  def _next_commit_window_step(self, action_signature):
+    curr_step = self.curr_step if self.curr_step is not None else None
+    if curr_step is None:
+      return None
+    family = (action_signature or {}).get("intent_family")
+    if family in {"restore_satiety", "restore_stamina"}:
+      return curr_step + 2
+    if family == "communication":
+      return curr_step + 1
+    return curr_step + 3
+
+
+  def _same_decision_family(self, old_signature, new_signature):
+    if not old_signature or not new_signature:
+      return False
+    if old_signature == new_signature:
+      return True
+    if old_signature.get("skill_id") == new_signature.get("skill_id") and old_signature.get("target") == new_signature.get("target"):
+      return True
+    if old_signature.get("intent_family") == new_signature.get("intent_family") and old_signature.get("intent_family") in {"restore_satiety", "restore_stamina", "communication"}:
+      return True
+    return False
+
+
+  def _is_internal_family_oscillation(self, old_signature, new_signature):
+    if not old_signature or not new_signature:
+      return False
+    if old_signature.get("intent_family") != new_signature.get("intent_family"):
+      return False
+    if old_signature.get("target") != new_signature.get("target"):
+      return False
+    family = old_signature.get("intent_family")
+    if family not in {"restore_satiety", "restore_stamina"}:
+      return False
+    old_skill = old_signature.get("skill_id")
+    new_skill = new_signature.get("skill_id")
+    if not old_skill or not new_skill or old_skill == new_skill:
+      return False
+    return True
+
+
+  def get_active_decision_signature(self):
+    if self.last_decision_signature:
+      return self.last_decision_signature
+    if not (self.act_command or self.act_event or self.act_address):
+      return None
+    return build_decision_signature(
+      self.act_command,
+      action_event=self.act_event,
+      action_description=self.act_description,
+      action_address=self.act_address,
+    )
+
+
+  def _is_forced_switch_source(self, action_command):
+    if not isinstance(action_command, dict):
+      return False
+    return action_command.get("source") in {
+      "survival_direct",
+      "creator_injection",
+      "chat_followup",
+      "post_gather_followup",
+    }
+
+
+  def _is_critical_survival_switch(self, action_signature):
+    if not action_signature:
+      return False
+    family = action_signature.get("intent_family")
+    if family == "restore_satiety":
+      return self.satiety < 30.0
+    if family == "restore_stamina":
+      return self.stamina < 30.0
+    return False
+
+
+  def should_accept_action_switch(self, action_signature, action_command=None, action_description=None):
+    if not action_signature or not action_signature.get("skill_id"):
+      return True
+    if not self.last_decision_signature:
+      return True
+    if self._is_forced_switch_source(action_command) or self._is_critical_survival_switch(action_signature):
+      return True
+
+    commit_until = self.decision_commit_until_step
+    if self._is_internal_family_oscillation(self.last_decision_signature, action_signature):
+      if commit_until is not None and self.curr_step is not None and self.curr_step < commit_until:
+        append_debug_log(
+          "decision_stability.jsonl",
+          {
+            "persona": self.name,
+            "event": "switch_blocked",
+            "curr_step": self.curr_step,
+            "commit_until_step": commit_until,
+            "old_signature": self.last_decision_signature,
+            "new_signature": action_signature,
+            "source": action_command.get("source") if isinstance(action_command, dict) else None,
+            "description": action_description,
+            "block_reason": "same_family_internal_oscillation",
+          }
+        )
+        return False
+
+    if self._same_decision_family(self.last_decision_signature, action_signature):
+      return True
+    commit_until = self.decision_commit_until_step
+    if commit_until is None or self.curr_step is None or self.curr_step >= commit_until:
+      return True
+
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "switch_blocked",
+        "curr_step": self.curr_step,
+        "commit_until_step": commit_until,
+        "old_signature": self.last_decision_signature,
+        "new_signature": action_signature,
+        "source": action_command.get("source") if isinstance(action_command, dict) else None,
+        "description": action_description,
+        "block_reason": "commit_window",
+      }
+    )
+    return False
+
+
+  def is_recent_duplicate_action(self, action_signature, within_steps=2):
+    if not action_signature or not self.recent_completed_action_signature:
+      return False
+    if self.curr_step is None or self.recent_completed_action_step is None:
+      return False
+    if self.curr_step - self.recent_completed_action_step > within_steps:
+      return False
+    return self.recent_completed_action_signature == action_signature
+
+
+  def compute_switch_cost(self, action_signature):
+    if not action_signature or not action_signature.get("skill_id"):
+      return 0.0
+    current_signature = self.get_active_decision_signature()
+    if not current_signature:
+      return 0.0
+    if self._is_internal_family_oscillation(current_signature, action_signature):
+      penalty = 0.18
+      if self.curr_step is not None and self.decision_commit_until_step is not None and self.curr_step < self.decision_commit_until_step:
+        penalty += 0.1
+      return min(0.36, penalty)
+    if self._same_decision_family(current_signature, action_signature):
+      return 0.0
+
+    penalty = 0.06
+    current_family = current_signature.get("intent_family")
+    new_family = action_signature.get("intent_family")
+    if self.curr_step is not None and self.decision_commit_until_step is not None and self.curr_step < self.decision_commit_until_step:
+      penalty += 0.12
+    if current_family in {"work", "study", "leisure", "acquire_resource"}:
+      penalty += 0.05
+    if current_family in {"restore_satiety", "restore_stamina"}:
+      penalty += 0.12
+    if new_family == "communication" and current_family not in {"communication", "leisure"}:
+      penalty += 0.04
+    return min(0.32, max(0.0, penalty))
+
+
+  def should_hold_after_recent_consume(self, within_steps=2, satiety_floor=40.0):
+    signature = self.recent_completed_action_signature or {}
+    if signature.get("intent_family") != "restore_satiety":
+      return False
+    if signature.get("skill_id") != "consume":
+      return False
+    if self.curr_step is None or self.recent_completed_action_step is None:
+      return False
+    if self.curr_step - self.recent_completed_action_step > within_steps:
+      return False
+    return self.satiety >= satiety_floor
+
+
+  def mark_action_completed(self, action_command=None, action_event=None, action_description=None, action_address=None):
+    signature = build_decision_signature(
+      action_command or self.act_command,
+      action_event=action_event or self.act_event,
+      action_description=action_description or self.act_description,
+      action_address=action_address or self.act_address,
+    )
+    self.recent_completed_action_signature = signature
+    self.recent_completed_action_step = self.curr_step
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "action_completed",
+        "curr_step": self.curr_step,
+        "signature": signature,
+      }
+    )
 
 
   def act_time_str(self): 
@@ -690,12 +949,6 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
-
-
-
-
-
 
 
 

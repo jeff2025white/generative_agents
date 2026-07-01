@@ -23,6 +23,7 @@ import threading
 _translation_cache = {}
 _translation_cache_lock = threading.Lock()
 _translation_cache_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "temp_storage", "translation_cache.json"))
+_status_translation_config = None
 
 def _load_translation_cache():
   global _translation_cache
@@ -36,6 +37,66 @@ def _load_translation_cache():
 
 _load_translation_cache()
 
+def _get_translation_cache(cache_key):
+  with _translation_cache_lock:
+    return _translation_cache.get(cache_key)
+
+
+def _set_translation_cache(cache_key, translated_value):
+  with _translation_cache_lock:
+    _translation_cache[cache_key] = translated_value
+    try:
+      with open(_translation_cache_file, "w", encoding="utf-8") as f:
+        json.dump(_translation_cache, f, ensure_ascii=False, indent=2)
+    except Exception as save_err:
+      print(f"Warning: Failed to save translation cache: {save_err}")
+
+
+def _get_status_translation_config():
+  """加载状态页专用的 DeepSeek 配置，优先环境变量，其次回退到项目内预留配置。"""
+  global _status_translation_config
+  if _status_translation_config:
+    return _status_translation_config
+
+  config = {
+    "api_key": os.environ.get("DEEPSEEK_API_KEY", "").strip(),
+    "api_base": os.environ.get("DEEPSEEK_API_BASE", "").strip() or "https://api.deepseek.com/v1",
+    "model": os.environ.get("DEEPSEEK_MODEL", "").strip() or "deepseek-chat",
+  }
+  if config["api_key"]:
+    _status_translation_config = config
+    return _status_translation_config
+
+  utils_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server", "utils.py")
+  )
+  if not os.path.exists(utils_path):
+    return None
+
+  try:
+    with open(utils_path, "r", encoding="utf-8") as f:
+      content = f.read()
+  except Exception:
+    return None
+
+  key_match = re.search(r'^\s*#\s*openai_api_key\s*=\s*"([^"]+)"', content, re.MULTILINE)
+  base_match = re.search(r'^\s*#\s*openai_api_base\s*=\s*"([^"]+)"', content, re.MULTILINE)
+  model_match = re.search(r'^\s*#\s*gpt35_model\s*=\s*"([^"]+)"', content, re.MULTILINE)
+
+  if key_match:
+    config["api_key"] = key_match.group(1).strip()
+  if base_match:
+    config["api_base"] = base_match.group(1).strip()
+  if model_match:
+    config["model"] = model_match.group(1).strip()
+
+  if not config["api_key"]:
+    return None
+
+  _status_translation_config = config
+  return _status_translation_config
+
+
 def translate_to_chinese(text):
   if not text or not isinstance(text, str):
     return text
@@ -46,9 +107,9 @@ def translate_to_chinese(text):
     return text
 
   # Check cache first
-  with _translation_cache_lock:
-    if s in _translation_cache:
-      return _translation_cache[s]
+  cached = _get_translation_cache(s)
+  if cached is not None:
+    return cached
   
   import sys
   backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server"))
@@ -74,16 +135,84 @@ def translate_to_chinese(text):
       
     # Update cache
     if res and res != s:
-      with _translation_cache_lock:
-        _translation_cache[s] = res
-        try:
-          with open(_translation_cache_file, "w", encoding="utf-8") as f:
-            json.dump(_translation_cache, f, ensure_ascii=False, indent=2)
-        except Exception as save_err:
-          print(f"Warning: Failed to save translation cache: {save_err}")
+      _set_translation_cache(s, res)
           
     return res
   except Exception as e:
+    return text
+
+
+def translate_to_chinese_with_deepseek(text):
+  """状态页专用翻译：直接调用 DeepSeek 在线接口，避免切换全局 LLM 配置。"""
+  if not text or not isinstance(text, str):
+    return text
+  s = text.strip()
+  if not s or s.lower() == "none":
+    return text
+  if not any(c.isalpha() for c in s):
+    return text
+
+  cache_key = f"deepseek::{s}"
+  cached = _get_translation_cache(cache_key)
+  if cached is not None:
+    return cached
+
+  config = _get_status_translation_config()
+  if not config:
+    return translate_to_chinese(text)
+
+  payload = {
+    "model": config["model"],
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a concise translation engine. Translate virtual simulation text into natural Chinese. Return only the Chinese translation.",
+      },
+      {
+        "role": "user",
+        "content": (
+          "Translate the following English phrase from a virtual agent simulation into natural and concise Chinese. "
+          "Return ONLY the Chinese translation. Do not include any explanations, quotes, or notes.\n\n"
+          f"English: {s}\n"
+          "Chinese:"
+        ),
+      },
+    ],
+    "temperature": 0,
+  }
+
+  try:
+    response = http_requests.post(
+      f'{config["api_base"].rstrip("/")}/chat/completions',
+      headers={
+        "Authorization": f'Bearer {config["api_key"]}',
+        "Content-Type": "application/json",
+      },
+      json=payload,
+      timeout=20,
+    )
+    response.raise_for_status()
+    data = response.json()
+    translated = (
+      data.get("choices", [{}])[0]
+      .get("message", {})
+      .get("content", "")
+    )
+    if not translated or "error" in translated.lower():
+      return text
+
+    res = translated.strip()
+    if res.startswith('"') and res.endswith('"'):
+      res = res[1:-1].strip()
+    if res.startswith("'") and res.endswith("'"):
+      res = res[1:-1].strip()
+    if not res:
+      return text
+
+    if res != s:
+      _set_translation_cache(cache_key, res)
+    return res
+  except Exception:
     return text
 
 def translate_movements_in_place(movements):
@@ -534,64 +663,116 @@ def _load_recent_decision_logs(persona_name, limit=8):
   return matched[-limit:]
 
 
-def _translate_inventory_items(inventory):
+def _load_recent_decision_stability_logs(persona_name, limit=10):
+  logs_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "decision_stability.jsonl")
+  )
+  if not os.path.exists(logs_path):
+    return []
+
+  interesting = {"switch_blocked", "switch_accepted", "action_completed"}
+  matched = []
+  with open(logs_path, "r", encoding="utf-8") as f:
+    for line in f:
+      line = line.strip()
+      if not line:
+        continue
+      try:
+        entry = json.loads(line)
+      except Exception:
+        continue
+      if entry.get("persona") != persona_name:
+        continue
+      if entry.get("event") not in interesting:
+        continue
+      matched.append(entry)
+  return matched[-limit:]
+
+
+def _translate_inventory_items(inventory, translate_func=translate_to_chinese):
   translated = []
   for item_name, count in (inventory or {}).items():
     if count and count > 0:
       translated.append({
-        "name": translate_to_chinese(item_name),
+        "name": translate_func(item_name),
         "count": count,
       })
   return translated
 
 
-def _translate_environment_candidates(area_candidates):
+def _translate_environment_candidates(area_candidates, translate_func=translate_to_chinese):
   translated = []
   for area in area_candidates:
     translated.append({
-      "world": translate_to_chinese(area.get("world", "")),
-      "sector": translate_to_chinese(area.get("sector", "")),
-      "arena": translate_to_chinese(area.get("arena", "")),
-      "objects": [translate_to_chinese(obj) for obj in area.get("objects", [])],
+      "world": translate_func(area.get("world", "")),
+      "sector": translate_func(area.get("sector", "")),
+      "arena": translate_func(area.get("arena", "")),
+      "objects": [translate_func(obj) for obj in area.get("objects", [])],
     })
   return translated
 
 
-def _translate_retrieved_memories(memories):
+def _translate_retrieved_memories(memories, translate_func=translate_to_chinese):
   translated = []
   for mem in memories or []:
     translated.append({
       **mem,
-      "description": translate_to_chinese(mem.get("description", "")),
+      "description": translate_func(mem.get("description", "")),
     })
   return translated
 
 
-def _translate_recent_decision_logs(logs):
+def _translate_recent_decision_logs(logs, translate_func=translate_to_chinese):
   translated = []
   for log in logs or []:
     copied = dict(log)
     if copied.get("event") == "decision_snapshot":
-      copied["intent_zh"] = translate_to_chinese(copied.get("intent", ""))
+      copied["intent_zh"] = translate_func(copied.get("intent", ""))
       decision = copied.get("decision")
       if isinstance(decision, dict):
         copied["decision_zh"] = {
-          "action": translate_to_chinese(str(decision.get("action", ""))),
-          "target": translate_to_chinese(str(decision.get("target", ""))),
-          "detail": translate_to_chinese(str(decision.get("detail", ""))),
+          "action": translate_func(str(decision.get("action", ""))),
+          "target": translate_func(str(decision.get("target", ""))),
+          "detail": translate_func(str(decision.get("detail", ""))),
           "duration": decision.get("duration", ""),
-          "reasoning": translate_to_chinese(str(decision.get("reasoning", ""))),
+          "reasoning": translate_func(str(decision.get("reasoning", ""))),
         }
       else:
-        copied["decision_zh"] = translate_to_chinese(str(decision))
+        copied["decision_zh"] = translate_func(str(decision))
     elif copied.get("event") == "target_resolution":
-      copied["target_zh"] = translate_to_chinese(copied.get("target", ""))
-      copied["new_address_zh"] = translate_to_chinese(copied.get("new_address", ""))
-      copied["act_description_zh"] = translate_to_chinese(copied.get("act_description", ""))
+      copied["target_zh"] = translate_func(copied.get("target", ""))
+      copied["new_address_zh"] = translate_func(copied.get("new_address", ""))
+      copied["act_description_zh"] = translate_func(copied.get("act_description", ""))
     elif copied.get("event") == "retarget_invalid_food_source":
-      copied["original_target_zh"] = translate_to_chinese(copied.get("original_target", ""))
-      copied["fallback_target_zh"] = translate_to_chinese(copied.get("fallback_target", ""))
-      copied["valid_sources_zh"] = [translate_to_chinese(str(x)) for x in copied.get("valid_sources", [])]
+      copied["original_target_zh"] = translate_func(copied.get("original_target", ""))
+      copied["fallback_target_zh"] = translate_func(copied.get("fallback_target", ""))
+      copied["valid_sources_zh"] = [translate_func(str(x)) for x in copied.get("valid_sources", [])]
+    translated.append(copied)
+  return translated
+
+
+def _translate_decision_signature(signature, translate_func=translate_to_chinese):
+  if not isinstance(signature, dict):
+    return translate_func(str(signature))
+  return {
+    "skill_id": translate_func(str(signature.get("skill_id", ""))),
+    "target": translate_func(str(signature.get("target", ""))),
+    "intent_family": translate_func(str(signature.get("intent_family", ""))),
+  }
+
+
+def _translate_recent_decision_stability_logs(logs, translate_func=translate_to_chinese):
+  translated = []
+  for log in logs or []:
+    copied = dict(log)
+    event = copied.get("event")
+    if event in {"switch_blocked", "switch_accepted"}:
+      copied["old_signature_zh"] = _translate_decision_signature(copied.get("old_signature"), translate_func=translate_func)
+      copied["new_signature_zh"] = _translate_decision_signature(copied.get("new_signature"), translate_func=translate_func)
+      copied["description_zh"] = translate_func(str(copied.get("description", "")))
+      copied["source_zh"] = translate_func(str(copied.get("source", "")))
+    elif event == "action_completed":
+      copied["signature_zh"] = _translate_decision_signature(copied.get("signature"), translate_func=translate_func)
     translated.append(copied)
   return translated
 
@@ -649,21 +830,24 @@ def replay_persona_state(request, sim_code, step, persona_name):
   retrieved_memories = movement_snapshot.get("retrieved_memories", []) or []
   decision_rules = _build_decision_rules(live_status)
   recent_decision_logs = _load_recent_decision_logs(persona_name)
+  recent_decision_stability_logs = _load_recent_decision_stability_logs(persona_name)
   derived_sim_time = _derive_sim_time(sim_code, step, scratch)
-  translated_inventory_items = _translate_inventory_items(live_inventory)
-  translated_environment_candidates = _translate_environment_candidates(area_candidates)
-  translated_flat_objects = [translate_to_chinese(obj) for obj in flat_objects]
-  translated_valid_food_sources = [translate_to_chinese(obj) for obj in valid_food_sources]
-  translated_retrieved_memories = _translate_retrieved_memories(retrieved_memories)
-  translated_decision_rules = [translate_to_chinese(rule) for rule in decision_rules]
-  translated_recent_decision_logs = _translate_recent_decision_logs(recent_decision_logs)
-  translated_current_action = translate_to_chinese(current_action)
-  translated_current_address = translate_to_chinese(current_address)
-  translated_last_chat = translate_to_chinese(movement_snapshot.get("last_chat", ""))
-  translated_scratch_currently = translate_to_chinese(scratch.get("currently", ""))
-  translated_innate = translate_to_chinese(scratch.get("innate", ""))
-  translated_learned = translate_to_chinese(scratch.get("learned", ""))
-  translated_lifestyle = translate_to_chinese(scratch.get("lifestyle", ""))
+  state_translate = translate_to_chinese_with_deepseek
+  translated_inventory_items = _translate_inventory_items(live_inventory, translate_func=state_translate)
+  translated_environment_candidates = _translate_environment_candidates(area_candidates, translate_func=state_translate)
+  translated_flat_objects = [state_translate(obj) for obj in flat_objects]
+  translated_valid_food_sources = [state_translate(obj) for obj in valid_food_sources]
+  translated_retrieved_memories = _translate_retrieved_memories(retrieved_memories, translate_func=state_translate)
+  translated_decision_rules = [state_translate(rule) for rule in decision_rules]
+  translated_recent_decision_logs = _translate_recent_decision_logs(recent_decision_logs, translate_func=state_translate)
+  translated_recent_decision_stability_logs = _translate_recent_decision_stability_logs(recent_decision_stability_logs, translate_func=state_translate)
+  translated_current_action = state_translate(current_action)
+  translated_current_address = state_translate(current_address)
+  translated_last_chat = state_translate(movement_snapshot.get("last_chat", ""))
+  translated_scratch_currently = state_translate(scratch.get("currently", ""))
+  translated_innate = state_translate(scratch.get("innate", ""))
+  translated_learned = state_translate(scratch.get("learned", ""))
+  translated_lifestyle = state_translate(scratch.get("lifestyle", ""))
   
   context = {"sim_code": sim_code,
              "step": step,
@@ -695,6 +879,8 @@ def replay_persona_state(request, sim_code, step, persona_name):
              "translated_valid_food_sources": translated_valid_food_sources,
              "recent_decision_logs": recent_decision_logs,
              "translated_recent_decision_logs": translated_recent_decision_logs,
+             "recent_decision_stability_logs": recent_decision_stability_logs,
+             "translated_recent_decision_stability_logs": translated_recent_decision_stability_logs,
              "translated_scratch_currently": translated_scratch_currently,
              "translated_innate": translated_innate,
              "translated_learned": translated_learned,
