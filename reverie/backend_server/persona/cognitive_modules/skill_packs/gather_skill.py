@@ -40,6 +40,42 @@ class GatherSkillPack(BaseSkillPack):
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         if curr_obj:
             curr_obj_clean = self._clean_target(curr_obj)
+            inventory = getattr(persona.scratch, "inventory", {}) or {}
+            recent_signature = getattr(persona.scratch, "recent_completed_action_signature", None) or {}
+            recent_step = getattr(persona.scratch, "recent_completed_action_step", None)
+            curr_step = getattr(persona.scratch, "curr_step", None)
+            satiety = float(getattr(persona.scratch, "satiety", 100.0))
+            has_food_inventory = any(v > 0 for v in inventory.values())
+            if (
+                curr_obj_clean == "refrigerator"
+                and clean_target == "refrigerator"
+                and has_food_inventory
+                and satiety >= 40.0
+                and recent_signature.get("intent_family") == "restore_satiety"
+                and recent_signature.get("skill_id") == "gather"
+                and recent_signature.get("target") == "refrigerator"
+                and recent_step is not None
+                and curr_step is not None
+                and curr_step - recent_step <= 6
+            ):
+                append_debug_log(
+                    "skill_execution_debug.jsonl",
+                    {
+                        "persona": persona.name,
+                        "skill": "gather",
+                        "event": "can_execute",
+                        "result": False,
+                        "reason": "recent_healthy_refrigerator_gather",
+                        "target": target,
+                        "clean_target": clean_target,
+                        "curr_obj": curr_obj,
+                        "curr_tile": persona.scratch.curr_tile,
+                        "satiety": satiety,
+                        "inventory": inventory,
+                        "recent_completed_action_signature": recent_signature,
+                    }
+                )
+                return False
             if is_valid_gather_food_source(curr_obj_clean):
                 append_debug_log(
                     "skill_execution_debug.jsonl",

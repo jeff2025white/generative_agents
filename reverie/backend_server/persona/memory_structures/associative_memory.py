@@ -21,7 +21,8 @@ class ConceptNode:
                node_id, node_count, type_count, node_type, depth,
                created, expiration, 
                s, p, o, 
-               description, embedding_key, poignancy, keywords, filling): 
+               description, embedding_key, poignancy, keywords, filling,
+               attribute_effects=None): 
     self.node_id = node_id
     self.node_count = node_count
     self.type_count = type_count
@@ -41,10 +42,29 @@ class ConceptNode:
     self.poignancy = poignancy
     self.keywords = keywords
     self.filling = filling
+    self.attribute_effects = normalize_attribute_effects(attribute_effects)
 
 
   def spo_summary(self): 
     return (self.subject, self.predicate, self.object)
+
+
+def normalize_attribute_effects(attribute_effects=None):
+  """Normalize persisted stat effects into a stable four-attribute mapping."""
+  normalized = {
+    "satiety": 0.0,
+    "stamina": 0.0,
+    "health": 0.0,
+    "mood": 0.0,
+  }
+  if not isinstance(attribute_effects, dict):
+    return normalized
+  for key in normalized.keys():
+    try:
+      normalized[key] = float(attribute_effects.get(key, 0.0) or 0.0)
+    except Exception:
+      normalized[key] = 0.0
+  return normalized
 
 
 class AssociativeMemory: 
@@ -104,16 +124,22 @@ class AssociativeMemory:
       poignancy =node_details["poignancy"]
       keywords = set(node_details["keywords"])
       filling = node_details["filling"]
+      attribute_effects = normalize_attribute_effects(
+        node_details.get("attribute_effects")
+      )
       
       if node_type == "event": 
         self.add_event(created, expiration, s, p, o, 
-                   description, keywords, poignancy, embedding_pair, filling)
+                   description, keywords, poignancy, embedding_pair, filling,
+                   attribute_effects=attribute_effects)
       elif node_type == "chat": 
         self.add_chat(created, expiration, s, p, o, 
-                   description, keywords, poignancy, embedding_pair, filling)
+                   description, keywords, poignancy, embedding_pair, filling,
+                   attribute_effects=attribute_effects)
       elif node_type == "thought": 
         self.add_thought(created, expiration, s, p, o, 
-                   description, keywords, poignancy, embedding_pair, filling)
+                   description, keywords, poignancy, embedding_pair, filling,
+                   attribute_effects=attribute_effects)
 
     kw_strength_load = json.load(open(f_saved + "/kw_strength.json"))
     if kw_strength_load["kw_strength_event"]: 
@@ -149,6 +175,9 @@ class AssociativeMemory:
       r[node_id]["poignancy"] = node.poignancy
       r[node_id]["keywords"] = list(node.keywords)
       r[node_id]["filling"] = node.filling
+      r[node_id]["attribute_effects"] = normalize_attribute_effects(
+        getattr(node, "attribute_effects", None)
+      )
 
     with open(out_json+"/nodes.json", "w") as outfile:
       json.dump(r, outfile)
@@ -202,7 +231,7 @@ class AssociativeMemory:
 
   def add_event(self, created, expiration, s, p, o, 
                       description, keywords, poignancy, 
-                      embedding_pair, filling=None):
+                      embedding_pair, filling=None, attribute_effects=None):
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_event) + 1
@@ -221,7 +250,7 @@ class AssociativeMemory:
                        created, expiration, 
                        s, p, o, 
                        description, embedding_pair[0], 
-                       poignancy, keywords, filling)
+                       poignancy, keywords, filling, attribute_effects)
 
     # Creating various dictionary cache for fast access. 
     self.seq_event[0:0] = [node]
@@ -248,7 +277,7 @@ class AssociativeMemory:
 
   def add_thought(self, created, expiration, s, p, o, 
                         description, keywords, poignancy, 
-                        embedding_pair, filling):
+                        embedding_pair, filling, attribute_effects=None):
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_thought) + 1
@@ -265,7 +294,8 @@ class AssociativeMemory:
     node = ConceptNode(node_id, node_count, type_count, node_type, depth,
                        created, expiration, 
                        s, p, o, 
-                       description, embedding_pair[0], poignancy, keywords, filling)
+                       description, embedding_pair[0], poignancy, keywords, filling,
+                       attribute_effects)
 
     # Creating various dictionary cache for fast access. 
     self.seq_thought[0:0] = [node]
@@ -292,7 +322,7 @@ class AssociativeMemory:
 
   def add_chat(self, created, expiration, s, p, o, 
                      description, keywords, poignancy, 
-                     embedding_pair, filling): 
+                     embedding_pair, filling, attribute_effects=None): 
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_chat) + 1
@@ -304,7 +334,8 @@ class AssociativeMemory:
     node = ConceptNode(node_id, node_count, type_count, node_type, depth,
                        created, expiration, 
                        s, p, o, 
-                       description, embedding_pair[0], poignancy, keywords, filling)
+                       description, embedding_pair[0], poignancy, keywords, filling,
+                       attribute_effects)
 
     # Creating various dictionary cache for fast access. 
     self.seq_chat[0:0] = [node]

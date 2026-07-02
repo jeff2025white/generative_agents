@@ -1,4 +1,10 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
+from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.memory_effects import (
+    capture_attribute_snapshot,
+    compute_attribute_effects,
+    record_stat_change_experience,
+)
 
 class RestSkillPack(BaseSkillPack):
     def __init__(self):
@@ -24,5 +30,44 @@ class RestSkillPack(BaseSkillPack):
 
     def on_arrive(self, persona, target, maze, personas):
         # 1. Metabolism stamina recovery
+        before_stamina = persona.scratch.stamina
+        completed_command = persona.scratch.act_command
+        completed_event = persona.scratch.act_event
+        completed_description = persona.scratch.act_description
+        completed_address = persona.scratch.act_address
+        before_snapshot = capture_attribute_snapshot(persona)
         persona.scratch.stamina = min(100.0, persona.scratch.stamina + 40.0)
-        print(f"=== [技能物理结算] {persona.name} 在 {target} 休息! 精力恢复: {persona.scratch.stamina:.1f} ===")
+        after_snapshot = capture_attribute_snapshot(persona)
+        attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+        append_debug_log(
+            "skill_execution_debug.jsonl",
+            {
+                "persona": persona.name,
+                "skill": "rest",
+                "event": "on_arrive_end",
+                "target": target,
+                "stamina_before": before_stamina,
+                "stamina_after": persona.scratch.stamina,
+            }
+        )
+        record_stat_change_experience(
+            persona,
+            f"{persona.name} rested at {target} and recovered stamina.",
+            {"rest", "sleep", "stamina", str(target).lower()},
+            attribute_effects,
+            poignancy=6.0,
+            predicate="changed",
+            obj="rest_recovery",
+        )
+        persona.scratch.mark_action_completed(
+            action_command=completed_command,
+            action_event=completed_event,
+            action_description=completed_description,
+            action_address=completed_address,
+        )
+        persona.scratch.planned_path = []
+        persona.scratch.act_path_set = False
+        persona.scratch.act_address = None
+        persona.scratch.act_description = None
+        persona.scratch.act_event = None
+        persona.scratch.act_command = None

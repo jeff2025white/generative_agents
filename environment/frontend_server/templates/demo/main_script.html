@@ -282,6 +282,7 @@
 	    																						  'speech_bubble').setDepth(3);
       speech_bubbles[persona_name].displayWidth = 130;
       speech_bubbles[persona_name].displayHeight = 58;
+      speech_bubbles[persona_name].setVisible(false);
 
 	    pronunciatios[persona_name] = this.add.text(
 	                                   new_sprite.body.x - 6, 
@@ -292,6 +293,7 @@
 	                                   padding: { x: 8, y: 8}, 
 	                                   border:"solid",
 	                                   borderRadius:"10px"}).setDepth(3);
+      pronunciatios[persona_name].setVisible(false);
 	  }
 
 	  // Create the player's walking animations from the texture atlas. These are

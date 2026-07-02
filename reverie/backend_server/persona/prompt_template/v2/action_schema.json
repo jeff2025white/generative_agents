@@ -8,7 +8,7 @@
     "Gather": {
       "verbs": ["gather", "get", "take", "harvest", "prepare"],
       "description": "Gather food from resources to add to inventory.",
-      "allowed_targets": ["refrigerator", "stove", "cafe counter", "apple_tree", "kitchen sink"]
+      "allowed_targets": ["refrigerator", "stove", "cafe counter", "apple tree"]
     },
     "Rest": {
       "verbs": ["rest", "sleep", "nap", "idle", "relax"],
@@ -18,7 +18,7 @@
     "Work": {
       "verbs": ["work", "teach", "write", "research", "study", "organize"],
       "description": "Perform professional, academic, or daily tasks.",
-      "allowed_targets": ["desk", "computer", "classroom podium", "library desk"]
+      "allowed_targets": ["desk", "computer", "computer desk", "classroom podium", "library table"]
     },
     "Socialize": {
       "verbs": ["socialize", "chat", "talk", "communicate"],
@@ -28,7 +28,7 @@
     "Recreate": {
       "verbs": ["recreate", "play", "watch", "sing", "listen"],
       "description": "Leisure, games, or music to improve Mood.",
-      "allowed_targets": ["game console", "TV", "piano", "easel"]
+      "allowed_targets": ["game console", "tv", "piano", "easel", "lifting weight"]
     }
   }
 }

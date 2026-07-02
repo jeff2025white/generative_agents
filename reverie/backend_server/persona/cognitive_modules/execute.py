@@ -11,7 +11,10 @@ sys.path.append('../../')
 from global_methods import *
 from path_finder import *
 from utils import *
+from persona.cognitive_modules.action_command_utils import infer_action_command_from_event
 from persona.prompt_template.gpt_structure import get_embedding
+from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
 
 def execute(persona, maze, personas, plan): 
@@ -194,15 +197,53 @@ def execute(persona, maze, personas, plan):
     # Actually setting the <planned_path> and <act_path_set>. We cut the 
     # first element in the planned_path because it includes the curr_tile. 
     if not path:
-      print(f"=== [物理阻碍] {persona.name} 寻路失败，无法触达目标，清除当前动作以重新决策 ===")
+      append_debug_log(
+        "action_execution_debug.jsonl",
+        {
+          "persona": persona.name,
+          "event": "path_not_found",
+          "plan": plan,
+          "curr_tile": persona.scratch.curr_tile,
+          "target_tiles": target_tiles,
+          "act_event": persona.scratch.act_event,
+        }
+      )
       persona.scratch.planned_path = []
       persona.scratch.act_path_set = False
       persona.scratch.act_address = None
       persona.scratch.act_description = None
       persona.scratch.act_event = None
+      persona.scratch.act_command = None
     else:
       persona.scratch.planned_path = path[1:]
       persona.scratch.act_path_set = True
+      append_debug_log(
+        "action_execution_debug.jsonl",
+        {
+          "persona": persona.name,
+          "event": "path_set",
+          "plan": plan,
+          "curr_tile": curr_tile,
+          "closest_target_tile": closest_target_tile,
+          "path_length": len(path),
+          "remaining_path": persona.scratch.planned_path,
+          "act_description": persona.scratch.act_description,
+          "act_event": persona.scratch.act_event,
+          "act_command": persona.scratch.act_command,
+        }
+      )
+      if getattr(persona.scratch, "social_dialogue_id", None):
+        log_social_dialogue(
+          persona,
+          "path",
+          "path_started",
+          payload={
+            "closest_target_tile": closest_target_tile,
+            "path_length": len(path),
+            "remaining_path": persona.scratch.planned_path,
+            "act_address": persona.scratch.act_address,
+          },
+        )
   
   # Setting up the next immediate step. We stay at our curr_tile if there is
   # no <planned_path> left, but otherwise, we go to the next tile in the path.
@@ -217,22 +258,109 @@ def execute(persona, maze, personas, plan):
       persona.scratch.survival_applied = True
       
       act_event = persona.scratch.act_event
-      action = act_event[1] if (len(act_event) > 1 and act_event[1]) else ""
-      target = act_event[2] if (len(act_event) > 2 and act_event[2]) else ""
+      act_command = persona.scratch.act_command or infer_action_command_from_event(act_event, source="execute_fallback")
+      action = act_command.get("skill_id", "") if act_command else ""
+      target = act_command.get("target", "") if act_command else ""
+      append_debug_log(
+        "action_execution_debug.jsonl",
+        {
+          "persona": persona.name,
+          "event": "arrive",
+          "curr_tile": persona.scratch.curr_tile,
+          "act_address": persona.scratch.act_address,
+          "act_description": persona.scratch.act_description,
+          "act_event": act_event,
+          "act_command": act_command,
+          "parsed_action": action,
+          "parsed_target": target,
+        }
+      )
+      if getattr(persona.scratch, "social_dialogue_id", None):
+        log_social_dialogue(
+          persona,
+          "arrival",
+          "path_arrived",
+          target_name=target,
+          payload={
+            "curr_tile": persona.scratch.curr_tile,
+            "act_address": persona.scratch.act_address,
+            "act_description": persona.scratch.act_description,
+            "action": action,
+          },
+        )
       
-      skill = SKILL_REGISTRY.get(action.lower())
+      skill = SKILL_REGISTRY.get(action.lower()) if action else None
       if skill:
-        if skill.can_execute(persona, target, maze):
-          print(f"=== [物理调试] {persona.name} 触达终点，开始调用 {action} 的 on_arrive ===")
+        can_execute = skill.can_execute(persona, target, maze)
+        append_debug_log(
+          "action_execution_debug.jsonl",
+          {
+            "persona": persona.name,
+            "event": "skill_lookup",
+            "action": action,
+            "target": target,
+            "skill": skill.__class__.__name__,
+            "can_execute": can_execute,
+          }
+        )
+        if can_execute:
           skill.on_arrive(persona, target, maze, personas)
         else:
-          print(f"=== [物理阻碍] {persona.name} 无法执行 {action}，前置物理条件未满足 ===")
+          if getattr(persona.scratch, "social_dialogue_id", None):
+            log_social_dialogue(
+              persona,
+              "failure",
+              "skill_blocked",
+              target_name=target,
+              payload={
+                "action": action,
+                "curr_tile": persona.scratch.curr_tile,
+                "inventory": persona.scratch.inventory,
+              },
+            )
+          append_debug_log(
+            "action_execution_debug.jsonl",
+            {
+              "persona": persona.name,
+              "event": "skill_blocked",
+              "action": action,
+              "target": target,
+              "curr_tile": persona.scratch.curr_tile,
+              "inventory": persona.scratch.inventory,
+            }
+          )
           # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
           persona.scratch.planned_path = []
           persona.scratch.act_path_set = False
           persona.scratch.act_address = None
           persona.scratch.act_description = None
           persona.scratch.act_event = None
+          persona.scratch.act_command = None
+          clear_social_dialogue_state(persona)
+      else:
+        if getattr(persona.scratch, "social_dialogue_id", None):
+          log_social_dialogue(
+            persona,
+            "failure",
+            "skill_missing",
+            target_name=target,
+            payload={
+              "action": action,
+              "act_event": act_event,
+              "act_description": persona.scratch.act_description,
+            },
+          )
+        append_debug_log(
+          "action_execution_debug.jsonl",
+          {
+            "persona": persona.name,
+            "event": "skill_missing",
+            "action": action,
+            "target": target,
+            "act_event": act_event,
+            "act_description": persona.scratch.act_description,
+          }
+        )
 
   description = f"{persona.scratch.act_description}"
   if not persona.scratch.act_address:
@@ -249,10 +377,6 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
-
-
-
 
 
 

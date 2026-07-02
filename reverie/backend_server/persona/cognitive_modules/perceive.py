@@ -9,6 +9,8 @@ sys.path.append('../../')
 
 from operator import itemgetter
 from global_methods import *
+from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.prompt_template.gpt_structure import *
 from persona.prompt_template.run_gpt_prompt import *
 
@@ -59,6 +61,7 @@ def perceive(persona, maze):
   # radius. 
   nearby_tiles = maze.get_nearby_tiles(persona.scratch.curr_tile, 
                                        persona.scratch.vision_r)
+  nearby_object_names = []
 
   # We then store the perceived space. Note that the s_mem of the persona is
   # in the form of a tree constructed using dictionaries. 
@@ -80,6 +83,7 @@ def perceive(persona, maze):
                                                     [i["arena"]]): 
         persona.s_mem.tree[i["world"]][i["sector"]][i["arena"]] += [
                                                              i["game_object"]]
+      nearby_object_names += [i["game_object"]]
 
   # PERCEIVE EVENTS. 
   # We will perceive events that take place in the same arena as the
@@ -120,6 +124,7 @@ def perceive(persona, maze):
   # <ret_events> is a list of <ConceptNode> instances from the persona's 
   # associative memory. 
   ret_events = []
+  new_event_summaries = []
   for p_event in perceived_events: 
     s, p, o, desc = p_event
     if not p: 
@@ -184,13 +189,58 @@ def perceive(persona, maze):
                       chat_poignancy, chat_embedding_pair, 
                       persona.scratch.chat)
         chat_node_ids = [chat_node.node_id]
+        if getattr(persona.scratch, "social_dialogue_id", None):
+          log_social_dialogue(
+            persona,
+            "memory",
+            "chat_memory_written",
+            target_name=curr_event[2],
+            payload={
+              "chat_node_id": chat_node.node_id,
+              "chat_poignancy": chat_poignancy,
+              "turn_count": len(persona.scratch.chat or []),
+            },
+          )
 
       # Finally, we add the current event to the agent's memory. 
       ret_events += [persona.a_mem.add_event(persona.scratch.curr_time, None,
                            s, p, o, desc, keywords, event_poignancy, 
                            event_embedding_pair, chat_node_ids)]
+      new_event_summaries += [{
+        "subject": s,
+        "predicate": p,
+        "object": o,
+        "description": desc,
+        "poignancy": event_poignancy,
+      }]
       persona.scratch.importance_trigger_curr -= event_poignancy
       persona.scratch.importance_ele_n += 1
+
+  try:
+    curr_signature = {
+      "curr_tile": list(persona.scratch.curr_tile) if persona.scratch.curr_tile else None,
+      "arena": curr_arena_path,
+    }
+    last_signature = getattr(persona.scratch, "_last_perception_log_signature", None)
+    should_log = bool(new_event_summaries) or curr_signature != last_signature
+    if should_log:
+      append_debug_log(
+        "perception_debug.jsonl",
+        {
+          "persona": persona.name,
+          "event": "perceive_summary",
+          "curr_tile": persona.scratch.curr_tile,
+          "arena": curr_arena_path,
+          "nearby_tiles_count": len(nearby_tiles),
+          "visible_objects": sorted(set(nearby_object_names)),
+          "candidate_events_count": len(percept_events_list),
+          "perceived_events_count": len(perceived_events),
+          "new_events": new_event_summaries,
+        }
+      )
+      persona.scratch._last_perception_log_signature = curr_signature
+  except Exception:
+    pass
 
   return ret_events
 
@@ -198,7 +248,6 @@ def perceive(persona, maze):
 
 
   
-
 
 
 

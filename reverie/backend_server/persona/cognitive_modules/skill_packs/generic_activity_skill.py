@@ -2,6 +2,11 @@
 
 from persona.cognitive_modules.action_command_utils import build_decision_signature
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.memory_effects import (
+    capture_attribute_snapshot,
+    compute_attribute_effects,
+    record_stat_change_experience,
+)
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 
 
@@ -44,6 +49,7 @@ class GenericActivitySkillPack(BaseSkillPack):
             "mood": persona.scratch.mood,
             "health": persona.scratch.health,
         }
+        before_snapshot = capture_attribute_snapshot(persona)
 
         persona.scratch.stamina = max(
             0.0, min(100.0, persona.scratch.stamina + self.stat_effects.get("stamina", 0.0))
@@ -54,6 +60,8 @@ class GenericActivitySkillPack(BaseSkillPack):
         persona.scratch.health = max(
             0.0, min(100.0, persona.scratch.health + self.stat_effects.get("health", 0.0))
         )
+        after_snapshot = capture_attribute_snapshot(persona)
+        attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
 
         append_debug_log(
             "skill_execution_debug.jsonl",
@@ -69,6 +77,15 @@ class GenericActivitySkillPack(BaseSkillPack):
                     "health": persona.scratch.health,
                 },
             },
+        )
+        record_stat_change_experience(
+            persona,
+            f"{persona.name} spent time on {self.name} with target {target}.",
+            {self.name, str(target).lower(), "activity"},
+            attribute_effects,
+            poignancy=5.0,
+            predicate="changed",
+            obj=f"{self.name}_activity",
         )
         persona.scratch.mark_action_completed(
             action_command=persona.scratch.act_command,

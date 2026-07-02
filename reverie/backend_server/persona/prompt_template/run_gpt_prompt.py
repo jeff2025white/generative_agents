@@ -3055,7 +3055,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
       # Inject critical survival priorities
       if persona.scratch.satiety < 30.0:
         if not persona.scratch.inventory:
-          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting 'refrigerator' or 'stove' to get food first!")
+          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!")
         else:
           # Find any non-empty food item
           food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
@@ -3131,7 +3131,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
   special_instruction = "Select the best action, target, detail and duration based on stats and identity goals. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs and leaving work to eat or rest is fully authorized."
   if persona.scratch.satiety < 30.0:
     if not persona.scratch.inventory:
-      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST choose 'Gather' targeting 'refrigerator' or 'stove' to get food first!"
+      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST choose 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!"
     else:
       food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
       special_instruction += f" CRITICAL: Satiety is critically low! You MUST choose 'Consume' targeting '{food_item}' to eat immediately!"
@@ -3147,17 +3147,93 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
   return output
 
 
-def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None"):
-  def create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc):
+def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None", intent_memory_summary=None):
+  def has_relevant_experience(intent_memory_summary):
+    if not intent_memory_summary:
+      return False
+    lowered = str(intent_memory_summary).strip().lower()
+    if not lowered:
+      return False
+    return "no especially relevant prior experience was retrieved" not in lowered
+
+  def get_latest_change_hint(persona, cooperative_context):
+    pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
+    parts = []
+    if pending_interrupt:
+      reason = pending_interrupt.get("reason")
+      source = pending_interrupt.get("source")
+      payload = pending_interrupt.get("payload") or {}
+      if reason:
+        parts.append(f"Latest interrupt reason: {reason}.")
+      if source:
+        parts.append(f"Interrupt source: {source}.")
+      if payload:
+        compact_payload = ", ".join(f"{k}={v}" for k, v in list(payload.items())[:3])
+        if compact_payload:
+          parts.append(f"Interrupt payload: {compact_payload}.")
+    if cooperative_context and "No special" not in str(cooperative_context):
+      parts.append("Pay special attention to the newest cooperative or social situation described below.")
+    if not parts:
+      return "No explicit interrupt is pending; focus on whether the newest local situation materially changes urgency."
+    return " ".join(parts)
+
+  def build_decision_convergence_hint(persona, intent_memory_summary, cooperative_context):
+    scratch = persona.scratch
+    moving_check = getattr(scratch, "is_moving_to_action", None)
+    is_in_transit = moving_check() if callable(moving_check) else bool(getattr(scratch, "planned_path", None))
+    has_experience = has_relevant_experience(intent_memory_summary)
+    act_desc = getattr(scratch, "act_description", None) or "current action"
+    act_addr = getattr(scratch, "act_address", None)
+    latest_change_hint = get_latest_change_hint(persona, cooperative_context)
+
+    guidance = []
+    if is_in_transit:
+      guidance.append(
+        f"You are still on the way to execute the previous decision result: {act_desc}."
+      )
+      if act_addr:
+        guidance.append(f"Current destination context: {act_addr}.")
+      guidance.append(
+        "Default to continuing that route unless the newest situation clearly changes urgency, safety, or feasibility."
+      )
+      guidance.append(
+        f"When reconsidering, focus only on the latest change instead of re-planning from scratch. {latest_change_hint}"
+      )
+    else:
+      guidance.append(
+        "You are not currently committed to an in-progress travel route, so focus on the latest situation and choose the next immediate action."
+      )
+
+    if has_experience:
+      guidance.append(
+        "Relevant prior experience has already narrowed the likely good options. Use that experience to converge quickly instead of exploring many broad alternatives."
+      )
+    else:
+      guidance.append(
+        "No strongly relevant prior experience was retrieved, so rely on current status and the latest situation to decide the next immediate action."
+      )
+
+    return " ".join(guidance)
+
+  def create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary):
     inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
     res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
     
     if not temporal_context:
       temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
+    if not status_summary:
+      status_summary = "No additional homeostasis interpretation available."
     if not rules:
       rules = "No special homeostasis rules."
     if not cooperative_context:
       cooperative_context = "No special requests or cooperative events are currently active nearby."
+    if not intent_memory_summary:
+      intent_memory_summary = "No especially relevant prior experience was retrieved."
+    decision_convergence_hint = build_decision_convergence_hint(
+      persona,
+      intent_memory_summary,
+      cooperative_context,
+    )
       
     prompt_input = [
       persona.scratch.get_str_iss(),
@@ -3168,22 +3244,27 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       inv_str,
       res_str,
       temporal_context,
+      status_summary,
       rules,
       cooperative_context,
       persona.scratch.get_str_firstname(),
-      str(last_action_desc)
+      str(last_action_desc),
+      intent_memory_summary,
+      decision_convergence_hint,
     ]
     return prompt_input
 
   prompt_template = "persona/prompt_template/v2/demand_decision_thinking_v1.txt"
-  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc)
+  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary)
   prompt = generate_prompt(prompt_input, prompt_template)
   
   # Assemble dynamic special instruction based on critical survival stats
-  special_instruction = "State what you plan to do next in a simple, natural language sentence. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs is fully authorized."
+  special_instruction = "State what you plan to do next in a simple, natural language sentence. Describe only the immediate next action, not a multi-step plan, and mention only one target object or location. Use the Homeostasis Interpretation, Behavioral Hints, Risks, and Overall Summary as your primary urgency guide. If those indicate that hunger, fatigue, injury, or emotional strain is becoming the most pressing issue, let that outweigh routine role goals. Treat the last action only as continuity context; do not infer that the agent is still especially tired, hurt, or committed to continuing it unless the current stats and status interpretation support that conclusion. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs is fully authorized."
+  decision_convergence_hint = prompt_input[-1]
+  special_instruction += f" Decision Convergence Guidance: {decision_convergence_hint}"
   if persona.scratch.satiety < 30.0:
     if not persona.scratch.inventory:
-      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST state that you plan to gather food from a nearby refrigerator or stove first!"
+      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST state that you plan to gather food from a valid nearby source like a refrigerator, stove, cafe counter, or apple tree first!"
     else:
       food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
       special_instruction += f" CRITICAL: Satiety is critically low! You MUST state that you plan to eat/consume the {food_item} from your inventory immediately!"
@@ -3200,7 +3281,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
   return output
 
 
-def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False):
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, decision_convergence_hint=None):
   import os
   import json
   
@@ -3214,12 +3295,15 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate, Idle."
 
   res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+  if not decision_convergence_hint:
+    decision_convergence_hint = "Translate the intent faithfully using only the most immediate action implied by the current thought."
   
   prompt_input = [
     thinking_text,
     schema_str,
     res_str,
-    firstname
+    firstname,
+    decision_convergence_hint,
   ]
   
   prompt_template = "persona/prompt_template/v2/action_translation_v1.txt"
@@ -3227,6 +3311,7 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
+  special_instruction += f" Translation Convergence Guidance: {decision_convergence_hint}"
 
   def __func_clean_up(gpt_response, prompt=""):
     try:
@@ -3272,8 +3357,6 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     verbose=verbose
   )
   return output
-
-
 
 
 

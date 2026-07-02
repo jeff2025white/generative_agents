@@ -22,7 +22,7 @@ Cooperative Context / Social Expectations:
 
 Task: What is the next survival action for !<INPUT 9>!? 
 Choose one action from: "Gather" (harvest items from a nearby resource tile), "Consume" (eat/drink food from inventory), "Rest" (recover stamina at a bed/sofa), or "Idle" (do nothing).
-Also specify the target object name (e.g. "apple_tree", "bed", "stove", "water_source", or the name of a food item in inventory like "apple").
+Also specify the target object name (e.g. "apple tree", "refrigerator", "bed", "stove", "cafe counter", or the name of a food item in inventory like "apple").
 
 Response format:
 Respond ONLY in valid JSON format:

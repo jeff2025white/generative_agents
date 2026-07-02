@@ -90,6 +90,8 @@ def normalize_dict_floats(d, target_min, target_max):
     target_min = -5
     target_max = 5
   """
+  if not d:
+    return d
   min_val = min(val for val in d.values())
   max_val = max(val for val in d.values())
   range_val = max_val - min_val
@@ -216,7 +218,9 @@ def new_retrieve(persona, focal_points, n_count=30):
     focal_points = ["How are you?", "Jane is swimming in the pond"]
   """
   # <retrieved> is the main dictionary that we are returning
-  retrieved = dict() 
+  retrieved = dict()
+  if not focal_points:
+    return retrieved
   for focal_pt in focal_points: 
     # Getting all nodes from the agent's memory (both thoughts and events) and
     # sorting them by the datetime of creation.
@@ -226,6 +230,9 @@ def new_retrieve(persona, focal_points, n_count=30):
               if "idle" not in i.embedding_key]
     nodes = sorted(nodes, key=lambda x: x[0])
     nodes = [i for created, i in nodes]
+    if not nodes:
+      retrieved[focal_pt] = []
+      continue
 
     # Calculating the component dictionaries and normalizing them.
     recency_out = extract_recency(persona, nodes)

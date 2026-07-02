@@ -35,6 +35,7 @@ urlpatterns = [
     
     # API endpoints for database/memory based IPC
     url(r'^api/init_sim/$', translator_views.api_init_sim, name='api_init_sim'),
+    url(r'^api/frontend_heartbeat/$', translator_views.api_frontend_heartbeat, name='api_frontend_heartbeat'),
     url(r'^api/get_environment/$', translator_views.api_get_environment, name='api_get_environment'),
     url(r'^api/post_movement/$', translator_views.api_post_movement, name='api_post_movement'),
     url(r'^api/get_pending_actions/$', translator_views.api_get_pending_actions, name='api_get_pending_actions'),

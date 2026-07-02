@@ -4,6 +4,7 @@ from persona.cognitive_modules.skill_packs.rest_skill import RestSkillPack
 from persona.cognitive_modules.skill_packs.cook_skill import CookSkillPack
 from persona.cognitive_modules.skill_packs.coffee_service_skill import CoffeeServiceSkillPack
 from persona.cognitive_modules.skill_packs.chat_skill import ChatSkillPack
+from persona.cognitive_modules.skill_packs.generic_activity_skill import GenericActivitySkillPack
 from persona.cognitive_modules.skill_packs.singing_skill import SingingSkillPack
 
 SKILL_REGISTRY = {
@@ -55,6 +56,14 @@ SKILL_REGISTRY = {
     # Singing skill registration
     "sing": SingingSkillPack(),
     "singing": SingingSkillPack(),
+
+    # Generic non-survival skills
+    "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 2.0}),
+    "working": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
+    "work": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
+    "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
+    "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
+    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 8.0}),
     
     # Pluggable Chat Skill Pack mapping
     "chat with": ChatSkillPack(),

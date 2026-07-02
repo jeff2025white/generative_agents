@@ -11,8 +11,10 @@ import time
 import hashlib
 import os
 import threading
+import inspect
 
 from utils import *
+from persona.cognitive_modules.debug_log import append_debug_log
 
 openai.api_key = openai_api_key
 if openai_api_base:
@@ -28,6 +30,7 @@ _cache_lock = threading.Lock()
 _cache = {}
 _cache_hits = 0
 _cache_misses = 0
+LLM_TIMING_LOG = "ollama_request_timing.jsonl"
 
 def _load_cache():
   global _cache
@@ -50,6 +53,44 @@ def _save_cache():
 def _cache_key(prompt, extra=""):
   raw = prompt + str(extra)
   return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def _short_hash(text):
+  try:
+    return hashlib.sha256(str(text).encode("utf-8")).hexdigest()[:12]
+  except Exception:
+    return "unhashable"
+
+
+def _truncate_text(value, limit=160):
+  text = str(value or "")
+  if len(text) <= limit:
+    return text
+  return text[:limit] + "...(truncated)"
+
+
+def _caller_label(default_label="unknown"):
+  try:
+    for frame_info in inspect.stack()[2:8]:
+      module = inspect.getmodule(frame_info.frame)
+      module_name = getattr(module, "__name__", "")
+      if module_name.endswith("gpt_structure"):
+        continue
+      if module_name:
+        return f"{module_name}.{frame_info.function}"
+      if frame_info.function:
+        return frame_info.function
+  except Exception:
+    pass
+  return default_label
+
+
+def _log_llm_event(event, payload):
+  record = dict(payload or {})
+  record.setdefault("event", event)
+  record.setdefault("api_base", openai_api_base)
+  record.setdefault("model", gpt35_model)
+  append_debug_log(LLM_TIMING_LOG, record)
 
 def _get_cached(key):
   global _cache_hits
@@ -160,11 +201,25 @@ def ChatGPT_request(prompt):
   """
   # Check cache first
   key = _cache_key(prompt, "chatgpt")
+  prompt_hash = _short_hash(prompt)
+  caller = _caller_label("ChatGPT_request")
   cached = _get_cached(key)
   if cached is not None:
+    _log_llm_event(
+      "chatgpt_request",
+      {
+        "caller": caller,
+        "cache_hit": True,
+        "prompt_hash": prompt_hash,
+        "prompt_chars": len(prompt),
+        "response_chars": len(str(cached)),
+        "duration_ms": 0.0,
+      }
+    )
     return cached
 
   # temp_sleep()
+  started_at = time.perf_counter()
   try: 
     completion = openai.ChatCompletion.create(
     model=gpt35_model, 
@@ -175,9 +230,33 @@ def ChatGPT_request(prompt):
     )
     result = completion["choices"][0]["message"]["content"]
     _set_cached(key, result)
+    _log_llm_event(
+      "chatgpt_request",
+      {
+        "caller": caller,
+        "cache_hit": False,
+        "prompt_hash": prompt_hash,
+        "prompt_chars": len(prompt),
+        "response_chars": len(str(result)),
+        "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
+        "status": "ok",
+      }
+    )
     return result
   
-  except: 
+  except Exception as e: 
+    _log_llm_event(
+      "chatgpt_request",
+      {
+        "caller": caller,
+        "cache_hit": False,
+        "prompt_hash": prompt_hash,
+        "prompt_chars": len(prompt),
+        "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
+        "status": "error",
+        "error": _truncate_text(e, 240),
+      }
+    )
     print ("ChatGPT ERROR")
     return "ChatGPT ERROR"
 
@@ -254,8 +333,12 @@ def ChatGPT_safe_generate_response(prompt,
     print ("CHAT GPT PROMPT")
     print (prompt)
 
+  caller = _caller_label("ChatGPT_safe_generate_response")
+  prompt_hash = _short_hash(prompt)
+  safe_started_at = time.perf_counter()
   for i in range(repeat): 
     raw_response = ""
+    attempt_started_at = time.perf_counter()
     try: 
       raw_response = ChatGPT_request(prompt)
       cleaned_resp = clean_json_str(raw_response)
@@ -267,7 +350,32 @@ def ChatGPT_safe_generate_response(prompt,
       else:
         curr_gpt_response = data
       
-      if func_validate(curr_gpt_response, prompt=prompt): 
+      is_valid = func_validate(curr_gpt_response, prompt=prompt)
+      _log_llm_event(
+        "chatgpt_safe_attempt",
+        {
+          "caller": caller,
+          "prompt_hash": prompt_hash,
+          "attempt": i + 1,
+          "repeat": repeat,
+          "valid": bool(is_valid),
+          "raw_response_chars": len(str(raw_response)),
+          "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
+          "status": "ok",
+        }
+      )
+      if is_valid: 
+        _log_llm_event(
+          "chatgpt_safe_summary",
+          {
+            "caller": caller,
+            "prompt_hash": prompt_hash,
+            "repeat": repeat,
+            "attempts_used": i + 1,
+            "status": "ok",
+            "duration_ms": round((time.perf_counter() - safe_started_at) * 1000.0, 3),
+          }
+        )
         return func_clean_up(curr_gpt_response, prompt=prompt)
       
       if verbose: 
@@ -276,10 +384,35 @@ def ChatGPT_safe_generate_response(prompt,
         print ("~~~~")
 
     except Exception as e: 
+      _log_llm_event(
+        "chatgpt_safe_attempt",
+        {
+          "caller": caller,
+          "prompt_hash": prompt_hash,
+          "attempt": i + 1,
+          "repeat": repeat,
+          "valid": False,
+          "raw_response_chars": len(str(raw_response)),
+          "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
+          "status": "exception",
+          "error": _truncate_text(e, 240),
+        }
+      )
       if verbose:
         print(f"--- ChatGPT_safe_generate_response Exception on attempt {i}: {e}")
         print(f"Raw response: {raw_response!r}")
       pass
+  _log_llm_event(
+    "chatgpt_safe_summary",
+    {
+      "caller": caller,
+      "prompt_hash": prompt_hash,
+      "repeat": repeat,
+      "attempts_used": repeat,
+      "status": "fail_safe",
+      "duration_ms": round((time.perf_counter() - safe_started_at) * 1000.0, 3),
+    }
+  )
 
   return fail_safe_response
 

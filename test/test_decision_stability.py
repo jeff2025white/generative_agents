@@ -12,7 +12,14 @@ if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
 sys.modules.setdefault("openai", SimpleNamespace(api_key=None, api_base=None))
-sys.modules.setdefault("numpy", ModuleType("numpy"))
+if "numpy" not in sys.modules:
+    numpy_stub = ModuleType("numpy")
+    numpy_stub.dot = lambda *args, **kwargs: 0.0
+    numpy_linalg_stub = ModuleType("numpy.linalg")
+    numpy_linalg_stub.norm = lambda *args, **kwargs: 1.0
+    numpy_stub.linalg = numpy_linalg_stub
+    sys.modules["numpy"] = numpy_stub
+    sys.modules["numpy.linalg"] = numpy_linalg_stub
 
 from persona.cognitive_modules.action_command_utils import (
     build_action_command,
@@ -249,6 +256,60 @@ class DecisionStabilityTests(unittest.TestCase):
         scratch.curr_step = 101
 
         self.assertTrue(scratch.should_hold_after_recent_consume())
+
+    def test_physiological_interrupt_does_not_break_active_survival_route(self):
+        scratch = self.make_scratch()
+        scratch.satiety = 20.0
+        self.add_action(
+            scratch,
+            "gather",
+            "refrigerator",
+            "opening the refrigerator to gather food items",
+            event_verb="gather",
+        )
+        scratch.planned_path = [(1, 1), (1, 2)]
+
+        self.assertFalse(scratch.should_interrupt_for_physiological_crisis())
+        self.assertTrue(scratch.should_defer_social_interrupts())
+
+    def test_physiological_interrupt_breaks_irrelevant_committed_route(self):
+        scratch = self.make_scratch()
+        scratch.satiety = 20.0
+        self.add_action(
+            scratch,
+            "work",
+            "desk",
+            "working quietly at the desk",
+            event_verb="work",
+        )
+        scratch.planned_path = [(1, 1), (1, 2)]
+
+        self.assertTrue(scratch.should_interrupt_for_physiological_crisis())
+
+    def test_suspend_and_resume_restores_previous_plan_with_fresh_path(self):
+        scratch = self.make_scratch()
+        self.add_action(
+            scratch,
+            "work",
+            "desk",
+            "working quietly at the desk",
+            event_verb="work",
+        )
+        scratch.planned_path = [(1, 1), (1, 2)]
+
+        suspended = scratch.suspend_current_action("physiological_crisis", source="test")
+        scratch.clear_current_action()
+        scratch.curr_step += 2
+        scratch.curr_time += timedelta(minutes=2)
+        resumed = scratch.resume_suspended_action()
+
+        self.assertTrue(suspended)
+        self.assertTrue(resumed)
+        self.assertEqual(scratch.act_command["skill_id"], "work")
+        self.assertEqual(scratch.act_description, "working quietly at the desk")
+        self.assertEqual(scratch.planned_path, [])
+        self.assertFalse(scratch.act_path_set)
+        self.assertIsNone(scratch.suspended_action)
 
     def test_consume_skill_blocks_recent_duplicate_resource_consume(self):
         scratch = SimpleNamespace(

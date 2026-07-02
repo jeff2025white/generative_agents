@@ -109,6 +109,9 @@
 
 	// <last_query_time> determines when we last queried the frontend server.
 	let last_query_time = 0;
+	let movement_poll_interval_ms = 200;
+	let frontend_heartbeat_interval_ms = 2000;
+	let last_heartbeat_time = 0;
 
 	// <phase> -- there are three phases: "process," "update," and "execute."
 	let phase = "update"; // or "update" or "execute"
@@ -395,6 +398,21 @@
 	  }
 
 	  // console.log("phase: " + phase + ", step: " + step);
+	// Keep a lightweight heartbeat alive even if the page is temporarily stuck
+	// in execute/update and has not yet posted a new environment frame.
+	let heartbeat_now = Date.now();
+	if (heartbeat_now - last_heartbeat_time >= frontend_heartbeat_interval_ms) {
+	  last_heartbeat_time = heartbeat_now;
+	  try {
+	    var heartbeat_xobj = new XMLHttpRequest();
+	    heartbeat_xobj.open('POST', "{% url 'api_frontend_heartbeat' %}", true);
+	    heartbeat_xobj.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	    heartbeat_xobj.send(JSON.stringify({"sim_code": sim_code, "step": step, "phase": phase}));
+	  } catch (e) {
+	    console.error("frontend heartbeat failed:", e);
+	  }
+	}
+
 	  // *** MOVE PERSONAS ***
 	  // Moving personas take place in three distinct phases: "process," "update,"
 	  // and "execute." These phases are determined by the value of <phase>. 
@@ -431,13 +449,15 @@
 	    // We do this by continuously asking the backend server if it is ready. 
 	    // The backend server is ready when it returns a json that has a key-val
 	    // pair with "<move>": true.
-	    // We only query once every 1000ms (1 second) to avoid overloading the backend.
+	    // Query more frequently so the browser does not visibly fall behind after
+	    // backend movement for the current step is ready.
 	    let now = Date.now();
-	    if (now - last_query_time >= 1000) {
+	    if (now - last_query_time >= movement_poll_interval_ms) {
 	      last_query_time = now;
 	      var update_xobj = new XMLHttpRequest();
 	      update_xobj.overrideMimeType("application/json");
 	      update_xobj.open('POST', "{% url 'update_environment' %}", true);
+	      update_xobj.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	      update_xobj.addEventListener("load", function() {
 	        if (this.readyState === 4) {
 	          if (update_xobj.status === 200) {

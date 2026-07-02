@@ -14,6 +14,7 @@ from numpy import dot
 from numpy.linalg import norm
 
 from global_methods import *
+from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.prompt_template.run_gpt_prompt import *
 from persona.prompt_template.gpt_structure import *
 from persona.cognitive_modules.retrieve import *
@@ -211,7 +212,8 @@ def reflect(persona):
 
       # print (persona.a_mem.get_last_chat(persona.scratch.chatting_with).node_id)
 
-      evidence = [persona.a_mem.get_last_chat(persona.scratch.chatting_with).node_id]
+      last_chat = persona.a_mem.get_last_chat(persona.scratch.chatting_with)
+      evidence = [last_chat.node_id] if last_chat else []
 
       planning_thought = generate_planning_thought_on_convo(persona, all_utt)
       planning_thought = f"For {persona.scratch.name}'s planning: {planning_thought}"
@@ -226,6 +228,16 @@ def reflect(persona):
       persona.a_mem.add_thought(created, expiration, s, p, o, 
                                 planning_thought, keywords, thought_poignancy, 
                                 thought_embedding_pair, evidence)
+      if getattr(persona.scratch, "social_dialogue_id", None):
+        log_social_dialogue(
+          persona,
+          "reflect",
+          "reflect_thought_written",
+          payload={
+            "kind": "planning",
+            "evidence": evidence,
+          },
+        )
 
 
 
@@ -242,6 +254,16 @@ def reflect(persona):
       persona.a_mem.add_thought(created, expiration, s, p, o, 
                                 memo_thought, keywords, thought_poignancy, 
                                 thought_embedding_pair, evidence)
+      if getattr(persona.scratch, "social_dialogue_id", None):
+        log_social_dialogue(
+          persona,
+          "reflect",
+          "reflect_thought_written",
+          payload={
+            "kind": "memo",
+            "evidence": evidence,
+          },
+        )
 
 
 

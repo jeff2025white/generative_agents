@@ -338,6 +338,9 @@ def should_run_periodic_social_scan(persona, interval=DEFAULT_SOCIAL_SCAN_INTERV
   curr_step = getattr(persona.scratch, "curr_step", None)
   if curr_step is None or interval <= 0:
     return False
+  defer_social_interrupts = getattr(persona.scratch, "should_defer_social_interrupts", None)
+  if callable(defer_social_interrupts) and defer_social_interrupts():
+    return False
   if getattr(persona.scratch, "chatting_with", None):
     return False
   if not getattr(persona.scratch, "planned_path", None):

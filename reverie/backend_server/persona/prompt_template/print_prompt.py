@@ -13,6 +13,7 @@ import datetime
 import random
 
 from global_methods import *
+from persona.cognitive_modules.debug_log import is_log_enabled
 from persona.prompt_template.gpt_structure import *
 from utils import *
 
@@ -26,6 +27,11 @@ def print_run_prompts(prompt_template=None,
                       prompt_input=None,
                       prompt=None, 
                       output=None): 
+  stdout_enabled = is_log_enabled("ENABLE_PROMPT_STDOUT", default=False)
+  file_enabled = is_log_enabled("ENABLE_AGENT_PROMPT_LOGS", default=False)
+  if not stdout_enabled and not file_enabled:
+    return
+
   curr_step = getattr(persona.scratch, 'curr_step', None) if (persona and hasattr(persona, 'scratch')) else None
   curr_time = getattr(persona.scratch, 'curr_time', None) if (persona and hasattr(persona, 'scratch')) else None
   time_str = "N/A"
@@ -38,20 +44,21 @@ def print_run_prompts(prompt_template=None,
       except:
         time_str = str(curr_time)
 
-  print (f"=== 提示词模板：{prompt_template}")
-  print (f"时间步 (Step): {curr_step if curr_step is not None else 'N/A'} | 游戏时间 (Game Time): {time_str}")
-  print ("~~~ 智能体人物 (persona)   -------------------------------------------")
-  print (persona.name, "\n")
-  print ("~~~ GPT 模型参数 (gpt_param) -----------------------------------------")
-  print (gpt_param, "\n")
-  print ("~~~ 提示词输入参数 (prompt_input)   ----------------------------------")
-  print (prompt_input, "\n")
-  print ("~~~ 最终拼装提示词 (prompt)   ----------------------------------------")
-  print (prompt, "\n")
-  print ("~~~ 语言模型输出 (output)   ------------------------------------------")
-  print (output, "\n") 
-  print ("=== 结束 (END) ===================================================")
-  print ("\n\n\n")
+  if stdout_enabled:
+    print (f"=== 提示词模板：{prompt_template}")
+    print (f"时间步 (Step): {curr_step if curr_step is not None else 'N/A'} | 游戏时间 (Game Time): {time_str}")
+    print ("~~~ 智能体人物 (persona)   -------------------------------------------")
+    print (persona.name, "\n")
+    print ("~~~ GPT 模型参数 (gpt_param) -----------------------------------------")
+    print (gpt_param, "\n")
+    print ("~~~ 提示词输入参数 (prompt_input)   ----------------------------------")
+    print (prompt_input, "\n")
+    print ("~~~ 最终拼装提示词 (prompt)   ----------------------------------------")
+    print (prompt, "\n")
+    print ("~~~ 语言模型输出 (output)   ------------------------------------------")
+    print (output, "\n") 
+    print ("=== 结束 (END) ===================================================")
+    print ("\n\n\n")
 
   # Add agent-specific logging to prevent multi-threading interleaving
   import os
@@ -64,25 +71,25 @@ def print_run_prompts(prompt_template=None,
     if len(sys.argv) >= 3:
       sim_code = sys.argv[2].strip()
       
+    if not file_enabled:
+      return
+
     logs_dir = os.path.abspath(os.path.join(base_dir, "..", "..", "..", "..", "logs", "agents", sim_code))
     os.makedirs(logs_dir, exist_ok=True)
     
-    agent_log_path = os.path.join(logs_dir, f"{persona.name.replace(' ', '_')}.log")
+    agent_log_path = os.path.join(logs_dir, f"{persona.name.replace(' ', '_')}.jsonl")
     with open(agent_log_path, "a", encoding="utf-8") as f:
-      f.write(f"=== 提示词模板：{prompt_template}\n")
-      f.write(f"时间步 (Step): {curr_step if curr_step is not None else 'N/A'} | 游戏时间 (Game Time): {time_str}\n")
-      f.write("~~~ 智能体人物 (persona)   -------------------------------------------\n")
-      f.write(f"{persona.name}\n\n")
-      f.write("~~~ GPT 模型参数 (gpt_param) -----------------------------------------\n")
-      f.write(f"{gpt_param}\n\n")
-      f.write("~~~ 提示词输入参数 (prompt_input)   ----------------------------------\n")
-      f.write(f"{prompt_input}\n\n")
-      f.write("~~~ 最终拼装提示词 (prompt)   ----------------------------------------\n")
-      f.write(f"{prompt}\n\n")
-      f.write("~~~ 语言模型输出 (output)   ------------------------------------------\n")
-      f.write(f"{output}\n\n")
-      f.write("=== 结束 (END) ===================================================\n")
-      f.write("\n\n\n")
+      f.write(json.dumps({
+        "ts": datetime.datetime.now(datetime.timezone.utc).astimezone().isoformat(),
+        "persona": persona.name,
+        "step": curr_step if curr_step is not None else "N/A",
+        "game_time": time_str,
+        "prompt_template": prompt_template,
+        "gpt_param": gpt_param,
+        "prompt_input": prompt_input,
+        "prompt": prompt,
+        "output": output,
+      }, ensure_ascii=False, default=str, sort_keys=True) + "\n")
   except Exception as e:
     print(f"Warning: Failed to write agent log: {e}")
 

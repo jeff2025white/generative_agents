@@ -6,6 +6,7 @@ import os
 import string
 import random
 import json
+import time
 from os import listdir
 import os
 import re
@@ -24,6 +25,16 @@ _translation_cache = {}
 _translation_cache_lock = threading.Lock()
 _translation_cache_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "temp_storage", "translation_cache.json"))
 _status_translation_config = None
+
+
+def _mark_frontend_active(sim_code):
+  """Persist a lightweight heartbeat so backend lock-step knows the page is alive."""
+  try:
+    os.makedirs("temp_storage", exist_ok=True)
+    with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
+      json.dump({"last_active": time.time()}, f)
+  except Exception as e:
+    print(f"Error marking frontend active: {e}")
 
 def _load_translation_cache():
   global _translation_cache
@@ -941,12 +952,7 @@ def process_environment(request):
   # Record that frontend is active (heartbeat) if not requested by backend
   is_backend = data.get("is_backend", False)
   if not is_backend:
-    try:
-      os.makedirs("temp_storage", exist_ok=True)
-      with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
-        json.dump({"last_active": time.time()}, f)
-    except Exception as e:
-      print(f"Error marking frontend active in process_environment: {e}")
+    _mark_frontend_active(sim_code)
 
   # Save to Database
   sim_state, created = SimState.objects.get_or_create(sim_code=sim_code, step=step)
@@ -969,12 +975,7 @@ def update_environment(request):
   sim_code = data["sim_code"]
 
   # Record that frontend is active (heartbeat)
-  try:
-    os.makedirs("temp_storage", exist_ok=True)
-    with open(f"temp_storage/frontend_active_{sim_code}.json", "w", encoding="utf-8") as f:
-      json.dump({"last_active": time.time()}, f)
-  except Exception as e:
-    print(f"Error marking frontend active in update_environment: {e}")
+  _mark_frontend_active(sim_code)
 
   response_data = {"<step>": -1}
   
@@ -998,6 +999,21 @@ def update_environment(request):
       response_data = translate_movements_in_place(response_data)
 
   return JsonResponse(response_data)
+
+
+@csrf_exempt
+def api_frontend_heartbeat(request):
+  if request.method != "POST":
+    return JsonResponse({"error": "POST required"}, status=400)
+
+  try:
+    data = json.loads(request.body)
+    sim_code = data["sim_code"]
+  except Exception as e:
+    return JsonResponse({"error": f"invalid payload: {e}"}, status=400)
+
+  _mark_frontend_active(sim_code)
+  return JsonResponse({"status": "ok"})
 
 
 def path_tester_update(request): 

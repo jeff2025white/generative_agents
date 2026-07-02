@@ -1,6 +1,12 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.action_command_utils import build_decision_signature
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.food_sources import normalize_food_source_target
+from persona.cognitive_modules.memory_effects import (
+    capture_attribute_snapshot,
+    compute_attribute_effects,
+    record_stat_change_experience,
+)
 
 class ConsumeSkillPack(BaseSkillPack):
     def __init__(self):
@@ -10,7 +16,8 @@ class ConsumeSkillPack(BaseSkillPack):
 
     def can_execute(self, persona, target, maze) -> bool:
         # 1. Check if target matches an item in inventory
-        item_key = target.strip().lower()
+        normalized_target = normalize_food_source_target(target)
+        item_key = normalized_target.strip().lower()
         for k in persona.scratch.inventory:
             if k.strip().lower() in item_key and persona.scratch.inventory[k] > 0:
                 append_debug_log(
@@ -76,7 +83,8 @@ class ConsumeSkillPack(BaseSkillPack):
             return True
         # Also check current tile's object
         curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-        if any(fs in curr_obj.lower() for fs in food_sources):
+        normalized_curr_obj = normalize_food_source_target(curr_obj).lower() if curr_obj else ""
+        if any(fs in normalized_curr_obj for fs in food_sources):
             append_debug_log(
                 "skill_execution_debug.jsonl",
                 {
@@ -91,7 +99,7 @@ class ConsumeSkillPack(BaseSkillPack):
             )
             return True
         # Fallback 3: Check if their target action address points to a food source
-        act_addr = persona.scratch.act_address.lower() if persona.scratch.act_address else ""
+        act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
         if any(fs in act_addr for fs in food_sources):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -128,7 +136,8 @@ class ConsumeSkillPack(BaseSkillPack):
     def on_arrive(self, persona, target, maze, personas):
         # 1. Backpack consumption
         item_found = False
-        item_key = target.strip().lower()
+        normalized_target = normalize_food_source_target(target)
+        item_key = normalized_target.strip().lower()
         target_item = target
         before_inventory = dict(persona.scratch.inventory)
         before_stats = {
@@ -168,8 +177,9 @@ class ConsumeSkillPack(BaseSkillPack):
         if not item_found:
             food_sources = ["refrigerator", "fridge", "stove", "toaster", "microwave", "cafe counter", "counter", "kitchen", "cabinet"]
             curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-            act_addr = persona.scratch.act_address.lower() if persona.scratch.act_address else ""
-            if any(fs in curr_obj.lower() for fs in food_sources) or any(fs in item_key for fs in food_sources) or any(fs in act_addr for fs in food_sources):
+            normalized_curr_obj = normalize_food_source_target(curr_obj).lower() if curr_obj else ""
+            act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
+            if any(fs in normalized_curr_obj for fs in food_sources) or any(fs in item_key for fs in food_sources) or any(fs in act_addr for fs in food_sources):
                 # Free meal from the resource!
                 item_found = True
                 target_item = "cooked meal"
@@ -188,9 +198,12 @@ class ConsumeSkillPack(BaseSkillPack):
             return
         
         # 3. Metabolic changes
+        before_snapshot = capture_attribute_snapshot(persona)
         persona.scratch.satiety = min(100.0, persona.scratch.satiety + 40.0)
         persona.scratch.health = min(100.0, persona.scratch.health + 5.0)
         persona.scratch.mood = min(100.0, persona.scratch.mood + 10.0)
+        after_snapshot = capture_attribute_snapshot(persona)
+        attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -209,6 +222,21 @@ class ConsumeSkillPack(BaseSkillPack):
                     "mood": persona.scratch.mood,
                 },
             }
+        )
+        record_stat_change_experience(
+            persona,
+            f"{persona.name} consumed {target_item} and restored physical condition.",
+            {
+                "consume",
+                "food",
+                "meal",
+                str(target_item).lower(),
+                "recovery",
+            },
+            attribute_effects,
+            poignancy=7.0,
+            predicate="changed",
+            obj="consume_recovery",
         )
         persona.scratch.mark_action_completed(
             action_command=persona.scratch.act_command,

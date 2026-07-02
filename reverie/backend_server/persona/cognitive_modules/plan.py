@@ -23,6 +23,11 @@ from persona.cognitive_modules.food_sources import (
   is_valid_gather_food_source,
   normalize_food_source_target,
 )
+from persona.cognitive_modules.intent_memory import (
+  infer_memory_focus,
+  retrieve_intent_memories,
+  summarize_intent_memories,
+)
 from persona.cognitive_modules.social_trigger import (
   choose_social_focus,
   compute_social_cooldown,
@@ -44,6 +49,71 @@ from persona.cognitive_modules.converse import *
 ##############################################################################
 # CHAPTER 2: Generate
 ##############################################################################
+
+STEP_TIMING_LOG = "step_timing.jsonl"
+SLOW_TIMING_THRESHOLD_MS = 10000
+_ACT_OBJ_STATE_CACHE = {}
+
+
+def _elapsed_ms(started_at):
+  return round((time.perf_counter() - started_at) * 1000.0, 3)
+
+
+def _log_timing_event(event_name, payload):
+  record = dict(payload or {})
+  timings = record.get("timings_ms", {}) or {}
+  max_stage_ms = 0.0
+  try:
+    max_stage_ms = max(float(v) for v in timings.values()) if timings else 0.0
+  except Exception:
+    max_stage_ms = 0.0
+  total_ms = float(record.get("total_ms", max_stage_ms) or 0.0)
+  record["event"] = event_name
+  record["slow"] = bool(total_ms >= SLOW_TIMING_THRESHOLD_MS or max_stage_ms >= SLOW_TIMING_THRESHOLD_MS)
+  append_debug_log(STEP_TIMING_LOG, record)
+
+
+def _infer_object_state_phrase(act_game_object, act_desp):
+  obj = str(act_game_object or "object").strip() or "object"
+  desc = str(act_desp or "").lower()
+  if "being opened" in desc or "is opened" in desc:
+    return "being opened"
+  if "being used for eating" in desc:
+    return "being used for eating"
+  if "being used for recovery" in desc:
+    return "being used for recovery"
+  if "being used for work" in desc:
+    return "being used for work"
+  if "being used" in desc:
+    return "being used"
+  if any(keyword in desc for keyword in ["gather", "opening", "open", "retrieve", "fetch"]):
+    return "being opened"
+  if any(keyword in desc for keyword in ["consume", "eating", "eat", "drink", "meal", "snack"]):
+    return "being used for eating"
+  if any(keyword in desc for keyword in ["rest", "sleep", "lying", "nap", "wash", "cleaning hands"]):
+    return "being used for recovery"
+  if any(keyword in desc for keyword in ["study", "write", "work", "research"]):
+    return "being used for work"
+  if any(keyword in desc for keyword in ["sing", "music", "piano", "tv", "game", "exercise", "fitness", "use"]):
+    return "being used"
+  return "being used"
+
+
+def build_act_obj_state(act_game_object, act_desp, persona):
+  cache_key = (
+    str(act_game_object or "").strip().lower(),
+    str(act_desp or "").strip().lower(),
+  )
+  cached = _ACT_OBJ_STATE_CACHE.get(cache_key)
+  if cached:
+    return cached
+
+  phrase = _infer_object_state_phrase(act_game_object, act_desp)
+  obj = str(act_game_object or "object").strip() or "object"
+  desc = f"{obj} is {phrase}"
+  event = (obj, "is", phrase)
+  _ACT_OBJ_STATE_CACHE[cache_key] = (desc, event)
+  return desc, event
 
 def generate_wake_up_hour(persona):
   """
@@ -417,12 +487,12 @@ def generate_action_event_triple(act_desp, persona):
 
 def generate_act_obj_desc(act_game_object, act_desp, persona): 
   if debug: print ("GNS FUNCTION: <generate_act_obj_desc>")
-  return run_gpt_prompt_act_obj_desc(act_game_object, act_desp, persona)[0]
+  return build_act_obj_state(act_game_object, act_desp, persona)[0]
 
 
 def generate_act_obj_event_triple(act_game_object, act_obj_desc, persona): 
   if debug: print ("GNS FUNCTION: <generate_act_obj_event_triple>")
-  return run_gpt_prompt_act_obj_event_triple(act_game_object, act_obj_desc, persona)[0]
+  return build_act_obj_state(act_game_object, act_obj_desc, persona)[1]
 
 
 def generate_convo(maze, init_persona, target_persona): 
@@ -1123,19 +1193,52 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                   act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
                   act_obj_event, act_start_time=None): 
   p = persona 
+  hourly_schedule = getattr(p.scratch, "f_daily_schedule_hourly_org", None) or []
+  active_schedule = getattr(p.scratch, "f_daily_schedule", None) or []
 
+  if not hourly_schedule or not active_schedule:
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": getattr(p, "name", None),
+        "event": "react_schedule_fallback",
+        "curr_step": getattr(p.scratch, "curr_step", None),
+        "reason": "missing_schedule",
+        "hourly_schedule_len": len(hourly_schedule),
+        "active_schedule_len": len(active_schedule),
+        "inserted_act": inserted_act,
+      }
+    )
+    p.scratch.add_new_action(act_address,
+                             inserted_act_dur,
+                             inserted_act,
+                             act_pronunciatio,
+                             act_event,
+                             None,
+                             chatting_with,
+                             chat,
+                             chatting_with_buffer,
+                             chatting_end_time,
+                             act_obj_description,
+                             act_obj_pronunciatio,
+                             act_obj_event,
+                             act_start_time)
+    return
+
+  hourly_index = p.scratch.get_f_daily_schedule_hourly_org_index()
+  hourly_index = max(0, min(hourly_index, len(hourly_schedule) - 1))
+  next_hourly_index = min(hourly_index + 1, len(hourly_schedule) - 1)
   min_sum = 0
-  for i in range (p.scratch.get_f_daily_schedule_hourly_org_index()): 
-    min_sum += p.scratch.f_daily_schedule_hourly_org[i][1]
+  for i in range(hourly_index): 
+    min_sum += hourly_schedule[i][1]
   start_hour = int (min_sum/60)
 
-  if (p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()][1] >= 120):
-    end_hour = start_hour + p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()][1]/60
-
-  elif (p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()][1] + 
-      p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()+1][1]): 
-    end_hour = start_hour + ((p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()][1] + 
-              p.scratch.f_daily_schedule_hourly_org[p.scratch.get_f_daily_schedule_hourly_org_index()+1][1])/60)
+  current_block_minutes = hourly_schedule[hourly_index][1]
+  next_block_minutes = hourly_schedule[next_hourly_index][1] if next_hourly_index != hourly_index else 0
+  if current_block_minutes >= 120:
+    end_hour = start_hour + current_block_minutes / 60
+  elif next_block_minutes > 0:
+    end_hour = start_hour + ((current_block_minutes + next_block_minutes) / 60)
 
   else: 
     end_hour = start_hour + 2
@@ -1152,6 +1255,11 @@ def _create_react(persona, inserted_act, inserted_act_dur,
       end_index = count
     dur_sum += dur
     count += 1
+
+  if start_index is None:
+    start_index = max(0, len(p.scratch.f_daily_schedule) - 1)
+  if end_index is None:
+    end_index = len(p.scratch.f_daily_schedule)
 
   ret = generate_new_decomp_schedule(p, inserted_act, inserted_act_dur, 
                                        start_hour, end_hour)
@@ -1437,11 +1545,9 @@ def decide_survival_action(persona, maze):
     if not in_inv:
       print(f"[{persona.name}] 背包中没有 {target}！修改动作为 Gather 从环境获取。")
       action = "Gather"
-      # Prioritize cafe customer seating or behind the cafe counter
-      if "cafe customer seating" in objs_list:
-        target = "cafe customer seating"
-      elif "behind the cafe counter" in objs_list:
-        target = "behind the cafe counter"
+      # Route cafe food acquisition to the executable counter resource.
+      if "behind the cafe counter" in objs_list or "cafe customer seating" in objs_list:
+        target = "cafe counter"
       else:
         target = "refrigerator" if "refrigerator" in objs_list else "apple tree"
       address = persona.s_mem.find_nearest_object(target) or address
@@ -1491,6 +1597,9 @@ def decide_survival_action(persona, maze):
 
 def decide_demand_action(persona, maze):
   import json
+  decision_started_at = time.perf_counter()
+  phase_started_at = decision_started_at
+  timings_ms = {}
   if persona.scratch.should_hold_after_recent_consume():
     persona.scratch.act_address = persona.scratch.act_address or persona.scratch.living_area
     persona.scratch.act_description = "idling briefly to stabilize after eating"
@@ -1609,10 +1718,24 @@ def decide_demand_action(persona, maze):
     cooperative_context += f"\n- NOTE: You are a staff/owner of the current area ({curr_sector}). You do not need to wait for others to serve you food/drink; you have direct access to resources and can gather or prepare food yourself."
 
   # Capture last action context
+  context_build_started_at = phase_started_at
   last_action_desc = getattr(persona.scratch, 'last_action_desc', "None")
+  phase_started_at = time.perf_counter()
+  active_signature = persona.scratch.get_active_decision_signature() or {}
+  intent_family = infer_memory_focus(persona, active_signature)
+  intent_memories = retrieve_intent_memories(
+    persona,
+    intent_family,
+    action_signature=active_signature,
+    n_count=5,
+  )
+  intent_memory_summary = summarize_intent_memories(intent_family, intent_memories)
+  timings_ms["intent_memory_retrieval"] = _elapsed_ms(phase_started_at)
+  timings_ms["context_build"] = _elapsed_ms(context_build_started_at)
 
   # Two-Stage Decision-Translation Pipeline:
   # Phase 1: Cognitive Thinking (Natural language intent)
+  phase_started_at = time.perf_counter()
   thinking_text = run_gpt_prompt_demand_thinking(
       persona, 
       object_states, 
@@ -1620,16 +1743,42 @@ def decide_demand_action(persona, maze):
       status_summary=status_summary,
       rules=physiological_rules, 
       cooperative_context=cooperative_context,
-      last_action_desc=last_action_desc
+      last_action_desc=last_action_desc,
+      intent_memory_summary=intent_memory_summary,
   )
+  timings_ms["demand_thinking"] = _elapsed_ms(phase_started_at)
   print(f"[{persona.name}] 阶段一自由思考打算: '{thinking_text}'")
+  translation_convergence_hint = (
+    "Preserve the immediate intent from the natural language thought. "
+    "Do not expand into a broader alternative plan. "
+  )
+  moving_check = getattr(persona.scratch, "is_moving_to_action", None)
+  is_in_transit = moving_check() if callable(moving_check) else bool(getattr(persona.scratch, "planned_path", None))
+  if is_in_transit:
+    translation_convergence_hint += (
+      "The agent is still in transit from the previous decision, so prefer a translation "
+      "that continues the current route unless the thought clearly names a new urgent target. "
+    )
+  if intent_memory_summary and "No especially relevant prior experience was retrieved." not in str(intent_memory_summary):
+    translation_convergence_hint += (
+      "Relevant experience already helped narrow the choice, so translate to the most direct schema action "
+      "instead of exploring many equivalent targets. "
+    )
+  pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
+  if pending_interrupt:
+    translation_convergence_hint += (
+      f"Reflect the newest change only if it is explicit in the thought. Latest interrupt reason: {pending_interrupt.get('reason')}. "
+    )
 
   # Phase 2: Action Translation (Standard physical instruction conversion)
+  phase_started_at = time.perf_counter()
   decision = run_gpt_prompt_action_translation(
       thinking_text,
       object_states,
-      persona.scratch.get_str_firstname()
+      persona.scratch.get_str_firstname(),
+      decision_convergence_hint=translation_convergence_hint,
   )
+  timings_ms["action_translation"] = _elapsed_ms(phase_started_at)
 
   action = decision.get("action", "Idle")
   if action is None: action = "Idle"
@@ -1759,6 +1908,7 @@ def decide_demand_action(persona, maze):
     return current_description
 
   # Resolve sector, arena, object
+  phase_started_at = time.perf_counter()
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   resolution_meta = None
   arena_only_skills = {"use", "work", "study", "leisure_use"}
@@ -1788,6 +1938,7 @@ def decide_demand_action(persona, maze):
         else:
           act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
           new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+  timings_ms["target_resolution"] = _elapsed_ms(phase_started_at)
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
 
@@ -1819,6 +1970,7 @@ def decide_demand_action(persona, maze):
     pass
   
   # Persona's actions also influence the object states. We set those up here. 
+  phase_started_at = time.perf_counter()
   if normalized_skill_id == "chat with" and target not in {"none", "", None}:
     act_obj_desp = None
     act_obj_pron = None
@@ -1831,8 +1983,10 @@ def decide_demand_action(persona, maze):
     act_obj_desp = generate_act_obj_desc(act_game_object, act_desp, persona)
     act_obj_pron = generate_action_pronunciatio(act_obj_desp, persona)
     act_obj_event = generate_act_obj_event_triple(act_game_object, act_obj_desp, persona)
+  timings_ms["object_state"] = _elapsed_ms(phase_started_at)
 
   # Adding the action to persona's queue. 
+  phase_started_at = time.perf_counter()
   persona.scratch.add_new_action(new_address, 
                                  int(act_dura), 
                                  act_desp, 
@@ -1846,6 +2000,21 @@ def decide_demand_action(persona, maze):
                                  act_obj_desp, 
                                  act_obj_pron, 
                                  act_obj_event)
+  timings_ms["add_new_action"] = _elapsed_ms(phase_started_at)
+  total_ms = _elapsed_ms(decision_started_at)
+  _log_timing_event(
+    "decide_demand_action_timing",
+    {
+      "persona": persona.name,
+      "curr_step": getattr(persona.scratch, "curr_step", None),
+      "act_command_skill": normalized_skill_id,
+      "intent_family": intent_family,
+      "target": target,
+      "new_address": new_address,
+      "total_ms": total_ms,
+      "timings_ms": timings_ms,
+    },
+  )
   return persona.scratch.act_address
 
 
@@ -1864,6 +2033,9 @@ def plan(persona, maze, personas, new_day, retrieved):
   if persona.scratch.act_check_finished() or not act_desc:
     if act_desc:
       persona.scratch.last_action_desc = act_desc
+    if persona.scratch.should_resume_suspended_action():
+      persona.scratch.resume_suspended_action()
+      return persona.scratch.act_address
     decide_demand_action(persona, maze)
 
   # PART 3: If you perceived an event that needs to be responded to (saw 
@@ -1944,6 +2116,14 @@ def plan_social_reaction(persona, maze, personas, retrieved):
   """
   Evaluate only social chat opportunities during fast-path movement steps.
   """
+  if getattr(persona.scratch, "should_defer_social_interrupts", lambda: False)():
+    persona.scratch.remember_pending_interrupt(
+      "defer_social_during_committed_survival",
+      source="periodic_social_scan",
+      payload={"retrieved_keys": list(retrieved.keys())[:5] if retrieved else []},
+    )
+    _decrement_chatting_with_buffer(persona)
+    return persona.scratch.act_address
   if not retrieved:
     _decrement_chatting_with_buffer(persona)
     return persona.scratch.act_address

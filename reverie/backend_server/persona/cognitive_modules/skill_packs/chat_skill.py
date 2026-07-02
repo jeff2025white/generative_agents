@@ -14,6 +14,12 @@ from persona.cognitive_modules.creator_chat_context import (
     build_creator_instruction_context,
     build_creator_notify_context,
 )
+from persona.cognitive_modules.social_dialogue_log import (
+    inherit_social_dialogue_state,
+    log_chat_transcript,
+    log_social_dialogue,
+    set_social_dialogue_state,
+)
 
 class ChatSkillPack(BaseSkillPack):
     def __init__(self):
@@ -220,6 +226,15 @@ class ChatSkillPack(BaseSkillPack):
 
             target_p = personas[target_p_name]
             curr_context = f"{persona.name} and {target_p.name} met in the {maze.get_tile_path(persona.scratch.curr_tile, 'arena')}."
+            log_social_dialogue(
+                persona,
+                "generation",
+                "social_generation_started",
+                target_name=target_p_name,
+                payload={
+                    "arena_context": curr_context,
+                },
+            )
             
             convo = []
             speaker = persona
@@ -284,6 +299,19 @@ class ChatSkillPack(BaseSkillPack):
                     verbose=False
                 )
 
+                log_social_dialogue(
+                    persona,
+                    "generation",
+                    "social_generation_turn",
+                    target_name=target_p_name,
+                    payload={
+                        "turn": turn,
+                        "speaker": speaker.name,
+                        "listener": listener.name,
+                        "utterance": turn_decision.get("utterance", "..."),
+                        "end": bool(turn_decision.get("end", False)),
+                    },
+                )
                 convo.append([speaker.name, turn_decision.get("utterance", "...")])
                 if turn_decision.get("end", False):
                     break
@@ -291,6 +319,16 @@ class ChatSkillPack(BaseSkillPack):
                 # Swap speaker and listener
                 speaker, listener = listener, speaker
 
+            log_social_dialogue(
+                persona,
+                "generation",
+                "social_generation_finished",
+                target_name=target_p_name,
+                payload={
+                    "turn_count": len(convo),
+                    "ended_by_model": bool(turn_decision.get("end", False)) if convo else False,
+                },
+            )
             return {
                 "mode": "social",
                 "convo": convo,
@@ -298,6 +336,16 @@ class ChatSkillPack(BaseSkillPack):
             }
 
     def on_arrive(self, persona, target, maze, personas):
+        log_social_dialogue(
+            persona,
+            "arrival",
+            "on_arrive_enter",
+            target_name=target.strip() if isinstance(target, str) else target,
+            payload={
+                "act_address": persona.scratch.act_address,
+                "act_description": persona.scratch.act_description,
+            },
+        )
         # 0. Synchronization lock check:
         # If the interlocutor has already arrived and initiated the dialogue,
         # we copy their dialogue state and perform our own memory/physiological updates.
@@ -305,6 +353,18 @@ class ChatSkillPack(BaseSkillPack):
             target_p = personas[target.strip()]
             if target_p.scratch.chatting_with == persona.name and target_p.scratch.chat:
                 print(f"=== [会话锁定/同步触发] {persona.name} 到达，接入 {target_p.name} 已经建立的会话 ===")
+                inherited_dialogue_id = inherit_social_dialogue_state(persona, target_p, role="target")
+                log_social_dialogue(
+                    persona,
+                    "arrival",
+                    "conversation_lock_hit",
+                    target_name=target_p.name,
+                    dialogue_id=inherited_dialogue_id,
+                    payload={
+                        "source_persona": target_p.name,
+                        "shared_turn_count": len(target_p.scratch.chat or []),
+                    },
+                )
                 convo = target_p.scratch.chat
                 
                 # Update own state
@@ -334,11 +394,21 @@ class ChatSkillPack(BaseSkillPack):
                     print(f"Warning: Failed to call run_gpt_prompt_summarize_conversation: {e}")
 
                 is_emb = get_embedding(convo_summary)
-                persona.a_mem.add_event(
+                summary_node = persona.a_mem.add_event(
                     persona.scratch.curr_time, None,
                     persona.name, "chat with", target_p.name,
                     convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
                     (convo_summary, is_emb), None
+                )
+                log_social_dialogue(
+                    persona,
+                    "memory",
+                    "summary_written",
+                    target_name=target_p.name,
+                    payload={
+                        "summary_node_id": getattr(summary_node, "node_id", None),
+                        "mode": "sync_copy",
+                    },
                 )
 
                 # Gossip extraction for persona
@@ -355,11 +425,21 @@ class ChatSkillPack(BaseSkillPack):
                     if "error" not in gossip_learned.lower() and gossip_learned.lower() != "none" and gossip_learned.strip():
                         gossip_cleaned = gossip_learned.replace('"', '').replace("'", "").strip()
                         g_emb = get_embedding(g_cleaned := f"{persona.name} heard that {gossip_cleaned}")
-                        persona.a_mem.add_event(
+                        gossip_node = persona.a_mem.add_event(
                             persona.scratch.curr_time, None,
                             target_p.name, "gossip to", persona.name,
                             g_cleaned, {"gossip", persona.scratch.first_name, target_p.scratch.first_name}, 5,
                             (g_cleaned, g_emb), None
+                        )
+                        log_social_dialogue(
+                            persona,
+                            "memory",
+                            "gossip_written",
+                            target_name=target_p.name,
+                            payload={
+                                "gossip_node_id": getattr(gossip_node, "node_id", None),
+                                "mode": "sync_copy",
+                            },
                         )
                         print(f"=== [传闻与八卦结算] {persona.name} 记住了八卦: {g_cleaned} ===")
                 except Exception as ge:
@@ -378,11 +458,40 @@ class ChatSkillPack(BaseSkillPack):
                     trust_delta=0.05,
                     recent_event=convo_summary
                 )
+                log_social_dialogue(
+                    persona,
+                    "settlement",
+                    "relationship_updated",
+                    target_name=target_p.name,
+                    payload={
+                        "trust_delta": 0.05,
+                        "mode": "sync_copy",
+                    },
+                )
 
                 # Physiological recovery
                 persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
+                log_social_dialogue(
+                    persona,
+                    "settlement",
+                    "dialogue_completed",
+                    target_name=target_p.name,
+                    payload={
+                        "result": "sync_copy_completed",
+                        "stamina": persona.scratch.stamina,
+                    },
+                )
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
+
+        if target and target.strip() in personas:
+            log_social_dialogue(
+                persona,
+                "arrival",
+                "conversation_lock_miss",
+                target_name=target.strip(),
+                payload={"reason": "target_has_no_ready_chat"},
+            )
 
         # Trigger LLM cognitive decision
         decision = self.cognitive_decision(persona, target, maze, personas)
@@ -413,6 +522,16 @@ class ChatSkillPack(BaseSkillPack):
             persona.scratch.chat = [["User", user_msg], [persona.name, reply]]
             persona.scratch.chatting_with = "<creator>"
             persona.scratch.last_chat = reply
+            log_chat_transcript(
+                persona,
+                persona.scratch.chat,
+                target_name="creator",
+                channel="creator",
+                payload={
+                    "message_mode": message_mode,
+                    "action_id": action_id,
+                },
+            )
 
             # 3. Add to memory stream
             desc = f"{persona.name} handled creator {message_mode}: '{user_msg}' -> '{reply}'"
@@ -493,6 +612,8 @@ class ChatSkillPack(BaseSkillPack):
             convo = decision.get("convo", [])
             target_p_name = decision.get("target_persona_name")
             target_p = personas[target_p_name]
+            if getattr(persona.scratch, "social_dialogue_id", None):
+                set_social_dialogue_state(target_p, persona.scratch.social_dialogue_id, partner_name=persona.name, role="target")
 
             # 1. Update both agents' states to chatting
             persona.scratch.chat = convo
@@ -501,6 +622,25 @@ class ChatSkillPack(BaseSkillPack):
             target_p.scratch.chatting_with = persona.name
             persona.scratch.act_pronunciatio = "💬"
             target_p.scratch.act_pronunciatio = "💬"
+            log_chat_transcript(
+                persona,
+                convo,
+                target_name=target_p_name,
+                dialogue_id=getattr(persona.scratch, "social_dialogue_id", None),
+                channel="social",
+                payload={
+                    "participants": [persona.name, target_p.name],
+                },
+            )
+            log_social_dialogue(
+                persona,
+                "settlement",
+                "shared_conversation_written",
+                target_name=target_p_name,
+                payload={
+                    "turn_count": len(convo),
+                },
+            )
 
             # Update last_chat for both
             p_last = None
@@ -524,11 +664,21 @@ class ChatSkillPack(BaseSkillPack):
                 print(f"Warning: Failed to call run_gpt_prompt_summarize_conversation: {e}")
 
             is_emb = get_embedding(convo_summary)
-            persona.a_mem.add_event(
+            summary_node = persona.a_mem.add_event(
                 persona.scratch.curr_time, None,
                 persona.name, "chat with", target_p.name,
                 convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
                 (convo_summary, is_emb), None
+            )
+            log_social_dialogue(
+                persona,
+                "memory",
+                "summary_written",
+                target_name=target_p_name,
+                payload={
+                    "summary_node_id": getattr(summary_node, "node_id", None),
+                    "mode": "generated",
+                },
             )
 
             # 3. Gossip / Rumor Propagation
@@ -545,11 +695,21 @@ class ChatSkillPack(BaseSkillPack):
                 if "error" not in gossip_learned.lower() and gossip_learned.lower() != "none" and gossip_learned.strip():
                     gossip_cleaned = gossip_learned.replace('"', '').replace("'", "").strip()
                     g_emb = get_embedding(g_cleaned := f"{persona.name} heard that {gossip_cleaned}")
-                    persona.a_mem.add_event(
+                    gossip_node = persona.a_mem.add_event(
                         persona.scratch.curr_time, None,
                         target_p.name, "gossip to", persona.name,
                         g_cleaned, {"gossip", persona.scratch.first_name, target_p.scratch.first_name}, 5,
                         (g_cleaned, g_emb), None
+                    )
+                    log_social_dialogue(
+                        persona,
+                        "memory",
+                        "gossip_written",
+                        target_name=target_p_name,
+                        payload={
+                            "gossip_node_id": getattr(gossip_node, "node_id", None),
+                            "mode": "generated",
+                        },
                     )
                     print(f"=== [传闻与八卦结算] {persona.name} 记住了八卦: {g_cleaned} ===")
             except Exception as ge:
@@ -568,8 +728,29 @@ class ChatSkillPack(BaseSkillPack):
                 trust_delta=0.05,
                 recent_event=convo_summary
             )
+            log_social_dialogue(
+                persona,
+                "settlement",
+                "relationship_updated",
+                target_name=target_p_name,
+                payload={
+                    "trust_delta": 0.05,
+                    "mode": "generated",
+                },
+            )
 
             # 4. Metabolic / physiological effect for the initiator
             persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
+            log_social_dialogue(
+                persona,
+                "settlement",
+                "dialogue_completed",
+                target_name=target_p_name,
+                payload={
+                    "result": "generated_completed",
+                    "turn_count": len(convo),
+                    "stamina": persona.scratch.stamina,
+                },
+            )
 
             print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")

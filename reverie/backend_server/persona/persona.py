@@ -12,6 +12,7 @@ import math
 import sys
 import datetime
 import random
+import time
 sys.path.append('../')
 
 from global_methods import *
@@ -26,6 +27,9 @@ from persona.cognitive_modules.plan import *
 from persona.cognitive_modules.reflect import *
 from persona.cognitive_modules.execute import *
 from persona.cognitive_modules.converse import *
+from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
+from persona.cognitive_modules.social_trigger import should_run_periodic_social_scan
 
 class Persona: 
   def __init__(self, name, folder_mem_saved=False):
@@ -76,6 +80,20 @@ class Persona:
     # to Python variables. 
     f_scratch = f"{save_folder}/scratch.json"
     self.scratch.save(f_scratch)
+
+
+  def get_step_debug_snapshot(self):
+    """
+    Return a compact, JSON-serializable snapshot for step timing logs.
+    """
+    active_signature = self.scratch.get_active_decision_signature()
+    planned_path = self.scratch.planned_path or []
+    return {
+      "satiety": round(float(self.scratch.satiety), 3),
+      "stamina": round(float(self.scratch.stamina), 3),
+      "active_signature": active_signature,
+      "planned_path_len": len(planned_path),
+    }
 
 
   def perceive(self, maze):
@@ -203,6 +221,8 @@ class Persona:
         @ double studio:double studio:common room:sofa
     """
     # Updating persona's scratch memory with <curr_tile>. 
+    move_started_at = time.perf_counter()
+    timings_ms = {}
     self.scratch.curr_tile = curr_tile
     self.scratch.curr_step = step
 
@@ -228,48 +248,68 @@ class Persona:
       new_day = "New day"
     self.scratch.curr_time = curr_time
 
-    # Check metabolic conditions to bypass fast-path and trigger interruption
-    is_starving = self.scratch.satiety < 30.0
-    is_exhausted = self.scratch.stamina < 30.0
-
     # [OPTIMIZATION] Fast path: if the persona is mid-walk on a planned path
-    # and it's not a new day, skip the full cognitive pipeline to avoid
-    # unnecessary LLM calls.
-    if self.scratch.planned_path and not new_day and not (is_starving or is_exhausted):
-      return self.execute(maze, personas, None)
+    # and it's not a new day, continue the existing plan unless a hard
+    # physiological interrupt says the current plan is no longer acceptable.
+    if self.scratch.planned_path and not new_day:
+      if not self.scratch.should_interrupt_for_physiological_crisis():
+        fast_path_scan_started_at = time.perf_counter()
+        if should_run_periodic_social_scan(self):
+          perceived = self.perceive(maze)
+          retrieved = self.retrieve(perceived)
+          self.scratch.last_retrieved_memories = retrieved
+          plan_social_reaction(self, maze, personas, retrieved)
+        timings_ms["fast_path_social_scan"] = round((time.perf_counter() - fast_path_scan_started_at) * 1000.0, 3)
+        execute_started_at = time.perf_counter()
+        result = self.execute(maze, personas, None)
+        timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
+        append_debug_log(
+          "step_timing.jsonl",
+          {
+            "event": "persona_move_timing",
+            "persona": self.name,
+            "curr_step": self.scratch.curr_step,
+            "mode": "fast_path",
+            "total_ms": round((time.perf_counter() - move_started_at) * 1000.0, 3),
+            "timings_ms": timings_ms,
+            "state": self.get_step_debug_snapshot(),
+          }
+        )
+        return result
 
-    # Interruption logic: Clear current planned paths and activities
-    curr_act = self.scratch.act_description.lower() if self.scratch.act_description else ""
-    predicate = self.scratch.act_event[1].lower() if (self.scratch.act_event and len(self.scratch.act_event) > 1 and self.scratch.act_event[1]) else ""
-    is_resolving_starvation = any(kw in curr_act or kw in predicate for kw in ["consume", "eating", "eat", "cook", "gathering", "gather", "pancake", "food", "breakfast", "lunch", "dinner", "snack"])
-    is_resolving_exhaustion = any(kw in curr_act or kw in predicate for kw in ["resting", "rest", "sleeping", "sleep", "idling", "idle", "nap", "snooze"])
-
-    should_interrupt = False
-    if is_starving and is_exhausted:
-      # If both crises are active, as long as they are resolving one of them, do not interrupt
-      if not (is_resolving_starvation or is_resolving_exhaustion):
-        should_interrupt = True
-    elif is_starving and not is_resolving_starvation:
-      should_interrupt = True
-    elif is_exhausted and not is_resolving_exhaustion:
-      should_interrupt = True
-
-    if should_interrupt and (self.scratch.planned_path or self.scratch.act_address):
+    if self.scratch.should_interrupt_for_physiological_crisis() and self.scratch.has_active_plan():
       print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
+      if getattr(self.scratch, "social_dialogue_id", None):
+        log_social_dialogue(
+          self,
+          "failure",
+          "dialogue_aborted",
+          payload={
+            "reason": "physiological_interrupt",
+            "satiety": self.scratch.satiety,
+            "stamina": self.scratch.stamina,
+            "act_description": self.scratch.act_description,
+          },
+        )
+      self.scratch.suspend_current_action("physiological_crisis", source="move")
       self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
-      self.scratch.planned_path = []
-      self.scratch.act_path_set = False
-      self.scratch.chatting_with = None
-      self.scratch.chat = None
-      self.scratch.act_address = None
-      self.scratch.act_description = None
+      self.scratch.clear_current_action()
+      clear_social_dialogue_state(self)
 
     # Main cognitive sequence begins here. 
+    perceive_started_at = time.perf_counter()
     perceived = self.perceive(maze)
+    timings_ms["perceive"] = round((time.perf_counter() - perceive_started_at) * 1000.0, 3)
+    retrieve_started_at = time.perf_counter()
     retrieved = self.retrieve(perceived)
+    timings_ms["retrieve"] = round((time.perf_counter() - retrieve_started_at) * 1000.0, 3)
     self.scratch.last_retrieved_memories = retrieved
+    plan_started_at = time.perf_counter()
     plan = self.plan(maze, personas, new_day, retrieved)
+    timings_ms["plan"] = round((time.perf_counter() - plan_started_at) * 1000.0, 3)
+    reflect_started_at = time.perf_counter()
     self.reflect()
+    timings_ms["reflect"] = round((time.perf_counter() - reflect_started_at) * 1000.0, 3)
 
     # <execution> is a triple set that contains the following components: 
     # <next_tile> is a x,y coordinate. e.g., (58, 9)
@@ -277,18 +317,27 @@ class Persona:
     # <description> is a string description of the movement. e.g., 
     #   writing her next novel (editing her novel) 
     #   @ double studio:double studio:common room:sofa
-    return self.execute(maze, personas, plan)
+    execute_started_at = time.perf_counter()
+    result = self.execute(maze, personas, plan)
+    timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
+    append_debug_log(
+      "step_timing.jsonl",
+      {
+        "event": "persona_move_timing",
+        "persona": self.name,
+        "curr_step": self.scratch.curr_step,
+        "mode": "full_pipeline",
+        "total_ms": round((time.perf_counter() - move_started_at) * 1000.0, 3),
+        "timings_ms": timings_ms,
+        "state": self.get_step_debug_snapshot(),
+      }
+    )
+    return result
 
 
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
-
-
-
-
-
 
 
 

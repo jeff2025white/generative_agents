@@ -65,6 +65,9 @@ class Scratch:
     self.last_decision_reason = None
     self.recent_completed_action_signature = None
     self.recent_completed_action_step = None
+    self.suspended_action = None
+    self.suspended_action_step = None
+    self.pending_interrupt = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -239,6 +242,9 @@ class Scratch:
       self.last_decision_reason = scratch_load.get("last_decision_reason", None)
       self.recent_completed_action_signature = scratch_load.get("recent_completed_action_signature", None)
       self.recent_completed_action_step = scratch_load.get("recent_completed_action_step", None)
+      self.suspended_action = scratch_load.get("suspended_action", None)
+      self.suspended_action_step = scratch_load.get("suspended_action_step", None)
+      self.pending_interrupt = scratch_load.get("pending_interrupt", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -288,13 +294,14 @@ class Scratch:
       self.act_obj_pronunciatio = scratch_load["act_obj_pronunciatio"]
       self.act_obj_event = tuple(scratch_load["act_obj_event"])
 
-      self.chatting_with = scratch_load["chatting_with"]
-      self.chat = scratch_load["chat"]
+      self.chatting_with = scratch_load.get("chatting_with")
+      self.chat = scratch_load.get("chat")
       self.last_chat = scratch_load.get("last_chat", None)
-      self.chatting_with_buffer = scratch_load["chatting_with_buffer"]
-      if scratch_load["chatting_end_time"]: 
+      self.chatting_with_buffer = scratch_load.get("chatting_with_buffer", {})
+      chatting_end_time = scratch_load.get("chatting_end_time")
+      if chatting_end_time: 
         self.chatting_end_time = datetime.datetime.strptime(
-                                            scratch_load["chatting_end_time"],
+                                            chatting_end_time,
                                             "%B %d, %Y, %H:%M:%S")
       else:
         self.chatting_end_time = None
@@ -347,6 +354,9 @@ class Scratch:
     scratch["last_decision_reason"] = self.last_decision_reason
     scratch["recent_completed_action_signature"] = self.recent_completed_action_signature
     scratch["recent_completed_action_step"] = self.recent_completed_action_step
+    scratch["suspended_action"] = self.suspended_action
+    scratch["suspended_action_step"] = self.suspended_action_step
+    scratch["pending_interrupt"] = self.pending_interrupt
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -383,20 +393,6 @@ class Scratch:
     scratch["act_obj_description"] = self.act_obj_description
     scratch["act_obj_pronunciatio"] = self.act_obj_pronunciatio
     scratch["act_obj_event"] = self.act_obj_event
-
-    scratch["chatting_with"] = self.chatting_with
-    scratch["chat"] = self.chat
-    scratch["last_chat"] = self.last_chat
-    scratch["chatting_with_buffer"] = self.chatting_with_buffer
-    if self.chatting_end_time: 
-      scratch["chatting_end_time"] = (self.chatting_end_time
-                                        .strftime("%B %d, %Y, %H:%M:%S"))
-    else: 
-      scratch["chatting_end_time"] = None
-    scratch["social_dialogue_id"] = self.social_dialogue_id
-    scratch["social_dialogue_partner"] = self.social_dialogue_partner
-    scratch["social_dialogue_role"] = self.social_dialogue_role
-    scratch["social_dialogue_started_step"] = self.social_dialogue_started_step
 
     scratch["act_path_set"] = self.act_path_set
     scratch["planned_path"] = self.planned_path
@@ -695,8 +691,6 @@ class Scratch:
 
 
   def get_active_decision_signature(self):
-    if self.last_decision_signature:
-      return self.last_decision_signature
     if not (self.act_command or self.act_event or self.act_address):
       return None
     return build_decision_signature(
@@ -830,6 +824,203 @@ class Scratch:
     return self.satiety >= satiety_floor
 
 
+  def has_active_plan(self):
+    return bool(self.act_address or self.act_command or self.planned_path)
+
+
+  def is_moving_to_action(self):
+    return bool(self.planned_path)
+
+
+  def is_resolving_physiological_need(self, need_family):
+    signature = self.get_active_decision_signature() or {}
+    current_family = signature.get("intent_family")
+    if need_family == "restore_satiety":
+      return current_family in {"restore_satiety", "acquire_resource"}
+    if need_family == "restore_stamina":
+      return current_family == "restore_stamina"
+    return current_family == need_family
+
+
+  def should_defer_social_interrupts(self):
+    if not self.is_moving_to_action():
+      return False
+    signature = self.get_active_decision_signature() or {}
+    family = signature.get("intent_family")
+    if family not in {"restore_satiety", "restore_stamina"}:
+      return False
+    if self.curr_step is None or self.decision_commit_until_step is None:
+      return True
+    return self.curr_step < self.decision_commit_until_step
+
+
+  def should_interrupt_for_physiological_crisis(self):
+    needs_satiety = self.satiety < 30.0
+    needs_stamina = self.stamina < 30.0
+    if not (needs_satiety or needs_stamina):
+      return False
+
+    if needs_satiety and needs_stamina:
+      return not (
+        self.is_resolving_physiological_need("restore_satiety")
+        or self.is_resolving_physiological_need("restore_stamina")
+      )
+    if needs_satiety:
+      return not self.is_resolving_physiological_need("restore_satiety")
+    if needs_stamina:
+      return not self.is_resolving_physiological_need("restore_stamina")
+    return False
+
+
+  def remember_pending_interrupt(self, reason, source="system", payload=None):
+    self.pending_interrupt = {
+      "reason": reason,
+      "source": source,
+      "payload": payload or {},
+      "curr_step": self.curr_step,
+      "active_signature": self.get_active_decision_signature(),
+    }
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "interrupt_pending",
+        "curr_step": self.curr_step,
+        "reason": reason,
+        "source": source,
+        "payload": payload or {},
+        "active_signature": self.get_active_decision_signature(),
+      }
+    )
+
+
+  def _snapshot_current_action(self):
+    signature = self.get_active_decision_signature()
+    if not (signature and self.has_active_plan()):
+      return None
+    return {
+      "act_address": self.act_address,
+      "act_duration": self.act_duration,
+      "act_description": self.act_description,
+      "act_pronunciatio": self.act_pronunciatio,
+      "act_event": list(self.act_event) if isinstance(self.act_event, tuple) else self.act_event,
+      "act_command": self.act_command,
+      "act_obj_description": self.act_obj_description,
+      "act_obj_pronunciatio": self.act_obj_pronunciatio,
+      "act_obj_event": list(self.act_obj_event) if isinstance(self.act_obj_event, tuple) else self.act_obj_event,
+      "chatting_with": self.chatting_with,
+      "chat": self.chat,
+      "chatting_with_buffer": self.chatting_with_buffer,
+      "chatting_end_time": (
+        self.chatting_end_time.strftime("%B %d, %Y, %H:%M:%S")
+        if self.chatting_end_time else None
+      ),
+      "signature": signature,
+      "planned_path": self.planned_path,
+    }
+
+
+  def clear_current_action(self, keep_last_desc=False):
+    if keep_last_desc and self.act_description:
+      self.last_action_desc = self.act_description
+    self.planned_path = []
+    self.act_path_set = False
+    self.chatting_with = None
+    self.chat = None
+    self.chatting_end_time = None
+    self.act_address = None
+    self.act_description = None
+    self.act_command = None
+    self.act_event = None
+    self.act_obj_description = None
+    self.act_obj_pronunciatio = None
+    self.act_obj_event = (None, None, None)
+
+
+  def suspend_current_action(self, reason, source="system"):
+    snapshot = self._snapshot_current_action()
+    if not snapshot:
+      return False
+    self.suspended_action = snapshot
+    self.suspended_action_step = self.curr_step
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "plan_suspended",
+        "curr_step": self.curr_step,
+        "reason": reason,
+        "source": source,
+        "signature": snapshot.get("signature"),
+        "act_description": snapshot.get("act_description"),
+      }
+    )
+    return True
+
+
+  def should_resume_suspended_action(self, max_age_steps=12):
+    snapshot = self.suspended_action or {}
+    signature = snapshot.get("signature") or {}
+    if not signature:
+      return False
+    if self.has_active_plan():
+      return False
+    if self.curr_step is not None and self.suspended_action_step is not None:
+      if self.curr_step - self.suspended_action_step > max_age_steps:
+        return False
+    if self.satiety < 30.0 and signature.get("intent_family") not in {"restore_satiety", "acquire_resource"}:
+      return False
+    if self.stamina < 30.0 and signature.get("intent_family") != "restore_stamina":
+      return False
+    return True
+
+
+  def resume_suspended_action(self):
+    snapshot = self.suspended_action or {}
+    if not snapshot:
+      return False
+    self.act_address = snapshot.get("act_address")
+    self.act_duration = snapshot.get("act_duration")
+    self.act_description = snapshot.get("act_description")
+    self.act_pronunciatio = snapshot.get("act_pronunciatio")
+    act_event = snapshot.get("act_event")
+    self.act_event = tuple(act_event) if isinstance(act_event, list) else act_event
+    self.act_command = snapshot.get("act_command")
+    self.act_obj_description = snapshot.get("act_obj_description")
+    self.act_obj_pronunciatio = snapshot.get("act_obj_pronunciatio")
+    act_obj_event = snapshot.get("act_obj_event")
+    self.act_obj_event = tuple(act_obj_event) if isinstance(act_obj_event, list) else act_obj_event
+    self.chatting_with = snapshot.get("chatting_with")
+    self.chat = snapshot.get("chat")
+    self.chatting_with_buffer = snapshot.get("chatting_with_buffer") or {}
+    chatting_end_time = snapshot.get("chatting_end_time")
+    self.chatting_end_time = (
+      datetime.datetime.strptime(chatting_end_time, "%B %d, %Y, %H:%M:%S")
+      if chatting_end_time else None
+    )
+    # Always force path recalculation from the current tile instead of trusting a stale path.
+    self.planned_path = []
+    self.act_path_set = False
+    self.act_start_time = self.curr_time
+    self.last_decision_signature = snapshot.get("signature")
+    self.last_decision_reason = self.act_description
+    self.decision_commit_until_step = self._next_commit_window_step(snapshot.get("signature"))
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "plan_resumed",
+        "curr_step": self.curr_step,
+        "signature": snapshot.get("signature"),
+        "act_description": self.act_description,
+      }
+    )
+    self.suspended_action = None
+    self.suspended_action_step = None
+    self.pending_interrupt = None
+    return True
+
+
   def mark_action_completed(self, action_command=None, action_event=None, action_description=None, action_address=None):
     signature = build_decision_signature(
       action_command or self.act_command,
@@ -949,10 +1140,6 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
-
-
-
 
 
 

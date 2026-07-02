@@ -3,6 +3,7 @@ Input 0: Natural language decision/thought
 Input 1: Action Schema Definition
 Input 2: Nearby interactive targets
 Input 3: Agent's first name
+Input 4: Translation convergence guidance
 <commentblockmarker>###</commentblockmarker>
 You are a precise physical translation engine for a sandbox simulation.
 Your job is to translate the natural language intent of !<INPUT 3>! into a standard physical command JSON object that the world physics engine can execute.
@@ -16,9 +17,12 @@ Here are the interactive targets currently physically near !<INPUT 3>!:
 Now, translate !<INPUT 3>!'s natural language intent:
 Intent: "!<INPUT 0>!"
 
+Translation Convergence Guidance:
+!<INPUT 4>!
+
 Select:
 1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Work", "Socialize", "Recreate", "Idle").
-2. "target": Must be one of the target objects physically near the agent, or a food item in the schema (e.g. "refrigerator", "stove", "bed", "sofa", "classroom podium", "desk", "apple", "cooked meal"), or the name of another resident (for Socialize). If no target fits, use "none".
+2. "target": Must be one of the target objects physically near the agent, or a food item/resource in the schema (e.g. "refrigerator", "stove", "apple tree", "bed", "sofa", "classroom podium", "computer desk", "library table", "tv", "apple", "cooked meal"), or the name of another resident (for Socialize). If no target fits, use "none".
 3. "detail": A descriptive action description string (e.g., "eating an apple", "sleeping in bed", "working on research paper").
 4. "duration": Estimate the duration of the action in minutes (between 10 and 120 minutes).
 5. "reasoning": A brief explanation of the physical mapping.

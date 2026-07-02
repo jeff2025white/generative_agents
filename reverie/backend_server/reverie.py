@@ -43,12 +43,16 @@ from utils import *
 from maze import *
 from persona.persona import *
 from persona.cognitive_modules.action_command_utils import build_action_command
+from persona.cognitive_modules.debug_log import append_debug_log
 from persona.prompt_template.gpt_structure import save_cache_to_disk
 import requests
 
 ##############################################################################
 #                                  REVERIE                                   #
 ##############################################################################
+
+FRONTEND_HEARTBEAT_TTL_SECONDS = 30.0
+FRONTEND_ENV_WAIT_POLL_SECONDS = 0.2
 
 class ReverieServer: 
   def __init__(self, 
@@ -332,6 +336,8 @@ class ReverieServer:
         break
 
       step_start_time = time.time()
+      step_perf_started_at = time.perf_counter()
+      step_timings_ms = {}
 
       # Chat active pause mechanism removed.
 
@@ -352,7 +358,7 @@ class ReverieServer:
         try:
           with open(frontend_active_file, "r") as f:
             status = json.load(f)
-            if time.time() - status.get("last_active", 0) < 10.0:
+            if time.time() - status.get("last_active", 0) < FRONTEND_HEARTBEAT_TTL_SECONDS:
               frontend_active = True
         except Exception:
           pass
@@ -367,7 +373,7 @@ class ReverieServer:
           try:
             with open(frontend_active_file, "r") as f:
               status = json.load(f)
-              if time.time() - status.get("last_active", 0) >= 10.0:
+              if time.time() - status.get("last_active", 0) >= FRONTEND_HEARTBEAT_TTL_SECONDS:
                 print(f"[Backend] Frontend heartbeat expired (inactive) during step wait. Fallback to independent run.")
                 break
           except Exception:
@@ -383,7 +389,7 @@ class ReverieServer:
           except Exception:
             pass
 
-          time.sleep(0.5)
+          time.sleep(FRONTEND_ENV_WAIT_POLL_SECONDS)
 
       if not env_retrieved:
         # Fallback to local files for backward compatibility
@@ -414,9 +420,11 @@ class ReverieServer:
           }, timeout=2)
         except Exception as post_err:
           pass
+      step_timings_ms["environment_sync"] = round((time.perf_counter() - step_perf_started_at) * 1000.0, 3)
       
       if env_retrieved: 
           # Retrieve and inject user pending actions (chats/instructions)
+          pending_actions_started_at = time.perf_counter()
           processing_ids = []
           try:
             response = requests.get(f"http://127.0.0.1:8000/api/get_pending_actions/?sim_code={self.sim_code}", timeout=5)
@@ -468,8 +476,10 @@ class ReverieServer:
                   requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processing_ids": processing_ids}, timeout=5)
           except Exception as e:
             print(f"Warning: Failed to fetch/process pending actions: {e}")
+          step_timings_ms["pending_actions"] = round((time.perf_counter() - pending_actions_started_at) * 1000.0, 3)
 
           # This is where we go through <game_obj_cleanup> to clean up all 
+          world_sync_started_at = time.perf_counter()
           # object actions that were used in this cylce. 
           for key, val in game_obj_cleanup.items(): 
             # We turn all object actions to their blank form (with None). 
@@ -567,6 +577,7 @@ class ReverieServer:
             # D. 自然康复：饱食度、精力和幸福度均在良好状态（>50.0），生命值缓慢康复
             if persona.scratch.satiety > 50.0 and persona.scratch.stamina > 50.0 and persona.scratch.mood > 50.0:
               persona.scratch.health = min(100.0, persona.scratch.health + 0.01)
+          step_timings_ms["world_sync"] = round((time.perf_counter() - world_sync_started_at) * 1000.0, 3)
 
           # Then we need to actually have each of the personas perceive and
           # move. The movement for each of the personas comes in the form of
@@ -583,6 +594,7 @@ class ReverieServer:
               self.maze, self.personas, self.personas_tile[persona_name], 
               self.curr_time, self.step)
 
+          persona_move_started_at = time.perf_counter()
           with ThreadPoolExecutor(max_workers=len(self.personas)) as executor:
             futures = []
             for persona_name, persona in self.personas.items():
@@ -673,6 +685,7 @@ class ReverieServer:
               other_list.sort(key=lambda x: x.get("poignancy", 1), reverse=True)
               
               movements["persona"][persona_name]["retrieved_memories"] = (perceived_list + other_list)[:20]
+          step_timings_ms["persona_move"] = round((time.perf_counter() - persona_move_started_at) * 1000.0, 3)
 
           # Include the meta information about the current stage in the 
           # movements dictionary. 
@@ -687,6 +700,7 @@ class ReverieServer:
           #  "meta": {curr_time: <datetime>}}
           # POST movements to Django API (Option 3 API Gateway)
           # Fire-and-forget: use a background thread so we never block the sim loop
+          movement_persist_started_at = time.perf_counter()
           import threading
           def _post_movement(sim_code, step, movements):
             try:
@@ -703,12 +717,32 @@ class ReverieServer:
           os.makedirs(os.path.dirname(curr_move_file), exist_ok=True)
           with open(curr_move_file, "w") as outfile: 
             outfile.write(json.dumps(movements, indent=2))
+          step_timings_ms["movement_persist"] = round((time.perf_counter() - movement_persist_started_at) * 1000.0, 3)
 
           # After this cycle, the world takes one step forward, and the 
           # current time moves by <sec_per_step> amount. 
+          completed_step = self.step
+          total_step_ms = round((time.perf_counter() - step_perf_started_at) * 1000.0, 3)
+          persona_states = {
+            persona_name: persona.get_step_debug_snapshot()
+            for persona_name, persona in self.personas.items()
+          }
           self.step += 1
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
           print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')} | 实际计算耗时: {time.time() - step_start_time:.2f}秒")
+          append_debug_log(
+            "step_timing.jsonl",
+            {
+              "event": "backend_step_timing",
+              "sim_code": self.sim_code,
+              "step": completed_step,
+              "curr_time": self.curr_time,
+              "total_ms": total_step_ms,
+              "timings_ms": step_timings_ms,
+              "persona_states": persona_states,
+              "slow": total_step_ms >= 10000.0,
+            }
+          )
 
           # Periodically save the simulation state to disk (Disabled as frontend & backend are synced)
           # if self.step % 10 == 0:
@@ -968,9 +1002,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
-
-
 
 
 
