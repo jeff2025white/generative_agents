@@ -1,0 +1,107 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        74,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 38.800000000000026,
+      "stamina": 98.98000000000009,
+      "health": 100.0,
+      "mood": 99.3999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        121,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper at Hobbs Cafe @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.12000000000002,
+      "stamina": 99.33000000000006,
+      "health": 100.0,
+      "mood": 99.77999999999989,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is working on research paper at Hobbs Cafe",
+          "created": "2023-02-13 08:01:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2023-02-13 08:01:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        125,
+        50
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 38.800000000000026,
+      "stamina": 98.98000000000009,
+      "health": 100.0,
+      "mood": 99.3999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:02:20"
+  }
+}

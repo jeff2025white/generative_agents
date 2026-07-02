@@ -52,7 +52,11 @@ class Persona:
     self.scratch = Scratch(scratch_saved)
 
 
-  def save(self, save_folder): 
+  def save(self,
+           save_folder,
+           save_spatial_memory=True,
+           save_associative_memory=True,
+           save_scratch=True): 
     """
     Save persona's current state (i.e., memory). 
 
@@ -66,20 +70,23 @@ class Persona:
     #         {"double studio": 
     #           {"bedroom 2": 
     #             ["painting", "easel", "closet", "bed"]}}}
-    f_s_mem = f"{save_folder}/spatial_memory.json"
-    self.s_mem.save(f_s_mem)
+    if save_spatial_memory:
+      f_s_mem = f"{save_folder}/spatial_memory.json"
+      self.s_mem.save(f_s_mem)
     
     # Associative memory contains a csv with the following rows: 
     # [event.type, event.created, event.expiration, s, p, o]
     # e.g., event,2022-10-23 00:00:00,,Isabella Rodriguez,is,idle
-    f_a_mem = f"{save_folder}/associative_memory"
-    self.a_mem.save(f_a_mem)
+    if save_associative_memory:
+      f_a_mem = f"{save_folder}/associative_memory"
+      self.a_mem.save(f_a_mem)
 
     # Scratch contains non-permanent data associated with the persona. When 
     # it is saved, it takes a json form. When we load it, we move the values
     # to Python variables. 
-    f_scratch = f"{save_folder}/scratch.json"
-    self.scratch.save(f_scratch)
+    if save_scratch:
+      f_scratch = f"{save_folder}/scratch.json"
+      self.scratch.save(f_scratch)
 
 
   def get_step_debug_snapshot(self):
@@ -338,7 +345,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

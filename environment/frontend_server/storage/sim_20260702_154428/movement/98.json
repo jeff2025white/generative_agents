@@ -1,0 +1,237 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        76,
+        31
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.08000000000017,
+      "stamina": 93.3700000000006,
+      "health": 100.0,
+      "mood": 96.63999999999947,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        75,
+        23
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.24000000000012,
+      "stamina": 93.46000000000056,
+      "health": 100.0,
+      "mood": 98.55999999999926,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 08:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:04:00",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is being eaten by Klaus",
+          "created": "2023-02-13 08:03:40",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:04:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:15:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:15:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:04:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2023-02-13 08:04:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:15:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "toaster is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        19
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.0400000000001,
+      "stamina": 94.86999999999995,
+      "health": 100.0,
+      "mood": 98.75999999999937,
+      "inventory": {
+        "apple": 32
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 08:16:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:16:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:06:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 08:16:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:16:20"
+  }
+}

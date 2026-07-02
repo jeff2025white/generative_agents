@@ -3147,6 +3147,75 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
   return output
 
 
+def _collapse_text(value):
+  return " ".join(str(value or "").split()).strip()
+
+
+def _compact_multiline_block(value, max_lines=4, max_chars=320):
+  lines = []
+  for raw_line in str(value or "").splitlines():
+    compact_line = _collapse_text(raw_line)
+    if compact_line:
+      lines.append(compact_line)
+  if not lines:
+    return ""
+
+  truncated = lines[:max_lines]
+  if len(lines) > max_lines:
+    truncated.append(f"... {len(lines) - max_lines} more lines omitted")
+  text = "\n".join(truncated)
+  if len(text) > max_chars:
+    text = text[: max_chars - 16].rstrip() + " ...(truncated)"
+  return text
+
+
+def _normalize_resource_name(entry):
+  text = str(entry or "").strip()
+  if "(" in text:
+    text = text.split("(", 1)[0].strip()
+  return _collapse_text(text)
+
+
+def _compact_resource_context(resources, include_state=True, max_items=12):
+  unique_entries = []
+  seen = set()
+  for resource in resources or []:
+    entry = _collapse_text(resource)
+    if not entry:
+      continue
+    key = entry.lower()
+    if key in seen:
+      continue
+    seen.add(key)
+    unique_entries.append(entry)
+
+  def sort_key(entry):
+    lowered = entry.lower()
+    is_active = "(current state:" in lowered or ("(idle/normal)" not in lowered and "(normal)" not in lowered)
+    return (0 if is_active else 1, lowered)
+
+  unique_entries.sort(key=sort_key)
+  if not include_state:
+    compact_names = []
+    name_seen = set()
+    for entry in unique_entries:
+      name = _normalize_resource_name(entry)
+      if not name:
+        continue
+      lowered_name = name.lower()
+      if lowered_name in name_seen:
+        continue
+      name_seen.add(lowered_name)
+      compact_names.append(name)
+    unique_entries = compact_names
+
+  omitted_count = max(0, len(unique_entries) - max_items)
+  visible_entries = unique_entries[:max_items]
+  if omitted_count:
+    visible_entries.append(f"... {omitted_count} additional known resources omitted")
+  return ", ".join(visible_entries) if visible_entries else "no resources nearby"
+
+
 def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None", intent_memory_summary=None):
   def has_relevant_experience(intent_memory_summary):
     if not intent_memory_summary:
@@ -3217,7 +3286,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
 
   def create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary):
     inv_str = str(persona.scratch.inventory) if persona.scratch.inventory else "empty"
-    res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+    res_str = _compact_resource_context(nearby_resources, include_state=True, max_items=12)
     
     if not temporal_context:
       temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
@@ -3229,6 +3298,13 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       cooperative_context = "No special requests or cooperative events are currently active nearby."
     if not intent_memory_summary:
       intent_memory_summary = "No especially relevant prior experience was retrieved."
+    temporal_context = _compact_multiline_block(temporal_context, max_lines=1, max_chars=120)
+    status_summary = _compact_multiline_block(status_summary, max_lines=4, max_chars=260)
+    rules = _compact_multiline_block(rules, max_lines=6, max_chars=420)
+    cooperative_context = _compact_multiline_block(cooperative_context, max_lines=4, max_chars=260)
+    intent_memory_summary = _compact_multiline_block(intent_memory_summary, max_lines=5, max_chars=420)
+    identity_summary = _compact_multiline_block(persona.scratch.get_str_iss(), max_lines=7, max_chars=900)
+    compact_last_action_desc = _collapse_text(last_action_desc)[:160] if last_action_desc else "None"
     decision_convergence_hint = build_decision_convergence_hint(
       persona,
       intent_memory_summary,
@@ -3236,7 +3312,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
     )
       
     prompt_input = [
-      persona.scratch.get_str_iss(),
+      identity_summary,
       f"{persona.scratch.satiety:.1f}",
       f"{persona.scratch.stamina:.1f}",
       f"{persona.scratch.health:.1f}",
@@ -3248,7 +3324,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       rules,
       cooperative_context,
       persona.scratch.get_str_firstname(),
-      str(last_action_desc),
+      compact_last_action_desc,
       intent_memory_summary,
       decision_convergence_hint,
     ]
@@ -3281,7 +3357,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
   return output
 
 
-def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, decision_convergence_hint=None):
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, decision_convergence_hint=None, retry_count=1):
   import os
   import json
   
@@ -3294,7 +3370,7 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     # Fallback default schema text if file read fails
     schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate, Idle."
 
-  res_str = ", ".join(nearby_resources) if nearby_resources else "no resources nearby"
+  res_str = _compact_resource_context(nearby_resources, include_state=False, max_items=10)
   if not decision_convergence_hint:
     decision_convergence_hint = "Translate the intent faithfully using only the most immediate action implied by the current thought."
   
@@ -3352,13 +3428,11 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
 
   output = ChatGPT_safe_generate_response(
     prompt, example_output, special_instruction,
-    repeat=3, fail_safe_response=get_fail_safe(),
+    repeat=max(1, int(retry_count or 1)), fail_safe_response=get_fail_safe(),
     func_validate=__func_validate, func_clean_up=__func_clean_up,
     verbose=verbose
   )
   return output
-
-
 
 
 

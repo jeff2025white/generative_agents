@@ -1,0 +1,87 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        93,
+        37
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.92000000000013,
+      "stamina": 94.98000000000044,
+      "health": 100.0,
+      "mood": 97.55999999999962,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        84,
+        37
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.08000000000008,
+      "stamina": 95.0700000000004,
+      "health": 100.0,
+      "mood": 99.0199999999995,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        74,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.88000000000007,
+      "stamina": 95.82000000000008,
+      "health": 100.0,
+      "mood": 99.2199999999996,
+      "inventory": {
+        "apple": 19
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:12:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is getting prepared food from the cafe counter",
+          "created": "2023-02-13 08:12:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:06:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is being eaten by Isabella",
+          "created": "2023-02-13 08:02:40",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:12:30"
+  }
+}

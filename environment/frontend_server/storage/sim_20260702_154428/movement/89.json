@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        79,
+        37
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.80000000000015,
+      "stamina": 94.00000000000054,
+      "health": 100.0,
+      "mood": 96.99999999999953,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        76,
+        31
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.96000000000011,
+      "stamina": 94.0900000000005,
+      "health": 100.0,
+      "mood": 98.73999999999936,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.76000000000009,
+      "stamina": 95.23,
+      "health": 100.0,
+      "mood": 98.93999999999946,
+      "inventory": {
+        "apple": 28
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:14:50"
+  }
+}

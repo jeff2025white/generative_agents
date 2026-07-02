@@ -1,0 +1,192 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        79,
+        19
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.96000000000015,
+      "stamina": 93.5599999999999,
+      "health": 100.0,
+      "mood": 98.2399999999991,
+      "inventory": {
+        "apple": 44
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is getting prepared food from the cafe counter",
+          "created": "2023-02-13 08:20:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:20:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:20:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is getting prepared food from the cafe counter",
+          "created": "2023-02-13 08:17:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:16:40",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 08:18:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:16:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:06:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 08:16:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:17:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2023-02-13 08:07:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is being eaten by Isabella",
+          "created": "2023-02-13 08:02:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        75,
+        21
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Maria Lopez",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Klaus Mueller",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Maria Lopez",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Klaus Mueller",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ]
+      ],
+      "last_chat": "Maria Lopez: Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex.",
+      "satiety": 70.00000000000021,
+      "stamina": 99.43999999999991,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        75,
+        19
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Klaus Mueller",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Maria Lopez",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ],
+        [
+          "Klaus Mueller",
+          "Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex."
+        ]
+      ],
+      "last_chat": "Klaus Mueller: Initiator-Speaker's ISS: ISS01, name: Alex. Interlocutor's name and traits: Name: Jamie, traits: Curious and open-minded. Retrieved memories/knowledge: It's our second time meeting at the annual tech conference in Vegas last year. Context of where/how you met: Jamie helped Alex set up their booth despite the spontaneous downpour. Previous lines of conversation: Jamie shared about a new project that could benefit Alex's work. Speaker's first name: Alex.",
+      "satiety": 92.16000000000017,
+      "stamina": 99.47999999999992,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:20:40"
+  }
+}

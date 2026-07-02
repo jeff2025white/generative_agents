@@ -1,0 +1,194 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        124,
+        50
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 38.72000000000003,
+      "stamina": 98.9100000000001,
+      "health": 100.0,
+      "mood": 99.3599999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        123,
+        45
+      ],
+      "pronunciatio": "\ud83d\udca4",
+      "description": "idling briefly to stabilize after eating @ the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 78.72000000000003,
+      "stamina": 99.09000000000007,
+      "health": 100.0,
+      "mood": 99.96,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:02:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "toaster is idle",
+          "created": "2023-02-13 08:01:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 38.72000000000003,
+      "stamina": 98.9100000000001,
+      "health": 100.0,
+      "mood": 99.3599999999999,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:02:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:02:30"
+  }
+}

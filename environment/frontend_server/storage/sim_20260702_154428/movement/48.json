@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        110,
+        47
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.08000000000008,
+      "stamina": 96.87000000000026,
+      "health": 100.0,
+      "mood": 98.63999999999979,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2023-02-13 08:07:30"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        103,
+        45
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.24000000000004,
+      "stamina": 96.96000000000022,
+      "health": 100.0,
+      "mood": 99.55999999999977,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        16
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.04000000000002,
+      "stamina": 97.44000000000001,
+      "health": 100.0,
+      "mood": 99.75999999999988,
+      "inventory": {
+        "apple": 12
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:08:00"
+  }
+}

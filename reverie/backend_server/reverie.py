@@ -53,6 +53,8 @@ import requests
 
 FRONTEND_HEARTBEAT_TTL_SECONDS = 30.0
 FRONTEND_ENV_WAIT_POLL_SECONDS = 0.2
+INCREMENTAL_MEMORY_SAVE_INTERVAL_STEPS = 5
+INCREMENTAL_MEMORY_SAVE_MIN_WALL_SECONDS = 15.0
 
 class ReverieServer: 
   def __init__(self, 
@@ -176,6 +178,22 @@ class ReverieServer:
     curr_step["step"] = self.step
     with open(f"{fs_temp_storage}/curr_step.json", "w") as outfile: 
       outfile.write(json.dumps(curr_step, indent=2))
+    self._last_incremental_save_step = self.step
+    self._last_incremental_save_ts = time.time()
+
+
+  def _write_reverie_meta(self, sim_folder):
+    reverie_meta = dict() 
+    reverie_meta["fork_sim_code"] = self.fork_sim_code
+    reverie_meta["start_date"] = self.start_time.strftime("%B %d, %Y")
+    reverie_meta["curr_time"] = self.curr_time.strftime("%B %d, %Y, %H:%M:%S")
+    reverie_meta["sec_per_step"] = self.sec_per_step
+    reverie_meta["maze_name"] = self.maze.maze_name
+    reverie_meta["persona_names"] = list(self.personas.keys())
+    reverie_meta["step"] = self.step
+    reverie_meta_f = f"{sim_folder}/reverie/meta.json"
+    with open(reverie_meta_f, "w") as outfile: 
+      outfile.write(json.dumps(reverie_meta, indent=2))
 
 
   def save(self): 
@@ -191,19 +209,7 @@ class ReverieServer:
     """
     # <sim_folder> points to the current simulation folder.
     sim_folder = f"{fs_storage}/{self.sim_code}"
-
-    # Save Reverie meta information.
-    reverie_meta = dict() 
-    reverie_meta["fork_sim_code"] = self.fork_sim_code
-    reverie_meta["start_date"] = self.start_time.strftime("%B %d, %Y")
-    reverie_meta["curr_time"] = self.curr_time.strftime("%B %d, %Y, %H:%M:%S")
-    reverie_meta["sec_per_step"] = self.sec_per_step
-    reverie_meta["maze_name"] = self.maze.maze_name
-    reverie_meta["persona_names"] = list(self.personas.keys())
-    reverie_meta["step"] = self.step
-    reverie_meta_f = f"{sim_folder}/reverie/meta.json"
-    with open(reverie_meta_f, "w") as outfile: 
-      outfile.write(json.dumps(reverie_meta, indent=2))
+    self._write_reverie_meta(sim_folder)
 
     # Save the personas.
     for persona_name, persona in self.personas.items(): 
@@ -212,6 +218,56 @@ class ReverieServer:
 
     # [OPTIMIZATION] Flush LLM prompt cache to disk on save
     save_cache_to_disk()
+    self._last_incremental_save_step = self.step
+    self._last_incremental_save_ts = time.time()
+
+
+  def _get_dirty_persona_names(self):
+    dirty_personas = []
+    for persona_name, persona in self.personas.items():
+      if getattr(getattr(persona, "a_mem", None), "is_dirty", lambda: False)():
+        dirty_personas.append(persona_name)
+    return dirty_personas
+
+
+  def save_incremental_progress(self, force=False):
+    dirty_personas = self._get_dirty_persona_names()
+    if not force and not dirty_personas:
+      return False
+
+    step_gap = self.step - getattr(self, "_last_incremental_save_step", 0)
+    wall_gap = time.time() - getattr(self, "_last_incremental_save_ts", 0.0)
+    if (not force
+        and step_gap < INCREMENTAL_MEMORY_SAVE_INTERVAL_STEPS
+        and wall_gap < INCREMENTAL_MEMORY_SAVE_MIN_WALL_SECONDS):
+      return False
+
+    sim_folder = f"{fs_storage}/{self.sim_code}"
+    self._write_reverie_meta(sim_folder)
+
+    dirty_persona_set = set(dirty_personas)
+    for persona_name, persona in self.personas.items():
+      save_folder = f"{sim_folder}/personas/{persona_name}/bootstrap_memory"
+      persona.save(
+        save_folder,
+        save_spatial_memory=False,
+        save_associative_memory=(force or persona_name in dirty_persona_set),
+        save_scratch=True,
+      )
+
+    self._last_incremental_save_step = self.step
+    self._last_incremental_save_ts = time.time()
+    append_debug_log(
+      "step_timing.jsonl",
+      {
+        "event": "incremental_memory_persist",
+        "sim_code": self.sim_code,
+        "step": self.step,
+        "dirty_personas": sorted(list(dirty_persona_set)),
+        "force": force,
+      }
+    )
+    return True
 
 
   def start_path_tester_server(self): 
@@ -744,6 +800,11 @@ class ReverieServer:
             }
           )
 
+          try:
+            self.save_incremental_progress()
+          except Exception as save_err:
+            print(f"警告: 增量记忆保存失败: {save_err}")
+
           # Periodically save the simulation state to disk (Disabled as frontend & backend are synced)
           # if self.step % 10 == 0:
           #   print(f"[{self.sim_code}] 第 {self.step} 步: 正在自动保存模拟状态...")
@@ -1002,7 +1063,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

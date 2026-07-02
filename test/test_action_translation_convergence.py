@@ -96,6 +96,30 @@ class ActionTranslationConvergenceTests(unittest.TestCase):
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
         self.assertIn("Translate the intent faithfully", joined_prompt)
 
+    def test_translation_uses_single_retry_by_default(self):
+        captured = {}
+
+        def fake_safe_generate_response(*args, **kwargs):
+            captured["repeat"] = kwargs.get("repeat")
+            return {
+                "action": "Gather",
+                "target": "refrigerator",
+                "detail": "opening the refrigerator",
+                "duration": 10,
+                "reasoning": "Direct mapping",
+            }
+
+        with patch.object(prompt_module, "generate_prompt", return_value="translation prompt"), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", side_effect=fake_safe_generate_response):
+            result = prompt_module.run_gpt_prompt_action_translation(
+                "I should open the refrigerator.",
+                ["refrigerator (current state: idle/normal)", "refrigerator"],
+                "Maria",
+            )
+
+        self.assertEqual(result["target"], "refrigerator")
+        self.assertEqual(captured["repeat"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

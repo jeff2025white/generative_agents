@@ -1,0 +1,88 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        125,
+        52
+      ],
+      "pronunciatio": "\ud83d\udca4",
+      "description": "idling briefly to stabilize after eating @ the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.92000000000004,
+      "stamina": 98.42000000000013,
+      "health": 100.0,
+      "mood": 99.55999999999993,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:04:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is being eaten by Maria",
+          "created": "2023-02-13 08:02:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:02:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.92000000000004,
+      "stamina": 98.70000000000003,
+      "health": 100.0,
+      "mood": 99.67999999999995,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        123,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.92000000000004,
+      "stamina": 98.45000000000012,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:04:10"
+  }
+}

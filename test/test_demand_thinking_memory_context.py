@@ -160,6 +160,70 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertIn("not currently committed to an in-progress travel route", joined_prompt)
         self.assertIn("No strongly relevant prior experience was retrieved", joined_prompt)
 
+    def test_prompt_compacts_large_resource_context(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                inventory={},
+                curr_time=datetime.datetime(2026, 7, 2, 9, 30, 0),
+                satiety=42.0,
+                stamina=65.0,
+                health=90.0,
+                mood=65.0,
+                act_description=None,
+                act_address=None,
+                planned_path=[],
+                pending_interrupt=None,
+                is_moving_to_action=lambda: False,
+                get_str_iss=lambda: "Name: Maria Lopez\nLifestyle: studying and part-time work",
+                get_str_firstname=lambda: "Maria",
+            )
+        )
+        captured = {}
+        nearby_resources = [
+            "refrigerator (current state: someone waiting nearby)",
+            "refrigerator (current state: someone waiting nearby)",
+            "stove (idle/normal)",
+            "apple tree (idle/normal)",
+            "cafe counter (idle/normal)",
+            "sofa (idle/normal)",
+            "bed (idle/normal)",
+            "desk (idle/normal)",
+            "bookshelf (idle/normal)",
+            "tv (idle/normal)",
+            "piano (idle/normal)",
+            "blackboard (idle/normal)",
+            "game console (idle/normal)",
+            "library table (idle/normal)",
+        ]
+
+        def fake_generate_prompt(prompt_input, prompt_template):
+            captured["prompt_input"] = prompt_input
+            return "\n".join(str(item) for item in prompt_input)
+
+        with patch.object(prompt_module, "generate_prompt", side_effect=fake_generate_prompt), \
+             patch.object(prompt_module, "ChatGPT_request", return_value="I want to gather food from the refrigerator."):
+            prompt_module.run_gpt_prompt_demand_thinking(
+                persona,
+                nearby_resources,
+                temporal_context="- Current Time: Wednesday July 02, 2026, 09:30 AM\n- Extra line that should be compacted",
+                status_summary="Satiety is stable.",
+                rules="Rule 1\nRule 2\nRule 3\nRule 4\nRule 5\nRule 6\nRule 7",
+                cooperative_context="No special cooperative tasks are active nearby.",
+                last_action_desc="walking through the dorm common room while thinking about what to do next",
+                intent_memory_summary="No especially relevant prior experience was retrieved.",
+            )
+
+        prompt_input = captured["prompt_input"]
+        resource_context = prompt_input[6]
+        temporal_context = prompt_input[7]
+        rules_context = prompt_input[9]
+        self.assertIn("refrigerator", resource_context)
+        self.assertIn("additional known resources omitted", resource_context)
+        self.assertEqual(resource_context.lower().count("refrigerator"), 1)
+        self.assertIn("Current Time", temporal_context)
+        self.assertNotIn("Extra line that should be compacted", temporal_context)
+        self.assertIn("more lines omitted", rules_context)
+
 
 if __name__ == "__main__":
     unittest.main()

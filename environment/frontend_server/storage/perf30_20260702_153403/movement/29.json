@@ -1,0 +1,130 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        110,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper at Hobbs Cafe @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.92000000000004,
+      "stamina": 98.28000000000016,
+      "health": 100.0,
+      "mood": 99.47999999999973,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        15
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:desk",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.60000000000005,
+      "stamina": 98.14000000000016,
+      "health": 100.0,
+      "mood": 99.47999999999992,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        124,
+        50
+      ],
+      "pronunciatio": "\ud83d\udca4",
+      "description": "idling briefly to stabilize after eating @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.60000000000005,
+      "stamina": 98.11000000000017,
+      "health": 100.0,
+      "mood": 99.71999999999996,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idling briefly to stabilize after eating",
+          "created": "2023-02-13 08:04:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "toaster is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:04:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2023-02-13 08:03:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:04:50"
+  }
+}

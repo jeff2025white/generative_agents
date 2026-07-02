@@ -14,8 +14,7 @@ sys.path.append('../../')
 from global_methods import *
 from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
 from persona.cognitive_modules.action_target_resolver import (
-  resolve_known_arena_address,
-  resolve_known_object_address,
+  resolve_action_target_address,
 )
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
 from persona.cognitive_modules.food_sources import (
@@ -1777,6 +1776,7 @@ def decide_demand_action(persona, maze):
       object_states,
       persona.scratch.get_str_firstname(),
       decision_convergence_hint=translation_convergence_hint,
+      retry_count=1,
   )
   timings_ms["action_translation"] = _elapsed_ms(phase_started_at)
 
@@ -1911,40 +1911,57 @@ def decide_demand_action(persona, maze):
   phase_started_at = time.perf_counter()
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   resolution_meta = None
-  arena_only_skills = {"use", "work", "study", "leisure_use"}
-  
+  target_persona_name = None
   if normalized_skill_id == "chat with" and target not in {"none", "", None}:
-    new_address = f"<persona> {target}"
-    resolution_meta = {"kind": "persona_target", "matched": target}
-  else:
-    # Check if target is a known object with a specific address
-    address, resolved_name, resolved_kind = resolve_known_object_address(persona, target, act_desp)
-    if address:
-      new_address = address
-      resolution_meta = {"kind": resolved_kind, "matched": resolved_name}
+    candidate_target = str(target).strip()
+    if candidate_target in personas:
+      target_persona_name = candidate_target
+      new_address = f"<persona> {candidate_target}"
+      resolution_meta = {"kind": "persona_target", "matched": candidate_target}
     else:
-      arena_address, resolved_name, resolved_kind = resolve_known_arena_address(maze, target, act_desp)
-      if arena_address and normalized_skill_id in arena_only_skills:
-        new_address = arena_address
-        resolution_meta = {"kind": resolved_kind, "matched": resolved_name}
+      resolved_address, resolution_meta = resolve_action_target_address(
+        persona,
+        maze,
+        normalized_skill_id,
+        target=target,
+        detail=act_desp,
+      )
+      if resolved_address:
+        new_address = resolved_address
       else:
-        # Use standard prompt resolvers
-        act_sector = generate_action_sector(act_desp, persona, maze)
-        act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
-        act_address = f"{act_world}:{act_sector}:{act_arena}"
-        if normalized_skill_id in arena_only_skills:
-          new_address = act_address
-          resolution_meta = {"kind": "arena_fallback", "matched": act_address}
-        else:
-          act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
-          new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+        new_address = persona.scratch.curr_tile and maze.get_tile_path(persona.scratch.curr_tile, "arena")
+        if not new_address:
+          new_address = persona.scratch.living_area
+        resolution_meta = {"kind": "chat_location_fallback", "matched": target}
+  else:
+    resolved_address, resolution_meta = resolve_action_target_address(
+      persona,
+      maze,
+      normalized_skill_id,
+      target=target,
+      detail=act_desp,
+    )
+    if resolved_address:
+      new_address = resolved_address
+    else:
+      # Fall back to prompt-based location resolution only when deterministic matching fails.
+      act_sector = generate_action_sector(act_desp, persona, maze)
+      act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
+      act_address = f"{act_world}:{act_sector}:{act_arena}"
+      if normalized_skill_id in {"use", "work", "study", "leisure_use"}:
+        new_address = act_address
+        resolution_meta = {"kind": "arena_fallback", "matched": act_address}
+      else:
+        act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
+        new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
+        resolution_meta = {"kind": "llm_object_fallback", "matched": act_game_object}
   timings_ms["target_resolution"] = _elapsed_ms(phase_started_at)
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
 
-  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+  if normalized_skill_id == "chat with" and target_persona_name:
     act_pron = "💬"
-    act_event = (persona.name, "chat with", target)
+    act_event = (persona.name, "chat with", target_persona_name)
   else:
     act_pron = generate_action_pronunciatio(act_desp, persona)
     act_event = generate_action_event_triple(act_desp, persona)

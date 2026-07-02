@@ -1,0 +1,140 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        19
+      ],
+      "pronunciatio": "\ud83d\udca4",
+      "description": "idling briefly to stabilize after eating @ the Ville:Isabella Rodriguez's apartment:main room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 78.40000000000003,
+      "stamina": 98.8100000000001,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:02:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 08:02:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 08:02:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        117,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper at Hobbs Cafe @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.72000000000003,
+      "stamina": 98.98000000000009,
+      "health": 100.0,
+      "mood": 99.67999999999984,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:02:30"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        123,
+        47
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 38.400000000000034,
+      "stamina": 98.63000000000012,
+      "health": 100.0,
+      "mood": 99.19999999999987,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is working on research paper at Hobbs Cafe",
+          "created": "2023-02-13 08:02:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:03:10"
+  }
+}

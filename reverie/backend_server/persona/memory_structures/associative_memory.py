@@ -81,8 +81,10 @@ class AssociativeMemory:
 
     self.kw_strength_event = dict()
     self.kw_strength_thought = dict()
+    self._dirty = False
 
-    self.embeddings = json.load(open(f_saved + "/embeddings.json"))
+    with open(f_saved + "/embeddings.json", "r", encoding="utf-8") as embeddings_file:
+      self.embeddings = json.load(embeddings_file)
 
     # Load social relationship graph
     self.graph_path = f_saved + "/social_relationship_graph.json"
@@ -97,7 +99,8 @@ class AssociativeMemory:
     else:
       self.social_relationship_graph = {"relations": {}}
 
-    nodes_load = json.load(open(f_saved + "/nodes.json"))
+    with open(f_saved + "/nodes.json", "r", encoding="utf-8") as nodes_file:
+      nodes_load = json.load(nodes_file)
     for count in range(len(nodes_load.keys())): 
       node_id = f"node_{str(count+1)}"
       node_details = nodes_load[node_id]
@@ -141,11 +144,21 @@ class AssociativeMemory:
                    description, keywords, poignancy, embedding_pair, filling,
                    attribute_effects=attribute_effects)
 
-    kw_strength_load = json.load(open(f_saved + "/kw_strength.json"))
+    with open(f_saved + "/kw_strength.json", "r", encoding="utf-8") as kw_file:
+      kw_strength_load = json.load(kw_file)
     if kw_strength_load["kw_strength_event"]: 
       self.kw_strength_event = kw_strength_load["kw_strength_event"]
     if kw_strength_load["kw_strength_thought"]: 
       self.kw_strength_thought = kw_strength_load["kw_strength_thought"]
+    self._dirty = False
+
+
+  def is_dirty(self):
+    return bool(self._dirty)
+
+
+  def mark_dirty(self):
+    self._dirty = True
 
     
   def save(self, out_json): 
@@ -194,6 +207,7 @@ class AssociativeMemory:
     # Save social relationship graph
     with open(out_json+"/social_relationship_graph.json", "w", encoding="utf-8") as outfile:
       json.dump(self.social_relationship_graph, outfile, ensure_ascii=False, indent=2)
+    self._dirty = False
 
 
   def update_relationship(self, target_name, relation_type=None, trust_delta=0, trust_absolute=None, recent_event=None):
@@ -222,6 +236,7 @@ class AssociativeMemory:
       rel["recent_events"].append(recent_event)
       if len(rel["recent_events"]) > 5:
         rel["recent_events"].pop(0)
+    self.mark_dirty()
 
   def get_relationship(self, target_name):
     if "relations" not in self.social_relationship_graph:
@@ -271,6 +286,7 @@ class AssociativeMemory:
           self.kw_strength_event[kw] = 1
 
     self.embeddings[embedding_pair[0]] = embedding_pair[1]
+    self.mark_dirty()
 
     return node
 
@@ -316,6 +332,7 @@ class AssociativeMemory:
           self.kw_strength_thought[kw] = 1
 
     self.embeddings[embedding_pair[0]] = embedding_pair[1]
+    self.mark_dirty()
 
     return node
 
@@ -348,6 +365,7 @@ class AssociativeMemory:
     self.id_to_node[node_id] = node 
 
     self.embeddings[embedding_pair[0]] = embedding_pair[1]
+    self.mark_dirty()
         
     return node
 
@@ -412,8 +430,6 @@ class AssociativeMemory:
       return self.kw_to_chat[target_persona_name.lower()][0]
     else: 
       return False
-
-
 
 
 
