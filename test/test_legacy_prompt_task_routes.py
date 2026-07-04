@@ -104,6 +104,20 @@ def make_reflection_persona(name="Maria Lopez"):
     return SimpleNamespace(name=name, scratch=scratch)
 
 
+def make_decision_persona(name="Maria Lopez"):
+    scratch = SimpleNamespace(
+        get_str_iss=lambda: f"Name: {name}",
+        get_str_firstname=lambda: name.split()[0],
+        curr_time=datetime.datetime(2026, 7, 4, 12, 0, 0),
+        satiety=25.0,
+        stamina=55.0,
+        health=90.0,
+        mood=60.0,
+        inventory={"apple": 1},
+    )
+    return SimpleNamespace(name=name, scratch=scratch)
+
+
 def make_agent_chat_persona(name):
     scratch = SimpleNamespace(
         name=name,
@@ -678,6 +692,73 @@ class LegacyPromptTaskRouteTests(unittest.TestCase):
 
         self.assertEqual(result, "8")
         mocked_route.assert_called_once_with("safety_scoring")
+        self.assertEqual(mocked.call_args.kwargs["request_config"], config)
+
+    def test_pronunciatio_uses_translation_route_by_default(self):
+        config = {
+            "api_key": "cloud-key",
+            "api_base": "https://api.example/v1",
+            "model": "glm-4-flash",
+        }
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "get_task_route_request_config", return_value=config) as mocked_route, \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", return_value="😋") as mocked:
+            result, _ = prompt_module.run_gpt_prompt_pronunciatio(
+                "eating breakfast",
+                SimpleNamespace(),
+            )
+
+        self.assertEqual(result, "😋")
+        mocked_route.assert_called_once_with("translation")
+        self.assertEqual(mocked.call_args.kwargs["request_config"], config)
+
+    def test_survival_decision_uses_decision_route_by_default(self):
+        persona = make_decision_persona()
+        config = {
+            "api_key": "cloud-key",
+            "api_base": "https://api.example/v1",
+            "model": "glm-4-flash",
+        }
+        expected = {"action": "Consume", "target": "apple", "reasoning": "Satiety is critical."}
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "get_task_route_request_config", return_value=config) as mocked_route, \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", return_value=expected) as mocked:
+            result = prompt_module.run_gpt_prompt_survival_decision(
+                persona,
+                ["apple", "bed"],
+            )
+
+        self.assertEqual(result, expected)
+        mocked_route.assert_called_once_with("decision")
+        self.assertEqual(mocked.call_args.kwargs["request_config"], config)
+
+    def test_demand_decision_uses_decision_route_by_default(self):
+        persona = make_decision_persona()
+        config = {
+            "api_key": "cloud-key",
+            "api_base": "https://api.example/v1",
+            "model": "glm-4-flash",
+        }
+        expected = {
+            "action": "Consume",
+            "target": "apple",
+            "detail": "eating an apple",
+            "duration": 15,
+            "reasoning": "Satiety is critical.",
+        }
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "get_task_route_request_config", return_value=config) as mocked_route, \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", return_value=expected) as mocked:
+            result = prompt_module.run_gpt_prompt_demand_decision(
+                persona,
+                ["apple", "bed"],
+            )
+
+        self.assertEqual(result, expected)
+        mocked_route.assert_called_once_with("decision")
         self.assertEqual(mocked.call_args.kwargs["request_config"], config)
 
     def test_iterative_chat_utt_forwards_explicit_request_config(self):

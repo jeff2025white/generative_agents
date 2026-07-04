@@ -1,5 +1,6 @@
 import json
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
+from llm_api_config import get_task_route_request_config
 
 class CookSkillPack(BaseSkillPack):
     def __init__(self):
@@ -30,12 +31,14 @@ class CookSkillPack(BaseSkillPack):
         )
         example_output = '{"dish": "cooked apple", "monologue": "Let\'s bake these apples with some sugar."}'
         special_instruction = "Select a dish using the ingredients. Respond only in JSON."
+        request_config = get_task_route_request_config("general_chat")
         
         try:
             response = self.run_skill_llm_request(
                 prompt, example_output, special_instruction,
                 repeat=2, fail_safe_response={"dish": "cooked apple", "monologue": "Cooking some apples."},
-                verbose=False
+                verbose=False,
+                request_config=request_config,
             )
             # Handle list/tuple response wrapped in ChatGPT_safe_generate_response returns
             if isinstance(response, list) or isinstance(response, tuple):

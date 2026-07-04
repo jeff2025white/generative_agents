@@ -994,10 +994,12 @@ def run_gpt_prompt_pronunciatio(action_description, persona, verbose=False):
   example_output = "🛁🧖‍♀️" ########
   special_instruction = "The value for the output must ONLY contain the emojis." ########
   fail_safe = get_fail_safe()
+  request_config = get_task_route_request_config("translation")
   output = ChatGPT_safe_generate_response(prompt, example_output, special_instruction, 3, fail_safe,
-                                          __chat_func_validate, __chat_func_clean_up, True)
+                                         __chat_func_validate, __chat_func_clean_up, True,
+                                         request_config=request_config)
   if output != False: 
-    return output, [output, prompt, gpt_param, prompt_input, fail_safe]
+    return output, [output, prompt, {"task_route": "translation", "request_config": request_config}, prompt_input, fail_safe]
   # ChatGPT Plugin ===========================================================
 
 
@@ -3142,6 +3144,7 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
   prompt_template = "persona/prompt_template/v2/survival_decision_v1.txt"
   prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, physiological_rules, cooperative_context)
   prompt = generate_prompt(prompt_input, prompt_template)
+  request_config = get_task_route_request_config("decision")
   
   example_output = '{"action": "Consume", "target": "apple", "reasoning": "Satiety is critical."}'
   special_instruction = "Select the best survival action and target based on stats."
@@ -3153,6 +3156,7 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
     verbose=verbose,
     prompt_kind="survival_decision",
     metadata={"prompt_template": prompt_template},
+    request_config=request_config,
   )
   return output
 
@@ -3249,6 +3253,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
   prompt_template = "persona/prompt_template/v2/demand_decision_v1.txt"
   prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, rules, cooperative_context, last_action_desc)
   prompt = generate_prompt(prompt_input, prompt_template)
+  request_config = get_task_route_request_config("decision")
   
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   
@@ -3270,6 +3275,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
     verbose=verbose,
     prompt_kind="demand_decision",
     metadata={"prompt_template": prompt_template},
+    request_config=request_config,
   )
   return output
 

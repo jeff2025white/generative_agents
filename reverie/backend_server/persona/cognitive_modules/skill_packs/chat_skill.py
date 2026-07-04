@@ -24,6 +24,7 @@ from persona.cognitive_modules.social_dialogue_log import (
 from llm_api_config import (
     get_default_social_chat_request_config,
     get_default_translation_request_config,
+    get_task_route_request_config,
 )
 
 
@@ -43,6 +44,14 @@ SOCIAL_CHAT_POLLUTION_MARKERS = (
 
 SOCIAL_CHAT_REQUEST_CONFIG = get_default_social_chat_request_config()
 SOCIAL_CHAT_TRANSLATION_REQUEST_CONFIG = get_default_translation_request_config()
+GENERIC_SOCIAL_CHAT_UTTERANCES = {
+    "是的，我也这么觉得。": True,
+    "是的，我也这么认为。": True,
+    "嗯，我也这么觉得。": True,
+    "我同意。": True,
+    "你好！": True,
+    "...": True,
+}
 
 
 def _contains_cjk(text):
@@ -114,6 +123,34 @@ def normalize_social_chat_response(response, fail_safe_response, request_config=
         request_config=request_config or SOCIAL_CHAT_TRANSLATION_REQUEST_CONFIG,
     )
     return translated if is_valid_social_chat_response(translated) else fail_safe_response
+
+
+def build_social_chat_fallback_utterance(turn, speaker, listener):
+    """Return a short, varied fallback line so both roles do not collapse to one sentence."""
+    if turn == 0:
+        return f"你好，{listener.scratch.first_name}，刚好碰见你。"
+    if turn == 1:
+        return "我刚路过这边，顺便和你打个招呼。"
+    if turn == 2:
+        return "我也是这么想的，不过还得再看看。"
+    return "那我先去忙了，回头再聊。"
+
+
+def sanitize_social_chat_utterance(raw_utterance, turn, speaker, listener, convo):
+    """Replace empty or repetitive filler lines with a more specific fallback."""
+    utterance = str(raw_utterance or "").strip()
+    previous_utterance = ""
+    if convo:
+        previous_utterance = str(convo[-1][1] or "").strip()
+    if not utterance:
+        return build_social_chat_fallback_utterance(turn, speaker, listener)
+    if utterance == previous_utterance:
+        return build_social_chat_fallback_utterance(turn, speaker, listener)
+    if utterance in GENERIC_SOCIAL_CHAT_UTTERANCES and any(
+        str(existing_utterance or "").strip() == utterance for _, existing_utterance in convo
+    ):
+        return build_social_chat_fallback_utterance(turn, speaker, listener)
+    return utterance
 
 
 def _is_polluted_social_memory(node):
@@ -295,6 +332,7 @@ class ChatSkillPack(BaseSkillPack):
                 "next_action": content if message_mode == "instruction" else "",
                 "reasoning": "Fallback creator communication response",
             }
+            creator_request_config = get_task_route_request_config("general_chat")
 
             decision = self.run_skill_llm_request(
                 prompt,
@@ -304,7 +342,8 @@ class ChatSkillPack(BaseSkillPack):
                 fail_safe_response=fail_safe,
                 func_validate=cc_val,
                 func_clean_up=cc_clean,
-                verbose=False
+                verbose=False,
+                request_config=creator_request_config,
             )
             decision["mode"] = "creator"
             decision["action_id"] = action_id
@@ -354,6 +393,7 @@ class ChatSkillPack(BaseSkillPack):
                 "monologue": "今天还有很多事情要做，继续加油吧。",
                 "emoji": "💭"
             }
+            monologue_request_config = get_task_route_request_config("general_chat")
 
             decision = self.run_skill_llm_request(
                 prompt,
@@ -363,7 +403,8 @@ class ChatSkillPack(BaseSkillPack):
                 fail_safe_response=fail_safe,
                 func_validate=mono_val,
                 func_clean_up=mono_clean,
-                verbose=False
+                verbose=False,
+                request_config=monologue_request_config,
             )
             decision["mode"] = "monologue"
             return decision
@@ -459,6 +500,14 @@ class ChatSkillPack(BaseSkillPack):
                     request_config=SOCIAL_CHAT_REQUEST_CONFIG,
                 )
 
+                final_utterance = sanitize_social_chat_utterance(
+                    turn_decision.get("utterance", "..."),
+                    turn,
+                    speaker,
+                    listener,
+                    convo,
+                )
+                turn_decision["utterance"] = final_utterance
                 log_social_dialogue(
                     persona,
                     "generation",
@@ -471,11 +520,11 @@ class ChatSkillPack(BaseSkillPack):
                         "memory_keys": memory_keys,
                         "dropped_memory_keys": dropped_memory_keys,
                         "dropped_recent_events": dropped_recent_events,
-                        "utterance": turn_decision.get("utterance", "..."),
+                        "utterance": final_utterance,
                         "end": bool(turn_decision.get("end", False)),
                     },
                 )
-                convo.append([speaker.name, turn_decision.get("utterance", "...")])
+                convo.append([speaker.name, final_utterance])
                 if turn_decision.get("end", False):
                     break
                 
