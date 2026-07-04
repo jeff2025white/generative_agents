@@ -241,7 +241,14 @@ class Persona:
       self.scratch.act_path_set = False
       self.scratch.chat = None
       self.scratch.chatting_with = None
-      return curr_tile, "💀", f"已死 @ {addr}"
+      step_info = {
+        "mode": "dead",
+        "total_ms": round((time.perf_counter() - move_started_at) * 1000.0, 3),
+        "timings_ms": {},
+        "destination": None,
+        "remaining_path_len": 0,
+      }
+      return curr_tile, "💀", f"已死 @ {addr}", step_info
 
     # We figure out whether the persona started a new day, and if it is a new
     # day, whether it is the very first day of the simulation. This is 
@@ -270,6 +277,14 @@ class Persona:
         execute_started_at = time.perf_counter()
         result = self.execute(maze, personas, None)
         timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
+        total_ms = round((time.perf_counter() - move_started_at) * 1000.0, 3)
+        step_info = {
+          "mode": "fast_path",
+          "total_ms": total_ms,
+          "timings_ms": timings_ms,
+          "destination": self.scratch.act_address,
+          "remaining_path_len": len(self.scratch.planned_path),
+        }
         append_debug_log(
           "step_timing.jsonl",
           {
@@ -277,12 +292,13 @@ class Persona:
             "persona": self.name,
             "curr_step": self.scratch.curr_step,
             "mode": "fast_path",
-            "total_ms": round((time.perf_counter() - move_started_at) * 1000.0, 3),
+            "total_ms": total_ms,
             "timings_ms": timings_ms,
             "state": self.get_step_debug_snapshot(),
           }
         )
-        return result
+        ret_tile, ret_pron, ret_desc = result
+        return ret_tile, ret_pron, ret_desc, step_info
 
     if self.scratch.should_interrupt_for_physiological_crisis() and self.scratch.has_active_plan():
       print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
@@ -327,6 +343,14 @@ class Persona:
     execute_started_at = time.perf_counter()
     result = self.execute(maze, personas, plan)
     timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
+    total_ms = round((time.perf_counter() - move_started_at) * 1000.0, 3)
+    step_info = {
+      "mode": "full_pipeline",
+      "total_ms": total_ms,
+      "timings_ms": timings_ms,
+      "destination": self.scratch.act_address,
+      "remaining_path_len": len(self.scratch.planned_path) if self.scratch.planned_path else 0,
+    }
     append_debug_log(
       "step_timing.jsonl",
       {
@@ -334,12 +358,13 @@ class Persona:
         "persona": self.name,
         "curr_step": self.scratch.curr_step,
         "mode": "full_pipeline",
-        "total_ms": round((time.perf_counter() - move_started_at) * 1000.0, 3),
+        "total_ms": total_ms,
         "timings_ms": timings_ms,
         "state": self.get_step_debug_snapshot(),
       }
     )
-    return result
+    ret_tile, ret_pron, ret_desc = result
+    return ret_tile, ret_pron, ret_desc, step_info
 
 
   def open_convo_session(self, convo_mode): 

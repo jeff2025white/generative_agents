@@ -72,8 +72,7 @@ def execute(persona, maze, personas, plan):
     # to execute the current action. The goal is to pick one of them.
     target_tiles = None
 
-    print ('aldhfoaf/????')
-    print (plan)
+
 
     if "<persona>" in plan: 
       # Executing persona-persona interaction.

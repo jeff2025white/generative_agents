@@ -651,13 +651,15 @@ class ReverieServer:
               self.curr_time, self.step)
 
           persona_move_started_at = time.perf_counter()
+          persona_step_infos = {}
           with ThreadPoolExecutor(max_workers=len(self.personas)) as executor:
             futures = []
             for persona_name, persona in self.personas.items():
               futures.append(executor.submit(_move_persona, persona_name, persona))
             
             for future in as_completed(futures):
-              persona_name, (next_tile, pronunciatio, description) = future.result()
+              persona_name, (next_tile, pronunciatio, description, step_info) = future.result()
+              persona_step_infos[persona_name] = step_info
               self.personas_tile[persona_name] = next_tile
               movements["persona"][persona_name] = {}
               movements["persona"][persona_name]["movement"] = next_tile
@@ -785,7 +787,43 @@ class ReverieServer:
           }
           self.step += 1
           self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
-          print(f"[{self.sim_code}] 步数: {self.step} | 游戏时间: {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')} | 实际计算耗时: {time.time() - step_start_time:.2f}秒")
+
+          # ── Formatted step summary log ──
+          def _fmt_ms(ms):
+            if ms >= 1000:
+              return f"{ms/1000:.1f}s"
+            return f"{ms:.0f}ms"
+
+          step_header = f"\u2550" * 55
+          print(f"\n{step_header}")
+          print(f"\U0001f4cd Step {self.step} | \U0001f550 {self.curr_time.strftime('%Y-%m-%d %H:%M:%S')} | \u23f1 {time.time() - step_start_time:.2f}s")
+          print(f"{step_header}")
+
+          for p_name in self.personas:
+            si = persona_step_infos.get(p_name, {})
+            mode = si.get("mode", "unknown")
+            p_total = si.get("total_ms", 0)
+            name_pad = f"  {p_name:<24}"
+            if mode == "full_pipeline":
+              tm = si.get("timings_ms", {})
+              parts = []
+              for label, key in [("\u611f\u77e5", "perceive"), ("\u68c0\u7d22", "retrieve"), ("\u89c4\u5212", "plan"), ("\u53cd\u601d", "reflect"), ("\u6267\u884c", "execute")]:
+                if key in tm:
+                  parts.append(f"{label} {_fmt_ms(tm[key])}")
+              detail = " | ".join(parts)
+              print(f"{name_pad}[\u5168\u91cf\u63a8\u7406 {_fmt_ms(p_total)}] {detail}")
+            elif mode == "fast_path":
+              dest = si.get("destination", "")
+              remain = si.get("remaining_path_len", 0)
+              # Extract a short readable destination name
+              dest_short = dest.split(":")[-1].strip() if dest else "\u672a\u77e5\u76ee\u7684\u5730"
+              print(f"{name_pad}\U0001f6b6 \u6b63\u5728\u53bb\u5f80 \"{dest_short}\" \u7684\u8def\u4e0a (\u5269\u4f59{remain}\u6b65)")
+            elif mode == "dead":
+              print(f"{name_pad}\U0001f480 \u5df2\u6b7b")
+            else:
+              print(f"{name_pad}[{mode}] {_fmt_ms(p_total)}")
+
+          print(f"\u2500" * 55)
           append_debug_log(
             "step_timing.jsonl",
             {
