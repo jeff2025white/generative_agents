@@ -1650,7 +1650,6 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
   # In the refactored Chat Skill Pack architecture, we perform lazy execution.
   # We do not generate dialogue at the planning stage. Instead, we use a placeholder action
   # and a default duration (10 minutes). The dialogue is generated dynamically upon arrival.
-  inserted_act = f"having a conversation with {target_persona.name}"
   inserted_act_dur = 10
 
   act_start_time = target_persona.scratch.act_start_time
@@ -1665,6 +1664,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
 
   for role, p in [("init", init_persona), ("target", target_persona)]: 
     if role == "init": 
+      inserted_act = f"having a conversation with {target_persona.name}"
       act_address = f"<persona> {target_persona.name}"
       act_event = (p.name, "chat with", target_persona.name)
       chatting_with = target_persona.name
@@ -1672,6 +1672,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       score_detail = compute_social_opportunity_score(p, target_persona, focused_event)
       chatting_with_buffer[target_persona.name] = compute_social_cooldown(p, target_persona, focused_event, score_detail)
     elif role == "target": 
+      inserted_act = f"having a conversation with {init_persona.name}"
       act_address = f"<persona> {init_persona.name}"
       act_event = (p.name, "chat with", init_persona.name)
       chatting_with = init_persona.name

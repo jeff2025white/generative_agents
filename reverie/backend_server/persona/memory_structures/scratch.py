@@ -1127,19 +1127,23 @@ class Scratch:
     """
     if not self.act_address: 
       return True
+    if self.curr_time is None:
+      return False
       
     if self.chatting_with and self.chatting_with != "<creator>": 
       end_time = self.chatting_end_time
     else: 
       x = self.act_start_time
+      if x is None:
+        return False
       if x.second != 0: 
         x = x.replace(second=0)
         x = (x + datetime.timedelta(minutes=1))
       end_time = (x + datetime.timedelta(minutes=self.act_duration))
+    if end_time is None:
+      return False
 
-    if end_time.strftime("%H:%M:%S") == self.curr_time.strftime("%H:%M:%S"): 
-      return True
-    return False
+    return self.curr_time >= end_time
 
 
   def act_summarize(self):
@@ -1199,7 +1203,6 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
 
 
 

@@ -43,7 +43,7 @@ def make_node(description, embedding_key=None):
 class ChatSkillGuardTests(unittest.TestCase):
     def test_default_social_chat_request_config_comes_from_central_config(self):
         self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_default_social_chat_request_config())
-        self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_request_config("zhipu_chat"))
+        self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_request_config("deepseek_chat"))
 
     def test_bailian_chat_request_config_is_available(self):
         self.assertEqual(

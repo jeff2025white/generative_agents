@@ -9,7 +9,7 @@ LOCAL_LLM_CONFIG = {
 DEEPSEEK_CHAT_REQUEST_CONFIG = {
     "api_key": "sk-f7775909e210487eb449ee89cef77126",
     "api_base": "https://api.deepseek.com/v1",
-    "model": "deepseek-v4-flash",
+    "model": "deepseek-chat",
 }
 
 ZHIPU_CHAT_REQUEST_CONFIG = {
@@ -35,7 +35,7 @@ _REQUEST_CONFIGS = {
 # system-wide cloud model used by chat, social, decision, and status flows.
 DEFAULT_PRIMARY_CLOUD_CONFIG_NAME = "zhipu_chat"
 DEFAULT_CLOUD_CHAT_CONFIG_NAME = DEFAULT_PRIMARY_CLOUD_CONFIG_NAME
-DEFAULT_SOCIAL_CHAT_CONFIG_NAME = DEFAULT_PRIMARY_CLOUD_CONFIG_NAME
+DEFAULT_SOCIAL_CHAT_CONFIG_NAME = "deepseek_chat"
 DEFAULT_DECISION_CONFIG_NAME = DEFAULT_PRIMARY_CLOUD_CONFIG_NAME
 
 # Task-routed LLM config map. Update individual values only when a specific

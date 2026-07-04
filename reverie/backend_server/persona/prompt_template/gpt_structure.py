@@ -131,12 +131,17 @@ def _log_llm_event(event, payload):
 
 
 def _resolve_request_config(request_config=None):
-  config = dict(request_config or {})
-  return {
-    "api_key": config.get("api_key", openai_api_key),
-    "api_base": config.get("api_base", openai_api_base),
-    "model": config.get("model", gpt35_model),
-  }
+  if request_config:
+    return dict(request_config)
+  try:
+    from llm_api_config import get_default_cloud_chat_request_config
+    return get_default_cloud_chat_request_config()
+  except Exception:
+    return {
+      "api_key": openai_api_key,
+      "api_base": openai_api_base,
+      "model": gpt35_model,
+    }
 
 
 def _cache_scope(label, request_config=None):
@@ -152,7 +157,7 @@ def _cache_scope(label, request_config=None):
   )
 
 
-def _chat_completion_create(messages, request_config=None):
+def _chat_completion_create(messages, request_config=None, **kwargs):
   cfg = _resolve_request_config(request_config)
   with _openai_config_lock:
     prev_api_key = getattr(openai, "api_key", None)
@@ -164,6 +169,7 @@ def _chat_completion_create(messages, request_config=None):
       return openai.ChatCompletion.create(
         model=cfg["model"],
         messages=messages,
+        **kwargs
       )
     finally:
       openai.api_key = prev_api_key
@@ -203,24 +209,7 @@ def temp_sleep(seconds=0.1):
   time.sleep(seconds)
 
 def ChatGPT_single_request(prompt): 
-  # Check cache first
-  key = _cache_key(prompt, "single")
-  cached = _get_cached(key)
-  if cached is not None:
-    return cached
-
-  temp_sleep()
-
-  completion = openai.ChatCompletion.create(
-    model=gpt35_model, 
-    messages=[
-      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
-      {"role": "user", "content": prompt}
-    ]
-  )
-  result = completion["choices"][0]["message"]["content"]
-  _set_cached(key, result)
-  return result
+  return ChatGPT_request(prompt, prompt_kind="single_request")
 
 
 # ============================================================================
@@ -239,29 +228,7 @@ def GPT4_request(prompt):
   RETURNS: 
     a str of GPT-3's response. 
   """
-  # Check cache first
-  key = _cache_key(prompt, "gpt4")
-  cached = _get_cached(key)
-  if cached is not None:
-    return cached
-
-  temp_sleep()
-
-  try: 
-    completion = openai.ChatCompletion.create(
-    model=gpt4_model, 
-    messages=[
-      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
-      {"role": "user", "content": prompt}
-    ]
-    )
-    result = completion["choices"][0]["message"]["content"]
-    _set_cached(key, result)
-    return result
-  
-  except: 
-    print ("ChatGPT ERROR")
-    return "ChatGPT ERROR"
+  return ChatGPT_request(prompt, prompt_kind="gpt4_request")
 
 
 def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config=None): 
@@ -604,8 +571,9 @@ def GPT_request(prompt, gpt_parameter):
   """
   # Cache only deterministic requests (temperature == 0)
   use_cache = gpt_parameter.get("temperature", 0.0) == 0
+  resolved_config = _resolve_request_config()
   if use_cache:
-    key = _cache_key(prompt, str(sorted(gpt_parameter.items())))
+    key = _cache_key(prompt, _cache_scope("gpt_request", resolved_config))
     cached = _get_cached(key)
     if cached is not None:
       return cached
@@ -613,12 +581,12 @@ def GPT_request(prompt, gpt_parameter):
   temp_sleep()
   try: 
     stop_sequence = gpt_parameter.get("stop", None)
-    response = openai.ChatCompletion.create(
-                model=gpt35_model,
-                messages=[
+    response = _chat_completion_create(
+                [
                   {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
                   {"role": "user", "content": prompt}
                 ],
+                request_config=resolved_config,
                 temperature=gpt_parameter.get("temperature", 0.0),
                 max_tokens=gpt_parameter.get("max_tokens", 100),
                 top_p=gpt_parameter.get("top_p", 1.0),

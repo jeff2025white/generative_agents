@@ -5,16 +5,11 @@ import json
 # Ensure project path is in sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from utils import openai_api_base, gpt35_model, openai_api_key
-import openai
-
-openai.api_key = openai_api_key
-if openai_api_base:
-    openai.api_base = openai_api_base
+from persona.prompt_template.gpt_structure import ChatGPT_safe_generate_response, get_default_cloud_chat_request_config
 
 def analyze_relationship_with_llm(persona_name, target_name, memories):
     """
-    Call Ollama to analyze relationship type and trust score based on memories.
+    Call cloud LLM to analyze relationship type and trust score based on memories.
     """
     if not memories:
         return {"relationship": "stranger", "trust": 0.5, "recent_events": []}
@@ -27,33 +22,24 @@ def analyze_relationship_with_llm(persona_name, target_name, memories):
         f"Tasks:\n"
         f"1. Determine the relationship type (e.g. friend, colleague, acquaintance, enemy, stranger).\n"
         f"2. Rate the trust score between 0.0 and 1.0.\n"
-        f"3. Summarize the 3 most representative recent interactions in English.\n\n"
-        f"Respond ONLY with a valid JSON object in this format:\n"
-        f'{{"relationship": "friend", "trust": 0.8, "recent_events": ["shared coffee at cafe", "talked about project"]}}'
+        f"3. Summarize the 3 most representative recent interactions in English.\n"
     )
-    
+
+    def val(resp, prompt=""):
+        return isinstance(resp, dict) and "relationship" in resp and "trust" in resp
+
     try:
-        response = openai.ChatCompletion.create(
-            model=gpt35_model,
-            messages=[
-                {"role": "system", "content": "You are a precise data analysis assistant. You output only valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0,
-            max_tokens=200
+        data = ChatGPT_safe_generate_response(
+            prompt,
+            example_output='{"relationship": "friend", "trust": 0.8, "recent_events": ["shared coffee at cafe", "talked about project"]}',
+            special_instruction="Respond ONLY with a valid JSON object.",
+            repeat=3,
+            func_validate=val,
+            func_clean_up=lambda resp, prompt="": resp,
+            request_config=get_default_cloud_chat_request_config()
         )
-        resp_text = response["choices"][0]["message"]["content"].strip()
-        
-        # Clean up code blocks if LLM wraps in markdown
-        if "```" in resp_text:
-            resp_text = resp_text.split("```")[1]
-            if resp_text.startswith("json"):
-                resp_text = resp_text[4:]
-        
-        data = json.loads(resp_text)
-        # Validate data structure
-        if "relationship" in data and "trust" in data:
-            data["trust"] = max(0.0, min(1.0, float(data["trust"])))
+        if isinstance(data, dict) and "relationship" in data:
+            data["trust"] = max(0.0, min(1.0, float(data.get("trust", 0.5))))
             return data
     except Exception as e:
         print(f"  [LLM 提取错误] 分析 {persona_name} -> {target_name} 失败: {e}")

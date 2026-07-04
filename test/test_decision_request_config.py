@@ -30,12 +30,12 @@ class DecisionRequestConfigTests(unittest.TestCase):
     def test_all_default_config_names_share_single_primary_switch(self):
         self.assertEqual(DEFAULT_PRIMARY_CLOUD_CONFIG_NAME, "zhipu_chat")
         self.assertEqual(DEFAULT_CLOUD_CHAT_CONFIG_NAME, DEFAULT_PRIMARY_CLOUD_CONFIG_NAME)
-        self.assertEqual(DEFAULT_SOCIAL_CHAT_CONFIG_NAME, DEFAULT_PRIMARY_CLOUD_CONFIG_NAME)
+        self.assertEqual(DEFAULT_SOCIAL_CHAT_CONFIG_NAME, "deepseek_chat")
         self.assertEqual(DEFAULT_DECISION_CONFIG_NAME, DEFAULT_PRIMARY_CLOUD_CONFIG_NAME)
 
     def test_task_route_names_default_to_primary_cloud_config(self):
         self.assertEqual(TASK_ROUTE_CONFIG_NAMES["general_chat"], "zhipu_chat")
-        self.assertEqual(TASK_ROUTE_CONFIG_NAMES["social_chat"], "zhipu_chat")
+        self.assertEqual(TASK_ROUTE_CONFIG_NAMES["social_chat"], "deepseek_chat")
         self.assertEqual(TASK_ROUTE_CONFIG_NAMES["social_decision"], "zhipu_chat")
         self.assertEqual(TASK_ROUTE_CONFIG_NAMES["social_generation"], "zhipu_chat")
         self.assertEqual(TASK_ROUTE_CONFIG_NAMES["safety_scoring"], "zhipu_chat")
@@ -77,6 +77,12 @@ class DecisionRequestConfigTests(unittest.TestCase):
                 get_default_social_chat_request_config(),
                 get_request_config("bailian_chat"),
             )
+
+    def test_social_chat_request_config_defaults_to_deepseek_chat(self):
+        self.assertEqual(
+            get_default_social_chat_request_config(),
+            get_request_config("deepseek_chat"),
+        )
 
     def test_decision_request_config_can_be_switched_via_task_route(self):
         with patch.dict("llm_api_config.TASK_ROUTE_CONFIG_NAMES", {"decision": "bailian_chat"}, clear=False):
