@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.6000000000000001,
+      "recent_events": [
+        "conversing about a casual greeting and Maria's brief departure",
+        "conversing about whether to make a decision"
+      ]
+    }
+  }
+}

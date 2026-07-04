@@ -11,6 +11,8 @@ _INTENT_KEYWORDS = {
     "food", "eat", "eating", "consume", "consume food", "gather",
     "refrigerator", "apple", "meal", "snack", "stove", "cafe counter",
     "hungry", "hunger", "satiety", "apple tree", "cooked meal",
+    "inventory", "stock", "empty", "depleted", "forage", "wild",
+    "failed", "unreachable", "path_not_found", "navigation_failure",
   },
   "restore_stamina": {
     "rest", "sleep", "sleeping", "nap", "bed", "sofa", "stamina",
@@ -207,12 +209,43 @@ def summarize_intent_memories(intent_family, retrieved_nodes, max_items=4, max_c
     "restore_mood": "mood-related experience",
   }
   label = label_map.get(intent_family, "relevant experience")
-  lines = [f"Relevant prior {label}:"]
-  for node in retrieved_nodes[:max_items]:
+  success_lines = []
+  failure_lines = []
+  for node in retrieved_nodes:
     description = str(getattr(node, "description", "") or "").strip()
     if not description:
       continue
-    lines.append(f"- {description}")
+    attribute_effects = getattr(node, "attribute_effects", None) or {}
+    primary_attr = {
+      "restore_satiety": "satiety",
+      "restore_stamina": "stamina",
+      "restore_health": "health",
+      "restore_mood": "mood",
+    }.get(intent_family)
+    primary_delta = float(attribute_effects.get(primary_attr, 0.0) or 0.0) if primary_attr else 0.0
+    lowered = _normalize_text(description)
+    is_failure = (
+      primary_delta < 0.0
+      or any(token in lowered for token in {"failed", "empty", "depleted", "unreachable", "path_not_found", "could not"})
+    )
+    if is_failure:
+      failure_lines.append(f"- {description}")
+    else:
+      success_lines.append(f"- {description}")
+  lines = [f"Relevant prior {label}:"]
+  remaining = max_items
+  if success_lines:
+    selected = success_lines[:remaining]
+    lines.append("Successful experience:")
+    lines.extend(selected)
+    remaining = max(0, remaining - len(selected))
+  if failure_lines and remaining > 0:
+    selected = failure_lines[:remaining]
+    lines.append("Failed attempts:")
+    lines.extend(selected)
+  elif failure_lines and not success_lines:
+    lines.append("Failed attempts:")
+    lines.extend(failure_lines[:max_items])
   summary = "\n".join(lines)
   if len(summary) > max_chars:
     summary = summary[:max_chars - 15].rstrip() + "...(truncated)"

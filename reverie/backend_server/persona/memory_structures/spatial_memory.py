@@ -131,6 +131,19 @@ class MemoryTree:
     return None
 
 
+  def find_all_objects(self, obj_name):
+    obj_name_lower = obj_name.strip().lower()
+    matches = []
+    for w in self.tree:
+      for s in self.tree[w]:
+        for a in self.tree[w][s]:
+          for obj in self.tree[w][s][a]:
+            obj_lower = obj.strip().lower()
+            if obj_lower == obj_name_lower or obj_name_lower in obj_lower:
+              matches.append(f"{w}:{s}:{a}:{obj}")
+    return matches
+
+
 
 if __name__ == '__main__':
   x = f"../../../../environment/frontend_server/storage/the_ville_base_LinFamily/personas/Eddy Lin/bootstrap_memory/spatial_memory.json"
@@ -138,7 +151,6 @@ if __name__ == '__main__':
   x.print_tree()
 
   print (x.get_str_accessible_sector_arenas("dolores double studio:double studio"))
-
 
 
 

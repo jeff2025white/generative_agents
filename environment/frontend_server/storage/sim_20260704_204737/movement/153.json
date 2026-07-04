@@ -1,0 +1,115 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        33
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u6211\u521a\u8def\u8fc7\u8fd9\u8fb9\uff0c\u987a\u4fbf\u548c\u4f60\u6253\u4e2a\u62db\u547c\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f",
+      "satiety": 67.68000000000026,
+      "stamina": 95.02000000000032,
+      "health": 100.0,
+      "mood": 83.9199999999996,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        34,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u521a\u8def\u8fc7\u8fd9\u8fb9\uff0c\u987a\u4fbf\u548c\u4f60\u6253\u4e2a\u62db\u547c\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002",
+      "satiety": 67.68000000000026,
+      "stamina": 95.47000000000081,
+      "health": 100.0,
+      "mood": 67.72000000000007,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        34,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u521a\u8def\u8fc7\u8fd9\u8fb9\uff0c\u987a\u4fbf\u548c\u4f60\u6253\u4e2a\u62db\u547c\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u89c1\u9762\u90a3\u5bb6\u5e97\u73b0\u5728\u6362\u83dc\u5355\u4e86\uff0c\u5565\u65f6\u5019\u518d\u53bb\u5c1d\u5c1d\uff1f",
+      "satiety": 67.68000000000026,
+      "stamina": 98.54000000000059,
+      "health": 100.0,
+      "mood": 79.72000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:25:30"
+  }
+}

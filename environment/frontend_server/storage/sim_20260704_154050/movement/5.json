@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        123,
+        54
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.52000000000001,
+      "stamina": 99.69999999999999,
+      "health": 100.0,
+      "mood": 49.760000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:00:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.52000000000001,
+      "stamina": 99.64000000000001,
+      "health": 100.0,
+      "mood": 49.760000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2023-02-13 08:00:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.52000000000001,
+      "stamina": 99.75999999999996,
+      "health": 100.0,
+      "mood": 49.760000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:00:50"
+  }
+}

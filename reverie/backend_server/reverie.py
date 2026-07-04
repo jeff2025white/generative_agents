@@ -44,6 +44,7 @@ from maze import *
 from persona.persona import *
 from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.world_resource_state import WorldResourceState
 from persona.prompt_template.gpt_structure import save_cache_to_disk
 import requests
 
@@ -105,6 +106,7 @@ class ReverieServer:
     # (e.g., "double_studio") to instantiate Maze. 
     # e.g., Maze("double_studio")
     self.maze = Maze(reverie_meta['maze_name'])
+    self.resource_state = WorldResourceState.load_or_create(sim_folder, self.maze)
     
     # <step> denotes the number of steps that our game has taken. A step here
     # literally translates to the number of moves our personas made in terms
@@ -144,6 +146,7 @@ class ReverieServer:
       p_x = init_env[persona_name]["x"]
       p_y = init_env[persona_name]["y"]
       curr_persona = Persona(persona_name, persona_folder)
+      curr_persona.world_resource_state = self.resource_state
 
       self.personas[persona_name] = curr_persona
       self.personas_tile[persona_name] = (p_x, p_y)
@@ -210,6 +213,7 @@ class ReverieServer:
     # <sim_folder> points to the current simulation folder.
     sim_folder = f"{fs_storage}/{self.sim_code}"
     self._write_reverie_meta(sim_folder)
+    self.resource_state.save(sim_folder)
 
     # Save the personas.
     for persona_name, persona in self.personas.items(): 
@@ -244,6 +248,7 @@ class ReverieServer:
 
     sim_folder = f"{fs_storage}/{self.sim_code}"
     self._write_reverie_meta(sim_folder)
+    self.resource_state.save(sim_folder)
 
     dirty_persona_set = set(dirty_personas)
     for persona_name, persona in self.personas.items():
@@ -1101,7 +1106,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

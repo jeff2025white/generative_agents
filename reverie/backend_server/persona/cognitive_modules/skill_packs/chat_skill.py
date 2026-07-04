@@ -2,6 +2,7 @@ import json
 import datetime
 import sqlite3
 import re
+import random
 from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.prompt_template.gpt_structure import (
@@ -70,6 +71,11 @@ def is_polluted_social_chat_text(text):
 
 def is_valid_social_chat_response(response):
     """Validate the social chat response structure and require Chinese output."""
+    if isinstance(response, str):
+        try:
+            response = json.loads(response)
+        except Exception:
+            return False
     if not is_structurally_valid_social_chat_response(response):
         return False
     utterance = str(response.get("utterance", "") or "").strip()
@@ -78,6 +84,11 @@ def is_valid_social_chat_response(response):
 
 def is_structurally_valid_social_chat_response(response):
     """Validate the minimal JSON structure for a social chat response."""
+    if isinstance(response, str):
+        try:
+            response = json.loads(response)
+        except Exception:
+            return False
     if not isinstance(response, dict):
         return False
     utterance = str(response.get("utterance", "") or "").strip()
@@ -90,6 +101,11 @@ def is_structurally_valid_social_chat_response(response):
 
 def normalize_social_chat_response(response, fail_safe_response, request_config=None):
     """Ensure the final chat response is Chinese, translating when needed."""
+    if isinstance(response, str):
+        try:
+            response = json.loads(response)
+        except Exception:
+            return fail_safe_response
     if not is_structurally_valid_social_chat_response(response):
         return fail_safe_response
     if is_valid_social_chat_response(response):
@@ -127,13 +143,33 @@ def normalize_social_chat_response(response, fail_safe_response, request_config=
 
 def build_social_chat_fallback_utterance(turn, speaker, listener):
     """Return a short, varied fallback line so both roles do not collapse to one sentence."""
-    if turn == 0:
-        return f"你好，{listener.scratch.first_name}，刚好碰见你。"
-    if turn == 1:
-        return "我刚路过这边，顺便和你打个招呼。"
-    if turn == 2:
-        return "我也是这么想的，不过还得再看看。"
-    return "那我先去忙了，回头再聊。"
+    pool_0 = [
+        f"你好，{listener.scratch.first_name}，刚好碰见你。",
+        f"哟，{listener.scratch.first_name}，今天在忙什么呢？",
+        f"嘿，{listener.scratch.first_name}，好久没见你了！",
+        f"{listener.scratch.first_name}，你也在这附近转悠啊？",
+    ]
+    pool_1 = [
+        "我刚路过这边，顺便和你打个招呼。",
+        "最近镇上有什么新鲜事吗？",
+        "我正好有空，就过来溜达溜达。",
+        "我也是出来透透气，没想到碰到你。",
+    ]
+    pool_2 = [
+        "我也是这么想的，不过还得再看看。",
+        "说的也是，回头有空一起聊聊。",
+        "嗯，我回去琢磨琢磨。",
+        "好的好的，有消息再跟你说。",
+    ]
+    pool_3 = [
+        "那我先去忙了，回头再聊。",
+        "行，那咱们改天再约。",
+        "好嘞，先撤了，拜拜。",
+        "走了走了，下次见。",
+    ]
+    pools = [pool_0, pool_1, pool_2, pool_3]
+    idx = min(turn, 3)
+    return random.choice(pools[idx])
 
 
 def sanitize_social_chat_utterance(raw_utterance, turn, speaker, listener, convo):
@@ -498,6 +534,7 @@ class ChatSkillPack(BaseSkillPack):
                     prompt_kind="social_chat_generation",
                     metadata={"llm_route": "default_social_chat"},
                     request_config=SOCIAL_CHAT_REQUEST_CONFIG,
+                    skip_cache=True,
                 )
 
                 final_utterance = sanitize_social_chat_utterance(
@@ -661,13 +698,13 @@ class ChatSkillPack(BaseSkillPack):
                 persona.a_mem.update_relationship(
                     target_p.name,
                     relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
-                    trust_delta=0.05,
+                    trust_delta=0.02,
                     recent_event=convo_summary
                 )
                 target_p.a_mem.update_relationship(
                     persona.name,
                     relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
-                    trust_delta=0.05,
+                    trust_delta=0.02,
                     recent_event=convo_summary
                 )
                 log_social_dialogue(
@@ -676,13 +713,14 @@ class ChatSkillPack(BaseSkillPack):
                     "relationship_updated",
                     target_name=target_p.name,
                     payload={
-                        "trust_delta": 0.05,
+                        "trust_delta": 0.02,
                         "mode": "sync_copy",
                     },
                 )
 
                 # Physiological recovery
-                persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
+                persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
+                persona.scratch.mood = min(100.0, persona.scratch.mood + 3.0)
                 log_social_dialogue(
                     persona,
                     "settlement",
@@ -931,13 +969,13 @@ class ChatSkillPack(BaseSkillPack):
             persona.a_mem.update_relationship(
                 target_p.name,
                 relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
-                trust_delta=0.05,
+                    trust_delta=0.02,
                 recent_event=convo_summary
             )
             target_p.a_mem.update_relationship(
                 persona.name,
                 relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
-                trust_delta=0.05,
+                    trust_delta=0.02,
                 recent_event=convo_summary
             )
             log_social_dialogue(
@@ -946,13 +984,14 @@ class ChatSkillPack(BaseSkillPack):
                 "relationship_updated",
                 target_name=target_p_name,
                 payload={
-                    "trust_delta": 0.05,
+                    "trust_delta": 0.02,
                     "mode": "generated",
                 },
             )
 
             # 4. Metabolic / physiological effect for the initiator
-            persona.scratch.stamina = min(100.0, persona.scratch.stamina + 15.0)
+            persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
+            persona.scratch.mood = min(100.0, persona.scratch.mood + 3.0)
             log_social_dialogue(
                 persona,
                 "settlement",
@@ -962,6 +1001,7 @@ class ChatSkillPack(BaseSkillPack):
                     "result": "generated_completed",
                     "turn_count": len(convo),
                     "stamina": persona.scratch.stamina,
+                    "mood": persona.scratch.mood,
                 },
             )
 

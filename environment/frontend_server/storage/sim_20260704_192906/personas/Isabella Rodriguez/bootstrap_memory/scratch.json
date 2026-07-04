@@ -1,0 +1,306 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 08:34:50",
+  "curr_tile": [
+    49,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 63.20000000000036,
+  "stamina": 91.40000000000057,
+  "health": 100.0,
+  "mood": 92.91999999999925,
+  "last_social_time": "February 13, 2023, 08:27:00",
+  "last_action_switch_time": "February 13, 2023, 08:30:00",
+  "decision_commit_until_step": 182,
+  "last_decision_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "eating an apple from inventory",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 179,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "curr_step": 179
+  },
+  "inventory": {
+    "apple": 3
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 32,
+  "importance_ele_n": 43,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Isabella Rodriguez's apartment:main room:shelf",
+  "act_start_time": "February 13, 2023, 08:30:00",
+  "act_duration": 5,
+  "act_description": "eating an apple from inventory",
+  "act_pronunciatio": "\ud83c\udf74",
+  "act_event": [
+    "Isabella Rodriguez",
+    "consume",
+    "apple"
+  ],
+  "act_command": {
+    "skill_id": "consume",
+    "target": "apple",
+    "source": "decision_translation",
+    "raw_action": "Consume",
+    "detail": "eating an apple from inventory"
+  },
+  "act_obj_description": "shelf is being used for eating",
+  "act_obj_pronunciatio": "\ud83c\udf74",
+  "act_obj_event": [
+    "shelf",
+    "is",
+    "being used for eating"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      51,
+      30
+    ],
+    [
+      52,
+      30
+    ],
+    [
+      53,
+      30
+    ],
+    [
+      54,
+      30
+    ],
+    [
+      55,
+      30
+    ],
+    [
+      56,
+      30
+    ],
+    [
+      57,
+      30
+    ],
+    [
+      58,
+      30
+    ],
+    [
+      59,
+      30
+    ],
+    [
+      60,
+      30
+    ],
+    [
+      61,
+      30
+    ],
+    [
+      62,
+      30
+    ],
+    [
+      63,
+      30
+    ],
+    [
+      64,
+      30
+    ],
+    [
+      65,
+      30
+    ],
+    [
+      66,
+      30
+    ],
+    [
+      67,
+      30
+    ],
+    [
+      68,
+      30
+    ],
+    [
+      69,
+      30
+    ],
+    [
+      70,
+      30
+    ],
+    [
+      71,
+      30
+    ],
+    [
+      72,
+      30
+    ],
+    [
+      73,
+      30
+    ],
+    [
+      74,
+      30
+    ],
+    [
+      75,
+      30
+    ],
+    [
+      76,
+      30
+    ],
+    [
+      76,
+      29
+    ],
+    [
+      76,
+      28
+    ],
+    [
+      76,
+      27
+    ],
+    [
+      76,
+      26
+    ],
+    [
+      75,
+      26
+    ],
+    [
+      75,
+      25
+    ],
+    [
+      75,
+      24
+    ],
+    [
+      75,
+      23
+    ],
+    [
+      75,
+      22
+    ],
+    [
+      75,
+      21
+    ],
+    [
+      75,
+      20
+    ],
+    [
+      75,
+      19
+    ],
+    [
+      76,
+      19
+    ],
+    [
+      77,
+      19
+    ],
+    [
+      78,
+      19
+    ],
+    [
+      78,
+      18
+    ],
+    [
+      78,
+      17
+    ],
+    [
+      78,
+      16
+    ],
+    [
+      78,
+      15
+    ],
+    [
+      78,
+      14
+    ],
+    [
+      79,
+      14
+    ]
+  ]
+}

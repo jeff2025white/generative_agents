@@ -37,6 +37,7 @@ class Persona:
     # <name> is the full name of the persona. This is a unique identifier for
     # the persona within Reverie. 
     self.name = name
+    self.world_resource_state = None
 
     # PERSONA MEMORY 
     # If there is already memory in folder_mem_saved, we load that. Otherwise,
@@ -370,7 +371,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

@@ -77,12 +77,12 @@ echo "---------------------------------------------------"
 
 echo
 echo "[Checking Models]"
-echo "Checking local decision model (deepseek-r1:7b)..."
-if ! ollama list | grep -qi "deepseek-r1:7b"; then
-  echo "[WARN] Local decision model deepseek-r1:7b is missing. Pulling model..."
-  ollama pull deepseek-r1:7b
+echo "Checking local decision model (qwen2.5:7b)..."
+if ! ollama list | grep -qi "qwen2.5:7b"; then
+  echo "[WARN] Local decision model qwen2.5:7b is missing. Pulling model..."
+  ollama pull qwen2.5:7b
 else
-  echo "  [OK] deepseek-r1:7b"
+  echo "  [OK] qwen2.5:7b"
 fi
 
 echo "Checking embedding model (nomic-embed-text)..."

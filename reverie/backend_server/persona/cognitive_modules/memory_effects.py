@@ -78,3 +78,30 @@ def record_stat_change_experience(persona, description, keywords,
     None,
     attribute_effects=attribute_effects,
   )
+
+
+def record_execution_result_experience(persona, description, keywords,
+                                       poignancy=5.0,
+                                       predicate="experienced",
+                                       obj="execution_result",
+                                       attribute_effects=None):
+  """Persist a non-stat execution result so future decisions can retrieve it as experience."""
+  if not getattr(persona, "a_mem", None):
+    return None
+
+  normalized_keywords = set(keywords or set())
+  embedding = get_embedding(description)
+  embedding_pair = (description, embedding)
+  return persona.a_mem.add_event(
+    persona.scratch.curr_time,
+    None,
+    persona.name,
+    predicate,
+    obj,
+    description,
+    normalized_keywords,
+    float(poignancy),
+    embedding_pair,
+    None,
+    attribute_effects=attribute_effects,
+  )

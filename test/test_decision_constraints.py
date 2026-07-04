@@ -33,12 +33,36 @@ class InvalidTargetTests(unittest.TestCase):
 
         self.assertEqual(invalid_targets, ["apple tree"])
 
+    def test_build_invalid_targets_ignores_empty_resource_results(self):
+        scratch = type("Scratch", (), {
+            "get_recent_navigation_failure": lambda self, max_age_steps=6: {
+                "target": "refrigerator",
+                "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                "reason": "resource_empty",
+            }
+        })()
+
+        invalid_targets = build_invalid_targets(scratch)
+
+        self.assertEqual(invalid_targets, [])
+
     def test_filter_invalid_resources_removes_recent_failed_target(self):
         resources = ["apple tree", "refrigerator", "behind the cafe counter"]
 
         filtered = filter_invalid_resources(resources, ["apple tree"])
 
         self.assertEqual(filtered, ["refrigerator", "behind the cafe counter"])
+
+    def test_filter_invalid_resources_removes_normalized_resource_labels(self):
+        resources = [
+            "refrigerator (idle/normal; stock: empty)",
+            "apple tree (idle/normal; stock: infinite)",
+            "behind the cafe counter (idle/normal; stock: empty)",
+        ]
+
+        filtered = filter_invalid_resources(resources, ["refrigerator", "cafe counter"])
+
+        self.assertEqual(filtered, ["apple tree (idle/normal; stock: infinite)"])
 
     def test_validate_decision_target_requests_retry_for_invalid_target(self):
         decision = {"action": "Gather", "target": "apple tree", "detail": "picking apples"}

@@ -5,6 +5,12 @@ from persona.cognitive_modules.food_sources import (
     is_valid_gather_food_source,
     normalize_food_source_target,
 )
+from persona.cognitive_modules.memory_effects import (
+    capture_attribute_snapshot,
+    compute_attribute_effects,
+    record_stat_change_experience,
+)
+from persona.prompt_template.gpt_structure import get_embedding
 
 class GatherSkillPack(BaseSkillPack):
     def __init__(self):
@@ -15,8 +21,40 @@ class GatherSkillPack(BaseSkillPack):
     def _clean_target(self, target) -> str:
         return normalize_food_source_target(target)
 
+    def _find_available_address(self, persona, target):
+        world_state = getattr(persona, "world_resource_state", None)
+        candidate_addresses = []
+        if getattr(persona, "s_mem", None) and hasattr(persona.s_mem, "find_all_objects"):
+            candidate_addresses = persona.s_mem.find_all_objects(target)
+        if not candidate_addresses:
+            address = persona.s_mem.find_nearest_object(target) if getattr(persona, "s_mem", None) else None
+            candidate_addresses = [address] if address else []
+        for address in candidate_addresses:
+            if not world_state or world_state.is_available(address):
+                return address
+        return candidate_addresses[0] if candidate_addresses else None
+
+    def _record_gather_memory(self, persona, description, keywords, attribute_effects=None, poignancy=6.0):
+        if not getattr(persona, "a_mem", None):
+            return
+        embedding = get_embedding(description)
+        persona.a_mem.add_event(
+            persona.scratch.curr_time,
+            None,
+            persona.name,
+            "experienced",
+            "gather_food",
+            description,
+            set(keywords or set()),
+            float(poignancy),
+            (description, embedding),
+            None,
+            attribute_effects=attribute_effects,
+        )
+
     def can_execute(self, persona, target, maze) -> bool:
         clean_target = self._clean_target(target)
+        world_state = getattr(persona, "world_resource_state", None)
         next_signature = build_decision_signature(
             {"skill_id": "gather", "target": clean_target, "source": "gather_precheck", "raw_action": "gather"},
             action_address=getattr(persona.scratch, "act_address", None),
@@ -77,6 +115,23 @@ class GatherSkillPack(BaseSkillPack):
                 )
                 return False
             if is_valid_gather_food_source(curr_obj_clean):
+                if world_state and curr_obj_clean != "apple tree":
+                    curr_address = getattr(persona.scratch, "act_address", None) or self._find_available_address(persona, curr_obj_clean)
+                    if curr_address and not world_state.is_available(curr_address):
+                        append_debug_log(
+                            "skill_execution_debug.jsonl",
+                            {
+                                "persona": persona.name,
+                                "skill": "gather",
+                                "event": "can_execute",
+                                "result": False,
+                                "reason": "resource_empty",
+                                "target": target,
+                                "clean_target": clean_target,
+                                "curr_address": curr_address,
+                            }
+                        )
+                        return False
                 append_debug_log(
                     "skill_execution_debug.jsonl",
                     {
@@ -108,8 +163,8 @@ class GatherSkillPack(BaseSkillPack):
             )
             return False
         # 2. Fallback: Target object must exist in spatial memory
-        address = persona.s_mem.find_nearest_object(clean_target)
-        result = address is not None
+        address = self._find_available_address(persona, clean_target)
+        result = address is not None and (not world_state or world_state.is_available(address) or clean_target == "apple tree")
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -128,7 +183,7 @@ class GatherSkillPack(BaseSkillPack):
 
     def get_target_tiles(self, persona, target, maze) -> list:
         clean_target = self._clean_target(target)
-        address = persona.s_mem.find_nearest_object(clean_target)
+        address = self._find_available_address(persona, clean_target)
         if address and address in maze.address_tiles:
             return list(maze.address_tiles[address])
         return []
@@ -153,8 +208,9 @@ class GatherSkillPack(BaseSkillPack):
                 "act_command": persona.scratch.act_command,
             }
         )
-        
         effective_source = self._clean_target(target) if is_valid_gather_food_source(target) else self._clean_target(curr_obj)
+        source_address = getattr(persona.scratch, "act_address", None) or self._find_available_address(persona, effective_source)
+        world_state = getattr(persona, "world_resource_state", None)
         if not is_valid_gather_food_source(effective_source):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -175,14 +231,72 @@ class GatherSkillPack(BaseSkillPack):
             persona.scratch.act_command = None
             return
 
+        if world_state and effective_source != "apple tree" and source_address and not world_state.consume(source_address, amount=1):
+            self._record_gather_memory(
+                persona,
+                f"{persona.name} found that {effective_source} at {source_address} was empty when trying to gather food.",
+                {"gather", "food_source", "empty_source", effective_source, "depleted", "food"},
+                attribute_effects={"satiety": 0.0, "stamina": 0.0, "health": 0.0, "mood": 0.0},
+                poignancy=5.0,
+            )
+            append_debug_log(
+                "skill_execution_debug.jsonl",
+                {
+                    "persona": persona.name,
+                    "skill": "gather",
+                    "event": "resource_empty_on_arrival",
+                    "target": target,
+                    "effective_source": effective_source,
+                    "source_address": source_address,
+                }
+            )
+            if hasattr(persona.scratch, "note_navigation_failure"):
+                persona.scratch.note_navigation_failure(
+                    target=effective_source,
+                    target_address=source_address,
+                    reason="resource_empty",
+                    payload={
+                        "requested_target": target,
+                        "effective_source": effective_source,
+                    },
+                )
+            persona.scratch.planned_path = []
+            persona.scratch.act_path_set = False
+            persona.scratch.act_address = None
+            persona.scratch.act_description = None
+            persona.scratch.act_event = None
+            persona.scratch.act_command = None
+            return
+
+        before_snapshot = capture_attribute_snapshot(persona)
         if effective_source == "apple tree":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 2
+            persona.scratch.mood = min(100.0, persona.scratch.mood + 8.0)
         elif effective_source == "refrigerator":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
         elif effective_source == "cafe counter":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 2
         elif effective_source == "stove":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
+        after_snapshot = capture_attribute_snapshot(persona)
+        attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+        self._record_gather_memory(
+            persona,
+            f"{persona.name} gathered food from {effective_source} at {source_address or persona.scratch.act_address}.",
+            {"gather", "food_source", effective_source, "food", "inventory", "apple tree" if effective_source == "apple tree" else "town_food"},
+            attribute_effects=attribute_effects,
+            poignancy=6.0 if effective_source != "apple tree" else 7.0,
+        )
+        if effective_source == "apple tree":
+            record_stat_change_experience(
+                persona,
+                f"{persona.name} gathered apples from the apple tree and felt more optimistic about survival.",
+                {"gather", "apple tree", "forage", "food", "mood_up", "reliable_source"},
+                attribute_effects,
+                poignancy=7.0,
+                predicate="changed",
+                obj="gather_recovery",
+            )
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -191,9 +305,12 @@ class GatherSkillPack(BaseSkillPack):
                 "event": "on_arrive_end",
                 "target": target,
                 "effective_source": effective_source,
+                "source_address": source_address,
                 "curr_obj": curr_obj,
                 "inventory_before": before_inventory,
                 "inventory_after": persona.scratch.inventory,
+                "resource_stock_after": world_state.get_stock(source_address) if world_state and source_address else None,
+                "attribute_effects": attribute_effects,
             }
         )
         persona.scratch.mark_action_completed(

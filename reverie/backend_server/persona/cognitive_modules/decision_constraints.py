@@ -1,5 +1,7 @@
 """Utilities for minimal immediate-step decision constraints."""
 
+from persona.cognitive_modules.food_sources import normalize_food_source_target
+
 
 def _normalize_invalid_targets(targets):
   """Normalize and de-duplicate invalid target names while preserving order."""
@@ -33,6 +35,8 @@ def build_invalid_targets(scratch, max_age_steps=6):
     failure = getattr(scratch, "navigation_failure", None)
   if not failure:
     return []
+  if str(failure.get("reason") or "").strip().lower() == "resource_empty":
+    return []
 
   return _normalize_invalid_targets([failure.get("target")])
 
@@ -45,7 +49,11 @@ def filter_invalid_resources(resources, invalid_targets):
     text = str(item or "").strip()
     if not text:
       continue
-    if text.lower() in invalid:
+    normalized_text = text
+    if "(" in normalized_text:
+      normalized_text = normalized_text.split("(", 1)[0].strip()
+    canonical_text = normalize_food_source_target(normalized_text)
+    if text.lower() in invalid or str(canonical_text or "").strip().lower() in invalid:
       continue
     filtered.append(item)
   return filtered

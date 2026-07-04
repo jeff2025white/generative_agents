@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        129,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.68000000000001,
+      "stamina": 99.78,
+      "health": 100.0,
+      "mood": 49.84,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        123,
+        56
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.68000000000001,
+      "stamina": 99.83999999999997,
+      "health": 100.0,
+      "mood": 49.84,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.68000000000001,
+      "stamina": 99.83999999999997,
+      "health": 100.0,
+      "mood": 49.84,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:00:30"
+  }
+}

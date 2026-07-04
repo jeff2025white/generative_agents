@@ -57,8 +57,8 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "sleeping": "rest",
         "nap": "rest",
         "napping": "rest",
-        "idle": "rest",
-        "idling": "rest",
+        "idle": "idle",
+        "idling": "idle",
         "relax": "rest",
         "relaxing": "rest",
         "chat with": "chat with",
@@ -145,6 +145,8 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
 
     if normalized_skill == "rest":
         return "restore_stamina"
+    if normalized_skill == "idle":
+        return "idle"
     if normalized_skill in {"consume", "gather"}:
         if _contains_any(context_text, food_keywords):
             return "restore_satiety"

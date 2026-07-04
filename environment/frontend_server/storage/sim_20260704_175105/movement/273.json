@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        40,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:cooking area",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u4e5f\u662f\u8fd9\u4e48\u60f3\u7684\uff0c\u4e0d\u8fc7\u8fd8\u5f97\u518d\u770b\u770b\u3002",
+      "satiety": 58.08000000000047,
+      "stamina": 97.38999999999965,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        43
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:cooking area",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002",
+      "satiety": 58.08000000000047,
+      "stamina": 97.42999999999965,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        36,
+        46
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 91.12000000000019,
+      "stamina": 82.0200000000014,
+      "health": 100.0,
+      "mood": 77.25999999999888,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Maria Lopez",
+          "created": "2023-02-13 08:45:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:45:30"
+  }
+}

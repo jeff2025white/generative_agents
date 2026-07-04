@@ -143,6 +143,87 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertLess(capsule.index("NavigationFailure:"), capsule.index("LastAction:"))
         self.assertLess(capsule.index("DecisionPriority:"), capsule.index("Status:"))
 
+    def test_decision_capsule_treats_empty_resource_as_execution_feedback(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                inventory={},
+                curr_time=datetime.datetime(2026, 7, 2, 9, 35, 0),
+                satiety=18.0,
+                stamina=62.0,
+                health=91.0,
+                mood=55.0,
+                get_recent_navigation_failure=lambda max_age_steps=6: {
+                    "target": "refrigerator",
+                    "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                    "reason": "resource_empty",
+                    "curr_tile": [77, 16],
+                    "payload": {"requested_target": "refrigerator"},
+                },
+                get_recent_action_observation=lambda max_age_steps=6: {
+                    "result": "failed",
+                    "target": "refrigerator",
+                    "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                    "reason": "resource_empty",
+                    "curr_step": 42,
+                },
+            )
+        )
+
+        capsule = prompt_module.build_decision_capsule(
+            persona,
+            temporal_context="- Current Time: Wednesday July 02, 2026, 09:35 AM",
+            status_summary="Satiety is low and food should become the top priority.",
+            rules="If a resource is empty, use that result to choose the next immediate attempt.",
+            cooperative_context="No special cooperative tasks are active nearby.",
+            nearby_resources=["refrigerator (idle/normal)", "apple tree (idle/normal)"],
+            last_action_desc="opening the refrigerator to gather food items",
+            intent_memory_summary="Direct food sources reduce replanning.",
+            decision_convergence_hint="Choose the immediate next action only.",
+        )
+
+        self.assertIn("ExecutionResult:", capsule)
+        self.assertIn("Observation:", capsule)
+        self.assertIn("reached_target_but_resource_empty", capsule)
+        self.assertIn("resource was empty", capsule)
+        self.assertNotIn("must not be selected", capsule)
+        self.assertNotIn("InvalidTargets:", capsule)
+
+    def test_decision_capsule_includes_completed_action_observation(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                inventory={"apple": 1},
+                curr_time=datetime.datetime(2026, 7, 2, 9, 35, 0),
+                satiety=58.0,
+                stamina=62.0,
+                health=91.0,
+                mood=55.0,
+                get_recent_navigation_failure=lambda max_age_steps=6: None,
+                get_recent_action_observation=lambda max_age_steps=6: {
+                    "result": "completed",
+                    "target": "apple",
+                    "target_address": "inventory",
+                    "action_description": "eating the apple from inventory to restore satiety",
+                    "curr_step": 43,
+                },
+            )
+        )
+
+        capsule = prompt_module.build_decision_capsule(
+            persona,
+            temporal_context="- Current Time: Wednesday July 02, 2026, 09:35 AM",
+            status_summary="Satiety has recovered.",
+            rules="Use the latest execution feedback when choosing what to do next.",
+            cooperative_context="No special cooperative tasks are active nearby.",
+            nearby_resources=["apple tree (idle/normal)", "refrigerator (idle/normal)"],
+            last_action_desc="eating the apple from inventory to restore satiety",
+            intent_memory_summary="Direct food sources reduce replanning.",
+            decision_convergence_hint="Choose the immediate next action only.",
+        )
+
+        self.assertIn("Observation:", capsule)
+        self.assertIn("result=completed", capsule)
+        self.assertIn("apple", capsule)
+
     def test_prompt_contains_intent_memory_summary(self):
         persona = SimpleNamespace(
             scratch=SimpleNamespace(
@@ -172,13 +253,14 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
                 rules="Gathering food restores survival options.",
                 cooperative_context="No special cooperative tasks are active nearby.",
                 last_action_desc="walking through the dorm common room",
-                intent_memory_summary="Relevant prior food-related experience:\n- Maria Lopez gathered apples from the refrigerator and restored her satiety effectively.",
+                intent_memory_summary="Relevant prior food-related experience:\nSuccessful experience:\n- Maria Lopez gathered apples from the refrigerator and restored her satiety effectively.\nFailed attempts:\n- Maria Lopez reached an empty refrigerator and had to replan.",
             )
 
         self.assertIn("refrigerator", result.lower())
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
         self.assertIn("Experience:", joined_prompt)
         self.assertIn("restored her satiety effectively", joined_prompt)
+        self.assertIn("Failed attempts:", joined_prompt)
 
     def test_prompt_contains_convergence_guidance_for_in_transit_and_experience(self):
         persona = SimpleNamespace(

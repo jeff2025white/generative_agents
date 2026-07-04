@@ -35,7 +35,10 @@ if "numpy" not in sys.modules:
 from persona.memory_structures.associative_memory import AssociativeMemory
 import persona.cognitive_modules.intent_memory as intent_memory
 import persona.cognitive_modules.retrieve as retrieve_module
-from test.check_seed_experience_memories import ensure_associative_memory_dir, seed_associative_memory
+try:
+    from test.check_seed_experience_memories import ensure_associative_memory_dir, seed_associative_memory
+except ModuleNotFoundError:
+    from check_seed_experience_memories import ensure_associative_memory_dir, seed_associative_memory
 
 
 def fake_embedding(text):
@@ -135,6 +138,25 @@ class IntentMemoryRetrievalTests(unittest.TestCase):
             self.assertEqual(payload["intent_family"], "restore_satiety")
             self.assertTrue(any("refrigerator" in desc.lower() for desc in payload["selected_memory_descriptions"]))
             self.assertEqual(reloaded.id_to_node["node_1"].attribute_effects["satiety"], 20.0)
+
+    def test_summary_separates_successful_experience_and_failed_attempts(self):
+        nodes = [
+            SimpleNamespace(
+                description="Maria Lopez gathered apples from the apple tree and restored her satiety effectively.",
+                attribute_effects={"satiety": 20.0, "stamina": 0.0, "health": 0.0, "mood": 2.0},
+            ),
+            SimpleNamespace(
+                description="Maria Lopez tried to reach the refrigerator but could not find a reachable path from the dorm hallway.",
+                attribute_effects={"satiety": 0.0, "stamina": 0.0, "health": 0.0, "mood": 0.0},
+            ),
+        ]
+
+        summary = intent_memory.summarize_intent_memories("restore_satiety", nodes, max_items=4)
+
+        self.assertIn("Successful experience:", summary)
+        self.assertIn("Failed attempts:", summary)
+        self.assertIn("apple tree", summary)
+        self.assertIn("reachable path", summary)
 
     def test_infer_memory_focus_prefers_satiety_crisis(self):
         persona = SimpleNamespace(
@@ -247,6 +269,53 @@ class IntentMemoryRetrievalTests(unittest.TestCase):
                 )
 
             self.assertEqual(retrieved_nodes, [])
+
+    def test_food_search_failure_memory_can_be_retrieved_as_relevant_experience(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            memory_dir = Path(tmpdir)
+            ensure_associative_memory_dir(memory_dir)
+            persona = make_persona_with_memory(memory_dir)
+            seed_associative_memory(
+                persona.a_mem,
+                persona.name,
+                [
+                    {
+                        "type": "event",
+                        "description": "Maria Lopez tried to reach the refrigerator but could not find a reachable path from the dorm hallway.",
+                        "s": "Maria Lopez",
+                        "p": "experienced",
+                        "o": "execution_result",
+                        "keywords": {"food", "refrigerator", "failed", "unreachable", "path_not_found", "navigation_failure"},
+                        "poignancy": 7.0,
+                    },
+                    {
+                        "type": "event",
+                        "description": "Maria Lopez gathered apples from the apple tree and restored her satiety effectively.",
+                        "s": "Maria Lopez",
+                        "p": "restored satiety via",
+                        "o": "apple tree",
+                        "keywords": {"apple tree", "food", "satiety", "gather", "forage"},
+                        "poignancy": 8.0,
+                        "attribute_effects": {"satiety": 20.0, "stamina": 0.0, "health": 0.0, "mood": 3.0},
+                    },
+                ],
+                created=persona.scratch.curr_time,
+                embedding_fn=fake_embedding,
+            )
+            persona.a_mem.save(str(memory_dir))
+            persona.a_mem = AssociativeMemory(str(memory_dir))
+
+            with patch.object(retrieve_module, "get_embedding", side_effect=fake_embedding):
+                retrieved_nodes = intent_memory.retrieve_intent_memories(
+                    persona,
+                    intent_family="restore_satiety",
+                    action_signature={"intent_family": "restore_satiety"},
+                    n_count=4,
+                )
+
+            descriptions = [node.description.lower() for node in retrieved_nodes]
+            self.assertTrue(any("could not find a reachable path" in desc for desc in descriptions))
+            self.assertTrue(any("apple tree" in desc for desc in descriptions))
 
 
 if __name__ == "__main__":

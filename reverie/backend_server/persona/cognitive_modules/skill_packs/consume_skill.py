@@ -65,55 +65,8 @@ class ConsumeSkillPack(BaseSkillPack):
                 }
             )
             return False
-        # 3. Fallback 2: If they are at or targeting a food source, they can execute
-        food_sources = ["refrigerator", "fridge", "stove", "toaster", "microwave", "cafe counter", "counter", "kitchen", "cabinet"]
-        if any(fs in item_key for fs in food_sources):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
-                {
-                    "persona": persona.name,
-                    "skill": "consume",
-                    "event": "can_execute",
-                    "result": True,
-                    "reason": "target_is_food_source",
-                    "target": target,
-                    "inventory": persona.scratch.inventory,
-                }
-            )
-            return True
-        # Also check current tile's object
         curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-        normalized_curr_obj = normalize_food_source_target(curr_obj).lower() if curr_obj else ""
-        if any(fs in normalized_curr_obj for fs in food_sources):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
-                {
-                    "persona": persona.name,
-                    "skill": "consume",
-                    "event": "can_execute",
-                    "result": True,
-                    "reason": "current_object_is_food_source",
-                    "target": target,
-                    "curr_obj": curr_obj,
-                }
-            )
-            return True
-        # Fallback 3: Check if their target action address points to a food source
         act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
-        if any(fs in act_addr for fs in food_sources):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
-                {
-                    "persona": persona.name,
-                    "skill": "consume",
-                    "event": "can_execute",
-                    "result": True,
-                    "reason": "action_address_is_food_source",
-                    "target": target,
-                    "act_address": act_addr,
-                }
-            )
-            return True
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -173,16 +126,6 @@ class ConsumeSkillPack(BaseSkillPack):
                     target_item = k
                     break
                     
-        # 2. If still not found, check if we are at a food source to get a free item!
-        if not item_found:
-            food_sources = ["refrigerator", "fridge", "stove", "toaster", "microwave", "cafe counter", "counter", "kitchen", "cabinet"]
-            curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-            normalized_curr_obj = normalize_food_source_target(curr_obj).lower() if curr_obj else ""
-            act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
-            if any(fs in normalized_curr_obj for fs in food_sources) or any(fs in item_key for fs in food_sources) or any(fs in act_addr for fs in food_sources):
-                # Free meal from the resource!
-                item_found = True
-                target_item = "cooked meal"
         if not item_found:
             append_debug_log(
                 "skill_execution_debug.jsonl",

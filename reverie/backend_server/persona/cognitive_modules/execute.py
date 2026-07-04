@@ -14,6 +14,7 @@ from utils import *
 from persona.cognitive_modules.action_command_utils import infer_action_command_from_event
 from persona.prompt_template.gpt_structure import get_embedding
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.memory_effects import record_execution_result_experience
 from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
 
@@ -34,6 +35,64 @@ def _is_valid_navigation_path(curr_tile, target_tile, path):
   if len(normalized_path) == 1 and normalized_curr != normalized_target:
     return False
   return True
+
+
+def _normalize_tile(tile):
+  if isinstance(tile, (list, tuple)) and len(tile) >= 2:
+    return (int(tile[0]), int(tile[1]))
+  return tile
+
+
+def _in_bounds(maze, tile):
+  x, y = tile
+  if y < 0 or y >= len(maze.collision_maze):
+    return False
+  if x < 0 or x >= len(maze.collision_maze[y]):
+    return False
+  return True
+
+
+def _is_collision_tile(maze, tile):
+  tile_info = maze.access_tile(tile)
+  if tile_info and "collision" in tile_info:
+    return bool(tile_info["collision"])
+  x, y = tile
+  return maze.collision_maze[y][x] == collision_block_id
+
+
+def _adjacent_tiles(tile):
+  x, y = tile
+  return [
+    (x, y - 1),
+    (x, y + 1),
+    (x - 1, y),
+    (x + 1, y),
+  ]
+
+
+def _expand_to_approach_tiles(maze, target_tiles):
+  expanded_tiles = []
+  for raw_tile in target_tiles:
+    tile = _normalize_tile(raw_tile)
+    if not tile or not _in_bounds(maze, tile):
+      continue
+    if not _is_collision_tile(maze, tile):
+      expanded_tiles.append(tile)
+      continue
+    for neighbor in _adjacent_tiles(tile):
+      if not _in_bounds(maze, neighbor):
+        continue
+      if _is_collision_tile(maze, neighbor):
+        continue
+      expanded_tiles.append(neighbor)
+  deduped_tiles = []
+  seen = set()
+  for tile in expanded_tiles:
+    if tile in seen:
+      continue
+    seen.add(tile)
+    deduped_tiles.append(tile)
+  return deduped_tiles
 
 def execute(persona, maze, personas, plan): 
   """
@@ -166,13 +225,15 @@ def execute(persona, maze, personas, plan):
             print(f"=== WARNING: plan address '{plan}' not found in maze.address_tiles! ===")
             target_tiles = [persona.scratch.curr_tile]
 
-    # There are sometimes more than one tile returned from this (e.g., a tabe
-    # may stretch many coordinates). So, we sample a few here. And from that 
-    # random sample, we will take the closest ones. 
-    if len(target_tiles) < 4: 
-      target_tiles = random.sample(list(target_tiles), len(target_tiles))
+    raw_target_tiles = [
+      _normalize_tile(tile) for tile in list(target_tiles)
+      if _normalize_tile(tile) is not None
+    ]
+    approach_tiles = _expand_to_approach_tiles(maze, raw_target_tiles)
+    if approach_tiles:
+      target_tiles = approach_tiles
     else:
-      target_tiles = random.sample(list(target_tiles), 4)
+      target_tiles = raw_target_tiles
     # If possible, we want personas to occupy different tiles when they are 
     # headed to the same location on the maze. It is ok if they end up on the 
     # same time, but we try to lower that probability. 
@@ -190,10 +251,14 @@ def execute(persona, maze, personas, plan):
     if len(new_target_tiles) == 0: 
       new_target_tiles = target_tiles
     target_tiles = new_target_tiles
+    curr_tile = _normalize_tile(persona.scratch.curr_tile)
+    target_tiles = sorted(
+      target_tiles,
+      key=lambda tile: abs(tile[0] - curr_tile[0]) + abs(tile[1] - curr_tile[1]),
+    )
 
     # Now that we've identified the target tile, we find the shortest path to
     # one of the target tiles. 
-    curr_tile = persona.scratch.curr_tile
     collision_maze = maze.collision_maze
     closest_target_tile = None
     path = None
@@ -227,10 +292,24 @@ def execute(persona, maze, personas, plan):
           target_address=plan,
           reason="path_not_found",
           payload={
+            "raw_target_tiles": raw_target_tiles,
             "target_tiles": target_tiles,
             "act_event": persona.scratch.act_event,
           },
         )
+      record_execution_result_experience(
+        persona,
+        f"{persona.name} tried to reach {target_label or plan} but could not find a reachable path from {persona.scratch.curr_tile}.",
+        {
+          "failed",
+          "unreachable",
+          "path_not_found",
+          "navigation_failure",
+          str(target_label or "").strip().lower(),
+          str(plan or "").strip().lower(),
+        },
+        poignancy=5.5,
+      )
       append_debug_log(
         "action_execution_debug.jsonl",
         {
@@ -238,6 +317,7 @@ def execute(persona, maze, personas, plan):
           "event": "path_not_found",
           "plan": plan,
           "curr_tile": persona.scratch.curr_tile,
+          "raw_target_tiles": raw_target_tiles,
           "target_tiles": target_tiles,
           "act_event": persona.scratch.act_event,
           "target": target_label,
@@ -409,8 +489,6 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
-
 
 
 

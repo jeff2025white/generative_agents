@@ -1,0 +1,88 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        124,
+        54
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.60000000000001,
+      "stamina": 99.71000000000001,
+      "health": 100.0,
+      "mood": 49.800000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.60000000000001,
+      "stamina": 99.79999999999997,
+      "health": 100.0,
+      "mood": 49.800000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        127,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating dinner at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.60000000000001,
+      "stamina": 99.79999999999997,
+      "health": 100.0,
+      "mood": 49.800000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2023-02-13 08:00:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2023-02-13 08:00:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:00:40"
+  }
+}

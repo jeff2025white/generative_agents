@@ -1,0 +1,20 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about a casual conversation with a pending topic to discuss further",
+        "conversing about a casual conversation with a pending topic to discuss further"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about whether to make a decision",
+        "conversing about whether to make a decision"
+      ]
+    }
+  }
+}

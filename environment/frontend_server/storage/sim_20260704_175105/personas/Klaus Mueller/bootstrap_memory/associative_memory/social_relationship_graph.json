@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.8500000000000003,
+      "recent_events": [
+        "conversing about whether to make a decision",
+        "conversing about whether to make a decision",
+        "conversing about conversing about mutual thoughts and plans",
+        "conversing about whether to make a decision",
+        "conversing about whether to make a decision"
+      ]
+    }
+  }
+}

@@ -2,15 +2,83 @@
 {% load staticfiles %}
 
 {% block content %}
+<style>
+	.sim-shell {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 380px;
+		gap: 20px;
+		padding: 16px;
+		max-width: 100vw;
+		margin: 0 auto;
+		align-items: start;
+		box-sizing: border-box;
+	}
+	.sim-left {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
+	#game-container {
+		width: 100%;
+		max-width: 100%;
+		border: 2px solid #ddd;
+		border-radius: 8px;
+		overflow: hidden;
+		background: #000;
+		box-sizing: border-box;
+	}
+	#game-container canvas {
+		display: block;
+		width: 100% !important;
+		height: auto !important;
+		max-width: 100%;
+	}
+	.sim-right {
+		min-width: 320px;
+		max-width: 420px;
+		background-color: #FDFDFD;
+		padding: 15px;
+		border: 1px solid #E0E0E0;
+		border-radius: 8px;
+		max-height: calc(100vh - 40px);
+		overflow-y: auto;
+		position: sticky;
+		top: 16px;
+		box-sizing: border-box;
+	}
+	.sim-meta {
+		width: 100%;
+		margin-top: 1.5em;
+		padding: 0 10px;
+		box-sizing: border-box;
+	}
+	@media (max-width: 1200px) {
+		.sim-shell {
+			grid-template-columns: minmax(0, 1fr) 340px;
+		}
+	}
+	@media (max-width: 980px) {
+		.sim-shell {
+			grid-template-columns: 1fr;
+		}
+		.sim-right {
+			position: static;
+			max-width: none;
+			min-width: 0;
+			max-height: none;
+		}
+	}
+</style>
 <br>
 <br>
-<div style="display: flex; gap: 20px; padding: 10px; max-width: 1900px; margin: 0 auto; align-items: flex-start; justify-content: center;">
+<div class="sim-shell">
 	<!-- Left Side: Map and Controls -->
-	<div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; width: 1500px;">
-		<div id="game-container" style="text-align: center; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; background: #000;"></div>
+	<div class="sim-left">
+		<div id="game-container" style="text-align: center;"></div>
 
 		<!-- Time and Step on the same row -->
-		<div style="width: 100%; margin-top: 1.5em; padding: 0 10px;">
+		<div class="sim-meta">
 			<div class="row" style="display: flex; align-items: center; margin-bottom: 1em;">
 				<div class="col-md-8" id="game-time" style="text-align: left;">
 					<h3 style="margin: 0; font-size: 1.5em;">Current Time: <span id="game-time-content"></span></h3>
@@ -40,7 +108,7 @@
 	</div>
 
 	<!-- Right Side: Character Cards -->
-	<div style="flex: 1 1 auto; min-width: 350px; max-width: 480px; background-color: #FDFDFD; padding: 15px; border: 1px solid #E0E0E0; border-radius: 8px; max-height: 900px; overflow-y: auto;">
+	<div class="sim-right">
 		<h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.6em; font-weight: bold; border-bottom: 2px solid #4CAF50; padding-bottom: 8px;">
 			角色信息
 		</h3>
@@ -144,4 +212,3 @@
 <script src='https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js'></script>
 {% include 'home/main_script.html' %}
 {% endblock content %}
-

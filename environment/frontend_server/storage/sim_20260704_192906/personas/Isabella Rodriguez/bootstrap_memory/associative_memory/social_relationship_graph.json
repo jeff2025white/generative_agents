@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about a casual conversation with a pending topic to discuss further",
+        "conversing about a casual conversation with a pending topic to discuss further"
+      ]
+    }
+  }
+}

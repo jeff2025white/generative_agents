@@ -14,7 +14,7 @@ import uuid
 sys.path.append('../../')
 
 from global_methods import *
-from llm_api_config import get_default_decision_request_config
+from llm_api_config import get_default_decision_request_config, get_default_translation_request_config
 from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
 from persona.cognitive_modules.action_target_resolver import (
   resolve_action_target_address,
@@ -127,6 +127,34 @@ def _normalize_reachable_targets(resources):
     seen.add(lowered)
     targets.append(text)
   return sorted(targets, key=lambda item: item.lower())
+
+
+def _resolve_food_source_address(persona, target):
+  if not target:
+    return None
+  s_mem = getattr(persona, "s_mem", None)
+  if not s_mem:
+    return None
+  addresses = s_mem.find_all_objects(target) if hasattr(s_mem, "find_all_objects") else []
+  if not addresses:
+    single = s_mem.find_nearest_object(target)
+    addresses = [single] if single else []
+  world_state = getattr(persona, "world_resource_state", None)
+  for address in addresses:
+    if not world_state or world_state.is_available(address):
+      return address
+  return addresses[0] if addresses else None
+
+
+def _describe_resource_state(persona, obj, address=None):
+  world_state = getattr(persona, "world_resource_state", None)
+  canonical_target = normalize_food_source_target(obj)
+  if not world_state or canonical_target not in VALID_GATHER_FOOD_SOURCES:
+    return "normal"
+  source_address = address or _resolve_food_source_address(persona, canonical_target)
+  if source_address:
+    return f"stock: {world_state.describe_address(source_address)}"
+  return "stock: unknown"
 
 
 def _inventory_state_label(inventory):
@@ -325,7 +353,7 @@ def _run_decision_pipeline(persona,
       retry_count=1,
       decision_id=decision_id,
       persona=persona,
-      request_config=decision_request_config,
+      request_config=get_default_translation_request_config(),
   )
   timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
   should_retry, retry_reason = validate_decision_target(decision, invalid_targets)
@@ -1816,7 +1844,7 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "💤"
     persona.scratch.act_event = (persona.name, "idle", "none")
-    persona.scratch.act_command = build_action_command("rest", "none", source="survival_direct", raw_action="idle")
+    persona.scratch.act_command = build_action_command("idle", "none", source="survival_direct", raw_action="idle")
     persona.scratch.act_path_set = False
     return persona.scratch.act_address
 
@@ -1922,7 +1950,15 @@ def decide_demand_action(persona, maze):
         for obj in persona.s_mem.tree[w][s][a]:
           objs.add(obj)
   objs_list = list(objs)
-  gatherable_food_targets = [obj for obj in objs_list if is_valid_gather_food_source(obj)]
+  world_state = getattr(persona, "world_resource_state", None)
+  gatherable_food_targets = []
+  for obj in objs_list:
+    normalized_obj = normalize_food_source_target(obj)
+    if not is_valid_gather_food_source(normalized_obj):
+      continue
+    if not world_state or world_state.has_available_target(normalized_obj):
+      gatherable_food_targets.append(normalized_obj)
+  gatherable_food_targets = list(dict.fromkeys(gatherable_food_targets))
 
   # Query environment micro-states and cooperative details
   object_states = []
@@ -1930,6 +1966,7 @@ def decide_demand_action(persona, maze):
   
   for obj in objs_list:
     address = persona.s_mem.find_nearest_object(obj)
+    resource_state = _describe_resource_state(persona, obj, address=address)
     if address and address in maze.address_tiles:
       tiles = list(maze.address_tiles[address])
       events_on_obj = []
@@ -1942,11 +1979,11 @@ def decide_demand_action(persona, maze):
             if any(kw in ev_str.lower() for kw in ["waiting", "serve", "served"]):
               cooperative_events.append(f"{ev_str} (at {obj})")
       if events_on_obj:
-        object_states.append(f"{obj} (current state: {', '.join(events_on_obj)})")
+        object_states.append(f"{obj} (current state: {', '.join(events_on_obj)}; {resource_state})")
       else:
-        object_states.append(f"{obj} (idle/normal)")
+        object_states.append(f"{obj} (idle/normal; {resource_state})")
     else:
-      object_states.append(f"{obj} (normal)")
+      object_states.append(f"{obj} ({resource_state})")
 
   # Compile Temporal Context
   curr_time_str = persona.scratch.curr_time.strftime("%A %B %d, %Y, %I:%M %p") if persona.scratch.curr_time else "Unknown"
@@ -1958,7 +1995,7 @@ def decide_demand_action(persona, maze):
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
       "- Resting (Rest action) restores +40.0 Stamina.",
-      "- Socializing (Socialize action) restores +30.0 Mood.",
+      "- Socializing (Socialize action) provides a small mood lift (+6.0 Mood) and a little comfort, but short chats should not dramatically change your emotional state.",
       "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.",
       "- Normal activities decay Stamina by -0.015 per step, walking decays Stamina by -0.022 per step.",
       "- Sleeping restores Stamina by +0.05 per step, resting restores Stamina by +0.03 per step.",
@@ -1978,6 +2015,11 @@ def decide_demand_action(persona, maze):
         break
     if not has_food:
       rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: Since your inventory is empty, you CANNOT eat directly. You MUST utilize a valid nearby food source (like refrigerator, stove, cafe counter, or apple tree) with the 'Gather' action to get food first.")
+  if not any(v > 0 for v in persona.scratch.inventory.values()):
+    if world_state and any(t in gatherable_food_targets for t in ["refrigerator", "stove", "cafe counter", "apple tree"]):
+      rules_list.insert(0, "- FOOD SECURITY RULE: Your inventory is empty. Even if you are not starving yet, you should prefer gathering food to rebuild a small safety stock instead of doing optional leisure or party preparation.")
+    if world_state and not any(t in gatherable_food_targets for t in ["refrigerator", "stove", "cafe counter"]) and "apple tree" in gatherable_food_targets:
+      rules_list.insert(0, "- FORAGING RULE: Known town food sources are depleted or unavailable. You should go to the apple tree in the wild to gather food.")
   
   if persona.scratch.stamina < 40.0:
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, and normal activities decay it by -0.015 per step.")
@@ -2266,6 +2308,12 @@ def decide_demand_action(persona, maze):
         act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
         new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
         resolution_meta = {"kind": "llm_object_fallback", "matched": act_game_object}
+  if normalized_skill_id == "gather" and is_valid_gather_food_source(target):
+    available_address = _resolve_food_source_address(persona, target)
+    if available_address and available_address != new_address:
+      resolution_meta = dict(resolution_meta or {})
+      resolution_meta["retargeted_to_available_source"] = available_address
+      new_address = available_address
   timings_ms["target_resolution"] = _elapsed_ms(phase_started_at)
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)

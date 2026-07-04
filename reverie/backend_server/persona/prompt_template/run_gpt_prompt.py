@@ -119,6 +119,45 @@ def _append_training_prep_prompt_log(persona, prompt_kind, prompt, decision_id=N
   )
 
 
+def _get_recent_action_observation(scratch, max_age_steps=6):
+  getter = getattr(scratch, "get_recent_action_observation", None)
+  if callable(getter):
+    return getter(max_age_steps=max_age_steps)
+  return getattr(scratch, "last_action_observation", None)
+
+
+def _build_recent_observation_line(scratch):
+  observation = _get_recent_action_observation(scratch)
+  if not observation:
+    return None
+  result = str(observation.get("result") or "unknown").strip().lower()
+  reason = str(observation.get("reason") or "").strip().lower()
+  target = observation.get("target") or "unknown"
+  target_address = observation.get("target_address") or "unknown"
+  curr_step = observation.get("curr_step")
+  if result == "failed" and reason == "resource_empty":
+    return (
+      "Observation: "
+      f"step={curr_step} result=failed target={target} target_address={target_address} "
+      "outcome=reached_target_but_resource_empty. "
+      "This is the latest execution feedback from the environment."
+    )
+  if result == "failed":
+    return (
+      "Observation: "
+      f"step={curr_step} result=failed target={target} target_address={target_address} "
+      f"reason={reason or 'unknown'}. "
+      "This is the latest execution feedback from the environment."
+    )
+  action_description = observation.get("action_description") or observation.get("skill_id") or "previous action"
+  return (
+    "Observation: "
+    f"step={curr_step} result=completed target={target} target_address={target_address} "
+    f"outcome={_compact_multiline_block(str(action_description), max_lines=1, max_chars=120)}. "
+    "This is the latest execution feedback from the environment."
+  )
+
+
 ##############################################################################
 # CHAPTER 1: Run GPT Prompt
 ##############################################################################
@@ -3173,7 +3212,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
         "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).",
         "- Gathering food (Gather action) adds items to inventory.",
         "- Resting (Rest action) restores Stamina (+40.0 Stamina).",
-        "- Socializing (Socialize action) restores Mood (+30.0 Mood).",
+        "- Socializing (Socialize action) gives only a small Mood lift (+6.0 Mood); a brief chat should not massively change emotion.",
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
       ]
       
@@ -3382,6 +3421,7 @@ def build_decision_capsule(persona,
     navigation_failure = failure_getter()
   else:
     navigation_failure = getattr(scratch, "navigation_failure", None)
+  observation_line = _build_recent_observation_line(scratch)
   if not temporal_context:
     temporal_context = f"Current Time: {scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if scratch.curr_time else 'Unknown'}"
   if not status_summary:
@@ -3403,18 +3443,32 @@ def build_decision_capsule(persona,
     failure_payload = navigation_failure.get("payload") or {}
     candidate_targets = failure_payload.get("target_tiles") or []
     candidate_preview = ", ".join(str(item) for item in list(candidate_targets)[:4]) if candidate_targets else "none"
-    navigation_failure_line = (
-      "NavigationFailure: "
-      f"previous_step_failed=true "
-      f"target={navigation_failure.get('target') or 'unknown'} "
-      f"target_address={navigation_failure.get('target_address') or 'unknown'} "
-      f"reason={navigation_failure.get('reason') or 'unknown'} "
-      f"from_tile={navigation_failure.get('curr_tile')} "
-      f"candidate_tiles={candidate_preview}. "
-      "The previous immediate action failed because this target was not reachable. "
-      "For the next immediate decision, you must choose a new feasible target or a materially different plan right now. "
-      "Do not repeat the same failed target in the next step."
-    )
+    failure_reason = str(navigation_failure.get('reason') or 'unknown').strip().lower()
+    if failure_reason == "resource_empty":
+      navigation_failure_line = (
+        "ExecutionResult: "
+        f"previous_step_failed=true "
+        f"target={navigation_failure.get('target') or 'unknown'} "
+        f"target_address={navigation_failure.get('target_address') or 'unknown'} "
+        f"reason={navigation_failure.get('reason') or 'unknown'} "
+        f"from_tile={navigation_failure.get('curr_tile')}. "
+        "The previous immediate action reached the target, but that specific resource was empty. "
+        "Use this as new evidence for the next immediate decision. You may try another instance of the same resource type, "
+        "switch to a different food source, or choose another materially feasible immediate plan."
+      )
+    else:
+      navigation_failure_line = (
+        "NavigationFailure: "
+        f"previous_step_failed=true "
+        f"target={navigation_failure.get('target') or 'unknown'} "
+        f"target_address={navigation_failure.get('target_address') or 'unknown'} "
+        f"reason={navigation_failure.get('reason') or 'unknown'} "
+        f"from_tile={navigation_failure.get('curr_tile')} "
+        f"candidate_tiles={candidate_preview}. "
+        "The previous immediate action failed because this target was not reachable. "
+        "For the next immediate decision, you must choose a new feasible target or a materially different plan right now. "
+        "Do not repeat the same failed target in the next step."
+      )
 
   capsule_lines = [
     f"Time: {compact_temporal_context}",
@@ -3437,6 +3491,8 @@ def build_decision_capsule(persona,
       f"inventory={_compact_inventory_context(getattr(scratch, 'inventory', {}) or {})}"
     ),
   ]
+  if observation_line:
+    capsule_lines.append(observation_line)
   if navigation_failure_line:
     capsule_lines.append(navigation_failure_line)
   if invalid_targets:
@@ -3490,9 +3546,24 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       navigation_failure = failure_getter()
     if navigation_failure:
       failed_target = navigation_failure.get("target") or navigation_failure.get("target_address") or "the previous destination"
+      failure_reason = str(navigation_failure.get("reason") or "").strip().lower()
+      if failure_reason == "resource_empty":
+        parts.append(
+          f"Recent execution result: {failed_target} was reached, but that specific resource was empty. "
+          "Treat this as fresh evidence and decide what feasible immediate option to try next."
+        )
+      else:
+        parts.append(
+          f"Recent navigation failure: {failed_target} was unreachable from the current location, so the previous immediate action failed. "
+          "You must choose a different immediate target or materially different plan now instead of repeating that failed target."
+        )
+    latest_observation = _get_recent_action_observation(persona.scratch)
+    if latest_observation and str(latest_observation.get("result") or "").strip().lower() == "completed":
+      observed_target = latest_observation.get("target") or latest_observation.get("target_address") or "the previous target"
+      observed_outcome = latest_observation.get("action_description") or latest_observation.get("skill_id") or "completed successfully"
       parts.append(
-        f"Recent navigation failure: {failed_target} was unreachable from the current location, so the previous immediate action failed. "
-        "You must choose a different immediate target or materially different plan now instead of repeating that failed target."
+        f"Latest execution feedback: the previous immediate action involving {observed_target} completed successfully ({observed_outcome}). "
+        "Use this fresh result when choosing the next immediate action."
       )
     if not parts:
       return "No explicit interrupt is pending; focus on whether the newest local situation materially changes urgency."

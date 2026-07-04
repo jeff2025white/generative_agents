@@ -1,0 +1,96 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 08:13:00",
+  "curr_tile": [
+    56,
+    25
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 73.68000000000013,
+  "stamina": 84.77000000000046,
+  "health": 100.0,
+  "mood": 54.84000000000007,
+  "last_social_time": null,
+  "last_action_switch_time": "February 13, 2023, 08:05:50",
+  "decision_commit_until_step": 38,
+  "last_decision_signature": {
+    "skill_id": "work",
+    "target": "behind the bar counter",
+    "intent_family": "work"
+  },
+  "last_decision_reason": "preparing for the upcoming Valentine's Day party",
+  "recent_completed_action_signature": {
+    "skill_id": "work",
+    "target": "behind the bar counter",
+    "intent_family": "work"
+  },
+  "recent_completed_action_step": 78,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 78,
+  "importance_ele_n": 43,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "February 13, 2023, 08:05:50",
+  "act_duration": 60,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": "pub is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "pub",
+    "is",
+    "being used"
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

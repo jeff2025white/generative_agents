@@ -271,6 +271,11 @@ def generate_live_turn(prompt, turn_index, repeat=3):
             attempt_record["json_candidate"] = json_candidate
             data = json.loads(json_candidate)
             parsed_response = data["output"] if isinstance(data, dict) and "output" in data else data
+            if isinstance(parsed_response, str):
+                try:
+                    parsed_response = json.loads(parsed_response)
+                except Exception:
+                    pass
             attempt_record["parsed_response"] = parsed_response
             is_valid = is_structurally_valid_social_chat_response(parsed_response)
             attempt_record["valid"] = bool(is_valid)

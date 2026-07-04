@@ -1,0 +1,218 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u597d\uff01"
+        ],
+        [
+          "Klaus Mueller",
+          "\u662f\u7684\uff0c\u6211\u4e5f\u8fd9\u4e48\u89c9\u5f97\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u6211\u4e5f\u662f\u8fd9\u4e48\u60f3\u7684\uff0c\u4e0d\u8fc7\u8fd8\u5f97\u518d\u770b\u770b\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002",
+      "satiety": 57.760000000000474,
+      "stamina": 99.89,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idling briefly to stabilize after eating",
+          "created": "2023-02-13 08:46:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idling briefly to stabilize after eating",
+          "created": "2023-02-13 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2023-02-13 08:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller ...",
+          "created": "2023-02-13 08:44:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Klaus Mueller's planning: ...",
+          "created": "2023-02-13 08:44:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling briefly to stabilize after eating",
+          "created": "2023-02-13 08:23:20",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2023-02-13 08:35:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2023-02-13 08:22:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 08:35:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2023-02-13 08:22:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idling",
+          "created": "2023-02-13 08:45:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2023-02-13 08:23:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2023-02-13 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        38,
+        44
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:artist's co-living space:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 90.8000000000002,
+      "stamina": 81.77000000000142,
+      "health": 100.0,
+      "mood": 77.17999999999884,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        41,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u597d\uff01"
+        ],
+        [
+          "Klaus Mueller",
+          "\u662f\u7684\uff0c\u6211\u4e5f\u8fd9\u4e48\u89c9\u5f97\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u6211\u4e5f\u662f\u8fd9\u4e48\u60f3\u7684\uff0c\u4e0d\u8fc7\u8fd8\u5f97\u518d\u770b\u770b\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u90a3\u6211\u5148\u53bb\u5fd9\u4e86\uff0c\u56de\u5934\u518d\u804a\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u6211\u4e5f\u662f\u8fd9\u4e48\u60f3\u7684\uff0c\u4e0d\u8fc7\u8fd8\u5f97\u518d\u770b\u770b\u3002",
+      "satiety": 57.760000000000474,
+      "stamina": 99.91999999999999,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:46:10"
+  }
+}

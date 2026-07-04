@@ -3,11 +3,11 @@
 LOCAL_LLM_CONFIG = {
     "api_key": "ollama",
     "api_base": "http://localhost:11434/v1",
-    "model": "deepseek-r1:7b",
+    "model": "qwen2.5:7b",
 }
 
 DEEPSEEK_CHAT_REQUEST_CONFIG = {
-    "api_key": "sk-f7775909e210487eb449ee89cef77126",
+    "api_key": "sk-e90e8621f78f4bc68483e407f9c1bdd6",
     "api_base": "https://api.deepseek.com/v1",
     "model": "deepseek-chat",
 }

@@ -231,7 +231,7 @@ def GPT4_request(prompt):
   return ChatGPT_request(prompt, prompt_kind="gpt4_request")
 
 
-def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config=None): 
+def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config=None, skip_cache=False): 
   """
   Given a prompt and a dictionary of GPT parameters, make a request to OpenAI
   server and returns the response. 
@@ -250,32 +250,33 @@ def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config
   key = _cache_key(prompt, _cache_scope("chatgpt", resolved_config))
   prompt_hash = _short_hash(prompt)
   caller = _caller_label("ChatGPT_request")
-  cached = _get_cached(key)
-  if cached is not None:
-    _log_llm_event(
-      "chatgpt_request",
-      {
-        "caller": caller,
-        "prompt_kind": prompt_kind,
-        "cache_hit": True,
-        "prompt_hash": prompt_hash,
-        "prompt_chars": len(prompt),
-        "response_chars": len(str(cached)),
-        "duration_ms": 0.0,
-        "metadata": metadata,
-        "decision_id": decision_id,
-        "retry_count": 0,
-        "api_base": resolved_config.get("api_base"),
-        "model": resolved_config.get("model"),
-        "total_ms": 0.0,
-        "load_ms": 0.0,
-        "prompt_eval_ms": 0.0,
-        "eval_ms": 0.0,
-        "prompt_eval_count": 0,
-        "eval_count": 0,
-      }
-    )
-    return cached
+  if not skip_cache:
+    cached = _get_cached(key)
+    if cached is not None:
+      _log_llm_event(
+        "chatgpt_request",
+        {
+          "caller": caller,
+          "prompt_kind": prompt_kind,
+          "cache_hit": True,
+          "prompt_hash": prompt_hash,
+          "prompt_chars": len(prompt),
+          "response_chars": len(str(cached)),
+          "duration_ms": 0.0,
+          "metadata": metadata,
+          "decision_id": decision_id,
+          "retry_count": 0,
+          "api_base": resolved_config.get("api_base"),
+          "model": resolved_config.get("model"),
+          "total_ms": 0.0,
+          "load_ms": 0.0,
+          "prompt_eval_ms": 0.0,
+          "eval_ms": 0.0,
+          "prompt_eval_count": 0,
+          "eval_count": 0,
+        }
+      )
+      return cached
 
   # temp_sleep()
   started_at = time.perf_counter()
@@ -289,7 +290,8 @@ def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config
     )
     metrics = _extract_ollama_metrics(completion)
     result = completion["choices"][0]["message"]["content"]
-    _set_cached(key, result)
+    if not skip_cache:
+      _set_cached(key, result)
     _log_llm_event(
       "chatgpt_request",
       {
@@ -404,7 +406,8 @@ def ChatGPT_safe_generate_response(prompt,
                                    verbose=False,
                                    prompt_kind="generic",
                                    metadata=None,
-                                   request_config=None): 
+                                   request_config=None,
+                                   skip_cache=False): 
   # prompt = 'GPT-3 Prompt:\n"""\n' + prompt + '\n"""\n'
   metadata = dict(metadata or {})
   prompt = '"""\n' + prompt + '\n"""\n'
@@ -430,13 +433,32 @@ def ChatGPT_safe_generate_response(prompt,
         prompt_kind=prompt_kind,
         metadata=dict(metadata, safe_repeat=repeat, safe_attempt=i + 1),
         request_config=resolved_config,
+        skip_cache=skip_cache,
       )
       cleaned_resp = clean_json_str(raw_response)
       end_index = cleaned_resp.rfind('}') + 1
       curr_gpt_response = cleaned_resp[:end_index]
-      data = json.loads(curr_gpt_response)
+      try:
+        data = json.loads(curr_gpt_response)
+      except json.JSONDecodeError:
+        # Handle nested JSON where inner braces are not escaped,
+        # e.g. {"output": "{"utterance": "...", ...}"}
+        inner_start = curr_gpt_response.find('{', 1)
+        inner_end = curr_gpt_response.rfind('}', 0, len(curr_gpt_response) - 1)
+        if inner_start != -1 and inner_end != -1 and inner_end > inner_start:
+          data = json.loads(curr_gpt_response[inner_start:inner_end + 1])
+        else:
+          raise
       if isinstance(data, dict) and "output" in data:
-        curr_gpt_response = data["output"]
+        output_val = data["output"]
+        # The output value itself may be a JSON string that needs parsing
+        if isinstance(output_val, str):
+          try:
+            curr_gpt_response = json.loads(output_val)
+          except (json.JSONDecodeError, ValueError):
+            curr_gpt_response = output_val
+        else:
+          curr_gpt_response = output_val
       else:
         curr_gpt_response = data
       

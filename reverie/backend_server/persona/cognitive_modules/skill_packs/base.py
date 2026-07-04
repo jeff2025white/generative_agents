@@ -18,6 +18,7 @@ class BaseSkillPack:
         prompt_kind="generic",
         metadata=None,
         request_config=None,
+        skip_cache=False,
     ):
         """
         Unified LLM request interface for all skill packs. 
@@ -32,6 +33,7 @@ class BaseSkillPack:
                 prompt_kind=prompt_kind,
                 metadata=metadata,
                 request_config=request_config,
+                skip_cache=skip_cache,
             )
         except Exception as e:
             print(f"Error in run_skill_llm_request for skill '{self.name}': {e}")

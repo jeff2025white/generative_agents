@@ -79,6 +79,7 @@ class Scratch:
     self.suspended_action_step = None
     self.pending_interrupt = None
     self.navigation_failure = None
+    self.last_action_observation = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -258,6 +259,7 @@ class Scratch:
       self.suspended_action_step = scratch_load.get("suspended_action_step", None)
       self.pending_interrupt = scratch_load.get("pending_interrupt", None)
       self.navigation_failure = scratch_load.get("navigation_failure", None)
+      self.last_action_observation = scratch_load.get("last_action_observation", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -377,6 +379,7 @@ class Scratch:
     scratch["suspended_action_step"] = self.suspended_action_step
     scratch["pending_interrupt"] = self.pending_interrupt
     scratch["navigation_failure"] = self.navigation_failure
+    scratch["last_action_observation"] = self.last_action_observation
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -966,6 +969,16 @@ class Scratch:
       "curr_tile": list(self.curr_tile) if isinstance(self.curr_tile, (list, tuple)) else self.curr_tile,
       "curr_step": self.curr_step,
     }
+    self.last_action_observation = {
+      "kind": "execution_result",
+      "result": "failed",
+      "target": target,
+      "target_address": target_address,
+      "reason": reason,
+      "payload": payload or {},
+      "curr_tile": list(self.curr_tile) if isinstance(self.curr_tile, (list, tuple)) else self.curr_tile,
+      "curr_step": self.curr_step,
+    }
 
 
   def get_recent_navigation_failure(self, max_age_steps=6):
@@ -993,6 +1006,18 @@ class Scratch:
 
   def clear_navigation_failure(self):
     self.navigation_failure = None
+
+
+  def get_recent_action_observation(self, max_age_steps=6):
+    observation = self.last_action_observation or {}
+    if not observation:
+      return None
+    observed_step = observation.get("curr_step")
+    if self.curr_step is None or observed_step is None:
+      return observation
+    if self.curr_step - observed_step > max_age_steps:
+      return None
+    return observation
 
 
   def suspend_current_action(self, reason, source="system"):
@@ -1089,6 +1114,15 @@ class Scratch:
     )
     self.recent_completed_action_signature = signature
     self.recent_completed_action_step = self.curr_step
+    self.last_action_observation = {
+      "kind": "execution_result",
+      "result": "completed",
+      "target": signature.get("target"),
+      "target_address": action_address or self.act_address,
+      "skill_id": signature.get("skill_id"),
+      "action_description": action_description or self.act_description,
+      "curr_step": self.curr_step,
+    }
     append_debug_log(
       "decision_stability.jsonl",
       {
@@ -1203,7 +1237,6 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
 
 
 
