@@ -78,6 +78,32 @@
 	var pronunciatios = {};
 	var speech_bubbles = {};
 	let anims_direction;
+
+	function resolvePersonaLastChat(personaData, personaName) {
+	  if (!personaData || typeof personaData !== "object") {
+	    return "None at the moment";
+	  }
+	  const chatTurns = Array.isArray(personaData["chat"]) ? personaData["chat"] : [];
+	  for (let i = chatTurns.length - 1; i >= 0; i--) {
+	    const turn = chatTurns[i];
+	    if (!Array.isArray(turn) || turn.length < 2) {
+	      continue;
+	    }
+	    if (turn[0] === personaName && turn[1]) {
+	      return String(turn[1]);
+	    }
+	  }
+	  const serializedLastChat = personaData["last_chat"];
+	  if (!serializedLastChat) {
+	    return "None at the moment";
+	  }
+	  const lastChatText = String(serializedLastChat);
+	  if (lastChatText === "None at the moment") {
+	    return lastChatText;
+	  }
+	  const prefix = personaName + ": ";
+	  return lastChatText.startsWith(prefix) ? lastChatText.slice(prefix.length) : lastChatText;
+	}
 	let pre_anims_direction;
 	let pre_anims_direction_dict = {};
 
@@ -397,7 +423,8 @@
 	        let description_content = all_movement[step][curr_persona_name.replace("_", " ")]["description"];
 	        let chat_content = "";
 	        if (all_movement[step] && all_movement[step][curr_persona_name.replace("_", " ")]) {
-	          chat_content = all_movement[step][curr_persona_name.replace("_", " ")]["last_chat"] || "None at the moment";
+	          const personaMove = all_movement[step][curr_persona_name.replace("_", " ")];
+	          chat_content = resolvePersonaLastChat(personaMove, curr_persona_name.replace("_", " "));
 	        }
 	        if (!chat_content || chat_content === "None at the moment") {
 	          chat_content = "<em>None at the moment</em>";

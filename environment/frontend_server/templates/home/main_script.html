@@ -121,6 +121,32 @@
 		focus_persona_target = name;
 	};
 
+	function resolvePersonaLastChat(personaData, personaName) {
+	  if (!personaData || typeof personaData !== "object") {
+	    return "None at the moment";
+	  }
+	  const chatTurns = Array.isArray(personaData["chat"]) ? personaData["chat"] : [];
+	  for (let i = chatTurns.length - 1; i >= 0; i--) {
+	    const turn = chatTurns[i];
+	    if (!Array.isArray(turn) || turn.length < 2) {
+	      continue;
+	    }
+	    if (turn[0] === personaName && turn[1]) {
+	      return String(turn[1]);
+	    }
+	  }
+	  const serializedLastChat = personaData["last_chat"];
+	  if (!serializedLastChat) {
+	    return "None at the moment";
+	  }
+	  const lastChatText = String(serializedLastChat);
+	  if (lastChatText === "None at the moment") {
+	    return lastChatText;
+	  }
+	  const prefix = personaName + ": ";
+	  return lastChatText.startsWith(prefix) ? lastChatText.slice(prefix.length) : lastChatText;
+	}
+
 	// Variables for storing movements that are sent from the backend server.
 	let execute_movement;
 	let execute_count_max = tile_width/movement_speed;
@@ -585,12 +611,12 @@
 	      	let action_description = ""
 	        let curr_persona_name = Object.keys(personas)[i];
 	        let curr_persona_name_os = curr_persona_name.replace(/ /g,"_");
-	        let description_content = execute_movement["persona"][curr_persona_name]["description"];
-	        let chat_content = execute_movement["persona"][curr_persona_name]["last_chat"] || "None at the moment";
+	        let persona_move = execute_movement["persona"][curr_persona_name];
+	        let description_content = persona_move["description"];
+	        let chat_content = resolvePersonaLastChat(persona_move, curr_persona_name);
 	        let description_parts = description_content.split("@");
 	        let action_text = description_parts[0] || "";
 	        let address_text = description_parts.length > 1 ? description_parts[1] : "";
-	        chat_content = String(chat_content).replace(/^[^:]+:\s*/, "");
 	        if (chat_content === "None at the moment") {
 	          chat_content = "<em>None at the moment</em>";
 	        }
@@ -898,7 +924,6 @@ function sendChatMessage() {
 }
 
 </script>
-
 
 
 
