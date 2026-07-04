@@ -16,6 +16,16 @@ from persona.cognitive_modules.action_command_utils import (
 )
 from persona.cognitive_modules.debug_log import append_debug_log
 
+
+def _normalize_event_tuple(raw_event, fallback):
+  if isinstance(raw_event, list):
+    return tuple(raw_event)
+  if isinstance(raw_event, tuple):
+    return raw_event
+  if raw_event is None:
+    return fallback
+  return raw_event
+
 class Scratch: 
   def __init__(self, f_saved): 
     # PERSONA HYPERPARAMETERS
@@ -57,7 +67,7 @@ class Scratch:
     self.stamina = 100.0
     self.health = 100.0
     # Psychological and switching state
-    self.mood = 100.0
+    self.mood = 50.0
     self.last_social_time = None
     self.last_action_switch_time = None
     self.decision_commit_until_step = None
@@ -68,6 +78,7 @@ class Scratch:
     self.suspended_action = None
     self.suspended_action_step = None
     self.pending_interrupt = None
+    self.navigation_failure = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -202,7 +213,8 @@ class Scratch:
 
     if check_if_file_exists(f_saved): 
       # If we have a bootstrap file, load that here. 
-      scratch_load = json.load(open(f_saved, encoding="utf-8"))
+      with open(f_saved, encoding="utf-8") as scratch_file:
+        scratch_load = json.load(scratch_file)
 
       self.vision_r = scratch_load["vision_r"]
       self.att_bandwidth = scratch_load["att_bandwidth"]
@@ -230,7 +242,7 @@ class Scratch:
       self.satiety = scratch_load.get("satiety", 40.0)
       self.stamina = scratch_load.get("stamina", 100.0)
       self.health = scratch_load.get("health", 100.0)
-      self.mood = scratch_load.get("mood", 100.0)
+      self.mood = scratch_load.get("mood", 50.0)
       
       lst_str = scratch_load.get("last_social_time", None)
       self.last_social_time = datetime.datetime.strptime(lst_str, "%B %d, %Y, %H:%M:%S") if lst_str else None
@@ -245,6 +257,7 @@ class Scratch:
       self.suspended_action = scratch_load.get("suspended_action", None)
       self.suspended_action_step = scratch_load.get("suspended_action_step", None)
       self.pending_interrupt = scratch_load.get("pending_interrupt", None)
+      self.navigation_failure = scratch_load.get("navigation_failure", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -287,12 +300,18 @@ class Scratch:
       self.act_duration = scratch_load["act_duration"]
       self.act_description = scratch_load["act_description"]
       self.act_pronunciatio = scratch_load["act_pronunciatio"]
-      self.act_event = tuple(scratch_load["act_event"])
+      self.act_event = _normalize_event_tuple(
+        scratch_load.get("act_event"),
+        (self.name, None, None),
+      )
       self.act_command = scratch_load.get("act_command", infer_action_command_from_event(self.act_event, source="load"))
 
       self.act_obj_description = scratch_load["act_obj_description"]
       self.act_obj_pronunciatio = scratch_load["act_obj_pronunciatio"]
-      self.act_obj_event = tuple(scratch_load["act_obj_event"])
+      self.act_obj_event = _normalize_event_tuple(
+        scratch_load.get("act_obj_event"),
+        (None, None, None),
+      )
 
       self.chatting_with = scratch_load.get("chatting_with")
       self.chat = scratch_load.get("chat")
@@ -357,6 +376,7 @@ class Scratch:
     scratch["suspended_action"] = self.suspended_action
     scratch["suspended_action_step"] = self.suspended_action_step
     scratch["pending_interrupt"] = self.pending_interrupt
+    scratch["navigation_failure"] = self.navigation_failure
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -937,6 +957,44 @@ class Scratch:
     self.act_obj_event = (None, None, None)
 
 
+  def note_navigation_failure(self, target=None, target_address=None, reason="path_not_found", payload=None):
+    self.navigation_failure = {
+      "target": target,
+      "target_address": target_address,
+      "reason": reason,
+      "payload": payload or {},
+      "curr_tile": list(self.curr_tile) if isinstance(self.curr_tile, (list, tuple)) else self.curr_tile,
+      "curr_step": self.curr_step,
+    }
+
+
+  def get_recent_navigation_failure(self, max_age_steps=6):
+    failure = self.navigation_failure or {}
+    if not failure:
+      return None
+    failed_step = failure.get("curr_step")
+    if self.curr_step is None or failed_step is None:
+      return failure
+    if self.curr_step - failed_step > max_age_steps:
+      return None
+    return failure
+
+
+  def get_recent_invalid_targets(self, max_age_steps=6):
+    """Return recently failed targets that are forbidden for the next step."""
+    failure = self.get_recent_navigation_failure(max_age_steps=max_age_steps)
+    if not failure:
+      return []
+    target = str(failure.get("target") or "").strip()
+    if not target:
+      return []
+    return [target]
+
+
+  def clear_navigation_failure(self):
+    self.navigation_failure = None
+
+
   def suspend_current_action(self, reason, source="system"):
     snapshot = self._snapshot_current_action()
     if not snapshot:
@@ -1018,6 +1076,7 @@ class Scratch:
     self.suspended_action = None
     self.suspended_action_step = None
     self.pending_interrupt = None
+    self.navigation_failure = None
     return True
 
 
@@ -1140,11 +1199,6 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
-
-
-
-
 
 
 

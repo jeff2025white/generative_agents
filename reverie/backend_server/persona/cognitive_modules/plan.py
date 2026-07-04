@@ -6,17 +6,31 @@ Description: This defines the "Plan" module for generative agents.
 """
 import datetime
 import math
+import os
 import random 
 import sys
 import time
+import uuid
 sys.path.append('../../')
 
 from global_methods import *
+from llm_api_config import get_default_decision_request_config
 from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
 from persona.cognitive_modules.action_target_resolver import (
   resolve_action_target_address,
 )
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.decision_constraints import (
+  build_invalid_targets,
+  build_retry_feedback,
+  filter_invalid_resources,
+  validate_decision_target,
+)
+from persona.cognitive_modules.decision_state_cache import (
+  build_state_signature,
+  get_cached_decision,
+  put_cached_decision,
+)
 from persona.cognitive_modules.food_sources import (
   VALID_GATHER_FOOD_SOURCES,
   is_valid_gather_food_source,
@@ -27,6 +41,7 @@ from persona.cognitive_modules.intent_memory import (
   retrieve_intent_memories,
   summarize_intent_memories,
 )
+from persona.training.training_candidate_builder import normalize_training_log_record
 from persona.cognitive_modules.social_trigger import (
   choose_social_focus,
   compute_social_cooldown,
@@ -70,6 +85,285 @@ def _log_timing_event(event_name, payload):
   record["event"] = event_name
   record["slow"] = bool(total_ms >= SLOW_TIMING_THRESHOLD_MS or max_stage_ms >= SLOW_TIMING_THRESHOLD_MS)
   append_debug_log(STEP_TIMING_LOG, record)
+
+
+def _build_translation_convergence_hint(persona, intent_memory_summary):
+  hint = (
+    "Preserve the immediate intent from the natural language thought. "
+    "Do not expand into a broader alternative plan. "
+  )
+  moving_check = getattr(persona.scratch, "is_moving_to_action", None)
+  is_in_transit = moving_check() if callable(moving_check) else bool(getattr(persona.scratch, "planned_path", None))
+  if is_in_transit:
+    hint += (
+      "The agent is still in transit from the previous decision, so prefer a translation "
+      "that continues the current route unless the thought clearly names a new urgent target. "
+    )
+  if intent_memory_summary and "No especially relevant prior experience was retrieved." not in str(intent_memory_summary):
+    hint += (
+      "Relevant experience already helped narrow the choice, so translate to the most direct schema action "
+      "instead of exploring many equivalent targets. "
+    )
+  pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
+  if pending_interrupt:
+    hint += (
+      f"Reflect the newest change only if it is explicit in the thought. Latest interrupt reason: {pending_interrupt.get('reason')}. "
+    )
+  return hint
+
+
+def _normalize_reachable_targets(resources):
+  targets = []
+  seen = set()
+  for resource in resources or []:
+    text = str(resource or "").strip()
+    if not text:
+      continue
+    if "(" in text:
+      text = text.split("(", 1)[0].strip()
+    lowered = text.lower()
+    if lowered in seen:
+      continue
+    seen.add(lowered)
+    targets.append(text)
+  return sorted(targets, key=lambda item: item.lower())
+
+
+def _inventory_state_label(inventory):
+  has_items = False
+  for value in (inventory or {}).values():
+    try:
+      if int(value) > 0:
+        has_items = True
+        break
+    except Exception:
+      continue
+  return "has_food" if has_items else "empty"
+
+
+def _cooperative_state_label(cooperative_context):
+  return "none" if "No special cooperative tasks or wait states are active nearby." in str(cooperative_context or "") else "active"
+
+
+def _build_decision_state_signature(persona, intent_family, object_states, cooperative_context):
+  failure_getter = getattr(persona.scratch, "get_recent_navigation_failure", None)
+  if callable(failure_getter) and failure_getter():
+    return None
+  if intent_family not in {"restore_satiety", "restore_stamina", "restore_health"}:
+    return None
+  return build_state_signature(
+    persona_name=persona.name,
+    intent_family=intent_family,
+    satiety=persona.scratch.satiety,
+    stamina=persona.scratch.stamina,
+    health=persona.scratch.health,
+    mood=persona.scratch.mood,
+    inventory_state=_inventory_state_label(getattr(persona.scratch, "inventory", {}) or {}),
+    reachable_targets=_normalize_reachable_targets(object_states),
+    cooperative_state=_cooperative_state_label(cooperative_context),
+  )
+
+
+def _merge_timing_meta(base_meta, extra_meta):
+  merged = dict(base_meta or {})
+  for key, value in (extra_meta or {}).items():
+    try:
+      merged[key] = float(merged.get(key, 0.0) or 0.0) + float(value or 0.0)
+    except Exception:
+      merged[key] = value
+  return merged
+
+
+def _build_decision_id(persona):
+  persona_label = str(getattr(persona, "name", "persona")).strip().replace(" ", "_")
+  curr_step = getattr(getattr(persona, "scratch", None), "curr_step", None)
+  return f"{persona_label}-{curr_step}-{uuid.uuid4().hex[:8]}"
+
+
+def _build_minimal_filter_summary(persona, object_states, decision_timing_meta=None):
+  invalid_targets = build_invalid_targets(getattr(persona, "scratch", None))
+  filtered_resources = filter_invalid_resources(object_states, invalid_targets)
+  original_count = len(list(object_states or []))
+  filtered_count = len(list(filtered_resources or []))
+  removed_count = max(0, original_count - filtered_count)
+  retry_triggered = bool((decision_timing_meta or {}).get("constraint_hits", 0))
+  return {
+    "enabled": True,
+    "applied": bool(invalid_targets or removed_count or retry_triggered),
+    "invalid_targets": invalid_targets,
+    "invalid_target_count": len(invalid_targets),
+    "resource_filter_applied": removed_count > 0,
+    "removed_resource_count": removed_count,
+    "output_validation_enabled": True,
+    "retry_triggered": retry_triggered,
+  }
+
+
+def _run_decision_pipeline(persona,
+                           object_states,
+                           temporal_context,
+                           status_summary,
+                           physiological_rules,
+                           cooperative_context,
+                           last_action_desc,
+                           intent_memory_summary,
+                           intent_family=None,
+                           decision_id=None,
+                           decision_convergence_hint=None,
+                           allow_retry=True):
+  base_translation_hint = _build_translation_convergence_hint(persona, intent_memory_summary)
+  translation_convergence_hint = base_translation_hint
+  if decision_convergence_hint:
+    translation_convergence_hint = f"{base_translation_hint} {decision_convergence_hint}".strip()
+  invalid_targets = build_invalid_targets(persona.scratch)
+  use_joint_decision = os.getenv("ENABLE_JOINT_DECISION_PIPELINE", "0") == "1"
+  use_semantic_cache = os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
+  timing_meta = {
+    "decision_cache_lookup": 0.0,
+    "decision_cache_hit": 0.0,
+    "joint_decision": 0.0,
+    "demand_thinking": 0.0,
+    "action_translation": 0.0,
+    "constraint_hits": 0.0,
+    "last_retry_reason": "",
+  }
+  cache_signature = None
+  decision_request_config = get_default_decision_request_config()
+
+  if use_semantic_cache:
+    stage_started_at = time.perf_counter()
+    cache_signature = _build_decision_state_signature(
+      persona,
+      intent_family,
+      object_states,
+      cooperative_context,
+    )
+    cached_decision = get_cached_decision(cache_signature) if cache_signature else None
+    timing_meta["decision_cache_lookup"] = _elapsed_ms(stage_started_at)
+    if cached_decision:
+      timing_meta["decision_cache_hit"] = 1.0
+      thinking_text = str(cached_decision.get("thought") or cached_decision.get("detail") or "I should pause briefly.").strip()
+      return thinking_text, cached_decision, translation_convergence_hint, False, timing_meta, cache_signature
+
+  if use_joint_decision:
+    stage_started_at = time.perf_counter()
+    joint_result = run_gpt_prompt_joint_decision(
+      persona,
+      object_states,
+      temporal_context=temporal_context,
+      status_summary=status_summary,
+      rules=physiological_rules,
+      cooperative_context=cooperative_context,
+      last_action_desc=last_action_desc,
+      intent_memory_summary=intent_memory_summary,
+      decision_convergence_hint=translation_convergence_hint,
+      decision_id=decision_id,
+      request_config=decision_request_config,
+    )
+    timing_meta["joint_decision"] = _elapsed_ms(stage_started_at)
+    if isinstance(joint_result, dict) and joint_result.get("action"):
+      should_retry, retry_reason = validate_decision_target(joint_result, invalid_targets)
+      if should_retry and allow_retry:
+        retry_hint = build_retry_feedback(retry_reason)
+        timing_meta["constraint_hits"] = 1.0
+        timing_meta["last_retry_reason"] = retry_reason
+        minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
+        append_debug_log(
+          "decision_constraint_hits.jsonl",
+          {
+            "persona": persona.name,
+            "step": getattr(persona.scratch, "curr_step", None),
+            "invalid_targets": invalid_targets,
+            "original_decision": joint_result,
+            "retry_reason": retry_reason,
+            "pipeline": "joint_decision",
+            "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+            "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+            "minimal_filter_summary": minimal_filter_summary,
+          },
+        )
+        retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
+          persona,
+          object_states,
+          temporal_context,
+          status_summary,
+          physiological_rules,
+          cooperative_context,
+          last_action_desc,
+          intent_memory_summary,
+          intent_family=intent_family,
+          decision_id=decision_id,
+          decision_convergence_hint=retry_hint,
+          allow_retry=False,
+        )
+        return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
+      thinking_text = str(joint_result.get("thought") or "").strip()
+      if not thinking_text:
+        thinking_text = str(joint_result.get("detail") or "I should pause briefly.").strip()
+      return thinking_text, joint_result, translation_convergence_hint, True, timing_meta, cache_signature
+
+  stage_started_at = time.perf_counter()
+  thinking_text = run_gpt_prompt_demand_thinking(
+      persona,
+      object_states,
+      temporal_context=temporal_context,
+      status_summary=status_summary,
+      rules=physiological_rules,
+      cooperative_context=cooperative_context,
+      last_action_desc=last_action_desc,
+      intent_memory_summary=intent_memory_summary,
+      decision_id=decision_id,
+      request_config=decision_request_config,
+  )
+  timing_meta["demand_thinking"] = _elapsed_ms(stage_started_at)
+  stage_started_at = time.perf_counter()
+  decision = run_gpt_prompt_action_translation(
+      thinking_text,
+      object_states,
+      persona.scratch.get_str_firstname(),
+      decision_convergence_hint=translation_convergence_hint,
+      retry_count=1,
+      decision_id=decision_id,
+      persona=persona,
+      request_config=decision_request_config,
+  )
+  timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
+  should_retry, retry_reason = validate_decision_target(decision, invalid_targets)
+  if should_retry and allow_retry:
+    retry_hint = build_retry_feedback(retry_reason)
+    timing_meta["constraint_hits"] = 1.0
+    timing_meta["last_retry_reason"] = retry_reason
+    minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
+    append_debug_log(
+      "decision_constraint_hits.jsonl",
+      {
+        "persona": persona.name,
+        "step": getattr(persona.scratch, "curr_step", None),
+        "invalid_targets": invalid_targets,
+        "original_decision": decision,
+        "retry_reason": retry_reason,
+        "pipeline": "thinking_translation",
+        "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+        "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+        "minimal_filter_summary": minimal_filter_summary,
+      },
+    )
+    retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
+      persona,
+      object_states,
+      temporal_context,
+      status_summary,
+      physiological_rules,
+      cooperative_context,
+      last_action_desc,
+      intent_memory_summary,
+      intent_family=intent_family,
+      decision_id=decision_id,
+      decision_convergence_hint=retry_hint,
+      allow_retry=False,
+    )
+    return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
+  return thinking_text, decision, translation_convergence_hint, False, timing_meta, cache_signature
 
 
 def _infer_object_state_phrase(act_game_object, act_desp):
@@ -448,6 +742,11 @@ def _build_homeostasis_status_summary(persona):
     overall_summary = (
       f"Overall Summary: Physical recovery and safety should weigh heavily in your choices. "
       f"With Health at {health:.1f}, risky or strenuous activity deserves caution."
+    )
+  elif top_need == "mood" and mood < 60 and satiety >= 70 and stamina >= 50 and health >= 70:
+    overall_summary = (
+      f"Overall Summary: Your body is safe and well supplied, but your mood is lagging behind. "
+      f"With Mood at {mood:.1f} and Satiety at {satiety:.1f}, enjoyable leisure or social contact should usually beat neutral work or more food gathering."
     )
   elif top_need == "mood" and mood < 50:
     overall_summary = (
@@ -1689,6 +1988,17 @@ def decide_demand_action(persona, maze):
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, and normal activities decay it by -0.015 per step.")
     rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You can utilize the 'Rest' action targeting 'bed' or 'sofa' to sleep and restore Stamina.")
 
+  if (
+    persona.scratch.satiety >= 70.0
+    and persona.scratch.stamina >= 50.0
+    and persona.scratch.health >= 70.0
+    and persona.scratch.mood < 60.0
+  ):
+    rules_list.insert(
+      0,
+      f"- MOOD RECOVERY RULE: Your body is in a safe state (Satiety {persona.scratch.satiety:.1f}, Stamina {persona.scratch.stamina:.1f}, Health {persona.scratch.health:.1f}) but your Mood ({persona.scratch.mood:.1f}) is low. You should prefer 'Recreate' or 'Socialize' to raise mood instead of gathering extra food or doing neutral work."
+    )
+
   # Inject critical survival priorities (< 30.0) - Satiety (Life) overrides Stamina (Rest)
   if persona.scratch.satiety < 30.0:
     if not persona.scratch.inventory:
@@ -1732,53 +2042,25 @@ def decide_demand_action(persona, maze):
   timings_ms["intent_memory_retrieval"] = _elapsed_ms(phase_started_at)
   timings_ms["context_build"] = _elapsed_ms(context_build_started_at)
 
-  # Two-Stage Decision-Translation Pipeline:
-  # Phase 1: Cognitive Thinking (Natural language intent)
-  phase_started_at = time.perf_counter()
-  thinking_text = run_gpt_prompt_demand_thinking(
-      persona, 
-      object_states, 
-      temporal_context=temporal_context, 
-      status_summary=status_summary,
-      rules=physiological_rules, 
-      cooperative_context=cooperative_context,
-      last_action_desc=last_action_desc,
-      intent_memory_summary=intent_memory_summary,
+  decision_id = _build_decision_id(persona)
+  thinking_text, decision, translation_convergence_hint, used_joint_decision, decision_timing_meta, decision_cache_signature = _run_decision_pipeline(
+    persona,
+    object_states,
+    temporal_context,
+    status_summary,
+    physiological_rules,
+    cooperative_context,
+    last_action_desc,
+    intent_memory_summary,
+    intent_family=intent_family,
+    decision_id=decision_id,
   )
-  timings_ms["demand_thinking"] = _elapsed_ms(phase_started_at)
-  print(f"[{persona.name}] 阶段一自由思考打算: '{thinking_text}'")
-  translation_convergence_hint = (
-    "Preserve the immediate intent from the natural language thought. "
-    "Do not expand into a broader alternative plan. "
-  )
-  moving_check = getattr(persona.scratch, "is_moving_to_action", None)
-  is_in_transit = moving_check() if callable(moving_check) else bool(getattr(persona.scratch, "planned_path", None))
-  if is_in_transit:
-    translation_convergence_hint += (
-      "The agent is still in transit from the previous decision, so prefer a translation "
-      "that continues the current route unless the thought clearly names a new urgent target. "
-    )
-  if intent_memory_summary and "No especially relevant prior experience was retrieved." not in str(intent_memory_summary):
-    translation_convergence_hint += (
-      "Relevant experience already helped narrow the choice, so translate to the most direct schema action "
-      "instead of exploring many equivalent targets. "
-    )
-  pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
-  if pending_interrupt:
-    translation_convergence_hint += (
-      f"Reflect the newest change only if it is explicit in the thought. Latest interrupt reason: {pending_interrupt.get('reason')}. "
-    )
-
-  # Phase 2: Action Translation (Standard physical instruction conversion)
-  phase_started_at = time.perf_counter()
-  decision = run_gpt_prompt_action_translation(
-      thinking_text,
-      object_states,
-      persona.scratch.get_str_firstname(),
-      decision_convergence_hint=translation_convergence_hint,
-      retry_count=1,
-  )
-  timings_ms["action_translation"] = _elapsed_ms(phase_started_at)
+  timings_ms["decision_cache_lookup"] = float(decision_timing_meta.get("decision_cache_lookup", 0.0) or 0.0)
+  timings_ms["decision_cache_hit"] = float(decision_timing_meta.get("decision_cache_hit", 0.0) or 0.0)
+  timings_ms["joint_decision"] = float(decision_timing_meta.get("joint_decision", 0.0) or 0.0)
+  timings_ms["demand_thinking"] = float(decision_timing_meta.get("demand_thinking", 0.0) or 0.0)
+  timings_ms["action_translation"] = float(decision_timing_meta.get("action_translation", 0.0) or 0.0)
+  print(f"[{persona.name}] 决策输出: '{thinking_text}' (joint={used_joint_decision})")
 
   action = decision.get("action", "Idle")
   if action is None: action = "Idle"
@@ -1803,6 +2085,27 @@ def decide_demand_action(persona, maze):
   reasoning = decision.get("reasoning", "")
   if reasoning is None: reasoning = ""
   reasoning = str(reasoning)
+  minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=decision_timing_meta)
+  append_debug_log(
+    "training_dataset/decision_training_prep.jsonl",
+    normalize_training_log_record(
+      {
+        "event": "decision_logged",
+        "decision_id": decision_id,
+        "persona": persona.name,
+        "curr_step": getattr(persona.scratch, "curr_step", None),
+        "prompt_kind": "joint_decision" if used_joint_decision else "action_translation",
+        "final_prompt": None,
+        "decision": decision,
+        "constraint_hit": bool(decision_timing_meta.get("constraint_hits", 0)),
+        "retry_reason": decision_timing_meta.get("last_retry_reason", ""),
+        "execution_outcome": "decision_selected",
+        "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+        "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+        "minimal_filter_summary": minimal_filter_summary,
+      }
+    ),
+  )
   has_food_inventory = any(v > 0 for v in persona.scratch.inventory.values())
   normalized_target = normalize_food_source_target(target)
   if action.lower() == "consume" and not has_food_inventory and is_valid_gather_food_source(normalized_target):
@@ -1863,6 +2166,7 @@ def decide_demand_action(persona, maze):
 
   normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
 
+  sim_time = str(getattr(persona.scratch, "curr_time", "unknown"))
   try:
     sim_time = (persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S')
                 if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str))
@@ -1886,6 +2190,34 @@ def decide_demand_action(persona, maze):
     )
   except Exception:
     pass
+
+  if decision_cache_signature and str(normalized_skill_id or "").lower() in {"gather", "rest", "consume"}:
+    put_cached_decision(
+      decision_cache_signature,
+      {
+        "thought": thinking_text,
+        "action": action,
+        "target": target,
+        "detail": act_desp,
+        "duration": int(act_dura),
+        "reasoning": reasoning,
+      }
+    )
+    try:
+      append_debug_log(
+        "translation_verify.jsonl",
+        {
+          "sim_time": sim_time,
+          "persona": persona.name,
+          "event": "decision_cache_store",
+          "intent_family": intent_family,
+          "cache_signature": decision_cache_signature,
+          "action": action,
+          "target": target,
+        }
+      )
+    except Exception:
+      pass
 
   # Fallback check
   if not act_desp:
@@ -1914,25 +2246,9 @@ def decide_demand_action(persona, maze):
   target_persona_name = None
   if normalized_skill_id == "chat with" and target not in {"none", "", None}:
     candidate_target = str(target).strip()
-    if candidate_target in personas:
-      target_persona_name = candidate_target
-      new_address = f"<persona> {candidate_target}"
-      resolution_meta = {"kind": "persona_target", "matched": candidate_target}
-    else:
-      resolved_address, resolution_meta = resolve_action_target_address(
-        persona,
-        maze,
-        normalized_skill_id,
-        target=target,
-        detail=act_desp,
-      )
-      if resolved_address:
-        new_address = resolved_address
-      else:
-        new_address = persona.scratch.curr_tile and maze.get_tile_path(persona.scratch.curr_tile, "arena")
-        if not new_address:
-          new_address = persona.scratch.living_area
-        resolution_meta = {"kind": "chat_location_fallback", "matched": target}
+    target_persona_name = candidate_target
+    new_address = f"<persona> {candidate_target}"
+    resolution_meta = {"kind": "persona_target", "matched": candidate_target}
   else:
     resolved_address, resolution_meta = resolve_action_target_address(
       persona,
@@ -2030,6 +2346,9 @@ def decide_demand_action(persona, maze):
       "new_address": new_address,
       "total_ms": total_ms,
       "timings_ms": timings_ms,
+      "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+      "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+      "minimal_filter_summary": minimal_filter_summary,
     },
   )
   return persona.scratch.act_address

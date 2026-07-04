@@ -64,13 +64,13 @@ if "%OLLAMA_KEEP_ALIVE%"=="" (
 
 echo.
 echo [Checking Models]
-echo Checking chat model (qwen2.5:7b)...
-ollama list | findstr /i "qwen2.5:7b" >nul 2>&1
+echo Checking local decision model (deepseek-r1:7b)...
+ollama list | findstr /i "deepseek-r1:7b" >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [WARN] Chat model qwen2.5:7b is missing. Pulling model...
-    ollama pull qwen2.5:7b
+    echo [WARN] Local decision model deepseek-r1:7b is missing. Pulling model...
+    ollama pull deepseek-r1:7b
 ) else (
-    echo   [OK] qwen2.5:7b
+    echo   [OK] deepseek-r1:7b
 )
 
 echo Checking embedding model (nomic-embed-text)...

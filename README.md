@@ -25,7 +25,7 @@
 本系统在本地使用 **Ollama** 来生成向量嵌入（Embedding）以及运行本地语言模型。
 1. 请前往 [Ollama 官网](https://ollama.com/) 下载并安装 Ollama。
 2. 安装后，确保 Ollama 服务在后台运行。系统默认使用 `nomic-embed-text` 生成向量嵌入（在启动时会自动拉取）。
-3. （可选）如果想在本地调用翻译或聊天对话，可以在本地下载 `qwen2.5:7b` 或 `deepseek-r1:8b` 等模型（可运行 `ollama pull qwen2.5:7b`）。
+3. （可选）如果想在本地运行决策链路或聊天对话，可以在本地下载 `deepseek-r1:7b`（例如运行 `ollama pull deepseek-r1:7b`）。
 
 ### 步骤 2. 生成 Utils 文件
 在 `reverie/backend_server` 文件夹（即 `reverie.py` 所在的目录）中，新建一个名为 `utils.py` 的文件，并将以下内容复制粘贴到该文件中：

@@ -694,7 +694,7 @@ g:\generative_agents\venv\Scripts\python.exe manage.py makemigrations translator
 g:\generative_agents\venv\Scripts\python.exe manage.py migrate
 ```
 
-Plan complete and saved to `docs/superpowers/plans/2026-07-01-creator-chat-query-instruction-notify.md`. Two execution options:
+Plan complete and saved to `docs/plans/2026-07-01-creator-chat-query-instruction-notify.md`. Two execution options:
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 

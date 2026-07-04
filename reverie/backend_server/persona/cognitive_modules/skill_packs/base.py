@@ -5,7 +5,20 @@ class BaseSkillPack:
         self.name = ""          # Unique identifier for the skill (maps to the LLM's chosen action)
         self.associated_xp = "" # Associated skill tree node (e.g. "gathering", "cooking")
 
-    def run_skill_llm_request(self, prompt, example_output, special_instruction, fail_safe_response, repeat=3, func_validate=None, func_clean_up=None, verbose=False):
+    def run_skill_llm_request(
+        self,
+        prompt,
+        example_output,
+        special_instruction,
+        fail_safe_response,
+        repeat=3,
+        func_validate=None,
+        func_clean_up=None,
+        verbose=False,
+        prompt_kind="generic",
+        metadata=None,
+        request_config=None,
+    ):
         """
         Unified LLM request interface for all skill packs. 
         Ensures consistent API calling pattern and simplifies prompt management.
@@ -15,7 +28,10 @@ class BaseSkillPack:
                 prompt, example_output, special_instruction,
                 repeat=repeat, fail_safe_response=fail_safe_response,
                 func_validate=func_validate, func_clean_up=func_clean_up,
-                verbose=verbose
+                verbose=verbose,
+                prompt_kind=prompt_kind,
+                metadata=metadata,
+                request_config=request_config,
             )
         except Exception as e:
             print(f"Error in run_skill_llm_request for skill '{self.name}': {e}")

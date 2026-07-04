@@ -1,6 +1,6 @@
 # Generative Agents — 架构过渡与优化实施方案
 
-为了实现从现有社交模拟架构（参见 [core_architecture_guide.md](file:///g:/generative_agents/docs/core_architecture_guide.md)）向“生存与进化全要素沙盒”的顺利转变，且保证第一步“使现有项目跑通并稳定运行”，本方案设计了渐进式改造路径与优化落地细节。
+为了实现从现有社交模拟架构（参见 [core_architecture_guide.md](file:///g:/generative_agents/docs/architecture/core_architecture_guide.md)）向“生存与进化全要素沙盒”的顺利转变，且保证第一步“使现有项目跑通并稳定运行”，本方案设计了渐进式改造路径与优化落地细节。
 
 ---
 

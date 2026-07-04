@@ -17,6 +17,24 @@ from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dump
 from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
 
+
+def _is_valid_navigation_path(curr_tile, target_tile, path):
+  if not path:
+    return False
+  normalized_curr = tuple(curr_tile) if isinstance(curr_tile, (list, tuple)) else curr_tile
+  normalized_target = tuple(target_tile) if isinstance(target_tile, (list, tuple)) else target_tile
+  normalized_path = [
+    tuple(tile) if isinstance(tile, (list, tuple)) else tile
+    for tile in path
+  ]
+  if normalized_path[0] != normalized_curr:
+    return False
+  if normalized_path[-1] != normalized_target:
+    return False
+  if len(normalized_path) == 1 and normalized_curr != normalized_target:
+    return False
+  return True
+
 def execute(persona, maze, personas, plan): 
   """
   Given a plan (action's string address), we execute the plan (actually 
@@ -65,7 +83,9 @@ def execute(persona, maze, personas, plan):
                                    persona.scratch.curr_tile, 
                                    target_p_tile, 
                                    collision_block_id)
-      if len(potential_path) <= 2: 
+      if not potential_path:
+        target_tiles = [target_p_tile]
+      elif len(potential_path) <= 2: 
         target_tiles = [potential_path[0]]
       else: 
         potential_1 = path_finder(maze.collision_maze, 
@@ -187,6 +207,8 @@ def execute(persona, maze, personas, plan):
                               curr_tile, 
                               i, 
                               collision_block_id)
+      if not _is_valid_navigation_path(curr_tile, i, curr_path):
+        continue
       if not closest_target_tile: 
         closest_target_tile = i
         path = curr_path
@@ -197,6 +219,19 @@ def execute(persona, maze, personas, plan):
     # Actually setting the <planned_path> and <act_path_set>. We cut the 
     # first element in the planned_path because it includes the curr_tile. 
     if not path:
+      target_label = None
+      if getattr(persona.scratch, "act_command", None):
+        target_label = persona.scratch.act_command.get("target")
+      if hasattr(persona.scratch, "note_navigation_failure"):
+        persona.scratch.note_navigation_failure(
+          target=target_label,
+          target_address=plan,
+          reason="path_not_found",
+          payload={
+            "target_tiles": target_tiles,
+            "act_event": persona.scratch.act_event,
+          },
+        )
       append_debug_log(
         "action_execution_debug.jsonl",
         {
@@ -206,15 +241,13 @@ def execute(persona, maze, personas, plan):
           "curr_tile": persona.scratch.curr_tile,
           "target_tiles": target_tiles,
           "act_event": persona.scratch.act_event,
+          "target": target_label,
         }
       )
-      persona.scratch.planned_path = []
-      persona.scratch.act_path_set = False
-      persona.scratch.act_address = None
-      persona.scratch.act_description = None
-      persona.scratch.act_event = None
-      persona.scratch.act_command = None
+      persona.scratch.clear_current_action(keep_last_desc=True)
     else:
+      if hasattr(persona.scratch, "clear_navigation_failure"):
+        persona.scratch.clear_navigation_failure()
       persona.scratch.planned_path = path[1:]
       persona.scratch.act_path_set = True
       append_debug_log(
@@ -377,8 +410,6 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
-
 
 
 

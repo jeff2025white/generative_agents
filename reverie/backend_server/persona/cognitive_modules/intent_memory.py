@@ -30,7 +30,7 @@ _ATTRIBUTE_PRIORITY_THRESHOLDS = {
   "satiety": 50.0,
   "stamina": 50.0,
   "health": 70.0,
-  "mood": 50.0,
+  "mood": 60.0,
 }
 
 
@@ -69,7 +69,13 @@ def infer_memory_focus(persona, action_signature=None):
     return "restore_stamina"
   if getattr(persona.scratch, "health", 100.0) < 70.0:
     return "restore_health"
-  if getattr(persona.scratch, "mood", 100.0) < 50.0:
+  mood = float(getattr(persona.scratch, "mood", 100.0) or 100.0)
+  satiety = float(getattr(persona.scratch, "satiety", 100.0) or 100.0)
+  stamina = float(getattr(persona.scratch, "stamina", 100.0) or 100.0)
+  health = float(getattr(persona.scratch, "health", 100.0) or 100.0)
+  if mood < 50.0:
+    return "restore_mood"
+  if mood < 60.0 and satiety >= 70.0 and stamina >= 50.0 and health >= 70.0:
     return "restore_mood"
   if recent_family in {"restore_satiety", "restore_stamina", "restore_health", "restore_mood"}:
     if _family_still_needs_attention(persona, recent_family):

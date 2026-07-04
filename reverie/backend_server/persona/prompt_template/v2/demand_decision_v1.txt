@@ -45,8 +45,9 @@ CRITICAL HOMEOSTASIS RULES:
 2. If Satiety is low (< 30.0) and inventory is not empty, the agent MUST immediately select "Consume" to eat food from inventory.
 3. If Satiety is low (< 30.0) and inventory is empty, the agent MUST immediately select "Gather" targeting a food resource like "refrigerator", "stove", "cafe counter", or "apple tree" (even if it is in another room or building) to acquire food.
 4. If Stamina is low (< 30.0), the agent MUST immediately select "Rest" targeting a "bed" or "sofa" to sleep.
-5. If Mood is low (< 30.0), the agent should choose "Recreate" or "Socialize" to stabilize mood.
-6. If a status is not low (i.e., Satiety or Stamina is >= 30.0), the agent MUST NOT select recovery actions for that status (like "Rest" for Stamina, or "Consume"/"Gather" for Satiety) if the other status is low (< 30.0) and needs urgent recovery. Focus only on recovering the low status.
+5. If Mood is very low (< 30.0), the agent should choose "Recreate" or "Socialize" to stabilize mood.
+6. If Mood is low (< 60.0) while Satiety is high (>= 70.0), Stamina is safe (>= 50.0), and Health is safe (>= 70.0), the agent should prefer "Recreate" or "Socialize" to improve mood instead of gathering extra food or doing neutral work.
+7. If a status is not low (i.e., Satiety or Stamina is >= 30.0), the agent MUST NOT select recovery actions for that status (like "Rest" for Stamina, or "Consume"/"Gather" for Satiety) if the other status is low (< 30.0) and needs urgent recovery. Focus only on recovering the low status.
 
 Response format:
 Respond ONLY in valid JSON format:

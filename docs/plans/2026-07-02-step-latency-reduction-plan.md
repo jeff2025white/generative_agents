@@ -590,7 +590,7 @@ git commit -m "docs(perf): add step latency benchmark and rollout guide"
 
 ## Execution Handoff
 
-Plan complete and saved to `docs/superpowers/plans/2026-07-02-step-latency-reduction-plan.md`. Two execution options:
+Plan complete and saved to `docs/plans/2026-07-02-step-latency-reduction-plan.md`. Two execution options:
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 

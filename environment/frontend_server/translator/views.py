@@ -78,28 +78,20 @@ def _get_status_translation_config():
     _status_translation_config = config
     return _status_translation_config
 
-  utils_path = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server", "utils.py")
-  )
-  if not os.path.exists(utils_path):
-    return None
-
   try:
-    with open(utils_path, "r", encoding="utf-8") as f:
-      content = f.read()
+    import sys
+
+    backend_path = os.path.abspath(
+      os.path.join(os.path.dirname(__file__), "..", "..", "..", "reverie", "backend_server")
+    )
+    if backend_path not in sys.path:
+      sys.path.append(backend_path)
+    from llm_api_config import get_status_translation_config
+    project_config = get_status_translation_config()
   except Exception:
     return None
 
-  key_match = re.search(r'^\s*#\s*openai_api_key\s*=\s*"([^"]+)"', content, re.MULTILINE)
-  base_match = re.search(r'^\s*#\s*openai_api_base\s*=\s*"([^"]+)"', content, re.MULTILINE)
-  model_match = re.search(r'^\s*#\s*gpt35_model\s*=\s*"([^"]+)"', content, re.MULTILINE)
-
-  if key_match:
-    config["api_key"] = key_match.group(1).strip()
-  if base_match:
-    config["api_base"] = base_match.group(1).strip()
-  if model_match:
-    config["model"] = model_match.group(1).strip()
+  config.update(project_config)
 
   if not config["api_key"]:
     return None
@@ -1428,7 +1420,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 
 

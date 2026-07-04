@@ -2,7 +2,7 @@
 
 为了实现“让 Agent 在全要素虚拟环境中生存进化”的目标，本项目需要从现有的**社交沙盒模拟器（纯文本驱动的日常行为描述）**，重构并演进为**代谢与演化沙盒（生理数值驱动的生存反馈回路）**。
 
-本文档基于对当前项目架构（参见 [core_architecture_guide.md](file:///g:/generative_agents/docs/core_architecture_guide.md) 与 [codebase_analysis.md](file:///g:/generative_agents/docs/codebase_analysis.md)）的分析，结合最新的 Agent 智能体概念（ReAct 循环、自主工具调用、多级记忆系统），提出了完整的系统重构方案。
+本文档基于对当前项目架构（参见 [core_architecture_guide.md](file:///g:/generative_agents/docs/architecture/core_architecture_guide.md) 与 [codebase_analysis.md](file:///g:/generative_agents/docs/analysis/codebase_analysis.md)）的分析，结合最新的 Agent 智能体概念（ReAct 循环、自主工具调用、多级记忆系统），提出了完整的系统重构方案。
 
 ---
 

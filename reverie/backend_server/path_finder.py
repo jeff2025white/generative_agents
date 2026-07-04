@@ -136,6 +136,9 @@ def path_finder_v2(a, start, end, collision_block_char, verbose=False):
         break
       except_handle -= 1 
 
+  if m[end[0]][end[1]] == 0:
+    return []
+
   i, j = end
   k = m[i][j]
   the_path = [(i,j)]
@@ -168,6 +171,8 @@ def path_finder(maze, start, end, collision_block_char, verbose=False):
   # END EMERGENCY PATCH
 
   path = path_finder_v2(maze, start, end, collision_block_char, verbose)
+  if not path:
+    return []
 
   new_path = []
   for i in path: 

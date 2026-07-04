@@ -36,22 +36,27 @@ import persona.prompt_template.run_gpt_prompt as prompt_module
 class ActionTranslationConvergenceTests(unittest.TestCase):
     def test_translation_prompt_contains_convergence_guidance(self):
         captured = {}
+        config = {"api_key": "cloud-key", "api_base": "https://api.example/v1", "model": "cloud-model"}
 
         def fake_generate_prompt(prompt_input, prompt_template):
             captured["prompt_input"] = prompt_input
             return "\n".join(str(item) for item in prompt_input)
 
+        def fake_safe_generate_response(*args, **kwargs):
+            captured["request_config"] = kwargs.get("request_config")
+            return {
+                "action": "Gather",
+                "target": "cafe counter",
+                "detail": "getting food from the cafe counter",
+                "duration": 20,
+                "reasoning": "Direct food source",
+            }
+
         with patch.object(prompt_module, "generate_prompt", side_effect=fake_generate_prompt), \
              patch.object(
                  prompt_module,
                  "ChatGPT_safe_generate_response",
-                 return_value={
-                     "action": "Gather",
-                     "target": "cafe counter",
-                     "detail": "getting food from the cafe counter",
-                     "duration": 20,
-                     "reasoning": "Direct food source",
-                 },
+                 side_effect=fake_safe_generate_response,
              ):
             result = prompt_module.run_gpt_prompt_action_translation(
                 "I am extremely hungry, so I want to go to Hobbs Cafe for some food.",
@@ -60,9 +65,11 @@ class ActionTranslationConvergenceTests(unittest.TestCase):
                 decision_convergence_hint=(
                     "The agent is still in transit, so preserve the current route unless the thought names a new urgent target."
                 ),
+                request_config=config,
             )
 
         self.assertEqual(result["action"], "Gather")
+        self.assertEqual(captured["request_config"], config)
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
         self.assertIn("still in transit", joined_prompt)
         self.assertIn("preserve the current route", joined_prompt)

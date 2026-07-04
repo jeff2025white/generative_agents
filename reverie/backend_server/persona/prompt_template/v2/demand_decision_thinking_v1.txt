@@ -1,58 +1,21 @@
-# Prompt Template for Agent Demand-Driven Planning Decisions Legend (Discarded by parser split)
+# Prompt Template for Agent Demand-Driven Planning Decisions Legend
 Input 0: Agent's ISS (Identity Stable Set)
-Input 1: Satiety value
-Input 2: Stamina value
-Input 3: Health value
-Input 4: Mood value
-Input 5: Inventory description
-Input 6: List of nearby interactive resources (including object states)
-Input 7: Temporal Context
-Input 8: Homeostasis Interpretation / Subjective Status Summary
-Input 9: Homeostasis & World Rules
-Input 10: Cooperative Context
-Input 11: Agent's first name
-Input 12: Last action description
-Input 13: Relevant prior experience summary
-Input 14: Decision convergence guidance
+Input 1: Decision Capsule
+Input 2: Agent's first name
 <commentblockmarker>###</commentblockmarker>
+Decision Capsule:
+!<INPUT 1>!
+
+Background Identity:
 !<INPUT 0>!
 
-Temporal Context:
-!<INPUT 7>!
+Priority Rules:
+1. The newest concrete world-state change has the highest decision weight for this step.
+2. Immediate feasibility and recent failure feedback override routine role behavior, static identity, and long-term goals.
+3. Identity, lifestyle, and future goals may only break ties between currently feasible immediate options.
+4. Do not weigh all information equally.
+5. If a target appears in InvalidTargets, it is forbidden for this immediate step.
 
-Previous Activity Context:
-- Last Action: !<INPUT 12>!
-Treat the last action only as continuity context. Do not assume the agent is still tired, hurt, or committed to continuing that activity unless the current stats and Homeostasis Interpretation support it.
-
-Current Status:
-- Satiety (0-100): !<INPUT 1>!
-- Stamina (0-100): !<INPUT 2>!
-- Health (0-100): !<INPUT 3>!
-- Mood (0-100): !<INPUT 4>!
-- Inventory: !<INPUT 5>!
-
-Homeostasis Interpretation:
-!<INPUT 8>!
-Treat the interpretation, behavioral hints, risks, and especially the Overall Summary as the main guide for urgency. If they say food, rest, treatment, or emotional recovery should become high priority, routine role goals should usually yield to that pressure.
-
-Homeostasis & World Rules:
-!<INPUT 9>!
-
-Nearby Elements & Resources (including Micro-states):
-!<INPUT 6>!
-
-Cooperative Context / Social Expectations:
-!<INPUT 10>!
-
-Relevant Prior Experience:
-!<INPUT 13>!
-
-Decision Convergence Guidance:
-!<INPUT 14>!
-
-Task: What is the next planned action for !<INPUT 11>! to balance their stats and fulfill their daily role/goals? 
-Describe what !<INPUT 11>! wants to do next in a simple, natural language sentence. Write it from !<INPUT 11>!'s perspective, stating which internal need feels most pressing, and what target object/location they plan to use. Let the most urgent internal pressure outweigh routine role-following when the two conflict. Describe only the immediate next action, not any later follow-up plan, and mention only one target object or location.
-Example: "I am feeling extremely hungry and my inventory is empty, so I want to gather some food from the refrigerator."
-Example: "I am clearly hungry, so getting food from the refrigerator should come before exercise right now."
-Example: "I am clearly hungry, so I want to go to the refrigerator for food now."
+Task: What is the next immediate feasible action for !<INPUT 2>! under the current physical constraints?
+Describe what !<INPUT 2>! wants to do next in a simple, natural language sentence. Write it from !<INPUT 2>!'s perspective, state which internal need feels most pressing, and mention only one immediate target object or location. Let the highest-priority current fact override any lower-priority static or future-oriented information. If the previous immediate action failed or a target was unreachable, !<INPUT 2>! must think of a new immediate approach instead of repeating the failed target.
 Answer in one sentence.

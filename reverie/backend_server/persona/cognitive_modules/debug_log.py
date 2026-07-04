@@ -2,6 +2,11 @@ import datetime
 import json
 import os
 
+from persona.training.training_candidate_builder import (
+    TRAINING_PREP_LOG_NAME,
+    normalize_training_log_record,
+)
+
 
 def _logs_dir():
     return os.path.abspath(
@@ -23,11 +28,14 @@ def append_debug_log(log_name, payload, level="info"):
     os.makedirs(_logs_dir(), exist_ok=True)
     normalized_log_name = normalize_log_name(log_name)
     log_path = os.path.join(_logs_dir(), normalized_log_name)
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     real_time = datetime.datetime.now(datetime.timezone.utc).astimezone().isoformat()
     if isinstance(payload, dict):
         record = dict(payload)
     else:
         record = {"message": str(payload)}
+    if normalized_log_name == TRAINING_PREP_LOG_NAME:
+        record = normalize_training_log_record(record)
     record.setdefault("ts", real_time)
     record.setdefault("level", level)
     record.setdefault("log", normalized_log_name)

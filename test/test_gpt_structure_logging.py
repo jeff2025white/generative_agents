@@ -1,6 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -35,7 +36,7 @@ class GPTStructureLoggingTests(unittest.TestCase):
 
     def test_chatgpt_request_logs_cache_hit(self):
         prompt = "hello"
-        cache_key = gpt_structure._cache_key(prompt, "chatgpt")
+        cache_key = gpt_structure._cache_key(prompt, gpt_structure._cache_scope("chatgpt"))
         gpt_structure._cache[cache_key] = "cached-response"
 
         with patch.object(gpt_structure, "append_debug_log") as log_mock:
@@ -48,10 +49,33 @@ class GPTStructureLoggingTests(unittest.TestCase):
         self.assertTrue(payload["cache_hit"])
         self.assertEqual(payload["duration_ms"], 0.0)
 
+    def test_chatgpt_request_uses_request_config_for_cache_and_logging(self):
+        config = {
+            "api_key": "secret",
+            "api_base": "https://api.deepseek.com/v1",
+            "model": "deepseek-chat",
+        }
+        with patch.object(gpt_structure, "_chat_completion_create", return_value={"choices": [{"message": {"content": "routed-response"}}]}) as create_mock, \
+             patch.object(gpt_structure, "append_debug_log") as log_mock:
+            result = gpt_structure.ChatGPT_request("route me", request_config=config)
+
+        self.assertEqual(result, "routed-response")
+        create_mock.assert_called_once()
+        self.assertEqual(create_mock.call_args.kwargs["request_config"]["model"], "deepseek-chat")
+        payload = log_mock.call_args.args[1]
+        self.assertEqual(payload["api_base"], "https://api.deepseek.com/v1")
+        self.assertEqual(payload["model"], "deepseek-chat")
+
     def test_chatgpt_request_logs_uncached_duration(self):
         with patch.object(gpt_structure.openai.ChatCompletion, "create", return_value={"choices": [{"message": {"content": "fresh-response"}}]}), \
              patch.object(gpt_structure, "append_debug_log") as log_mock:
-            result = gpt_structure.ChatGPT_request("uncached prompt")
+            result = gpt_structure.ChatGPT_request(
+                "uncached prompt",
+                metadata={
+                    "decision_id": "abc-123",
+                    "minimal_decision_filter": {"enabled": True, "applied": True},
+                },
+            )
 
         self.assertEqual(result, "fresh-response")
         payload = log_mock.call_args.args[1]
@@ -59,6 +83,8 @@ class GPTStructureLoggingTests(unittest.TestCase):
         self.assertFalse(payload["cache_hit"])
         self.assertEqual(payload["status"], "ok")
         self.assertGreaterEqual(payload["duration_ms"], 0.0)
+        self.assertEqual(payload["metadata"]["minimal_decision_filter"]["applied"], True)
+        self.assertEqual(payload["decision_id"], "abc-123")
 
     def test_safe_generate_response_logs_attempts_and_summary(self):
         logs = []
@@ -89,6 +115,20 @@ class GPTStructureLoggingTests(unittest.TestCase):
         self.assertEqual(len(attempt_events), 2)
         self.assertEqual(summary_events[-1]["status"], "ok")
         self.assertEqual(summary_events[-1]["attempts_used"], 2)
+
+    def test_generate_prompt_discards_template_header_and_keeps_prompt_body(self):
+        with NamedTemporaryFile("w", suffix=".txt", encoding="utf-8", delete=False) as tmp:
+            tmp.write(
+                "Legend line that must be removed\n"
+                "<commentblockmarker>###</commentblockmarker>\n"
+                "Line A !<INPUT 0>!\n"
+            )
+            template_path = tmp.name
+        self.addCleanup(lambda: Path(template_path).unlink(missing_ok=True))
+
+        prompt = gpt_structure.generate_prompt(["value"], template_path)
+
+        self.assertEqual(prompt, "Line A value")
 
 
 if __name__ == "__main__":

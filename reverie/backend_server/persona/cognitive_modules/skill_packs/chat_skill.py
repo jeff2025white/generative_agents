@@ -5,6 +5,7 @@ import re
 from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.prompt_template.gpt_structure import (
+    ChatGPT_safe_generate_response,
     generate_prompt,
     get_embedding
 )
@@ -20,8 +21,160 @@ from persona.cognitive_modules.social_dialogue_log import (
     log_social_dialogue,
     set_social_dialogue_state,
 )
+from llm_api_config import (
+    get_default_social_chat_request_config,
+    get_default_translation_request_config,
+)
+
+
+SOCIAL_CHAT_POLLUTION_MARKERS = (
+    "interlocutor's name and traits",
+    "retrieved memories/knowledge",
+    "context of where/how you met",
+    "previous lines of conversation",
+    "speaker's first name",
+    "iss01",
+    "alex and jamie",
+    "jamie's new project",
+    "tech conference in vegas",
+    "spontaneous downpour",
+    "benefit alex's work",
+)
+
+SOCIAL_CHAT_REQUEST_CONFIG = get_default_social_chat_request_config()
+SOCIAL_CHAT_TRANSLATION_REQUEST_CONFIG = get_default_translation_request_config()
+
+
+def _contains_cjk(text):
+    """Return True when the text contains at least one CJK ideograph."""
+    return bool(re.search(r"[\u4e00-\u9fff]", str(text or "")))
+
+
+def is_polluted_social_chat_text(text):
+    """Detect prompt-leak text and malformed self-chat artifacts."""
+    normalized = str(text or "").strip()
+    haystack = normalized.lower()
+    if any(marker in haystack for marker in SOCIAL_CHAT_POLLUTION_MARKERS):
+        return True
+    return bool(re.search(r"(.+?) is having a conversation with \1\b", normalized, re.IGNORECASE))
+
+
+def is_valid_social_chat_response(response):
+    """Validate the social chat response structure and require Chinese output."""
+    if not is_structurally_valid_social_chat_response(response):
+        return False
+    utterance = str(response.get("utterance", "") or "").strip()
+    return _contains_cjk(utterance)
+
+
+def is_structurally_valid_social_chat_response(response):
+    """Validate the minimal JSON structure for a social chat response."""
+    if not isinstance(response, dict):
+        return False
+    utterance = str(response.get("utterance", "") or "").strip()
+    if not utterance:
+        return False
+    if "end" not in response:
+        return False
+    return True
+
+
+def normalize_social_chat_response(response, fail_safe_response, request_config=None):
+    """Ensure the final chat response is Chinese, translating when needed."""
+    if not is_structurally_valid_social_chat_response(response):
+        return fail_safe_response
+    if is_valid_social_chat_response(response):
+        return response
+
+    utterance = str(response.get("utterance", "") or "").strip()
+    reasoning = str(response.get("reasoning", "") or "").strip()
+    translation_prompt = (
+        "将下面这段 NPC 对话输出改写为简体中文，并保持语气自然口语化。"
+        "尽量简短，最好一句话，必要时最多两句短句。"
+        "减少 AI 味和书面腔，不要像总结报告。"
+        "可以带一点轻松幽默感，但不要刻意讲段子。"
+        "只输出合法 JSON，包含 utterance、end、reasoning 三个字段。"
+        "不要保留英文原句，不要输出 JSON 之外的任何内容。\n"
+        f"utterance: {utterance}\n"
+        f"end: {json.dumps(bool(response.get('end', False)))}\n"
+        f"reasoning: {reasoning or 'translate to Chinese while keeping intent'}"
+    )
+
+    translated = ChatGPT_safe_generate_response(
+        translation_prompt,
+        '{"utterance": "哎，这事有点意思啊。", "end": false, "reasoning": "将原句改写成简短口语中文"}',
+        "Return valid JSON only. The utterance must be brief colloquial Simplified Chinese with a light natural tone, never English.",
+        repeat=2,
+        fail_safe_response=fail_safe_response,
+        func_validate=lambda resp, prompt="": is_valid_social_chat_response(resp),
+        func_clean_up=lambda resp, prompt="": resp if isinstance(resp, dict) else json.loads(resp),
+        verbose=False,
+        prompt_kind="social_chat_translation",
+        metadata={"llm_route": "default_social_chat_translation"},
+        request_config=request_config or SOCIAL_CHAT_TRANSLATION_REQUEST_CONFIG,
+    )
+    return translated if is_valid_social_chat_response(translated) else fail_safe_response
+
+
+def _is_polluted_social_memory(node):
+    """Detect prompt-leak chat memories and known contaminated summary traces."""
+    description = str(getattr(node, "description", "") or "")
+    embedding_key = str(getattr(node, "embedding_key", "") or "")
+    return is_polluted_social_chat_text(f"{description}\n{embedding_key}")
+
+
+def filter_social_chat_memory_nodes(nodes):
+    """Drop known polluted memories before building the chat prompt."""
+    filtered = []
+    dropped = []
+    for node in nodes or []:
+        if _is_polluted_social_memory(node):
+            dropped.append(str(getattr(node, "embedding_key", "") or getattr(node, "description", "") or ""))
+            continue
+        filtered.append(node)
+    return filtered, dropped
+
+
+def collect_social_chat_memory_keys(retrieved):
+    """Collect deduplicated memory strings for the chat prompt."""
+    seen = set()
+    kept = []
+    dropped = []
+    for nodes in (retrieved or {}).values():
+        filtered_nodes, dropped_nodes = filter_social_chat_memory_nodes(nodes)
+        dropped.extend(dropped_nodes)
+        for node in filtered_nodes:
+            key = str(getattr(node, "embedding_key", "") or getattr(node, "description", "") or "").strip()
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            kept.append(key)
+    return kept[:5], dropped
+
+
+def filter_social_chat_recent_events(events):
+    """Remove polluted relationship summary strings before prompt assembly."""
+    kept = []
+    dropped = []
+    seen = set()
+    for event in events or []:
+        text = str(event or "").strip()
+        if not text:
+            continue
+        if is_polluted_social_chat_text(text):
+            dropped.append(text)
+            continue
+        if text in seen:
+            continue
+        seen.add(text)
+        kept.append(text)
+    return kept, dropped
+
 
 class ChatSkillPack(BaseSkillPack):
+
+
+
     def __init__(self):
         super().__init__()
         self.name = "chat"
@@ -244,11 +397,8 @@ class ChatSkillPack(BaseSkillPack):
             for turn in range(4):
                 focal_points = [listener.name, "news", "rumor", "town"]
                 retrieved = new_retrieve(speaker, focal_points, 10)
-                mems = []
-                for k, v in retrieved.items():
-                    for node in v:
-                        mems.append(node.embedding_key)
-                mems_str = "\n".join([f"- {m}" for m in list(set(mems))[:5]])
+                memory_keys, dropped_memory_keys = collect_social_chat_memory_keys(retrieved)
+                mems_str = "\n".join([f"- {m}" for m in memory_keys]) if memory_keys else "- none"
 
                 history_str = ""
                 for s, u in convo:
@@ -257,10 +407,14 @@ class ChatSkillPack(BaseSkillPack):
                 # Inject social relationship graph constraints into context
                 rel = speaker.a_mem.get_relationship(listener.name)
                 rel_str = ""
+                dropped_recent_events = []
                 if rel:
                     rel_str = f" Relation status: {rel.get('relationship', 'acquaintance')} (Trust level: {rel.get('trust', 0.5):.2f})."
-                    if rel.get("recent_events"):
-                        rel_str += f" Recent interactions: {', '.join(rel['recent_events'])}."
+                    recent_events, dropped_recent_events = filter_social_chat_recent_events(
+                        rel.get("recent_events", [])
+                    )
+                    if recent_events:
+                        rel_str += f" Recent interactions: {', '.join(recent_events)}."
                 speaker_context = f"{curr_context}{rel_str}"
 
                 prompt_input = [
@@ -274,14 +428,17 @@ class ChatSkillPack(BaseSkillPack):
                 prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/social_chat_gossip_v1.txt")
 
                 def chat_val(resp, prompt=""):
-                    try:
-                        data = json.loads(resp)
-                        return "utterance" in data and "end" in data
-                    except:
-                        return False
+                    _ = prompt
+                    return is_structurally_valid_social_chat_response(resp)
 
                 def chat_clean(resp, prompt=""):
-                    return json.loads(resp)
+                    _ = prompt
+                    parsed = resp if isinstance(resp, dict) else json.loads(resp)
+                    return normalize_social_chat_response(
+                        parsed,
+                        fail_safe,
+                        request_config=SOCIAL_CHAT_REQUEST_CONFIG,
+                    )
 
                 fail_safe = {
                     "utterance": "你好！" if turn == 0 else "是的，我也这么觉得。",
@@ -290,13 +447,16 @@ class ChatSkillPack(BaseSkillPack):
 
                 turn_decision = self.run_skill_llm_request(
                     prompt,
-                    example_output='{"utterance": "你听说Isabella最近研发了新的咖啡吗？听说味道特别棒！", "end": false, "reasoning": "Spreading a nice rumor about Isabella"}',
-                    special_instruction="Provide valid JSON containing utterance and end.",
+                    example_output='{"utterance": "你听说没，Isabella新出的咖啡好像挺火。", "end": false, "reasoning": "用简短口语化的方式开启话题"}',
+                    special_instruction="Provide valid JSON containing utterance and end. The utterance must be brief colloquial Simplified Chinese, ideally one short sentence and at most two short sentences, with low AI tone and a light natural humor when appropriate, never English.",
                     repeat=3,
                     fail_safe_response=fail_safe,
                     func_validate=chat_val,
                     func_clean_up=chat_clean,
-                    verbose=False
+                    verbose=False,
+                    prompt_kind="social_chat_generation",
+                    metadata={"llm_route": "default_social_chat"},
+                    request_config=SOCIAL_CHAT_REQUEST_CONFIG,
                 )
 
                 log_social_dialogue(
@@ -308,6 +468,9 @@ class ChatSkillPack(BaseSkillPack):
                         "turn": turn,
                         "speaker": speaker.name,
                         "listener": listener.name,
+                        "memory_keys": memory_keys,
+                        "dropped_memory_keys": dropped_memory_keys,
+                        "dropped_recent_events": dropped_recent_events,
                         "utterance": turn_decision.get("utterance", "..."),
                         "end": bool(turn_decision.get("end", False)),
                     },

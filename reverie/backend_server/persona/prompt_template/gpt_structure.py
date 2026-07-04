@@ -31,6 +31,7 @@ _cache = {}
 _cache_hits = 0
 _cache_misses = 0
 LLM_TIMING_LOG = "ollama_request_timing.jsonl"
+_openai_config_lock = threading.Lock()
 
 def _load_cache():
   global _cache
@@ -69,6 +70,42 @@ def _truncate_text(value, limit=160):
   return text[:limit] + "...(truncated)"
 
 
+def _ns_to_ms(value):
+  if value in (None, "", 0):
+    return 0.0
+  try:
+    return round(float(value) / 1_000_000.0, 3)
+  except Exception:
+    return 0.0
+
+
+def _response_to_dict(response):
+  if isinstance(response, dict):
+    return response
+  for attr in ("to_dict_recursive", "to_dict", "model_dump"):
+    method = getattr(response, attr, None)
+    if callable(method):
+      try:
+        data = method()
+        if isinstance(data, dict):
+          return data
+      except Exception:
+        pass
+  return {}
+
+
+def _extract_ollama_metrics(response):
+  payload = _response_to_dict(response)
+  return {
+    "total_ms": _ns_to_ms(payload.get("total_duration")),
+    "load_ms": _ns_to_ms(payload.get("load_duration")),
+    "prompt_eval_ms": _ns_to_ms(payload.get("prompt_eval_duration")),
+    "eval_ms": _ns_to_ms(payload.get("eval_duration")),
+    "prompt_eval_count": int(payload.get("prompt_eval_count") or 0),
+    "eval_count": int(payload.get("eval_count") or 0),
+  }
+
+
 def _caller_label(default_label="unknown"):
   try:
     for frame_info in inspect.stack()[2:8]:
@@ -91,6 +128,46 @@ def _log_llm_event(event, payload):
   record.setdefault("api_base", openai_api_base)
   record.setdefault("model", gpt35_model)
   append_debug_log(LLM_TIMING_LOG, record)
+
+
+def _resolve_request_config(request_config=None):
+  config = dict(request_config or {})
+  return {
+    "api_key": config.get("api_key", openai_api_key),
+    "api_base": config.get("api_base", openai_api_base),
+    "model": config.get("model", gpt35_model),
+  }
+
+
+def _cache_scope(label, request_config=None):
+  cfg = _resolve_request_config(request_config)
+  return json.dumps(
+    {
+      "label": label,
+      "api_base": cfg.get("api_base"),
+      "model": cfg.get("model"),
+    },
+    ensure_ascii=False,
+    sort_keys=True,
+  )
+
+
+def _chat_completion_create(messages, request_config=None):
+  cfg = _resolve_request_config(request_config)
+  with _openai_config_lock:
+    prev_api_key = getattr(openai, "api_key", None)
+    prev_api_base = getattr(openai, "api_base", None)
+    try:
+      openai.api_key = cfg["api_key"]
+      if cfg["api_base"]:
+        openai.api_base = cfg["api_base"]
+      return openai.ChatCompletion.create(
+        model=cfg["model"],
+        messages=messages,
+      )
+    finally:
+      openai.api_key = prev_api_key
+      openai.api_base = prev_api_base
 
 def _get_cached(key):
   global _cache_hits
@@ -187,7 +264,7 @@ def GPT4_request(prompt):
     return "ChatGPT ERROR"
 
 
-def ChatGPT_request(prompt): 
+def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config=None): 
   """
   Given a prompt and a dictionary of GPT parameters, make a request to OpenAI
   server and returns the response. 
@@ -200,7 +277,10 @@ def ChatGPT_request(prompt):
     a str of GPT-3's response. 
   """
   # Check cache first
-  key = _cache_key(prompt, "chatgpt")
+  metadata = dict(metadata or {})
+  decision_id = metadata.get("decision_id")
+  resolved_config = _resolve_request_config(request_config)
+  key = _cache_key(prompt, _cache_scope("chatgpt", resolved_config))
   prompt_hash = _short_hash(prompt)
   caller = _caller_label("ChatGPT_request")
   cached = _get_cached(key)
@@ -209,11 +289,23 @@ def ChatGPT_request(prompt):
       "chatgpt_request",
       {
         "caller": caller,
+        "prompt_kind": prompt_kind,
         "cache_hit": True,
         "prompt_hash": prompt_hash,
         "prompt_chars": len(prompt),
         "response_chars": len(str(cached)),
         "duration_ms": 0.0,
+        "metadata": metadata,
+        "decision_id": decision_id,
+        "retry_count": 0,
+        "api_base": resolved_config.get("api_base"),
+        "model": resolved_config.get("model"),
+        "total_ms": 0.0,
+        "load_ms": 0.0,
+        "prompt_eval_ms": 0.0,
+        "eval_ms": 0.0,
+        "prompt_eval_count": 0,
+        "eval_count": 0,
       }
     )
     return cached
@@ -221,25 +313,33 @@ def ChatGPT_request(prompt):
   # temp_sleep()
   started_at = time.perf_counter()
   try: 
-    completion = openai.ChatCompletion.create(
-    model=gpt35_model, 
-    messages=[
-      {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
-      {"role": "user", "content": prompt}
-    ]
+    completion = _chat_completion_create(
+      [
+        {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
+        {"role": "user", "content": prompt}
+      ],
+      request_config=resolved_config,
     )
+    metrics = _extract_ollama_metrics(completion)
     result = completion["choices"][0]["message"]["content"]
     _set_cached(key, result)
     _log_llm_event(
       "chatgpt_request",
       {
         "caller": caller,
+        "prompt_kind": prompt_kind,
         "cache_hit": False,
         "prompt_hash": prompt_hash,
         "prompt_chars": len(prompt),
         "response_chars": len(str(result)),
         "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
         "status": "ok",
+        "metadata": metadata,
+        "decision_id": decision_id,
+        "retry_count": 0,
+        "api_base": resolved_config.get("api_base"),
+        "model": resolved_config.get("model"),
+        **metrics,
       }
     )
     return result
@@ -249,12 +349,24 @@ def ChatGPT_request(prompt):
       "chatgpt_request",
       {
         "caller": caller,
+        "prompt_kind": prompt_kind,
         "cache_hit": False,
         "prompt_hash": prompt_hash,
         "prompt_chars": len(prompt),
         "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
         "status": "error",
         "error": _truncate_text(e, 240),
+        "metadata": metadata,
+        "decision_id": decision_id,
+        "retry_count": 0,
+        "api_base": resolved_config.get("api_base"),
+        "model": resolved_config.get("model"),
+        "total_ms": 0.0,
+        "load_ms": 0.0,
+        "prompt_eval_ms": 0.0,
+        "eval_ms": 0.0,
+        "prompt_eval_count": 0,
+        "eval_count": 0,
       }
     )
     print ("ChatGPT ERROR")
@@ -322,8 +434,12 @@ def ChatGPT_safe_generate_response(prompt,
                                    fail_safe_response="error",
                                    func_validate=None,
                                    func_clean_up=None,
-                                   verbose=False): 
+                                   verbose=False,
+                                   prompt_kind="generic",
+                                   metadata=None,
+                                   request_config=None): 
   # prompt = 'GPT-3 Prompt:\n"""\n' + prompt + '\n"""\n'
+  metadata = dict(metadata or {})
   prompt = '"""\n' + prompt + '\n"""\n'
   prompt += f"Output the response to the prompt above in json. {special_instruction}\n"
   prompt += "Example output json:\n"
@@ -335,12 +451,19 @@ def ChatGPT_safe_generate_response(prompt,
 
   caller = _caller_label("ChatGPT_safe_generate_response")
   prompt_hash = _short_hash(prompt)
+  decision_id = metadata.get("decision_id")
+  resolved_config = _resolve_request_config(request_config)
   safe_started_at = time.perf_counter()
   for i in range(repeat): 
     raw_response = ""
     attempt_started_at = time.perf_counter()
     try: 
-      raw_response = ChatGPT_request(prompt)
+      raw_response = ChatGPT_request(
+        prompt,
+        prompt_kind=prompt_kind,
+        metadata=dict(metadata, safe_repeat=repeat, safe_attempt=i + 1),
+        request_config=resolved_config,
+      )
       cleaned_resp = clean_json_str(raw_response)
       end_index = cleaned_resp.rfind('}') + 1
       curr_gpt_response = cleaned_resp[:end_index]
@@ -355,6 +478,7 @@ def ChatGPT_safe_generate_response(prompt,
         "chatgpt_safe_attempt",
         {
           "caller": caller,
+          "prompt_kind": prompt_kind,
           "prompt_hash": prompt_hash,
           "attempt": i + 1,
           "repeat": repeat,
@@ -362,6 +486,10 @@ def ChatGPT_safe_generate_response(prompt,
           "raw_response_chars": len(str(raw_response)),
           "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
           "status": "ok",
+          "metadata": metadata,
+          "decision_id": decision_id,
+          "api_base": resolved_config.get("api_base"),
+          "model": resolved_config.get("model"),
         }
       )
       if is_valid: 
@@ -369,11 +497,16 @@ def ChatGPT_safe_generate_response(prompt,
           "chatgpt_safe_summary",
           {
             "caller": caller,
+            "prompt_kind": prompt_kind,
             "prompt_hash": prompt_hash,
             "repeat": repeat,
             "attempts_used": i + 1,
             "status": "ok",
             "duration_ms": round((time.perf_counter() - safe_started_at) * 1000.0, 3),
+            "metadata": metadata,
+            "decision_id": decision_id,
+            "api_base": resolved_config.get("api_base"),
+            "model": resolved_config.get("model"),
           }
         )
         return func_clean_up(curr_gpt_response, prompt=prompt)
@@ -388,6 +521,7 @@ def ChatGPT_safe_generate_response(prompt,
         "chatgpt_safe_attempt",
         {
           "caller": caller,
+          "prompt_kind": prompt_kind,
           "prompt_hash": prompt_hash,
           "attempt": i + 1,
           "repeat": repeat,
@@ -396,6 +530,10 @@ def ChatGPT_safe_generate_response(prompt,
           "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
           "status": "exception",
           "error": _truncate_text(e, 240),
+          "metadata": metadata,
+          "decision_id": decision_id,
+          "api_base": resolved_config.get("api_base"),
+          "model": resolved_config.get("model"),
         }
       )
       if verbose:
@@ -406,11 +544,16 @@ def ChatGPT_safe_generate_response(prompt,
     "chatgpt_safe_summary",
     {
       "caller": caller,
+      "prompt_kind": prompt_kind,
       "prompt_hash": prompt_hash,
       "repeat": repeat,
       "attempts_used": repeat,
       "status": "fail_safe",
       "duration_ms": round((time.perf_counter() - safe_started_at) * 1000.0, 3),
+      "metadata": metadata,
+      "decision_id": decision_id,
+      "api_base": resolved_config.get("api_base"),
+      "model": resolved_config.get("model"),
     }
   )
 
@@ -517,7 +660,8 @@ def generate_prompt(curr_input, prompt_lib_file):
   for count, i in enumerate(curr_input):   
     prompt = prompt.replace(f"!<INPUT {count}>!", i)
   if "<commentblockmarker>###</commentblockmarker>" in prompt: 
-    prompt = prompt.split("<commentblockmarker>###</commentblockmarker>")[1]
+    # Drop the template legend/header and keep the actual prompt body.
+    prompt = prompt.split("<commentblockmarker>###</commentblockmarker>", 1)[1]
   return prompt.strip()
 
 
@@ -638,12 +782,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
-
-
-
-
 
 
 
