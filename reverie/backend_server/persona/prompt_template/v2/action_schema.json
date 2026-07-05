@@ -38,7 +38,7 @@
     "Recreate": {
       "verbs": ["recreate", "play", "watch", "sing", "listen"],
       "description": "Leisure, games, or music to improve Mood.",
-      "allowed_targets": ["game console", "tv", "piano", "easel", "lifting weight"]
+      "allowed_targets": ["game console", "tv", "piano", "easel", "lifting weight", "park garden", "park", "bench", "common room sofa", "cafe customer seating"]
     }
   }
 }

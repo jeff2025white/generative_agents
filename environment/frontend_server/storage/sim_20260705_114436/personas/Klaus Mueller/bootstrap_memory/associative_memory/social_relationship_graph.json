@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about Maria Lopez and Klaus Mueller catching up and chatting casually",
+        "conversing about a casual chat about recent activities and preferences",
+        "conversing about old friends catching up and reminiscing"
+      ]
+    }
+  }
+}

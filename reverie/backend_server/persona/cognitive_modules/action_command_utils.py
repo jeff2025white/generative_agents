@@ -24,6 +24,8 @@ def normalize_skill_id(raw_action, target=None, detail=None):
     target_text = _normalize_text(target)
     detail_text = _normalize_text(detail)
     context_text = " ".join([action, target_text, detail_text]).strip()
+    if action in {"idle", "idling"} and _contains_any(context_text, ["daydream", "people-watch", "people watch", "zone out", "stare into space", "spacing out"]):
+        return "daydream"
     alias_map = {
         "consume": "consume",
         "consuming": "consume",
@@ -59,8 +61,18 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "napping": "rest",
         "idle": "idle",
         "idling": "idle",
+        "daydream": "daydream",
+        "daydreaming": "daydream",
+        "zone out": "daydream",
+        "zoning out": "daydream",
         "relax": "rest",
         "relaxing": "rest",
+        "wander": "wander",
+        "wandering": "wander",
+        "stroll": "wander",
+        "strolling": "wander",
+        "meander": "wander",
+        "meandering": "wander",
         "chat with": "chat with",
         "chat": "chat with",
         "talk": "chat with",
@@ -120,6 +132,10 @@ def normalize_skill_id(raw_action, target=None, detail=None):
     if action not in {"recreate", "recreation", "leisure", "play", "playing", "use", "using", "work", "working"}:
         return alias_map.get(action)
 
+    if _contains_any(context_text, ["wander", "wandering", "stroll", "strolling", "meander", "meandering"]) and _contains_any(context_text, ["park", "garden", "plaza", "courtyard", "green"]):
+        return "wander"
+    if _contains_any(context_text, ["daydream", "people-watch", "people watch", "zone out", "stare into space", "spacing out"]):
+        return "daydream"
     if _contains_any(context_text, ["chat with", "chatting with", "conversation with", "talking with", "talk to", "gossip with", "socializing with"]):
         return "chat with"
     if "singing" in context_text or _contains_any(context_text, ["piano", "song", "music", "karaoke", "melody"]):
@@ -162,6 +178,8 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         return "restore_stamina"
     if normalized_skill == "idle":
         return "idle"
+    if normalized_skill in {"daydream", "wander"}:
+        return "leisure"
     if normalized_skill in {"consume", "gather"}:
         if _contains_any(context_text, food_keywords):
             return "restore_satiety"
@@ -176,7 +194,7 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         return "study"
     if normalized_skill == "work":
         return "work"
-    if normalized_skill in {"use", "leisure_use", "sing"}:
+    if normalized_skill in {"use", "leisure_use", "sing", "daydream", "wander"}:
         return "leisure"
     return normalized_skill or "unknown"
 

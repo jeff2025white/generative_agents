@@ -45,7 +45,7 @@ from persona.persona import *
 from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.debug_log import append_debug_log
 from persona.cognitive_modules.world_resource_state import WorldResourceState
-from persona.prompt_template.gpt_structure import save_cache_to_disk
+from persona.prompt_template.gpt_structure import save_cache_to_disk, set_cache_sim_scope
 import requests
 
 ##############################################################################
@@ -72,6 +72,7 @@ class ReverieServer:
     # copy everything that's in <fork_sim_code>, but edit its 
     # reverie/meta/json's fork variable. 
     self.sim_code = sim_code
+    set_cache_sim_scope(self.sim_code)
     sim_folder = f"{fs_storage}/{self.sim_code}"
     if self.fork_sim_code != self.sim_code:
       # Always fork from the root base template so each simulation starts
@@ -1143,7 +1144,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

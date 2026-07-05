@@ -28,6 +28,30 @@ _translation_cache_file = os.path.abspath(os.path.join(os.path.dirname(__file__)
 _status_translation_config = None
 
 
+def _active_sim_code_file():
+  return os.path.join(_project_root, "environment", "frontend_server", "temp_storage", "curr_sim_code.json")
+
+
+def _get_active_sim_code():
+  try:
+    with open(_active_sim_code_file(), "r", encoding="utf-8") as f:
+      payload = json.load(f)
+    sim_code = str(payload.get("sim_code", "") or "").strip()
+    return sim_code or None
+  except Exception:
+    return None
+
+
+def _scoped_translation_cache_key(cache_key, sim_code=None):
+  normalized_key = str(cache_key or "").strip()
+  if not normalized_key:
+    return normalized_key
+  active_sim_code = str(sim_code or _get_active_sim_code() or "").strip()
+  if not active_sim_code:
+    return normalized_key
+  return f"{active_sim_code}::{normalized_key}"
+
+
 def _mark_frontend_active(sim_code):
   """Persist a lightweight heartbeat so backend lock-step knows the page is alive."""
   try:
@@ -51,12 +75,14 @@ _load_translation_cache()
 
 def _get_translation_cache(cache_key):
   with _translation_cache_lock:
-    return _translation_cache.get(cache_key)
+    scoped_key = _scoped_translation_cache_key(cache_key)
+    return _translation_cache.get(scoped_key)
 
 
 def _set_translation_cache(cache_key, translated_value):
   with _translation_cache_lock:
-    _translation_cache[cache_key] = translated_value
+    scoped_key = _scoped_translation_cache_key(cache_key)
+    _translation_cache[scoped_key] = translated_value
     try:
       with open(_translation_cache_file, "w", encoding="utf-8") as f:
         json.dump(_translation_cache, f, ensure_ascii=False, indent=2)
@@ -1565,7 +1591,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 
 

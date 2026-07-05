@@ -1,0 +1,200 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        21
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.80000000000003,
+      "stamina": 87.84000000000114,
+      "health": 100.0,
+      "mood": 71.17999999999986,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-05 08:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-05 08:16:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-05 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-05 08:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-05 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-05 08:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-05 08:24:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-05 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-05 08:13:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-05 08:29:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-05 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-05 08:27:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-05 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        33,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u8fd9\u5305\u8fd8\u633a\u597d\u770b\u7684\uff0c\u54ea\u513f\u4e70\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6b38\uff0c\u4f60\u4e5f\u6765\u8fd9\u513f\u4e86\u554a\uff0c\u771f\u5de7\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4eca\u5929\u5929\u6c14\u4e0d\u9519\uff0c\u4f60\u90a3\u8fb9\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u611f\u89c9\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u4eba\u8fd8\u633a\u6709\u610f\u601d\u7684\uff0c\u8bf4\u8bdd\u603b\u8ba9\u6211\u60f3\u7b11\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u8fd9\u4eba\u8fd8\u633a\u6709\u610f\u601d\u7684\uff0c\u8bf4\u8bdd\u603b\u8ba9\u6211\u60f3\u7b11\u3002",
+      "satiety": 65.7600000000003,
+      "stamina": 94.57000000000063,
+      "health": 100.0,
+      "mood": 77.19999999999989,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        34,
+        44
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u8fd9\u5305\u8fd8\u633a\u597d\u770b\u7684\uff0c\u54ea\u513f\u4e70\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6b38\uff0c\u4f60\u4e5f\u6765\u8fd9\u513f\u4e86\u554a\uff0c\u771f\u5de7\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4eca\u5929\u5929\u6c14\u4e0d\u9519\uff0c\u4f60\u90a3\u8fb9\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u611f\u89c9\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u4eba\u8fd8\u633a\u6709\u610f\u601d\u7684\uff0c\u8bf4\u8bdd\u603b\u8ba9\u6211\u60f3\u7b11\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u611f\u89c9\u597d\u4e45\u6ca1\u89c1\u4e86\u3002",
+      "satiety": 65.7600000000003,
+      "stamina": 94.57000000000063,
+      "health": 100.0,
+      "mood": 77.1999999999999,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 05, 2026, 08:29:30"
+  }
+}

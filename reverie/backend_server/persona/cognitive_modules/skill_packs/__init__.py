@@ -66,6 +66,8 @@ SKILL_REGISTRY = {
     "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
     "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
     "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 8.0}),
+    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 6.0}),
+    "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 10.0}),
     
     # Pluggable Chat Skill Pack mapping
     "chat with": ChatSkillPack(),

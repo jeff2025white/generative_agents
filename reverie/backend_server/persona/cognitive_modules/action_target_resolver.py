@@ -16,10 +16,17 @@ KNOWN_OBJECT_HINTS = {
     "tv": ["tv", "television"],
     "sofa": ["sofa", "couch"],
     "bed": ["bed"],
+    "bench": ["bench", "park bench"],
+    "park garden": ["park garden", "garden path"],
 }
 
 
 KNOWN_ARENA_RULES = [
+    {
+        "triggers": ["park garden", "park", "garden", "courtyard", "plaza"],
+        "preferred_keywords": ["park", "garden", "plaza", "courtyard", "green"],
+        "excluded_keywords": ["parking"],
+    },
     {
         "triggers": ["hobbs cafe", "cafe"],
         "preferred_keywords": ["cafe"],
@@ -47,7 +54,7 @@ KNOWN_ARENA_RULES = [
     },
 ]
 
-ARENA_ONLY_SKILLS = {"use", "work", "study", "leisure_use"}
+ARENA_ONLY_SKILLS = {"use", "work", "study", "leisure_use", "wander"}
 
 
 def _normalize_text(value):

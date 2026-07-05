@@ -47,6 +47,17 @@ pkill -f "python.*manage.py runserver" 2>/dev/null || true
 pkill -f "python.*reverie.py" 2>/dev/null || true
 echo "Cleanup complete."
 
+cleanup_python="python3"
+if [[ -x "$ROOT_DIR/.venv/bin/python" ]]; then
+  cleanup_python="$ROOT_DIR/.venv/bin/python"
+elif [[ -x "$ROOT_DIR/venv/bin/python" ]]; then
+  cleanup_python="$ROOT_DIR/venv/bin/python"
+fi
+
+echo "Cleaning previous run residue..."
+"$cleanup_python" "$ROOT_DIR/cleanup_run_state.py"
+echo "Residue cleanup complete."
+
 echo
 echo "[Checking Dependencies]"
 if ! command -v ollama >/dev/null 2>&1; then

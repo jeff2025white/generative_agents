@@ -32,6 +32,7 @@ _cache_hits = 0
 _cache_misses = 0
 LLM_TIMING_LOG = "ollama_request_timing.jsonl"
 _openai_config_lock = threading.Lock()
+_cache_sim_scope = None
 
 def _load_cache():
   global _cache
@@ -54,6 +55,17 @@ def _save_cache():
 def _cache_key(prompt, extra=""):
   raw = prompt + str(extra)
   return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def set_cache_sim_scope(sim_code):
+  """Bind prompt cache lookups to a single simulation run."""
+  global _cache_sim_scope
+  normalized = str(sim_code or "").strip()
+  _cache_sim_scope = normalized or None
+
+
+def get_cache_sim_scope():
+  return _cache_sim_scope
 
 
 def _short_hash(text):
@@ -151,6 +163,7 @@ def _cache_scope(label, request_config=None):
       "label": label,
       "api_base": cfg.get("api_base"),
       "model": cfg.get("model"),
+      "sim_code": _cache_sim_scope,
     },
     ensure_ascii=False,
     sort_keys=True,
@@ -772,7 +785,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
 
 
 

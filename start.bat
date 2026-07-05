@@ -15,6 +15,23 @@ echo Cleaning up any previously running servers...
 powershell -Command "Get-CimInstance Win32_Process -Filter \"name = 'python.exe'\" | Where-Object { $_.CommandLine -like '*manage.py*' -or $_.CommandLine -like '*reverie.py*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }"
 echo Cleanup complete.
 
+set "CLEANUP_PY="
+if exist "%~dp0venv\Scripts\python.exe" set "CLEANUP_PY=%~dp0venv\Scripts\python.exe"
+if not defined CLEANUP_PY if exist "%~dp0.venv\Scripts\python.exe" set "CLEANUP_PY=%~dp0.venv\Scripts\python.exe"
+if not defined CLEANUP_PY set "CLEANUP_PY=python"
+
+echo Cleaning previous run residue...
+pushd "%~dp0"
+%CLEANUP_PY% cleanup_run_state.py
+if %errorlevel% neq 0 (
+    echo [ERROR] cleanup_run_state.py failed.
+    popd
+    pause
+    exit /b 1
+)
+popd
+echo Residue cleanup complete.
+
 echo.
 echo [Checking Dependencies]
 where ollama >nul 2>&1

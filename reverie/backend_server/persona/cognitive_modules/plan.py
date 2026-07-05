@@ -112,6 +112,65 @@ def _build_translation_convergence_hint(persona, intent_memory_summary):
   return hint
 
 
+def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, reasoning):
+  """Steer low-mood, otherwise-safe NPCs toward lightweight leisure instead of null idle."""
+  scratch = getattr(persona, "scratch", None)
+  if not scratch:
+    return action, target, act_desp, reasoning
+
+  mood = float(getattr(scratch, "mood", 100.0) or 100.0)
+  satiety = float(getattr(scratch, "satiety", 100.0) or 100.0)
+  stamina = float(getattr(scratch, "stamina", 100.0) or 100.0)
+  health = float(getattr(scratch, "health", 100.0) or 100.0)
+  if mood >= 60.0 or satiety < 70.0 or stamina < 50.0 or health < 70.0:
+    return action, target, act_desp, reasoning
+
+  normalized_action = str(action or "").strip().lower()
+  normalized_target = str(target or "").strip().lower()
+  if normalized_action not in {"idle", "recreate", ""}:
+    return action, target, act_desp, reasoning
+  if normalized_action == "recreate" and normalized_target not in {"", "none"}:
+    return action, target, act_desp, reasoning
+
+  curr_tile = getattr(scratch, "curr_tile", None)
+  current_object = maze.get_tile_path(curr_tile, "game_object") if curr_tile else None
+  current_arena = maze.get_tile_path(curr_tile, "arena") if curr_tile else None
+  current_context = " ".join(str(part or "").lower() for part in [current_object, current_arena])
+  if any(keyword in current_context for keyword in ["park", "garden", "bench", "sofa", "cafe customer seating", "common room", "plaza", "courtyard"]):
+    daydream_target = current_object or current_arena or "bench"
+    return (
+      "Idle",
+      daydream_target,
+      f"daydreaming quietly at the {daydream_target} and people-watching for a while",
+      f"{reasoning} [low mood leisure fallback: in-place daydream]",
+    )
+
+  for leisure_target in ["park garden", "park", "common room sofa", "cafe customer seating", "bench"]:
+    wander_detail = f"strolling through the {leisure_target} to unwind and clear my head"
+    resolved_address, _meta = resolve_action_target_address(
+      persona,
+      maze,
+      "wander",
+      target=leisure_target,
+      detail=wander_detail,
+    )
+    if resolved_address:
+      return (
+        "Recreate",
+        leisure_target,
+        wander_detail,
+        f"{reasoning} [low mood leisure fallback: wander to relaxing place]",
+      )
+
+  fallback_target = current_object or current_arena or "bench"
+  return (
+    "Idle",
+    fallback_target,
+    f"daydreaming quietly at the {fallback_target} to reset my mood",
+    f"{reasoning} [low mood leisure fallback: in-place daydream]",
+  )
+
+
 def _normalize_reachable_targets(resources):
   targets = []
   seen = set()
@@ -1833,18 +1892,27 @@ def decide_survival_action(persona, maze):
   action = decision.get("action", "Idle")
   target = decision.get("target", "none")
   reasoning = decision.get("reasoning", "")
+  act_desp = decision.get("detail", "")
+  action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
+    persona,
+    maze,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
 
   print(f"[{persona.name}] 经过LLM生存分析做出决策: Action={action}, Target={target}, 原因={reasoning}")
 
   if action == "Idle" or target == "none":
     # Idle action
     persona.scratch.act_address = f"{persona.scratch.living_area}"
-    persona.scratch.act_description = "idling to conserve energy"
+    persona.scratch.act_description = act_desp or "idling to conserve energy"
     persona.scratch.act_duration = 10
     persona.scratch.act_start_time = persona.scratch.curr_time
     persona.scratch.act_pronunciatio = "💤"
     persona.scratch.act_event = (persona.name, "idle", "none")
-    persona.scratch.act_command = build_action_command("idle", "none", source="survival_direct", raw_action="idle")
+    persona.scratch.act_command = build_action_command("idle", "none", source="survival_direct", raw_action="idle", detail=persona.scratch.act_description)
     persona.scratch.act_path_set = False
     return persona.scratch.act_address
 
@@ -2122,6 +2190,14 @@ def decide_demand_action(persona, maze):
   reasoning = decision.get("reasoning", "")
   if reasoning is None: reasoning = ""
   reasoning = str(reasoning)
+  action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
+    persona,
+    maze,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
   minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=decision_timing_meta)
   append_debug_log(
     "training_dataset/decision_training_prep.jsonl",

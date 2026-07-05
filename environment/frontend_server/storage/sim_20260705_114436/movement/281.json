@@ -1,0 +1,122 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        35,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u8fd9\u4eba\u633a\u6709\u610f\u601d\u7684\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u5f97\u633a\u597d\uff0c\u8fd9\u6b21\u7ee7\u7eed\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u4eca\u5929\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54c8\u54c8\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u6b63\u60f3\u627e\u4f60\u804a\u804a\u5462\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u6b63\u5728\u60f3\u4f60\u5462"
+        ],
+        [
+          "Maria Lopez",
+          "\u54df\uff0c\u53c8\u5728\u8fd9\u513f\u78b0\u89c1\u4f60\u4e86\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u5077\u5077\u53bb\u5403\u4e86\u90a3\u5bb6\u9ebb\u8fa3\u70eb\uff1f"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u54df\uff0c\u53c8\u5728\u8fd9\u513f\u78b0\u89c1\u4f60\u4e86\u3002",
+      "satiety": 57.44000000000048,
+      "stamina": 98.08000000000013,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        58,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "setting up decorations for the Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 90.4800000000002,
+      "stamina": 80.59000000000184,
+      "health": 100.0,
+      "mood": 77.0999999999988,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        36,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u8fd9\u4eba\u633a\u6709\u610f\u601d\u7684\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u5f97\u633a\u597d\uff0c\u8fd9\u6b21\u7ee7\u7eed\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u4eca\u5929\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54c8\u54c8\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u6b63\u60f3\u627e\u4f60\u804a\u804a\u5462\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u6b63\u5728\u60f3\u4f60\u5462"
+        ],
+        [
+          "Maria Lopez",
+          "\u54df\uff0c\u53c8\u5728\u8fd9\u513f\u78b0\u89c1\u4f60\u4e86\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u5077\u5077\u53bb\u5403\u4e86\u90a3\u5bb6\u9ebb\u8fa3\u70eb\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u8bf6\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u5077\u5077\u53bb\u5403\u4e86\u90a3\u5bb6\u9ebb\u8fa3\u70eb\uff1f",
+      "satiety": 57.44000000000048,
+      "stamina": 98.08000000000013,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 05, 2026, 08:46:50"
+  }
+}

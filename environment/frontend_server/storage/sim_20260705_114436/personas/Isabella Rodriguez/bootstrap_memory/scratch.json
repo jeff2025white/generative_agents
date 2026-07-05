@@ -1,0 +1,124 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 05, 2026, 08:52:00",
+  "curr_tile": [
+    79,
+    24
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 88.00000000000026,
+  "stamina": 68.66000000000194,
+  "health": 100.0,
+  "mood": 74.01999999999857,
+  "last_social_time": null,
+  "last_action_switch_time": "July 05, 2026, 08:40:40",
+  "decision_commit_until_step": 313,
+  "last_decision_signature": {
+    "skill_id": "work",
+    "target": "behind the cafe counter",
+    "intent_family": "work"
+  },
+  "last_decision_reason": "preparing Valentine's Day decorations",
+  "recent_completed_action_signature": {
+    "skill_id": "work",
+    "target": "behind the cafe counter",
+    "intent_family": "work"
+  },
+  "recent_completed_action_step": 309,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "behind the cafe counter",
+    "target_address": "the Ville:Hobbs Cafe:cafe",
+    "skill_id": "work",
+    "action_description": "preparing Valentine's Day decorations",
+    "curr_step": 309
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-310-work-behind the cafe counter",
+    "phase": "failed",
+    "address": null,
+    "command": null,
+    "description": null,
+    "event": null,
+    "path": [],
+    "path_set": false,
+    "signature": null,
+    "started_step": 310,
+    "updated_step": 312,
+    "failure": {
+      "reason": "empty_plan_idle_fallback",
+      "payload": {}
+    }
+  },
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 133,
+  "importance_ele_n": 8,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 05, 2026, 08:51:40",
+  "act_duration": 60,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}
