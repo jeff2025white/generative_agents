@@ -1,0 +1,181 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        101,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "preparing Valentine's Day decorations at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 85.60000000000073,
+      "stamina": 98.35000000000015,
+      "health": 100.0,
+      "mood": 64.25999999999834,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        35,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u54b1\u4eec\u6162\u6162\u559d\uff0c\u522b\u62ac\u5934\uff0c\u6211\u5047\u88c5\u770b\u83dc\u5355\u3002",
+      "satiety": 42.3200000000008,
+      "stamina": 97.33999999999962,
+      "health": 100.0,
+      "mood": 99.91999999999999,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 09:18:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez consumed apple and restored physical condition.",
+          "created": "2023-02-13 08:21:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:18:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:47:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple from inventory",
+          "created": "2023-02-13 09:07:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:35:00",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        36,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u8fd9\u513f\u4fe1\u53f7\u4e0d\u592a\u597d\uff0c\u4f60\u90a3\u8fb9\u4e5f\u8fd9\u6837\u5417\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u95fb\u89c1\u6ca1\uff0c\u8fd9\u5bb6\u5e97\u8001\u8fdc\u5c31\u98d8\u7740\u5496\u5561\u9999\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u71ac\u591c\u4e86\uff0c\u770b\u4f60\u7cbe\u795e\u5934\u4e0d\u592a\u8db3\u554a\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8fd9\u5730\u65b9\u6211\u719f\uff0c\u5c0f\u65f6\u5019\u8001\u6765\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u521a\u60f3\u8d77\u6765\u70b9\u4e8b\u513f\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u8fd9\u540d\u5b57\u633a\u6709\u610f\u601d\u7684\uff0c\u8c01\u7ed9\u4f60\u8d77\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u90a3\u5bb6\u5c0f\u5403\u5e97\u7684\u70b8\u4e32\u542c\u8bf4\u7279\u5730\u9053\uff0c\u53bb\u4e0d\u53bb\u5c1d\u5c1d\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002",
+      "satiety": 42.3200000000008,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 09:18:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller consumed apple and restored physical condition.",
+          "created": "2023-02-13 08:22:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:46:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:19:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:35:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:24:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple from inventory",
+          "created": "2023-02-13 09:07:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller consumes apples for sustenance",
+          "created": "2023-02-13 08:35:20",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:18:20"
+  }
+}

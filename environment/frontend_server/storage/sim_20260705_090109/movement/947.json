@@ -1,0 +1,275 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        81,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u8001\u5f80\u697c\u4e0b\u8dd1\uff0c\u662f\u4e0d\u662f\u53c8\u53d1\u73b0\u5565\u597d\u9986\u5b50\u4e86\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6700\u8fd1\u8001\u5237\u5230\u90a3\u5bb6\u5e97\uff0c\u6539\u5929\u53bb\u6253\u4e2a\u5361\u4e0d\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u6362\u4e86\u4e2a\u65b0\u53d1\u578b\uff1f\u770b\u7740\u633a\u7cbe\u795e\u7684\u554a\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u4e5f\u8d85\u8ff7\u90a3\u5bb6\u65b0\u5f00\u7684\u751c\u54c1\u5e97\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u60f3\u53bb\u7684\u90a3\u5bb6\u5e97\uff0c\u4eca\u5929\u6709\u7a7a\u4e0d\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u70b9\u5b8c\u83dc\u7684\u8bdd\u8981\u4e0d\u8981\u5148\u6765\u676f\u8336\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u5305\u633a\u773c\u719f\u7684\uff0c\u662f\u4e0d\u662f\u4e0a\u6b21\u54b1\u4fe9\u4e00\u8d77\u53bb\u6311\u7684\u90a3\u5bb6\u5e97\u4e70\u7684\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u54b1\u4e0a\u6b21\u8bf4\u7684\u90a3\u4e8b\u513f\u6709\u8c31\u4e86\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u8fd9\u5305\u633a\u773c\u719f\u7684\uff0c\u662f\u4e0d\u662f\u4e0a\u6b21\u54b1\u4fe9\u4e00\u8d77\u53bb\u6311\u7684\u90a3\u5bb6\u5e97\u4e70\u7684\uff1f",
+      "satiety": 44.16000000000162,
+      "stamina": 99.91999999999999,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the bed to recover mood and stamina",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is searching for decorations to complete the Valentine's Day setup",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Maria Lopez",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sleeping in bed to recover stamina",
+          "created": "2023-02-13 09:18:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        24,
+        50
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Johnson Park:park:park garden",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f",
+      "satiety": 44.16000000000162,
+      "stamina": 88.2000000000005,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 6
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        80,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u8001\u5f80\u697c\u4e0b\u8dd1\uff0c\u662f\u4e0d\u662f\u53c8\u53d1\u73b0\u5565\u597d\u9986\u5b50\u4e86\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6700\u8fd1\u8001\u5237\u5230\u90a3\u5bb6\u5e97\uff0c\u6539\u5929\u53bb\u6253\u4e2a\u5361\u4e0d\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u6362\u4e86\u4e2a\u65b0\u53d1\u578b\uff1f\u770b\u7740\u633a\u7cbe\u795e\u7684\u554a\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u4e5f\u8d85\u8ff7\u90a3\u5bb6\u65b0\u5f00\u7684\u751c\u54c1\u5e97\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u60f3\u53bb\u7684\u90a3\u5bb6\u5e97\uff0c\u4eca\u5929\u6709\u7a7a\u4e0d\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u70b9\u5b8c\u83dc\u7684\u8bdd\u8981\u4e0d\u8981\u5148\u6765\u676f\u8336\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u5305\u633a\u773c\u719f\u7684\uff0c\u662f\u4e0d\u662f\u4e0a\u6b21\u54b1\u4fe9\u4e00\u8d77\u53bb\u6311\u7684\u90a3\u5bb6\u5e97\u4e70\u7684\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u54b1\u4e0a\u6b21\u8bf4\u7684\u90a3\u4e8b\u513f\u6709\u8c31\u4e86\u3002"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u54b1\u4e0a\u6b21\u8bf4\u7684\u90a3\u4e8b\u513f\u6709\u8c31\u4e86\u3002",
+      "satiety": 79.04000000000045,
+      "stamina": 95.43000000000087,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the sofa to recover stamina",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the bed to recover mood and stamina",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating an apple to satisfy hunger",
+          "created": "2023-02-13 10:37:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2023-02-13 09:54:10",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at sofa and recovered stamina.",
+          "created": "2023-02-13 09:13:40",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at bed and recovered stamina.",
+          "created": "2023-02-13 09:31:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sleeping in bed to recover stamina",
+          "created": "2023-02-13 08:52:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sleeping in bed to restore stamina",
+          "created": "2023-02-13 09:51:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:40:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple to restore low satiety",
+          "created": "2023-02-13 10:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 10:10:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 10:10:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple from inventory",
+          "created": "2023-02-13 09:59:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple from inventory",
+          "created": "2023-02-13 10:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:52:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to restore satiety",
+          "created": "2023-02-13 10:13:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez consumes apples regularly",
+          "created": "2023-02-13 10:10:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are consuming apples",
+          "created": "2023-02-13 09:31:20",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 10:37:50"
+  }
+}

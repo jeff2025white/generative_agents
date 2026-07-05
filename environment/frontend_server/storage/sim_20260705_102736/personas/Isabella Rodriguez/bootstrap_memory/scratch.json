@@ -1,0 +1,533 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 08:05:00",
+  "curr_tile": [
+    72,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 37.52000000000005,
+  "stamina": 97.8600000000002,
+  "health": 100.0,
+  "mood": 48.760000000000026,
+  "last_social_time": null,
+  "last_action_switch_time": "February 13, 2023, 08:00:00",
+  "decision_commit_until_step": 2,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "gathering apples from the apple tree",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-0-gather-apple tree",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park:apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "description": "gathering apples from the apple tree",
+    "event": [
+      "Isabella Rodriguez",
+      "gather",
+      "apple tree"
+    ],
+    "path": [
+      [
+        70,
+        30
+      ],
+      [
+        69,
+        30
+      ],
+      [
+        68,
+        30
+      ],
+      [
+        67,
+        30
+      ],
+      [
+        66,
+        30
+      ],
+      [
+        65,
+        30
+      ],
+      [
+        64,
+        30
+      ],
+      [
+        63,
+        30
+      ],
+      [
+        62,
+        30
+      ],
+      [
+        61,
+        30
+      ],
+      [
+        60,
+        30
+      ],
+      [
+        59,
+        30
+      ],
+      [
+        58,
+        30
+      ],
+      [
+        57,
+        30
+      ],
+      [
+        56,
+        30
+      ],
+      [
+        55,
+        30
+      ],
+      [
+        54,
+        30
+      ],
+      [
+        53,
+        30
+      ],
+      [
+        52,
+        30
+      ],
+      [
+        51,
+        30
+      ],
+      [
+        50,
+        30
+      ],
+      [
+        49,
+        30
+      ],
+      [
+        49,
+        31
+      ],
+      [
+        48,
+        31
+      ],
+      [
+        47,
+        31
+      ],
+      [
+        46,
+        31
+      ],
+      [
+        45,
+        31
+      ],
+      [
+        44,
+        31
+      ],
+      [
+        44,
+        32
+      ],
+      [
+        43,
+        32
+      ],
+      [
+        42,
+        32
+      ],
+      [
+        41,
+        32
+      ],
+      [
+        41,
+        33
+      ],
+      [
+        41,
+        34
+      ],
+      [
+        41,
+        35
+      ],
+      [
+        41,
+        36
+      ],
+      [
+        40,
+        36
+      ],
+      [
+        39,
+        36
+      ],
+      [
+        38,
+        36
+      ],
+      [
+        37,
+        36
+      ],
+      [
+        36,
+        36
+      ],
+      [
+        35,
+        36
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        33,
+        36
+      ],
+      [
+        32,
+        36
+      ],
+      [
+        31,
+        36
+      ],
+      [
+        31,
+        37
+      ],
+      [
+        31,
+        38
+      ],
+      [
+        31,
+        39
+      ],
+      [
+        31,
+        40
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 0,
+    "updated_step": 30,
+    "failure": null
+  },
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 134,
+  "importance_ele_n": 13,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park:apple tree",
+  "act_start_time": "February 13, 2023, 08:00:00",
+  "act_duration": 30,
+  "act_description": "gathering apples from the apple tree",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Isabella Rodriguez",
+    "gather",
+    "apple tree"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "gathering apples from the apple tree"
+  },
+  "act_obj_description": "apple tree is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "apple tree",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      70,
+      30
+    ],
+    [
+      69,
+      30
+    ],
+    [
+      68,
+      30
+    ],
+    [
+      67,
+      30
+    ],
+    [
+      66,
+      30
+    ],
+    [
+      65,
+      30
+    ],
+    [
+      64,
+      30
+    ],
+    [
+      63,
+      30
+    ],
+    [
+      62,
+      30
+    ],
+    [
+      61,
+      30
+    ],
+    [
+      60,
+      30
+    ],
+    [
+      59,
+      30
+    ],
+    [
+      58,
+      30
+    ],
+    [
+      57,
+      30
+    ],
+    [
+      56,
+      30
+    ],
+    [
+      55,
+      30
+    ],
+    [
+      54,
+      30
+    ],
+    [
+      53,
+      30
+    ],
+    [
+      52,
+      30
+    ],
+    [
+      51,
+      30
+    ],
+    [
+      50,
+      30
+    ],
+    [
+      49,
+      30
+    ],
+    [
+      49,
+      31
+    ],
+    [
+      48,
+      31
+    ],
+    [
+      47,
+      31
+    ],
+    [
+      46,
+      31
+    ],
+    [
+      45,
+      31
+    ],
+    [
+      44,
+      31
+    ],
+    [
+      44,
+      32
+    ],
+    [
+      43,
+      32
+    ],
+    [
+      42,
+      32
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      41,
+      33
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      41,
+      35
+    ],
+    [
+      41,
+      36
+    ],
+    [
+      40,
+      36
+    ],
+    [
+      39,
+      36
+    ],
+    [
+      38,
+      36
+    ],
+    [
+      37,
+      36
+    ],
+    [
+      36,
+      36
+    ],
+    [
+      35,
+      36
+    ],
+    [
+      34,
+      36
+    ],
+    [
+      33,
+      36
+    ],
+    [
+      32,
+      36
+    ],
+    [
+      31,
+      36
+    ],
+    [
+      31,
+      37
+    ],
+    [
+      31,
+      38
+    ],
+    [
+      31,
+      39
+    ],
+    [
+      31,
+      40
+    ]
+  ]
+}

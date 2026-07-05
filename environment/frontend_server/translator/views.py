@@ -504,6 +504,19 @@ def _parse_log_timestamp(ts_str):
 
 
 def _get_sim_log_start_time(sim_code):
+  resolved_code = sim_code
+  if not sim_code.startswith("sim_"):
+    curr_sim_file = os.path.join(_project_root, "environment", "frontend_server", "temp_storage", "curr_sim_code.json")
+    if os.path.exists(curr_sim_file):
+      try:
+        with open(curr_sim_file, "r") as f:
+          data = json.load(f)
+          active_code = data.get("sim_code", "")
+          if active_code.startswith("sim_"):
+            resolved_code = active_code
+      except Exception:
+        pass
+
   timing_file = os.path.join(_project_root, "logs", "step_timing.jsonl")
   if not os.path.exists(timing_file):
     return None
@@ -516,7 +529,7 @@ def _get_sim_log_start_time(sim_code):
           data = json.loads(line)
         except Exception:
           continue
-        if data.get("sim_code") == sim_code:
+        if data.get("sim_code") == resolved_code:
           dt = _parse_log_timestamp(data.get("ts"))
           if dt:
             return dt - datetime.timedelta(seconds=60)

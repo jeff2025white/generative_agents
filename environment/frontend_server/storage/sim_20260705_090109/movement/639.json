@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        53,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:computer",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002",
+      "satiety": 28.80000000000109,
+      "stamina": 98.25999999999998,
+      "health": 100.0,
+      "mood": 99.43999999999991,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        80,
+        41
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to recover mood and stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.92000000000085,
+      "stamina": 60.000000000000135,
+      "health": 100.0,
+      "mood": 47.69999999999836,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        54,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:game console",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54ce\uff0c\u8fd9\u5730\u65b9\u771f\u4e0d\u9519\uff0c\u4f60\u5e38\u6765\uff1f",
+      "satiety": 28.80000000000109,
+      "stamina": 98.21999999999997,
+      "health": 100.0,
+      "mood": 99.43999999999991,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:46:30"
+  }
+}

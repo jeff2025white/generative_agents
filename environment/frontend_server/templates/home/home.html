@@ -3,274 +3,493 @@
 
 {% block content %}
 <style>
-	.sim-shell {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) 380px;
-		gap: 20px;
-		padding: 16px;
-		max-width: 100vw;
-		margin: 0 auto;
-		align-items: start;
-		box-sizing: border-box;
-	}
-	.sim-left {
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
-	}
+	/* Fullscreen Map Container */
 	#game-container {
-		width: 100%;
-		max-width: 100%;
-		border: 2px solid #ddd;
-		border-radius: 8px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: 1;
+		background: #090d16;
+		outline: none;
 		overflow: hidden;
-		background: #000;
-		position: relative;
 		box-sizing: border-box;
 	}
 	#game-container canvas {
 		display: block;
 		width: 100% !important;
-		height: auto !important;
-		max-width: 100%;
+		height: 100% !important;
 	}
-	.map-chat-feed {
-		position: absolute;
-		left: 14px;
-		bottom: 14px;
-		width: min(420px, calc(100% - 28px));
-		max-height: 240px;
+
+	/* HUD Panels Base */
+	.hud-panel {
+		position: fixed;
+		z-index: 10;
+		background: rgba(15, 23, 42, 0.82);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 12px;
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+		color: #F8FAFC;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		box-sizing: border-box;
+	}
+
+	/* Left-Top HUD Clock */
+	.clock-hud {
+		top: 16px;
+		left: 16px;
+		padding: 12px 14px;
+		width: 220px;
 		display: flex;
 		flex-direction: column;
-		background: rgba(15, 23, 42, 0.86);
-		border: 1px solid rgba(226, 232, 240, 0.34);
-		border-radius: 8px;
-		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
-		color: #F8FAFC;
-		text-align: left;
-		z-index: 10;
-		pointer-events: none;
-		backdrop-filter: blur(6px);
+		gap: 6px;
 	}
-	.map-chat-feed__title {
+	.flip-row {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+	.flip-card {
+		background: #1e293b;
+		color: #f8fafc;
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 1.8em;
+		font-weight: 900;
+		padding: 2px 5px;
+		border-radius: 4px;
+		border: 1px solid rgba(255,255,255,0.15);
+		box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+		width: 24px;
+		text-align: center;
+		line-height: 1.1em;
+	}
+	.flip-separator {
+		color: #10B981;
+		font-size: 1.6em;
+		font-weight: bold;
+		line-height: 1.1em;
+		animation: clock-blink 1s infinite;
+	}
+	@keyframes clock-blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.3; }
+	}
+	.clock-btn {
+		margin-left: 8px;
+		background: rgba(255,255,255,0.1);
+		border: 1px solid rgba(255,255,255,0.15);
+		border-radius: 50%;
+		color: #E2E8F0;
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		outline: none !important;
+		transition: all 0.2s ease;
+	}
+	.clock-btn:hover {
+		background: rgba(16, 185, 129, 0.25);
+		color: #10B981;
+		border-color: rgba(16, 185, 129, 0.4);
+		transform: scale(1.08);
+	}
+	.clock-meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: #94A3B8;
+		font-size: 0.82em;
+		font-weight: 800;
+		background: rgba(0, 0, 0, 0.25);
+		padding: 4px 6px;
+		border-radius: 4px;
+		border: 1px solid rgba(255,255,255,0.05);
+	}
+
+	/* Left-Bottom Chat HUD */
+	.chat-hud {
+		bottom: 16px;
+		left: 16px;
+		width: 220px;
+		height: 50vh;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+	.chat-hud__title {
 		padding: 10px 12px 7px;
 		font-size: 0.9em;
-		font-weight: 800;
-		letter-spacing: 0;
-		border-bottom: 1px solid rgba(226, 232, 240, 0.22);
+		font-weight: 900;
+		letter-spacing: 0.05em;
+		border-bottom: 1px solid rgba(255,255,255,0.1);
+		background: rgba(0, 0, 0, 0.15);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
-	.map-chat-feed__list {
+	.chat-hud__list {
+		flex: 1;
 		overflow-y: auto;
-		padding: 9px 12px 11px;
+		padding: 10px 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.chat-hud__empty {
+		color: #64748B;
+		font-size: 0.8em;
+		text-align: center;
+		margin-top: 20px;
+		font-style: italic;
+	}
+
+	/* Chat Bubble Layout Styles */
+	.chat-row {
+		display: flex;
+		width: 100%;
+		margin-bottom: 2px;
+	}
+	.chat-row.left {
+		justify-content: flex-start;
+	}
+	.chat-row.right {
+		justify-content: flex-end;
+	}
+	.chat-bubble-wrapper {
+		display: flex;
+		max-width: 88%;
+		gap: 6px;
+		align-items: flex-start;
+	}
+	.chat-row.left .chat-bubble-wrapper {
+		flex-direction: row;
+	}
+	.chat-row.right .chat-bubble-wrapper {
+		flex-direction: row-reverse;
+	}
+	.chat-avatar {
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+		color: white;
+		font-size: 0.8em;
+		border: 1px solid rgba(255,255,255,0.3);
+		flex-shrink: 0;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+	}
+	.chat-bubble-content {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+	.chat-sender-name {
+		font-size: 0.7em;
+		color: #64748B;
+		margin-bottom: 1px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 120px;
+	}
+	.chat-row.right .chat-sender-name {
+		text-align: right;
+	}
+	.chat-bubble {
+		padding: 6px 10px;
+		border-radius: 8px;
+		font-size: 0.8em;
+		line-height: 1.35em;
+		word-break: break-word;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	}
+	.chat-row.left .chat-bubble {
+		background: rgba(255, 255, 255, 0.12);
+		color: #E2E8F0;
+		border-top-left-radius: 2px;
+	}
+	.chat-row.right .chat-bubble {
+		background: #10B981;
+		color: #FFFFFF;
+		border-top-right-radius: 2px;
+	}
+
+	/* Right-Bottom Character list HUD */
+	.personas-hud {
+		bottom: 16px;
+		right: 16px;
+		width: 220px;
+		max-height: calc(100vh - 32px);
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		padding: 12px;
+	}
+	.personas-hud__title {
+		margin-top: 0;
+		margin-bottom: 10px;
+		font-size: 1.1em;
+		font-weight: bold;
+		color: #F8FAFC;
+		border-bottom: 1px solid rgba(255,255,255,0.15);
+		padding-bottom: 6px;
+		letter-spacing: 0.05em;
+	}
+	.personas-hud__list {
+		flex: 1;
+		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		padding-right: 2px;
 	}
-	.map-chat-feed__empty {
-		color: #CBD5E1;
-		font-size: 0.86em;
-		line-height: 1.45em;
-	}
-	.map-chat-message {
-		display: grid;
-		grid-template-columns: 86px minmax(0, 1fr);
-		gap: 8px;
-		font-size: 0.86em;
-		line-height: 1.4em;
-	}
-	.map-chat-message__speaker {
-		color: #A7F3D0;
-		font-weight: 800;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	.map-chat-message__text {
-		color: #F8FAFC;
-		word-break: break-word;
-	}
-	.sim-right {
-		min-width: 320px;
-		max-width: 420px;
-		background-color: #FDFDFD;
-		padding: 15px;
-		border: 1px solid #E0E0E0;
+
+	/* Compact Character Card */
+	.persona-card {
+		background: rgba(30, 41, 59, 0.4);
+		border: 1px solid rgba(255, 255, 255, 0.06);
 		border-radius: 8px;
-		max-height: calc(100vh - 40px);
-		overflow-y: auto;
-		position: sticky;
-		top: 16px;
-		box-sizing: border-box;
+		padding: 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		transition: all 0.2s ease;
 	}
-	.sim-meta {
-		width: 100%;
-		margin-top: 1.5em;
-		padding: 0 10px;
-		box-sizing: border-box;
+	.persona-card:hover {
+		background: rgba(30, 41, 59, 0.6);
+		border-color: rgba(255, 255, 255, 0.15);
 	}
-	@media (max-width: 1200px) {
-		.sim-shell {
-			grid-template-columns: minmax(0, 1fr) 340px;
-		}
+	.avatar-circle {
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 800;
+		color: white;
+		font-size: 0.95em;
+		border: 1px solid rgba(255,255,255,0.4);
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		cursor: pointer;
+		transition: transform 0.2s ease;
+		flex-shrink: 0;
 	}
-	@media (max-width: 980px) {
-		.sim-shell {
-			grid-template-columns: 1fr;
-		}
-		.sim-right {
-			position: static;
-			max-width: none;
-			min-width: 0;
-			max-height: none;
-		}
+	.avatar-circle:hover {
+		transform: scale(1.1);
+	}
+	.hud-icon-btn {
+		background: rgba(255, 255, 255, 0.08);
+		color: #E2E8F0;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 50%;
+		width: 22px;
+		height: 22px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.8em;
+		cursor: pointer;
+		outline: none !important;
+		text-decoration: none !important;
+		transition: all 0.2s ease;
+	}
+	.hud-icon-btn.chat:hover {
+		background: rgba(16, 185, 129, 0.25);
+		color: #10B981;
+		border-color: rgba(16, 185, 129, 0.4);
+		transform: scale(1.15);
+	}
+	.hud-icon-btn.status:hover {
+		background: rgba(59, 130, 246, 0.25);
+		color: #3B82F6;
+		border-color: rgba(59, 130, 246, 0.4);
+		transform: scale(1.15);
+	}
+
+	.status-bars {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 4px;
+		margin-top: 2px;
+	}
+	.status-bar-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+	.status-bar-wrapper span {
+		font-size: 0.72em;
+	}
+	.status-bar-container {
+		flex: 1;
+		height: 3px;
+		background: rgba(255,255,255,0.15);
+		border-radius: 1.5px;
+		overflow: hidden;
+	}
+	.status-bar-fill {
+		height: 100%;
+		transition: width 0.3s ease;
+		border-radius: 1.5px;
 	}
 </style>
-<br>
-<br>
-<div class="sim-shell">
-	<!-- Left Side: Map and Controls -->
-	<div class="sim-left">
-		<div id="game-container" style="text-align: center;">
-			<div id="map-chat-feed" class="map-chat-feed">
-				<div class="map-chat-feed__title">NPC 聊天</div>
-				<div id="map-chat-list" class="map-chat-feed__list">
-					<div class="map-chat-feed__empty">暂时还没有 NPC 对话。</div>
-				</div>
-			</div>
-		</div>
 
-		<!-- Time and Step on the same row -->
-		<div class="sim-meta">
-			<div class="row" style="display: flex; align-items: center; margin-bottom: 1em;">
-				<div class="col-md-8" id="game-time" style="text-align: left;">
-					<h3 style="margin: 0; font-size: 1.5em;">Current Time: <span id="game-time-content"></span></h3>
-				</div>
-				<div class="col-md-4" style="text-align: right;">
-					<h3 style="margin: 0; font-size: 1.5em;">Current Step: <span id="game-step-content">{{step}}</span></h3>
-					<div id="game-step" style="display: none;"></div>
-				</div>
-			</div>
-			<!-- Play / Pause Buttons -->
-			<div class="row" style="margin-top: 1em; margin-bottom: 1.5em;">
-				<div class="col-md-12">
-					<h2>
-						<button id="play_button" type="button" class="btn btn-default">
-							<strong style=" font-size:1.2em"><i class="glyphicon glyphicon-play"></i> &nbsp;Play</strong>
-						</button>
-						<button id="pause_button" type="button" class="btn btn-default">
-							<strong style=" font-size:1.2em"><i class="glyphicon glyphicon-pause"></i> &nbsp;Pause</strong>
-						</button>
-						<a href="{% url 'demo' sim_code '1' '3' %}" target="_blank" class="btn btn-default">
-							<strong style=" font-size:1.2em"><i class="glyphicon glyphicon-film"></i> &nbsp;回放</strong>
-						</a>
-					</h2>
-				</div>
-			</div>
+<!-- Fullscreen Game canvas -->
+<div id="game-container">
+	<!-- Left-Top HUD Clock -->
+	<div class="hud-panel clock-hud">
+		<div class="flip-row">
+			<div class="flip-card" id="clock-hour-1">0</div>
+			<div class="flip-card" id="clock-hour-2">8</div>
+			<div class="flip-separator">:</div>
+			<div class="flip-card" id="clock-minute-1">0</div>
+			<div class="flip-card" id="clock-minute-2">0</div>
+			<button id="clock-play-pause" class="clock-btn" title="播放 / 暂停">
+				<i class="glyphicon glyphicon-pause" id="play-pause-icon" style="top:0px; font-size: 0.9em;"></i>
+			</button>
+		</div>
+		<div class="clock-meta">
+			<span id="clock-day-of-week">星期几</span>
+			<span id="clock-step">Step: {{step}}</span>
 		</div>
 	</div>
 
-	<!-- Right Side: Character Cards -->
-	<div class="sim-right">
-		<h3 style="margin-top: 0; margin-bottom: 15px; font-size: 1.6em; font-weight: bold; border-bottom: 2px solid #4CAF50; padding-bottom: 8px;">
-			角色信息
-		</h3>
+	<!-- Left-Bottom Chat HUD -->
+	<div id="map-chat-feed" class="hud-panel chat-hud">
+		<div class="chat-hud__title">
+			<span>💬 实时对话</span>
+		</div>
+		<div id="map-chat-list" class="chat-hud__list">
+			<div class="chat-hud__empty">暂无 NPC 对话记录。</div>
+		</div>
+	</div>
 
-		{% for p_name, p_name_os in persona_names %}
-			<div class="media" style="background-color:#F5F5F5; padding:10px; border: 1px solid #E2E8F0; border-radius:8px; margin-bottom:10px; display: flex; align-items: flex-start; gap: 10px;">
-				<div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; width: 3.5em; gap: 6px;">
-					<a href="javascript:void(0);" onclick="setFocusPersona('{{ p_name }}')" title="点击对焦并锁定该角色镜头">
-						<img class="media-object" src="{% static 'img/atlas.png' %}" style="width:3.2em; border-radius: 6px; border: 1px solid #CBD5E1; cursor: pointer;">
-					</a>
-					<!-- 生理状态健康条 -->
-					<div style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 4px; align-items: center;">
-						<!-- 生命值 -->
-						<div style="width: 100%; display: flex; flex-direction: column; align-items: center;" title="生命值">
-							<span style="font-size: 0.7em; margin-bottom: 2px;">❤️<span id="health_val__{{ p_name_os }}">100</span></span>
-							<div style="width: 100%; height: 5px; background: #E2E8F0; border-radius: 3px; overflow: hidden;">
-								<div id="health_bar__{{ p_name_os }}" style="width: 100%; height: 100%; background: #EF4444; border-radius: 3px; transition: width 0.3s ease;"></div>
+	<!-- Right-Bottom Character list HUD -->
+	<div class="hud-panel personas-hud">
+		<div class="personas-hud__title">👥 角色管理</div>
+		<div class="personas-hud__list">
+			{% for p_name, p_name_os in persona_names %}
+				<div class="persona-card">
+					<div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+						<div style="display: flex; align-items: center; gap: 6px; min-width: 0; flex: 1;">
+							<a href="javascript:void(0);" onclick="setFocusPersona('{{ p_name }}')" title="点击跟踪人物镜头">
+								<div class="avatar-circle" data-name="{{ p_name }}"></div>
+							</a>
+							<h5 style="margin: 0; font-size: 0.88em; font-weight: bold; color: #F8FAFC; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1;">
+								{{ p_name }}
+							</h5>
+						</div>
+						<div style="display: flex; gap: 4px; flex-shrink: 0;">
+							<button onclick="openChat('{{ p_name_os }}')" class="hud-icon-btn chat" title="对话">💬</button>
+							<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" class="hud-icon-btn status" title="状态">🔍</a>
+						</div>
+					</div>
+					
+					<div style="font-size: 0.78em; color: #94A3B8; display: flex; flex-direction: column; gap: 1px;">
+						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="动作">
+							<strong>动:</strong> <span id="current_action__{{ p_name_os }}" style="color: #CBD5E1;"></span>
+						</div>
+						<div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="位置">
+							<strong>位:</strong> <span id="target_address__{{ p_name_os }}" style="color: #CBD5E1;"></span>
+						</div>
+					</div>
+
+					<div class="status-bars">
+						<div class="status-bar-wrapper" title="健康值">
+							<span>❤️</span>
+							<span id="health_val__{{ p_name_os }}" style="display: none;">100</span>
+							<div class="status-bar-container">
+								<div id="health_bar__{{ p_name_os }}" class="status-bar-fill" style="width: 100%; background: #EF4444;"></div>
 							</div>
 						</div>
-						<!-- 饱食度 -->
-						<div style="width: 100%; display: flex; flex-direction: column; align-items: center;" title="饱食度">
-							<span style="font-size: 0.7em; margin-bottom: 2px;">🍔<span id="satiety_val__{{ p_name_os }}">100</span></span>
-							<div style="width: 100%; height: 5px; background: #E2E8F0; border-radius: 3px; overflow: hidden;">
-								<div id="satiety_bar__{{ p_name_os }}" style="width: 100%; height: 100%; background: #F59E0B; border-radius: 3px; transition: width 0.3s ease;"></div>
+						<div class="status-bar-wrapper" title="饱食度">
+							<span>🍔</span>
+							<span id="satiety_val__{{ p_name_os }}" style="display: none;">100</span>
+							<div class="status-bar-container">
+								<div id="satiety_bar__{{ p_name_os }}" class="status-bar-fill" style="width: 100%; background: #F59E0B;"></div>
 							</div>
 						</div>
-						<!-- 精力值 -->
-						<div style="width: 100%; display: flex; flex-direction: column; align-items: center;" title="精力值">
-							<span style="font-size: 0.7em; margin-bottom: 2px;">⚡<span id="stamina_val__{{ p_name_os }}">100</span></span>
-							<div style="width: 100%; height: 5px; background: #E2E8F0; border-radius: 3px; overflow: hidden;">
-								<div id="stamina_bar__{{ p_name_os }}" style="width: 100%; height: 100%; background: #3B82F6; border-radius: 3px; transition: width 0.3s ease;"></div>
+						<div class="status-bar-wrapper" title="精力值">
+							<span>⚡</span>
+							<span id="stamina_val__{{ p_name_os }}" style="display: none;">100</span>
+							<div class="status-bar-container">
+								<div id="stamina_bar__{{ p_name_os }}" class="status-bar-fill" style="width: 100%; background: #3B82F6;"></div>
 							</div>
 						</div>
-						<!-- 情绪值 -->
-						<div style="width: 100%; display: flex; flex-direction: column; align-items: center;" title="情绪值">
-							<span style="font-size: 0.7em; margin-bottom: 2px;">😊<span id="mood_val__{{ p_name_os }}">100</span></span>
-							<div style="width: 100%; height: 5px; background: #E2E8F0; border-radius: 3px; overflow: hidden;">
-								<div id="mood_bar__{{ p_name_os }}" style="width: 100%; height: 100%; background: #EC4899; border-radius: 3px; transition: width 0.3s ease;"></div>
+						<div class="status-bar-wrapper" title="情绪值">
+							<span>😊</span>
+							<span id="mood_val__{{ p_name_os }}" style="display: none;">100</span>
+							<div class="status-bar-container">
+								<div id="mood_bar__{{ p_name_os }}" class="status-bar-fill" style="width: 100%; background: #EC4899;"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="media-body" style="flex: 1 1 auto;">
-					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-						<h4 id="name__{{ p_name_os }}" style="margin: 0; font-size: 1.2em; font-weight: bold; color: #1E293B;">
-							{{p_name}}
-						</h4>
-					</div>
-					<div style="font-size: 0.9em; color: #334155; line-height: 1.4em;">
-						<div style="margin-bottom: 3px;"><strong>动作:</strong> <span id="current_action__{{ p_name_os }}"></span></div>
-						<div style="margin-bottom: 10px;"><strong>位置:</strong> <span id="target_address__{{ p_name_os }}"></span></div>
-					</div>
-					<div style="margin-top: 10px; display: flex; gap: 4px; border-top: 1px solid #334155; padding-top: 10px; justify-content: space-between; flex-wrap: wrap;">
-						<button onclick="openChat('{{ p_name_os }}')" class="btn btn-success btn-xs" style="font-size:0.8em; padding: 4px 6px; background-color: #10B981; border-color: #10B981; flex: 1 1 48%; text-align: center;">💬 聊天</button>
-						<a href="{% url 'replay_persona_state' sim_code step p_name_os %}" target="_blank" style="font-size:0.8em; padding: 4px 6px; flex: 1 1 48%; text-align: center;" class="btn btn-default btn-xs">🔍 状态</a>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		</div>
 	</div>
 </div>
 
-<!-- ===== 对话弹窗 ===== -->
-<div id="chat-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999;">
-  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; max-height:80vh; background:white; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.3); display:flex; flex-direction:column; overflow:hidden;">
-    
-    <!-- 标题栏 -->
-    <div style="background:#4CAF50; color:white; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+<!-- Modal Chat popup (Custom) -->
+<div id="chat-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; pointer-events: auto;">
+  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:500px; max-height:80vh; background:#1e293b; border: 1px solid rgba(255,255,255,0.15); border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.5); display:flex; flex-direction:column; overflow:hidden;">
+    <!-- Title header -->
+    <div style="background:#10B981; color:white; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
       <h4 style="margin:0; font-size:1.2em;">💬 Chat with <span id="chat-persona-display-name"></span></h4>
       <div style="display:flex; align-items:center; gap:12px;">
-        <button id="chat-audio-toggle" onclick="toggleTts()" style="background:#388E3C; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.85em; cursor:pointer; outline:none; font-weight:bold; display:flex; align-items:center; gap:4px; transition: background 0.2s;">
+        <button id="chat-audio-toggle" onclick="toggleTts()" style="background:#059669; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.85em; cursor:pointer; outline:none; font-weight:bold; display:flex; align-items:center; gap:4px; transition: background 0.2s;">
           🔊 Audio: ON
         </button>
         <button onclick="closeChat()" style="background:none; border:none; color:white; font-size:1.5em; cursor:pointer; outline:none; line-height:1;">&times;</button>
       </div>
     </div>
 
-    <!-- 消息区域 -->
-    <div id="chat-messages" style="flex:1; overflow-y:auto; padding:16px; min-height:300px; max-height:50vh; background:#f9f9f9;">
-      <p style="color:#888; text-align:center; font-style:italic;">Start a conversation...</p>
+    <!-- Messages area -->
+    <div id="chat-messages" style="flex:1; overflow-y:auto; padding:16px; min-height:300px; max-height:50vh; background:#0f172a;">
+      <p style="color:#64748B; text-align:center; font-style:italic;">Start a conversation...</p>
     </div>
 
-    <!-- 输入区域 -->
-    <div style="padding:12px; border-top:1px solid #ddd; display:flex; gap:8px;">
+    <!-- Input area -->
+    <div style="padding:12px; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:8px; background: #1e293b;">
       <input id="chat-input" type="text" placeholder="Type your message..." 
-             style="flex:1; padding:10px; border:1px solid #ccc; border-radius:8px; font-size:1em; outline:none;"
+             style="flex:1; padding:10px; border:1px solid rgba(255,255,255,0.15); background:#0f172a; color:#f8fafc; border-radius:8px; font-size:1em; outline:none;"
              onkeydown="if(event.key==='Enter') sendChatMessage()">
       <button onclick="sendChatMessage()" id="chat-send-btn"
-              style="padding:10px 20px; background:#4CAF50; color:white; border:none; border-radius:8px; cursor:pointer; font-size:1em;">
+              style="padding:10px 20px; background:#10B981; color:white; border:none; border-radius:8px; cursor:pointer; font-size:1em; font-weight: bold; transition: background 0.2s;">
         Send
       </button>
     </div>
   </div>
 </div>
 
-<div style="padding-bottom:15em"> </div>
+<!-- Fill colored circles for avatars -->
+<script type="text/javascript">
+	function generateInitialsAvatar(el) {
+		const name = el.getAttribute('data-name');
+		if (name) {
+			const firstLetter = name.trim().charAt(0).toUpperCase();
+			el.textContent = firstLetter;
+			let hash = 0;
+			for (let i = 0; i < name.length; i++) {
+				hash = name.charCodeAt(i) + ((hash << 5) - hash);
+			}
+			const h = Math.abs(hash % 360);
+			el.style.backgroundColor = 'hsl(' + h + ', 60%, 45%)';
+		}
+	}
+	document.addEventListener('DOMContentLoaded', function() {
+		document.querySelectorAll('.avatar-circle').forEach(generateInitialsAvatar);
+	});
+</script>
 
-
-<!-- partial -->
 <script src='https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js'></script>
 {% include 'home/main_script.html' %}
 {% endblock content %}

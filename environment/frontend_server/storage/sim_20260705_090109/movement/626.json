@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        40,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:computer",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002",
+      "satiety": 29.84000000000107,
+      "stamina": 99.16999999999989,
+      "health": 100.0,
+      "mood": 99.96,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        41,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:game console",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54ce\uff0c\u8fd9\u5730\u65b9\u771f\u4e0d\u9519\uff0c\u4f60\u5e38\u6765\uff1f",
+      "satiety": 29.84000000000107,
+      "stamina": 99.12999999999988,
+      "health": 100.0,
+      "mood": 99.96,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        80,
+        40
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "searching for decorations to complete the Valentine's Day setup @ the Ville:The Willows Market and Pharmacy:store:pharmacy store shelf",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.96000000000083,
+      "stamina": 60.130000000000145,
+      "health": 100.0,
+      "mood": 48.47999999999839,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is searching for decorations to complete the Valentine's Day setup",
+          "created": "2023-02-13 09:44:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:44:20"
+  }
+}

@@ -79,6 +79,11 @@ class ReverieServer:
     with open(f"{sim_folder}/reverie/meta.json") as json_file:  
       reverie_meta = json.load(json_file)
 
+    if self.fork_sim_code != self.sim_code:
+      now_dt = datetime.datetime.now()
+      reverie_meta["start_date"] = now_dt.strftime("%B %d, %Y")
+      reverie_meta["curr_time"] = now_dt.strftime("%B %d, %Y, 08:00:00")
+
     with open(f"{sim_folder}/reverie/meta.json", "w") as outfile: 
       reverie_meta["fork_sim_code"] = fork_sim_code
       outfile.write(json.dumps(reverie_meta, indent=2))

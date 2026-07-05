@@ -1,0 +1,153 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        44
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u706b\u9505\u5e97\uff0c\u6211\u6628\u5929\u53bb\u8bd5\u4e86\uff0c\u5473\u9053\u8fd8\u771f\u4e0d\u9519\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8981\u4e0d\u8981\u8bd5\u8bd5\u4ed6\u4eec\u5bb6\u65b0\u51fa\u7684\u90a3\u6b3e\u51b7\u8403\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u8fd9\u8863\u670d\u633a\u6709\u610f\u601d\uff0c\u54ea\u513f\u4e70\u7684\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u770b\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd9\u5bb6\u7684\u62ff\u94c1\u8fd8\u4e0d\u9519\uff0c\u4f60\u89c9\u5f97\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u4e0d\u5c31\u662f\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u561b\uff0c\u4eca\u5929\u7ec8\u4e8e\u89c1\u7740\u4e86\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54df\uff0c\u8fd9\u5bb6\u7684\u62ff\u94c1\u8fd8\u771f\u4e0d\u9519\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002",
+      "satiety": 60.480000000000416,
+      "stamina": 95.7500000000003,
+      "health": 100.0,
+      "mood": 99.15999999999946,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        38,
+        44
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u706b\u9505\u5e97\uff0c\u6211\u6628\u5929\u53bb\u8bd5\u4e86\uff0c\u5473\u9053\u8fd8\u771f\u4e0d\u9519\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8981\u4e0d\u8981\u8bd5\u8bd5\u4ed6\u4eec\u5bb6\u65b0\u51fa\u7684\u90a3\u6b3e\u51b7\u8403\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u8fd9\u8863\u670d\u633a\u6709\u610f\u601d\uff0c\u54ea\u513f\u4e70\u7684\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u770b\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd9\u5bb6\u7684\u62ff\u94c1\u8fd8\u4e0d\u9519\uff0c\u4f60\u89c9\u5f97\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u4e0d\u5c31\u662f\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u561b\uff0c\u4eca\u5929\u7ec8\u4e8e\u89c1\u7740\u4e86\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54df\uff0c\u8fd9\u5bb6\u7684\u62ff\u94c1\u8fd8\u771f\u4e0d\u9519\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u54df\uff0c\u8fd9\u5bb6\u7684\u62ff\u94c1\u8fd8\u771f\u4e0d\u9519\u3002",
+      "satiety": 60.480000000000416,
+      "stamina": 95.7500000000003,
+      "health": 100.0,
+      "mood": 99.15999999999944,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        38,
+        38
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recover stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 60.92000000000041,
+      "stamina": 85.67000000000156,
+      "health": 100.0,
+      "mood": 74.23999999999998,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:40:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is ordering a meal at Hobbs Cafe",
+          "created": "2023-02-13 08:40:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2023-02-13 08:13:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:13:30",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:40:30"
+  }
+}

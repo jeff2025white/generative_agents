@@ -1,0 +1,184 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        36,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 93.76000000000013,
+      "stamina": 94.21000000000053,
+      "health": 100.0,
+      "mood": 53.499999999998586,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating an apple to restore low satiety",
+          "created": "2023-02-13 10:06:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2023-02-13 09:54:10",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:40:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple from inventory",
+          "created": "2023-02-13 09:59:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple from inventory",
+          "created": "2023-02-13 10:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:52:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are consuming apples",
+          "created": "2023-02-13 09:31:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez consumes apples for physical restoration",
+          "created": "2023-02-13 08:55:20",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        129,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u54b1\u4eec\u8fd9\u5730\u513f\u53ef\u6709\u5e74\u5934\u6ca1\u89c1\u4e86\uff0c\u4f60\u548b\u6837\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u53bb\u90a3\u8fb9\u8d85\u5e02\u6ca1\uff1f\u542c\u8bf4\u662f\u65b0\u5f00\u7684\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u4e5f\u5728\u8fd9\u6253\u5de5\u554a\uff1f\u96be\u602a\u8001\u770b\u4f60\u5728\u8fd9\u6643\u60a0\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u5730\u65b9\u633a\u6709\u610f\u601d\u554a\uff0c\u4f60\u5e38\u6765\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u4e86\u554a\uff0c\u6b63\u597d\u6211\u5728\u60f3\u4f60\u5462\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f",
+      "satiety": 58.8800000000013,
+      "stamina": 99.51999999999992,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        130,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u54b1\u4eec\u8fd9\u5730\u513f\u53ef\u6709\u5e74\u5934\u6ca1\u89c1\u4e86\uff0c\u4f60\u548b\u6837\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u53bb\u90a3\u8fb9\u8d85\u5e02\u6ca1\uff1f\u542c\u8bf4\u662f\u65b0\u5f00\u7684\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u4e5f\u5728\u8fd9\u6253\u5de5\u554a\uff1f\u96be\u602a\u8001\u770b\u4f60\u5728\u8fd9\u6643\u60a0\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u5730\u65b9\u633a\u6709\u610f\u601d\u554a\uff0c\u4f60\u5e38\u6765\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u4e86\u554a\uff0c\u6b63\u597d\u6211\u5728\u60f3\u4f60\u5462\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f",
+      "satiety": 58.8800000000013,
+      "stamina": 99.55999999999993,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 10:07:10"
+  }
+}

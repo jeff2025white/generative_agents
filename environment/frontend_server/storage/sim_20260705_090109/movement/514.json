@@ -1,0 +1,130 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        77,
+        27
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "preparing Valentine's Day decorations at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 82.08000000000081,
+      "stamina": 95.27000000000045,
+      "health": 100.0,
+      "mood": 63.37999999999836,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        36,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u8fd9\u513f\u4fe1\u53f7\u4e0d\u592a\u597d\uff0c\u4f60\u90a3\u8fb9\u4e5f\u8fd9\u6837\u5417\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u95fb\u89c1\u6ca1\uff0c\u8fd9\u5bb6\u5e97\u8001\u8fdc\u5c31\u98d8\u7740\u5496\u5561\u9999\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u71ac\u591c\u4e86\uff0c\u770b\u4f60\u7cbe\u795e\u5934\u4e0d\u592a\u8db3\u554a\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8fd9\u5730\u65b9\u6211\u719f\uff0c\u5c0f\u65f6\u5019\u8001\u6765\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u521a\u60f3\u8d77\u6765\u70b9\u4e8b\u513f\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u8fd9\u540d\u5b57\u633a\u6709\u610f\u601d\u7684\uff0c\u8c01\u7ed9\u4f60\u8d77\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u90a3\u5bb6\u5c0f\u5403\u5e97\u7684\u70b8\u4e32\u542c\u8bf4\u7279\u5730\u9053\uff0c\u53bb\u4e0d\u53bb\u5c1d\u5c1d\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002",
+      "satiety": 38.80000000000088,
+      "stamina": 98.23999999999972,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        35,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u8fd9\u513f\u4fe1\u53f7\u4e0d\u592a\u597d\uff0c\u4f60\u90a3\u8fb9\u4e5f\u8fd9\u6837\u5417\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u95fb\u89c1\u6ca1\uff0c\u8fd9\u5bb6\u5e97\u8001\u8fdc\u5c31\u98d8\u7740\u5496\u5561\u9999\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u662f\u4e0d\u662f\u53c8\u71ac\u591c\u4e86\uff0c\u770b\u4f60\u7cbe\u795e\u5934\u4e0d\u592a\u8db3\u554a\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8fd9\u5730\u65b9\u6211\u719f\uff0c\u5c0f\u65f6\u5019\u8001\u6765\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u521a\u60f3\u8d77\u6765\u70b9\u4e8b\u513f\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u8fd9\u540d\u5b57\u633a\u6709\u610f\u601d\u7684\uff0c\u8c01\u7ed9\u4f60\u8d77\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff0c\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u90a3\u5bb6\u5c0f\u5403\u5e97\u7684\u70b8\u4e32\u542c\u8bf4\u7279\u5730\u9053\uff0c\u53bb\u4e0d\u53bb\u5c1d\u5c1d\uff1f"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u54ce\uff0c\u90a3\u5bb6\u5c0f\u5403\u5e97\u7684\u70b8\u4e32\u542c\u8bf4\u7279\u5730\u9053\uff0c\u53bb\u4e0d\u53bb\u5c1d\u5c1d\uff1f",
+      "satiety": 38.80000000000088,
+      "stamina": 98.27999999999973,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:25:40"
+  }
+}

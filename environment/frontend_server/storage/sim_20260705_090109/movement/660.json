@@ -1,0 +1,308 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        25
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to recover mood and stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.24000000000089,
+      "stamina": 61.6800000000001,
+      "health": 100.0,
+      "mood": 46.439999999998314,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up final Valentine's Day decorations",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2023-02-13 08:37:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2023-02-13 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is working at the cafe",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are taking breaks after eating",
+          "created": "2023-02-13 08:38:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is resourceful",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is managing hunger",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The characters are interacting with nature",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are recovering and stabilizing",
+          "created": "2023-02-13 09:40:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2023-02-13 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2023-02-13 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2023-02-13 08:13:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:49:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2023-02-13 09:15:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 09:35:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 09:37:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:49:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:54:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        74,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:computer",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4f60\u542c\u8bf4\u6ca1\uff0cIsabella\u65b0\u51fa\u7684\u5496\u5561\u597d\u50cf\u633a\u706b\u3002",
+      "satiety": 27.120000000001127,
+      "stamina": 96.79000000000012,
+      "health": 100.0,
+      "mood": 98.59999999999978,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is preparing Valentine's Day decorations at Hobbs Cafe",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is searching for decorations to complete the Valentine's Day setup",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sleeping in bed to recover stamina",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the bed to recover mood and stamina",
+          "created": "2023-02-13 09:49:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        74,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u4eca\u5929\u9047\u5230\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u4eca\u5929\u6c14\u8272\u4e0d\u9519\u554a\uff0c\u6709\u5565\u597d\u4e8b\u513f\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u559d\u5496\u5561\u4e0d\uff1f\u542c\u8bf4\u697c\u4e0b\u90a3\u5bb6\u65b0\u51fa\u7684\u62ff\u94c1\u7279\u751c\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u731c\u6211\u521a\u624d\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54df\uff0c\u8fd9\u5496\u5561\u673a\u8fd8\u633a\u6709\u610f\u601d\uff0c\u8981\u4e0d\u8981\u7ed9\u4f60\u6574\u4e00\u676f\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8fd9\u5bb6\u5496\u5561\u7684\u5976\u76d6\u771f\u4e0d\u9519\uff0c\u4f60\u6765\u8fc7\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54b1\u4eec\u8fd9\u5173\u7cfb\uff0c\u5ba2\u6c14\u5565\u5440\uff0c\u76f4\u63a5\u8bf4\u6b63\u4e8b\u513f\u5457\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u548b\u4e5f\u5728\u8fd9\u513f\uff0c\u771f\u5de7\u554a\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u54b1\u4eec\u8fd9\u5173\u7cfb\uff0c\u5ba2\u6c14\u5565\u5440\uff0c\u76f4\u63a5\u8bf4\u6b63\u4e8b\u513f\u5457\u3002",
+      "satiety": 27.120000000001127,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating an apple from inventory",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the sofa to recover stamina",
+          "created": "2023-02-13 09:50:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller consumed apple and restored physical condition.",
+          "created": "2023-02-13 08:22:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:35:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:46:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 08:19:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2023-02-13 08:35:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2023-02-13 09:18:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to restore satiety",
+          "created": "2023-02-13 09:41:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple from inventory",
+          "created": "2023-02-13 09:50:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller consumes apples for sustenance",
+          "created": "2023-02-13 08:35:20",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:50:00"
+  }
+}

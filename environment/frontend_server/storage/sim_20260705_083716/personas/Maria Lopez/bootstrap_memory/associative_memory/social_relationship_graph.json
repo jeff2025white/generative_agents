@@ -1,0 +1,11 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about two friends catching up and discussing coffee"
+      ]
+    }
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "preparing Valentine's Day decorations @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 90.08000000000021,
+      "stamina": 91.02000000000083,
+      "health": 100.0,
+      "mood": 60.57999999999877,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2023-02-13 10:14:10"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is working at the cafe",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters exhibit various activities and interactions",
+          "created": "2023-02-13 10:10:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are engaging in various activities",
+          "created": "2023-02-13 09:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is involved in physical activities",
+          "created": "2023-02-13 09:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters interact with nature and gather food",
+          "created": "2023-02-13 10:10:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are interacting with nature",
+          "created": "2023-02-13 09:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are taking breaks after eating",
+          "created": "2023-02-13 08:38:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is resourceful",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is managing hunger",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The characters are interacting with nature",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are recovering and stabilizing",
+          "created": "2023-02-13 09:40:20",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        129,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u54b1\u4eec\u8fd9\u5730\u513f\u53ef\u6709\u5e74\u5934\u6ca1\u89c1\u4e86\uff0c\u4f60\u548b\u6837\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u53bb\u90a3\u8fb9\u8d85\u5e02\u6ca1\uff1f\u542c\u8bf4\u662f\u65b0\u5f00\u7684\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u4e5f\u5728\u8fd9\u6253\u5de5\u554a\uff1f\u96be\u602a\u8001\u770b\u4f60\u5728\u8fd9\u6643\u60a0\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u5730\u65b9\u633a\u6709\u610f\u601d\u554a\uff0c\u4f60\u5e38\u6765\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u4e86\u554a\uff0c\u6b63\u597d\u6211\u5728\u60f3\u4f60\u5462\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f",
+      "satiety": 55.20000000000138,
+      "stamina": 97.67999999999964,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        130,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u54b1\u4eec\u8fd9\u5730\u513f\u53ef\u6709\u5e74\u5934\u6ca1\u89c1\u4e86\uff0c\u4f60\u548b\u6837\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u4f60\u6700\u8fd1\u53bb\u90a3\u8fb9\u8d85\u5e02\u6ca1\uff1f\u542c\u8bf4\u662f\u65b0\u5f00\u7684\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u4e5f\u5728\u8fd9\u6253\u5de5\u554a\uff1f\u96be\u602a\u8001\u770b\u4f60\u5728\u8fd9\u6643\u60a0\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u5730\u65b9\u633a\u6709\u610f\u601d\u554a\uff0c\u4f60\u5e38\u6765\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u4f60\u6765\u4e86\u554a\uff0c\u6b63\u597d\u6211\u5728\u60f3\u4f60\u5462\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u54b1\u4eec\u4e0a\u6b21\u804a\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u662f\u4e0d\u662f\u53c8\u5728\u88c5\u542c\u4e0d\u5230\uff0c\u8001\u5144\uff1f",
+      "satiety": 55.20000000000138,
+      "stamina": 97.71999999999964,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 10:14:50"
+  }
+}

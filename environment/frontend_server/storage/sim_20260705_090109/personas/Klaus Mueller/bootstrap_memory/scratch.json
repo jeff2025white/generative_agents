@@ -1,0 +1,161 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 10:37:30",
+  "curr_tile": [
+    24,
+    50
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 44.32000000000161,
+  "stamina": 88.28000000000051,
+  "health": 100.0,
+  "mood": 99.96,
+  "last_social_time": "February 13, 2023, 10:15:00",
+  "last_action_switch_time": "February 13, 2023, 10:15:00",
+  "decision_commit_until_step": 947,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "gathering apples from the apple tree",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 944,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": {
+    "reason": "physiological_crisis_after_chat_wrap",
+    "source": "move",
+    "payload": {
+      "satiety": 21.44000000000125,
+      "stamina": 99.96,
+      "health": 100.0,
+      "act_description": "having a conversation with Maria Lopez",
+      "chat_partner": "Maria Lopez"
+    },
+    "curr_step": 731,
+    "active_signature": {
+      "skill_id": "chat with",
+      "target": "maria lopez",
+      "intent_family": "communication"
+    }
+  },
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "curr_step": 944
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-945-gather-apple tree",
+    "phase": "failed",
+    "address": "the Ville:Johnson Park:park:apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "description": "gathering apples from the apple tree",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "gathering apples from the apple tree"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 945,
+    "updated_step": 945,
+    "failure": {
+      "reason": "skill_blocked",
+      "payload": {
+        "action": "gather",
+        "target": "apple tree",
+        "curr_tile": [
+          24,
+          50
+        ]
+      }
+    }
+  },
+  "inventory": {
+    "apple": 4
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 20
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 150,
+  "importance_ele_n": 0,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "February 13, 2023, 10:37:30",
+  "act_duration": 30,
+  "act_description": null,
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

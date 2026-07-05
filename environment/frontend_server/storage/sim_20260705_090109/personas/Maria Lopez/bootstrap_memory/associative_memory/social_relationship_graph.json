@@ -1,0 +1,24 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.8400000000000003,
+      "recent_events": [
+        "conversing about conversing about new restaurants and cafes in their area",
+        "conversing about conversing about new tea shops and their handcrafted drink recipes",
+        "conversing about whether to change locations for dinner due to a long line at a hotpot restaurant and reminiscing about past encounters",
+        "conversing about friends catching up and reminiscing about coincidences and recent activities",
+        "conversing about old acquaintances catching up and discussing local activities"
+      ]
+    },
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about recalling past meetings and commenting on each other's appearance",
+        "conversing about conversing about their experiences at a store and the environment around it",
+        "conversing about friends discussing their recent activities and plans to visit a restaurant"
+      ]
+    }
+  }
+}

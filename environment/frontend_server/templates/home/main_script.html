@@ -45,14 +45,14 @@
 	// Configuration meant to be passed to the main Phaser game instance. 
 	const config = {
 	  type: Phaser.AUTO,
-	  width: 1500,
-	  height: 800,
+	  width: window.innerWidth,
+	  height: window.innerHeight,
 	  parent: "game-container",
 	  scale: {
-	    mode: Phaser.Scale.FIT,
-	    autoCenter: Phaser.Scale.CENTER_BOTH,
-	    width: 1500,
-	    height: 800,
+	    mode: Phaser.Scale.RESIZE,
+	    autoCenter: Phaser.Scale.NO_CENTER,
+	    width: window.innerWidth,
+	    height: window.innerHeight,
 	  },
 	  pixelArt: true,
 	  physics: {
@@ -64,25 +64,15 @@
 	    create: create,
 	    update: update } };
 
-	// const config = {
-	//   type: Phaser.AUTO,
-	//   width: 4480,
-	//   height: 3200,
-	//   parent: "game-container",
-	//   pixelArt: true,
-	//   physics: {
-	//     default: "arcade",
-	//     arcade: {
-	//       gravity: { y: 0 } } },
-	//   scene: {
-	//     preload: preload,
-	//     create: create,
-	//     update: update },
-	//   scale: {zoom: 0.5} };
-
 	// Creating the game instance and setting up the main Phaser variables that  
 	// will be used in it. 
 	const game = new Phaser.Game(config);
+
+	window.addEventListener('resize', function () {
+		if (game) {
+			game.scale.resize(window.innerWidth, window.innerHeight);
+		}
+	});
 	let cursors;
 	let player;
 	let showDebug = false;
@@ -130,19 +120,39 @@
 	let mapChatMessages = [];
 	let mapChatMessageKeys = {};
 	const mapChatMessageLimit = 80;
+	let dialogueInitiators = {};
 
-	function appendMapChatMessage(speaker, utterance, messageKey) {
+	function appendMapChatMessage(speaker, utterance, dialogueId) {
 	  const speakerText = String(speaker || "").trim();
 	  const utteranceText = String(utterance || "").trim();
 	  if (!speakerText || !utteranceText) {
 	    return;
 	  }
-	  const key = messageKey || (speakerText + "||" + utteranceText);
+	  const key = speakerText + "||" + utteranceText;
 	  if (mapChatMessageKeys[key]) {
 	    return;
 	  }
 	  mapChatMessageKeys[key] = true;
-	  mapChatMessages.push({speaker: speakerText, utterance: utteranceText});
+
+	  let dlgId = dialogueId || "";
+	  if (!dlgId) {
+	    dlgId = "temp_dlg";
+	  }
+
+	  if (!dialogueInitiators[dlgId]) {
+	    dialogueInitiators[dlgId] = speakerText;
+	  }
+
+	  const isInitiator = (dialogueInitiators[dlgId] === speakerText);
+	  const side = isInitiator ? "left" : "right";
+
+	  mapChatMessages.push({
+	    speaker: speakerText,
+	    utterance: utteranceText,
+	    side: side,
+	    dialogueId: dlgId
+	  });
+
 	  if (mapChatMessages.length > mapChatMessageLimit) {
 	    const removed = mapChatMessages.shift();
 	    delete mapChatMessageKeys[removed.speaker + "||" + removed.utterance];
@@ -158,23 +168,51 @@
 	  list.innerHTML = "";
 	  if (mapChatMessages.length === 0) {
 	    const empty = document.createElement("div");
-	    empty.className = "map-chat-feed__empty";
-	    empty.textContent = "暂时还没有 NPC 对话。";
+	    empty.className = "chat-hud__empty";
+	    empty.textContent = "暂无 NPC 对话记录。";
 	    list.appendChild(empty);
 	    return;
 	  }
 	  mapChatMessages.slice(-12).forEach(function(message) {
-	    const item = document.createElement("div");
-	    item.className = "map-chat-message";
-	    const speaker = document.createElement("div");
-	    speaker.className = "map-chat-message__speaker";
-	    speaker.textContent = message.speaker;
-	    const text = document.createElement("div");
-	    text.className = "map-chat-message__text";
-	    text.textContent = message.utterance;
-	    item.appendChild(speaker);
-	    item.appendChild(text);
-	    list.appendChild(item);
+	    const row = document.createElement("div");
+	    row.className = "chat-row " + message.side;
+
+	    const wrapper = document.createElement("div");
+	    wrapper.className = "chat-bubble-wrapper";
+
+	    // Avatar circle with HSL Hash Color
+	    const avatar = document.createElement("div");
+	    avatar.className = "chat-avatar";
+	    avatar.setAttribute("data-name", message.speaker);
+	    avatar.textContent = message.speaker.charAt(0).toUpperCase();
+
+	    let hash = 0;
+	    for (let i = 0; i < message.speaker.length; i++) {
+	      hash = message.speaker.charCodeAt(i) + ((hash << 5) - hash);
+	    }
+	    const h = Math.abs(hash % 360);
+	    avatar.style.backgroundColor = 'hsl(' + h + ', 60%, 45%)';
+
+	    // Content wrapper
+	    const content = document.createElement("div");
+	    content.className = "chat-bubble-content";
+
+	    const nameSpan = document.createElement("span");
+	    nameSpan.className = "chat-sender-name";
+	    nameSpan.textContent = message.speaker;
+
+	    const bubble = document.createElement("div");
+	    bubble.className = "chat-bubble";
+	    bubble.textContent = message.utterance;
+
+	    content.appendChild(nameSpan);
+	    content.appendChild(bubble);
+
+	    wrapper.appendChild(avatar);
+	    wrapper.appendChild(content);
+	    row.appendChild(wrapper);
+
+	    list.appendChild(row);
 	  });
 	  list.scrollTop = list.scrollHeight;
 	}
@@ -186,11 +224,22 @@
 	  Object.keys(movementPayload["persona"]).forEach(function(personaName) {
 	    const personaData = movementPayload["persona"][personaName];
 	    const chatTurns = Array.isArray(personaData && personaData["chat"]) ? personaData["chat"] : [];
-	    chatTurns.forEach(function(turn) {
-	      if (Array.isArray(turn) && turn.length >= 2) {
-	        appendMapChatMessage(turn[0], turn[1]);
-	      }
-	    });
+	    
+	    if (chatTurns.length > 0) {
+	      const speakers = [];
+	      chatTurns.forEach(function(t) {
+	        if (Array.isArray(t) && t.length >= 2 && !speakers.includes(t[0])) {
+	          speakers.push(t[0]);
+	        }
+	      });
+	      const dlgId = "dlg_" + speakers.sort().join("_").replace(/ /g, "_");
+
+	      chatTurns.forEach(function(turn) {
+	        if (Array.isArray(turn) && turn.length >= 2) {
+	          appendMapChatMessage(turn[0], turn[1], dlgId);
+	        }
+	      });
+	    }
 	  });
 	}
 
@@ -210,7 +259,7 @@
 	    .then(function(data) {
 	      const messages = Array.isArray(data.messages) ? data.messages : [];
 	      messages.forEach(function(message) {
-	        appendMapChatMessage(message.speaker, message.utterance, message.key);
+	        appendMapChatMessage(message.speaker, message.utterance, message.dialogue_id || message.key);
 	      });
 	    })
 	    .catch(function(error) {
@@ -381,6 +430,29 @@
 	  camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 	  cursors = this.input.keyboard.createCursorKeys();
 
+	  // Camera mouse dragging logic
+	  let dragState = null;
+	  this.input.on('pointerdown', function (pointer) {
+	    dragState = {
+	      x: pointer.x,
+	      y: pointer.y,
+	      scrollX: camera.scrollX,
+	      scrollY: camera.scrollY
+	    };
+	    camera.stopFollow();
+	  });
+
+	  this.input.on('pointermove', function (pointer) {
+	    if (pointer.isDown && dragState) {
+	      camera.scrollX = dragState.scrollX - (pointer.x - dragState.x);
+	      camera.scrollY = dragState.scrollY - (pointer.y - dragState.y);
+	    }
+	  });
+
+	  this.input.on('pointerup', function () {
+	    dragState = null;
+	  });
+
 	  // *** SET UP PERSONAS *** 
 	  // We start by creating the game sprite objects. 
 	  for (let i=0; i<Object.keys(spawn_tile_loc).length; i++) { 
@@ -441,13 +513,6 @@
 
 
 	function update(time, delta) {
-		// *** SETUP PLAY AND PAUSE BUTTON *** 
-		play_button.onclick = function(){
-			is_paused = false;
-		};
-		pause_button.onclick = function(){
-			is_paused = true;
-		};
 
 		if (is_paused) {
 			// Stop all persona animations
@@ -577,7 +642,7 @@
 	    // (or some personas might not move if they choose not to). 
 	    // The execute_count_max is computed by tile_width/movement_speed, which
 	    // defines a one step sequence in this world. 
-	    document.getElementById("game-time-content").innerHTML = execute_movement["meta"]["curr_time"];
+	    updateFlipClock(execute_movement["meta"]["curr_time"]);
 	    for (let i=0; i<Object.keys(personas).length; i++) {
 	      let curr_persona_name = Object.keys(personas)[i];
 	      let curr_persona = personas[curr_persona_name];
@@ -661,7 +726,9 @@
 	        phase = "process";
 	        execute_count = execute_count_max + 1;
 	        step = step + 1;
-	        document.getElementById("game-step-content").innerHTML = step;
+	        if (document.getElementById("clock-step")) {
+	            document.getElementById("clock-step").innerText = "Step: " + step;
+	        }
 	        
 	        // Dynamically update address bar URL to keep current step count on manual page refresh
 	        try {
@@ -991,6 +1058,66 @@ function sendChatMessage() {
     conversation_history: chatState.conversationHistory.slice(0, -1) // 不含刚添加 of user message（后端会自己加）
   }));
 }
+
+	function getChineseDayOfWeek(dateString) {
+	  try {
+	    const days = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+	    const d = new Date(dateString);
+	    if (isNaN(d.getTime())) {
+	      const parts = dateString.split(',');
+	      const cleanDate = parts[0] + ',' + parts[1];
+	      const d2 = new Date(cleanDate);
+	      return days[d2.getDay()] || "星期几";
+	    }
+	    return days[d.getDay()] || "星期几";
+	  } catch (e) {
+	    return "星期几";
+	  }
+	}
+
+	function updateFlipClock(timeStr) {
+	  if (!timeStr) return;
+	  try {
+	    const parts = timeStr.split(", ");
+	    if (parts.length >= 3) {
+	      const datePart = parts[0] + ", " + parts[1];
+	      const timePart = parts[2];
+	      const timeSplit = timePart.split(":");
+	      if (timeSplit.length >= 2) {
+	        const hour = timeSplit[0].padStart(2, '0');
+	        const minute = timeSplit[1].padStart(2, '0');
+	        
+	        if (document.getElementById("clock-hour-1")) document.getElementById("clock-hour-1").textContent = hour[0];
+	        if (document.getElementById("clock-hour-2")) document.getElementById("clock-hour-2").textContent = hour[1];
+	        if (document.getElementById("clock-minute-1")) document.getElementById("clock-minute-1").textContent = minute[0];
+	        if (document.getElementById("clock-minute-2")) document.getElementById("clock-minute-2").textContent = minute[1];
+	        if (document.getElementById("clock-day-of-week")) document.getElementById("clock-day-of-week").textContent = getChineseDayOfWeek(datePart);
+	      }
+	    }
+	  } catch (e) {
+	    console.error("Failed to update clock HUD:", e);
+	  }
+	}
+
+	// Play/Pause button binding
+	const playPauseBtn = document.getElementById("clock-play-pause");
+	const playPauseIcon = document.getElementById("play-pause-icon");
+	if (playPauseBtn && playPauseIcon) {
+	  playPauseBtn.onclick = function() {
+	    is_paused = !is_paused;
+	    if (is_paused) {
+	      playPauseIcon.className = "glyphicon glyphicon-play";
+	      playPauseBtn.title = "播放";
+	      for (let i=0; i<Object.keys(personas).length; i++) {
+	        let curr_persona_name = Object.keys(personas)[i];
+	        personas[curr_persona_name].anims.stop();
+	      }
+	    } else {
+	      playPauseIcon.className = "glyphicon glyphicon-pause";
+	      playPauseBtn.title = "暂停";
+	    }
+	  };
+	}
 
 </script>
 

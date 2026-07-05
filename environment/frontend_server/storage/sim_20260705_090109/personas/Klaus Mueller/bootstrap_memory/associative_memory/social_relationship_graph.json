@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.8200000000000003,
+      "recent_events": [
+        "conversing about catching up on each other's lives and recent activities",
+        "conversing about conversing about various topics including a new tea shop, a project, a past meeting, and local weather",
+        "conversing about catching up on recent experiences and plans",
+        "conversing about conversing about recent experiences and planning a visit to a new restaurant and an art exhibit",
+        "conversing about old acquaintances catching up and discussing local activities"
+      ]
+    }
+  }
+}

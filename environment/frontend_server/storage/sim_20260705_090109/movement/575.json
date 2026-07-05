@@ -1,0 +1,250 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        41
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u548b\u6765\u5f97\u8fd9\u4e48\u5de7\uff0c\u6211\u521a\u8fd8\u60f3\u627e\u4f60\u5462\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd9\u5bb6\u5496\u5561\u8fd8\u633a\u6709\u540d\u7684\uff0c\u4e0d\u8fc7\u6bcf\u6b21\u6765\u6211\u90fd\u5f97\u6392\u961f\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4eca\u5929\u8fd9\u5929\u6c14\u53ef\u771f\u591f\u70ed\u7684\uff0c\u4f60\u6709\u5565\u6d88\u6691\u5999\u62db\u5417\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u521a\u624d\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u4eba\u8fd8\u633a\u6709\u610f\u601d\u7684\uff0c\u8ddf\u4f60\u8bf4\u8bdd\u4e0d\u7d2f\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u70b9\u7684\u5976\u8336\u5230\u4e86\uff0c\u53bb\u62ff\u4e0d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4f60\u4eba\u5f71\u4e86\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4f60\u4eba\u5f71\u4e86\u3002",
+      "satiety": 33.92000000000098,
+      "stamina": 98.63999999999979,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        38,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u548b\u6765\u5f97\u8fd9\u4e48\u5de7\uff0c\u6211\u521a\u8fd8\u60f3\u627e\u4f60\u5462\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd9\u5bb6\u5496\u5561\u8fd8\u633a\u6709\u540d\u7684\uff0c\u4e0d\u8fc7\u6bcf\u6b21\u6765\u6211\u90fd\u5f97\u6392\u961f\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4eca\u5929\u8fd9\u5929\u6c14\u53ef\u771f\u591f\u70ed\u7684\uff0c\u4f60\u6709\u5565\u6d88\u6691\u5999\u62db\u5417\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u521a\u624d\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8fd9\u4eba\u8fd8\u633a\u6709\u610f\u601d\u7684\uff0c\u8ddf\u4f60\u8bf4\u8bdd\u4e0d\u7d2f\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u70b9\u7684\u5976\u8336\u5230\u4e86\uff0c\u53bb\u62ff\u4e0d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4f60\u4eba\u5f71\u4e86\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u70b9\u7684\u5976\u8336\u5230\u4e86\uff0c\u53bb\u62ff\u4e0d\uff1f",
+      "satiety": 33.92000000000098,
+      "stamina": 98.59999999999978,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        82,
+        23
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Hobbs Cafe:cafe:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 78.04000000000075,
+      "stamina": 78.40000000000003,
+      "health": 100.0,
+      "mood": 54.53999999999851,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "cafe customer seating is idle",
+          "created": "2023-02-13 09:35:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2023-02-13 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is working at the cafe",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are taking breaks after eating",
+          "created": "2023-02-13 08:38:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is resourceful",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is managing hunger",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The characters are interacting with nature",
+          "created": "2023-02-13 09:01:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2023-02-13 08:49:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2023-02-13 09:15:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2023-02-13 09:35:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2023-02-13 08:49:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2023-02-13 08:54:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2023-02-13 09:30:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2023-02-13 09:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2023-02-13 08:13:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2023-02-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2023-02-13 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2023-02-13 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:51:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2023-02-13 09:12:30",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:35:50"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        93,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u4f60\u6700\u8fd1\u6709\u6ca1\u6709\u5403\u5230\u4ec0\u4e48\u597d\u5403\u7684\uff1f\u6211\u5929\u5929\u90fd\u5728\u6101\u4e2d\u5348\u5403\u5565\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u5403\u8fc7\u6ca1\uff0c\u8fd9\u9644\u8fd1\u65b0\u5f00\u4e86\u5bb6\u9762\u9986\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54ce\uff0c\u4f60\u521a\u624d\u90a3\u8bdd\u8ba9\u6211\u60f3\u8d77\u54b1\u4fe9\u7b2c\u4e00\u6b21\u89c1\u9762\u90a3\u4f1a\u513f\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8bf4\u5f97\u5bf9\uff0c\u6211\u4e5f\u8fd9\u4e48\u89c9\u5f97\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u8bf6\uff0c\u4f60\u4eca\u513f\u6c14\u8272\u771f\u4e0d\u9519\u3002"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u8bf6\uff0c\u4f60\u4eca\u513f\u6c14\u8272\u771f\u4e0d\u9519\u3002",
+      "satiety": 85.20000000000032,
+      "stamina": 90.90000000000119,
+      "health": 100.0,
+      "mood": 82.15999999999835,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        87,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u4f60\u6700\u8fd1\u6709\u6ca1\u6709\u5403\u5230\u4ec0\u4e48\u597d\u5403\u7684\uff1f\u6211\u5929\u5929\u90fd\u5728\u6101\u4e2d\u5348\u5403\u5565\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u5403\u8fc7\u6ca1\uff0c\u8fd9\u9644\u8fd1\u65b0\u5f00\u4e86\u5bb6\u9762\u9986\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54ce\uff0c\u4f60\u521a\u624d\u90a3\u8bdd\u8ba9\u6211\u60f3\u8d77\u54b1\u4fe9\u7b2c\u4e00\u6b21\u89c1\u9762\u90a3\u4f1a\u513f\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u4f60\u8bf4\u5f97\u5bf9\uff0c\u6211\u4e5f\u8fd9\u4e48\u89c9\u5f97\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u8bf6\uff0c\u4f60\u4eca\u513f\u6c14\u8272\u771f\u4e0d\u9519\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u4f60\u8bf4\u5f97\u5bf9\uff0c\u6211\u4e5f\u8fd9\u4e48\u89c9\u5f97\u3002",
+      "satiety": 50.320000000001485,
+      "stamina": 97.62999999999998,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        80,
+        56
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f",
+      "satiety": 50.320000000001485,
+      "stamina": 93.44000000000004,
+      "health": 100.0,
+      "mood": 97.59999999999962,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 10:25:00"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        55,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 64.56000000000033,
+      "stamina": 86.73000000000127,
+      "health": 100.0,
+      "mood": 60.280000000000044,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        33,
+        44
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u674e\u5de5\uff0c\u90a3\u5bb6\u9910\u5385\u7684\u62db\u724c\u83dc\u54b1\u4e0a\u6b21\u662f\u4e0d\u662f\u5c1d\u8fc7\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u4e86\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u521a\u542c\u4e86\u4e2a\u5565\u7b11\u8bdd\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u5e97\uff0c\u6211\u53bb\u8bd5\u4e86\uff0c\u8fd8\u771f\u4e0d\u9519\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u4f60\u8fd9\u676f\u5b50\u633a\u6709\u610f\u601d\u554a\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u513f\u4eba\u53ef\u771f\u4e0d\u5c11\uff0c\u4f60\u5e73\u65f6\u4e5f\u7231\u6765\u8fd9\u5bb6\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u563f\uff0c\u8fd9\u513f\u4eba\u53ef\u771f\u4e0d\u5c11\uff0c\u4f60\u5e73\u65f6\u4e5f\u7231\u6765\u8fd9\u5bb6\uff1f",
+      "satiety": 64.56000000000033,
+      "stamina": 93.94000000000055,
+      "health": 100.0,
+      "mood": 81.9999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        34,
+        44
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u674e\u5de5\uff0c\u90a3\u5bb6\u9910\u5385\u7684\u62db\u724c\u83dc\u54b1\u4e0a\u6b21\u662f\u4e0d\u662f\u5c1d\u8fc7\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u5e97\u540e\u6765\u53bb\u4e86\u6ca1\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u521a\u542c\u4e86\u4e2a\u5565\u7b11\u8bdd\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u8bf6\uff0c\u4f60\u4e0a\u6b21\u8bf4\u7684\u90a3\u5bb6\u5e97\uff0c\u6211\u53bb\u8bd5\u4e86\uff0c\u8fd8\u771f\u4e0d\u9519\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54ce\uff0c\u4f60\u8fd9\u676f\u5b50\u633a\u6709\u610f\u601d\u554a\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u8fd9\u513f\u4eba\u53ef\u771f\u4e0d\u5c11\uff0c\u4f60\u5e73\u65f6\u4e5f\u7231\u6765\u8fd9\u5bb6\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u563f\uff0c\u597d\u4e45\u4e0d\u89c1\uff0c\u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f",
+      "satiety": 64.56000000000033,
+      "stamina": 93.97000000000054,
+      "health": 100.0,
+      "mood": 81.99999999999979,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:32:00"
+  }
+}

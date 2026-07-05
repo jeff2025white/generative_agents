@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "eating an apple to restore satiety @ the Ville:The Willows Market and Pharmacy:store",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u4f60\u6700\u8fd1\u5fd9\u5565\u5462\uff1f\u597d\u4e45\u6ca1\u89c1\u4f60\u4eba\u5f71\u4e86\u3002",
+      "satiety": 31.68000000000103,
+      "stamina": 97.87999999999963,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        25
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "setting up final Valentine's Day decorations @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.8000000000008,
+      "stamina": 71.62000000000015,
+      "health": 100.0,
+      "mood": 51.85999999999844,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        38,
+        38
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:computer",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4f60\u70b9\u7684\u5976\u8336\u5230\u4e86\uff0c\u53bb\u62ff\u4e0d\uff1f",
+      "satiety": 31.68000000000103,
+      "stamina": 97.38999999999965,
+      "health": 100.0,
+      "mood": 99.87999999999998,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 09:40:30"
+  }
+}
