@@ -1,3 +1,14 @@
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Satiety value
+Input 2: Stamina value
+Input 3: Health value
+Input 4: Inventory description
+Input 5: List of nearby interactive resources (including object states)
+Input 6: Temporal Context
+Input 7: Physiological Rules
+Input 8: Cooperative Context
+Input 9: Agent's first name
+<commentblockmarker>###</commentblockmarker>
 # Prompt Template for Agent Survival Decisions
 
 !<INPUT 0>!
@@ -32,14 +43,3 @@ Respond ONLY in valid JSON format:
   "reasoning": "<brief explanation of the choice>"
 }
 Do not include any explanation outside of the JSON block.
-<commentblockmarker>###</commentblockmarker>
-Input 0: Agent's ISS (Identity Stable Set)
-Input 1: Satiety value
-Input 2: Stamina value
-Input 3: Health value
-Input 4: Inventory description
-Input 5: List of nearby interactive resources (including object states)
-Input 6: Temporal Context
-Input 7: Physiological Rules
-Input 8: Cooperative Context
-Input 9: Agent's first name

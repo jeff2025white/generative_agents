@@ -1,3 +1,9 @@
+Input 0: Agent's ISS (Identity Stable Set)
+Input 1: Physiological state summary
+Input 2: Current action description
+Input 3: Recent memories/thoughts
+Input 4: Agent's name
+<commentblockmarker>###</commentblockmarker>
 # Prompt Template for Agent Inner Monologue
 
 !<INPUT 0>!
@@ -22,9 +28,3 @@ Respond ONLY in valid JSON format:
   "emoji": "<one or two emojis representing your state>"
 }
 Do not include any explanation outside of the JSON block.
-<commentblockmarker>###</commentblockmarker>
-Input 0: Agent's ISS (Identity Stable Set)
-Input 1: Physiological state summary
-Input 2: Current action description
-Input 3: Recent memories/thoughts
-Input 4: Agent's name

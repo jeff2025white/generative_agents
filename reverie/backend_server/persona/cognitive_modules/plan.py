@@ -880,23 +880,6 @@ def generate_act_obj_event_triple(act_game_object, act_obj_desc, persona):
   return build_act_obj_state(act_game_object, act_obj_desc, persona)[1]
 
 
-def generate_convo(maze, init_persona, target_persona): 
-  curr_loc = maze.access_tile(init_persona.scratch.curr_tile)
-
-  # convo = run_gpt_prompt_create_conversation(init_persona, target_persona, curr_loc)[0]
-  # convo = agent_chat_v1(maze, init_persona, target_persona)
-  convo = agent_chat_v2(maze, init_persona, target_persona)
-  all_utt = ""
-
-  for row in convo: 
-    speaker = row[0]
-    utt = row[1]
-    all_utt += f"{speaker}: {utt}\n"
-
-  convo_length = math.ceil(int(len(all_utt)/8) / 30)
-
-  if debug: print ("GNS FUNCTION: <generate_convo>")
-  return convo, convo_length
 
 
 def generate_convo_summary(persona, convo): 
