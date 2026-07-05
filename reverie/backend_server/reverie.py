@@ -74,7 +74,33 @@ class ReverieServer:
     self.sim_code = sim_code
     sim_folder = f"{fs_storage}/{self.sim_code}"
     if self.fork_sim_code != self.sim_code:
-      copyanything(fork_folder, sim_folder)
+      # Always fork from the root base template so each simulation starts
+      # with clean memory (no accumulated nodes from prior runs).
+      # Trace back through the fork chain to find the base_ template.
+      base_folder = fork_folder
+      visited = set()
+      while True:
+        base_name = os.path.basename(base_folder)
+        if base_name.startswith("base_"):
+          break
+        if base_name in visited:
+          break  # prevent infinite loop
+        visited.add(base_name)
+        meta_path = os.path.join(base_folder, "reverie", "meta.json")
+        if os.path.exists(meta_path):
+          with open(meta_path) as _mf:
+            _meta = json.load(_mf)
+          parent = _meta.get("fork_sim_code", "")
+          parent_folder = f"{fs_storage}/{parent}"
+          if parent and os.path.isdir(parent_folder) and parent != base_name:
+            base_folder = parent_folder
+          else:
+            break
+        else:
+          break
+      if base_folder != fork_folder:
+        print(f"[CLEAN START] Forking from base template: {os.path.basename(base_folder)} (instead of {self.fork_sim_code})")
+      copyanything(base_folder, sim_folder)
 
     with open(f"{sim_folder}/reverie/meta.json") as json_file:  
       reverie_meta = json.load(json_file)
@@ -83,6 +109,12 @@ class ReverieServer:
       now_dt = datetime.datetime.now()
       reverie_meta["start_date"] = now_dt.strftime("%B %d, %Y")
       reverie_meta["curr_time"] = now_dt.strftime("%B %d, %Y, 08:00:00")
+
+      # Clear chat transcript from previous simulation runs
+      chat_log = os.path.join(os.path.dirname(__file__), "..", "..", "logs", "chat_transcript.jsonl")
+      chat_log = os.path.abspath(chat_log)
+      if os.path.exists(chat_log):
+        open(chat_log, "w").close()
 
     with open(f"{sim_folder}/reverie/meta.json", "w") as outfile: 
       reverie_meta["fork_sim_code"] = fork_sim_code

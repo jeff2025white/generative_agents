@@ -118,7 +118,6 @@
 	};
 
 	let mapChatMessages = [];
-	let mapChatMessageKeys = {};
 	const mapChatMessageLimit = 80;
 	let dialogueInitiators = {};
 
@@ -128,11 +127,6 @@
 	  if (!speakerText || !utteranceText) {
 	    return;
 	  }
-	  const key = speakerText + "||" + utteranceText;
-	  if (mapChatMessageKeys[key]) {
-	    return;
-	  }
-	  mapChatMessageKeys[key] = true;
 
 	  let dlgId = dialogueId || "";
 	  if (!dlgId) {
@@ -154,8 +148,7 @@
 	  });
 
 	  if (mapChatMessages.length > mapChatMessageLimit) {
-	    const removed = mapChatMessages.shift();
-	    delete mapChatMessageKeys[removed.speaker + "||" + removed.utterance];
+	    mapChatMessages.shift();
 	  }
 	  renderMapChatFeed();
 	}
