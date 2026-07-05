@@ -3917,4 +3917,19 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     },
     request_config=request_config,
   )
+
+  # Write complete (prompt, decision) pair to dedicated SFT training dataset
+  try:
+    from persona.training.action_translation_dataset import log_action_translation_pair
+    log_action_translation_pair(
+      persona_name=firstname,
+      prompt=prompt,
+      decision=output,
+      decision_id=decision_id,
+      step=getattr(getattr(persona, "scratch", None), "curr_step", None) if persona else None,
+    )
+  except Exception:
+    pass  # Never let training logging break the simulation
+
   return output
+
