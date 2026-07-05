@@ -8,6 +8,20 @@ from persona.cognitive_modules.memory_effects import (
     record_stat_change_experience,
 )
 
+def _release_execution(scratch, phase, reason=None, payload=None):
+    if phase == "completed" and hasattr(scratch, "complete_execution"):
+        scratch.complete_execution()
+        return
+    if phase == "failed" and hasattr(scratch, "fail_execution"):
+        scratch.fail_execution(reason, payload=payload)
+        return
+    scratch.planned_path = []
+    scratch.act_path_set = False
+    scratch.act_address = None
+    scratch.act_description = None
+    scratch.act_event = None
+    scratch.act_command = None
+
 class ConsumeSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -138,6 +152,15 @@ class ConsumeSkillPack(BaseSkillPack):
                     "act_address": persona.scratch.act_address,
                 }
             )
+            _release_execution(
+                persona.scratch,
+                "failed",
+                "consume_no_food",
+                {
+                    "target": target,
+                    "inventory_before": before_inventory,
+                },
+            )
             return
         
         # 3. Metabolic changes
@@ -204,12 +227,7 @@ class ConsumeSkillPack(BaseSkillPack):
             )
             
         # Force immediate action release upon arrival to avoid duration deadlock
-        persona.scratch.planned_path = []
-        persona.scratch.act_path_set = False
-        persona.scratch.act_address = None
-        persona.scratch.act_description = None
-        persona.scratch.act_event = None
-        persona.scratch.act_command = None
+        _release_execution(persona.scratch, "completed")
 
     def _is_recent_duplicate_resource_consume(self, persona, target):
         inventory = getattr(persona.scratch, "inventory", {}) or {}

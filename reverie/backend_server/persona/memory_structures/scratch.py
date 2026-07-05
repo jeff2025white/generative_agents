@@ -87,6 +87,7 @@ class Scratch:
     self.pending_interrupt = None
     self.navigation_failure = None
     self.last_action_observation = None
+    self.active_execution_state = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -267,6 +268,7 @@ class Scratch:
       self.pending_interrupt = scratch_load.get("pending_interrupt", None)
       self.navigation_failure = scratch_load.get("navigation_failure", None)
       self.last_action_observation = scratch_load.get("last_action_observation", None)
+      self.active_execution_state = scratch_load.get("active_execution_state", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -387,6 +389,7 @@ class Scratch:
     scratch["pending_interrupt"] = self.pending_interrupt
     scratch["navigation_failure"] = self.navigation_failure
     scratch["last_action_observation"] = self.last_action_observation
+    scratch["active_execution_state"] = self.active_execution_state
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -677,6 +680,7 @@ class Scratch:
     self.act_path_set = False
     self.serving_memory_written = False
     self.drinking_memory_written = False
+    self.begin_execution_state(phase="planned")
     return True
 
 
@@ -954,6 +958,79 @@ class Scratch:
   def clear_current_action(self, keep_last_desc=False):
     if keep_last_desc and self.act_description:
       self.last_action_desc = self.act_description
+    self.release_execution_state(phase="cleared")
+
+
+  def _snapshot_execution_payload(self, phase=None, failure=None):
+    signature = self.get_active_decision_signature()
+    existing = self.active_execution_state or {}
+    state_id = existing.get("id")
+    if not state_id:
+      skill = (signature or {}).get("skill_id") or "unknown"
+      target = (signature or {}).get("target") or "none"
+      state_id = f"{self.name}-{self.curr_step}-{skill}-{target}"
+    started_step = existing.get("started_step")
+    if started_step is None:
+      started_step = self.curr_step
+    return {
+      "id": state_id,
+      "phase": phase or existing.get("phase") or "planned",
+      "address": _normalize_action_address(self.act_address),
+      "command": self.act_command,
+      "description": self.act_description,
+      "event": list(self.act_event) if isinstance(self.act_event, tuple) else self.act_event,
+      "path": list(self.planned_path or []),
+      "path_set": bool(self.act_path_set),
+      "signature": signature,
+      "started_step": started_step,
+      "updated_step": self.curr_step,
+      "failure": failure,
+    }
+
+
+  def begin_execution_state(self, phase="planned"):
+    self.active_execution_state = None
+    self.active_execution_state = self._snapshot_execution_payload(phase=phase)
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "execution_state_begin",
+        "curr_step": self.curr_step,
+        "state": self.active_execution_state,
+      }
+    )
+    return self.active_execution_state
+
+
+  def update_execution_state(self, phase=None, failure=None):
+    if not self.active_execution_state and not self.has_active_plan():
+      return None
+    self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "execution_state_update",
+        "curr_step": self.curr_step,
+        "state": self.active_execution_state,
+      }
+    )
+    return self.active_execution_state
+
+
+  def release_execution_state(self, phase="completed", failure=None):
+    if self.has_active_plan() or self.active_execution_state:
+      self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
+      append_debug_log(
+        "decision_stability.jsonl",
+        {
+          "persona": self.name,
+          "event": "execution_state_release",
+          "curr_step": self.curr_step,
+          "state": self.active_execution_state,
+        }
+      )
     self.planned_path = []
     self.act_path_set = False
     self.chatting_with = None
@@ -966,6 +1043,30 @@ class Scratch:
     self.act_obj_description = None
     self.act_obj_pronunciatio = None
     self.act_obj_event = (None, None, None)
+
+
+  def complete_execution(self):
+    self.release_execution_state(phase="completed")
+
+
+  def fail_execution(self, reason, payload=None):
+    self.release_execution_state(
+      phase="failed",
+      failure={
+        "reason": reason,
+        "payload": payload or {},
+      },
+    )
+
+
+  def interrupt_execution(self, reason, payload=None):
+    self.release_execution_state(
+      phase="interrupted",
+      failure={
+        "reason": reason,
+        "payload": payload or {},
+      },
+    )
 
 
   def note_navigation_failure(self, target=None, target_address=None, reason="path_not_found", payload=None):
@@ -1245,4 +1346,3 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-

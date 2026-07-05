@@ -125,8 +125,6 @@ def execute(persona, maze, personas, plan):
     persona.scratch.act_path_set = False
 
   if not plan:
-    persona.scratch.planned_path = []
-    persona.scratch.act_path_set = False
     append_debug_log(
       "action_execution_debug.jsonl",
       {
@@ -138,6 +136,11 @@ def execute(persona, maze, personas, plan):
         "act_command": persona.scratch.act_command,
       }
     )
+    if hasattr(persona.scratch, "fail_execution"):
+      persona.scratch.fail_execution("empty_plan_idle_fallback")
+    else:
+      persona.scratch.planned_path = []
+      persona.scratch.act_path_set = False
     actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
     description = f"idling @ {actual_address}"
     return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, description
@@ -349,6 +352,8 @@ def execute(persona, maze, personas, plan):
         persona.scratch.clear_navigation_failure()
       persona.scratch.planned_path = path[1:]
       persona.scratch.act_path_set = True
+      if hasattr(persona.scratch, "update_execution_state"):
+        persona.scratch.update_execution_state(phase="pathing")
       append_debug_log(
         "action_execution_debug.jsonl",
         {
@@ -383,11 +388,15 @@ def execute(persona, maze, personas, plan):
   if persona.scratch.planned_path: 
     ret = persona.scratch.planned_path[0]
     persona.scratch.planned_path = persona.scratch.planned_path[1:]
+    if hasattr(persona.scratch, "update_execution_state"):
+      persona.scratch.update_execution_state(phase="pathing")
 
   # Dispatch physical and memory outcomes to Skill Packs upon arrival
   if not persona.scratch.planned_path and persona.scratch.act_path_set:
     if not getattr(persona.scratch, 'survival_applied', False):
       persona.scratch.survival_applied = True
+      if hasattr(persona.scratch, "update_execution_state"):
+        persona.scratch.update_execution_state(phase="arrived")
       
       act_event = persona.scratch.act_event
       act_command = persona.scratch.act_command or infer_action_command_from_event(act_event, source="execute_fallback")
@@ -462,12 +471,22 @@ def execute(persona, maze, personas, plan):
             }
           )
           # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
-          persona.scratch.planned_path = []
-          persona.scratch.act_path_set = False
-          persona.scratch.act_address = None
-          persona.scratch.act_description = None
-          persona.scratch.act_event = None
-          persona.scratch.act_command = None
+          if hasattr(persona.scratch, "fail_execution"):
+            persona.scratch.fail_execution(
+              "skill_blocked",
+              payload={
+                "action": action,
+                "target": target,
+                "curr_tile": persona.scratch.curr_tile,
+              },
+            )
+          else:
+            persona.scratch.planned_path = []
+            persona.scratch.act_path_set = False
+            persona.scratch.act_address = None
+            persona.scratch.act_description = None
+            persona.scratch.act_event = None
+            persona.scratch.act_command = None
           clear_social_dialogue_state(persona)
       else:
         if getattr(persona.scratch, "social_dialogue_id", None):
@@ -509,9 +528,6 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
-
-
 
 
 

@@ -127,31 +127,98 @@
 		focus_persona_target = name;
 	};
 
-	function resolvePersonaLastChat(personaData, personaName) {
-	  if (!personaData || typeof personaData !== "object") {
-	    return "None at the moment";
+	let mapChatMessages = [];
+	let mapChatMessageKeys = {};
+	const mapChatMessageLimit = 80;
+
+	function appendMapChatMessage(speaker, utterance, messageKey) {
+	  const speakerText = String(speaker || "").trim();
+	  const utteranceText = String(utterance || "").trim();
+	  if (!speakerText || !utteranceText) {
+	    return;
 	  }
-	  const chatTurns = Array.isArray(personaData["chat"]) ? personaData["chat"] : [];
-	  for (let i = chatTurns.length - 1; i >= 0; i--) {
-	    const turn = chatTurns[i];
-	    if (!Array.isArray(turn) || turn.length < 2) {
-	      continue;
-	    }
-	    if (turn[0] === personaName && turn[1]) {
-	      return String(turn[1]);
-	    }
+	  const key = messageKey || (speakerText + "||" + utteranceText);
+	  if (mapChatMessageKeys[key]) {
+	    return;
 	  }
-	  const serializedLastChat = personaData["last_chat"];
-	  if (!serializedLastChat) {
-	    return "None at the moment";
+	  mapChatMessageKeys[key] = true;
+	  mapChatMessages.push({speaker: speakerText, utterance: utteranceText});
+	  if (mapChatMessages.length > mapChatMessageLimit) {
+	    const removed = mapChatMessages.shift();
+	    delete mapChatMessageKeys[removed.speaker + "||" + removed.utterance];
 	  }
-	  const lastChatText = String(serializedLastChat);
-	  if (lastChatText === "None at the moment") {
-	    return lastChatText;
-	  }
-	  const prefix = personaName + ": ";
-	  return lastChatText.startsWith(prefix) ? lastChatText.slice(prefix.length) : lastChatText;
+	  renderMapChatFeed();
 	}
+
+	function renderMapChatFeed() {
+	  const list = document.getElementById("map-chat-list");
+	  if (!list) {
+	    return;
+	  }
+	  list.innerHTML = "";
+	  if (mapChatMessages.length === 0) {
+	    const empty = document.createElement("div");
+	    empty.className = "map-chat-feed__empty";
+	    empty.textContent = "暂时还没有 NPC 对话。";
+	    list.appendChild(empty);
+	    return;
+	  }
+	  mapChatMessages.slice(-12).forEach(function(message) {
+	    const item = document.createElement("div");
+	    item.className = "map-chat-message";
+	    const speaker = document.createElement("div");
+	    speaker.className = "map-chat-message__speaker";
+	    speaker.textContent = message.speaker;
+	    const text = document.createElement("div");
+	    text.className = "map-chat-message__text";
+	    text.textContent = message.utterance;
+	    item.appendChild(speaker);
+	    item.appendChild(text);
+	    list.appendChild(item);
+	  });
+	  list.scrollTop = list.scrollHeight;
+	}
+
+	function updateMapChatFeed(movementPayload) {
+	  if (!movementPayload || !movementPayload["persona"]) {
+	    return;
+	  }
+	  Object.keys(movementPayload["persona"]).forEach(function(personaName) {
+	    const personaData = movementPayload["persona"][personaName];
+	    const chatTurns = Array.isArray(personaData && personaData["chat"]) ? personaData["chat"] : [];
+	    chatTurns.forEach(function(turn) {
+	      if (Array.isArray(turn) && turn.length >= 2) {
+	        appendMapChatMessage(turn[0], turn[1]);
+	      }
+	    });
+	  });
+	}
+
+	function loadInitialMapChatFeed() {
+	  const currentStep = Number.isFinite(step) ? step : 0;
+	  const url = "{% url 'api_get_chat_transcript' %}" +
+	    "?sim_code=" + encodeURIComponent(sim_code) +
+	    "&step=" + encodeURIComponent(currentStep) +
+	    "&limit=12";
+	  fetch(url)
+	    .then(function(response) {
+	      if (!response.ok) {
+	        throw new Error("chat transcript request failed");
+	      }
+	      return response.json();
+	    })
+	    .then(function(data) {
+	      const messages = Array.isArray(data.messages) ? data.messages : [];
+	      messages.forEach(function(message) {
+	        appendMapChatMessage(message.speaker, message.utterance, message.key);
+	      });
+	    })
+	    .catch(function(error) {
+	      console.error("Failed to load chat transcript:", error);
+	    });
+	}
+
+	loadInitialMapChatFeed();
 
 	// Variables for storing movements that are sent from the backend server.
 	let execute_movement;
@@ -613,24 +680,20 @@
 
 	    // Filling in the action description. 
 	    if (execute_count == execute_count_max) { 
+	      updateMapChatFeed(execute_movement);
 	      for (let i=0; i<Object.keys(personas).length; i++) {
 	      	let action_description = ""
 	        let curr_persona_name = Object.keys(personas)[i];
 	        let curr_persona_name_os = curr_persona_name.replace(/ /g,"_");
 	        let persona_move = execute_movement["persona"][curr_persona_name];
 	        let description_content = persona_move["description"];
-	        let chat_content = resolvePersonaLastChat(persona_move, curr_persona_name);
 	        let description_parts = description_content.split("@");
 	        let action_text = description_parts[0] || "";
 	        let address_text = description_parts.length > 1 ? description_parts[1] : "";
-	        if (chat_content === "None at the moment") {
-	          chat_content = "<em>None at the moment</em>";
-	        }
 	        // action_description += description_content + "<br>";
 
 	        document.getElementById("current_action__"+curr_persona_name_os).innerHTML = action_text;
 	        document.getElementById("target_address__"+curr_persona_name_os).innerHTML = address_text;
-	        document.getElementById("chat__"+curr_persona_name_os).innerHTML = chat_content;
 
 	        // Update physiological status bars and values
 	        let satiety_val = execute_movement["persona"][curr_persona_name]["satiety"];
@@ -930,8 +993,6 @@ function sendChatMessage() {
 }
 
 </script>
-
-
 
 
 

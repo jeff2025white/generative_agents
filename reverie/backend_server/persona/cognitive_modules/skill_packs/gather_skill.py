@@ -12,6 +12,20 @@ from persona.cognitive_modules.memory_effects import (
 )
 from persona.prompt_template.gpt_structure import get_embedding
 
+def _release_execution(scratch, phase, reason=None, payload=None):
+    if phase == "completed" and hasattr(scratch, "complete_execution"):
+        scratch.complete_execution()
+        return
+    if phase == "failed" and hasattr(scratch, "fail_execution"):
+        scratch.fail_execution(reason, payload=payload)
+        return
+    scratch.planned_path = []
+    scratch.act_path_set = False
+    scratch.act_address = None
+    scratch.act_description = None
+    scratch.act_event = None
+    scratch.act_command = None
+
 class GatherSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -223,12 +237,15 @@ class GatherSkillPack(BaseSkillPack):
                     "inventory_before": before_inventory,
                 }
             )
-            persona.scratch.planned_path = []
-            persona.scratch.act_path_set = False
-            persona.scratch.act_address = None
-            persona.scratch.act_description = None
-            persona.scratch.act_event = None
-            persona.scratch.act_command = None
+            _release_execution(
+                persona.scratch,
+                "failed",
+                "gather_invalid_source",
+                {
+                    "target": target,
+                    "curr_obj": curr_obj,
+                },
+            )
             return
 
         if world_state and effective_source != "apple tree" and source_address and not world_state.consume(source_address, amount=1):
@@ -260,12 +277,16 @@ class GatherSkillPack(BaseSkillPack):
                         "effective_source": effective_source,
                     },
                 )
-            persona.scratch.planned_path = []
-            persona.scratch.act_path_set = False
-            persona.scratch.act_address = None
-            persona.scratch.act_description = None
-            persona.scratch.act_event = None
-            persona.scratch.act_command = None
+            _release_execution(
+                persona.scratch,
+                "failed",
+                "resource_empty",
+                {
+                    "target": target,
+                    "effective_source": effective_source,
+                    "source_address": source_address,
+                },
+            )
             return
 
         before_snapshot = capture_attribute_snapshot(persona)
@@ -369,9 +390,4 @@ class GatherSkillPack(BaseSkillPack):
             )
             
         # Force immediate action release upon arrival to avoid duration deadlock
-        persona.scratch.planned_path = []
-        persona.scratch.act_path_set = False
-        persona.scratch.act_address = None
-        persona.scratch.act_description = None
-        persona.scratch.act_event = None
-        persona.scratch.act_command = None
+        _release_execution(persona.scratch, "completed")

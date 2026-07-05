@@ -315,7 +315,7 @@ class Persona:
           plan_social_reaction(self, maze, personas, retrieved)
         timings_ms["fast_path_social_scan"] = round((time.perf_counter() - fast_path_scan_started_at) * 1000.0, 3)
         execute_started_at = time.perf_counter()
-        result = self.execute(maze, personas, None)
+        result = self.execute(maze, personas, self.scratch.act_address)
         timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
         total_ms = round((time.perf_counter() - move_started_at) * 1000.0, 3)
         step_info = {
@@ -413,7 +413,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

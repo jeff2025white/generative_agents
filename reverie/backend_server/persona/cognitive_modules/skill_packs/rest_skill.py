@@ -6,6 +6,17 @@ from persona.cognitive_modules.memory_effects import (
     record_stat_change_experience,
 )
 
+def _complete_execution(scratch):
+    if hasattr(scratch, "complete_execution"):
+        scratch.complete_execution()
+        return
+    scratch.planned_path = []
+    scratch.act_path_set = False
+    scratch.act_address = None
+    scratch.act_description = None
+    scratch.act_event = None
+    scratch.act_command = None
+
 class RestSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -65,9 +76,4 @@ class RestSkillPack(BaseSkillPack):
             action_description=completed_description,
             action_address=completed_address,
         )
-        persona.scratch.planned_path = []
-        persona.scratch.act_path_set = False
-        persona.scratch.act_address = None
-        persona.scratch.act_description = None
-        persona.scratch.act_event = None
-        persona.scratch.act_command = None
+        _complete_execution(persona.scratch)
