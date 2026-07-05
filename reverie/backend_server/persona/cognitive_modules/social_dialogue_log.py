@@ -1,6 +1,8 @@
 """
 Unified social dialogue logging helpers.
 """
+import json
+import os
 import re
 
 from persona.cognitive_modules.debug_log import append_debug_log
@@ -8,6 +10,34 @@ from persona.cognitive_modules.debug_log import append_debug_log
 
 SOCIAL_DIALOGUE_LOG_NAME = "social_dialogue_debug.jsonl"
 CHAT_TRANSCRIPT_LOG_NAME = "chat_transcript.jsonl"
+
+
+def _project_root():
+  return os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")
+  )
+
+
+def _scoped_chat_transcript_path(sim_code):
+  normalized_sim_code = str(sim_code or "").strip()
+  if not normalized_sim_code:
+    return None
+  return os.path.join(
+    _project_root(),
+    "environment",
+    "frontend_server",
+    "storage",
+    normalized_sim_code,
+    CHAT_TRANSCRIPT_LOG_NAME,
+  )
+
+
+def _append_jsonl_record(path, record):
+  if not path:
+    return
+  os.makedirs(os.path.dirname(path), exist_ok=True)
+  with open(path, "a", encoding="utf-8") as f:
+    f.write(json.dumps(record, ensure_ascii=False, default=str, sort_keys=True) + "\n")
 
 
 def _slug(value):
@@ -68,6 +98,7 @@ def get_social_dialogue_context(persona, target_name=None, dialogue_id=None):
     "sim_time": getattr(scratch, "curr_time", None),
     "step": getattr(scratch, "curr_step", None),
     "role": getattr(scratch, "social_dialogue_role", None),
+    "sim_code": getattr(persona, "sim_code", None),
   }
 
 
@@ -103,3 +134,5 @@ def log_chat_transcript(persona, conversation, target_name=None, dialogue_id=Non
   elif payload is not None:
     record["payload"] = {"value": payload}
   append_debug_log(CHAT_TRANSCRIPT_LOG_NAME, record)
+  scoped_log_path = _scoped_chat_transcript_path(record.get("sim_code"))
+  _append_jsonl_record(scoped_log_path, record)

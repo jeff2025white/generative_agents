@@ -87,16 +87,4 @@ class GenericActivitySkillPack(BaseSkillPack):
             predicate="changed",
             obj=f"{self.name}_activity",
         )
-        persona.scratch.mark_action_completed(
-            action_command=persona.scratch.act_command,
-            action_event=persona.scratch.act_event,
-            action_description=persona.scratch.act_description,
-            action_address=persona.scratch.act_address,
-        )
-
-        persona.scratch.planned_path = []
-        persona.scratch.act_path_set = False
-        persona.scratch.act_address = None
-        persona.scratch.act_description = None
-        persona.scratch.act_event = None
-        persona.scratch.act_command = None
+        self.finish_success(persona)

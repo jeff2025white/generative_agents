@@ -1118,7 +1118,7 @@ def run_gpt_prompt_decide_to_talk(persona, target_persona, retrieved,test_input=
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 20, 
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/decide_to_talk_v2.txt"
+  prompt_template = "persona/prompt_template/dialogue/initiation/decide_to_talk_v2.txt"
   prompt_input = create_prompt_input(persona, target_persona, retrieved,
                                      test_input)
   prompt = generate_prompt(prompt_input, prompt_template)
@@ -1359,7 +1359,7 @@ def run_gpt_prompt_create_conversation(persona, target_persona, curr_loc,
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 1000, 
                "temperature": 0.7, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/create_conversation_v2.txt"
+  prompt_template = "persona/prompt_template/dialogue/generation/create_conversation_v2.txt"
   prompt_input = create_prompt_input(persona, target_persona, curr_loc, 
                                      test_input)
   prompt = generate_prompt(prompt_input, prompt_template)
@@ -1409,7 +1409,7 @@ def run_gpt_prompt_summarize_conversation(persona, conversation, test_input=None
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 50, 
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/summarize_conversation_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/summarize_conversation_v1.txt"
   prompt_input = create_prompt_input(conversation, test_input)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -1563,7 +1563,7 @@ def run_gpt_prompt_convo_to_thoughts(persona,
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 40, 
                "temperature": 0.7, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/convo_to_thoughts_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/convo_to_thoughts_v1.txt"
   prompt_input = create_prompt_input(init_persona_name,  
                                     target_persona_name,
                                     convo_str,
@@ -1713,7 +1713,7 @@ def run_gpt_prompt_chat_poignancy(persona, event_description, test_input=None, v
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 3, 
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/poignancy_chat_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/poignancy_chat_v1.txt"
   prompt_input = create_prompt_input(persona, event_description)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -1846,7 +1846,7 @@ def run_gpt_prompt_agent_chat_summarize_ideas(persona, target_persona, statement
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 150, 
                "temperature": 0.5, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/summarize_chat_ideas_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/summarize_chat_ideas_v1.txt"
   prompt_input = create_prompt_input(persona, target_persona, statements, curr_context)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -1884,7 +1884,7 @@ def run_gpt_prompt_agent_chat_summarize_relationship(persona, target_persona, st
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 150, 
                "temperature": 0.5, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/summarize_chat_relationship_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/summarize_chat_relationship_v1.txt"
   prompt_input = create_prompt_input(persona, target_persona, statements)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -1959,7 +1959,7 @@ def run_gpt_prompt_agent_chat(persona, target_persona,
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 2000, 
                "temperature": 0.7, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/agent_chat_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/generation/agent_chat_v1.txt"
   prompt_input = create_prompt_input(persona, target_persona, curr_context, init_summ_idea, target_summ_idea)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -2046,7 +2046,7 @@ def run_gpt_prompt_generate_next_convo_line(persona, interlocutor_desc, prev_con
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 250, 
                "temperature": 1, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/generate_next_convo_line_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/generation/generate_next_convo_line_v1.txt"
   prompt_input = create_prompt_input(persona, interlocutor_desc, prev_convo, retrieved_summary)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -2123,7 +2123,7 @@ def run_gpt_prompt_planning_thought_on_convo(persona, all_utt, test_input=None, 
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 50, 
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/planning_thought_on_convo_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/planning_thought_on_convo_v1.txt"
   prompt_input = create_prompt_input(persona, all_utt)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -2160,7 +2160,7 @@ def run_gpt_prompt_memo_on_convo(persona, all_utt, test_input=None, verbose=Fals
   gpt_param = {"engine": "text-davinci-003", "max_tokens": 50, 
                "temperature": 0, "top_p": 1, "stream": False,
                "frequency_penalty": 0, "presence_penalty": 0, "stop": None}
-  prompt_template = "persona/prompt_template/v2/memo_on_convo_v1.txt"
+  prompt_template = "persona/prompt_template/dialogue/reflection/memo_on_convo_v1.txt"
   prompt_input = create_prompt_input(persona, all_utt)
   prompt = generate_prompt(prompt_input, prompt_template)
 
@@ -2173,7 +2173,6 @@ def run_gpt_prompt_memo_on_convo(persona, all_utt, test_input=None, verbose=Fals
                       prompt_input, prompt, output)
   
   return output, [output, prompt, gpt_param, prompt_input, fail_safe]
-
 
 
 

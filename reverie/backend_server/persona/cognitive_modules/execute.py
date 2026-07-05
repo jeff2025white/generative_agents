@@ -15,7 +15,7 @@ from persona.cognitive_modules.action_command_utils import infer_action_command_
 from persona.prompt_template.gpt_structure import get_embedding
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
 from persona.cognitive_modules.memory_effects import record_execution_result_experience
-from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
+from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
 
 
@@ -139,8 +139,7 @@ def execute(persona, maze, personas, plan):
     if hasattr(persona.scratch, "fail_execution"):
       persona.scratch.fail_execution("empty_plan_idle_fallback")
     else:
-      persona.scratch.planned_path = []
-      persona.scratch.act_path_set = False
+      persona.scratch.clear_current_action()
     actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
     description = f"idling @ {actual_address}"
     return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, description
@@ -481,13 +480,7 @@ def execute(persona, maze, personas, plan):
               },
             )
           else:
-            persona.scratch.planned_path = []
-            persona.scratch.act_path_set = False
-            persona.scratch.act_address = None
-            persona.scratch.act_description = None
-            persona.scratch.act_event = None
-            persona.scratch.act_command = None
-          clear_social_dialogue_state(persona)
+            persona.scratch.clear_current_action()
       else:
         if getattr(persona.scratch, "social_dialogue_id", None):
           log_social_dialogue(
@@ -528,6 +521,4 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
-
 

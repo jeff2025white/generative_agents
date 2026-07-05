@@ -6,6 +6,7 @@ from persona.cognitive_modules.memory_effects import (
     record_stat_change_experience,
 )
 
+
 class SingingSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -66,3 +67,4 @@ class SingingSkillPack(BaseSkillPack):
                         "new_level": persona.scratch.skills[self.associated_xp]["level"],
                     }
                 )
+        self.finish_success(persona)

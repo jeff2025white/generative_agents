@@ -135,11 +135,4 @@ class GiveSkillPack(BaseSkillPack):
             obj=persona.name,
         )
 
-        persona.scratch.mark_action_completed(
-            action_command=persona.scratch.act_command,
-            action_event=persona.scratch.act_event,
-            action_description=persona.scratch.act_description,
-            action_address=persona.scratch.act_address,
-        )
-        clear_current_action(persona)
-
+        self.finish_success(persona)

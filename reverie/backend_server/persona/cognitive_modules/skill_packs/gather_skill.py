@@ -12,20 +12,6 @@ from persona.cognitive_modules.memory_effects import (
 )
 from persona.prompt_template.gpt_structure import get_embedding
 
-def _release_execution(scratch, phase, reason=None, payload=None):
-    if phase == "completed" and hasattr(scratch, "complete_execution"):
-        scratch.complete_execution()
-        return
-    if phase == "failed" and hasattr(scratch, "fail_execution"):
-        scratch.fail_execution(reason, payload=payload)
-        return
-    scratch.planned_path = []
-    scratch.act_path_set = False
-    scratch.act_address = None
-    scratch.act_description = None
-    scratch.act_event = None
-    scratch.act_command = None
-
 class GatherSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -237,9 +223,8 @@ class GatherSkillPack(BaseSkillPack):
                     "inventory_before": before_inventory,
                 }
             )
-            _release_execution(
-                persona.scratch,
-                "failed",
+            self.finish_failure(
+                persona,
                 "gather_invalid_source",
                 {
                     "target": target,
@@ -277,9 +262,8 @@ class GatherSkillPack(BaseSkillPack):
                         "effective_source": effective_source,
                     },
                 )
-            _release_execution(
-                persona.scratch,
-                "failed",
+            self.finish_failure(
+                persona,
                 "resource_empty",
                 {
                     "target": target,
@@ -334,13 +318,6 @@ class GatherSkillPack(BaseSkillPack):
                 "attribute_effects": attribute_effects,
             }
         )
-        persona.scratch.mark_action_completed(
-            action_command=persona.scratch.act_command,
-            action_event=persona.scratch.act_event,
-            action_description=persona.scratch.act_description,
-            action_address=persona.scratch.act_address,
-        )
-
         if persona.scratch.satiety < 40.0 and persona.scratch.inventory.get("apple", 0) > 0:
             followup_address = persona.scratch.act_address
             if not followup_address:
@@ -390,4 +367,4 @@ class GatherSkillPack(BaseSkillPack):
             )
             
         # Force immediate action release upon arrival to avoid duration deadlock
-        _release_execution(persona.scratch, "completed")
+        self.finish_success(persona)

@@ -111,12 +111,6 @@ class ReverieServer:
       reverie_meta["start_date"] = now_dt.strftime("%B %d, %Y")
       reverie_meta["curr_time"] = now_dt.strftime("%B %d, %Y, 08:00:00")
 
-      # Clear chat transcript from previous simulation runs
-      chat_log = os.path.join(os.path.dirname(__file__), "..", "..", "logs", "chat_transcript.jsonl")
-      chat_log = os.path.abspath(chat_log)
-      if os.path.exists(chat_log):
-        open(chat_log, "w").close()
-
     with open(f"{sim_folder}/reverie/meta.json", "w") as outfile: 
       reverie_meta["fork_sim_code"] = fork_sim_code
       outfile.write(json.dumps(reverie_meta, indent=2))
@@ -184,6 +178,7 @@ class ReverieServer:
       p_x = init_env[persona_name]["x"]
       p_y = init_env[persona_name]["y"]
       curr_persona = Persona(persona_name, persona_folder)
+      curr_persona.sim_code = self.sim_code
       curr_persona.world_resource_state = self.resource_state
 
       self.personas[persona_name] = curr_persona
@@ -1144,8 +1139,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
-
 
 
 

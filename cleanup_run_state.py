@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent
 LOGS_DIR = ROOT / "logs"
 ROOT_TEMP_DIR = ROOT / "temp_storage"
 FRONTEND_TEMP_DIR = ROOT / "environment" / "frontend_server" / "temp_storage"
+FRONTEND_STORAGE_DIR = ROOT / "environment" / "frontend_server" / "storage"
 DB_PATH = ROOT / "environment" / "frontend_server" / "db.sqlite3"
 LLM_CACHE_PATH = ROOT / "reverie" / "backend_server" / ".prompt_cache" / "llm_cache.json"
 TRANSLATION_CACHE_PATH = ROOT_TEMP_DIR / "translation_cache.json"
@@ -82,6 +83,17 @@ def reset_transient_logs() -> list[str]:
     return actions
 
 
+def reset_scoped_chat_transcripts() -> list[str]:
+    actions = []
+    if not FRONTEND_STORAGE_DIR.exists():
+        return actions
+
+    for transcript_path in FRONTEND_STORAGE_DIR.glob("*/chat_transcript.jsonl"):
+        _truncate_file(transcript_path)
+        actions.append(str(transcript_path))
+    return actions
+
+
 def reset_frontend_db() -> list[str]:
     if not DB_PATH.exists():
         return []
@@ -101,6 +113,7 @@ def main() -> int:
         "caches": reset_prompt_caches(),
         "temp_state": reset_temp_state(),
         "logs": reset_transient_logs(),
+        "scoped_chat_logs": reset_scoped_chat_transcripts(),
         "db_tables": reset_frontend_db(),
     }
     print("[cleanup] transient run state cleared")

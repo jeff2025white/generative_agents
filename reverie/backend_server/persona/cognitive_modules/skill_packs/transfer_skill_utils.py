@@ -48,13 +48,15 @@ def are_personas_close(persona_a, persona_b, max_distance=2):
 
 def clear_current_action(persona):
     """Release the current action so the planner can select the next step."""
+    if hasattr(persona.scratch, "clear_current_action"):
+        persona.scratch.clear_current_action()
+        return
     persona.scratch.planned_path = []
     persona.scratch.act_path_set = False
     persona.scratch.act_address = None
     persona.scratch.act_description = None
     persona.scratch.act_event = None
     persona.scratch.act_command = None
-
 
 def log_transfer_failure(persona, skill_name, target, reason, extra=None):
     """Emit a consistent failure log for transfer-style skills."""

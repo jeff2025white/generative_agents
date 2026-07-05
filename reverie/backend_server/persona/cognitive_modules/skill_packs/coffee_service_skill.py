@@ -80,3 +80,4 @@ class CoffeeServiceSkillPack(BaseSkillPack):
                                             persona.name, "drink", "coffee", 
                                             desc, {"drink", "coffee", server_name.split()[0]}, 5, 
                                             (desc, is_emb), None)
+        self.finish_success(persona)

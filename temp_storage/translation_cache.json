@@ -1,1 +1,21 @@
-{}
+{
+  "sim_20260705_203841::gathering apples from the apple tree": "從苹果树上摘苹果",
+  "sim_20260705_203841::the Ville:Johnson Park:park:apple tree": "維爾·约翰遜公園：公園：苹果树",
+  "sim_20260705_203841::eating the apple from inventory to restore satiety": "從儲存庫中食用蘋果以恢復飽腹感",
+  "sim_20260705_203841::idling": "闲置",
+  "sim_20260705_203841::the Ville:::": "虚拟代理模拟中的“the Ville”:::\n虚拟城市",
+  "sim_20260705_203841::idling briefly to stabilize after eating": "短暂休息以稳定消化",
+  "sim_20260705_203841::the Ville:Isabella Rodriguez's apartment:main room": "Ville：伊莎贝拉·罗德里格斯公寓：主卧",
+  "sim_20260705_203841::the Ville:Johnson Park:park:park garden": "維爾：约翰逊公園：公園：公園花園",
+  "sim_20260705_203841::the Ville:Dorm for Oak Hill College:Maria Lopez's room": "維爾勒：橡樹山學院：瑪麗亞·洛佩茲的房間",
+  "sim_20260705_203841::the Ville:Dorm for Oak Hill College:Klaus Mueller's room": "维莱：橡树山学院宿舍：克劳斯·穆勒的房间",
+  "sim_20260705_203841::having a conversation with Klaus Mueller": "與克劳斯·穆勒交谈",
+  "sim_20260705_203841::<persona> Klaus Mueller": "Klaus Mueller",
+  "sim_20260705_203841::having a conversation with Maria Lopez": "與Maria Lopez對話",
+  "sim_20260705_203841::<persona> Maria Lopez": "玛丽亚·洛佩斯",
+  "sim_20260705_203841::哎，你最近忙啥呢，老没见你人影。": "唉，最近忙什么呢，好久没见你了。",
+  "sim_20260705_203841::你最近忙啥呢，老李？": "你最近忙什么呢，老李？",
+  "sim_20260705_203841::嘿，你来得正好，我正想找人唠嗑呢。": "嘿，你来正好，我正好想找人聊天。",
+  "sim_20260705_203841::eating breakfast at Hobbs Cafe": "在霍布斯咖啡馆吃早餐",
+  "sim_20260705_203841::the Ville:Hobbs Cafe:cafe": "城市：霍布斯咖啡馆：咖啡馆"
+}

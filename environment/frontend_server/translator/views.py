@@ -565,62 +565,70 @@ def _get_sim_log_start_time(sim_code):
 
 
 def _load_chat_transcript_records(sim_code, step=None, limit=12):
-  chat_file = os.path.join(_project_root, "logs", "chat_transcript.jsonl")
-  if not os.path.exists(chat_file):
-    return []
+  chat_files = [
+    os.path.join(_project_root, "environment", "frontend_server", "storage", sim_code, "chat_transcript.jsonl"),
+    os.path.join(_project_root, "logs", "chat_transcript.jsonl"),
+  ]
 
   start_time = _get_sim_log_start_time(sim_code)
   records = []
   seen_dialogues = set()
   try:
-    with open(chat_file, "r", encoding="utf-8") as f:
-      for line in f:
-        if not line.strip():
-          continue
-        try:
-          data = json.loads(line)
-        except Exception:
-          continue
-
-        record_time = _parse_log_timestamp(data.get("ts"))
-        if start_time and record_time and record_time < start_time:
-          continue
-        if step is not None:
-          try:
-            if int(data.get("step", -1)) > int(step):
-              continue
-          except Exception:
-            pass
-
-        dialogue_id = data.get("dialogue_id")
-        if dialogue_id and dialogue_id in seen_dialogues:
-          continue
-        if dialogue_id:
-          seen_dialogues.add(dialogue_id)
-
-        conversation = []
-        for turn in data.get("conversation", []) or []:
-          if isinstance(turn, dict):
-            speaker = turn.get("speaker", "")
-            utterance = turn.get("utterance", "")
-          elif isinstance(turn, (list, tuple)) and len(turn) >= 2:
-            speaker = turn[0]
-            utterance = turn[1]
-          else:
+    for chat_file in chat_files:
+      if not os.path.exists(chat_file):
+        continue
+      with open(chat_file, "r", encoding="utf-8") as f:
+        for line in f:
+          if not line.strip():
             continue
-          if speaker and utterance:
-            conversation.append({"speaker": speaker, "utterance": utterance})
+          try:
+            data = json.loads(line)
+          except Exception:
+            continue
 
-        if conversation:
-          records.append({
-            "dialogue_id": dialogue_id or "",
-            "persona": data.get("persona", ""),
-            "target": data.get("target", ""),
-            "sim_time": data.get("sim_time", ""),
-            "step": data.get("step"),
-            "ts": data.get("ts", ""),
-            "conversation": conversation,
-          })
+          record_sim_code = str(data.get("sim_code", "") or "").strip()
+          if record_sim_code and record_sim_code != sim_code:
+            continue
+
+          record_time = _parse_log_timestamp(data.get("ts"))
+          if start_time and record_time and record_time < start_time:
+            continue
+          if step is not None:
+            try:
+              if int(data.get("step", -1)) > int(step):
+                continue
+            except Exception:
+              pass
+
+          dialogue_id = data.get("dialogue_id")
+          if dialogue_id and dialogue_id in seen_dialogues:
+            continue
+          if dialogue_id:
+            seen_dialogues.add(dialogue_id)
+
+          conversation = []
+          for turn in data.get("conversation", []) or []:
+            if isinstance(turn, dict):
+              speaker = turn.get("speaker", "")
+              utterance = turn.get("utterance", "")
+            elif isinstance(turn, (list, tuple)) and len(turn) >= 2:
+              speaker = turn[0]
+              utterance = turn[1]
+            else:
+              continue
+            if speaker and utterance:
+              conversation.append({"speaker": speaker, "utterance": utterance})
+
+          if conversation:
+            records.append({
+              "dialogue_id": dialogue_id or "",
+              "persona": data.get("persona", ""),
+              "target": data.get("target", ""),
+              "sim_time": data.get("sim_time", ""),
+              "step": data.get("step"),
+              "ts": data.get("ts", ""),
+              "conversation": conversation,
+            })
   except Exception:
     return []
 
@@ -1591,7 +1599,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 
 

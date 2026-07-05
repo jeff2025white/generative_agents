@@ -17,6 +17,7 @@ from persona.cognitive_modules.creator_chat_context import (
     build_creator_notify_context,
 )
 from persona.cognitive_modules.social_dialogue_log import (
+    clear_social_dialogue_state,
     inherit_social_dialogue_state,
     log_chat_transcript,
     log_social_dialogue,
@@ -53,7 +54,6 @@ GENERIC_SOCIAL_CHAT_UTTERANCES = {
     "你好！": True,
     "...": True,
 }
-
 
 def _contains_cjk(text):
     """Return True when the text contains at least one CJK ideograph."""
@@ -242,6 +242,73 @@ def filter_social_chat_recent_events(events):
         seen.add(text)
         kept.append(text)
     return kept, dropped
+
+
+def format_social_chat_profile(persona):
+    """Build a concise persona profile focused on conversation-relevant traits."""
+    scratch = getattr(persona, "scratch", None)
+    if not scratch:
+        return f"Name: {getattr(persona, 'name', 'Unknown')}"
+
+    profile_lines = [
+        f"Name: {persona.name}",
+        f"Innate traits: {str(getattr(scratch, 'innate', '') or 'unknown').strip()}",
+        f"Learned traits: {str(getattr(scratch, 'learned', '') or 'unknown').strip()}",
+        f"Current life context: {str(getattr(scratch, 'currently', '') or 'unknown').strip()}",
+    ]
+    return "\n".join(profile_lines)
+
+
+def format_social_chat_relationship(rel, recent_events=None):
+    """Summarize relationship context in a stable prompt-friendly format."""
+    if not isinstance(rel, dict):
+        return "Relationship status: stranger. Trust level: 0.00. Recent interactions: none."
+
+    relationship = str(rel.get("relationship", "stranger") or "stranger").strip()
+    trust = float(rel.get("trust", 0.0) or 0.0)
+    recent_events = [str(item).strip() for item in (recent_events or []) if str(item or "").strip()]
+    recent_events_str = ", ".join(recent_events[:4]) if recent_events else "none"
+    return (
+        f"Relationship status: {relationship}. "
+        f"Trust level: {trust:.2f}. "
+        f"Recent interactions: {recent_events_str}."
+    )
+
+
+def format_social_chat_state(persona):
+    """Summarize the actor's visible state so dialogue can reflect urgency and tone."""
+    scratch = getattr(persona, "scratch", None)
+    if not scratch:
+        return f"{getattr(persona, 'name', 'Unknown')}: no state available."
+
+    curr_time = getattr(scratch, "curr_time", None)
+    curr_time_str = curr_time.strftime("%Y-%m-%d %H:%M") if curr_time else "unknown"
+    act_desc = str(getattr(scratch, "act_description", None) or "idle").strip()
+    is_moving = bool(getattr(scratch, "planned_path", None))
+    satiety = float(getattr(scratch, "satiety", 0.0) or 0.0)
+    stamina = float(getattr(scratch, "stamina", 0.0) or 0.0)
+    health = float(getattr(scratch, "health", 0.0) or 0.0)
+    mood = float(getattr(scratch, "mood", 0.0) or 0.0)
+
+    pressure_tags = []
+    if satiety < 30.0:
+        pressure_tags.append("hungry")
+    if stamina < 30.0:
+        pressure_tags.append("tired")
+    if health < 40.0:
+        pressure_tags.append("physically_unwell")
+    if mood < 35.0:
+        pressure_tags.append("low_mood")
+    if not pressure_tags:
+        pressure_tags.append("stable")
+
+    return (
+        f"{persona.name}: time={curr_time_str}; "
+        f"current_action={act_desc}; "
+        f"movement={'moving' if is_moving else 'stationary'}; "
+        f"mood={mood:.1f}; satiety={satiety:.1f}; stamina={stamina:.1f}; health={health:.1f}; "
+        f"pressure={', '.join(pressure_tags)}."
+    )
 
 
 def _relationship_chat_depth_score(persona, target_persona):
@@ -611,27 +678,33 @@ class ChatSkillPack(BaseSkillPack):
                 for s, u in convo:
                     history_str += f"{s}: {u}\n"
 
-                # Inject social relationship graph constraints into context
-                rel_str = ""
+                latest_turn = f"{convo[-1][0]}: {convo[-1][1]}" if convo else "No previous line yet."
+                recent_events = []
+                relationship_context = "Relationship status: stranger. Trust level: 0.00. Recent interactions: none."
                 dropped_recent_events = []
                 if rel:
-                    rel_str = f" Relation status: {rel.get('relationship', 'acquaintance')} (Trust level: {rel.get('trust', 0.5):.2f})."
                     recent_events, dropped_recent_events = filter_social_chat_recent_events(
                         rel.get("recent_events", [])
                     )
-                    if recent_events:
-                        rel_str += f" Recent interactions: {', '.join(recent_events)}."
-                speaker_context = f"{curr_context}{rel_str}"
+                    relationship_context = format_social_chat_relationship(rel, recent_events)
+                speaker_profile = format_social_chat_profile(speaker)
+                listener_profile = format_social_chat_profile(listener)
+                speaker_state = format_social_chat_state(speaker)
+                listener_state = format_social_chat_state(listener)
 
                 prompt_input = [
-                    speaker.scratch.get_str_iss(),
-                    listener.name,
+                    speaker_profile,
+                    listener_profile,
+                    relationship_context,
+                    speaker_state,
+                    listener_state,
+                    curr_context,
                     mems_str,
-                    speaker_context,
                     history_str if history_str else "No conversation started yet.",
-                    speaker.scratch.first_name
+                    latest_turn,
+                    speaker.scratch.first_name,
                 ]
-                prompt = generate_prompt(prompt_input, "persona/prompt_template/v2/social_chat_gossip_v1.txt")
+                prompt = generate_prompt(prompt_input, "persona/prompt_template/dialogue/generation/social_chat_reply_v1.txt")
 
                 def chat_val(resp, prompt=""):
                     _ = prompt
@@ -653,8 +726,8 @@ class ChatSkillPack(BaseSkillPack):
 
                 turn_decision = self.run_skill_llm_request(
                     prompt,
-                    example_output='{"utterance": "你听说没，Isabella新出的咖啡好像挺火。", "end": false, "reasoning": "用简短口语化的方式开启话题"}',
-                    special_instruction="Provide valid JSON containing utterance and end. The utterance must be brief colloquial Simplified Chinese, ideally one short sentence and at most two short sentences, with low AI tone and a light natural humor when appropriate, never English.",
+                    example_output='{"utterance": "是吗，那还真有点突然。要是你想去看看，我晚点也能陪你绕一圈。", "end": false, "reasoning": "先回应对方刚说的消息，再顺着关系和场景给出自然跟进"}',
+                    special_instruction="Provide valid JSON containing utterance and end. The utterance must directly respond to the listener's most recent line before introducing any new topic. It must be brief colloquial Simplified Chinese, ideally one short sentence and at most two short sentences, with low AI tone and a light natural humor when appropriate, never English.",
                     repeat=3,
                     fail_safe_response=fail_safe,
                     func_validate=chat_val,
@@ -849,6 +922,8 @@ class ChatSkillPack(BaseSkillPack):
                         "stamina": persona.scratch.stamina,
                     },
                 )
+                self.finish_success(persona)
+                clear_social_dialogue_state(persona)
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
             if should_wait_for_dialogue_owner(persona, target_p):
@@ -1124,5 +1199,7 @@ class ChatSkillPack(BaseSkillPack):
                     "mood": persona.scratch.mood,
                 },
             )
+            self.finish_success(persona)
+            clear_social_dialogue_state(persona)
 
             print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")

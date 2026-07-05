@@ -5,6 +5,40 @@ class BaseSkillPack:
         self.name = ""          # Unique identifier for the skill (maps to the LLM's chosen action)
         self.associated_xp = "" # Associated skill tree node (e.g. "gathering", "cooking")
 
+    def finish_success(self, persona, *, action_command=None, action_event=None, action_description=None, action_address=None):
+        """
+        Record a successful completion and release the active execution state.
+        Skill implementations should prefer this over manually mutating scratch fields.
+        """
+        persona.scratch.mark_action_completed(
+            action_command=action_command or persona.scratch.act_command,
+            action_event=action_event or persona.scratch.act_event,
+            action_description=action_description or persona.scratch.act_description,
+            action_address=action_address or persona.scratch.act_address,
+        )
+        if hasattr(persona.scratch, "complete_execution"):
+            persona.scratch.complete_execution()
+        else:
+            persona.scratch.clear_current_action()
+
+    def finish_failure(self, persona, reason, payload=None):
+        """
+        Release the active execution state as a failure.
+        """
+        if hasattr(persona.scratch, "fail_execution"):
+            persona.scratch.fail_execution(reason, payload=payload)
+        else:
+            persona.scratch.clear_current_action()
+
+    def finish_interrupted(self, persona, reason, payload=None):
+        """
+        Release the active execution state as an interruption.
+        """
+        if hasattr(persona.scratch, "interrupt_execution"):
+            persona.scratch.interrupt_execution(reason, payload=payload)
+        else:
+            persona.scratch.clear_current_action()
+
     def run_skill_llm_request(
         self,
         prompt,
@@ -61,5 +95,7 @@ class BaseSkillPack:
     def on_arrive(self, persona, target, maze, personas):
         """
         Physical outcome settlement upon arrival (metabolism updates, inventory changes, XP awards, memories).
+        Implementations should terminate via finish_success(), finish_failure(), or finish_interrupted()
+        instead of manually clearing scratch action fields.
         """
         raise NotImplementedError

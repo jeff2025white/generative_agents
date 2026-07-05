@@ -1036,6 +1036,10 @@ class Scratch:
     self.chatting_with = None
     self.chat = None
     self.chatting_end_time = None
+    self.social_dialogue_id = None
+    self.social_dialogue_partner = None
+    self.social_dialogue_role = None
+    self.social_dialogue_started_step = None
     self.act_address = None
     self.act_description = None
     self.act_command = None

@@ -119,9 +119,23 @@
 
 	let mapChatMessages = [];
 	const mapChatMessageLimit = 80;
+	const mapChatPollIntervalMs = 1200;
 	let dialogueInitiators = {};
+	let mapChatSeenKeys = {};
+	let lastMapChatPollAt = 0;
 
-	function appendMapChatMessage(speaker, utterance, dialogueId) {
+	function buildMapChatMessageKey(speaker, utterance, dialogueId, explicitKey) {
+	  const providedKey = String(explicitKey || "").trim();
+	  if (providedKey) {
+	    return providedKey;
+	  }
+	  const speakerText = String(speaker || "").trim();
+	  const utteranceText = String(utterance || "").trim();
+	  const dlgId = String(dialogueId || "").trim();
+	  return [dlgId, speakerText, utteranceText].join("::");
+	}
+
+	function appendMapChatMessage(speaker, utterance, dialogueId, messageKey) {
 	  const speakerText = String(speaker || "").trim();
 	  const utteranceText = String(utterance || "").trim();
 	  if (!speakerText || !utteranceText) {
@@ -137,6 +151,12 @@
 	    dialogueInitiators[dlgId] = speakerText;
 	  }
 
+	  const dedupeKey = buildMapChatMessageKey(speakerText, utteranceText, dlgId, messageKey);
+	  if (mapChatSeenKeys[dedupeKey]) {
+	    return;
+	  }
+	  mapChatSeenKeys[dedupeKey] = true;
+
 	  const isInitiator = (dialogueInitiators[dlgId] === speakerText);
 	  const side = isInitiator ? "left" : "right";
 
@@ -144,11 +164,15 @@
 	    speaker: speakerText,
 	    utterance: utteranceText,
 	    side: side,
-	    dialogueId: dlgId
+	    dialogueId: dlgId,
+	    key: dedupeKey
 	  });
 
 	  if (mapChatMessages.length > mapChatMessageLimit) {
-	    mapChatMessages.shift();
+	    const removedMessage = mapChatMessages.shift();
+	    if (removedMessage && removedMessage.key) {
+	      delete mapChatSeenKeys[removedMessage.key];
+	    }
 	  }
 	  renderMapChatFeed();
 	}
@@ -227,22 +251,22 @@
 	      });
 	      const dlgId = "dlg_" + speakers.sort().join("_").replace(/ /g, "_");
 
-	      chatTurns.forEach(function(turn) {
+	      chatTurns.forEach(function(turn, index) {
 	        if (Array.isArray(turn) && turn.length >= 2) {
-	          appendMapChatMessage(turn[0], turn[1], dlgId);
+	          appendMapChatMessage(turn[0], turn[1], dlgId, dlgId + ":" + index);
 	        }
 	      });
 	    }
 	  });
 	}
 
-	function loadInitialMapChatFeed() {
+	function fetchMapChatTranscript() {
 	  const currentStep = Number.isFinite(step) ? step : 0;
 	  const url = "{% url 'api_get_chat_transcript' %}" +
 	    "?sim_code=" + encodeURIComponent(sim_code) +
 	    "&step=" + encodeURIComponent(currentStep) +
-	    "&limit=12";
-	  fetch(url)
+	    "&limit=24";
+	  return fetch(url)
 	    .then(function(response) {
 	      if (!response.ok) {
 	        throw new Error("chat transcript request failed");
@@ -252,12 +276,30 @@
 	    .then(function(data) {
 	      const messages = Array.isArray(data.messages) ? data.messages : [];
 	      messages.forEach(function(message) {
-	        appendMapChatMessage(message.speaker, message.utterance, message.dialogue_id || message.key);
+	        appendMapChatMessage(
+	          message.speaker,
+	          message.utterance,
+	          message.dialogue_id || message.key,
+	          message.key
+	        );
 	      });
 	    })
 	    .catch(function(error) {
 	      console.error("Failed to load chat transcript:", error);
 	    });
+	}
+
+	function loadInitialMapChatFeed() {
+	  fetchMapChatTranscript();
+	}
+
+	function pollMapChatTranscript() {
+	  const now = Date.now();
+	  if (now - lastMapChatPollAt < mapChatPollIntervalMs) {
+	    return;
+	  }
+	  lastMapChatPollAt = now;
+	  fetchMapChatTranscript();
 	}
 
 	loadInitialMapChatFeed();
@@ -517,6 +559,8 @@
 			return;
 		}
 
+	  pollMapChatTranscript();
+
 	  // *** MOVE CAMERA *** 
 	  // This is where we finish up the camera setting we started in the create() 
 	  // function. We set the movement speed of the camera and wire up the keys to
@@ -741,6 +785,7 @@
 	    // Filling in the action description. 
 	    if (execute_count == execute_count_max) { 
 	      updateMapChatFeed(execute_movement);
+	      pollMapChatTranscript();
 	      for (let i=0; i<Object.keys(personas).length; i++) {
 	      	let action_description = ""
 	        let curr_persona_name = Object.keys(personas)[i];
@@ -1113,6 +1158,4 @@ function sendChatMessage() {
 	}
 
 </script>
-
-
 

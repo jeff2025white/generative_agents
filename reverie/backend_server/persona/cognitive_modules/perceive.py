@@ -19,6 +19,7 @@ from persona.prompt_template.run_gpt_prompt import *
 _poignancy_cache = {}
 
 def generate_poig_score(persona, event_type, description): 
+  description = str(description or "").strip() or "blank event"
   if "is idle" in description: 
     return 1
 
@@ -30,8 +31,7 @@ def generate_poig_score(persona, event_type, description):
   if event_type == "event": 
     score = run_gpt_prompt_event_poignancy(persona, description)[0]
   elif event_type == "chat": 
-    score = run_gpt_prompt_chat_poignancy(persona, 
-                           persona.scratch.act_description)[0]
+    score = run_gpt_prompt_chat_poignancy(persona, description)[0]
   else:
     score = 1
 
@@ -172,20 +172,21 @@ def perceive(persona, maze):
       # of the persona here. 
       chat_node_ids = []
       if p_event[0] == f"{persona.name}" and p_event[1] == "chat with": 
-        curr_event = persona.scratch.act_event
-        if persona.scratch.act_description in persona.a_mem.embeddings: 
-          chat_embedding = persona.a_mem.embeddings[
-                             persona.scratch.act_description]
+        curr_event = persona.scratch.act_event or p_event
+        chat_description = str(
+          getattr(persona.scratch, "act_description", None)
+          or desc
+          or f"{curr_event[0]} is chatting with {curr_event[2]}"
+        ).strip()
+        if chat_description in persona.a_mem.embeddings: 
+          chat_embedding = persona.a_mem.embeddings[chat_description]
         else: 
-          chat_embedding = get_embedding(persona.scratch
-                                                .act_description)
-        chat_embedding_pair = (persona.scratch.act_description, 
-                               chat_embedding)
-        chat_poignancy = generate_poig_score(persona, "chat", 
-                                             persona.scratch.act_description)
+          chat_embedding = get_embedding(chat_description)
+        chat_embedding_pair = (chat_description, chat_embedding)
+        chat_poignancy = generate_poig_score(persona, "chat", chat_description)
         chat_node = persona.a_mem.add_chat(persona.scratch.curr_time, None,
                       curr_event[0], curr_event[1], curr_event[2], 
-                      persona.scratch.act_description, keywords, 
+                      chat_description, keywords, 
                       chat_poignancy, chat_embedding_pair, 
                       persona.scratch.chat)
         chat_node_ids = [chat_node.node_id]
@@ -248,7 +249,6 @@ def perceive(persona, maze):
 
 
   
-
 
 
 

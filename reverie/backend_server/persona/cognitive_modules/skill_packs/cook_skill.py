@@ -71,4 +71,5 @@ class CookSkillPack(BaseSkillPack):
         # 3. Settlement
         persona.scratch.skills[self.associated_xp]["xp"] += 15
         persona.scratch.act_pronunciatio = "🍳"
+        self.finish_success(persona)
         print(f"=== [大模型辅助技能结算] {persona.name} 烹饪了 {dish}! 独白: {monologue} ===")

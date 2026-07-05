@@ -6,17 +6,6 @@ from persona.cognitive_modules.memory_effects import (
     record_stat_change_experience,
 )
 
-def _complete_execution(scratch):
-    if hasattr(scratch, "complete_execution"):
-        scratch.complete_execution()
-        return
-    scratch.planned_path = []
-    scratch.act_path_set = False
-    scratch.act_address = None
-    scratch.act_description = None
-    scratch.act_event = None
-    scratch.act_command = None
-
 class RestSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
@@ -42,10 +31,6 @@ class RestSkillPack(BaseSkillPack):
     def on_arrive(self, persona, target, maze, personas):
         # 1. Metabolism stamina recovery
         before_stamina = persona.scratch.stamina
-        completed_command = persona.scratch.act_command
-        completed_event = persona.scratch.act_event
-        completed_description = persona.scratch.act_description
-        completed_address = persona.scratch.act_address
         before_snapshot = capture_attribute_snapshot(persona)
         persona.scratch.stamina = min(100.0, persona.scratch.stamina + 40.0)
         after_snapshot = capture_attribute_snapshot(persona)
@@ -70,10 +55,4 @@ class RestSkillPack(BaseSkillPack):
             predicate="changed",
             obj="rest_recovery",
         )
-        persona.scratch.mark_action_completed(
-            action_command=completed_command,
-            action_event=completed_event,
-            action_description=completed_description,
-            action_address=completed_address,
-        )
-        _complete_execution(persona.scratch)
+        self.finish_success(persona)

@@ -28,7 +28,7 @@ from persona.cognitive_modules.reflect import *
 from persona.cognitive_modules.execute import *
 from persona.cognitive_modules.converse import *
 from persona.cognitive_modules.debug_log import append_debug_log
-from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
+from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.social_trigger import should_run_periodic_social_scan
 
 
@@ -276,6 +276,8 @@ class Persona:
     # 死亡拦截器：如果生命值归零，则角色“已死”，原地冻结且不参与任何认知计算（ReAct / step 运算）
     if self.scratch.health <= 0.0:
       addr = self.scratch.act_address if self.scratch.act_address else self.scratch.living_area
+      if self.scratch.has_active_plan() or getattr(self.scratch, "active_execution_state", None):
+        self.scratch.interrupt_execution("dead")
       self.scratch.act_description = "已死"
       self.scratch.planned_path = []
       self.scratch.act_path_set = False
@@ -359,8 +361,15 @@ class Persona:
           )
         self.scratch.suspend_current_action("physiological_crisis", source="move")
         self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
-        self.scratch.clear_current_action()
-        clear_social_dialogue_state(self)
+        self.scratch.interrupt_execution(
+          "physiological_crisis",
+          payload={
+            "satiety": self.scratch.satiety,
+            "stamina": self.scratch.stamina,
+            "health": self.scratch.health,
+            "act_description": self.scratch.act_description,
+          },
+        )
 
     # Main cognitive sequence begins here. 
     perceive_started_at = time.perf_counter()
@@ -413,8 +422,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
-
 
 
 
