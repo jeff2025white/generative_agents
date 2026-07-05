@@ -103,9 +103,8 @@
 	// <movement_speed> determines how fast we move at each upate cylce. 
 	let movement_speed = 32; 
 
-	// <last_query_time> determines when we last queried the frontend server.
 	let last_query_time = 0;
-	let movement_poll_interval_ms = 200;
+	let movement_poll_interval_ms = 500;
 	let frontend_heartbeat_interval_ms = 2000;
 	let last_heartbeat_time = 0;
 
@@ -599,20 +598,19 @@
 	  }
 
 	  // console.log("phase: " + phase + ", step: " + step);
-	// Keep a lightweight heartbeat alive even if the page is temporarily stuck
-	// in execute/update and has not yet posted a new environment frame.
-	let heartbeat_now = Date.now();
-	if (heartbeat_now - last_heartbeat_time >= frontend_heartbeat_interval_ms) {
-	  last_heartbeat_time = heartbeat_now;
-	  try {
-	    var heartbeat_xobj = new XMLHttpRequest();
-	    heartbeat_xobj.open('POST', "{% url 'api_frontend_heartbeat' %}", true);
-	    heartbeat_xobj.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	    heartbeat_xobj.send(JSON.stringify({"sim_code": sim_code, "step": step, "phase": phase}));
-	  } catch (e) {
-	    console.error("frontend heartbeat failed:", e);
-	  }
-	}
+	// Heartbeat disabled for decoupled playback mode
+	// let heartbeat_now = Date.now();
+	// if (heartbeat_now - last_heartbeat_time >= frontend_heartbeat_interval_ms) {
+	//   last_heartbeat_time = heartbeat_now;
+	//   try {
+	//     var heartbeat_xobj = new XMLHttpRequest();
+	//     heartbeat_xobj.open('POST', "{% url 'api_frontend_heartbeat' %}", true);
+	//     heartbeat_xobj.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	//     heartbeat_xobj.send(JSON.stringify({"sim_code": sim_code, "step": step, "phase": phase}));
+	//   } catch (e) {
+	//     console.error("frontend heartbeat failed:", e);
+	//   }
+	// }
 
 	  // *** MOVE PERSONAS ***
 	  // Moving personas take place in three distinct phases: "process," "update,"
@@ -662,9 +660,13 @@
 	      update_xobj.addEventListener("load", function() {
 	        if (this.readyState === 4) {
 	          if (update_xobj.status === 200) {
-	            if (JSON.parse(update_xobj.responseText)["<step>"] == step) {
-	              execute_movement = JSON.parse(update_xobj.responseText)
+	            let res = JSON.parse(update_xobj.responseText);
+	            if (res["<step>"] == step) {
+	              execute_movement = res;
 	              phase = "execute";
+	              movement_poll_interval_ms = 500; // 很快返回则0.5秒刷新一次
+	            } else {
+	              movement_poll_interval_ms = 1000; // 等待后端则1秒刷一次
 	            }
 	          }
 	        }
@@ -760,7 +762,7 @@
 	          curr_persona.body.x = movement_target[curr_persona_name][0];
 	          curr_persona.body.y = movement_target[curr_persona_name][1];
 	        }
-	        phase = "process";
+	        phase = "update";
 	        execute_count = execute_count_max + 1;
 	        step = step + 1;
 	        if (document.getElementById("clock-step")) {

@@ -445,17 +445,8 @@ class ReverieServer:
       except Exception as e:
         pass
 
-      # Heartbeat lock step sync: check if frontend browser is active
+      # Heartbeat lock step sync: check if frontend browser is active (disabled for decoupled playback)
       frontend_active = False
-      frontend_active_file = f"{fs_temp_storage}/frontend_active_{self.sim_code}.json"
-      if os.path.exists(frontend_active_file):
-        try:
-          with open(frontend_active_file, "r") as f:
-            status = json.load(f)
-            if time.time() - status.get("last_active", 0) < FRONTEND_HEARTBEAT_TTL_SECONDS:
-              frontend_active = True
-        except Exception:
-          pass
 
       # If frontend is active and we don't have the environment yet, wait for the frontend to post it
       if frontend_active and not env_retrieved:
