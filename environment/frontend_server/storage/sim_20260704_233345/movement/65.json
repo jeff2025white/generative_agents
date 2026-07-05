@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        110,
+        47
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.72000000000011,
+      "stamina": 96.37000000000002,
+      "health": 100.0,
+      "mood": 47.360000000000056,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        102,
+        47
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.72000000000011,
+      "stamina": 96.37000000000002,
+      "health": 100.0,
+      "mood": 47.360000000000056,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        69,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.72000000000011,
+      "stamina": 96.37000000000002,
+      "health": 100.0,
+      "mood": 47.360000000000056,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:10:50"
+  }
+}

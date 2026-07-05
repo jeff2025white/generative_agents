@@ -1,0 +1,98 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        66,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from inventory @ the Ville:Isabella Rodriguez's apartment:main room:shelf",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u4f60\u8fd8\u8bb0\u5f97\u54b1\u4fe9\u7b2c\u4e00\u6b21\u5728\u8fd9\u78b0\u89c1\u4e0d\uff1f",
+      "satiety": 64.80000000000032,
+      "stamina": 92.77000000000045,
+      "health": 100.0,
+      "mood": 85.71999999999937,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        34,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u8fd9\u513f\u7684\u73af\u5883\u771f\u4e0d\u9519\uff0c\u6bd4\u7167\u7247\u91cc\u770b\u7740\u8fd8\u8212\u670d\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u8fd9\u4eba\u633a\u6709\u610f\u601d\u7684\uff0c\u6211\u559c\u6b22\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u4e0a\u6b21\u5728\u8d85\u5e02\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u5bb6\u5e97\u7684\u66f2\u5947\u8fd8\u633a\u597d\u5403\u7684\uff0c\u4e0b\u6b21\u53ef\u4ee5\u8bd5\u8bd5\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u4f60\u731c\u6211\u4e0a\u6b21\u5728\u8d85\u5e02\u78b0\u89c1\u8c01\u4e86\uff1f",
+      "satiety": 64.80000000000032,
+      "stamina": 94.03000000000058,
+      "health": 100.0,
+      "mood": 79.23999999999982,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        34,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u8fd9\u513f\u7684\u73af\u5883\u771f\u4e0d\u9519\uff0c\u6bd4\u7167\u7247\u91cc\u770b\u7740\u8fd8\u8212\u670d\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f60\u8fd9\u4eba\u633a\u6709\u610f\u601d\u7684\uff0c\u6211\u559c\u6b22\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4f60\u731c\u6211\u4e0a\u6b21\u5728\u8d85\u5e02\u78b0\u89c1\u8c01\u4e86\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u5bb6\u5e97\u7684\u66f2\u5947\u8fd8\u633a\u597d\u5403\u7684\uff0c\u4e0b\u6b21\u53ef\u4ee5\u8bd5\u8bd5\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u90a3\u5bb6\u5e97\u7684\u66f2\u5947\u8fd8\u633a\u597d\u5403\u7684\uff0c\u4e0b\u6b21\u53ef\u4ee5\u8bd5\u8bd5\u3002",
+      "satiety": 64.80000000000032,
+      "stamina": 97.10000000000036,
+      "health": 100.0,
+      "mood": 91.23999999999978,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:31:30"
+  }
+}

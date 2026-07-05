@@ -31,6 +31,45 @@ from persona.cognitive_modules.debug_log import append_debug_log
 from persona.cognitive_modules.social_dialogue_log import clear_social_dialogue_state, log_social_dialogue
 from persona.cognitive_modules.social_trigger import should_run_periodic_social_scan
 
+
+def _request_chat_wrap_for_physiological_crisis(persona):
+  """Let an active NPC chat end naturally before urgent survival replanning."""
+  scratch = persona.scratch
+  if not (getattr(scratch, "chatting_with", None) and scratch.chatting_with != "<creator>"):
+    return False
+
+  scratch.remember_pending_interrupt(
+    "physiological_crisis_after_chat_wrap",
+    source="move",
+    payload={
+      "satiety": scratch.satiety,
+      "stamina": scratch.stamina,
+      "health": scratch.health,
+      "act_description": scratch.act_description,
+      "chat_partner": scratch.chatting_with,
+    },
+  )
+  log_social_dialogue(
+    persona,
+    "interrupt",
+    "dialogue_wrap_requested",
+    target_name=scratch.chatting_with,
+    payload={
+      "reason": "physiological_interrupt",
+      "satiety": scratch.satiety,
+      "stamina": scratch.stamina,
+      "health": scratch.health,
+      "act_description": scratch.act_description,
+    },
+  )
+  scratch.last_action_desc = f"{scratch.act_description} (Wrapping up due to physiological need)"
+  scratch.chatting_end_time = scratch.curr_time
+  scratch.act_duration = 0
+  scratch.planned_path = []
+  scratch.act_path_set = False
+  return True
+
+
 class Persona: 
   def __init__(self, name, folder_mem_saved=False):
     # PERSONA BASE STATE 
@@ -302,23 +341,26 @@ class Persona:
         return ret_tile, ret_pron, ret_desc, step_info
 
     if self.scratch.should_interrupt_for_physiological_crisis() and self.scratch.has_active_plan():
-      print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
-      if getattr(self.scratch, "social_dialogue_id", None):
-        log_social_dialogue(
-          self,
-          "failure",
-          "dialogue_aborted",
-          payload={
-            "reason": "physiological_interrupt",
-            "satiety": self.scratch.satiety,
-            "stamina": self.scratch.stamina,
-            "act_description": self.scratch.act_description,
-          },
-        )
-      self.scratch.suspend_current_action("physiological_crisis", source="move")
-      self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
-      self.scratch.clear_current_action()
-      clear_social_dialogue_state(self)
+      if _request_chat_wrap_for_physiological_crisis(self):
+        pass
+      else:
+        print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
+        if getattr(self.scratch, "social_dialogue_id", None):
+          log_social_dialogue(
+            self,
+            "failure",
+            "dialogue_aborted",
+            payload={
+              "reason": "physiological_interrupt",
+              "satiety": self.scratch.satiety,
+              "stamina": self.scratch.stamina,
+              "act_description": self.scratch.act_description,
+            },
+          )
+        self.scratch.suspend_current_action("physiological_crisis", source="move")
+        self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
+        self.scratch.clear_current_action()
+        clear_social_dialogue_state(self)
 
     # Main cognitive sequence begins here. 
     perceive_started_at = time.perf_counter()
@@ -371,7 +413,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

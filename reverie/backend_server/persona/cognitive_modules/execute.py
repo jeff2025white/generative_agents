@@ -116,11 +116,31 @@ def execute(persona, maze, personas, plan):
   """
   if not plan:
     plan = ""
+  elif isinstance(plan, str):
+    plan = plan.strip()
 
   # PHYSICAL DEPENDENCY INTERCEPTOR removed: behaviors are now dynamically decided by the LLM cognitive layer.
 
   if "<random>" in plan and persona.scratch.planned_path == []: 
     persona.scratch.act_path_set = False
+
+  if not plan:
+    persona.scratch.planned_path = []
+    persona.scratch.act_path_set = False
+    append_debug_log(
+      "action_execution_debug.jsonl",
+      {
+        "persona": persona.name,
+        "event": "empty_plan_idle_fallback",
+        "curr_tile": persona.scratch.curr_tile,
+        "act_description": persona.scratch.act_description,
+        "act_event": persona.scratch.act_event,
+        "act_command": persona.scratch.act_command,
+      }
+    )
+    actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+    description = f"idling @ {actual_address}"
+    return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, description
 
   # <act_path_set> is set to True if the path is set for the current action. 
   # It is False otherwise, and means we need to construct a new path. 
@@ -489,7 +509,6 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-
 
 
 

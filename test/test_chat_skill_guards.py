@@ -1,7 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 from unittest.mock import patch
 
 
@@ -20,16 +20,32 @@ if "openai" not in sys.modules:
     )
     sys.modules["openai"] = openai_stub
 
+if "numpy" not in sys.modules:
+    numpy_stub = ModuleType("numpy")
+    numpy_stub.dot = lambda a, b: sum(x * y for x, y in zip(a, b))
+    numpy_linalg_stub = ModuleType("numpy.linalg")
+    numpy_linalg_stub.norm = lambda a: sum(x * x for x in a) ** 0.5
+    numpy_stub.linalg = numpy_linalg_stub
+    sys.modules["numpy"] = numpy_stub
+    sys.modules["numpy.linalg"] = numpy_linalg_stub
+
 
 import persona.cognitive_modules.skill_packs.chat_skill as chat_skill_module
 from llm_api_config import get_default_social_chat_request_config, get_request_config
 from persona.cognitive_modules.skill_packs.chat_skill import (
     SOCIAL_CHAT_REQUEST_CONFIG,
+    apply_social_relationship_effect,
     collect_social_chat_memory_keys,
+    compute_social_chat_turn_limit,
     filter_social_chat_recent_events,
     is_structurally_valid_social_chat_response,
     is_valid_social_chat_response,
     normalize_social_chat_response,
+    should_wait_for_dialogue_owner,
+)
+from persona.cognitive_modules.social_trigger import (
+    compute_social_cooldown,
+    compute_social_opportunity_score,
 )
 
 
@@ -122,6 +138,129 @@ class ChatSkillGuardTests(unittest.TestCase):
         self.assertIn("尽量简短", translation_prompt)
         self.assertIn("减少 AI 味", translation_prompt)
         self.assertIn("brief colloquial Simplified Chinese", special_instruction)
+
+    def test_compute_social_chat_turn_limit_scales_with_relationship_and_topic_heat(self):
+        target = SimpleNamespace(name="Maria Lopez")
+        low_persona = SimpleNamespace(
+            name="Klaus Mueller",
+            a_mem=SimpleNamespace(get_relationship=lambda _name: None),
+        )
+        high_persona = SimpleNamespace(
+            name="Klaus Mueller",
+            a_mem=SimpleNamespace(
+                get_relationship=lambda _name: {
+                    "relationship": "friend",
+                    "trust": 0.92,
+                    "recent_events": ["talked about the party", "shared town gossip"],
+                }
+            ),
+        )
+
+        low_limit = compute_social_chat_turn_limit(
+            low_persona,
+            target,
+            memory_keys=["hello"],
+            recent_events=[],
+        )
+        high_limit = compute_social_chat_turn_limit(
+            high_persona,
+            target,
+            memory_keys=["news", "rumor", "town", "party", "project"],
+            recent_events=["shared town gossip", "party planning", "new project"],
+        )
+
+        self.assertGreaterEqual(low_limit, 3)
+        self.assertLessEqual(high_limit, 8)
+        self.assertLess(low_limit, high_limit)
+
+    def test_should_wait_for_dialogue_owner_when_target_arrives_before_chat_ready(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                social_dialogue_id="dlg_1",
+                social_dialogue_role="target",
+            )
+        )
+        target = SimpleNamespace(
+            scratch=SimpleNamespace(
+                social_dialogue_id="dlg_1",
+                social_dialogue_role="init",
+                chat=None,
+            )
+        )
+
+        self.assertTrue(should_wait_for_dialogue_owner(persona, target))
+
+        target.scratch.chat = [["Klaus Mueller", "你好"]]
+        self.assertFalse(should_wait_for_dialogue_owner(persona, target))
+
+    def test_apply_social_relationship_effect_updates_only_current_persona(self):
+        persona_updates = []
+        target_updates = []
+        persona = SimpleNamespace(
+            name="Klaus Mueller",
+            a_mem=SimpleNamespace(
+                get_relationship=lambda _name: None,
+                update_relationship=lambda *args, **kwargs: persona_updates.append((args, kwargs)),
+            ),
+        )
+        target = SimpleNamespace(
+            name="Maria Lopez",
+            a_mem=SimpleNamespace(
+                get_relationship=lambda _name: None,
+                update_relationship=lambda *args, **kwargs: target_updates.append((args, kwargs)),
+            ),
+        )
+
+        apply_social_relationship_effect(persona, target, "They had a pleasant chat.", trust_delta=0.02)
+
+        self.assertEqual(len(persona_updates), 1)
+        self.assertEqual(len(target_updates), 0)
+        args, kwargs = persona_updates[0]
+        self.assertEqual(args[0], "Maria Lopez")
+        self.assertEqual(kwargs["trust_delta"], 0.02)
+
+    def test_enemy_relationship_after_robbery_can_still_trigger_hostile_social_contact(self):
+        init_persona = SimpleNamespace(
+            name="Klaus Mueller",
+            scratch=SimpleNamespace(
+                curr_tile=(0, 0),
+                act_address="the Ville:Dorm:room",
+                act_description="idling in the room",
+                chatting_with=None,
+                mood=55.0,
+                stamina=80.0,
+                satiety=80.0,
+                last_social_time=None,
+                curr_time=None,
+                chatting_with_buffer={},
+                compute_switch_cost=lambda _sig: 0.0,
+                is_recent_duplicate_action=lambda _sig, within_steps=6: False,
+            ),
+            a_mem=SimpleNamespace(
+                get_relationship=lambda _name: {
+                    "relationship": "enemy",
+                    "trust": 0.0,
+                    "recent_events": ["was robbed of apple", "betrayed during a food dispute"],
+                }
+            ),
+        )
+        target_persona = SimpleNamespace(
+            name="Maria Lopez",
+            scratch=SimpleNamespace(
+                curr_tile=(1, 0),
+                act_address="the Ville:Dorm:hall",
+                act_description="idling quietly",
+                chatting_with=None,
+            ),
+        )
+
+        score_detail = compute_social_opportunity_score(init_persona, target_persona, {})
+        cooldown = compute_social_cooldown(init_persona, target_persona, score_detail=score_detail)
+
+        self.assertGreaterEqual(score_detail["conflict_bonus"], 0.20)
+        self.assertLessEqual(score_detail["relationship_penalty"], 0.08)
+        self.assertGreater(score_detail["total"], 0.30)
+        self.assertLess(cooldown, 120)
 
 
 if __name__ == "__main__":

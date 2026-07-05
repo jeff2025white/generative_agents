@@ -1,0 +1,71 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        64,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.040000000000276,
+      "stamina": 91.09000000000005,
+      "health": 100.0,
+      "mood": 43.52000000000014,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        72,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.040000000000276,
+      "stamina": 91.09000000000005,
+      "health": 100.0,
+      "mood": 43.52000000000014,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        30,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 67.04000000000028,
+      "stamina": 91.24000000000004,
+      "health": 100.0,
+      "mood": 61.52000000000014,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2023-02-13 08:26:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "apple tree is apple tree is being opened",
+          "created": "2023-02-13 08:26:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:26:50"
+  }
+}

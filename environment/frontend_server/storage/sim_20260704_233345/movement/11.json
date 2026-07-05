@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        47
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.04000000000002,
+      "stamina": 99.34,
+      "health": 100.0,
+      "mood": 49.52000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:shelf",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.04000000000002,
+      "stamina": 99.34,
+      "health": 100.0,
+      "mood": 49.52000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        124,
+        52
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Dorm for Oak Hill College::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.04000000000002,
+      "stamina": 99.34,
+      "health": 100.0,
+      "mood": 49.52000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:01:50"
+  }
+}

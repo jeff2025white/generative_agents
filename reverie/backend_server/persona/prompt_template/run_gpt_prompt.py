@@ -1081,7 +1081,7 @@ def run_gpt_prompt_event_triple(action_description, persona, verbose=False, requ
       with open(schema_path, "r", encoding="utf-8") as f:
         schema_str = f.read()
     except Exception as e:
-      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate."
+      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate."
 
     prompt_input = [persona.name, 
                     action_description,
@@ -3127,7 +3127,7 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
     if not temporal_context:
       temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
     if not physiological_rules:
-      physiological_rules = "- Eating food (Consume action) restores +40 Satiety.\n- Resting (Rest action) restores +40 Stamina.\n- If Satiety reaches 0, Health decays by -2.0 per step."
+      physiological_rules = "- Eating food (Consume action) restores +40 Satiety and +5 Health.\n- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n- Satiety decays by about -0.08 per step during normal activity and by about -0.04 per step while sleeping.\n- If Satiety reaches 0, Health decays by -0.05 per step."
     if not cooperative_context:
       cooperative_context = "No special requests or cooperative events are currently active nearby."
       
@@ -3211,8 +3211,10 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
       rules_list = [
         "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).",
         "- Gathering food (Gather action) adds items to inventory.",
-        "- Resting (Rest action) restores Stamina (+40.0 Stamina).",
+        "- Resting (Rest action) restores Stamina over time (about +0.15 per step while sleeping, about +0.08 per step while resting).",
         "- Socializing (Socialize action) gives only a small Mood lift (+6.0 Mood); a brief chat should not massively change emotion.",
+        "- Giving (Give action) transfers one item from your inventory to another resident.",
+        "- Robbing (Rob action) takes one item from another resident's inventory.",
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
       ]
       
@@ -3266,7 +3268,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
       return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fallback default"}
 
   def __func_validate(gpt_response, prompt=""):
-    allowed_actions = {"consume", "gather", "rest", "work", "socialize", "recreate", "idle"}
+    allowed_actions = {"consume", "gather", "rest", "work", "socialize", "give", "rob", "recreate", "idle"}
     try:
       if isinstance(gpt_response, dict):
         data = gpt_response
@@ -3709,7 +3711,7 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       with open(schema_path, "r", encoding="utf-8") as f:
         schema_str = f.read()
     except Exception:
-      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate, Idle."
+      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate, Idle."
 
     compact_identity = _compact_multiline_block(
       persona.scratch.get_str_iss(),
@@ -3833,7 +3835,7 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
       schema_str = f.read()
   except Exception as e:
     # Fallback default schema text if file read fails
-    schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Recreate, Idle."
+    schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate, Idle."
 
   res_str = _compact_resource_context(nearby_resources, include_state=False, max_items=10)
   if not decision_convergence_hint:

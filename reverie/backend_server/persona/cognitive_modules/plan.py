@@ -1805,9 +1805,9 @@ def decide_survival_action(persona, maze):
   physiological_rules = (
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.\n"
-      "- Resting (Rest action) restores +40.0 Stamina.\n"
-      "- Normal activities decay Satiety by -0.008 per step, and walking decays Satiety by -0.015 per step.\n"
-      "- If Satiety reaches 0.0, Health decays by -2.0 per step."
+      "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n"
+      "- Satiety decays by about -0.08 per step during normal activity, and by about -0.04 per step while sleeping.\n"
+      "- If Satiety reaches 0.0, Health decays by -0.05 per step."
   )
 
   # Compile Cooperative Context
@@ -1994,11 +1994,11 @@ def decide_demand_action(persona, maze):
   rules_list = [
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
-      "- Resting (Rest action) restores +40.0 Stamina.",
+      "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.",
       "- Socializing (Socialize action) provides a small mood lift (+6.0 Mood) and a little comfort, but short chats should not dramatically change your emotional state.",
-      "- Normal activities decay Satiety by -0.015 per step, sleeping decays Satiety by -0.008 per step.",
-      "- Normal activities decay Stamina by -0.015 per step, walking decays Stamina by -0.022 per step.",
-      "- Sleeping restores Stamina by +0.05 per step, resting restores Stamina by +0.03 per step.",
+      "- Normal activities decay Satiety by -0.08 per step, and sleeping decays Satiety by -0.04 per step.",
+      "- Normal activities decay Stamina by -0.04 per step, and walking/pathing decays Stamina by -0.07 per step.",
+      "- Sleeping restores Stamina by +0.15 per step, and resting restores Stamina by +0.08 per step.",
       "- Switch Cost: Changing tasks/actions in under 15 minutes consumes a high penalty of -5.0 Stamina.",
       "- If Satiety reaches 0.0, Health decays by -0.05 per step."
   ]
@@ -2022,7 +2022,7 @@ def decide_demand_action(persona, maze):
       rules_list.insert(0, "- FORAGING RULE: Known town food sources are depleted or unavailable. You should go to the apple tree in the wild to gather food.")
   
   if persona.scratch.stamina < 40.0:
-    rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, and normal activities decay it by -0.015 per step.")
+    rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, while normal activities decay it by about -0.04 per step and walking/pathing decays it by about -0.07 per step.")
     rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You can utilize the 'Rest' action targeting 'bed' or 'sofa' to sleep and restore Stamina.")
 
   if (
@@ -2281,7 +2281,7 @@ def decide_demand_action(persona, maze):
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   resolution_meta = None
   target_persona_name = None
-  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+  if normalized_skill_id in {"chat with", "give", "rob"} and target not in {"none", "", None}:
     candidate_target = str(target).strip()
     target_persona_name = candidate_target
     new_address = f"<persona> {candidate_target}"
@@ -2318,9 +2318,9 @@ def decide_demand_action(persona, maze):
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
 
-  if normalized_skill_id == "chat with" and target_persona_name:
+  if normalized_skill_id in {"chat with", "give", "rob"} and target_persona_name:
     act_pron = "💬"
-    act_event = (persona.name, "chat with", target_persona_name)
+    act_event = (persona.name, normalized_skill_id, target_persona_name)
   else:
     act_pron = generate_action_pronunciatio(act_desp, persona)
     act_event = generate_action_event_triple(act_desp, persona)
@@ -2347,7 +2347,7 @@ def decide_demand_action(persona, maze):
   
   # Persona's actions also influence the object states. We set those up here. 
   phase_started_at = time.perf_counter()
-  if normalized_skill_id == "chat with" and target not in {"none", "", None}:
+  if normalized_skill_id in {"chat with", "give", "rob"} and target not in {"none", "", None}:
     act_obj_desp = None
     act_obj_pron = None
     act_obj_event = (None, None, None)

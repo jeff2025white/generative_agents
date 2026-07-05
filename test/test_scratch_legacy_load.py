@@ -90,6 +90,41 @@ class ScratchLegacyLoadTests(unittest.TestCase):
         self.assertEqual(scratch.act_event, ("Klaus Mueller", None, None))
         self.assertEqual(scratch.act_obj_event, (None, None, None))
 
+    def test_load_legacy_empty_act_address_normalizes_to_none(self):
+        payload = self._build_legacy_payload()
+        payload["act_address"] = "   "
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            json.dump(payload, tmp)
+            temp_path = tmp.name
+
+        try:
+            scratch = Scratch(temp_path)
+        finally:
+            Path(temp_path).unlink(missing_ok=True)
+
+        self.assertIsNone(scratch.act_address)
+
+    def test_resume_suspended_action_normalizes_empty_address(self):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.suspended_action = {
+            "act_address": " ",
+            "act_duration": 10,
+            "act_description": "having a conversation with Maria Lopez",
+            "act_pronunciatio": "💬",
+            "act_event": ["Klaus Mueller", "chat with", "Maria Lopez"],
+            "act_command": {"skill_id": "chat with", "target": "Maria Lopez"},
+            "act_obj_description": None,
+            "act_obj_pronunciatio": None,
+            "act_obj_event": [None, None, None],
+            "chatting_with": "Maria Lopez",
+            "chat": None,
+            "chatting_with_buffer": {},
+            "chatting_end_time": None,
+        }
+
+        self.assertTrue(scratch.resume_suspended_action())
+        self.assertIsNone(scratch.act_address)
+
     def test_missing_file_uses_lower_default_mood(self):
         scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
         self.assertEqual(scratch.mood, 50.0)

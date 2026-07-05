@@ -25,6 +25,16 @@
       "description": "Interact or chat with other people to restore Mood.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"]
     },
+    "Give": {
+      "verbs": ["give", "gift", "donate", "share"],
+      "description": "Give one inventory item to another resident. The detail field should mention what item is being transferred.",
+      "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"]
+    },
+    "Rob": {
+      "verbs": ["rob", "steal", "loot", "mug"],
+      "description": "Take one inventory item from another resident. The detail field should mention what item is being taken if possible.",
+      "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"]
+    },
     "Recreate": {
       "verbs": ["recreate", "play", "watch", "sing", "listen"],
       "description": "Leisure, games, or music to improve Mood.",

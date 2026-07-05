@@ -1,0 +1,171 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 08:34:10",
+  "curr_tile": [
+    34,
+    45
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "energetic, enthusiastic, inquisitive",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 63.52000000000035,
+  "stamina": 96.46000000000026,
+  "health": 100.0,
+  "mood": 96.35999999999967,
+  "last_social_time": "February 13, 2023, 08:34:10",
+  "last_action_switch_time": "February 13, 2023, 08:24:10",
+  "decision_commit_until_step": 146,
+  "last_decision_signature": {
+    "skill_id": "chat with",
+    "target": "klaus mueller",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "having a conversation with Klaus Mueller",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 143,
+  "suspended_action": {
+    "act_address": "<persona> Isabella Rodriguez",
+    "act_duration": 10,
+    "act_description": "having a conversation with Isabella Rodriguez",
+    "act_pronunciatio": "\ud83d\udcac",
+    "act_event": [
+      "Maria Lopez",
+      "chat with",
+      "Isabella Rodriguez"
+    ],
+    "act_command": {
+      "skill_id": "chat with",
+      "target": "Isabella Rodriguez",
+      "source": "add_new_action",
+      "raw_action": "chat with",
+      "detail": null
+    },
+    "act_obj_description": null,
+    "act_obj_pronunciatio": null,
+    "act_obj_event": [
+      null,
+      null,
+      null
+    ],
+    "chatting_with": "Isabella Rodriguez",
+    "chat": [
+      [
+        "Isabella Rodriguez",
+        "\u8fd9\u4e2a\u70b9\u5403\u706b\u9505\uff0c\u6211\u597d\u5947\u8c01\u4f1a\u8fd9\u4e48\u4efb\u6027\u554a\uff1f"
+      ],
+      [
+        "Maria Lopez",
+        "\u563f\uff0c\u4f60\u8fd9\u8eab\u6253\u626e\u633a\u7cbe\u795e\u554a\uff0c\u662f\u4e0d\u662f\u6709\u5565\u597d\u4e8b\u513f\uff1f"
+      ],
+      [
+        "Isabella Rodriguez",
+        "\u4f60\u8fd8\u8bb0\u5f97\u54b1\u4fe9\u7b2c\u4e00\u6b21\u5728\u8fd9\u78b0\u89c1\u4e0d\uff1f"
+      ],
+      [
+        "Maria Lopez",
+        "\u54c7\uff0c\u8fd9\u5e97\u4f60\u548b\u627e\u5230\u7684\uff1f\u85cf\u5f97\u591f\u6df1\u554a\u3002"
+      ]
+    ],
+    "chatting_with_buffer": {
+      "Isabella Rodriguez": 58,
+      "Klaus Mueller": 104
+    },
+    "chatting_end_time": "February 13, 2023, 08:27:00",
+    "signature": {
+      "skill_id": "chat with",
+      "target": "isabella rodriguez",
+      "intent_family": "communication"
+    },
+    "planned_path": []
+  },
+  "suspended_action_step": 125,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "consume",
+    "action_description": "eating the apple from inventory to restore satiety",
+    "curr_step": 143
+  },
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 36,
+  "importance_ele_n": 45,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<persona> Klaus Mueller",
+  "act_start_time": "February 13, 2023, 08:24:10",
+  "act_duration": 10,
+  "act_description": "having a conversation with Klaus Mueller",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Maria Lopez",
+    "chat with",
+    "Klaus Mueller"
+  ],
+  "act_command": {
+    "skill_id": "chat with",
+    "target": "Klaus Mueller",
+    "source": "add_new_action",
+    "raw_action": "chat with",
+    "detail": null
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": []
+}

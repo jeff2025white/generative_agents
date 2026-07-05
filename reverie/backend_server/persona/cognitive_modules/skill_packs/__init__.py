@@ -6,6 +6,8 @@ from persona.cognitive_modules.skill_packs.coffee_service_skill import CoffeeSer
 from persona.cognitive_modules.skill_packs.chat_skill import ChatSkillPack
 from persona.cognitive_modules.skill_packs.generic_activity_skill import GenericActivitySkillPack
 from persona.cognitive_modules.skill_packs.singing_skill import SingingSkillPack
+from persona.cognitive_modules.skill_packs.give_skill import GiveSkillPack
+from persona.cognitive_modules.skill_packs.rob_skill import RobSkillPack
 
 SKILL_REGISTRY = {
     # Consume Skill
@@ -72,5 +74,18 @@ SKILL_REGISTRY = {
     "whisper": ChatSkillPack(),
     "monologue": ChatSkillPack(),
     "communicate": ChatSkillPack(),
-    "creator_comm": ChatSkillPack()
+    "creator_comm": ChatSkillPack(),
+
+    # NPC-to-NPC inventory transfer skills
+    "give": GiveSkillPack(),
+    "giving": GiveSkillPack(),
+    "gift": GiveSkillPack(),
+    "donate": GiveSkillPack(),
+    "share": GiveSkillPack(),
+    "rob": RobSkillPack(),
+    "robbing": RobSkillPack(),
+    "steal": RobSkillPack(),
+    "stealing": RobSkillPack(),
+    "loot": RobSkillPack(),
+    "mug": RobSkillPack(),
 }

@@ -1,0 +1,20 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about old friends catching up and reminiscing at a hidden火锅店",
+        "conversing about old friends catching up and reminiscing at a hidden火锅店"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about friends sharing casual conversation",
+        "conversing about two strangers complimenting each other and discussing a recent encounter at a supermarket"
+      ]
+    }
+  }
+}

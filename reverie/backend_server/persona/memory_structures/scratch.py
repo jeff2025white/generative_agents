@@ -26,6 +26,13 @@ def _normalize_event_tuple(raw_event, fallback):
     return fallback
   return raw_event
 
+
+def _normalize_action_address(raw_address):
+  if isinstance(raw_address, str):
+    raw_address = raw_address.strip()
+    return raw_address or None
+  return raw_address
+
 class Scratch: 
   def __init__(self, f_saved): 
     # PERSONA HYPERPARAMETERS
@@ -292,7 +299,7 @@ class Scratch:
       self.f_daily_schedule = scratch_load["f_daily_schedule"]
       self.f_daily_schedule_hourly_org = scratch_load["f_daily_schedule_hourly_org"]
 
-      self.act_address = scratch_load["act_address"]
+      self.act_address = _normalize_action_address(scratch_load["act_address"])
       if scratch_load["act_start_time"]: 
         self.act_start_time = datetime.datetime.strptime(
                                               scratch_load["act_start_time"],
@@ -404,7 +411,7 @@ class Scratch:
     scratch["f_daily_schedule"] = self.f_daily_schedule
     scratch["f_daily_schedule_hourly_org"] = self.f_daily_schedule_hourly_org
 
-    scratch["act_address"] = self.act_address
+    scratch["act_address"] = _normalize_action_address(self.act_address)
     scratch["act_start_time"] = (self.act_start_time
                                      .strftime("%B %d, %Y, %H:%M:%S"))
     scratch["act_duration"] = self.act_duration
@@ -596,7 +603,7 @@ class Scratch:
 
 
   def add_new_action(self, 
-                     action_address, 
+                     action_address,
                      action_duration,
                      action_description,
                      action_pronunciatio, 
@@ -610,6 +617,7 @@ class Scratch:
                      act_obj_pronunciatio, 
                      act_obj_event, 
                      act_start_time=None): 
+    action_address = _normalize_action_address(action_address)
     resolved_action_command = action_command or infer_action_command_from_event(action_event, source="add_new_action")
     next_signature = build_decision_signature(
       resolved_action_command,
@@ -922,7 +930,7 @@ class Scratch:
     if not (signature and self.has_active_plan()):
       return None
     return {
-      "act_address": self.act_address,
+      "act_address": _normalize_action_address(self.act_address),
       "act_duration": self.act_duration,
       "act_description": self.act_description,
       "act_pronunciatio": self.act_pronunciatio,
@@ -1062,7 +1070,7 @@ class Scratch:
     snapshot = self.suspended_action or {}
     if not snapshot:
       return False
-    self.act_address = snapshot.get("act_address")
+    self.act_address = _normalize_action_address(snapshot.get("act_address"))
     self.act_duration = snapshot.get("act_duration")
     self.act_description = snapshot.get("act_description")
     self.act_pronunciatio = snapshot.get("act_pronunciatio")
@@ -1237,6 +1245,4 @@ class Scratch:
       minute = curr_min_sum%60
       ret += f"{hour:02}:{minute:02} || {row[0]}\n"
     return ret
-
-
 

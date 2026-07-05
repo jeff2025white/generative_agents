@@ -1,0 +1,78 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        33
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 64.3600000000003,
+      "stamina": 90.30000000000007,
+      "health": 100.0,
+      "mood": 60.08000000000017,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        46,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 24.160000000000338,
+      "stamina": 89.11000000000006,
+      "health": 100.0,
+      "mood": 42.08000000000017,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sleeping in bed to restore stamina",
+          "created": "2023-02-13 08:32:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is bed is being used for recovery",
+          "created": "2023-02-13 08:32:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2023-02-13 08:32:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        54,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 24.160000000000338,
+      "stamina": 89.11000000000006,
+      "health": 100.0,
+      "mood": 42.08000000000017,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "February 13, 2023, 08:32:50"
+  }
+}

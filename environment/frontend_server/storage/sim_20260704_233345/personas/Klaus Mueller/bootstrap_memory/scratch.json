@@ -1,0 +1,176 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 08:35:40",
+  "curr_tile": [
+    46,
+    37
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 22.800000000000367,
+  "stamina": 88.19000000000005,
+  "health": 100.0,
+  "mood": 41.40000000000018,
+  "last_social_time": null,
+  "last_action_switch_time": "February 13, 2023, 08:00:00",
+  "decision_commit_until_step": 182,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "gathering apples from the apple tree",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 71,
+  "importance_ele_n": 31,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park:apple tree",
+  "act_start_time": "February 13, 2023, 08:30:00",
+  "act_duration": 20,
+  "act_description": "gathering apples from the apple tree",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "gathering apples from the apple tree"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "gathering apples from the apple tree"
+  },
+  "act_obj_description": "apple tree is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "apple tree",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      44,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      40,
+      37
+    ],
+    [
+      39,
+      37
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      38,
+      38
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      38,
+      40
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      38,
+      42
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      38,
+      44
+    ],
+    [
+      37,
+      44
+    ],
+    [
+      36,
+      44
+    ],
+    [
+      36,
+      45
+    ],
+    [
+      35,
+      45
+    ]
+  ]
+}

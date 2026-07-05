@@ -99,6 +99,45 @@ def _relationship_score(init_persona, target_persona):
   return _clamp(base + min(0.12, max(0.0, trust) * 0.12), 0.0, 0.34)
 
 
+def _relationship_penalty(init_persona, target_persona):
+  """Penalize only socially cold or low-trust pairings that reduce talk likelihood."""
+  rel = _get_relationship_info(init_persona, target_persona)
+  relation = _safe_lower(rel.get("relationship"))
+  trust = float(rel.get("trust", 0.0) or 0.0)
+
+  penalty = 0.0
+  if relation in {"stranger"} and trust <= 0.05:
+    penalty += 0.03
+
+  if relation not in {"enemy", "hostile"} and trust <= 0.0:
+    penalty += 0.08
+  elif relation not in {"enemy", "hostile"} and trust < 0.15:
+    penalty += 0.04
+
+  return min(0.18, penalty)
+
+
+def _conflict_bonus(init_persona, target_persona):
+  """Reward hostile contact that is likely to produce taunts or confrontation."""
+  rel = _get_relationship_info(init_persona, target_persona)
+  relation = _safe_lower(rel.get("relationship"))
+  recent_events = [
+    _safe_lower(event)
+    for event in (rel.get("recent_events", []) or [])
+  ]
+
+  bonus = 0.0
+  if relation in {"enemy", "hostile"}:
+    bonus += 0.16
+  if any(
+    keyword in event
+    for event in recent_events
+    for keyword in ("robbed", "was robbed", "stole", "stolen", "betrayed", "threatened", "attacked")
+  ):
+    bonus += 0.10
+  return min(0.24, bonus)
+
+
 def _state_score(init_persona, target_persona):
   """Score whether both agents are in a state that is easy to interrupt."""
   init_desc = _safe_lower(getattr(init_persona.scratch, "act_description", None))
@@ -230,6 +269,8 @@ def compute_social_opportunity_score(init_persona, target_persona, retrieved):
   detail = {
     "distance_score": _distance_score(init_persona, target_persona),
     "relationship_score": _relationship_score(init_persona, target_persona),
+    "relationship_penalty": _relationship_penalty(init_persona, target_persona),
+    "conflict_bonus": _conflict_bonus(init_persona, target_persona),
     "state_score": _state_score(init_persona, target_persona),
     "novelty_bonus": _novelty_bonus(target_persona, retrieved),
     "social_need_bonus": _social_need_bonus(init_persona),
@@ -246,6 +287,8 @@ def compute_social_opportunity_score(init_persona, target_persona, retrieved):
     + detail["state_score"]
     + detail["novelty_bonus"]
     + detail["social_need_bonus"]
+    + detail["conflict_bonus"]
+    - detail["relationship_penalty"]
     - detail["recent_chat_penalty"]
     - detail["recent_duplicate_penalty"]
     - detail["night_penalty"]
@@ -266,6 +309,8 @@ def compute_social_cooldown(init_persona, target_persona, retrieved=None, score_
   cooldown -= int(min(45, max(0.0, trust) * 40))
   cooldown -= int(score_detail.get("novelty_bonus", 0.0) * 120)
   cooldown -= int(score_detail.get("state_score", 0.0) * 80)
+  cooldown -= int(score_detail.get("conflict_bonus", 0.0) * 90)
+  cooldown += int(score_detail.get("relationship_penalty", 0.0) * 180)
   cooldown += int(score_detail.get("night_penalty", 0.0) * 100)
   cooldown += int(score_detail.get("urgency_penalty", 0.0) * 80)
   return max(40, min(220, cooldown))

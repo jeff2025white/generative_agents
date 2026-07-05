@@ -67,6 +67,21 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "socialize": "chat with",
         "socializing": "chat with",
         "communicate": "chat with",
+        "give": "give",
+        "giving": "give",
+        "gift": "give",
+        "donate": "give",
+        "donating": "give",
+        "share": "give",
+        "sharing": "give",
+        "rob": "rob",
+        "robbing": "rob",
+        "steal": "rob",
+        "stealing": "rob",
+        "loot": "rob",
+        "looting": "rob",
+        "mug": "rob",
+        "mugging": "rob",
         "creator_comm": "creator_comm",
         "execute": "use",
         "recreate": "leisure_use",
@@ -153,6 +168,10 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         return "acquire_resource"
     if normalized_skill in {"chat with", "creator_comm"}:
         return "communication"
+    if normalized_skill == "give":
+        return "communication"
+    if normalized_skill == "rob":
+        return "acquire_resource"
     if normalized_skill == "study":
         return "study"
     if normalized_skill == "work":

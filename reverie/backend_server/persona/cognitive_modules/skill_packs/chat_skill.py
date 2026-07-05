@@ -244,6 +244,97 @@ def filter_social_chat_recent_events(events):
     return kept, dropped
 
 
+def _relationship_chat_depth_score(persona, target_persona):
+    """Estimate how much the relationship supports longer conversations."""
+    rel = persona.a_mem.get_relationship(target_persona.name) if getattr(persona, "a_mem", None) else None
+    if not isinstance(rel, dict):
+        return 0.0, rel or {}
+    relationship = str(rel.get("relationship", "stranger") or "stranger").strip().lower()
+    trust = float(rel.get("trust", 0.0) or 0.0)
+    base = 0.12
+    if relationship in {"friend", "close_friend"}:
+        base = 0.55
+    elif relationship in {"family", "partner"}:
+        base = 0.70
+    elif relationship in {"coworker", "classmate"}:
+        base = 0.42
+    elif relationship in {"acquaintance"}:
+        base = 0.30
+    return min(1.0, base + min(0.30, max(0.0, trust) * 0.30)), rel
+
+
+def _topic_heat_score(memory_keys, recent_events=None):
+    """Estimate how much the current topic deserves a longer back-and-forth."""
+    memory_keys = memory_keys or []
+    recent_events = recent_events or []
+    keywords = (
+        "news",
+        "rumor",
+        "gossip",
+        "town",
+        "party",
+        "project",
+        "update",
+        "cafe",
+        "apple",
+        "food",
+    )
+    heat = min(0.45, len(memory_keys) * 0.09)
+    heat += min(0.25, len(recent_events) * 0.05)
+    keyword_hits = 0
+    for text in list(memory_keys) + list(recent_events):
+        lowered = str(text or "").lower()
+        if any(keyword in lowered for keyword in keywords):
+            keyword_hits += 1
+    heat += min(0.30, keyword_hits * 0.10)
+    return max(0.0, min(1.0, heat))
+
+
+def compute_social_chat_turn_limit(persona, target_persona, memory_keys, recent_events=None):
+    """Choose a bounded chat length from relationship closeness and topic heat."""
+    relationship_score, rel = _relationship_chat_depth_score(persona, target_persona)
+    topic_heat = _topic_heat_score(memory_keys, recent_events=recent_events)
+    trust = float((rel or {}).get("trust", 0.0) or 0.0)
+    relation_name = str((rel or {}).get("relationship", "stranger") or "stranger").strip().lower()
+
+    base_turns = 3
+    relation_bonus = relationship_score * 3.0
+    topic_bonus = topic_heat * 3.5
+    bonus = int(round(relation_bonus + topic_bonus))
+    if relation_name in {"friend", "close_friend", "family", "partner"} and trust >= 0.65:
+        bonus += 1
+    if topic_heat >= 0.75:
+        bonus += 1
+    return max(3, min(8, base_turns + bonus))
+
+
+def _get_shared_dialogue_role(persona):
+    return str(getattr(persona.scratch, "social_dialogue_role", "") or "").strip().lower()
+
+
+def should_wait_for_dialogue_owner(persona, target_persona):
+    """Return True when the target-side agent should wait for the initiator's chat result."""
+    own_dialogue_id = getattr(persona.scratch, "social_dialogue_id", None)
+    target_dialogue_id = getattr(target_persona.scratch, "social_dialogue_id", None)
+    if not own_dialogue_id or own_dialogue_id != target_dialogue_id:
+        return False
+    if _get_shared_dialogue_role(persona) != "target":
+        return False
+    if _get_shared_dialogue_role(target_persona) != "init":
+        return False
+    return not bool(getattr(target_persona.scratch, "chat", None))
+
+
+def apply_social_relationship_effect(persona, target_persona, convo_summary, trust_delta=0.02):
+    """Apply one-sided post-chat relationship gain for the settling persona."""
+    persona.a_mem.update_relationship(
+        target_persona.name,
+        relation_type="friend" if persona.a_mem.get_relationship(target_persona.name) is None else None,
+        trust_delta=trust_delta,
+        recent_event=convo_summary,
+    )
+
+
 class ChatSkillPack(BaseSkillPack):
 
 
@@ -469,12 +560,51 @@ class ChatSkillPack(BaseSkillPack):
             convo = []
             speaker = persona
             listener = target_p
+            initial_focal_points = [listener.name, "news", "rumor", "town"]
+            initial_retrieved = new_retrieve(speaker, initial_focal_points, 10)
+            initial_memory_keys, initial_dropped_memory_keys = collect_social_chat_memory_keys(initial_retrieved)
+            initial_rel = speaker.a_mem.get_relationship(listener.name)
+            initial_recent_events = []
+            initial_dropped_recent_events = []
+            if isinstance(initial_rel, dict):
+                initial_recent_events, initial_dropped_recent_events = filter_social_chat_recent_events(
+                    initial_rel.get("recent_events", [])
+                )
+            max_turns = compute_social_chat_turn_limit(
+                speaker,
+                listener,
+                initial_memory_keys,
+                recent_events=initial_recent_events,
+            )
+            log_social_dialogue(
+                persona,
+                "generation",
+                "social_generation_plan",
+                target_name=target_p_name,
+                payload={
+                    "planned_turn_limit": max_turns,
+                    "relationship": str((initial_rel or {}).get("relationship", "stranger") or "stranger"),
+                    "trust": float((initial_rel or {}).get("trust", 0.0) or 0.0),
+                    "memory_key_count": len(initial_memory_keys),
+                    "recent_event_count": len(initial_recent_events),
+                },
+            )
             
-            # 4 turns of dialogue
-            for turn in range(4):
-                focal_points = [listener.name, "news", "rumor", "town"]
-                retrieved = new_retrieve(speaker, focal_points, 10)
-                memory_keys, dropped_memory_keys = collect_social_chat_memory_keys(retrieved)
+            for turn in range(max_turns):
+                if turn == 0:
+                    retrieved = initial_retrieved
+                    memory_keys = initial_memory_keys
+                    dropped_memory_keys = initial_dropped_memory_keys
+                    dropped_recent_events = initial_dropped_recent_events
+                    rel = initial_rel
+                else:
+                    focal_points = [listener.name, "news", "rumor", "town"]
+                    retrieved = new_retrieve(speaker, focal_points, 10)
+                    memory_keys, dropped_memory_keys = collect_social_chat_memory_keys(retrieved)
+                    rel = speaker.a_mem.get_relationship(listener.name)
+                    dropped_recent_events = []
+                    if rel:
+                        _, dropped_recent_events = filter_social_chat_recent_events(rel.get("recent_events", []))
                 mems_str = "\n".join([f"- {m}" for m in memory_keys]) if memory_keys else "- none"
 
                 history_str = ""
@@ -482,7 +612,6 @@ class ChatSkillPack(BaseSkillPack):
                     history_str += f"{s}: {u}\n"
 
                 # Inject social relationship graph constraints into context
-                rel = speaker.a_mem.get_relationship(listener.name)
                 rel_str = ""
                 dropped_recent_events = []
                 if rel:
@@ -695,18 +824,7 @@ class ChatSkillPack(BaseSkillPack):
                     print(f"Warning: Gossip extraction failed: {ge}")
 
                 # Update relationship graph for both parties in synchronization
-                persona.a_mem.update_relationship(
-                    target_p.name,
-                    relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
-                    trust_delta=0.02,
-                    recent_event=convo_summary
-                )
-                target_p.a_mem.update_relationship(
-                    persona.name,
-                    relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
-                    trust_delta=0.02,
-                    recent_event=convo_summary
-                )
+                apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
                 log_social_dialogue(
                     persona,
                     "settlement",
@@ -732,6 +850,19 @@ class ChatSkillPack(BaseSkillPack):
                     },
                 )
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
+                return
+            if should_wait_for_dialogue_owner(persona, target_p):
+                log_social_dialogue(
+                    persona,
+                    "arrival",
+                    "conversation_lock_wait",
+                    target_name=target_p.name,
+                    payload={
+                        "reason": "waiting_for_initiator_generation",
+                        "dialogue_id": getattr(persona.scratch, "social_dialogue_id", None),
+                    },
+                )
+                persona.scratch.survival_applied = False
                 return
 
         if target and target.strip() in personas:
@@ -966,18 +1097,7 @@ class ChatSkillPack(BaseSkillPack):
                 print(f"Warning: Gossip extraction failed: {ge}")
 
             # Update relationship graph for both parties
-            persona.a_mem.update_relationship(
-                target_p.name,
-                relation_type="friend" if persona.a_mem.get_relationship(target_p.name) is None else None,
-                    trust_delta=0.02,
-                recent_event=convo_summary
-            )
-            target_p.a_mem.update_relationship(
-                persona.name,
-                relation_type="friend" if target_p.a_mem.get_relationship(persona.name) is None else None,
-                    trust_delta=0.02,
-                recent_event=convo_summary
-            )
+            apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
             log_social_dialogue(
                 persona,
                 "settlement",

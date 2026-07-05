@@ -22,6 +22,7 @@ if "numpy" not in sys.modules:
 sys.modules.setdefault("openai", SimpleNamespace(api_key=None, api_base=None))
 
 import persona.cognitive_modules.plan as plan_module
+import persona.persona as persona_module
 from persona.memory_structures.scratch import Scratch
 
 
@@ -76,6 +77,39 @@ class ChatStateProgressionTests(unittest.TestCase):
                 ("Maria Lopez", "having a conversation with Klaus Mueller"),
             ],
         )
+
+    def test_physiological_crisis_wraps_active_chat_before_replanning(self):
+        remembered = []
+        logged = []
+        scratch = SimpleNamespace(
+            chatting_with="Maria Lopez",
+            curr_time=datetime.datetime(2026, 7, 4, 12, 0, 0),
+            satiety=22.0,
+            stamina=55.0,
+            health=90.0,
+            act_description="having a conversation with Maria Lopez",
+            chatting_end_time=datetime.datetime(2026, 7, 4, 12, 10, 0),
+            act_duration=10,
+            planned_path=[(1, 1)],
+            act_path_set=True,
+            last_action_desc=None,
+            remember_pending_interrupt=lambda reason, source="system", payload=None: remembered.append(
+                {"reason": reason, "source": source, "payload": payload or {}}
+            ),
+        )
+        persona = SimpleNamespace(name="Klaus Mueller", scratch=scratch)
+
+        with patch.object(persona_module, "log_social_dialogue", side_effect=lambda *args, **kwargs: logged.append((args, kwargs))):
+            wrapped = persona_module._request_chat_wrap_for_physiological_crisis(persona)
+
+        self.assertTrue(wrapped)
+        self.assertEqual(scratch.chatting_end_time, scratch.curr_time)
+        self.assertEqual(scratch.act_duration, 0)
+        self.assertEqual(scratch.planned_path, [])
+        self.assertFalse(scratch.act_path_set)
+        self.assertIn("Wrapping up due to physiological need", scratch.last_action_desc)
+        self.assertEqual(remembered[0]["reason"], "physiological_crisis_after_chat_wrap")
+        self.assertEqual(logged[0][0][2], "dialogue_wrap_requested")
 
 
 if __name__ == "__main__":
