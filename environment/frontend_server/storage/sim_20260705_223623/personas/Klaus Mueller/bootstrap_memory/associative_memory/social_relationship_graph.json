@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.6600000000000001,
+      "recent_events": [
+        "conversing about a weekend plan to visit an orchard and make apple pies",
+        "conversing about a morning discussion about their morning routines, a physics assignment, and a sociology paper",
+        "conversing about friends discussing their plans to go apple picking and sharing experiences from their studies",
+        "conversing about students discussing their academic challenges and the social implications of data on racial disparities in housing",
+        "conversing about two friends planning to try a new coffee flavor and betting on whose taste buds are more accurate"
+      ]
+    }
+  }
+}

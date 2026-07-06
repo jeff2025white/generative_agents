@@ -1,0 +1,86 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        63,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a quick nap in the dorm room @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.04000000000006,
+      "stamina": 89.81000000000101,
+      "health": 100.0,
+      "mood": 87.69999999999968,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:29:10"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        49,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u60c5\u4eba\u8282\u6d3e\u5bf9\uff1f\u542c\u8d77\u6765\u633a\u6709\u610f\u601d\u7684\uff0c\u53ef\u60dc\u6211\u4e0b\u4e2a\u6708\u53ef\u80fd\u4e0d\u5728\u9547\u4e0a\uff0c\u5f97\u5148\u770b\u770b\u65e5\u7a0b\u3002",
+      "satiety": 65.9200000000003,
+      "stamina": 93.72000000000105,
+      "health": 100.0,
+      "mood": 70.80000000000004,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-06 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations and checking inventory for Valentine's Day party",
+          "created": "2026-07-06 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a quick nap in the dorm room",
+          "created": "2026-07-06 08:29:10"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        49,
+        31
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u561e\uff0c\u90a3\u660e\u5929\u89c1\u5566\uff0c\u6211\u7b49\u4f60\u6765\u5c1d\u5c1d\u6211\u7279\u8c03\u7684\u7231\u5fc3\u62ff\u94c1\uff5e",
+      "satiety": 65.9200000000003,
+      "stamina": 86.92000000000115,
+      "health": 100.0,
+      "mood": 70.15999999999995,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:29:10"
+  }
+}

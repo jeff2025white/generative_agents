@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        66,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recharge stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.95999999999972,
+      "stamina": 99.470000000001,
+      "health": 100.0,
+      "mood": 79.79999999999961,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        55,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "searching for snacks in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.6800000000003,
+      "stamina": 89.51000000000107,
+      "health": 100.0,
+      "mood": 68.83999999999992,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        46,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.6800000000003,
+      "stamina": 82.71000000000117,
+      "health": 100.0,
+      "mood": 59.84000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:29:40"
+  }
+}

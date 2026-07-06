@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        18
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.20000000000002,
+      "stamina": 99.33000000000006,
+      "health": 100.0,
+      "mood": 49.60000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:00:50"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        121,
+        51
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.20000000000002,
+      "stamina": 99.33000000000006,
+      "health": 100.0,
+      "mood": 49.60000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:00:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        130,
+        50
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.20000000000002,
+      "stamina": 99.33000000000006,
+      "health": 100.0,
+      "mood": 49.60000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-06 08:00:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:01:30"
+  }
+}

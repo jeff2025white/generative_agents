@@ -1,0 +1,66 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        58,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.04000000000015,
+      "stamina": 93.94000000000058,
+      "health": 100.0,
+      "mood": 46.520000000000074,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        66,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.04000000000015,
+      "stamina": 93.94000000000058,
+      "health": 100.0,
+      "mood": 46.520000000000074,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "setting up decorations and checking inventory for Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.04000000000015,
+      "stamina": 94.12000000000056,
+      "health": 100.0,
+      "mood": 64.52000000000004,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations and checking inventory for Valentine's Day party",
+          "created": "2026-07-06 08:14:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:14:20"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.5800000000000001,
+      "recent_events": [
+        "conversing about neighbors enjoying an early morning encounter in the park and sharing apples",
+        "conversing about two friends enjoying a leisurely morning picking apples together",
+        "conversing about planning to go to the library and discussing a community survey for a paper",
+        "conversing about two friends enjoying fresh apples and discussing their morning plans"
+      ]
+    }
+  }
+}

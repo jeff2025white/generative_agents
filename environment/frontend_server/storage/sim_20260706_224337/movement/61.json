@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        91,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.040000000000106,
+      "stamina": 95.69000000000041,
+      "health": 100.0,
+      "mood": 47.52000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.040000000000106,
+      "stamina": 95.69000000000041,
+      "health": 100.0,
+      "mood": 47.52000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        83,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.040000000000106,
+      "stamina": 95.69000000000041,
+      "health": 100.0,
+      "mood": 47.52000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:10:10"
+  }
+}

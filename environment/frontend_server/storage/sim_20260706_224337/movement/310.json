@@ -1,0 +1,123 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        26
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "freshening up at the bathroom sink @ the Ville:Isabella Rodriguez's apartment:bathroom:bathroom sink",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 88.24000000000025,
+      "stamina": 89.76000000000096,
+      "health": 100.0,
+      "mood": 76.49999999999852,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        108,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "continuing writing research paper on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u91cf\u5b50\u529b\u5b66\u786e\u5b9e\u633a\u6298\u78e8\u4eba\u7684\uff0c\u6211\u5ba4\u53cb\u4e0a\u6b21\u590d\u4e60\u5230\u534a\u591c\u624d\u5543\u4e0b\u6765\u3002\u8bba\u6587\u561b\uff0c\u8fd8\u5728\u6536\u96c6\u6570\u636e\u9636\u6bb5\uff0c\u6162\u6162\u6765\u5427\u3002",
+      "satiety": 91.1999999999993,
+      "stamina": 97.65000000000022,
+      "health": 100.0,
+      "mood": 81.43999999999835,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sleeping in bed to recharge stamina",
+          "created": "2026-07-06 08:51:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting in bed to regain stamina",
+          "created": "2026-07-06 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is sleeping in bed to regain stamina",
+          "created": "2026-07-06 08:50:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        123,
+        55
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "streaming a gaming session on Twitch @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u8fd8\u884c\u5427\uff0c\u5c31\u662f\u91cf\u5b50\u529b\u5b66\u90a3\u5757\u6709\u70b9\u7ed5\uff0c\u80cc\u516c\u5f0f\u80cc\u5f97\u5934\u5927\u3002\u4f60\u8bba\u6587\u5199\u5f97\u600e\u4e48\u6837\u4e86\uff1f",
+      "satiety": 99.44000000000001,
+      "stamina": 99.89,
+      "health": 100.0,
+      "mood": 99.85999999999993,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is streaming a gaming session on Twitch",
+          "created": "2026-07-06 08:51:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sleeping in bed to regain stamina",
+          "created": "2026-07-06 08:51:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez rested at bed and recovered stamina.",
+          "created": "2026-07-06 08:50:20",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sleeping in bed to recharge stamina",
+          "created": "2026-07-06 08:43:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting in bed to regain stamina",
+          "created": "2026-07-06 08:16:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:51:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:51:40"
+  }
+}

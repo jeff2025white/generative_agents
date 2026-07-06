@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.6000000000000001,
+      "recent_events": [
+        "conversing about Isabella and Klaus discussing their recent apple picking and preparing for a party that evening.",
+        "conversing about preparing for a Valentine's Day party and seeking help with hanging heart-shaped paper cutouts",
+        "conversing about Isabella and Klaus discussing the preparation of an apple pie for a party",
+        "conversing about preparing for a party and hanging heart-shaped paper cutouts",
+        "conversing about friends discussing the preparation of an apple pie"
+      ]
+    }
+  }
+}

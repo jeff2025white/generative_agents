@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about two friends discussing their morning routine and plans to go to the library",
+        "conversing about Maria and Klaus discussing their recent apple picking and enjoying a pleasant conversation at Hobbs' cafe",
+        "conversing about Maria and Klaus are discussing the freshness of Klaus' recently eaten apple and sharing it with Maria"
+      ]
+    }
+  }
+}

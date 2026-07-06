@@ -1,0 +1,14 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.5800000000000001,
+      "recent_events": [
+        "conversing about two friends discussing the freshness of apples picked from a park and their plans to enjoy them at the library",
+        "conversing about a plan to buy apples from Hobbs Cafe the next morning",
+        "conversing about two friends discussing their sleep and planning a trip to an orchard for Klaus's research",
+        "conversing about a morning chat about a recent apple picking experience and a plan to share the apples while walking to the library"
+      ]
+    }
+  }
+}

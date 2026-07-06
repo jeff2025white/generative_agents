@@ -1,0 +1,82 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        114,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recharge stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.03999999999942,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 78.83999999999912,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        43,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to recover stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.24000000000004,
+      "stamina": 82.44000000000129,
+      "health": 100.0,
+      "mood": 76.35999999999983,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sleeping in bed to recharge stamina",
+          "created": "2026-07-06 08:37:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the bed to recover stamina",
+          "created": "2026-07-06 08:35:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        103,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "searching for snacks in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 61.84000000000039,
+      "stamina": 86.1500000000014,
+      "health": 100.0,
+      "mood": 66.91999999999962,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:37:40"
+  }
+}

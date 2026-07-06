@@ -1,0 +1,160 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        50,
+        36
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "eating an apple to satisfy hunger @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u65e9\u554a\u514b\u52b3\u65af\uff0c\u4f60\u4eca\u5929\u4e5f\u662f\u6765\u8865\u4f5c\u4e1a\u7684\u5417\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u65e9\u554a\u739b\u4e3d\u4e9a\uff0c\u4e0d\u662f\u8865\u4f5c\u4e1a\uff0c\u662f\u8fc7\u6765\u5543\u4e2a\u82f9\u679c\u987a\u4fbf\u7ffb\u7ffb\u8d44\u6599\u3002\u4f60\u6700\u8fd1\u7269\u7406\u4f5c\u4e1a\u5806\u5f97\u633a\u591a\u5427\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54ce\uff0c\u522b\u63d0\u4e86\uff0c\u91cf\u5b50\u529b\u5b66\u90a3\u7ae0\u770b\u5f97\u6211\u5934\u5927\uff0c\u4f60\u662f\u6765\u5543\u82f9\u679c\u6362\u6362\u8111\u5b50\u7684\u554a\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u5bf9\u554a\uff0c\u82f9\u679c\u6362\u6362\u8111\u5b50\u633a\u597d\u4f7f\uff0c\u6bd4\u5496\u5561\u7ba1\u7528\u3002\u91cf\u5b50\u529b\u5b66\u90a3\u7ae0\u6211\u542c\u7740\u5c31\u5934\u5927\uff0c\u4f60\u6491\u5f97\u4f4f\u4e0d\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u6491\u662f\u6491\u5f97\u4f4f\uff0c\u5c31\u662f\u505a\u9898\u7684\u65f6\u5019\u8001\u60f3\u5543\u82f9\u679c\u8f6c\u79fb\u6ce8\u610f\u529b\uff0c\u54c8\u54c8\u3002\u4f60\u90a3\u8fb9\u8d44\u6599\u7ffb\u5f97\u548b\u6837\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd8\u884c\uff0c\u5543\u7740\u82f9\u679c\u7ffb\uff0c\u6548\u7387\u5012\u633a\u9ad8\u3002\u4f60\u4e00\u4f1a\u513f\u505a\u9898\u8981\u4e0d\u8981\u6211\u4e5f\u7ed9\u4f60\u634e\u4e2a\u82f9\u679c\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u6562\u60c5\u597d\u554a\uff0c\u6b63\u597d\u6211\u5543\u7740\u4e66\u4e5f\u998b\u4e86\uff0c\u4f60\u634e\u4e00\u4e2a\u8fc7\u6765\u5457\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u597d\u561e\uff0c\u7b49\u6211\u628a\u8fd9\u53e3\u5543\u5b8c\u5c31\u7ed9\u4f60\u62ff\u8fc7\u53bb\uff0c\u987a\u4fbf\u770b\u770b\u4f60\u90a3\u91cf\u5b50\u529b\u5b66\u9898\u957f\u5565\u6837\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u597d\u561e\uff0c\u7b49\u6211\u628a\u8fd9\u53e3\u5543\u5b8c\u5c31\u7ed9\u4f60\u62ff\u8fc7\u53bb\uff0c\u987a\u4fbf\u770b\u770b\u4f60\u90a3\u91cf\u5b50\u529b\u5b66\u9898\u957f\u5565\u6837\u3002",
+      "satiety": 63.92000000000034,
+      "stamina": 99.33000000000006,
+      "health": 100.0,
+      "mood": 99.63999999999976,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Klaus Mueller",
+          "created": "2026-07-05 08:31:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        57,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.64000000000007,
+      "stamina": 86.2300000000013,
+      "health": 100.0,
+      "mood": 70.79999999999959,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        48,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u6562\u60c5\u597d\u554a\uff0c\u6b63\u597d\u6211\u5543\u7740\u4e66\u4e5f\u998b\u4e86\uff0c\u4f60\u634e\u4e00\u4e2a\u8fc7\u6765\u5457\u3002",
+      "satiety": 95.6000000000001,
+      "stamina": 99.40000000000005,
+      "health": 100.0,
+      "mood": 99.81999999999991,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-05 08:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2026-07-05 08:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-05 08:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is studying for my physics class",
+          "created": "2026-07-05 08:33:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-05 08:24:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-05 08:24:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-05 08:19:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-05 08:23:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-05 08:24:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-05 08:18:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 05, 2026, 08:33:20"
+  }
+}

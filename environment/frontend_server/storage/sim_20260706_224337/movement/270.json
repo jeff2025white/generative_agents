@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        48
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recharge stamina @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u91cf\u5b50\u529b\u5b66\u786e\u5b9e\u633a\u6298\u78e8\u4eba\u7684\uff0c\u6211\u5ba4\u53cb\u4e0a\u6b21\u590d\u4e60\u5230\u534a\u591c\u624d\u5543\u4e0b\u6765\u3002\u8bba\u6587\u561b\uff0c\u8fd8\u5728\u6536\u96c6\u6570\u636e\u9636\u6bb5\uff0c\u6162\u6162\u6765\u5427\u3002",
+      "satiety": 94.15999999999929,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 82.23999999999876,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        113,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to regain stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u8fd8\u884c\u5427\uff0c\u5c31\u662f\u91cf\u5b50\u529b\u5b66\u90a3\u5757\u6709\u70b9\u7ed5\uff0c\u80cc\u516c\u5f0f\u80cc\u5f97\u5934\u5927\u3002\u4f60\u8bba\u6587\u5199\u5f97\u600e\u4e48\u6837\u4e86\uff1f",
+      "satiety": 89.72000000000006,
+      "stamina": 88.22000000000163,
+      "health": 100.0,
+      "mood": 99.51999999999975,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "freshening up at the bathroom sink @ the Ville:Isabella Rodriguez's apartment:bathroom:bathroom sink",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 91.44000000000018,
+      "stamina": 92.56000000000068,
+      "health": 100.0,
+      "mood": 77.29999999999893,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:45:00"
+  }
+}

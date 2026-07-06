@@ -1,0 +1,124 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u65e9\u554a\uff0cIsabella\uff0c\u53c8\u5728\u5fd9\u7740\u51c6\u5907\u6d3e\u5bf9\u7684\u4e8b\u5462\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u65e9\u554aKlaus\uff01\u53ef\u4e0d\u662f\u561b\uff0c\u660e\u5929\u5c31\u662f\u60c5\u4eba\u8282\u6d3e\u5bf9\u4e86\uff0c\u6211\u5f97\u786e\u4fdd\u4e00\u5207\u90fd\u51c6\u5907\u59a5\u5f53\u3002\u4f60\u8bba\u6587\u5199\u5f97\u600e\u4e48\u6837\u4e86\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8bba\u6587\u8fdb\u5ea6\u8fd8\u884c\uff0c\u6b63\u5728\u6574\u7406\u8bbf\u8c08\u8d44\u6599\u5462\u3002\u4f60\u8fd9\u8fb9\u9700\u8981\u5e2e\u5fd9\u642c\u4e1c\u897f\u4e0d\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u771f\u8d34\u5fc3\uff01\u6b63\u597d\u6211\u8fd9\u513f\u82f9\u679c\u6361\u5f97\u5dee\u4e0d\u591a\u4e86\uff0c\u4f60\u5e2e\u6211\u642c\u51e0\u7bb1\u5230\u5e97\u91cc\u5427\uff0c\u987a\u4fbf\u7ed9\u4f60\u770b\u770b\u6211\u6628\u5929\u526a\u7684\u5fc3\u5f62\u7eb8\u7247\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u597d\u561e\uff0c\u642c\u7bb1\u5b50\u6ca1\u95ee\u9898\uff0c\u6b63\u597d\u8fd8\u60f3\u770b\u770b\u4f60\u526a\u7684\u90a3\u4e9b\u5fc3\u5f62\u7eb8\u7247\u5462\uff0c\u80af\u5b9a\u5f88\u6f02\u4eae\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u4f60\u53ef\u6709\u773c\u798f\u4e86\uff0c\u6211\u526a\u7684\u65f6\u5019\u624b\u90fd\u9178\u4e86\uff0c\u4e0d\u8fc7\u6548\u679c\u7279\u597d\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54c8\u54c8\uff0c\u624b\u9178\u4e5f\u503c\u4e86\uff0c\u5f85\u4f1a\u6211\u5f97\u597d\u597d\u6b23\u8d4f\u6b23\u8d4f\u4f60\u7684\u624b\u827a\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u4f60\u53ef\u522b\u5149\u987e\u7740\u770b\u5fd8\u4e86\u642c\u82f9\u679c\u54e6\uff0c\u8d70\uff0c\u6211\u5e26\u4f60\u5230\u5e97\u91cc\u77a7\u77a7\uff01"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u90a3\u4f60\u53ef\u522b\u5149\u987e\u7740\u770b\u5fd8\u4e86\u642c\u82f9\u679c\u54e6\uff0c\u8d70\uff0c\u6211\u5e26\u4f60\u5230\u5e97\u91cc\u77a7\u77a7\uff01",
+      "satiety": 99.28000000000002,
+      "stamina": 90.31000000000118,
+      "health": 100.0,
+      "mood": 84.37999999999985,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-06 08:30:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a quick nap in the dorm room",
+          "created": "2026-07-06 08:30:10"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        73,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a quick nap in the dorm room @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.24000000000008,
+      "stamina": 89.11000000000108,
+      "health": 100.0,
+      "mood": 87.49999999999957,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        43,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u90a3\u6211\u53ef\u5f97\u7559\u70b9\u809a\u5b50\uff0c\u4e0d\u7136\u5230\u65f6\u5019\u5403\u4e0d\u4e0b\u4f60\u7684\u597d\u624b\u827a\u4e86\u3002",
+      "satiety": 65.12000000000032,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 78.55999999999997,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-06 08:30:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2026-07-06 08:30:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations and checking inventory for Valentine's Day party",
+          "created": "2026-07-06 08:30:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:30:50"
+  }
+}

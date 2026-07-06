@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.6200000000000001,
+      "recent_events": [
+        "conversing about preparing for a Valentine's Day party and assisting each other with tasks",
+        "conversing about a friendly exchange between Klaus and Isabella about preparing for a party and sharing freshly picked apples",
+        "conversing about preparing for a Valentine's Day party and sharing plans for baking apple pie",
+        "conversing about preparing for a Valentine's Day party and ensuring there are enough cookies",
+        "conversing about two friends discussing making and sharing an apple pie"
+      ]
+    }
+  }
+}

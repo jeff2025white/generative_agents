@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about Maria Lopez and Klaus Mueller discussing their encounter and hobbies, specifically apple picking and other food-related activities.",
+        "conversing about planning a trip to the bookstore and discussing a physics experiment"
+      ]
+    }
+  }
+}

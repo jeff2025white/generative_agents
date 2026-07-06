@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about appreciating the freshness of morning-picked apples in the park",
+        "conversing about conversing about picking and eating fresh apples",
+        "conversing about conversing about making apple jam together"
+      ]
+    }
+  }
+}

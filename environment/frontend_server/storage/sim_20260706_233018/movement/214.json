@@ -1,0 +1,105 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        91,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "searching for snacks in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 62.80000000000037,
+      "stamina": 86.99000000000132,
+      "health": 100.0,
+      "mood": 67.3999999999997,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        102,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recharge stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.5199999999995,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 79.07999999999925,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        38,
+        39
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to recover stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.20000000000002,
+      "stamina": 81.48000000000131,
+      "health": 100.0,
+      "mood": 76.59999999999995,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the bed to recover stamina",
+          "created": "2026-07-06 08:35:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:35:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2026-07-06 08:13:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is sleeping in bed to recharge stamina",
+          "created": "2026-07-06 08:27:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:32:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:33:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:35:40"
+  }
+}

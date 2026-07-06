@@ -1,0 +1,391 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 06, 2026, 08:43:10",
+  "curr_tile": [
+    73,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 95.6000000000001,
+  "stamina": 85.08000000000123,
+  "health": 100.0,
+  "mood": 75.69999999999949,
+  "last_social_time": null,
+  "last_action_switch_time": "July 06, 2026, 08:34:20",
+  "decision_commit_until_step": 208,
+  "last_decision_signature": {
+    "skill_id": "rest",
+    "target": "bed",
+    "intent_family": "restore_stamina"
+  },
+  "last_decision_reason": "resting on the bed to recover stamina",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 204,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": null,
+    "target_address": null,
+    "skill_id": null,
+    "action_description": null,
+    "reason": "empty_plan_idle_fallback",
+    "payload": {},
+    "curr_step": 205
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-206-rest-bed",
+    "phase": "pathing",
+    "address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the bed to recover stamina"
+    },
+    "description": "resting on the bed to recover stamina",
+    "event": [
+      "Isabella Rodriguez",
+      "resting",
+      "bed"
+    ],
+    "path": [
+      [
+        75,
+        30
+      ],
+      [
+        76,
+        30
+      ],
+      [
+        76,
+        29
+      ],
+      [
+        76,
+        28
+      ],
+      [
+        76,
+        27
+      ],
+      [
+        76,
+        26
+      ],
+      [
+        75,
+        26
+      ],
+      [
+        75,
+        25
+      ],
+      [
+        75,
+        24
+      ],
+      [
+        75,
+        23
+      ],
+      [
+        75,
+        22
+      ],
+      [
+        75,
+        21
+      ],
+      [
+        75,
+        20
+      ],
+      [
+        75,
+        19
+      ],
+      [
+        76,
+        19
+      ],
+      [
+        77,
+        19
+      ],
+      [
+        78,
+        19
+      ],
+      [
+        78,
+        18
+      ],
+      [
+        78,
+        17
+      ],
+      [
+        78,
+        16
+      ],
+      [
+        77,
+        16
+      ],
+      [
+        76,
+        16
+      ],
+      [
+        75,
+        16
+      ],
+      [
+        74,
+        16
+      ],
+      [
+        73,
+        16
+      ],
+      [
+        73,
+        15
+      ],
+      [
+        73,
+        14
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "rest",
+      "target": "bed",
+      "intent_family": "restore_stamina"
+    },
+    "started_step": 206,
+    "updated_step": 259,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "rest",
+    "intent_family": "restore_stamina",
+    "target": "bed",
+    "target_type": "object",
+    "resolved_target": "bed",
+    "resolved_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+    "description": "resting on the bed to recover stamina",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the bed to recover stamina"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "resting",
+      "bed"
+    ],
+    "duration": 30,
+    "created_step": 206,
+    "updated_step": 259,
+    "failure": null
+  },
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": -44,
+  "importance_ele_n": 68,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+  "act_start_time": "July 06, 2026, 08:34:20",
+  "act_duration": 30,
+  "act_description": "resting on the bed to recover stamina",
+  "act_pronunciatio": "\ud83d\udecc",
+  "act_event": [
+    "Isabella Rodriguez",
+    "resting",
+    "bed"
+  ],
+  "act_command": {
+    "skill_id": "rest",
+    "target": "bed",
+    "source": "decision_translation",
+    "raw_action": "Rest",
+    "detail": "resting on the bed to recover stamina"
+  },
+  "act_obj_description": "bed is being used for recovery",
+  "act_obj_pronunciatio": "\ud83d\udecc",
+  "act_obj_event": [
+    "bed",
+    "is",
+    "being used for recovery"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      75,
+      30
+    ],
+    [
+      76,
+      30
+    ],
+    [
+      76,
+      29
+    ],
+    [
+      76,
+      28
+    ],
+    [
+      76,
+      27
+    ],
+    [
+      76,
+      26
+    ],
+    [
+      75,
+      26
+    ],
+    [
+      75,
+      25
+    ],
+    [
+      75,
+      24
+    ],
+    [
+      75,
+      23
+    ],
+    [
+      75,
+      22
+    ],
+    [
+      75,
+      21
+    ],
+    [
+      75,
+      20
+    ],
+    [
+      75,
+      19
+    ],
+    [
+      76,
+      19
+    ],
+    [
+      77,
+      19
+    ],
+    [
+      78,
+      19
+    ],
+    [
+      78,
+      18
+    ],
+    [
+      78,
+      17
+    ],
+    [
+      78,
+      16
+    ],
+    [
+      77,
+      16
+    ],
+    [
+      76,
+      16
+    ],
+    [
+      75,
+      16
+    ],
+    [
+      74,
+      16
+    ],
+    [
+      73,
+      16
+    ],
+    [
+      73,
+      15
+    ],
+    [
+      73,
+      14
+    ]
+  ]
+}

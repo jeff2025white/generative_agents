@@ -1,0 +1,480 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 06, 2026, 08:27:50",
+  "curr_tile": [
+    76,
+    21
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 66.56000000000029,
+  "stamina": 88.51000000000109,
+  "health": 100.0,
+  "mood": 61.28000000000002,
+  "last_social_time": null,
+  "last_action_switch_time": "July 06, 2026, 08:27:00",
+  "decision_commit_until_step": 164,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "supply store counter",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "searching the supply store counter for food items",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 81,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "refrigerator",
+    "target_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+    "skill_id": "gather",
+    "action_description": "opening the refrigerator to gather food items",
+    "reason": "resource_empty",
+    "payload": {
+      "target": "refrigerator",
+      "clean_target": "refrigerator",
+      "nearest_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+      "action": "gather",
+      "curr_tile": [
+        74,
+        19
+      ]
+    },
+    "curr_step": 161
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-162-gather-supply store counter",
+    "phase": "pathing",
+    "address": "the Ville:Harvey Oak Supply Store:supply store:supply store counter",
+    "command": {
+      "skill_id": "gather",
+      "target": "supply store counter",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "searching the supply store counter for food items"
+    },
+    "description": "searching the supply store counter for food items",
+    "event": [
+      "Isabella Rodriguez",
+      "searching",
+      "food items"
+    ],
+    "path": [
+      [
+        76,
+        23
+      ],
+      [
+        76,
+        24
+      ],
+      [
+        76,
+        25
+      ],
+      [
+        76,
+        26
+      ],
+      [
+        76,
+        27
+      ],
+      [
+        76,
+        28
+      ],
+      [
+        76,
+        29
+      ],
+      [
+        76,
+        30
+      ],
+      [
+        75,
+        30
+      ],
+      [
+        74,
+        30
+      ],
+      [
+        73,
+        30
+      ],
+      [
+        72,
+        30
+      ],
+      [
+        71,
+        30
+      ],
+      [
+        70,
+        30
+      ],
+      [
+        69,
+        30
+      ],
+      [
+        68,
+        30
+      ],
+      [
+        67,
+        30
+      ],
+      [
+        66,
+        30
+      ],
+      [
+        65,
+        30
+      ],
+      [
+        65,
+        31
+      ],
+      [
+        65,
+        32
+      ],
+      [
+        65,
+        33
+      ],
+      [
+        65,
+        34
+      ],
+      [
+        65,
+        35
+      ],
+      [
+        65,
+        36
+      ],
+      [
+        65,
+        37
+      ],
+      [
+        65,
+        38
+      ],
+      [
+        65,
+        39
+      ],
+      [
+        65,
+        40
+      ],
+      [
+        65,
+        41
+      ],
+      [
+        65,
+        42
+      ],
+      [
+        65,
+        43
+      ],
+      [
+        65,
+        44
+      ],
+      [
+        65,
+        45
+      ],
+      [
+        65,
+        46
+      ],
+      [
+        66,
+        46
+      ],
+      [
+        67,
+        46
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "supply store counter",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 162,
+    "updated_step": 167,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "supply store counter",
+    "target_type": "object",
+    "resolved_target": "supply store counter",
+    "resolved_address": "the Ville:Harvey Oak Supply Store:supply store:supply store counter",
+    "description": "searching the supply store counter for food items",
+    "command": {
+      "skill_id": "gather",
+      "target": "supply store counter",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "searching the supply store counter for food items"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "searching",
+      "food items"
+    ],
+    "duration": 20,
+    "created_step": 162,
+    "updated_step": 167,
+    "failure": null
+  },
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 51,
+  "importance_ele_n": 51,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Harvey Oak Supply Store:supply store:supply store counter",
+  "act_start_time": "July 06, 2026, 08:27:00",
+  "act_duration": 20,
+  "act_description": "searching the supply store counter for food items",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Isabella Rodriguez",
+    "searching",
+    "food items"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "supply store counter",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "searching the supply store counter for food items"
+  },
+  "act_obj_description": "supply store counter is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "supply store counter",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      76,
+      23
+    ],
+    [
+      76,
+      24
+    ],
+    [
+      76,
+      25
+    ],
+    [
+      76,
+      26
+    ],
+    [
+      76,
+      27
+    ],
+    [
+      76,
+      28
+    ],
+    [
+      76,
+      29
+    ],
+    [
+      76,
+      30
+    ],
+    [
+      75,
+      30
+    ],
+    [
+      74,
+      30
+    ],
+    [
+      73,
+      30
+    ],
+    [
+      72,
+      30
+    ],
+    [
+      71,
+      30
+    ],
+    [
+      70,
+      30
+    ],
+    [
+      69,
+      30
+    ],
+    [
+      68,
+      30
+    ],
+    [
+      67,
+      30
+    ],
+    [
+      66,
+      30
+    ],
+    [
+      65,
+      30
+    ],
+    [
+      65,
+      31
+    ],
+    [
+      65,
+      32
+    ],
+    [
+      65,
+      33
+    ],
+    [
+      65,
+      34
+    ],
+    [
+      65,
+      35
+    ],
+    [
+      65,
+      36
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      65,
+      38
+    ],
+    [
+      65,
+      39
+    ],
+    [
+      65,
+      40
+    ],
+    [
+      65,
+      41
+    ],
+    [
+      65,
+      42
+    ],
+    [
+      65,
+      43
+    ],
+    [
+      65,
+      44
+    ],
+    [
+      65,
+      45
+    ],
+    [
+      65,
+      46
+    ],
+    [
+      66,
+      46
+    ],
+    [
+      67,
+      46
+    ]
+  ]
+}

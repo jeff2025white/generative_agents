@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about Maria Lopez and Klaus Mueller discussing their routine of picking apples at an orchard in the morning",
+        "conversing about two friends enjoying freshly picked apples and discussing their benefits",
+        "conversing about two friends planning to go to a park to pick apples and enjoy tea together"
+      ]
+    }
+  }
+}

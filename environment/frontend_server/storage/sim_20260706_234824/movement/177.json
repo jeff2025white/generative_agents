@@ -1,0 +1,115 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        65,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a quick nap in the dorm room @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.88000000000007,
+      "stamina": 89.67000000000102,
+      "health": 100.0,
+      "mood": 87.65999999999966,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:29:10"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        47,
+        31
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u65e9\u4e0a\u597d\u5440\uff0c\u4f60\u4e5f\u5728\u6458\u82f9\u679c\u5417\uff1f\u6211\u521a\u6458\u4e86\u4e00\u4e9b\uff0c\u633a\u65b0\u9c9c\u7684\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u65e9\u554a\uff0c\u6211\u521a\u6458\u4e86\u51e0\u4e2a\uff0c\u786e\u5b9e\u633a\u65b0\u9c9c\u7684\u3002\u4f60\u6628\u5929\u90a3\u573a\u6d3e\u5bf9\u51c6\u5907\u5f97\u600e\u4e48\u6837\u4e86\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6d3e\u5bf9\u554a\uff0c\u51c6\u5907\u5f97\u5dee\u4e0d\u591a\u5566\uff0c\u5c31\u7b49\u660e\u5929\u4e0b\u5348\u4e94\u70b9\u949f\u5927\u5bb6\u6765\u4e86\uff01\u4f60\u5230\u65f6\u5019\u6709\u7a7a\u6765\u5750\u5750\u5417\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u660e\u5929\u4e0b\u5348\u4e94\u70b9\u554a\uff0c\u90a3\u6211\u5e94\u8be5\u80fd\u8d76\u8fc7\u53bb\uff0c\u6b63\u597d\u60f3\u770b\u770b\u4f60\u5e03\u7f6e\u7684\u88c5\u9970\u5462\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u592a\u597d\u4e86\uff0c\u90a3\u660e\u5929\u89c1\u5566\uff01\u6211\u51c6\u5907\u4e86\u597d\u591a\u5fc3\u5f62\u88c5\u9970\uff0c\u4f60\u80af\u5b9a\u4f1a\u559c\u6b22\u7684\uff5e"
+        ],
+        [
+          "Klaus Mueller",
+          "\u5fc3\u5f62\u88c5\u9970\u554a\uff0c\u542c\u8d77\u6765\u633a\u6d6a\u6f2b\u7684\uff0c\u660e\u5929\u4e00\u5b9a\u51c6\u65f6\u5230\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u597d\u561e\uff0c\u90a3\u660e\u5929\u89c1\u5566\uff0c\u6211\u7b49\u4f60\u6765\u5c1d\u5c1d\u6211\u7279\u8c03\u7684\u7231\u5fc3\u62ff\u94c1\uff5e"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u5fc3\u5f62\u88c5\u9970\u554a\uff0c\u542c\u8d77\u6765\u633a\u6d6a\u6f2b\u7684\uff0c\u660e\u5929\u4e00\u5b9a\u51c6\u65f6\u5230\u3002",
+      "satiety": 65.7600000000003,
+      "stamina": 93.58000000000106,
+      "health": 100.0,
+      "mood": 71.44000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-06 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations and checking inventory for Valentine's Day party",
+          "created": "2026-07-06 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a quick nap in the dorm room",
+          "created": "2026-07-06 08:29:10"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        48,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u561e\uff0c\u90a3\u660e\u5929\u89c1\u5566\uff0c\u6211\u7b49\u4f60\u6765\u5c1d\u5c1d\u6211\u7279\u8c03\u7684\u7231\u5fc3\u62ff\u94c1\uff5e",
+      "satiety": 99.92,
+      "stamina": 86.84000000000114,
+      "health": 100.0,
+      "mood": 80.09999999999994,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:29:30"
+  }
+}

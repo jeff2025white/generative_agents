@@ -1,0 +1,356 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        32,
+        49
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u65e9\u554a\uff0cMaria\uff01\u521a\u6458\u7684\u82f9\u679c\uff0c\u6765\u4e00\u4e2a\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54c7\uff0c\u65e9\u4e0a\u521a\u6458\u7684\uff1f\u770b\u7740\u597d\u65b0\u9c9c\u554a\uff0c\u8c22\u8c22\uff01"
+        ],
+        [
+          "Klaus Mueller",
+          "\u4e0d\u5ba2\u6c14\u54c8\uff0c\u65e9\u4e0a\u7684\u82f9\u679c\u786e\u5b9e\u6700\u8106\uff0c\u4f60\u5c1d\u5c1d\u770b\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u5580\u5693\u2014\u2014\u55ef\uff0c\u771f\u8106\uff01\u81ea\u5df1\u6458\u7684\u5c31\u662f\u4e0d\u4e00\u6837\u554a\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u662f\u5427\uff0c\u65e9\u4e0a\u521a\u6458\u7684\u786e\u5b9e\u8106\uff0c\u6bd4\u8d85\u5e02\u4e70\u7684\u6709\u5473\u9053\u591a\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u5bf9\u554a\uff0c\u800c\u4e14\u8fb9\u6458\u8fb9\u5403\u7684\u611f\u89c9\u7279\u522b\u68d2\uff0c\u8d85\u5e02\u54ea\u80fd\u8fd9\u6837\u5440\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u5bf9\u5bf9\uff0c\u81ea\u5df1\u6458\u7684\u65f6\u5019\u8fd8\u7279\u6709\u6210\u5c31\u611f\uff0c\u4f60\u591a\u6458\u70b9\u5e26\u56de\u53bb\u5457\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u561e\uff0c\u90a3\u6211\u518d\u591a\u6458\u70b9\u513f\uff0c\u56de\u5934\u54b1\u4fe9\u8fd8\u80fd\u716e\u82f9\u679c\u8336\u559d\u5462\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u597d\u561e\uff0c\u90a3\u6211\u518d\u591a\u6458\u70b9\u513f\uff0c\u56de\u5934\u54b1\u4fe9\u8fd8\u80fd\u716e\u82f9\u679c\u8336\u559d\u5462\u3002",
+      "satiety": 66.72000000000028,
+      "stamina": 99.47000000000004,
+      "health": 100.0,
+      "mood": 83.03999999999998,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Maria Lopez",
+          "created": "2026-07-06 08:26:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:26:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez consumed apple and restored physical condition.",
+          "created": "2026-07-06 08:21:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating an apple to satisfy hunger",
+          "created": "2026-07-06 08:25:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating an apple to satisfy hunger",
+          "created": "2026-07-06 08:25:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:23:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2026-07-06 08:22:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        34,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5bf9\u5bf9\uff0c\u81ea\u5df1\u6458\u7684\u65f6\u5019\u8fd8\u7279\u6709\u6210\u5c31\u611f\uff0c\u4f60\u591a\u6458\u70b9\u5e26\u56de\u53bb\u5457\u3002",
+      "satiety": 66.72000000000028,
+      "stamina": 98.54000000000093,
+      "health": 100.0,
+      "mood": 79.67999999999999,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-06 08:24:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-06 08:20:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Klaus",
+          "created": "2026-07-06 08:20:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:11:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-06 08:24:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-06 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-06 08:24:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-06 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-06 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-06 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-06 08:24:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-06 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        21
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "searching the supply store counter for food items @ the Ville:Harvey Oak Supply Store:supply store:supply store counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 66.72000000000028,
+      "stamina": 88.65000000000107,
+      "health": 100.0,
+      "mood": 61.36000000000002,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is searching the supply store counter for food items",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-06 08:27:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-06 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-06 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-06 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-06 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-06 08:13:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-06 08:26:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-06 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-06 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-06 08:24:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-06 08:24:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-06 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-06 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-06 08:26:40",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:27:30"
+  }
+}

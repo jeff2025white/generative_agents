@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        123,
+        49
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recharge stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.19999999999929,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 78.41999999999891,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        62,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to recover stamina @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.56000000000007,
+      "stamina": 84.12000000000126,
+      "health": 100.0,
+      "mood": 75.93999999999961,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        29
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "idling @ the Ville:Oak Hill College:hallway:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.36000000000001,
+      "stamina": 80.71000000000153,
+      "health": 100.0,
+      "mood": 77.23999999999945,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is working on the research paper",
+          "created": "2026-07-06 08:40:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 06, 2026, 08:41:10"
+  }
+}
