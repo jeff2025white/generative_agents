@@ -157,8 +157,38 @@ def execute(persona, maze, personas, plan):
 
     if "<persona>" in plan: 
       # Executing persona-persona interaction.
-      target_p_tile = (personas[plan.split("<persona>")[-1].strip()]
-                       .scratch.curr_tile)
+      target_persona_name = plan.split("<persona>")[-1].strip()
+      target_persona = personas.get(target_persona_name)
+      if not target_persona:
+        failure_payload = {
+          "act_event": persona.scratch.act_event,
+          "act_command": persona.scratch.act_command,
+        }
+        if hasattr(persona.scratch, "note_navigation_failure"):
+          persona.scratch.note_navigation_failure(
+            target=target_persona_name,
+            target_address=plan,
+            reason="persona_not_found",
+            payload=failure_payload,
+          )
+        append_debug_log(
+          "action_execution_debug.jsonl",
+          {
+            "persona": persona.name,
+            "event": "persona_target_not_found",
+            "plan": plan,
+            "target": target_persona_name,
+            "curr_tile": persona.scratch.curr_tile,
+            "act_event": persona.scratch.act_event,
+            "act_command": persona.scratch.act_command,
+          }
+        )
+        if hasattr(persona.scratch, "fail_execution"):
+          persona.scratch.fail_execution("persona_not_found", payload=failure_payload)
+        else:
+          persona.scratch.clear_current_action(keep_last_desc=True)
+        return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, f"idling @ {maze.get_tile_path(persona.scratch.curr_tile, 'game_object')}"
+      target_p_tile = target_persona.scratch.curr_tile
       potential_path = path_finder(maze.collision_maze, 
                                    persona.scratch.curr_tile, 
                                    target_p_tile, 
@@ -308,16 +338,17 @@ def execute(persona, maze, personas, plan):
       target_label = None
       if getattr(persona.scratch, "act_command", None):
         target_label = persona.scratch.act_command.get("target")
+      failure_payload = {
+        "raw_target_tiles": raw_target_tiles,
+        "target_tiles": target_tiles,
+        "act_event": persona.scratch.act_event,
+      }
       if hasattr(persona.scratch, "note_navigation_failure"):
         persona.scratch.note_navigation_failure(
           target=target_label,
           target_address=plan,
           reason="path_not_found",
-          payload={
-            "raw_target_tiles": raw_target_tiles,
-            "target_tiles": target_tiles,
-            "act_event": persona.scratch.act_event,
-          },
+          payload=failure_payload,
         )
       record_execution_result_experience(
         persona,
@@ -345,7 +376,10 @@ def execute(persona, maze, personas, plan):
           "target": target_label,
         }
       )
-      persona.scratch.clear_current_action(keep_last_desc=True)
+      if hasattr(persona.scratch, "fail_execution"):
+        persona.scratch.fail_execution("path_not_found", payload=failure_payload)
+      else:
+        persona.scratch.clear_current_action(keep_last_desc=True)
     else:
       if hasattr(persona.scratch, "clear_navigation_failure"):
         persona.scratch.clear_navigation_failure()
@@ -432,6 +466,16 @@ def execute(persona, maze, personas, plan):
       skill = SKILL_REGISTRY.get(action.lower()) if action else None
       if skill:
         can_execute = skill.can_execute(persona, target, maze)
+        precheck_result = getattr(skill, "get_precheck_result", lambda: {})() or {}
+        blocked_reason = str(precheck_result.get("reason") or "skill_blocked").strip() or "skill_blocked"
+        blocked_payload = dict(precheck_result.get("payload") or {})
+        blocked_payload.update(
+          {
+            "action": action,
+            "target": target,
+            "curr_tile": persona.scratch.curr_tile,
+          }
+        )
         append_debug_log(
           "action_execution_debug.jsonl",
           {
@@ -441,6 +485,7 @@ def execute(persona, maze, personas, plan):
             "target": target,
             "skill": skill.__class__.__name__,
             "can_execute": can_execute,
+            "precheck_result": precheck_result,
           }
         )
         if can_execute:
@@ -452,11 +497,7 @@ def execute(persona, maze, personas, plan):
               "failure",
               "skill_blocked",
               target_name=target,
-              payload={
-                "action": action,
-                "curr_tile": persona.scratch.curr_tile,
-                "inventory": persona.scratch.inventory,
-              },
+              payload=dict(blocked_payload, reason=blocked_reason, inventory=persona.scratch.inventory),
             )
           append_debug_log(
             "action_execution_debug.jsonl",
@@ -467,17 +508,15 @@ def execute(persona, maze, personas, plan):
               "target": target,
               "curr_tile": persona.scratch.curr_tile,
               "inventory": persona.scratch.inventory,
+              "blocked_reason": blocked_reason,
+              "blocked_payload": blocked_payload,
             }
           )
           # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
           if hasattr(persona.scratch, "fail_execution"):
             persona.scratch.fail_execution(
-              "skill_blocked",
-              payload={
-                "action": action,
-                "target": target,
-                "curr_tile": persona.scratch.curr_tile,
-              },
+              blocked_reason,
+              payload=blocked_payload,
             )
           else:
             persona.scratch.clear_current_action()
@@ -521,4 +560,3 @@ def execute(persona, maze, personas, plan):
 
   execution = ret, persona.scratch.act_pronunciatio, description
   return execution
-

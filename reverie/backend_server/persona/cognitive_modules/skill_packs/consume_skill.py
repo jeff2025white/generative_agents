@@ -32,7 +32,7 @@ class ConsumeSkillPack(BaseSkillPack):
                         "inventory": persona.scratch.inventory,
                     }
                 )
-                return True
+                return self.set_precheck_result(True, "target_in_inventory", {"target": target, "inventory": persona.scratch.inventory})
         # 2. Fallback 1: If they have ANY consumable item in inventory, they can execute
         for k in persona.scratch.inventory:
             if persona.scratch.inventory[k] > 0:
@@ -48,7 +48,7 @@ class ConsumeSkillPack(BaseSkillPack):
                         "inventory": persona.scratch.inventory,
                     }
                 )
-                return True
+                return self.set_precheck_result(True, "any_food_in_inventory", {"target": target, "inventory": persona.scratch.inventory})
         if self._is_recent_duplicate_resource_consume(persona, target):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -64,7 +64,7 @@ class ConsumeSkillPack(BaseSkillPack):
                     "recent_completed_action_step": getattr(persona.scratch, "recent_completed_action_step", None),
                 }
             )
-            return False
+            return self.set_precheck_result(False, "recent_duplicate_resource_consume", {"target": target, "inventory": persona.scratch.inventory})
         curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
         act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
         append_debug_log(
@@ -80,7 +80,16 @@ class ConsumeSkillPack(BaseSkillPack):
                 "act_address": act_addr,
             }
         )
-        return False
+        return self.set_precheck_result(
+            False,
+            "consume_no_food_available",
+            {
+                "target": target,
+                "inventory": persona.scratch.inventory,
+                "curr_obj": curr_obj,
+                "act_address": act_addr,
+            },
+        )
 
     def get_target_tiles(self, persona, target, maze) -> list:
         # Consumption can occur at current tile (no walking required if item in inventory)

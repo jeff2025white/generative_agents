@@ -246,17 +246,6 @@ class DecisionStabilityTests(unittest.TestCase):
 
         self.assertGreaterEqual(penalty, 0.25)
 
-    def test_recent_consume_hold_prevents_immediate_satiety_replan(self):
-        scratch = self.make_scratch()
-        scratch.satiety = 85.0
-        scratch.recent_completed_action_signature = build_decision_signature(
-            build_action_command("consume", "refrigerator", source="test", raw_action="consume")
-        )
-        scratch.recent_completed_action_step = 100
-        scratch.curr_step = 101
-
-        self.assertTrue(scratch.should_hold_after_recent_consume())
-
     def test_physiological_interrupt_does_not_break_active_survival_route(self):
         scratch = self.make_scratch()
         scratch.satiety = 20.0

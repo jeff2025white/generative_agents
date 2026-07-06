@@ -5,6 +5,7 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.action_target_resolver import resolve_candidate_object_address
 
 class RestSkillPack(BaseSkillPack):
     def __init__(self):
@@ -18,12 +19,15 @@ class RestSkillPack(BaseSkillPack):
         if curr_obj:
             curr_obj_lower = curr_obj.lower()
             if any(w in curr_obj_lower for w in ["bed", "sofa", "couch", "chair", "bench"]):
-                return True
+                return self.set_precheck_result(True, "already_on_rest_object", {"curr_obj": curr_obj})
         # 2. Fallback: Target object must exist in spatial memory
-        return persona.s_mem.find_nearest_object(target) is not None
+        address, _matched_target, _kind = resolve_candidate_object_address(persona, [target])
+        if address is not None:
+            return self.set_precheck_result(True, "rest_target_available", {"target": target, "address": address})
+        return self.set_precheck_result(False, "rest_target_missing", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:
-        address = persona.s_mem.find_nearest_object(target)
+        address, _matched_target, _kind = resolve_candidate_object_address(persona, [target])
         if address and address in maze.address_tiles:
             return list(maze.address_tiles[address])
         return []

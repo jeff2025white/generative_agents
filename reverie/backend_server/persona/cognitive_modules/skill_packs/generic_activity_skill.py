@@ -37,8 +37,8 @@ class GenericActivitySkillPack(BaseSkillPack):
                     "recent_completed_action_signature": getattr(persona.scratch, "recent_completed_action_signature", None),
                 },
             )
-            return False
-        return True
+            return self.set_precheck_result(False, "recent_duplicate_action", {"target": target})
+        return self.set_precheck_result(True, "generic_activity_allowed", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         return [persona.scratch.curr_tile]

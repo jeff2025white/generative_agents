@@ -88,6 +88,7 @@ class Scratch:
     self.navigation_failure = None
     self.last_action_observation = None
     self.active_execution_state = None
+    self.current_action_record = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -269,6 +270,7 @@ class Scratch:
       self.navigation_failure = scratch_load.get("navigation_failure", None)
       self.last_action_observation = scratch_load.get("last_action_observation", None)
       self.active_execution_state = scratch_load.get("active_execution_state", None)
+      self.current_action_record = scratch_load.get("current_action_record", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -390,6 +392,7 @@ class Scratch:
     scratch["navigation_failure"] = self.navigation_failure
     scratch["last_action_observation"] = self.last_action_observation
     scratch["active_execution_state"] = self.active_execution_state
+    scratch["current_action_record"] = self.current_action_record
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -619,7 +622,8 @@ class Scratch:
                      act_obj_description, 
                      act_obj_pronunciatio, 
                      act_obj_event, 
-                     act_start_time=None): 
+                     act_start_time=None,
+                     action_record=None): 
     action_address = _normalize_action_address(action_address)
     resolved_action_command = action_command or infer_action_command_from_event(action_event, source="add_new_action")
     next_signature = build_decision_signature(
@@ -680,6 +684,10 @@ class Scratch:
     self.act_path_set = False
     self.serving_memory_written = False
     self.drinking_memory_written = False
+    if action_record:
+      self.set_current_action_record(action_record)
+    else:
+      self.set_current_action_record(self._build_current_action_record(status="planned"))
     self.begin_execution_state(phase="planned")
     return True
 
@@ -846,19 +854,6 @@ class Scratch:
     return min(0.32, max(0.0, penalty))
 
 
-  def should_hold_after_recent_consume(self, within_steps=2, satiety_floor=40.0):
-    signature = self.recent_completed_action_signature or {}
-    if signature.get("intent_family") != "restore_satiety":
-      return False
-    if signature.get("skill_id") != "consume":
-      return False
-    if self.curr_step is None or self.recent_completed_action_step is None:
-      return False
-    if self.curr_step - self.recent_completed_action_step > within_steps:
-      return False
-    return self.satiety >= satiety_floor
-
-
   def has_active_plan(self):
     return bool(self.act_address or self.act_command or self.planned_path)
 
@@ -952,6 +947,7 @@ class Scratch:
       ),
       "signature": signature,
       "planned_path": self.planned_path,
+      "action_record": self.current_action_record,
     }
 
 
@@ -959,6 +955,60 @@ class Scratch:
     if keep_last_desc and self.act_description:
       self.last_action_desc = self.act_description
     self.release_execution_state(phase="cleared")
+
+
+  def _build_current_action_record(self, status="planned", failure=None, extra=None):
+    signature = self.get_active_decision_signature() or {}
+    target = signature.get("target")
+    event_target = None
+    if isinstance(self.act_event, (list, tuple)) and len(self.act_event) > 2:
+      event_target = self.act_event[2]
+    existing = self.current_action_record or {}
+    record = {
+      "status": status or existing.get("status") or "planned",
+      "skill_id": signature.get("skill_id"),
+      "intent_family": signature.get("intent_family"),
+      "target": target if target not in {None, ""} else event_target,
+      "target_type": existing.get("target_type"),
+      "resolved_target": existing.get("resolved_target"),
+      "resolved_address": _normalize_action_address(self.act_address),
+      "description": self.act_description,
+      "command": self.act_command,
+      "event": list(self.act_event) if isinstance(self.act_event, tuple) else self.act_event,
+      "duration": self.act_duration,
+      "created_step": existing.get("created_step", self.curr_step),
+      "updated_step": self.curr_step,
+      "failure": failure,
+    }
+    if extra:
+      record.update(extra)
+    return record
+
+
+  def set_current_action_record(self, record):
+    if not record:
+      self.current_action_record = None
+      return None
+    normalized = dict(record)
+    if "resolved_address" in normalized:
+      normalized["resolved_address"] = _normalize_action_address(normalized.get("resolved_address"))
+    normalized.setdefault("created_step", self.curr_step)
+    normalized.setdefault("updated_step", self.curr_step)
+    normalized.setdefault("status", "planned")
+    self.current_action_record = normalized
+    return self.current_action_record
+
+
+  def update_current_action_record_status(self, status=None, failure=None, extra=None):
+    if not self.current_action_record and not self.has_active_plan():
+      return None
+    record = self._build_current_action_record(
+      status=status or (self.current_action_record or {}).get("status") or "planned",
+      failure=failure,
+      extra=extra,
+    )
+    self.current_action_record = record
+    return self.current_action_record
 
 
   def _snapshot_execution_payload(self, phase=None, failure=None):
@@ -989,6 +1039,7 @@ class Scratch:
 
 
   def begin_execution_state(self, phase="planned"):
+    self.update_current_action_record_status(status=phase)
     self.active_execution_state = None
     self.active_execution_state = self._snapshot_execution_payload(phase=phase)
     append_debug_log(
@@ -1006,6 +1057,7 @@ class Scratch:
   def update_execution_state(self, phase=None, failure=None):
     if not self.active_execution_state and not self.has_active_plan():
       return None
+    self.update_current_action_record_status(status=phase, failure=failure)
     self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
     append_debug_log(
       "decision_stability.jsonl",
@@ -1021,6 +1073,7 @@ class Scratch:
 
   def release_execution_state(self, phase="completed", failure=None):
     if self.has_active_plan() or self.active_execution_state:
+      self.update_current_action_record_status(status=phase, failure=failure)
       self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
       append_debug_log(
         "decision_stability.jsonl",
@@ -1054,11 +1107,24 @@ class Scratch:
 
 
   def fail_execution(self, reason, payload=None):
+    payload = payload or {}
+    signature = self.get_active_decision_signature() or {}
+    self.last_action_observation = {
+      "kind": "execution_result",
+      "result": "failed",
+      "target": signature.get("target"),
+      "target_address": self.act_address,
+      "skill_id": signature.get("skill_id"),
+      "action_description": self.act_description,
+      "reason": reason,
+      "payload": payload,
+      "curr_step": self.curr_step,
+    }
     self.release_execution_state(
       phase="failed",
       failure={
         "reason": reason,
-        "payload": payload or {},
+        "payload": payload,
       },
     )
 

@@ -1,18 +1,13 @@
 """Shared helpers for NPC-to-NPC inventory transfer skills."""
 
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.action_target_resolver import resolve_target_persona as _resolve_target_persona
 
 
 def resolve_target_persona(personas, target_name):
     """Find a target persona by case-insensitive exact name match."""
-    normalized_target = str(target_name or "").strip().lower()
-    if not normalized_target:
-        return None
-    for candidate in personas or []:
-        candidate_name = str(getattr(candidate, "name", "") or "").strip().lower()
-        if candidate_name == normalized_target:
-            return candidate
-    return None
+    candidate, _candidate_name = _resolve_target_persona(personas, target_name)
+    return candidate
 
 
 def choose_inventory_item(inventory, hint_text=None):

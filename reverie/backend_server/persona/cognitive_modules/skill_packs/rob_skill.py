@@ -8,7 +8,6 @@ from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.skill_packs.transfer_skill_utils import (
     are_personas_close,
     choose_inventory_item,
-    clear_current_action,
     log_transfer_failure,
     resolve_target_persona,
 )
@@ -35,7 +34,9 @@ class RobSkillPack(BaseSkillPack):
                 "inventory": dict(persona.scratch.inventory or {}),
             },
         )
-        return result
+        if not str(target or "").strip():
+            return self.set_precheck_result(False, "target_missing", {})
+        return self.set_precheck_result(True, "ready_to_rob", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         return [persona.scratch.curr_tile]
@@ -44,11 +45,11 @@ class RobSkillPack(BaseSkillPack):
         target_persona = resolve_target_persona(personas, target)
         if not target_persona:
             log_transfer_failure(persona, "rob", target, "target_not_found")
-            clear_current_action(persona)
+            self.finish_failure(persona, "target_not_found", {"target": target})
             return
         if target_persona.name == persona.name:
             log_transfer_failure(persona, "rob", target, "self_target")
-            clear_current_action(persona)
+            self.finish_failure(persona, "self_target", {"target": target})
             return
         if not are_personas_close(persona, target_persona):
             log_transfer_failure(
@@ -58,7 +59,11 @@ class RobSkillPack(BaseSkillPack):
                 "target_not_close",
                 extra={"target_tile": getattr(target_persona.scratch, "curr_tile", None)},
             )
-            clear_current_action(persona)
+            self.finish_failure(
+                persona,
+                "target_not_close",
+                {"target": target, "target_tile": getattr(target_persona.scratch, "curr_tile", None)},
+            )
             return
 
         detail_hint = getattr(persona.scratch, "act_description", None)
@@ -71,7 +76,11 @@ class RobSkillPack(BaseSkillPack):
                 "target_inventory_empty",
                 extra={"target_inventory": dict(target_persona.scratch.inventory or {})},
             )
-            clear_current_action(persona)
+            self.finish_failure(
+                persona,
+                "target_inventory_empty",
+                {"target": target, "target_inventory": dict(target_persona.scratch.inventory or {})},
+            )
             return
 
         actor_before_inventory = dict(persona.scratch.inventory or {})

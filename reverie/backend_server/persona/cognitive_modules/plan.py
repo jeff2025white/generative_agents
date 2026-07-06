@@ -17,6 +17,12 @@ from global_methods import *
 from llm_api_config import get_default_decision_request_config, get_default_translation_request_config
 from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
 from persona.cognitive_modules.action_target_resolver import (
+  PLACE_TARGET_CANDIDATES,
+  RESTABLE_OBJECT_TARGETS,
+  resolve_action_target,
+  resolve_candidate_object_address,
+  resolve_candidate_place_address,
+  resolve_persona_target,
   resolve_action_target_address,
 )
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
@@ -87,6 +93,51 @@ def _log_timing_event(event_name, payload):
   append_debug_log(STEP_TIMING_LOG, record)
 
 
+def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None):
+  resolution_meta = resolution_meta or {}
+  return {
+    "status": "resolved",
+    "skill_id": skill_id,
+    "target": target,
+    "target_type": resolution_meta.get("target_type"),
+    "resolved_target": resolution_meta.get("matched") or target,
+    "resolved_address": resolved_address,
+    "resolution_kind": resolution_meta.get("kind"),
+    "target_resolution_failure": resolution_meta.get("target_resolution_failure"),
+    "candidate_targets": resolution_meta.get("candidate_targets"),
+    "reasoning": reasoning,
+    "description": act_desp,
+    "duration": int(act_dura) if act_dura is not None else None,
+    "source": "decision_translation",
+    "created_step": getattr(persona.scratch, "curr_step", None),
+    "updated_step": getattr(persona.scratch, "curr_step", None),
+    "failure": None,
+  }
+
+
+def _has_inventory_item(persona, target):
+  normalized_target = normalize_food_source_target(target)
+  item_key = str(normalized_target or "").strip().lower()
+  if not item_key:
+    return False
+  for item_name, count in (getattr(persona.scratch, "inventory", {}) or {}).items():
+    try:
+      if float(count or 0) <= 0:
+        continue
+    except Exception:
+      continue
+    if str(item_name or "").strip().lower() == item_key:
+      return True
+  return False
+
+
+def _current_tile_wait_address(persona):
+  curr_tile = getattr(persona.scratch, "curr_tile", None)
+  if curr_tile and len(curr_tile) >= 2:
+    return f"<waiting> {curr_tile[0]} {curr_tile[1]}"
+  return getattr(persona.scratch, "living_area", None) or ""
+
+
 def _build_translation_convergence_hint(persona, intent_memory_summary):
   hint = (
     "Preserve the immediate intent from the natural language thought. "
@@ -113,7 +164,7 @@ def _build_translation_convergence_hint(persona, intent_memory_summary):
 
 
 def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, reasoning):
-  """Steer low-mood, otherwise-safe NPCs toward lightweight leisure instead of null idle."""
+  """Steer safe idle states toward concrete leisure actions instead of null idle."""
   scratch = getattr(persona, "scratch", None)
   if not scratch:
     return action, target, act_desp, reasoning
@@ -122,14 +173,14 @@ def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, rea
   satiety = float(getattr(scratch, "satiety", 100.0) or 100.0)
   stamina = float(getattr(scratch, "stamina", 100.0) or 100.0)
   health = float(getattr(scratch, "health", 100.0) or 100.0)
-  if mood >= 60.0 or satiety < 70.0 or stamina < 50.0 or health < 70.0:
-    return action, target, act_desp, reasoning
 
   normalized_action = str(action or "").strip().lower()
   normalized_target = str(target or "").strip().lower()
   if normalized_action not in {"idle", "recreate", ""}:
     return action, target, act_desp, reasoning
   if normalized_action == "recreate" and normalized_target not in {"", "none"}:
+    return action, target, act_desp, reasoning
+  if satiety < 65.0 or stamina < 50.0 or health < 75.0:
     return action, target, act_desp, reasoning
 
   curr_tile = getattr(scratch, "curr_tile", None)
@@ -138,11 +189,12 @@ def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, rea
   current_context = " ".join(str(part or "").lower() for part in [current_object, current_arena])
   if any(keyword in current_context for keyword in ["park", "garden", "bench", "sofa", "cafe customer seating", "common room", "plaza", "courtyard"]):
     daydream_target = current_object or current_arena or "bench"
+    reason_tag = "low mood" if mood < 60.0 else "safe idle"
     return (
       "Idle",
       daydream_target,
       f"daydreaming quietly at the {daydream_target} and people-watching for a while",
-      f"{reasoning} [low mood leisure fallback: in-place daydream]",
+      f"{reasoning} [{reason_tag} leisure fallback: in-place daydream]",
     )
 
   for leisure_target in ["park garden", "park", "common room sofa", "cafe customer seating", "bench"]:
@@ -155,20 +207,112 @@ def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, rea
       detail=wander_detail,
     )
     if resolved_address:
+      reason_tag = "low mood" if mood < 60.0 else "safe idle"
       return (
         "Recreate",
         leisure_target,
         wander_detail,
-        f"{reasoning} [low mood leisure fallback: wander to relaxing place]",
+        f"{reasoning} [{reason_tag} leisure fallback: wander to relaxing place]",
       )
 
   fallback_target = current_object or current_arena or "bench"
+  reason_tag = "low mood" if mood < 60.0 else "safe idle"
   return (
     "Idle",
     fallback_target,
     f"daydreaming quietly at the {fallback_target} to reset my mood",
-    f"{reasoning} [low mood leisure fallback: in-place daydream]",
+    f"{reasoning} [{reason_tag} leisure fallback: in-place daydream]",
   )
+
+
+def _autofill_rest_target(persona, action, target, act_desp, reasoning):
+  """When the model wants rest but omits a target, pick a nearby restable object."""
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  if normalized_skill_id != "rest":
+    return action, target, act_desp, reasoning
+  if str(target or "").strip().lower() not in {"", "none"}:
+    return action, target, act_desp, reasoning
+
+  _, matched_target, _ = resolve_candidate_object_address(persona, RESTABLE_OBJECT_TARGETS)
+  if matched_target:
+    next_detail = act_desp
+    if not str(next_detail or "").strip() or str(next_detail).strip().lower() in {
+      "idling",
+      "idle",
+      "resting",
+      "idling to conserve energy",
+    }:
+      next_detail = f"resting at the {matched_target}"
+    next_reasoning = f"{reasoning} [rest target auto-filled: {matched_target}]"
+    return "Rest", matched_target, next_detail, next_reasoning
+
+  return action, target, act_desp, reasoning
+
+
+def _autofill_consume_target(persona, action, target, act_desp, reasoning):
+  """When the model wants consume but omits a target, prefer food already in inventory."""
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  if normalized_skill_id != "consume":
+    return action, target, act_desp, reasoning
+  if str(target or "").strip().lower() not in {"", "none"}:
+    return action, target, act_desp, reasoning
+
+  inventory = getattr(persona.scratch, "inventory", {}) or {}
+  for item_name, count in inventory.items():
+    if float(count or 0) <= 0:
+      continue
+    next_detail = act_desp
+    if not str(next_detail or "").strip() or str(next_detail).strip().lower() in {
+      "idling",
+      "idle",
+      "consume",
+      "consuming",
+    }:
+      next_detail = f"eating {item_name} from inventory"
+    next_reasoning = f"{reasoning} [consume target auto-filled: {item_name}]"
+    return "Consume", str(item_name), next_detail, next_reasoning
+
+  return action, target, act_desp, reasoning
+
+
+def _autofill_place_target(persona, maze, action, target, act_desp, reasoning):
+  """When a place-oriented activity omits a target, choose a reachable place candidate."""
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  candidate_names = PLACE_TARGET_CANDIDATES.get(str(normalized_skill_id or "").strip().lower())
+  if not candidate_names:
+    return action, target, act_desp, reasoning
+  if str(target or "").strip().lower() not in {"", "none"}:
+    return action, target, act_desp, reasoning
+
+  _address, matched_target, _kind = resolve_candidate_place_address(persona, maze, normalized_skill_id, candidate_names)
+  if not matched_target:
+    return action, target, act_desp, reasoning
+
+  next_detail = act_desp
+  if not str(next_detail or "").strip() or str(next_detail).strip().lower() in {
+    "idling",
+    "idle",
+    "using",
+    "use",
+    "working",
+    "work",
+    "studying",
+    "study",
+    "wandering",
+    "wander",
+    "recreate",
+  }:
+    verb_map = {
+      "study": "studying at",
+      "work": "working at",
+      "use": "using",
+      "leisure_use": "spending leisure time at",
+      "wander": "wandering through",
+    }
+    prefix = verb_map.get(normalized_skill_id, "going to")
+    next_detail = f"{prefix} the {matched_target}"
+  next_reasoning = f"{reasoning} [place target auto-filled: {matched_target}]"
+  return action, matched_target, next_detail, next_reasoning
 
 
 def _normalize_reachable_targets(resources):
@@ -1530,7 +1674,8 @@ def _should_react(persona, retrieved, personas):
   # If the persona is chatting right now, default to no reaction 
   if persona.scratch.chatting_with: 
     return False
-  if "<waiting>" in persona.scratch.act_address: 
+  act_address = getattr(persona.scratch, "act_address", None) or ""
+  if "<waiting>" in act_address: 
     return False
 
   # Recall that retrieved takes the following form: 
@@ -1876,6 +2021,21 @@ def decide_survival_action(persona, maze):
   target = decision.get("target", "none")
   reasoning = decision.get("reasoning", "")
   act_desp = decision.get("detail", "")
+  action, target, act_desp, reasoning = _autofill_consume_target(
+    persona,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
+  action, target, act_desp, reasoning = _autofill_place_target(
+    persona,
+    maze,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
   action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
     persona,
     maze,
@@ -1923,6 +2083,8 @@ def decide_survival_action(persona, maze):
       else:
         target = "refrigerator" if "refrigerator" in objs_list else "apple tree"
       address = persona.s_mem.find_nearest_object(target) or address
+    else:
+      address = _current_tile_wait_address(persona)
 
 
   if action == "Gather":
@@ -1972,26 +2134,6 @@ def decide_demand_action(persona, maze):
   decision_started_at = time.perf_counter()
   phase_started_at = decision_started_at
   timings_ms = {}
-  if persona.scratch.should_hold_after_recent_consume():
-    persona.scratch.act_address = persona.scratch.act_address or persona.scratch.living_area
-    persona.scratch.act_description = "idling briefly to stabilize after eating"
-    persona.scratch.act_duration = 5
-    persona.scratch.act_start_time = persona.scratch.curr_time
-    persona.scratch.act_pronunciatio = "💤"
-    persona.scratch.act_event = (persona.name, "idle", "none")
-    persona.scratch.act_command = build_action_command("idle", "none", source="stability_cooldown", raw_action="idle", detail=persona.scratch.act_description)
-    persona.scratch.act_path_set = False
-    append_debug_log(
-      "decision_stability.jsonl",
-      {
-        "persona": persona.name,
-        "event": "post_consume_hold",
-        "curr_step": persona.scratch.curr_step,
-        "satiety": persona.scratch.satiety,
-        "recent_completed_action_signature": persona.scratch.recent_completed_action_signature,
-      }
-    )
-    return persona.scratch.act_address
 
   # Get all objects the persona knows about
   objs = set()
@@ -2173,6 +2315,28 @@ def decide_demand_action(persona, maze):
   reasoning = decision.get("reasoning", "")
   if reasoning is None: reasoning = ""
   reasoning = str(reasoning)
+  action, target, act_desp, reasoning = _autofill_consume_target(
+    persona,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
+  action, target, act_desp, reasoning = _autofill_rest_target(
+    persona,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
+  action, target, act_desp, reasoning = _autofill_place_target(
+    persona,
+    maze,
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
   action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
     persona,
     maze,
@@ -2341,20 +2505,48 @@ def decide_demand_action(persona, maze):
   resolution_meta = None
   target_persona_name = None
   if normalized_skill_id in {"chat with", "give", "rob"} and target not in {"none", "", None}:
-    candidate_target = str(target).strip()
-    target_persona_name = candidate_target
-    new_address = f"<persona> {candidate_target}"
-    resolution_meta = {"kind": "persona_target", "matched": candidate_target}
+    persona_resolution = resolve_persona_target(personas, target)
+    if persona_resolution.get("ok"):
+      candidate_target = persona_resolution.get("resolved_target")
+      target_persona_name = candidate_target
+      new_address = persona_resolution.get("resolved_address")
+      resolution_meta = {
+        "kind": persona_resolution.get("resolution_kind"),
+        "matched": candidate_target,
+        "target_type": persona_resolution.get("target_type"),
+      }
+    else:
+      candidate_target = str(target).strip()
+      target_persona_name = None
+      new_address = persona.scratch.curr_tile and f"<waiting> {persona.scratch.curr_tile[0]} {persona.scratch.curr_tile[1]}" or ""
+      resolution_meta = {
+        "kind": "persona_target_missing",
+        "matched": candidate_target,
+        "target_type": "persona",
+        "target_resolution_failure": persona_resolution.get("failure_reason"),
+      }
+  elif normalized_skill_id == "consume" and _has_inventory_item(persona, target):
+    new_address = _current_tile_wait_address(persona)
+    resolution_meta = {
+      "kind": "inventory_consume_in_place",
+      "matched": normalize_food_source_target(target),
+      "target_type": "inventory_item",
+    }
   else:
-    resolved_address, resolution_meta = resolve_action_target_address(
+    resolution_result = resolve_action_target(
       persona,
       maze,
       normalized_skill_id,
       target=target,
       detail=act_desp,
     )
-    if resolved_address:
-      new_address = resolved_address
+    if resolution_result.get("ok"):
+      new_address = resolution_result.get("resolved_address")
+      resolution_meta = {
+        "kind": resolution_result.get("resolution_kind"),
+        "matched": resolution_result.get("resolved_target"),
+        "target_type": resolution_result.get("target_type"),
+      }
     else:
       # Fall back to prompt-based location resolution only when deterministic matching fails.
       act_sector = generate_action_sector(act_desp, persona, maze)
@@ -2366,7 +2558,11 @@ def decide_demand_action(persona, maze):
       else:
         act_game_object = generate_action_game_object(act_desp, act_address, persona, maze)
         new_address = f"{act_world}:{act_sector}:{act_arena}:{act_game_object}"
-        resolution_meta = {"kind": "llm_object_fallback", "matched": act_game_object}
+        resolution_meta = {
+          "kind": "llm_object_fallback",
+          "matched": act_game_object,
+          "target_resolution_failure": resolution_result.get("failure_reason"),
+        }
   if normalized_skill_id == "gather" and is_valid_gather_food_source(target):
     available_address = _resolve_food_source_address(persona, target)
     if available_address and available_address != new_address:
@@ -2434,7 +2630,17 @@ def decide_demand_action(persona, maze):
                                  None,
                                  act_obj_desp, 
                                  act_obj_pron, 
-                                 act_obj_event)
+                                 act_obj_event,
+                                 action_record=_build_action_record(
+                                   persona,
+                                   normalized_skill_id,
+                                   target,
+                                   act_desp,
+                                   act_dura,
+                                   new_address,
+                                   reasoning,
+                                   resolution_meta=resolution_meta,
+                                 ))
   timings_ms["add_new_action"] = _elapsed_ms(phase_started_at)
   total_ms = _elapsed_ms(decision_started_at)
   _log_timing_event(

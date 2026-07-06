@@ -73,7 +73,7 @@ class GatherSkillPack(BaseSkillPack):
                     "recent_completed_action_signature": getattr(persona.scratch, "recent_completed_action_signature", None),
                 }
             )
-            return False
+            return self.set_precheck_result(False, "recent_duplicate_action", {"target": target, "clean_target": clean_target})
         # 1. If currently standing on/near a source object, they can gather.
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         if curr_obj:
@@ -113,7 +113,11 @@ class GatherSkillPack(BaseSkillPack):
                         "recent_completed_action_signature": recent_signature,
                     }
                 )
-                return False
+                return self.set_precheck_result(
+                    False,
+                    "recent_healthy_refrigerator_gather",
+                    {"target": target, "clean_target": clean_target, "curr_obj": curr_obj, "inventory": inventory},
+                )
             if is_valid_gather_food_source(curr_obj_clean):
                 if world_state and curr_obj_clean != "apple tree":
                     curr_address = getattr(persona.scratch, "act_address", None) or self._find_available_address(persona, curr_obj_clean)
@@ -131,7 +135,11 @@ class GatherSkillPack(BaseSkillPack):
                                 "curr_address": curr_address,
                             }
                         )
-                        return False
+                        return self.set_precheck_result(
+                            False,
+                            "resource_empty",
+                            {"target": target, "clean_target": clean_target, "curr_address": curr_address},
+                        )
                 append_debug_log(
                     "skill_execution_debug.jsonl",
                     {
@@ -146,7 +154,11 @@ class GatherSkillPack(BaseSkillPack):
                         "curr_tile": persona.scratch.curr_tile,
                     }
                 )
-                return True
+                return self.set_precheck_result(
+                    True,
+                    "current_object",
+                    {"target": target, "clean_target": clean_target, "curr_obj": curr_obj, "curr_tile": persona.scratch.curr_tile},
+                )
         if not is_valid_gather_food_source(clean_target):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -161,7 +173,7 @@ class GatherSkillPack(BaseSkillPack):
                     "curr_obj": curr_obj,
                 }
             )
-            return False
+            return self.set_precheck_result(False, "invalid_food_source", {"target": target, "clean_target": clean_target})
         # 2. Fallback: Target object must exist in spatial memory
         address = self._find_available_address(persona, clean_target)
         result = address is not None and (not world_state or world_state.is_available(address) or clean_target == "apple tree")
@@ -179,7 +191,20 @@ class GatherSkillPack(BaseSkillPack):
                 "nearest_address": address,
             }
         )
-        return result
+        if result:
+            return self.set_precheck_result(True, "spatial_memory", {"target": target, "clean_target": clean_target, "nearest_address": address})
+        failure_reason = "resource_source_missing"
+        if address and world_state and not world_state.is_available(address) and clean_target != "apple tree":
+            failure_reason = "resource_empty"
+        return self.set_precheck_result(
+            False,
+            failure_reason,
+            {
+                "target": target,
+                "clean_target": clean_target,
+                "nearest_address": address,
+            },
+        )
 
     def get_target_tiles(self, persona, target, maze) -> list:
         clean_target = self._clean_target(target)

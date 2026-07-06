@@ -73,4 +73,9 @@ def build_retry_feedback(reason):
   reason = str(reason or "").strip()
   if not reason:
     reason = "The previous target is invalid for this step."
-  return reason + " Choose another feasible immediate target or a materially different immediate plan."
+  return (
+    reason
+    + " Choose another feasible immediate target or a materially different immediate plan. "
+    + "If the same underlying need still matters, keep the need but switch to a different reachable target of that type. "
+    + "If no suitable target is available, fall back to a clearly feasible alternative such as waiting, idle, or wandering instead of repeating the failed target."
+  )

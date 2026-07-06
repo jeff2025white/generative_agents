@@ -8,7 +8,10 @@ class CoffeeServiceSkillPack(BaseSkillPack):
         self.associated_xp = ""
 
     def can_execute(self, persona, target, maze) -> bool:
-        return persona.s_mem.find_nearest_object(target) is not None
+        address = persona.s_mem.find_nearest_object(target)
+        if address is not None:
+            return self.set_precheck_result(True, "service_target_available", {"target": target, "address": address})
+        return self.set_precheck_result(False, "service_target_missing", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         address = persona.s_mem.find_nearest_object(target)

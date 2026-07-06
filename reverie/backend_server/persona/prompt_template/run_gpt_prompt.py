@@ -158,6 +158,40 @@ def _build_recent_observation_line(scratch):
   )
 
 
+def _build_current_action_record_line(scratch):
+  record = getattr(scratch, "current_action_record", None) or {}
+  if not record:
+    return None
+  status = str(record.get("status") or "unknown").strip().lower()
+  skill_id = record.get("skill_id") or "unknown"
+  target = record.get("target") or "none"
+  target_type = record.get("target_type") or "unknown"
+  resolved_target = record.get("resolved_target") or target
+  resolved_address = record.get("resolved_address") or "unknown"
+  resolution_kind = record.get("resolution_kind") or "unknown"
+  failure = record.get("failure") or {}
+  failure_reason = failure.get("reason") or record.get("target_resolution_failure")
+  base = (
+    "CurrentAction: "
+    f"status={status} skill={skill_id} target={target} target_type={target_type} "
+    f"resolved_target={resolved_target} address={resolved_address} resolution={resolution_kind}."
+  )
+  if status in {"failed", "interrupted", "cleared"}:
+    return (
+      f"{base} The previous action chain is no longer executable as-is. "
+      f"Latest failure={failure_reason or 'unknown'}. "
+      "Use this as fresh evidence and choose a new feasible immediate target or materially different immediate plan."
+    )
+  if status in {"pathing", "arrived", "planned", "resolved"}:
+    return (
+      f"{base} This action chain is still active. "
+      "Continue it by default unless the newest evidence clearly changes urgency, safety, or feasibility."
+    )
+  if status == "completed":
+    return f"{base} This action chain has already completed."
+  return base
+
+
 ##############################################################################
 # CHAPTER 1: Run GPT Prompt
 ##############################################################################
@@ -1609,31 +1643,33 @@ def run_gpt_prompt_decide_to_react(persona, target_persona, retrieved,test_input
 
     curr_time = init_persona.scratch.curr_time.strftime("%B %d, %Y, %H:%M:%S %p")
     init_act_desc = init_persona.scratch.act_description
+    init_act_address = getattr(init_persona.scratch, "act_address", None) or ""
     if "(" in init_act_desc: 
       init_act_desc = init_act_desc.split("(")[-1][:-1]
     if len(init_persona.scratch.planned_path) == 0: 
       loc = ""
-      if ":" in init_persona.scratch.act_address:
-        loc = init_persona.scratch.act_address.split(":")[-1] + " in " + init_persona.scratch.act_address.split(":")[-2]
+      if ":" in init_act_address:
+        loc = init_act_address.split(":")[-1] + " in " + init_act_address.split(":")[-2]
       init_p_desc = f"{init_persona.name} is already {init_act_desc} at {loc}"
     else: 
       loc = ""
-      if ":" in init_persona.scratch.act_address:
-        loc = init_persona.scratch.act_address.split(":")[-1] + " in " + init_persona.scratch.act_address.split(":")[-2]
+      if ":" in init_act_address:
+        loc = init_act_address.split(":")[-1] + " in " + init_act_address.split(":")[-2]
       init_p_desc = f"{init_persona.name} is on the way to {init_act_desc} at {loc}"
 
     target_act_desc = target_persona.scratch.act_description
+    target_act_address = getattr(target_persona.scratch, "act_address", None) or ""
     if "(" in target_act_desc: 
       target_act_desc = target_act_desc.split("(")[-1][:-1]
     if len(target_persona.scratch.planned_path) == 0: 
       loc = ""
-      if ":" in target_persona.scratch.act_address:
-        loc = target_persona.scratch.act_address.split(":")[-1] + " in " + target_persona.scratch.act_address.split(":")[-2]
+      if ":" in target_act_address:
+        loc = target_act_address.split(":")[-1] + " in " + target_act_address.split(":")[-2]
       target_p_desc = f"{target_persona.name} is already {target_act_desc} at {loc}"
     else: 
       loc = ""
-      if ":" in target_persona.scratch.act_address:
-        loc = target_persona.scratch.act_address.split(":")[-1] + " in " + target_persona.scratch.act_address.split(":")[-2]
+      if ":" in target_act_address:
+        loc = target_act_address.split(":")[-1] + " in " + target_act_address.split(":")[-2]
       target_p_desc = f"{target_persona.name} is on the way to {target_act_desc} at {loc}"
 
     prompt_input = []
@@ -3424,6 +3460,7 @@ def build_decision_capsule(persona,
   else:
     navigation_failure = getattr(scratch, "navigation_failure", None)
   observation_line = _build_recent_observation_line(scratch)
+  current_action_record_line = _build_current_action_record_line(scratch)
   if not temporal_context:
     temporal_context = f"Current Time: {scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if scratch.curr_time else 'Unknown'}"
   if not status_summary:
@@ -3495,6 +3532,8 @@ def build_decision_capsule(persona,
   ]
   if observation_line:
     capsule_lines.append(observation_line)
+  if current_action_record_line:
+    capsule_lines.append(current_action_record_line)
   if navigation_failure_line:
     capsule_lines.append(navigation_failure_line)
   if invalid_targets:
@@ -3528,6 +3567,9 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
   def get_latest_change_hint(persona, cooperative_context):
     pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
     parts = []
+    current_action_record_line = _build_current_action_record_line(persona.scratch)
+    if current_action_record_line:
+      parts.append(current_action_record_line)
     if pending_interrupt:
       reason = pending_interrupt.get("reason")
       source = pending_interrupt.get("source")
@@ -3864,6 +3906,20 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
   special_instruction += f" Translation Convergence Guidance: {decision_convergence_hint}"
+  if persona:
+    invalid_targets = build_invalid_targets(getattr(persona, "scratch", None))
+    if invalid_targets:
+      special_instruction += (
+        " Forbidden targets for this immediate step: "
+        + ", ".join(invalid_targets)
+        + ". Do not select them."
+      )
+    current_action_record_line = _build_current_action_record_line(getattr(persona, "scratch", None))
+    if current_action_record_line:
+      special_instruction += f" Current action state: {current_action_record_line}"
+    recent_observation_line = _build_recent_observation_line(getattr(persona, "scratch", None))
+    if recent_observation_line:
+      special_instruction += f" Latest execution feedback: {recent_observation_line}"
   _append_training_prep_prompt_log(persona, "action_translation", prompt, decision_id=decision_id, minimal_filter_context=minimal_filter_context)
 
   def __func_clean_up(gpt_response, prompt=""):

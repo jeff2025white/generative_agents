@@ -4,6 +4,18 @@ class BaseSkillPack:
     def __init__(self):
         self.name = ""          # Unique identifier for the skill (maps to the LLM's chosen action)
         self.associated_xp = "" # Associated skill tree node (e.g. "gathering", "cooking")
+        self._last_precheck_result = None
+
+    def set_precheck_result(self, ok, reason="ok", payload=None):
+        self._last_precheck_result = {
+            "ok": bool(ok),
+            "reason": str(reason or ("ok" if ok else "blocked")),
+            "payload": payload or {},
+        }
+        return bool(ok)
+
+    def get_precheck_result(self):
+        return dict(self._last_precheck_result or {})
 
     def finish_success(self, persona, *, action_command=None, action_event=None, action_description=None, action_address=None):
         """
@@ -20,6 +32,7 @@ class BaseSkillPack:
             persona.scratch.complete_execution()
         else:
             persona.scratch.clear_current_action()
+        self._last_precheck_result = None
 
     def finish_failure(self, persona, reason, payload=None):
         """
@@ -29,6 +42,7 @@ class BaseSkillPack:
             persona.scratch.fail_execution(reason, payload=payload)
         else:
             persona.scratch.clear_current_action()
+        self._last_precheck_result = None
 
     def finish_interrupted(self, persona, reason, payload=None):
         """
@@ -38,6 +52,7 @@ class BaseSkillPack:
             persona.scratch.interrupt_execution(reason, payload=payload)
         else:
             persona.scratch.clear_current_action()
+        self._last_precheck_result = None
 
     def run_skill_llm_request(
         self,

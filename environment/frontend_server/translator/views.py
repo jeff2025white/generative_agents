@@ -285,6 +285,39 @@ def translate_movements_in_place(movements):
       
   return movements
 
+
+def _coerce_bool(value, default=False):
+  if value is None:
+    return default
+  if isinstance(value, bool):
+    return value
+  return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _get_max_step_from_dir(dir_path):
+  max_step = None
+  if not os.path.exists(dir_path):
+    return None
+
+  try:
+    with os.scandir(dir_path) as entries:
+      for entry in entries:
+        if not entry.is_file():
+          continue
+        name = entry.name
+        if name.startswith(".") or not name.endswith(".json"):
+          continue
+        try:
+          step = int(name[:-5])
+        except ValueError:
+          continue
+        if max_step is None or step > max_step:
+          max_step = step
+  except FileNotFoundError:
+    return None
+
+  return max_step
+
 def landing(request): 
   context = {}
   template = "landing/landing.html"
@@ -383,13 +416,19 @@ def home(request):
   with open(f_curr_sim_code) as json_file:  
     sim_code = json.load(json_file)["sim_code"]
 
+  latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
+  latest_completed = (
+    SimState.objects
+    .filter(sim_code=sim_code, is_movement_ready=True)
+    .order_by('-step')
+    .first()
+  )
+
   # Try to find the latest step that has completed movement data in the database
-  latest_completed = SimState.objects.filter(sim_code=sim_code, is_movement_ready=True).order_by('-step').first()
   if latest_completed:
     step = latest_completed.step
   else:
     # If no completed step is found, fall back to the absolute latest step in SimState
-    latest_state = SimState.objects.filter(sim_code=sim_code).order_by('-step').first()
     if latest_state:
       step = latest_state.step
     else:
@@ -399,26 +438,15 @@ def home(request):
           step = json.load(json_file)["step"]
         os.remove(f_curr_step)
       else:
-        file_count = []
         env_dir = f"storage/{sim_code}/environment"
-        if os.path.exists(env_dir):
-          for i in find_filenames(env_dir, ".json"):
-            x = i.split("/")[-1].strip()
-            if x[0] != ".": 
-              file_count += [int(x.split(".")[0])]
-        
-        move_files = []
         move_dir = f"storage/{sim_code}/movement"
-        if os.path.exists(move_dir):
-          for i in find_filenames(move_dir, ".json"):
-            x = i.split("/")[-1].strip()
-            if x[0] != ".": 
-              move_files += [int(x.split(".")[0])]
+        file_count = _get_max_step_from_dir(env_dir)
+        move_files = _get_max_step_from_dir(move_dir)
 
-        if move_files:
-          step = max(move_files)
-        elif file_count:
-          step = max(file_count)
+        if move_files is not None:
+          step = move_files
+        elif file_count is not None:
+          step = file_count
         else:
           step = 0
 
@@ -437,37 +465,41 @@ def home(request):
         persona_names_set.add(x)
 
   persona_init_pos = []
-  file_count = []
   env_dir = f"storage/{sim_code}/environment"
-  if os.path.exists(env_dir):
-    for i in find_filenames(env_dir, ".json"):
-      x = i.split("/")[-1].strip()
-      if x[0] != ".": 
-        file_count += [int(x.split(".")[0])]
+  persona_init_pos_dict = None
 
-  if not file_count:
-    # Try reading from SimState environment field
-    try:
-      sim_state = SimState.objects.get(sim_code=sim_code, step=step)
-      if sim_state.environment and sim_state.environment != "{}":
-        persona_init_pos_dict = json.loads(sim_state.environment)
-        for key, val in persona_init_pos_dict.items(): 
-          if key in persona_names_set: 
-            persona_init_pos += [[key, val["x"], val["y"]]]
-    except SimState.DoesNotExist:
-      pass
-      
-    if not persona_init_pos:
-      context = {}
-      template = "home/error_start_backend.html"
-      return render(request, template, context)
-  else:
-    curr_json = f'storage/{sim_code}/environment/{str(max(file_count))}.json'
-    with open(curr_json) as json_file:  
-      persona_init_pos_dict = json.load(json_file)
-      for key, val in persona_init_pos_dict.items(): 
-        if key in persona_names_set: 
-          persona_init_pos += [[key, val["x"], val["y"]]]
+  # Prefer the exact step we are about to render instead of scanning the whole
+  # environment directory for the latest JSON on every first page load.
+  try:
+    sim_state_for_step = SimState.objects.get(sim_code=sim_code, step=step)
+    if sim_state_for_step.environment and sim_state_for_step.environment != "{}":
+      persona_init_pos_dict = json.loads(sim_state_for_step.environment)
+  except SimState.DoesNotExist:
+    pass
+
+  if persona_init_pos_dict is None and latest_state and latest_state.environment and latest_state.environment != "{}":
+    persona_init_pos_dict = json.loads(latest_state.environment)
+
+  if persona_init_pos_dict is None:
+    exact_env_json = f"storage/{sim_code}/environment/{step}.json"
+    if os.path.exists(exact_env_json):
+      curr_json = exact_env_json
+    else:
+      latest_env_step = _get_max_step_from_dir(env_dir)
+      curr_json = f"storage/{sim_code}/environment/{latest_env_step}.json" if latest_env_step is not None else None
+
+    if curr_json and os.path.exists(curr_json):
+      with open(curr_json) as json_file:
+        persona_init_pos_dict = json.load(json_file)
+
+  if persona_init_pos_dict is None:
+    context = {}
+    template = "home/error_start_backend.html"
+    return render(request, template, context)
+
+  for key, val in persona_init_pos_dict.items():
+    if key in persona_names_set:
+      persona_init_pos += [[key, val["x"], val["y"]]]
 
   context = {"sim_code": sim_code,
              "step": step, 
@@ -1109,6 +1141,7 @@ def update_environment(request):
   data = json.loads(request.body)
   step = data["step"]
   sim_code = data["sim_code"]
+  translate_for_ui = _coerce_bool(data.get("translate"), default=False)
 
   # Record that frontend is active (heartbeat)
   _mark_frontend_active(sim_code)
@@ -1121,7 +1154,8 @@ def update_environment(request):
     if sim_state.is_movement_ready:
       response_data = json.loads(sim_state.movement)
       response_data["<step>"] = step
-      response_data = translate_movements_in_place(response_data)
+      if translate_for_ui:
+        response_data = translate_movements_in_place(response_data)
       return JsonResponse(response_data)
   except SimState.DoesNotExist:
     pass
@@ -1132,7 +1166,8 @@ def update_environment(request):
     with open(move_file) as json_file: 
       response_data = json.load(json_file)
       response_data["<step>"] = step
-      response_data = translate_movements_in_place(response_data)
+      if translate_for_ui:
+        response_data = translate_movements_in_place(response_data)
 
   return JsonResponse(response_data)
 
@@ -1599,7 +1634,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 
 

@@ -10,7 +10,13 @@ class CookSkillPack(BaseSkillPack):
 
     def can_execute(self, persona, target, maze) -> bool:
         # Prerequisite: Must be near stove/microwave and have at least one ingredient
-        return len(persona.scratch.inventory) > 0 and persona.s_mem.find_nearest_object(target) is not None
+        has_ingredients = any(float(v or 0) > 0 for v in (persona.scratch.inventory or {}).values())
+        address = persona.s_mem.find_nearest_object(target)
+        if not has_ingredients:
+            return self.set_precheck_result(False, "cook_inventory_empty", {"target": target, "inventory": dict(persona.scratch.inventory or {})})
+        if address is None:
+            return self.set_precheck_result(False, "cook_target_missing", {"target": target})
+        return self.set_precheck_result(True, "cook_ready", {"target": target, "address": address})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         address = persona.s_mem.find_nearest_object(target)

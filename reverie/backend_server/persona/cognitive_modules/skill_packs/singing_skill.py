@@ -15,7 +15,7 @@ class SingingSkillPack(BaseSkillPack):
 
     def can_execute(self, persona, target, maze) -> bool:
         # Singing can be executed anywhere without physical checks
-        return True
+        return self.set_precheck_result(True, "sing_anywhere", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         # Singing occurs in place
