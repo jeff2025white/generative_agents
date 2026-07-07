@@ -96,6 +96,7 @@ class ConsumeSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target, metadata={"curr_tile": persona.scratch.curr_tile})
         # 1. Backpack consumption
         item_found = False
         normalized_target = normalize_food_source_target(target)
@@ -158,10 +159,11 @@ class ConsumeSkillPack(BaseSkillPack):
             return
         
         # 3. Metabolic changes
+        self.update_skill_phase(persona, "consuming", metadata={"resolved_item": target_item})
         before_snapshot = capture_attribute_snapshot(persona)
         persona.scratch.satiety = min(100.0, persona.scratch.satiety + 40.0)
         persona.scratch.health = min(100.0, persona.scratch.health + 5.0)
-        persona.scratch.mood = min(100.0, persona.scratch.mood + 10.0)
+        persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(
@@ -199,6 +201,7 @@ class ConsumeSkillPack(BaseSkillPack):
             obj="consume_recovery",
         )
         # 4. Cooking skill settlement
+        self.update_skill_phase(persona, "xp_settlement")
         persona.scratch.skills[self.associated_xp]["xp"] += 10
         if persona.scratch.skills[self.associated_xp]["xp"] >= persona.scratch.skills[self.associated_xp]["level"] * 100:
             persona.scratch.skills[self.associated_xp]["level"] += 1
@@ -214,6 +217,7 @@ class ConsumeSkillPack(BaseSkillPack):
             )
             
         # Force immediate action release upon arrival to avoid duration deadlock
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)
 
     def _is_recent_duplicate_resource_consume(self, persona, target):

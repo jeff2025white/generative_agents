@@ -14,6 +14,7 @@ from persona.cognitive_modules.social_trigger import (
     choose_social_focus,
     compute_social_cooldown,
     compute_social_opportunity_score,
+    minimum_social_chat_score,
     should_auto_initiate_social_chat,
     should_run_periodic_social_scan,
 )
@@ -178,8 +179,53 @@ class SocialTriggerTests(unittest.TestCase):
             "novelty_bonus": 0.16,
             "state_score": 0.04,
             "social_need_bonus": 0.08,
+            "mood_recovery_drive": 0.0,
         }
         self.assertTrue(should_auto_initiate_social_chat(score_detail))
+
+    def test_low_mood_lowers_minimum_social_threshold(self):
+        initiator = make_persona(
+            "Klaus Mueller",
+            mood=34.0,
+            stamina=82.0,
+            satiety=85.0,
+        )
+
+        self.assertLess(minimum_social_chat_score(initiator), 0.24)
+        self.assertEqual(minimum_social_chat_score(initiator), 0.16)
+
+    def test_low_mood_social_drive_can_select_candidate(self):
+        initiator = make_persona(
+            "Klaus Mueller",
+            tile=(1, 1),
+            mood=34.0,
+            stamina=82.0,
+            satiety=85.0,
+            relationships={"Maria Lopez": {"relationship": "acquaintance", "trust": 0.2}},
+        )
+        maria = make_persona(
+            "Maria Lopez",
+            tile=(4, 1),
+            act_description="walking through the square",
+            act_address="the Ville:Town Square:path",
+        )
+        personas = {
+            "Klaus Mueller": initiator,
+            "Maria Lopez": maria,
+        }
+        retrieved = {
+            "maria_event": {
+                "curr_event": FakeNode("Maria Lopez", "Maria Lopez is nearby in the square"),
+                "events": [],
+                "thoughts": [],
+            },
+        }
+
+        focus, candidates = choose_social_focus(initiator, retrieved, personas)
+
+        self.assertIsNotNone(focus)
+        self.assertEqual(focus["curr_event"].subject, "Maria Lopez")
+        self.assertGreaterEqual(candidates[0]["score"]["mood_recovery_drive"], 0.12)
 
 
 if __name__ == "__main__":

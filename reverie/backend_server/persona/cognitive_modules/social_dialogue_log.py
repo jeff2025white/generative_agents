@@ -58,12 +58,13 @@ def build_dialogue_id(init_persona, target_persona):
   return f"dlg_{_slug(initiator)}_{_slug(target)}_{time_part}_{step_part}"
 
 
-def set_social_dialogue_state(persona, dialogue_id, partner_name=None, role=None):
+def set_social_dialogue_state(persona, dialogue_id, partner_name=None, role=None, topic=None):
   """Persist current dialogue metadata in scratch for later stages."""
   persona.scratch.social_dialogue_id = dialogue_id
   persona.scratch.social_dialogue_partner = partner_name
   persona.scratch.social_dialogue_role = role
   persona.scratch.social_dialogue_started_step = getattr(persona.scratch, "curr_step", None)
+  persona.scratch.social_dialogue_topic = topic
 
 
 def inherit_social_dialogue_state(persona, source_persona, role=None):
@@ -76,6 +77,7 @@ def inherit_social_dialogue_state(persona, source_persona, role=None):
     dialogue_id,
     partner_name=getattr(source_persona, "name", None),
     role=role or getattr(source_persona.scratch, "social_dialogue_role", None),
+    topic=getattr(source_persona.scratch, "social_dialogue_topic", None),
   )
   return dialogue_id
 
@@ -86,6 +88,7 @@ def clear_social_dialogue_state(persona):
   persona.scratch.social_dialogue_partner = None
   persona.scratch.social_dialogue_role = None
   persona.scratch.social_dialogue_started_step = None
+  persona.scratch.social_dialogue_topic = None
 
 
 def get_social_dialogue_context(persona, target_name=None, dialogue_id=None):
@@ -95,6 +98,7 @@ def get_social_dialogue_context(persona, target_name=None, dialogue_id=None):
     "dialogue_id": dialogue_id or getattr(scratch, "social_dialogue_id", None),
     "persona": getattr(persona, "name", None),
     "target": target_name or getattr(scratch, "social_dialogue_partner", None),
+    "topic": getattr(scratch, "social_dialogue_topic", None),
     "sim_time": getattr(scratch, "curr_time", None),
     "step": getattr(scratch, "curr_step", None),
     "role": getattr(scratch, "social_dialogue_role", None),

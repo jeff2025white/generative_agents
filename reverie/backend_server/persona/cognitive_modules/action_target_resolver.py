@@ -7,6 +7,7 @@ PLACE_TARGET_CANDIDATES = {
     "work": ("office", "counter", "computer", "desk", "classroom"),
     "use": ("computer", "game console", "tv", "fitness machine", "pool table", "piano"),
     "leisure_use": ("game console", "tv", "pool table", "piano", "park garden", "cafe customer seating"),
+    "hangout_social_venue": ("hobbs cafe", "cafe", "pub", "bar", "plaza", "park garden", "common room"),
     "wander": ("park garden", "park", "plaza", "courtyard", "common room"),
 }
 
@@ -44,6 +45,11 @@ KNOWN_ARENA_RULES = [
         "excluded_keywords": [],
     },
     {
+        "triggers": ["pub", "bar", "tavern", "rose and crown"],
+        "preferred_keywords": ["pub", "bar", "tavern", "cafe"],
+        "excluded_keywords": [],
+    },
+    {
         "triggers": ["library", "library table", "bookshelf", "blackboard"],
         "preferred_keywords": ["library", "classroom"],
         "excluded_keywords": [],
@@ -65,7 +71,7 @@ KNOWN_ARENA_RULES = [
     },
 ]
 
-ARENA_ONLY_SKILLS = {"use", "work", "study", "leisure_use", "wander"}
+ARENA_ONLY_SKILLS = {"use", "work", "study", "leisure_use", "hangout_social_venue", "wander"}
 
 
 def _normalize_text(value):
@@ -173,7 +179,11 @@ def resolve_target_persona(personas, target_name):
     normalized_target = _normalize_text(target_name)
     if not normalized_target:
         return None, None
-    for candidate in personas or []:
+    if isinstance(personas, dict):
+        candidates = personas.values()
+    else:
+        candidates = personas or []
+    for candidate in candidates:
         candidate_name = str(getattr(candidate, "name", "") or "").strip()
         if _normalize_text(candidate_name) == normalized_target:
             return candidate, candidate_name

@@ -24,6 +24,31 @@ def _safe_name(target_persona):
   return getattr(target_persona, "name", "")
 
 
+def _mood_recovery_drive(init_persona):
+  """Estimate how strongly low mood should bias the agent toward social relief."""
+  scratch = getattr(init_persona, "scratch", None)
+  if not scratch:
+    return 0.0
+  mood = float(getattr(scratch, "mood", 100.0) or 100.0)
+  satiety = float(getattr(scratch, "satiety", 100.0) or 100.0)
+  stamina = float(getattr(scratch, "stamina", 100.0) or 100.0)
+  health = float(getattr(scratch, "health", 100.0) or 100.0)
+
+  drive = 0.0
+  if mood < 60:
+    drive += 0.04
+  if mood < 45:
+    drive += 0.04
+  if mood < 30:
+    drive += 0.04
+
+  # When the body is otherwise safe, social comfort should be easier to choose.
+  if mood < 60 and satiety >= 65 and stamina >= 45 and health >= 65:
+    drive += 0.04
+
+  return _clamp(drive, 0.0, 0.16)
+
+
 def _get_relationship_info(init_persona, target_persona):
   """Return relationship metadata between two personas."""
   try:
@@ -177,8 +202,12 @@ def _social_need_bonus(init_persona):
   score = 0.0
   mood = float(getattr(init_persona.scratch, "mood", 100.0) or 100.0)
   stamina = float(getattr(init_persona.scratch, "stamina", 100.0) or 100.0)
-  if mood < 65:
-    score += 0.05
+  if mood < 70:
+    score += 0.03
+  if mood < 60:
+    score += 0.04
+  if mood < 45:
+    score += 0.04
   if stamina >= 35:
     score += 0.03
   last_social_time = getattr(init_persona.scratch, "last_social_time", None)
@@ -194,7 +223,8 @@ def _social_need_bonus(init_persona):
         score += 0.04
     except Exception:
       score += 0.03
-  return _clamp(score, 0.0, 0.16)
+  score += _mood_recovery_drive(init_persona)
+  return _clamp(score, 0.0, 0.28)
 
 
 def _recent_chat_penalty(init_persona, target_persona):
@@ -243,9 +273,11 @@ def _switch_cost_penalty(init_persona, target_persona):
     action_description=f"chatting with {_safe_name(target_persona)}",
   )
   try:
-    return min(0.32, float(getattr(scratch, "compute_switch_cost", lambda _sig: 0.0)(chat_signature) or 0.0))
+    raw_penalty = min(0.32, float(getattr(scratch, "compute_switch_cost", lambda _sig: 0.0)(chat_signature) or 0.0))
   except Exception:
     return 0.0
+  relief_discount = min(0.12, _mood_recovery_drive(init_persona) * 0.75)
+  return max(0.0, raw_penalty - relief_discount)
 
 
 def _recent_duplicate_social_penalty(init_persona, target_persona):
@@ -274,6 +306,7 @@ def compute_social_opportunity_score(init_persona, target_persona, retrieved):
     "state_score": _state_score(init_persona, target_persona),
     "novelty_bonus": _novelty_bonus(target_persona, retrieved),
     "social_need_bonus": _social_need_bonus(init_persona),
+    "mood_recovery_drive": _mood_recovery_drive(init_persona),
     "recent_chat_penalty": _recent_chat_penalty(init_persona, target_persona),
     "recent_duplicate_penalty": _recent_duplicate_social_penalty(init_persona, target_persona),
     "night_penalty": _night_penalty(init_persona),
@@ -287,6 +320,7 @@ def compute_social_opportunity_score(init_persona, target_persona, retrieved):
     + detail["state_score"]
     + detail["novelty_bonus"]
     + detail["social_need_bonus"]
+    + detail["mood_recovery_drive"]
     + detail["conflict_bonus"]
     - detail["relationship_penalty"]
     - detail["recent_chat_penalty"]
@@ -297,6 +331,21 @@ def compute_social_opportunity_score(init_persona, target_persona, retrieved):
   )
   detail["total"] = _clamp(total, 0.0, 1.0)
   return detail
+
+
+def minimum_social_chat_score(init_persona):
+  """Return the minimum score needed before an NPC should initiate social chat."""
+  threshold = 0.24
+  drive = _mood_recovery_drive(init_persona)
+  if drive >= 0.16:
+    threshold = 0.14
+  elif drive >= 0.12:
+    threshold = 0.16
+  elif drive >= 0.08:
+    threshold = 0.19
+  elif drive >= 0.04:
+    threshold = 0.21
+  return _clamp(threshold, 0.12, 0.30)
 
 
 def compute_social_cooldown(init_persona, target_persona, retrieved=None, score_detail=None):
@@ -325,18 +374,23 @@ def should_auto_initiate_social_chat(score_detail):
   novelty_bonus = float(score_detail.get("novelty_bonus", 0.0) or 0.0)
   state_score = float(score_detail.get("state_score", 0.0) or 0.0)
   social_need_bonus = float(score_detail.get("social_need_bonus", 0.0) or 0.0)
+  mood_recovery_drive = float(score_detail.get("mood_recovery_drive", 0.0) or 0.0)
 
   if total >= 0.50 and urgency_penalty <= 0.08:
     return True
+  if total >= 0.30 and urgency_penalty <= 0.05 and mood_recovery_drive >= 0.12:
+    return True
   if total >= 0.42 and urgency_penalty <= 0.08 and (
-    novelty_bonus >= 0.12 or state_score >= 0.04 or social_need_bonus >= 0.08
+    novelty_bonus >= 0.12 or state_score >= 0.04 or social_need_bonus >= 0.08 or mood_recovery_drive >= 0.08
   ):
     return True
   return False
 
 
-def choose_social_focus(persona, retrieved, personas, min_score=0.24):
+def choose_social_focus(persona, retrieved, personas, min_score=None):
   """Pick the best nearby persona-related event for social reaction."""
+  if min_score is None:
+    min_score = minimum_social_chat_score(persona)
   best_entry = None
   best_score = -1.0
   candidates = []

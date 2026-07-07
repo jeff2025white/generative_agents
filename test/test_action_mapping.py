@@ -14,6 +14,7 @@ from persona.cognitive_modules.action_target_resolver import (
     resolve_action_target_address,
     resolve_known_arena_address,
 )
+from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
 import persona.cognitive_modules.plan as plan_module
 
 
@@ -163,6 +164,63 @@ class ActionMappingTests(unittest.TestCase):
         self.assertEqual(address, "the Ville:Hobbs Cafe:cafe")
         self.assertNotEqual(address, "<persona> bar customer seating")
         self.assertIn(meta["kind"], {"known_arena", "direct_arena_match"})
+
+    def test_collective_social_target_is_detected(self):
+        self.assertTrue(plan_module._is_collective_social_target("customers"))
+        self.assertTrue(plan_module._is_collective_social_target("pub patrons"))
+        self.assertFalse(plan_module._is_collective_social_target("Maria Lopez"))
+
+    def test_collective_social_target_routes_to_hangout_skill(self):
+        action, target, detail, reasoning, rerouted = plan_module._coerce_collective_social_hangout(
+            "Socialize",
+            "customers at Hobbs Cafe",
+            "socializing with customers at Hobbs Cafe",
+            "Mood is low and social comfort would help.",
+        )
+
+        self.assertTrue(rerouted)
+        self.assertEqual(action, "hangout_social_venue")
+        self.assertEqual(target, "hobbs cafe")
+        self.assertIn("people-watching", detail)
+        self.assertIn("collective social target routed", reasoning)
+
+    def test_explicit_persona_chat_routes_to_seek_and_chat(self):
+        personas = {
+            "Klaus Mueller": type("P", (), {"name": "Klaus Mueller"})(),
+        }
+        action, target, detail, reasoning, rerouted = plan_module._coerce_explicit_persona_chat(
+            "Socialize",
+            "Klaus Mueller",
+            "chatting with Klaus Mueller",
+            "Mood is low and I want to catch Klaus.",
+            personas=personas,
+        )
+
+        self.assertTrue(rerouted)
+        self.assertEqual(action, "seek_and_chat")
+        self.assertEqual(target, "Klaus Mueller")
+        self.assertIn("seek_and_chat", reasoning)
+
+    def test_seek_and_chat_builds_purposeful_objective(self):
+        skill = SeekAndChatSkillPack()
+        persona = type(
+            "Persona",
+            (),
+            {
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "act_command": {"detail": "asking Klaus Mueller about the missing cafe supplies"},
+                        "act_description": "asking Klaus Mueller about the missing cafe supplies",
+                    },
+                )(),
+            },
+        )()
+
+        objective = skill._build_conversation_objective(persona, "Klaus Mueller")
+
+        self.assertIn("missing cafe supplies", objective)
 
 
 if __name__ == "__main__":

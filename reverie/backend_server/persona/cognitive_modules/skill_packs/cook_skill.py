@@ -62,7 +62,9 @@ class CookSkillPack(BaseSkillPack):
             return {"dish": "cooked apple", "monologue": "Cooking some apples."}
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         # 1. Cognitive decision
+        self.update_skill_phase(persona, "cooking_decision", metadata={"target": target})
         decision = self.cognitive_decision(persona, target, maze, personas)
         dish = decision.get("dish", "cooked apple")
         monologue = decision.get("monologue", "Cooking food.")
@@ -75,7 +77,9 @@ class CookSkillPack(BaseSkillPack):
         persona.scratch.inventory[dish] = persona.scratch.inventory.get(dish, 0) + 1
 
         # 3. Settlement
+        self.update_skill_phase(persona, "inventory_settlement", metadata={"dish": dish})
         persona.scratch.skills[self.associated_xp]["xp"] += 15
         persona.scratch.act_pronunciatio = "🍳"
+        self.mark_finalizing_phase(persona, metadata={"dish": dish})
         self.finish_success(persona)
         print(f"=== [大模型辅助技能结算] {persona.name} 烹饪了 {dish}! 独白: {monologue} ===")

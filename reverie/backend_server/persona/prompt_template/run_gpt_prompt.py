@@ -3248,7 +3248,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
         "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).",
         "- Gathering food (Gather action) adds items to inventory.",
         "- Resting (Rest action) restores Stamina over time (about +0.15 per step while sleeping, about +0.08 per step while resting).",
-        "- Socializing (Socialize action) gives only a small Mood lift (+6.0 Mood); a brief chat should not massively change emotion.",
+        "- Socializing (Socialize action) gives only a tiny Mood lift (+1.0 Mood); a brief chat should not massively change emotion.",
         "- Giving (Give action) transfers one item from your inventory to another resident.",
         "- Robbing (Rob action) takes one item from another resident's inventory.",
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."

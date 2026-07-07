@@ -22,12 +22,13 @@ class SingingSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         # 1. Restore Stamina and Mood as singing boosts happiness
         before_stamina = persona.scratch.stamina
         before_mood = persona.scratch.mood
         before_snapshot = capture_attribute_snapshot(persona)
         persona.scratch.stamina = min(100.0, persona.scratch.stamina + 5.0)
-        persona.scratch.mood = min(100.0, persona.scratch.mood + 15.0)
+        persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(
@@ -67,4 +68,5 @@ class SingingSkillPack(BaseSkillPack):
                         "new_level": persona.scratch.skills[self.associated_xp]["level"],
                     }
                 )
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)

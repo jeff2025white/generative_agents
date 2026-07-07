@@ -20,6 +20,7 @@ class CoffeeServiceSkillPack(BaseSkillPack):
         return []
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
         
         # 1. Serving Coffee Sync
@@ -83,4 +84,5 @@ class CoffeeServiceSkillPack(BaseSkillPack):
                                             persona.name, "drink", "coffee", 
                                             desc, {"drink", "coffee", server_name.split()[0]}, 5, 
                                             (desc, is_emb), None)
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)

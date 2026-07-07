@@ -208,6 +208,15 @@ class Scratch:
     self.social_dialogue_partner = None
     self.social_dialogue_role = None
     self.social_dialogue_started_step = None
+    self.social_dialogue_topic = None
+    self.active_skill_name = None
+    self.active_skill_id = None
+    self.active_skill_status = None
+    self.active_skill_phase = None
+    self.active_skill_started_step = None
+    self.active_skill_owner = None
+    self.active_skill_target = None
+    self.active_skill_metadata = None
 
     # <path_set> is True if we've already calculated the path the persona will
     # take to execute this action. That path is stored in the persona's 
@@ -341,6 +350,15 @@ class Scratch:
       self.social_dialogue_partner = scratch_load.get("social_dialogue_partner", None)
       self.social_dialogue_role = scratch_load.get("social_dialogue_role", None)
       self.social_dialogue_started_step = scratch_load.get("social_dialogue_started_step", None)
+      self.social_dialogue_topic = scratch_load.get("social_dialogue_topic", None)
+      self.active_skill_name = scratch_load.get("active_skill_name")
+      self.active_skill_id = scratch_load.get("active_skill_id")
+      self.active_skill_status = scratch_load.get("active_skill_status")
+      self.active_skill_phase = scratch_load.get("active_skill_phase")
+      self.active_skill_started_step = scratch_load.get("active_skill_started_step")
+      self.active_skill_owner = scratch_load.get("active_skill_owner")
+      self.active_skill_target = scratch_load.get("active_skill_target")
+      self.active_skill_metadata = scratch_load.get("active_skill_metadata")
 
       self.act_path_set = scratch_load["act_path_set"]
       self.planned_path = scratch_load["planned_path"]
@@ -393,6 +411,19 @@ class Scratch:
     scratch["last_action_observation"] = self.last_action_observation
     scratch["active_execution_state"] = self.active_execution_state
     scratch["current_action_record"] = self.current_action_record
+    scratch["active_skill_name"] = self.active_skill_name
+    scratch["active_skill_id"] = self.active_skill_id
+    scratch["active_skill_status"] = self.active_skill_status
+    scratch["active_skill_phase"] = self.active_skill_phase
+    scratch["active_skill_started_step"] = self.active_skill_started_step
+    scratch["active_skill_owner"] = self.active_skill_owner
+    scratch["active_skill_target"] = self.active_skill_target
+    scratch["active_skill_metadata"] = self.active_skill_metadata
+    scratch["social_dialogue_id"] = self.social_dialogue_id
+    scratch["social_dialogue_partner"] = self.social_dialogue_partner
+    scratch["social_dialogue_role"] = self.social_dialogue_role
+    scratch["social_dialogue_started_step"] = self.social_dialogue_started_step
+    scratch["social_dialogue_topic"] = self.social_dialogue_topic
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
@@ -674,6 +705,7 @@ class Scratch:
       self.social_dialogue_partner = None
       self.social_dialogue_role = None
       self.social_dialogue_started_step = None
+      self.social_dialogue_topic = None
 
     self.act_obj_description = act_obj_description
     self.act_obj_pronunciatio = act_obj_pronunciatio
@@ -684,6 +716,21 @@ class Scratch:
     self.act_path_set = False
     self.serving_memory_written = False
     self.drinking_memory_written = False
+    skill_id = None
+    if isinstance(resolved_action_command, dict):
+      skill_id = str(resolved_action_command.get("skill_id") or "").strip().lower()
+    if skill_id and skill_id not in {"chat", "chat with", "creator_comm"}:
+      skill_target = next_signature.get("target")
+      self.begin_complex_skill(
+        skill_id,
+        phase="pathing",
+        owner=self.name,
+        target=skill_target,
+        metadata={
+          "source": resolved_action_command.get("source") if isinstance(resolved_action_command, dict) else None,
+          "action_description": action_description,
+        },
+      )
     if action_record:
       self.set_current_action_record(action_record)
     else:
@@ -951,6 +998,105 @@ class Scratch:
     }
 
 
+  def begin_complex_skill(self, skill_name, *, skill_id=None, phase="pending", owner=None, target=None, metadata=None):
+    self.active_skill_name = skill_name
+    self.active_skill_id = skill_id or self.social_dialogue_id or f"{self.name}-{self.curr_step}-{skill_name}"
+    self.active_skill_status = "in_progress"
+    self.active_skill_phase = phase
+    self.active_skill_started_step = self.curr_step
+    self.active_skill_owner = owner or self.name
+    self.active_skill_target = target
+    self.active_skill_metadata = dict(metadata or {})
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "complex_skill_begin",
+        "curr_step": self.curr_step,
+        "skill_name": self.active_skill_name,
+        "skill_id": self.active_skill_id,
+        "phase": self.active_skill_phase,
+        "owner": self.active_skill_owner,
+        "target": self.active_skill_target,
+        "metadata": self.active_skill_metadata,
+      }
+    )
+
+
+  def update_complex_skill_phase(self, phase, *, metadata=None):
+    if not self.active_skill_name:
+      return
+    self.active_skill_status = "in_progress"
+    self.active_skill_phase = phase
+    if metadata:
+      merged = dict(self.active_skill_metadata or {})
+      merged.update(metadata)
+      self.active_skill_metadata = merged
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "complex_skill_phase",
+        "curr_step": self.curr_step,
+        "skill_name": self.active_skill_name,
+        "skill_id": self.active_skill_id,
+        "phase": self.active_skill_phase,
+        "owner": self.active_skill_owner,
+        "target": self.active_skill_target,
+        "metadata": self.active_skill_metadata,
+      }
+    )
+
+
+  def clear_complex_skill_state(self):
+    self.active_skill_name = None
+    self.active_skill_id = None
+    self.active_skill_status = None
+    self.active_skill_phase = None
+    self.active_skill_started_step = None
+    self.active_skill_owner = None
+    self.active_skill_target = None
+    self.active_skill_metadata = None
+
+
+  def finish_complex_skill(self, status="completed", *, metadata=None):
+    if not self.active_skill_name:
+      return
+    self.active_skill_status = status
+    if metadata:
+      merged = dict(self.active_skill_metadata or {})
+      merged.update(metadata)
+      self.active_skill_metadata = merged
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "complex_skill_finish",
+        "curr_step": self.curr_step,
+        "skill_name": self.active_skill_name,
+        "skill_id": self.active_skill_id,
+        "status": self.active_skill_status,
+        "phase": self.active_skill_phase,
+        "owner": self.active_skill_owner,
+        "target": self.active_skill_target,
+        "metadata": self.active_skill_metadata,
+      }
+    )
+    self.clear_complex_skill_state()
+
+
+  def is_complex_skill_in_progress(self, skill_name=None):
+    if self.active_skill_status != "in_progress" or not self.active_skill_name:
+      return False
+    if skill_name and self.active_skill_name != skill_name:
+      return False
+    return True
+
+
+  def should_lock_high_level_planning(self):
+    return self.is_complex_skill_in_progress()
+
+
   def clear_current_action(self, keep_last_desc=False):
     if keep_last_desc and self.act_description:
       self.last_action_desc = self.act_description
@@ -1093,6 +1239,8 @@ class Scratch:
     self.social_dialogue_partner = None
     self.social_dialogue_role = None
     self.social_dialogue_started_step = None
+    self.social_dialogue_topic = None
+    self.clear_complex_skill_state()
     self.act_address = None
     self.act_description = None
     self.act_command = None

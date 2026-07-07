@@ -214,6 +214,7 @@ class GatherSkillPack(BaseSkillPack):
         return []
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target, metadata={"curr_tile": persona.scratch.curr_tile})
         # 1. Resource output settlement
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         curr_obj = curr_obj.lower() if curr_obj else ""
@@ -236,6 +237,11 @@ class GatherSkillPack(BaseSkillPack):
         effective_source = self._clean_target(target) if is_valid_gather_food_source(target) else self._clean_target(curr_obj)
         source_address = getattr(persona.scratch, "act_address", None) or self._find_available_address(persona, effective_source)
         world_state = getattr(persona, "world_resource_state", None)
+        self.update_skill_phase(
+            persona,
+            "resource_settlement",
+            metadata={"effective_source": effective_source, "source_address": source_address},
+        )
         if not is_valid_gather_food_source(effective_source):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -301,7 +307,7 @@ class GatherSkillPack(BaseSkillPack):
         before_snapshot = capture_attribute_snapshot(persona)
         if effective_source == "apple tree":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 2
-            persona.scratch.mood = min(100.0, persona.scratch.mood + 8.0)
+            persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
         elif effective_source == "refrigerator":
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
         elif effective_source == "cafe counter":
@@ -347,6 +353,22 @@ class GatherSkillPack(BaseSkillPack):
             followup_address = persona.scratch.act_address
             if not followup_address:
                 followup_address = persona.s_mem.find_nearest_object("refrigerator") or persona.scratch.living_area
+            self.update_skill_phase(
+                persona,
+                "followup_scheduled",
+                metadata={
+                    "followup_skill": "consume",
+                    "followup_target": "apple",
+                    "followup_address": followup_address,
+                    "inventory_after": dict(persona.scratch.inventory),
+                    "satiety": persona.scratch.satiety,
+                },
+            )
+            self.mark_finalizing_phase(
+                persona,
+                metadata={"result": "gather_completed_with_followup_schedule"},
+            )
+            self.finish_success(persona)
             persona.scratch.add_new_action(
                 followup_address,
                 2,
@@ -377,6 +399,7 @@ class GatherSkillPack(BaseSkillPack):
             return
         
         # 2. Skill level & XP settlement
+        self.update_skill_phase(persona, "xp_settlement")
         persona.scratch.skills[self.associated_xp]["xp"] += 10
         if persona.scratch.skills[self.associated_xp]["xp"] >= persona.scratch.skills[self.associated_xp]["level"] * 100:
             persona.scratch.skills[self.associated_xp]["level"] += 1
@@ -392,4 +415,5 @@ class GatherSkillPack(BaseSkillPack):
             )
             
         # Force immediate action release upon arrival to avoid duration deadlock
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)

@@ -8,6 +8,8 @@ from persona.cognitive_modules.skill_packs.generic_activity_skill import Generic
 from persona.cognitive_modules.skill_packs.singing_skill import SingingSkillPack
 from persona.cognitive_modules.skill_packs.give_skill import GiveSkillPack
 from persona.cognitive_modules.skill_packs.rob_skill import RobSkillPack
+from persona.cognitive_modules.skill_packs.social_venue_hangout_skill import SocialVenueHangoutSkillPack
+from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
 
 SKILL_REGISTRY = {
     # Consume Skill
@@ -60,17 +62,21 @@ SKILL_REGISTRY = {
     "singing": SingingSkillPack(),
 
     # Generic non-survival skills
-    "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 2.0}),
+    "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 1.0}),
     "working": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
     "work": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
     "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
     "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
-    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 8.0}),
-    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 6.0}),
-    "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 10.0}),
+    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 1.0}),
+    "hangout_social_venue": SocialVenueHangoutSkillPack(),
+    "hangout": SocialVenueHangoutSkillPack(),
+    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 1.0}),
+    "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 1.0}),
     
     # Pluggable Chat Skill Pack mapping
     "chat with": ChatSkillPack(),
+    "seek_and_chat": SeekAndChatSkillPack(),
+    "seek chat": SeekAndChatSkillPack(),
     "chat": ChatSkillPack(),
     "talk": ChatSkillPack(),
     "whisper": ChatSkillPack(),

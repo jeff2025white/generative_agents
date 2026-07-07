@@ -45,6 +45,7 @@ class GiveSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         target_persona = resolve_target_persona(personas, target)
         if not target_persona:
             log_transfer_failure(persona, "give", target, "target_not_found")
@@ -83,8 +84,8 @@ class GiveSkillPack(BaseSkillPack):
 
         persona.scratch.inventory[item_name] = max(0, int(persona.scratch.inventory.get(item_name, 0)) - 1)
         target_persona.scratch.inventory[item_name] = int(target_persona.scratch.inventory.get(item_name, 0)) + 1
-        persona.scratch.mood = min(100.0, float(persona.scratch.mood) + 2.0)
-        target_persona.scratch.mood = min(100.0, float(target_persona.scratch.mood) + 8.0)
+        persona.scratch.mood = min(100.0, float(persona.scratch.mood) + 1.0)
+        target_persona.scratch.mood = min(100.0, float(target_persona.scratch.mood) + 1.0)
 
         if getattr(persona, "a_mem", None):
             persona.a_mem.update_relationship(
@@ -142,4 +143,5 @@ class GiveSkillPack(BaseSkillPack):
             obj=persona.name,
         )
 
+        self.mark_finalizing_phase(persona, metadata={"item": item_name, "target": target_persona.name})
         self.finish_success(persona)

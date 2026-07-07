@@ -74,11 +74,17 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "meander": "wander",
         "meandering": "wander",
         "chat with": "chat with",
+        "seek_and_chat": "seek_and_chat",
+        "seek chat": "seek_and_chat",
         "chat": "chat with",
         "talk": "chat with",
         "socialize": "chat with",
         "socializing": "chat with",
         "communicate": "chat with",
+        "hangout_social_venue": "hangout_social_venue",
+        "hangout": "hangout_social_venue",
+        "loiter": "hangout_social_venue",
+        "linger": "hangout_social_venue",
         "give": "give",
         "giving": "give",
         "gift": "give",
@@ -184,7 +190,7 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         if _contains_any(context_text, food_keywords):
             return "restore_satiety"
         return "acquire_resource"
-    if normalized_skill in {"chat with", "creator_comm"}:
+    if normalized_skill in {"chat with", "seek_and_chat", "creator_comm"}:
         return "communication"
     if normalized_skill == "give":
         return "communication"
@@ -194,7 +200,7 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         return "study"
     if normalized_skill == "work":
         return "work"
-    if normalized_skill in {"use", "leisure_use", "sing", "daydream", "wander"}:
+    if normalized_skill in {"use", "leisure_use", "hangout_social_venue", "sing", "daydream", "wander"}:
         return "leisure"
     return normalized_skill or "unknown"
 

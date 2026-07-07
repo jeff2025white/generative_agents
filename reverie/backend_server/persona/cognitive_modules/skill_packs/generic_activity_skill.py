@@ -44,6 +44,7 @@ class GenericActivitySkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         before_stats = {
             "stamina": persona.scratch.stamina,
             "mood": persona.scratch.mood,
@@ -87,4 +88,5 @@ class GenericActivitySkillPack(BaseSkillPack):
             predicate="changed",
             obj=f"{self.name}_activity",
         )
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)

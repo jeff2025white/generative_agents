@@ -53,6 +53,7 @@ from persona.cognitive_modules.social_trigger import (
   compute_social_cooldown,
   compute_social_opportunity_score,
   log_social_decision,
+  minimum_social_chat_score,
   should_auto_initiate_social_chat,
   social_hard_block,
 )
@@ -73,10 +74,91 @@ from persona.cognitive_modules.converse import *
 STEP_TIMING_LOG = "step_timing.jsonl"
 SLOW_TIMING_THRESHOLD_MS = 10000
 _ACT_OBJ_STATE_CACHE = {}
+COLLECTIVE_SOCIAL_TARGET_KEYWORDS = {
+  "customer",
+  "customers",
+  "patron",
+  "patrons",
+  "people",
+  "crowd",
+  "guests",
+  "visitors",
+  "everyone",
+  "others",
+}
+
+SOCIAL_VENUE_HINTS = (
+  "hobbs cafe",
+  "cafe",
+  "pub",
+  "bar",
+  "tavern",
+  "plaza",
+  "park",
+  "common room",
+  "rose and crown",
+)
 
 
 def _elapsed_ms(started_at):
   return round((time.perf_counter() - started_at) * 1000.0, 3)
+
+
+def _is_collective_social_target(target):
+  normalized = str(target or "").strip().lower()
+  if not normalized:
+    return False
+  tokens = set(normalized.replace("-", " ").split())
+  return bool(tokens & COLLECTIVE_SOCIAL_TARGET_KEYWORDS)
+
+
+def _extract_social_venue_target(target, detail):
+  combined = " ".join(
+    str(value or "").strip().lower()
+    for value in (target, detail)
+    if value
+  )
+  for hint in SOCIAL_VENUE_HINTS:
+    if hint in combined:
+      return hint
+  return None
+
+
+def _coerce_collective_social_hangout(action, target, act_desp, reasoning):
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  if normalized_skill_id != "chat with" or not _is_collective_social_target(target):
+    return action, target, act_desp, reasoning, False
+  venue_target = _extract_social_venue_target(target, act_desp)
+  if not venue_target:
+    return action, target, act_desp, reasoning, False
+  hangout_description = (
+    f"relaxing and people-watching at {venue_target}"
+    if not act_desp
+    else f"relaxing and people-watching at {venue_target}"
+  )
+  next_reasoning = str(reasoning or "")
+  if next_reasoning:
+    next_reasoning = f"{next_reasoning} [collective social target routed to venue hangout]"
+  else:
+    next_reasoning = "[collective social target routed to venue hangout]"
+  return "hangout_social_venue", venue_target, hangout_description, next_reasoning, True
+
+
+def _coerce_explicit_persona_chat(action, target, act_desp, reasoning, personas=None):
+  normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  if normalized_skill_id != "chat with":
+    return action, target, act_desp, reasoning, False
+  if _is_collective_social_target(target):
+    return action, target, act_desp, reasoning, False
+  persona_resolution = resolve_persona_target(personas or {}, target)
+  if not persona_resolution.get("ok"):
+    return action, target, act_desp, reasoning, False
+  next_reasoning = str(reasoning or "")
+  if next_reasoning:
+    next_reasoning = f"{next_reasoning} [explicit persona social intent routed to seek_and_chat]"
+  else:
+    next_reasoning = "[explicit persona social intent routed to seek_and_chat]"
+  return "seek_and_chat", target, act_desp, next_reasoning, True
 
 
 def _log_timing_event(event_name, payload):
@@ -1568,7 +1650,7 @@ def _should_react(persona, retrieved, personas):
         payload={"reasons": hard_reasons},
       )
       return False
-    if score_detail["total"] < 0.24:
+    if score_detail["total"] < minimum_social_chat_score(init_persona):
       log_social_dialogue(
         init_persona,
         "trigger",
@@ -1899,6 +1981,18 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
       act_obj_event, act_start_time)
     set_social_dialogue_state(p, dialogue_id, partner_name=chatting_with, role=role)
+    if hasattr(p.scratch, "begin_complex_skill"):
+      p.scratch.begin_complex_skill(
+        "chat",
+        skill_id=dialogue_id,
+        phase="pathing",
+        owner=role,
+        target=chatting_with,
+        metadata={
+          "dialogue_id": dialogue_id,
+          "chatting_end_time": chatting_end_time.strftime("%B %d, %Y, %H:%M:%S"),
+        },
+      )
     log_social_decision(
       p,
       chatting_with,
@@ -2129,7 +2223,7 @@ def decide_survival_action(persona, maze):
   return persona.scratch.act_address
 
 
-def decide_demand_action(persona, maze):
+def decide_demand_action(persona, maze, personas=None):
   import json
   decision_started_at = time.perf_counter()
   phase_started_at = decision_started_at
@@ -2188,7 +2282,7 @@ def decide_demand_action(persona, maze):
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
       "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.",
-      "- Socializing (Socialize action) provides a small mood lift (+6.0 Mood) and a little comfort, but short chats should not dramatically change your emotional state.",
+      "- Socializing (Socialize action) provides only a tiny mood lift (+1.0 Mood) and a little comfort, but short chats should not dramatically change your emotional state.",
       "- Normal activities decay Satiety by -0.08 per step, and sleeping decays Satiety by -0.04 per step.",
       "- Normal activities decay Stamina by -0.04 per step, and walking/pathing decays Stamina by -0.07 per step.",
       "- Sleeping restores Stamina by +0.15 per step, and resting restores Stamina by +0.08 per step.",
@@ -2345,6 +2439,19 @@ def decide_demand_action(persona, maze):
     act_desp,
     reasoning,
   )
+  action, target, act_desp, reasoning, collective_social_reroute = _coerce_collective_social_hangout(
+    action,
+    target,
+    act_desp,
+    reasoning,
+  )
+  action, target, act_desp, reasoning, explicit_persona_chat_reroute = _coerce_explicit_persona_chat(
+    action,
+    target,
+    act_desp,
+    reasoning,
+    personas=personas,
+  )
   minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=decision_timing_meta)
   append_debug_log(
     "training_dataset/decision_training_prep.jsonl",
@@ -2357,6 +2464,8 @@ def decide_demand_action(persona, maze):
         "prompt_kind": "joint_decision" if used_joint_decision else "action_translation",
         "final_prompt": None,
         "decision": decision,
+        "collective_social_reroute": bool(collective_social_reroute),
+        "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
         "constraint_hit": bool(decision_timing_meta.get("constraint_hits", 0)),
         "retry_reason": decision_timing_meta.get("last_retry_reason", ""),
         "execution_outcome": "decision_selected",
@@ -2439,6 +2548,11 @@ def decide_demand_action(persona, maze):
         "event": "decision_snapshot",
         "intent": thinking_text,
         "decision": decision,
+        "decision_routed_action": action,
+        "decision_routed_target": target,
+        "decision_routed_detail": act_desp,
+        "collective_social_reroute": bool(collective_social_reroute),
+        "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
         "stats": {
           "satiety": persona.scratch.satiety,
           "stamina": persona.scratch.stamina,
@@ -2504,8 +2618,8 @@ def decide_demand_action(persona, maze):
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   resolution_meta = None
   target_persona_name = None
-  if normalized_skill_id in {"chat with", "give", "rob"} and target not in {"none", "", None}:
-    persona_resolution = resolve_persona_target(personas, target)
+  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target not in {"none", "", None}:
+    persona_resolution = resolve_persona_target(personas or {}, target)
     if persona_resolution.get("ok"):
       candidate_target = persona_resolution.get("resolved_target")
       target_persona_name = candidate_target
@@ -2525,6 +2639,25 @@ def decide_demand_action(persona, maze):
         "target_type": "persona",
         "target_resolution_failure": persona_resolution.get("failure_reason"),
       }
+      if normalized_skill_id == "chat with" and _is_collective_social_target(target):
+        location_resolution = resolve_action_target(
+          persona,
+          maze,
+          "hangout_social_venue",
+          target=target,
+          detail=act_desp,
+        )
+        if location_resolution.get("ok"):
+          normalized_skill_id = "hangout_social_venue"
+          action = "hangout_social_venue"
+          new_address = location_resolution.get("resolved_address")
+          resolution_meta = {
+            "kind": "collective_social_target_fallback",
+            "matched": location_resolution.get("resolved_target"),
+            "target_type": location_resolution.get("target_type"),
+            "original_target": candidate_target,
+          }
+          act_desp = f"relaxing and people-watching at {location_resolution.get('resolved_target')}"
   elif normalized_skill_id == "consume" and _has_inventory_item(persona, target):
     new_address = _current_tile_wait_address(persona)
     resolution_meta = {
@@ -2552,7 +2685,7 @@ def decide_demand_action(persona, maze):
       act_sector = generate_action_sector(act_desp, persona, maze)
       act_arena = generate_action_arena(act_desp, persona, maze, act_world, act_sector)
       act_address = f"{act_world}:{act_sector}:{act_arena}"
-      if normalized_skill_id in {"use", "work", "study", "leisure_use"}:
+      if normalized_skill_id in {"use", "work", "study", "leisure_use", "hangout_social_venue"}:
         new_address = act_address
         resolution_meta = {"kind": "arena_fallback", "matched": act_address}
       else:
@@ -2573,7 +2706,7 @@ def decide_demand_action(persona, maze):
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
 
-  if normalized_skill_id in {"chat with", "give", "rob"} and target_persona_name:
+  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target_persona_name:
     act_pron = "💬"
     act_event = (persona.name, normalized_skill_id, target_persona_name)
   else:
@@ -2602,7 +2735,7 @@ def decide_demand_action(persona, maze):
   
   # Persona's actions also influence the object states. We set those up here. 
   phase_started_at = time.perf_counter()
-  if normalized_skill_id in {"chat with", "give", "rob"} and target not in {"none", "", None}:
+  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target not in {"none", "", None}:
     act_obj_desp = None
     act_obj_pron = None
     act_obj_event = (None, None, None)
@@ -2672,6 +2805,10 @@ def plan(persona, maze, personas, new_day, retrieved):
   if new_day == "New day":
     revise_identity(persona)
 
+  if getattr(persona.scratch, "should_lock_high_level_planning", lambda: False)():
+    _decrement_chatting_with_buffer(persona)
+    return persona.scratch.act_address
+
   # Unify scheduling and survival intercepts into one real-time demand-driven decision engine
   act_desc = persona.scratch.act_description if persona.scratch.act_description else ""
   if persona.scratch.act_check_finished() or not act_desc:
@@ -2680,7 +2817,7 @@ def plan(persona, maze, personas, new_day, retrieved):
     if persona.scratch.should_resume_suspended_action():
       persona.scratch.resume_suspended_action()
       return persona.scratch.act_address
-    decide_demand_action(persona, maze)
+    decide_demand_action(persona, maze, personas)
 
   # PART 3: If you perceived an event that needs to be responded to (saw 
   # another persona), and retrieved relevant information. 
@@ -2760,6 +2897,9 @@ def plan_social_reaction(persona, maze, personas, retrieved):
   """
   Evaluate only social chat opportunities during fast-path movement steps.
   """
+  if getattr(persona.scratch, "should_lock_high_level_planning", lambda: False)():
+    _decrement_chatting_with_buffer(persona)
+    return persona.scratch.act_address
   if getattr(persona.scratch, "should_defer_social_interrupts", lambda: False)():
     persona.scratch.remember_pending_interrupt(
       "defer_social_during_committed_survival",

@@ -375,6 +375,10 @@ def compute_social_chat_turn_limit(persona, target_persona, memory_keys, recent_
     return max(3, min(8, base_turns + bonus))
 
 
+def _get_dialogue_topic(persona):
+    return str(getattr(persona.scratch, "social_dialogue_topic", "") or "").strip()
+
+
 def _get_shared_dialogue_role(persona):
     return str(getattr(persona.scratch, "social_dialogue_role", "") or "").strip().lower()
 
@@ -627,7 +631,10 @@ class ChatSkillPack(BaseSkillPack):
             convo = []
             speaker = persona
             listener = target_p
+            dialogue_topic = _get_dialogue_topic(persona)
             initial_focal_points = [listener.name, "news", "rumor", "town"]
+            if dialogue_topic:
+                initial_focal_points.append(dialogue_topic)
             initial_retrieved = new_retrieve(speaker, initial_focal_points, 10)
             initial_memory_keys, initial_dropped_memory_keys = collect_social_chat_memory_keys(initial_retrieved)
             initial_rel = speaker.a_mem.get_relationship(listener.name)
@@ -654,6 +661,7 @@ class ChatSkillPack(BaseSkillPack):
                     "trust": float((initial_rel or {}).get("trust", 0.0) or 0.0),
                     "memory_key_count": len(initial_memory_keys),
                     "recent_event_count": len(initial_recent_events),
+                    "dialogue_topic": dialogue_topic or None,
                 },
             )
             
@@ -666,6 +674,8 @@ class ChatSkillPack(BaseSkillPack):
                     rel = initial_rel
                 else:
                     focal_points = [listener.name, "news", "rumor", "town"]
+                    if dialogue_topic:
+                        focal_points.append(dialogue_topic)
                     retrieved = new_retrieve(speaker, focal_points, 10)
                     memory_keys, dropped_memory_keys = collect_social_chat_memory_keys(retrieved)
                     rel = speaker.a_mem.get_relationship(listener.name)
@@ -691,6 +701,16 @@ class ChatSkillPack(BaseSkillPack):
                 listener_profile = format_social_chat_profile(listener)
                 speaker_state = format_social_chat_state(speaker)
                 listener_state = format_social_chat_state(listener)
+                topic_context = (
+                    f"Conversation objective: {dialogue_topic}. Because the speaker deliberately sought this person out, the exchange should stay anchored to this purpose instead of drifting into generic small talk."
+                    if dialogue_topic
+                    else curr_context
+                )
+                contextual_frame = (
+                    f"{curr_context}\n{topic_context}"
+                    if dialogue_topic
+                    else curr_context
+                )
 
                 prompt_input = [
                     speaker_profile,
@@ -698,7 +718,7 @@ class ChatSkillPack(BaseSkillPack):
                     relationship_context,
                     speaker_state,
                     listener_state,
-                    curr_context,
+                    contextual_frame,
                     mems_str,
                     history_str if history_str else "No conversation started yet.",
                     latest_turn,
@@ -787,6 +807,11 @@ class ChatSkillPack(BaseSkillPack):
             }
 
     def on_arrive(self, persona, target, maze, personas):
+        self.update_skill_phase(
+            persona,
+            "arrival",
+            metadata={"dialogue_id": getattr(persona.scratch, "social_dialogue_id", None)},
+        )
         log_social_dialogue(
             persona,
             "arrival",
@@ -803,6 +828,7 @@ class ChatSkillPack(BaseSkillPack):
         if target and target.strip() in personas:
             target_p = personas[target.strip()]
             if target_p.scratch.chatting_with == persona.name and target_p.scratch.chat:
+                self.update_skill_phase(persona, "sync_settlement")
                 print(f"=== [会话锁定/同步触发] {persona.name} 到达，接入 {target_p.name} 已经建立的会话 ===")
                 inherited_dialogue_id = inherit_social_dialogue_state(persona, target_p, role="target")
                 log_social_dialogue(
@@ -911,7 +937,7 @@ class ChatSkillPack(BaseSkillPack):
 
                 # Physiological recovery
                 persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
-                persona.scratch.mood = min(100.0, persona.scratch.mood + 3.0)
+                persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
                 log_social_dialogue(
                     persona,
                     "settlement",
@@ -927,6 +953,7 @@ class ChatSkillPack(BaseSkillPack):
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
             if should_wait_for_dialogue_owner(persona, target_p):
+                self.update_skill_phase(persona, "waiting_for_partner")
                 log_social_dialogue(
                     persona,
                     "arrival",
@@ -941,6 +968,7 @@ class ChatSkillPack(BaseSkillPack):
                 return
 
         if target and target.strip() in personas:
+            self.update_skill_phase(persona, "generation_start")
             log_social_dialogue(
                 persona,
                 "arrival",
@@ -950,6 +978,7 @@ class ChatSkillPack(BaseSkillPack):
             )
 
         # Trigger LLM cognitive decision
+        self.update_skill_phase(persona, "generating")
         decision = self.cognitive_decision(persona, target, maze, personas)
         mode = decision.get("mode", "monologue")
 
@@ -1068,6 +1097,11 @@ class ChatSkillPack(BaseSkillPack):
             convo = decision.get("convo", [])
             target_p_name = decision.get("target_persona_name")
             target_p = personas[target_p_name]
+            self.update_skill_phase(
+                persona,
+                "sharing_conversation",
+                metadata={"turn_count": len(convo), "target": target_p_name},
+            )
             if getattr(persona.scratch, "social_dialogue_id", None):
                 set_social_dialogue_state(target_p, persona.scratch.social_dialogue_id, partner_name=persona.name, role="target")
 
@@ -1112,6 +1146,7 @@ class ChatSkillPack(BaseSkillPack):
                 target_p.scratch.last_chat = t_last
 
             # 2. Generate conversation summary & write to memory only for the initiator
+            self.update_skill_phase(persona, "summarizing")
             convo_summary = f"{persona.name} and {target_p.name} talked about recent topics and shared town gossip."
             try:
                 from persona.prompt_template.run_gpt_prompt import run_gpt_prompt_summarize_conversation
@@ -1138,6 +1173,7 @@ class ChatSkillPack(BaseSkillPack):
             )
 
             # 3. Gossip / Rumor Propagation
+            self.update_skill_phase(persona, "memory_settlement")
             try:
                 convo_text = "\n".join([f"{s}: {u}" for s, u in convo])
                 gossip_prompt = (
@@ -1172,6 +1208,7 @@ class ChatSkillPack(BaseSkillPack):
                 print(f"Warning: Gossip extraction failed: {ge}")
 
             # Update relationship graph for both parties
+            self.update_skill_phase(persona, "relationship_settlement")
             apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
             log_social_dialogue(
                 persona,
@@ -1185,8 +1222,9 @@ class ChatSkillPack(BaseSkillPack):
             )
 
             # 4. Metabolic / physiological effect for the initiator
+            self.update_skill_phase(persona, "finalizing")
             persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
-            persona.scratch.mood = min(100.0, persona.scratch.mood + 3.0)
+            persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
             log_social_dialogue(
                 persona,
                 "settlement",

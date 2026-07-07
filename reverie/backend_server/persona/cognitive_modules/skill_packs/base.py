@@ -17,11 +17,37 @@ class BaseSkillPack:
     def get_precheck_result(self):
         return dict(self._last_precheck_result or {})
 
+    def begin_skill_execution(self, persona, *, skill_name=None, skill_id=None, phase="pending", owner=None, target=None, metadata=None):
+        if hasattr(persona.scratch, "begin_complex_skill"):
+            persona.scratch.begin_complex_skill(
+                skill_name or self.name,
+                skill_id=skill_id,
+                phase=phase,
+                owner=owner,
+                target=target,
+                metadata=metadata,
+            )
+
+    def update_skill_phase(self, persona, phase, *, metadata=None):
+        if hasattr(persona.scratch, "update_complex_skill_phase"):
+            persona.scratch.update_complex_skill_phase(phase, metadata=metadata)
+
+    def mark_arrival_phase(self, persona, *, target=None, metadata=None):
+        phase_meta = {"target": target}
+        if metadata:
+            phase_meta.update(metadata)
+        self.update_skill_phase(persona, "arrival", metadata=phase_meta)
+
+    def mark_finalizing_phase(self, persona, *, metadata=None):
+        self.update_skill_phase(persona, "finalizing", metadata=metadata)
+
     def finish_success(self, persona, *, action_command=None, action_event=None, action_description=None, action_address=None):
         """
         Record a successful completion and release the active execution state.
         Skill implementations should prefer this over manually mutating scratch fields.
         """
+        if hasattr(persona.scratch, "finish_complex_skill"):
+            persona.scratch.finish_complex_skill("completed")
         persona.scratch.mark_action_completed(
             action_command=action_command or persona.scratch.act_command,
             action_event=action_event or persona.scratch.act_event,
@@ -38,6 +64,8 @@ class BaseSkillPack:
         """
         Release the active execution state as a failure.
         """
+        if hasattr(persona.scratch, "finish_complex_skill"):
+            persona.scratch.finish_complex_skill("failed", metadata={"reason": reason, "payload": payload or {}})
         if hasattr(persona.scratch, "fail_execution"):
             persona.scratch.fail_execution(reason, payload=payload)
         else:
@@ -48,6 +76,8 @@ class BaseSkillPack:
         """
         Release the active execution state as an interruption.
         """
+        if hasattr(persona.scratch, "finish_complex_skill"):
+            persona.scratch.finish_complex_skill("interrupted", metadata={"reason": reason, "payload": payload or {}})
         if hasattr(persona.scratch, "interrupt_execution"):
             persona.scratch.interrupt_execution(reason, payload=payload)
         else:

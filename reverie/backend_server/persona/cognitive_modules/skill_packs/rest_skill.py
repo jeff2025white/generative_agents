@@ -33,6 +33,7 @@ class RestSkillPack(BaseSkillPack):
         return []
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         # 1. Metabolism stamina recovery
         before_stamina = persona.scratch.stamina
         before_snapshot = capture_attribute_snapshot(persona)
@@ -59,4 +60,5 @@ class RestSkillPack(BaseSkillPack):
             predicate="changed",
             obj="rest_recovery",
         )
+        self.mark_finalizing_phase(persona)
         self.finish_success(persona)

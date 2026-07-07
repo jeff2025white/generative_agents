@@ -42,6 +42,7 @@ class RobSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def on_arrive(self, persona, target, maze, personas):
+        self.mark_arrival_phase(persona, target=target)
         target_persona = resolve_target_persona(personas, target)
         if not target_persona:
             log_transfer_failure(persona, "rob", target, "target_not_found")
@@ -149,4 +150,5 @@ class RobSkillPack(BaseSkillPack):
             obj=persona.name,
         )
 
+        self.mark_finalizing_phase(persona, metadata={"item": item_name, "target": target_persona.name})
         self.finish_success(persona)
