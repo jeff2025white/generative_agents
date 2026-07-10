@@ -16,7 +16,7 @@ from persona.cognitive_modules.action_command_utils import (
   build_decision_signature,
   infer_action_command_from_event,
 )
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.memory_effects import record_projected_action_outcome
 from persona.cognitive_modules.motive_selector import (
   CORE_STATE_MOTIVES,
@@ -450,6 +450,18 @@ class Scratch:
       self.prompt_profile = self._normalize_prompt_profile()
 
 
+  def _append_runtime_log(self, log_name, payload, level="info"):
+    append_debug_log(
+      log_name,
+      merge_log_context(
+        payload,
+        scratch=self,
+        sim_code=getattr(self, "sim_code", None),
+      ),
+      level=level,
+    )
+
+
   def _get_prompt_profile_fallbacks(self):
     daily_plan_text = _stringify_prompt_profile_value(self.daily_plan_req)
     if not daily_plan_text:
@@ -835,19 +847,11 @@ class Scratch:
       return False
 
     motive_debug = self.get_motive_debug_snapshot()
-    sim_time = None
-    if self.curr_time is not None:
-      try:
-        sim_time = self.curr_time.strftime('%Y-%m-%d %H:%M:%S')
-      except Exception:
-        sim_time = str(self.curr_time)
-    append_debug_log(
+    self._append_runtime_log(
       "motive_monitor.jsonl",
       {
         "persona": self.name,
         "event": "motive_delta",
-        "curr_step": self.curr_step,
-        "sim_time": sim_time,
         "source": source,
         "reason": reason,
         "changed_motives": changed_motives,
@@ -1067,7 +1071,7 @@ class Scratch:
     previous_signature = self.last_decision_signature
     if previous_signature != next_signature:
       self.last_action_switch_time = self.curr_time
-      append_debug_log(
+      self._append_runtime_log(
         "decision_stability.jsonl",
         {
           "persona": self.name,
@@ -1197,7 +1201,7 @@ class Scratch:
     self.admin_override_intent = normalized_intent
     self.admin_override_source = str(source or "admin_console")
     self.admin_override_step = self.curr_step
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1219,7 +1223,7 @@ class Scratch:
 
   def clear_admin_override_intent(self):
     if self.admin_override_intent:
-      append_debug_log(
+      self._append_runtime_log(
         "decision_stability.jsonl",
         {
           "persona": self.name,
@@ -1268,7 +1272,7 @@ class Scratch:
     commit_until = self.decision_commit_until_step
     if self._is_internal_family_oscillation(self.last_decision_signature, action_signature):
       if commit_until is not None and self.curr_step is not None and self.curr_step < commit_until:
-        append_debug_log(
+        self._append_runtime_log(
           "decision_stability.jsonl",
           {
             "persona": self.name,
@@ -1290,7 +1294,7 @@ class Scratch:
     if commit_until is None or self.curr_step is None or self.curr_step >= commit_until:
       return True
 
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1401,7 +1405,7 @@ class Scratch:
       "curr_step": self.curr_step,
       "active_signature": self.get_active_decision_signature(),
     }
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1451,7 +1455,7 @@ class Scratch:
     self.active_skill_owner = owner or self.name
     self.active_skill_target = target
     self.active_skill_metadata = dict(metadata or {})
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1476,7 +1480,7 @@ class Scratch:
       merged = dict(self.active_skill_metadata or {})
       merged.update(metadata)
       self.active_skill_metadata = merged
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1511,7 +1515,7 @@ class Scratch:
       merged = dict(self.active_skill_metadata or {})
       merged.update(metadata)
       self.active_skill_metadata = merged
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1633,7 +1637,7 @@ class Scratch:
     self.update_current_action_record_status(status=phase)
     self.active_execution_state = None
     self.active_execution_state = self._snapshot_execution_payload(phase=phase)
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1650,7 +1654,7 @@ class Scratch:
       return None
     self.update_current_action_record_status(status=phase, failure=failure)
     self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1666,7 +1670,7 @@ class Scratch:
     if self.has_active_plan() or self.active_execution_state:
       self.update_current_action_record_status(status=phase, failure=failure)
       self.active_execution_state = self._snapshot_execution_payload(phase=phase, failure=failure)
-      append_debug_log(
+      self._append_runtime_log(
         "decision_stability.jsonl",
         {
           "persona": self.name,
@@ -1889,7 +1893,7 @@ class Scratch:
         }
       )
 
-    append_debug_log(
+    self._append_runtime_log(
       "action_outcome",
       {
         "persona": outcome.get("persona"),
@@ -1910,7 +1914,7 @@ class Scratch:
       return False
     self.suspended_action = snapshot
     self.suspended_action_step = self.curr_step
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -1972,7 +1976,7 @@ class Scratch:
     self.last_decision_signature = snapshot.get("signature")
     self.last_decision_reason = self.act_description
     self.decision_commit_until_step = self._next_commit_window_step(snapshot.get("signature"))
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -2018,7 +2022,7 @@ class Scratch:
       effects=outcome_effects,
     )
     self.record_action_outcome(outcome)
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,
@@ -2057,7 +2061,7 @@ class Scratch:
     else:
       self.motive_attributes = updated
 
-    append_debug_log(
+    self._append_runtime_log(
       "decision_stability.jsonl",
       {
         "persona": self.name,

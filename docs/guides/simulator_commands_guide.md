@@ -75,6 +75,15 @@
 
 ---
 
+## 6.1 日志分层约定
+
+- `TRANSIENT_LOGS`：启动新一轮模拟前会清空，只用于本轮调试，例如 `translation_verify.jsonl`、`step_timing.jsonl`、`decision_stability.jsonl`
+- `PRESERVED_LOGS`：默认跨运行保留，用于长期行为分析，例如 `motive_monitor.jsonl`、`action_outcome.jsonl`
+- 所有运行期 JSONL 日志都应包含 `sim_code`、`curr_step`、`sim_time`
+- 前端状态页与后续日志读取器必须优先按 `sim_code` 过滤，不能只依赖真实时间窗口
+
+---
+
 ## 7. 智能体物理行为与“技能包 (Skill Packs)”映射表
 
 以下整理了模拟器当前智能体（Isabella Rodriguez, Klaus Mueller, Maria Lopez）在日常日程中所能执行的行为动作与重构后的物理技能包的映射关系：
@@ -89,4 +98,3 @@
 | **`ConsumeSkillPack`** | `eating breakfast`, `having lunch`, `drinking coffee` | 背包中持有对应食物或饮料项 | 无 | 消耗背包食物，饱食度 +40，生命值 +5。 |
 | **`CoffeeServiceSkillPack`** | `brewing coffee`, `serving coffee`, `drinking coffee` | 位于 Hobbs Cafe 且靠近咖啡机或餐桌 | 决定向顾客打招呼的对话内容 | 煮咖啡：使咖啡机繁忙；送咖啡：在顾客餐桌注入 `served` 事件并同步为双方写入协作记忆。 |
 | **`CookSkillPack`** | `preparing dinner`, `cooking` | 靠近厨房炉灶（`stove`）或微波炉且背包有原料 | 依据背包原料决策做的菜品，生成烹饪独白 | 扣减原料背包，成品熟食放入背包，增加 Cooking XP。 |
-

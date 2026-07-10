@@ -27,7 +27,7 @@ from persona.cognitive_modules.plan import *
 from persona.cognitive_modules.reflect import *
 from persona.cognitive_modules.execute import *
 from persona.cognitive_modules.converse import *
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.social_trigger import should_run_periodic_social_scan
 
@@ -329,15 +329,17 @@ class Persona:
         }
         append_debug_log(
           "step_timing.jsonl",
-          {
-            "event": "persona_move_timing",
-            "persona": self.name,
-            "curr_step": self.scratch.curr_step,
-            "mode": "fast_path",
-            "total_ms": total_ms,
-            "timings_ms": timings_ms,
-            "state": self.get_step_debug_snapshot(),
-          }
+          merge_log_context(
+            {
+              "event": "persona_move_timing",
+              "persona": self.name,
+              "mode": "fast_path",
+              "total_ms": total_ms,
+              "timings_ms": timings_ms,
+              "state": self.get_step_debug_snapshot(),
+            },
+            persona=self,
+          )
         )
         ret_tile, ret_pron, ret_desc = result
         return ret_tile, ret_pron, ret_desc, step_info
@@ -405,15 +407,17 @@ class Persona:
     }
     append_debug_log(
       "step_timing.jsonl",
-      {
-        "event": "persona_move_timing",
-        "persona": self.name,
-        "curr_step": self.scratch.curr_step,
-        "mode": "full_pipeline",
-        "total_ms": total_ms,
-        "timings_ms": timings_ms,
-        "state": self.get_step_debug_snapshot(),
-      }
+      merge_log_context(
+        {
+          "event": "persona_move_timing",
+          "persona": self.name,
+          "mode": "full_pipeline",
+          "total_ms": total_ms,
+          "timings_ms": timings_ms,
+          "state": self.get_step_debug_snapshot(),
+        },
+        persona=self,
+      )
     )
     ret_tile, ret_pron, ret_desc = result
     return ret_tile, ret_pron, ret_desc, step_info
@@ -422,7 +426,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

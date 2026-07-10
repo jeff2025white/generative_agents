@@ -820,7 +820,13 @@ def _build_decision_rules(status_values):
   return rules
 
 
-def _load_recent_decision_logs(persona_name, limit=8):
+def _matches_sim_code(entry, sim_code):
+  if not sim_code:
+    return True
+  return str(entry.get("sim_code", "") or "").strip() == str(sim_code).strip()
+
+
+def _load_recent_decision_logs(persona_name, sim_code=None, limit=8):
   logs_path = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "translation_verify.jsonl")
   )
@@ -842,11 +848,13 @@ def _load_recent_decision_logs(persona_name, limit=8):
         continue
       if entry.get("event") not in interesting:
         continue
+      if not _matches_sim_code(entry, sim_code):
+        continue
       matched.append(entry)
   return matched[-limit:]
 
 
-def _load_recent_decision_stability_logs(persona_name, limit=10):
+def _load_recent_decision_stability_logs(persona_name, sim_code=None, limit=10):
   logs_path = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "decision_stability.jsonl")
   )
@@ -868,11 +876,13 @@ def _load_recent_decision_stability_logs(persona_name, limit=10):
         continue
       if entry.get("event") not in interesting:
         continue
+      if not _matches_sim_code(entry, sim_code):
+        continue
       matched.append(entry)
   return matched[-limit:]
 
 
-def _load_recent_motive_monitor_logs(persona_name, limit=12):
+def _load_recent_motive_monitor_logs(persona_name, sim_code=None, limit=12):
   logs_path = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "motive_monitor.jsonl")
   )
@@ -892,6 +902,8 @@ def _load_recent_motive_monitor_logs(persona_name, limit=12):
       if entry.get("persona") != persona_name:
         continue
       if entry.get("event") != "motive_delta":
+        continue
+      if not _matches_sim_code(entry, sim_code):
         continue
       matched.append(entry)
   return matched[-limit:]
@@ -1091,9 +1103,9 @@ def replay_persona_state(request, sim_code, step, persona_name):
   valid_food_sources = [obj for obj in flat_objects if obj.lower() in {"refrigerator", "stove", "cafe counter", "behind the cafe counter", "apple tree"}]
   retrieved_memories = movement_snapshot.get("retrieved_memories", []) or []
   decision_rules = _build_decision_rules(live_status)
-  recent_decision_logs = _load_recent_decision_logs(persona_name)
-  recent_decision_stability_logs = _load_recent_decision_stability_logs(persona_name)
-  recent_motive_monitor_logs = _load_recent_motive_monitor_logs(persona_name)
+  recent_decision_logs = _load_recent_decision_logs(persona_name, sim_code=sim_code)
+  recent_decision_stability_logs = _load_recent_decision_stability_logs(persona_name, sim_code=sim_code)
+  recent_motive_monitor_logs = _load_recent_motive_monitor_logs(persona_name, sim_code=sim_code)
   derived_sim_time = _derive_sim_time(sim_code, step, scratch)
   state_translate = translate_to_chinese_with_deepseek
   translated_inventory_items = _translate_inventory_items(live_inventory, translate_func=state_translate)
@@ -1733,7 +1745,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 
 

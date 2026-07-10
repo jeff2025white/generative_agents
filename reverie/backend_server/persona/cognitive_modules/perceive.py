@@ -9,7 +9,7 @@ sys.path.append('../../')
 
 from operator import itemgetter
 from global_methods import *
-from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context, safe_json_dumps
 from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.prompt_template.gpt_structure import *
 from persona.prompt_template.run_gpt_prompt import *
@@ -227,17 +227,20 @@ def perceive(persona, maze):
     if should_log:
       append_debug_log(
         "perception_debug.jsonl",
-        {
-          "persona": persona.name,
-          "event": "perceive_summary",
-          "curr_tile": persona.scratch.curr_tile,
-          "arena": curr_arena_path,
-          "nearby_tiles_count": len(nearby_tiles),
-          "visible_objects": sorted(set(nearby_object_names)),
-          "candidate_events_count": len(percept_events_list),
-          "perceived_events_count": len(perceived_events),
-          "new_events": new_event_summaries,
-        }
+        merge_log_context(
+          {
+            "persona": persona.name,
+            "event": "perceive_summary",
+            "curr_tile": persona.scratch.curr_tile,
+            "arena": curr_arena_path,
+            "nearby_tiles_count": len(nearby_tiles),
+            "visible_objects": sorted(set(nearby_object_names)),
+            "candidate_events_count": len(percept_events_list),
+            "perceived_events_count": len(perceived_events),
+            "new_events": new_event_summaries,
+          },
+          persona=persona,
+        )
       )
       persona.scratch._last_perception_log_signature = curr_signature
   except Exception:
@@ -249,7 +252,6 @@ def perceive(persona, maze):
 
 
   
-
 
 
 

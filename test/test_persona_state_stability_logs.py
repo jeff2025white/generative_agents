@@ -54,17 +54,18 @@ class PersonaStateStabilityLogTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp_dir:
             logs_path = Path(tmp_dir) / "decision_stability.jsonl"
             rows = [
-                {"persona": "Maria Lopez", "event": "switch_blocked", "curr_step": 10},
-                {"persona": "Maria Lopez", "event": "action_completed", "curr_step": 11},
-                {"persona": "Klaus Mueller", "event": "switch_blocked", "curr_step": 12},
-                {"persona": "Maria Lopez", "event": "irrelevant_event", "curr_step": 13},
+                {"persona": "Maria Lopez", "sim_code": "sim_a", "event": "switch_blocked", "curr_step": 10},
+                {"persona": "Maria Lopez", "sim_code": "sim_a", "event": "action_completed", "curr_step": 11},
+                {"persona": "Maria Lopez", "sim_code": "sim_b", "event": "switch_blocked", "curr_step": 12},
+                {"persona": "Klaus Mueller", "sim_code": "sim_a", "event": "switch_blocked", "curr_step": 13},
+                {"persona": "Maria Lopez", "sim_code": "sim_a", "event": "irrelevant_event", "curr_step": 14},
             ]
             with open(logs_path, "w", encoding="utf-8") as f:
                 for row in rows:
                     f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
             with patch.object(views.os.path, "abspath", return_value=str(logs_path)):
-                loaded = views._load_recent_decision_stability_logs("Maria Lopez", limit=10)
+                loaded = views._load_recent_decision_stability_logs("Maria Lopez", sim_code="sim_a", limit=10)
 
         self.assertEqual(len(loaded), 2)
         self.assertEqual([row["event"] for row in loaded], ["switch_blocked", "action_completed"])
@@ -95,19 +96,21 @@ class PersonaStateStabilityLogTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp_dir:
             logs_path = Path(tmp_dir) / "motive_monitor.jsonl"
             rows = [
-                {"persona": "Maria Lopez", "event": "motive_delta", "curr_step": 10},
-                {"persona": "Maria Lopez", "event": "other_event", "curr_step": 11},
-                {"persona": "Klaus Mueller", "event": "motive_delta", "curr_step": 12},
+                {"persona": "Maria Lopez", "sim_code": "sim_a", "event": "motive_delta", "curr_step": 10},
+                {"persona": "Maria Lopez", "sim_code": "sim_b", "event": "motive_delta", "curr_step": 11},
+                {"persona": "Maria Lopez", "sim_code": "sim_a", "event": "other_event", "curr_step": 12},
+                {"persona": "Klaus Mueller", "sim_code": "sim_a", "event": "motive_delta", "curr_step": 13},
             ]
             with open(logs_path, "w", encoding="utf-8") as f:
                 for row in rows:
                     f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
             with patch.object(views.os.path, "abspath", return_value=str(logs_path)):
-                loaded = views._load_recent_motive_monitor_logs("Maria Lopez", limit=10)
+                loaded = views._load_recent_motive_monitor_logs("Maria Lopez", sim_code="sim_a", limit=10)
 
         self.assertEqual(len(loaded), 1)
         self.assertEqual(loaded[0]["event"], "motive_delta")
+        self.assertEqual(loaded[0]["sim_code"], "sim_a")
 
     def test_translate_recent_decision_logs_adds_motive_and_llm_fields(self):
         logs = [

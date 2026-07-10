@@ -1,6 +1,6 @@
 import time
 
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.retrieve import new_retrieve
 
 
@@ -276,16 +276,18 @@ def retrieve_intent_memories(persona, intent_family, action_signature=None, n_co
   summary = summarize_intent_memories(intent_family, reranked)
   append_debug_log(
     INTENT_MEMORY_LOG,
-    {
-      "persona": getattr(persona, "name", None),
-      "curr_step": getattr(persona.scratch, "curr_step", None),
-      "intent_family": intent_family,
-      "focal_points": focal_points,
-      "selected_memory_ids": [getattr(node, "node_id", None) for node in reranked],
-      "selected_memory_descriptions": [getattr(node, "description", "") for node in reranked],
-      "attribute_preferences": attribute_preferences,
-      "summary_chars": len(summary),
-      "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
-    }
+    merge_log_context(
+      {
+        "persona": getattr(persona, "name", None),
+        "intent_family": intent_family,
+        "focal_points": focal_points,
+        "selected_memory_ids": [getattr(node, "node_id", None) for node in reranked],
+        "selected_memory_descriptions": [getattr(node, "description", "") for node in reranked],
+        "attribute_preferences": attribute_preferences,
+        "summary_chars": len(summary),
+        "duration_ms": round((time.perf_counter() - started_at) * 1000.0, 3),
+      },
+      persona=persona,
+    )
   )
   return reranked

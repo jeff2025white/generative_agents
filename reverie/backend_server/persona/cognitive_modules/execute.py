@@ -13,7 +13,7 @@ from path_finder import *
 from utils import *
 from persona.cognitive_modules.action_command_utils import infer_action_command_from_event
 from persona.prompt_template.gpt_structure import get_embedding
-from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context, safe_json_dumps
 from persona.cognitive_modules.memory_effects import record_execution_result_experience
 from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
@@ -127,14 +127,17 @@ def execute(persona, maze, personas, plan):
   if not plan:
     append_debug_log(
       "action_execution_debug.jsonl",
-      {
-        "persona": persona.name,
-        "event": "empty_plan_idle_fallback",
-        "curr_tile": persona.scratch.curr_tile,
-        "act_description": persona.scratch.act_description,
-        "act_event": persona.scratch.act_event,
-        "act_command": persona.scratch.act_command,
-      }
+      merge_log_context(
+        {
+          "persona": persona.name,
+          "event": "empty_plan_idle_fallback",
+          "curr_tile": persona.scratch.curr_tile,
+          "act_description": persona.scratch.act_description,
+          "act_event": persona.scratch.act_event,
+          "act_command": persona.scratch.act_command,
+        },
+        persona=persona,
+      )
     )
     if hasattr(persona.scratch, "fail_execution"):
       persona.scratch.fail_execution("empty_plan_idle_fallback")
@@ -173,15 +176,18 @@ def execute(persona, maze, personas, plan):
           )
         append_debug_log(
           "action_execution_debug.jsonl",
-          {
-            "persona": persona.name,
-            "event": "persona_target_not_found",
-            "plan": plan,
-            "target": target_persona_name,
-            "curr_tile": persona.scratch.curr_tile,
-            "act_event": persona.scratch.act_event,
-            "act_command": persona.scratch.act_command,
-          }
+          merge_log_context(
+            {
+              "persona": persona.name,
+              "event": "persona_target_not_found",
+              "plan": plan,
+              "target": target_persona_name,
+              "curr_tile": persona.scratch.curr_tile,
+              "act_event": persona.scratch.act_event,
+              "act_command": persona.scratch.act_command,
+            },
+            persona=persona,
+          )
         )
         if hasattr(persona.scratch, "fail_execution"):
           persona.scratch.fail_execution("persona_not_found", payload=failure_payload)
@@ -365,16 +371,19 @@ def execute(persona, maze, personas, plan):
       )
       append_debug_log(
         "action_execution_debug.jsonl",
-        {
-          "persona": persona.name,
-          "event": "path_not_found",
-          "plan": plan,
-          "curr_tile": persona.scratch.curr_tile,
-          "raw_target_tiles": raw_target_tiles,
-          "target_tiles": target_tiles,
-          "act_event": persona.scratch.act_event,
-          "target": target_label,
-        }
+        merge_log_context(
+          {
+            "persona": persona.name,
+            "event": "path_not_found",
+            "plan": plan,
+            "curr_tile": persona.scratch.curr_tile,
+            "raw_target_tiles": raw_target_tiles,
+            "target_tiles": target_tiles,
+            "act_event": persona.scratch.act_event,
+            "target": target_label,
+          },
+          persona=persona,
+        )
       )
       if hasattr(persona.scratch, "fail_execution"):
         if hasattr(persona.scratch, "attach_persona_ref"):
@@ -391,18 +400,21 @@ def execute(persona, maze, personas, plan):
         persona.scratch.update_execution_state(phase="pathing")
       append_debug_log(
         "action_execution_debug.jsonl",
-        {
-          "persona": persona.name,
-          "event": "path_set",
-          "plan": plan,
-          "curr_tile": curr_tile,
-          "closest_target_tile": closest_target_tile,
-          "path_length": len(path),
-          "remaining_path": persona.scratch.planned_path,
-          "act_description": persona.scratch.act_description,
-          "act_event": persona.scratch.act_event,
-          "act_command": persona.scratch.act_command,
-        }
+        merge_log_context(
+          {
+            "persona": persona.name,
+            "event": "path_set",
+            "plan": plan,
+            "curr_tile": curr_tile,
+            "closest_target_tile": closest_target_tile,
+            "path_length": len(path),
+            "remaining_path": persona.scratch.planned_path,
+            "act_description": persona.scratch.act_description,
+            "act_event": persona.scratch.act_event,
+            "act_command": persona.scratch.act_command,
+          },
+          persona=persona,
+        )
       )
       if getattr(persona.scratch, "social_dialogue_id", None):
         log_social_dialogue(
@@ -439,17 +451,20 @@ def execute(persona, maze, personas, plan):
       target = act_command.get("target", "") if act_command else ""
       append_debug_log(
         "action_execution_debug.jsonl",
-        {
-          "persona": persona.name,
-          "event": "arrive",
-          "curr_tile": persona.scratch.curr_tile,
-          "act_address": persona.scratch.act_address,
-          "act_description": persona.scratch.act_description,
-          "act_event": act_event,
-          "act_command": act_command,
-          "parsed_action": action,
-          "parsed_target": target,
-        }
+        merge_log_context(
+          {
+            "persona": persona.name,
+            "event": "arrive",
+            "curr_tile": persona.scratch.curr_tile,
+            "act_address": persona.scratch.act_address,
+            "act_description": persona.scratch.act_description,
+            "act_event": act_event,
+            "act_command": act_command,
+            "parsed_action": action,
+            "parsed_target": target,
+          },
+          persona=persona,
+        )
       )
       if getattr(persona.scratch, "social_dialogue_id", None):
         log_social_dialogue(
@@ -480,15 +495,18 @@ def execute(persona, maze, personas, plan):
         )
         append_debug_log(
           "action_execution_debug.jsonl",
-          {
-            "persona": persona.name,
-            "event": "skill_lookup",
-            "action": action,
-            "target": target,
-            "skill": skill.__class__.__name__,
-            "can_execute": can_execute,
-            "precheck_result": precheck_result,
-          }
+          merge_log_context(
+            {
+              "persona": persona.name,
+              "event": "skill_lookup",
+              "action": action,
+              "target": target,
+              "skill": skill.__class__.__name__,
+              "can_execute": can_execute,
+              "precheck_result": precheck_result,
+            },
+            persona=persona,
+          )
         )
         if can_execute:
           skill.on_arrive(persona, target, maze, personas)
@@ -503,16 +521,19 @@ def execute(persona, maze, personas, plan):
             )
           append_debug_log(
             "action_execution_debug.jsonl",
-            {
-              "persona": persona.name,
-              "event": "skill_blocked",
-              "action": action,
-              "target": target,
-              "curr_tile": persona.scratch.curr_tile,
-              "inventory": persona.scratch.inventory,
-              "blocked_reason": blocked_reason,
-              "blocked_payload": blocked_payload,
-            }
+            merge_log_context(
+              {
+                "persona": persona.name,
+                "event": "skill_blocked",
+                "action": action,
+                "target": target,
+                "curr_tile": persona.scratch.curr_tile,
+                "inventory": persona.scratch.inventory,
+                "blocked_reason": blocked_reason,
+                "blocked_payload": blocked_payload,
+              },
+              persona=persona,
+            )
           )
           # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
           if hasattr(persona.scratch, "fail_execution"):
@@ -539,14 +560,17 @@ def execute(persona, maze, personas, plan):
           )
         append_debug_log(
           "action_execution_debug.jsonl",
-          {
-            "persona": persona.name,
-            "event": "skill_missing",
-            "action": action,
-            "target": target,
-            "act_event": act_event,
-            "act_description": persona.scratch.act_description,
-          }
+          merge_log_context(
+            {
+              "persona": persona.name,
+              "event": "skill_missing",
+              "action": action,
+              "target": target,
+              "act_event": act_event,
+              "act_description": persona.scratch.act_description,
+            },
+            persona=persona,
+          )
         )
 
   description = f"{persona.scratch.act_description}"

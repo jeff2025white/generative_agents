@@ -25,7 +25,7 @@ from persona.cognitive_modules.action_target_resolver import (
   resolve_persona_target,
   resolve_action_target_address,
 )
-from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context, safe_json_dumps
 from persona.cognitive_modules.decision_constraints import (
   build_invalid_targets,
   build_retry_feedback,
@@ -283,7 +283,7 @@ def _log_timing_event(event_name, payload):
   total_ms = float(record.get("total_ms", max_stage_ms) or 0.0)
   record["event"] = event_name
   record["slow"] = bool(total_ms >= SLOW_TIMING_THRESHOLD_MS or max_stage_ms >= SLOW_TIMING_THRESHOLD_MS)
-  append_debug_log(STEP_TIMING_LOG, record)
+  append_debug_log(STEP_TIMING_LOG, merge_log_context(record, persona=persona))
 
 
 def _append_step_decision_trace(persona,
@@ -308,37 +308,39 @@ def _append_step_decision_trace(persona,
       sim_time = str(curr_time)
   append_debug_log(
     DECISION_PROMPT_TRACE_LOG,
-    {
-      "event": "final_decision",
-      "stage": "final_decision",
-      "stage_order": 30,
-      "decision_id": decision_id,
-      "persona": persona.name,
-      "curr_step": getattr(persona.scratch, "curr_step", None),
-      "sim_time": sim_time,
-      "llm_decision_text": {
-        "thought": thinking_text,
-        "reasoning": reasoning,
+    merge_log_context(
+      {
+        "event": "final_decision",
+        "stage": "final_decision",
+        "stage_order": 30,
+        "decision_id": decision_id,
+        "persona": persona.name,
+        "sim_time": sim_time,
+        "llm_decision_text": {
+          "thought": thinking_text,
+          "reasoning": reasoning,
+        },
+        "decision": decision,
+        "decision_routed_action": action,
+        "decision_routed_target": target,
+        "decision_routed_detail": act_desp,
+        "decision_routed_reasoning": reasoning,
+        "collective_social_reroute": bool(collective_social_reroute),
+        "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+        "motives": motive_debug,
+        "stats": {
+          "satiety": persona.scratch.satiety,
+          "stamina": persona.scratch.stamina,
+          "health": persona.scratch.health,
+          "mood": persona.scratch.mood,
+        },
+        "inventory": persona.scratch.inventory,
+        "minimal_filter_enabled": bool((minimal_filter_summary or {}).get("enabled")),
+        "minimal_filter_applied": bool((minimal_filter_summary or {}).get("applied")),
+        "minimal_filter_summary": minimal_filter_summary or {},
       },
-      "decision": decision,
-      "decision_routed_action": action,
-      "decision_routed_target": target,
-      "decision_routed_detail": act_desp,
-      "decision_routed_reasoning": reasoning,
-      "collective_social_reroute": bool(collective_social_reroute),
-      "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
-      "motives": motive_debug,
-      "stats": {
-        "satiety": persona.scratch.satiety,
-        "stamina": persona.scratch.stamina,
-        "health": persona.scratch.health,
-        "mood": persona.scratch.mood,
-      },
-      "inventory": persona.scratch.inventory,
-      "minimal_filter_enabled": bool((minimal_filter_summary or {}).get("enabled")),
-      "minimal_filter_applied": bool((minimal_filter_summary or {}).get("applied")),
-      "minimal_filter_summary": minimal_filter_summary or {},
-    },
+      persona=persona,
+    ),
   )
 
 
@@ -704,17 +706,20 @@ def _run_decision_pipeline(persona,
         minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
         append_debug_log(
           "decision_constraint_hits.jsonl",
-          {
-            "persona": persona.name,
-            "step": getattr(persona.scratch, "curr_step", None),
-            "invalid_targets": invalid_targets,
-            "original_decision": joint_result,
-            "retry_reason": retry_reason,
-            "pipeline": "joint_decision",
-            "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
-            "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
-            "minimal_filter_summary": minimal_filter_summary,
-          },
+          merge_log_context(
+            {
+              "persona": persona.name,
+              "step": getattr(persona.scratch, "curr_step", None),
+              "invalid_targets": invalid_targets,
+              "original_decision": joint_result,
+              "retry_reason": retry_reason,
+              "pipeline": "joint_decision",
+              "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+              "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+              "minimal_filter_summary": minimal_filter_summary,
+            },
+            persona=persona,
+          ),
         )
         retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
           persona,
@@ -775,17 +780,20 @@ def _run_decision_pipeline(persona,
     minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
     append_debug_log(
       "decision_constraint_hits.jsonl",
-      {
-        "persona": persona.name,
-        "step": getattr(persona.scratch, "curr_step", None),
-        "invalid_targets": invalid_targets,
-        "original_decision": decision,
-        "retry_reason": retry_reason,
-        "pipeline": "thinking_translation",
-        "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
-        "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
-        "minimal_filter_summary": minimal_filter_summary,
-      },
+      merge_log_context(
+        {
+          "persona": persona.name,
+          "step": getattr(persona.scratch, "curr_step", None),
+          "invalid_targets": invalid_targets,
+          "original_decision": decision,
+          "retry_reason": retry_reason,
+          "pipeline": "thinking_translation",
+          "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+          "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+          "minimal_filter_summary": minimal_filter_summary,
+        },
+        persona=persona,
+      ),
     )
     retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
       persona,
@@ -1920,15 +1928,17 @@ def _create_react(persona, inserted_act, inserted_act_dur,
   if not hourly_schedule or not active_schedule:
     append_debug_log(
       "decision_stability.jsonl",
-      {
-        "persona": getattr(p, "name", None),
-        "event": "react_schedule_fallback",
-        "curr_step": getattr(p.scratch, "curr_step", None),
-        "reason": "missing_schedule",
-        "hourly_schedule_len": len(hourly_schedule),
-        "active_schedule_len": len(active_schedule),
-        "inserted_act": inserted_act,
-      }
+      merge_log_context(
+        {
+          "persona": getattr(p, "name", None),
+          "event": "react_schedule_fallback",
+          "reason": "missing_schedule",
+          "hourly_schedule_len": len(hourly_schedule),
+          "active_schedule_len": len(active_schedule),
+          "inserted_act": inserted_act,
+        },
+        persona=p,
+      )
     )
     p.scratch.add_new_action(act_address,
                              inserted_act_dur,
@@ -2557,23 +2567,25 @@ def decide_demand_action(persona, maze, personas=None):
   append_debug_log(
     "training_dataset/decision_training_prep.jsonl",
     normalize_training_log_record(
-      {
-        "event": "decision_logged",
-        "decision_id": decision_id,
-        "persona": persona.name,
-        "curr_step": getattr(persona.scratch, "curr_step", None),
-        "prompt_kind": "joint_decision" if used_joint_decision else "action_translation",
-        "final_prompt": None,
-        "decision": decision,
-        "collective_social_reroute": bool(collective_social_reroute),
-        "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
-        "constraint_hit": bool(decision_timing_meta.get("constraint_hits", 0)),
-        "retry_reason": decision_timing_meta.get("last_retry_reason", ""),
-        "execution_outcome": "decision_selected",
-        "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
-        "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
-        "minimal_filter_summary": minimal_filter_summary,
-      }
+      merge_log_context(
+        {
+          "event": "decision_logged",
+          "decision_id": decision_id,
+          "persona": persona.name,
+          "prompt_kind": "joint_decision" if used_joint_decision else "action_translation",
+          "final_prompt": None,
+          "decision": decision,
+          "collective_social_reroute": bool(collective_social_reroute),
+          "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+          "constraint_hit": bool(decision_timing_meta.get("constraint_hits", 0)),
+          "retry_reason": decision_timing_meta.get("last_retry_reason", ""),
+          "execution_outcome": "decision_selected",
+          "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+          "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+          "minimal_filter_summary": minimal_filter_summary,
+        },
+        persona=persona,
+      )
     ),
   )
   has_food_inventory = any(v > 0 for v in persona.scratch.inventory.values())
@@ -2581,14 +2593,17 @@ def decide_demand_action(persona, maze, personas=None):
   if action.lower() == "consume" and not has_food_inventory and is_valid_gather_food_source(normalized_target):
     append_debug_log(
       "translation_verify.jsonl",
-      {
-        "persona": persona.name,
-        "event": "coerce_consume_source_to_gather",
-        "original_action": action,
-        "original_target": target,
-        "coerced_target": normalized_target,
-        "reason": "inventory_empty_food_source_target",
-      }
+      merge_log_context(
+        {
+          "persona": persona.name,
+          "event": "coerce_consume_source_to_gather",
+          "original_action": action,
+          "original_target": target,
+          "coerced_target": normalized_target,
+          "reason": "inventory_empty_food_source_target",
+        },
+        persona=persona,
+      )
     )
     action = "Gather"
     target = normalized_target
@@ -2615,13 +2630,16 @@ def decide_demand_action(persona, maze, personas=None):
         if fallback_target:
           append_debug_log(
             "translation_verify.jsonl",
-            {
-              "persona": persona.name,
-              "event": "retarget_invalid_food_source",
-              "original_target": target,
-              "fallback_target": fallback_target,
-              "valid_sources": gatherable_food_targets,
-            }
+            merge_log_context(
+              {
+                "persona": persona.name,
+                "event": "retarget_invalid_food_source",
+                "original_target": target,
+                "fallback_target": fallback_target,
+                "valid_sources": gatherable_food_targets,
+              },
+              persona=persona,
+            )
           )
           target = fallback_target
           if "refrigerator" in fallback_target:
@@ -2643,31 +2661,34 @@ def decide_demand_action(persona, maze, personas=None):
                 else str(persona.scratch.curr_time))
     append_debug_log(
       "translation_verify.jsonl",
-      {
-        "sim_time": sim_time,
-        "persona": persona.name,
-        "event": "decision_snapshot",
-        "intent": thinking_text,
-        "llm_decision_text": {
-          "thought": thinking_text,
-          "reasoning": reasoning,
+      merge_log_context(
+        {
+          "sim_time": sim_time,
+          "persona": persona.name,
+          "event": "decision_snapshot",
+          "intent": thinking_text,
+          "llm_decision_text": {
+            "thought": thinking_text,
+            "reasoning": reasoning,
+          },
+          "decision": decision,
+          "decision_routed_action": action,
+          "decision_routed_target": target,
+          "decision_routed_detail": act_desp,
+          "decision_routed_reasoning": reasoning,
+          "collective_social_reroute": bool(collective_social_reroute),
+          "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+          "motives": motive_debug,
+          "stats": {
+            "satiety": persona.scratch.satiety,
+            "stamina": persona.scratch.stamina,
+            "health": persona.scratch.health,
+            "mood": persona.scratch.mood,
+          },
+          "inventory": persona.scratch.inventory,
         },
-        "decision": decision,
-        "decision_routed_action": action,
-        "decision_routed_target": target,
-        "decision_routed_detail": act_desp,
-        "decision_routed_reasoning": reasoning,
-        "collective_social_reroute": bool(collective_social_reroute),
-        "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
-        "motives": motive_debug,
-        "stats": {
-          "satiety": persona.scratch.satiety,
-          "stamina": persona.scratch.stamina,
-          "health": persona.scratch.health,
-          "mood": persona.scratch.mood,
-        },
-        "inventory": persona.scratch.inventory,
-      }
+        persona=persona,
+      )
     )
     _append_step_decision_trace(
       persona,
@@ -2701,15 +2722,18 @@ def decide_demand_action(persona, maze, personas=None):
     try:
       append_debug_log(
         "translation_verify.jsonl",
-        {
-          "sim_time": sim_time,
-          "persona": persona.name,
-          "event": "decision_cache_store",
-          "intent_family": intent_family,
-          "cache_signature": decision_cache_signature,
-          "action": action,
-          "target": target,
-        }
+        merge_log_context(
+          {
+            "sim_time": sim_time,
+            "persona": persona.name,
+            "event": "decision_cache_store",
+            "intent_family": intent_family,
+            "cache_signature": decision_cache_signature,
+            "action": action,
+            "target": target,
+          },
+          persona=persona,
+        )
       )
     except Exception:
       pass
@@ -2839,17 +2863,20 @@ def decide_demand_action(persona, maze, personas=None):
                 else str(persona.scratch.curr_time))
     append_debug_log(
       "translation_verify.jsonl",
-      {
-        "sim_time": sim_time,
-        "persona": persona.name,
-        "event": "target_resolution",
-        "target": target,
-        "new_address": new_address,
-        "act_description": act_desp,
-        "act_event": act_event,
-        "act_command_skill": normalized_skill_id,
-        "resolution_meta": resolution_meta,
-      }
+      merge_log_context(
+        {
+          "sim_time": sim_time,
+          "persona": persona.name,
+          "event": "target_resolution",
+          "target": target,
+          "new_address": new_address,
+          "act_description": act_desp,
+          "act_event": act_event,
+          "act_command_skill": normalized_skill_id,
+          "resolution_meta": resolution_meta,
+        },
+        persona=persona,
+      )
     )
   except Exception:
     pass

@@ -24,6 +24,43 @@ def normalize_log_name(log_name):
     return f"{log_name}.jsonl"
 
 
+def _format_sim_time(curr_time):
+    if curr_time is None:
+        return None
+    if isinstance(curr_time, str):
+        return curr_time
+    try:
+        return curr_time.strftime("%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return str(curr_time)
+
+
+def build_log_context(persona=None, scratch=None, sim_code=None):
+    scratch_obj = scratch or getattr(persona, "scratch", None)
+    context = {}
+    resolved_sim_code = sim_code
+    if resolved_sim_code is None and persona is not None:
+        resolved_sim_code = getattr(persona, "sim_code", None)
+    if resolved_sim_code is None and scratch_obj is not None:
+        resolved_sim_code = getattr(scratch_obj, "sim_code", None)
+    if resolved_sim_code is not None:
+        context["sim_code"] = resolved_sim_code
+    if scratch_obj is not None and getattr(scratch_obj, "curr_step", None) is not None:
+        context["curr_step"] = getattr(scratch_obj, "curr_step")
+    sim_time = _format_sim_time(getattr(scratch_obj, "curr_time", None)) if scratch_obj is not None else None
+    if sim_time is not None:
+        context["sim_time"] = sim_time
+    return context
+
+
+def merge_log_context(payload, persona=None, scratch=None, sim_code=None):
+    record = dict(payload or {})
+    context = build_log_context(persona=persona, scratch=scratch, sim_code=sim_code)
+    for key, value in context.items():
+        record.setdefault(key, value)
+    return record
+
+
 def append_debug_log(log_name, payload, level="info"):
     os.makedirs(_logs_dir(), exist_ok=True)
     normalized_log_name = normalize_log_name(log_name)

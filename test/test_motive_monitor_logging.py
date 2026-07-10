@@ -24,6 +24,7 @@ class MotiveMonitorLoggingTests(unittest.TestCase):
     def test_set_motive_attributes_writes_dedicated_monitor_log(self):
         scratch = Scratch("__missing__.json")
         scratch.name = "Maria Lopez"
+        scratch.sim_code = "sim_20260710_113627"
         scratch.curr_step = 42
         scratch.curr_time = datetime(2026, 7, 8, 12, 30, 0)
         updated = scratch.get_motive_attributes_snapshot()
@@ -41,6 +42,9 @@ class MotiveMonitorLoggingTests(unittest.TestCase):
         log_name, payload = append_log.call_args[0]
         self.assertEqual(log_name, "motive_monitor.jsonl")
         self.assertEqual(payload["persona"], "Maria Lopez")
+        self.assertEqual(payload["sim_code"], "sim_20260710_113627")
+        self.assertEqual(payload["curr_step"], 42)
+        self.assertEqual(payload["sim_time"], "2026-07-08 12:30:00")
         self.assertEqual(payload["source"], "skill_effect")
         self.assertEqual(payload["reason"], "chat")
         self.assertEqual(payload["changed_motives"][0]["motive"], "belonging")
