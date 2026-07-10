@@ -1,5 +1,6 @@
 """Helpers for persisting stat-changing experience memories."""
 
+from persona.cognitive_modules.action_outcomes import build_memory_projection
 from persona.prompt_template.gpt_structure import get_embedding
 
 
@@ -101,6 +102,43 @@ def record_execution_result_experience(persona, description, keywords,
     description,
     normalized_keywords,
     float(poignancy),
+    embedding_pair,
+    None,
+    attribute_effects=attribute_effects,
+  )
+
+
+def record_projected_action_outcome(persona, outcome):
+  """Persist an outcome's memory projection when its score warrants promotion."""
+  if not getattr(persona, "a_mem", None):
+    return None
+  if not isinstance(outcome, dict) or not outcome:
+    return None
+  scoring = outcome.get("experience_scoring") or {}
+  if not scoring.get("should_promote_to_experience"):
+    return None
+
+  projection = dict(outcome.get("memory_projection") or {})
+  if not projection:
+    projection = build_memory_projection(persona, outcome)
+  description = str(projection.get("description") or "").strip()
+  if not description:
+    return None
+
+  embedding_text = str(projection.get("embedding_text") or description)
+  embedding = get_embedding(embedding_text)
+  embedding_pair = (embedding_text, embedding)
+  keywords = set(projection.get("keywords") or [])
+  attribute_effects = projection.get("attribute_effects")
+  return persona.a_mem.add_event(
+    persona.scratch.curr_time,
+    None,
+    projection.get("subject") or persona.name,
+    projection.get("predicate") or "experienced",
+    projection.get("object") or "execution_result",
+    description,
+    keywords,
+    float(projection.get("poignancy", 5.0) or 5.0),
     embedding_pair,
     None,
     attribute_effects=attribute_effects,

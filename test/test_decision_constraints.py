@@ -46,6 +46,25 @@ class InvalidTargetTests(unittest.TestCase):
 
         self.assertEqual(invalid_targets, [])
 
+    def test_build_invalid_targets_from_failed_resource_instances(self):
+        scratch = type("Scratch", (), {
+            "curr_step": 12,
+            "failed_resource_instances": [
+                {
+                    "target": "apple tree",
+                    "target_address": "the Ville:Johnson Park:park:apple tree",
+                    "reason": "path_not_found",
+                    "curr_step": 10,
+                    "expires_after_step": 16,
+                }
+            ],
+            "get_recent_navigation_failure": lambda self, max_age_steps=6: None,
+        })()
+
+        invalid_targets = build_invalid_targets(scratch)
+
+        self.assertEqual(invalid_targets, ["apple tree"])
+
     def test_filter_invalid_resources_removes_recent_failed_target(self):
         resources = ["apple tree", "refrigerator", "behind the cafe counter"]
 

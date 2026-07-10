@@ -70,6 +70,51 @@ class KlausIsabellaEatingFixTests(unittest.TestCase):
 
         self.assertTrue(ConsumeSkillPack().can_execute(persona, "cooked meal", maze))
 
+    def test_consume_on_arrive_logs_progress_score_breakdown(self):
+        logged_payloads = []
+        completed_calls = []
+        scratch = SimpleNamespace(
+            satiety=20.0,
+            health=80.0,
+            mood=40.0,
+            stamina=50.0,
+            curr_step=8,
+            curr_time=None,
+            curr_tile=[79, 21],
+            inventory={"apple": 1},
+            act_command={"skill_id": "consume", "target": "apple"},
+            act_event=("Klaus Mueller", "consume", "apple"),
+            act_description="eating an apple from inventory",
+            act_address="inventory",
+            planned_path=[[79, 21]],
+            act_path_set=True,
+            skills={"cooking": {"xp": 0, "level": 1}},
+            mark_action_completed=lambda **kwargs: completed_calls.append(kwargs),
+        )
+        persona = SimpleNamespace(
+            name="Klaus Mueller",
+            scratch=scratch,
+            a_mem=None,
+        )
+        maze = SimpleNamespace(access_tile=lambda tile: {"game_object": ""})
+
+        with patch("persona.cognitive_modules.skill_packs.consume_skill.append_debug_log") as mock_log, patch(
+            "persona.cognitive_modules.skill_packs.consume_skill.record_stat_change_experience"
+        ):
+            mock_log.side_effect = lambda _name, payload: logged_payloads.append(payload)
+            ConsumeSkillPack().on_arrive(persona, "apple", maze, {})
+
+        end_logs = [item for item in logged_payloads if item.get("event") == "on_arrive_end"]
+        self.assertEqual(len(end_logs), 1)
+        self.assertIn("progress_score", end_logs[0])
+        self.assertIn("progress_score_breakdown", end_logs[0])
+        self.assertEqual(
+            end_logs[0]["progress_score"],
+            end_logs[0]["progress_score_breakdown"]["score"],
+        )
+        self.assertGreater(end_logs[0]["progress_score_breakdown"]["attribute_score"], 0.0)
+        self.assertEqual(len(completed_calls), 1)
+
     def test_rest_on_arrive_marks_action_completed_and_releases_plan(self):
         """Rest completion should release the stuck action state so replanning can resume."""
         completed_calls = []

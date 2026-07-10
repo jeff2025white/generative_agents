@@ -314,6 +314,75 @@ def _build_current_action_record_line(scratch):
   return base
 
 
+def _iter_recent_action_outcomes(scratch, max_items=2):
+  outcomes = list(getattr(scratch, "recent_action_outcomes", None) or [])
+  if outcomes:
+    return [item for item in outcomes[-max_items:] if isinstance(item, dict)]
+
+  observation = _get_recent_action_observation(scratch)
+  if not observation:
+    return []
+  return [{
+    "action": {
+      "skill_id": observation.get("skill_id"),
+      "target": observation.get("target"),
+      "target_address": observation.get("target_address"),
+      "detail": observation.get("action_description"),
+    },
+    "execution": {
+      "result": observation.get("result"),
+      "reason": observation.get("reason"),
+    },
+    "effects": {},
+  }]
+
+
+def _compact_recent_result_address(address):
+  parts = [str(part).strip() for part in str(address or "").split(":") if str(part).strip()]
+  if len(parts) >= 2:
+    return f"{parts[-2]} / {parts[-1]}"
+  if parts:
+    return parts[-1]
+  return "unknown"
+
+
+def _build_recent_result_lines(scratch, max_items=2):
+  outcomes = _iter_recent_action_outcomes(scratch, max_items=max_items)
+  if not outcomes:
+    return []
+
+  lines = []
+  for outcome in reversed(outcomes):
+    action = outcome.get("action") or {}
+    execution = outcome.get("execution") or {}
+    effects = outcome.get("effects") or {}
+    skill_id = _compact_multiline_block(action.get("skill_id") or "action", max_lines=1, max_chars=32)
+    target = _compact_multiline_block(action.get("target") or "target", max_lines=1, max_chars=48)
+    short_address = _compact_recent_result_address(action.get("target_address"))
+    result = str(execution.get("result") or "unknown").strip().lower()
+    reason = str(execution.get("reason") or "").strip().lower()
+
+    if result == "failed" and reason == "resource_empty":
+      lines.append(f"RecentResult: failed {skill_id} -> {target} at {short_address}: empty.")
+      lines.append(f"Hint: try another {target} or another feasible option.")
+      continue
+    if result == "failed":
+      lines.append(f"RecentResult: failed {skill_id} -> {target} at {short_address}: {reason or 'failed'}.")
+      lines.append("Hint: choose a different reachable target now.")
+      continue
+
+    inventory_delta = (effects.get("inventory_delta") or {})
+    positive_items = [str(name).strip() for name, delta in inventory_delta.items() if float(delta or 0.0) > 0]
+    if positive_items:
+      lines.append(
+        f"RecentResult: success {skill_id} -> {target}. "
+        f"Gained {', '.join(positive_items[:2])}."
+      )
+      continue
+    lines.append(f"RecentResult: success {skill_id} -> {target}.")
+  return lines[: max_items * 2]
+
+
 ##############################################################################
 # CHAPTER 1: Run GPT Prompt
 ##############################################################################
@@ -3605,35 +3674,22 @@ def build_decision_capsule(persona,
 
   navigation_failure_line = None
   if navigation_failure:
-    failure_payload = navigation_failure.get("payload") or {}
-    candidate_targets = failure_payload.get("target_tiles") or []
-    candidate_preview = ", ".join(str(item) for item in list(candidate_targets)[:4]) if candidate_targets else "none"
     failure_reason = str(navigation_failure.get('reason') or 'unknown').strip().lower()
     if failure_reason == "resource_empty":
       navigation_failure_line = (
         "ExecutionResult: "
-        f"previous_step_failed=true "
-        f"target={navigation_failure.get('target') or 'unknown'} "
-        f"target_address={navigation_failure.get('target_address') or 'unknown'} "
-        f"reason={navigation_failure.get('reason') or 'unknown'} "
-        f"from_tile={navigation_failure.get('curr_tile')}. "
-        "The previous immediate action reached the target, but that specific resource was empty. "
-        "Use this as new evidence for the next immediate decision. You may try another instance of the same resource type, "
-        "switch to a different food source, or choose another materially feasible immediate plan."
+        f"{navigation_failure.get('target') or 'target'} at "
+        f"{_compact_recent_result_address(navigation_failure.get('target_address'))} was empty. "
+        "Try another instance or another feasible option."
       )
     else:
       navigation_failure_line = (
         "NavigationFailure: "
-        f"previous_step_failed=true "
-        f"target={navigation_failure.get('target') or 'unknown'} "
-        f"target_address={navigation_failure.get('target_address') or 'unknown'} "
-        f"reason={navigation_failure.get('reason') or 'unknown'} "
-        f"from_tile={navigation_failure.get('curr_tile')} "
-        f"candidate_tiles={candidate_preview}. "
-        "The previous immediate action failed because this target was not reachable. "
-        "For the next immediate decision, you must choose a new feasible target or a materially different plan right now. "
-        "Do not repeat the same failed target in the next step."
+        f"{navigation_failure.get('target') or 'target'} at "
+        f"{_compact_recent_result_address(navigation_failure.get('target_address'))} was not reachable. "
+        "Choose a different feasible target now."
       )
+  recent_result_lines = _build_recent_result_lines(scratch)
 
   capsule_lines = [
     f"Time: {compact_temporal_context}",
@@ -3650,6 +3706,8 @@ def build_decision_capsule(persona,
       "Do not weigh all information equally."
     ),
   ]
+  if recent_result_lines:
+    capsule_lines.extend(recent_result_lines)
   if navigation_failure_line:
     capsule_lines.append(navigation_failure_line)
   if invalid_targets:

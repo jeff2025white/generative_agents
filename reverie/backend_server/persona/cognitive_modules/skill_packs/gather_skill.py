@@ -1,5 +1,8 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.action_command_utils import build_action_command, build_decision_signature
+from persona.cognitive_modules.action_outcomes import (
+    derive_progress_score_breakdown,
+)
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
 from persona.cognitive_modules.food_sources import (
     is_valid_gather_food_source,
@@ -316,6 +319,18 @@ class GatherSkillPack(BaseSkillPack):
             persona.scratch.inventory["apple"] = persona.scratch.inventory.get("apple", 0) + 1
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+        inventory_delta = {}
+        for item, after_count in persona.scratch.inventory.items():
+            before_count = before_inventory.get(item, 0)
+            delta = after_count - before_count
+            if delta:
+                inventory_delta[item] = delta
+        progress_breakdown = derive_progress_score_breakdown(
+            "gather",
+            self_attribute_effects=attribute_effects,
+            inventory_delta=inventory_delta,
+        )
+        progress_score = progress_breakdown["score"]
         self._record_gather_memory(
             persona,
             f"{persona.name} gathered food from {effective_source} at {source_address or persona.scratch.act_address}.",
@@ -347,6 +362,9 @@ class GatherSkillPack(BaseSkillPack):
                 "inventory_after": persona.scratch.inventory,
                 "resource_stock_after": world_state.get_stock(source_address) if world_state and source_address else None,
                 "attribute_effects": attribute_effects,
+                "inventory_delta": inventory_delta,
+                "progress_score": progress_score,
+                "progress_score_breakdown": progress_breakdown,
             }
         )
         if persona.scratch.satiety < 40.0 and persona.scratch.inventory.get("apple", 0) > 0:
@@ -368,7 +386,14 @@ class GatherSkillPack(BaseSkillPack):
                 persona,
                 metadata={"result": "gather_completed_with_followup_schedule"},
             )
-            self.finish_success(persona)
+            self.finish_success(
+                persona,
+                outcome_effects={
+                    "self_attribute_effects": attribute_effects,
+                    "inventory_delta": inventory_delta,
+                    "progress_score": progress_score,
+                },
+            )
             persona.scratch.add_new_action(
                 followup_address,
                 2,
@@ -416,4 +441,11 @@ class GatherSkillPack(BaseSkillPack):
             
         # Force immediate action release upon arrival to avoid duration deadlock
         self.mark_finalizing_phase(persona)
-        self.finish_success(persona)
+        self.finish_success(
+            persona,
+            outcome_effects={
+                "self_attribute_effects": attribute_effects,
+                "inventory_delta": inventory_delta,
+                "progress_score": progress_score,
+            },
+        )

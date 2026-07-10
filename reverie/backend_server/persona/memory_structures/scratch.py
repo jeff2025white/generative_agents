@@ -7,14 +7,17 @@ Description: Defines the short-term memory module for generative agents.
 import datetime
 import json
 import sys
+from types import SimpleNamespace
 sys.path.append('../../')
 
 from global_methods import *
+from persona.cognitive_modules.action_outcomes import build_action_outcome_record
 from persona.cognitive_modules.action_command_utils import (
   build_decision_signature,
   infer_action_command_from_event,
 )
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.memory_effects import record_projected_action_outcome
 from persona.cognitive_modules.motive_selector import (
   CORE_STATE_MOTIVES,
   apply_passive_motive_decay,
@@ -139,6 +142,10 @@ class Scratch:
     self.pending_interrupt = None
     self.navigation_failure = None
     self.last_action_observation = None
+    self.last_action_outcome = None
+    self.recent_action_outcomes = []
+    self.failed_resource_instances = []
+    self.successful_resource_instances = []
     self.active_execution_state = None
     self.current_action_record = None
     self.admin_override_intent = None
@@ -284,6 +291,7 @@ class Scratch:
     # e.g., [(50, 10), (49, 10), (48, 10), ...]
     self.planned_path = []
     self.last_retrieved_memories = {}
+    self._persona_ref = None
 
     if check_if_file_exists(f_saved): 
       # If we have a bootstrap file, load that here. 
@@ -347,6 +355,10 @@ class Scratch:
       self.pending_interrupt = scratch_load.get("pending_interrupt", None)
       self.navigation_failure = scratch_load.get("navigation_failure", None)
       self.last_action_observation = scratch_load.get("last_action_observation", None)
+      self.last_action_outcome = scratch_load.get("last_action_outcome", None)
+      self.recent_action_outcomes = scratch_load.get("recent_action_outcomes", [])
+      self.failed_resource_instances = scratch_load.get("failed_resource_instances", [])
+      self.successful_resource_instances = scratch_load.get("successful_resource_instances", [])
       self.active_execution_state = scratch_load.get("active_execution_state", None)
       self.current_action_record = scratch_load.get("current_action_record", None)
       self.admin_override_intent = scratch_load.get("admin_override_intent", None)
@@ -620,6 +632,10 @@ class Scratch:
     scratch["pending_interrupt"] = self.pending_interrupt
     scratch["navigation_failure"] = self.navigation_failure
     scratch["last_action_observation"] = self.last_action_observation
+    scratch["last_action_outcome"] = self.last_action_outcome
+    scratch["recent_action_outcomes"] = self.recent_action_outcomes
+    scratch["failed_resource_instances"] = self.failed_resource_instances
+    scratch["successful_resource_instances"] = self.successful_resource_instances
     scratch["active_execution_state"] = self.active_execution_state
     scratch["current_action_record"] = self.current_action_record
     scratch["admin_override_intent"] = self.admin_override_intent
@@ -1701,6 +1717,17 @@ class Scratch:
       "payload": payload,
       "curr_step": self.curr_step,
     }
+    outcome = build_action_outcome_record(
+      SimpleNamespace(
+        name=self.name,
+        sim_code=getattr(self, "sim_code", None),
+        scratch=self,
+      ),
+      result="failed",
+      reason=reason,
+      payload=payload,
+    )
+    self.record_action_outcome(outcome)
     self.release_execution_state(
       phase="failed",
       failure={
@@ -1755,6 +1782,23 @@ class Scratch:
 
   def get_recent_invalid_targets(self, max_age_steps=6):
     """Return recently failed targets that are forbidden for the next step."""
+    current_step = self.curr_step
+    failed_instances = []
+    for item in (self.failed_resource_instances or []):
+      if not isinstance(item, dict):
+        continue
+      expires_after = item.get("expires_after_step")
+      if (current_step is not None
+          and expires_after is not None
+          and expires_after < current_step):
+        continue
+      reason = str(item.get("reason") or "").strip().lower()
+      if reason == "resource_empty":
+        continue
+      failed_instances.append(item.get("target"))
+    if failed_instances:
+      return [item for item in failed_instances if str(item or "").strip()]
+
     failure = self.get_recent_navigation_failure(max_age_steps=max_age_steps)
     if not failure:
       return []
@@ -1778,6 +1822,86 @@ class Scratch:
     if self.curr_step - observed_step > max_age_steps:
       return None
     return observation
+
+
+  def attach_persona_ref(self, persona):
+    self._persona_ref = persona
+    return self._persona_ref
+
+
+  def record_action_outcome(self, outcome, recent_limit=8, failed_ttl=12, success_ttl=20):
+    if not isinstance(outcome, dict) or not outcome:
+      return None
+
+    curr_step = outcome.get("curr_step")
+    if curr_step is None:
+      curr_step = self.curr_step
+    if curr_step is None:
+      curr_step = 0
+
+    self.last_action_outcome = outcome
+    self.recent_action_outcomes = list(self.recent_action_outcomes or [])
+    self.recent_action_outcomes.append(outcome)
+    self.recent_action_outcomes = self.recent_action_outcomes[-int(recent_limit):]
+
+    action = outcome.get("action") or {}
+    execution = outcome.get("execution") or {}
+    effects = outcome.get("effects") or {}
+    target = action.get("target")
+    target_address = action.get("target_address")
+    progress_score = effects.get("progress_score", 0.0)
+
+    current_step = self.curr_step if self.curr_step is not None else curr_step
+    self.failed_resource_instances = [
+      item for item in (self.failed_resource_instances or [])
+      if (item.get("expires_after_step") is None
+          or item.get("expires_after_step") >= current_step)
+    ]
+    self.successful_resource_instances = [
+      item for item in (self.successful_resource_instances or [])
+      if (item.get("expires_after_step") is None
+          or item.get("expires_after_step") >= current_step)
+    ]
+
+    if execution.get("reason_class") == "resource_state" and target_address:
+      self.failed_resource_instances.append(
+        {
+          "target": target,
+          "target_address": target_address,
+          "reason": execution.get("reason"),
+          "curr_step": curr_step,
+          "expires_after_step": curr_step + int(failed_ttl),
+        }
+      )
+
+    if execution.get("result") == "success" and target_address:
+      try:
+        progress_score = float(progress_score or 0.0)
+      except Exception:
+        progress_score = 0.0
+      self.successful_resource_instances.append(
+        {
+          "target": target,
+          "target_address": target_address,
+          "progress_score": progress_score,
+          "curr_step": curr_step,
+          "expires_after_step": curr_step + int(success_ttl),
+        }
+      )
+
+    append_debug_log(
+      "action_outcome",
+      {
+        "persona": outcome.get("persona"),
+        "curr_step": outcome.get("curr_step"),
+        "sim_time": outcome.get("sim_time"),
+        "outcome": outcome,
+      },
+    )
+    if self._persona_ref is not None:
+      record_projected_action_outcome(self._persona_ref, outcome)
+
+    return outcome
 
 
   def suspend_current_action(self, reason, source="system"):
@@ -1865,7 +1989,7 @@ class Scratch:
     return True
 
 
-  def mark_action_completed(self, action_command=None, action_event=None, action_description=None, action_address=None):
+  def mark_action_completed(self, action_command=None, action_event=None, action_description=None, action_address=None, outcome_effects=None):
     signature = build_decision_signature(
       action_command or self.act_command,
       action_event=action_event or self.act_event,
@@ -1883,6 +2007,17 @@ class Scratch:
       "action_description": action_description or self.act_description,
       "curr_step": self.curr_step,
     }
+    outcome = build_action_outcome_record(
+      SimpleNamespace(
+        name=self.name,
+        sim_code=getattr(self, "sim_code", None),
+        scratch=self,
+      ),
+      result="success",
+      reason=None,
+      effects=outcome_effects,
+    )
+    self.record_action_outcome(outcome)
     append_debug_log(
       "decision_stability.jsonl",
       {

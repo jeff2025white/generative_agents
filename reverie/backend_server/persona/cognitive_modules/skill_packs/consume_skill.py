@@ -1,5 +1,6 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.action_command_utils import build_decision_signature
+from persona.cognitive_modules.action_outcomes import derive_progress_score_breakdown
 from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
 from persona.cognitive_modules.food_sources import normalize_food_source_target
 from persona.cognitive_modules.memory_effects import (
@@ -55,6 +56,25 @@ class ConsumeSkillPack(BaseSkillPack):
                     }
                 )
                 return self.set_precheck_result(True, "any_food_in_inventory", {"target": target, "inventory": persona.scratch.inventory})
+        act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
+        if act_addr and act_addr == item_key:
+            append_debug_log(
+                "skill_execution_debug.jsonl",
+                {
+                    "persona": persona.name,
+                    "skill": "consume",
+                    "event": "can_execute",
+                    "result": True,
+                    "reason": "normalized_food_source_address",
+                    "target": target,
+                    "act_address": persona.scratch.act_address,
+                }
+            )
+            return self.set_precheck_result(
+                True,
+                "normalized_food_source_address",
+                {"target": target, "act_address": persona.scratch.act_address},
+            )
         if self._is_recent_duplicate_resource_consume(persona, target):
             append_debug_log(
                 "skill_execution_debug.jsonl",
@@ -72,7 +92,6 @@ class ConsumeSkillPack(BaseSkillPack):
             )
             return self.set_precheck_result(False, "recent_duplicate_resource_consume", {"target": target, "inventory": persona.scratch.inventory})
         curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-        act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -171,6 +190,20 @@ class ConsumeSkillPack(BaseSkillPack):
         self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+        inventory_delta = {}
+        all_items = set(before_inventory.keys()) | set(persona.scratch.inventory.keys())
+        for item in all_items:
+            before_count = before_inventory.get(item, 0)
+            after_count = persona.scratch.inventory.get(item, 0)
+            delta = after_count - before_count
+            if delta:
+                inventory_delta[item] = delta
+        progress_breakdown = derive_progress_score_breakdown(
+            "consume",
+            self_attribute_effects=attribute_effects,
+            inventory_delta=inventory_delta,
+        )
+        progress_score = progress_breakdown["score"]
         append_debug_log(
             "skill_execution_debug.jsonl",
             {
@@ -188,6 +221,10 @@ class ConsumeSkillPack(BaseSkillPack):
                     "health": persona.scratch.health,
                     "mood": persona.scratch.mood,
                 },
+                "attribute_effects": attribute_effects,
+                "inventory_delta": inventory_delta,
+                "progress_score": progress_score,
+                "progress_score_breakdown": progress_breakdown,
             }
         )
         record_stat_change_experience(
@@ -223,7 +260,14 @@ class ConsumeSkillPack(BaseSkillPack):
             
         # Force immediate action release upon arrival to avoid duration deadlock
         self.mark_finalizing_phase(persona)
-        self.finish_success(persona)
+        self.finish_success(
+            persona,
+            outcome_effects={
+                "self_attribute_effects": attribute_effects,
+                "inventory_delta": inventory_delta,
+                "progress_score": progress_score,
+            },
+        )
 
     def _is_recent_duplicate_resource_consume(self, persona, target):
         inventory = getattr(persona.scratch, "inventory", {}) or {}

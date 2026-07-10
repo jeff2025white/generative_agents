@@ -26,7 +26,25 @@ def build_invalid_targets(scratch, max_age_steps=6):
 
   getter = getattr(scratch, "get_recent_invalid_targets", None)
   if callable(getter):
-    return _normalize_invalid_targets(getter(max_age_steps=max_age_steps))
+    invalid_targets = _normalize_invalid_targets(getter(max_age_steps=max_age_steps))
+    if invalid_targets:
+      return invalid_targets
+
+  current_step = getattr(scratch, "curr_step", None)
+  failed_instances = []
+  for item in (getattr(scratch, "failed_resource_instances", None) or []):
+    if not isinstance(item, dict):
+      continue
+    expires_after = item.get("expires_after_step")
+    if current_step is not None and expires_after is not None and expires_after < current_step:
+      continue
+    reason = str(item.get("reason") or "").strip().lower()
+    if reason == "resource_empty":
+      continue
+    failed_instances.append(item.get("target"))
+  invalid_targets = _normalize_invalid_targets(failed_instances)
+  if invalid_targets:
+    return invalid_targets
 
   failure_getter = getattr(scratch, "get_recent_navigation_failure", None)
   if callable(failure_getter):

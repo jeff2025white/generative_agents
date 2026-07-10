@@ -148,20 +148,124 @@ def _build_resolution_result(ok, *, address=None, target_type=None, matched=None
     }
 
 
+def _get_failed_resource_address_set(persona, target=None):
+    scratch = getattr(persona, "scratch", None)
+    normalized_target = _normalize_text(target)
+    result = set()
+    for item in (getattr(scratch, "failed_resource_instances", None) or []):
+        if not isinstance(item, dict):
+            continue
+        item_target = _normalize_text(item.get("target"))
+        if normalized_target and item_target and item_target != normalized_target:
+            continue
+        address = _normalize_text(item.get("target_address"))
+        if address:
+            result.add(address)
+    return result
+
+
+def _get_successful_resource_address_ranking(persona, target=None):
+    scratch = getattr(persona, "scratch", None)
+    normalized_target = _normalize_text(target)
+    scored_candidates = []
+    for item in (getattr(scratch, "successful_resource_instances", None) or []):
+        if not isinstance(item, dict):
+            continue
+        item_target = _normalize_text(item.get("target"))
+        if normalized_target and item_target and item_target != normalized_target:
+            continue
+        address = str(item.get("target_address") or "").strip()
+        if not address:
+            continue
+        try:
+            progress_score = float(item.get("progress_score", 0.0) or 0.0)
+        except Exception:
+            progress_score = 0.0
+        try:
+            curr_step = int(item.get("curr_step", -1) or -1)
+        except Exception:
+            curr_step = -1
+        scored_candidates.append((progress_score, curr_step, address))
+
+    scored_candidates.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    ranked = []
+    for _progress_score, _curr_step, address in scored_candidates:
+        if address not in ranked:
+            ranked.append(address)
+    return ranked
+
+
+def _pick_preferred_address(candidate_addresses, preferred_addresses=None, blocked_addresses=None):
+    preferred_addresses = [str(item).strip() for item in (preferred_addresses or []) if str(item).strip()]
+    blocked_set = {_normalize_text(item) for item in (blocked_addresses or []) if str(item or "").strip()}
+    filtered = [
+        str(address).strip()
+        for address in (candidate_addresses or [])
+        if str(address or "").strip() and _normalize_text(address) not in blocked_set
+    ]
+    if not filtered:
+        return None
+    for preferred in preferred_addresses:
+        if preferred in filtered:
+            return preferred
+    return filtered[0]
+
+
+def _to_arena_address(address):
+    return _parent_arena_address(address)
+
+
+def _get_failed_arena_address_set(persona, target=None):
+    object_addresses = _get_failed_resource_address_set(persona, target=target)
+    return {_normalize_text(_to_arena_address(address)) for address in object_addresses if _to_arena_address(address)}
+
+
+def _get_successful_arena_address_ranking(persona, target=None):
+    ranked = []
+    for address in _get_successful_resource_address_ranking(persona, target=target):
+        arena_address = _to_arena_address(address)
+        if arena_address and arena_address not in ranked:
+            ranked.append(arena_address)
+    return ranked
+
+
 def resolve_known_object_address(persona, target=None, detail=None):
     combined_text = _combined_text(target, detail)
+    blocked_addresses = _get_failed_resource_address_set(persona, target=target)
+    preferred_addresses = _get_successful_resource_address_ranking(persona, target=target)
     for canonical_name, hints in KNOWN_OBJECT_HINTS.items():
         if any(hint in combined_text for hint in hints):
+            candidate_addresses = []
             for candidate_name in [canonical_name] + hints:
-                address = persona.s_mem.find_nearest_object(candidate_name)
-                if address:
-                    return address, candidate_name, "known_object"
+                if not getattr(persona, "s_mem", None):
+                    continue
+                finder = getattr(persona.s_mem, "find_all_objects", None)
+                if callable(finder):
+                    candidate_addresses.extend(finder(candidate_name))
+                else:
+                    address = persona.s_mem.find_nearest_object(candidate_name)
+                    if address:
+                        candidate_addresses.append(address)
+            address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
+            if address:
+                return address, canonical_name, "known_object"
     return None, None, None
 
 
 def resolve_candidate_object_address(persona, candidate_names):
+    blocked_addresses = _get_failed_resource_address_set(persona)
+    preferred_addresses = _get_successful_resource_address_ranking(persona)
     for candidate_name in candidate_names or []:
-        address = persona.s_mem.find_nearest_object(candidate_name) if getattr(persona, "s_mem", None) else None
+        candidate_addresses = []
+        if getattr(persona, "s_mem", None):
+            finder = getattr(persona.s_mem, "find_all_objects", None)
+            if callable(finder):
+                candidate_addresses.extend(finder(candidate_name))
+            else:
+                address = persona.s_mem.find_nearest_object(candidate_name)
+                if address:
+                    candidate_addresses.append(address)
+        address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
         if address:
             return address, candidate_name, "candidate_object"
     return None, None, None
@@ -212,40 +316,69 @@ def resolve_matching_object_address(persona, target=None, detail=None):
     combined_text = _combined_text(target, detail)
     best_match = None
     best_score = -1
+    blocked_addresses = _get_failed_resource_address_set(persona, target=target)
+    preferred_addresses = _get_successful_resource_address_ranking(persona, target=target)
+    scored_matches = []
     for obj_name, address in _iter_object_entries(persona):
         normalized_obj = _normalize_text(obj_name)
         if normalized_obj and normalized_obj in combined_text:
             score = len(normalized_obj)
+            scored_matches.append((score, address, obj_name, "direct_object_match"))
             if score > best_score:
                 best_match = (address, obj_name, "direct_object_match")
                 best_score = score
+    if scored_matches:
+        max_score = max(item[0] for item in scored_matches)
+        candidate_addresses = [item[1] for item in scored_matches if item[0] == max_score]
+        chosen_address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
+        if chosen_address:
+            for score, address, obj_name, kind in scored_matches:
+                if score == max_score and address == chosen_address:
+                    return address, obj_name, kind
     return best_match or (None, None, None)
 
 
-def resolve_known_arena_address(maze, target=None, detail=None):
+def resolve_known_arena_address(maze, target=None, detail=None, persona=None):
     combined_text = _combined_text(target, detail)
+    blocked_addresses = _get_failed_arena_address_set(persona, target=target) if persona else set()
+    preferred_addresses = _get_successful_arena_address_ranking(persona, target=target) if persona else []
     for rule in KNOWN_ARENA_RULES:
         if any(trigger in combined_text for trigger in rule["triggers"]):
-            arena_address = _find_matching_arena_address(
-                maze,
-                rule["preferred_keywords"],
-                rule.get("excluded_keywords", []),
-            )
+            candidate_addresses = []
+            for address in _iter_arena_addresses(maze):
+                normalized_address = _normalize_text(address)
+                if any(keyword in normalized_address for keyword in rule.get("excluded_keywords", [])):
+                    continue
+                score = sum(1 for keyword in rule["preferred_keywords"] if keyword in normalized_address)
+                if score > 0:
+                    candidate_addresses.append(address)
+            arena_address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
             if arena_address:
                 return arena_address, arena_address.split(":")[-1], "known_arena"
     return None, None, None
 
 
-def resolve_matching_arena_address(maze, target=None, detail=None):
+def resolve_matching_arena_address(maze, target=None, detail=None, persona=None):
     combined_text = _combined_text(target, detail)
     best_match = None
     best_score = -1
+    blocked_addresses = _get_failed_arena_address_set(persona, target=target) if persona else set()
+    preferred_addresses = _get_successful_arena_address_ranking(persona, target=target) if persona else []
+    scored_matches = []
     for address in _iter_arena_addresses(maze):
         score = _arena_match_score(address, combined_text)
         if score > best_score:
             best_match = address
             best_score = score
-    if best_match and best_score > 0:
+        if score > 0:
+            scored_matches.append((score, address))
+    if scored_matches:
+        max_score = max(item[0] for item in scored_matches)
+        candidate_addresses = [item[1] for item in scored_matches if item[0] == max_score]
+        chosen_address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
+        if chosen_address:
+            return chosen_address, chosen_address.split(":")[-1], "direct_arena_match"
+    if best_match and best_score > 0 and _normalize_text(best_match) not in blocked_addresses:
         return best_match, best_match.split(":")[-1], "direct_arena_match"
     return None, None, None
 
@@ -315,6 +448,7 @@ def resolve_action_target(persona, maze, normalized_skill_id, target=None, detai
         maze,
         target=target,
         detail=detail,
+        persona=persona,
     )
     if arena_address:
         return _build_resolution_result(
@@ -329,6 +463,7 @@ def resolve_action_target(persona, maze, normalized_skill_id, target=None, detai
         maze,
         target=target,
         detail=detail,
+        persona=persona,
     )
     if arena_address:
         return _build_resolution_result(

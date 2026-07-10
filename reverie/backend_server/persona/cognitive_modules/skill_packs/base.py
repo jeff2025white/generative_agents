@@ -47,11 +47,13 @@ class BaseSkillPack:
     def mark_finalizing_phase(self, persona, *, metadata=None):
         self.update_skill_phase(persona, "finalizing", metadata=metadata)
 
-    def finish_success(self, persona, *, action_command=None, action_event=None, action_description=None, action_address=None):
+    def finish_success(self, persona, *, action_command=None, action_event=None, action_description=None, action_address=None, outcome_effects=None):
         """
         Record a successful completion and release the active execution state.
         Skill implementations should prefer this over manually mutating scratch fields.
         """
+        if hasattr(persona.scratch, "attach_persona_ref"):
+            persona.scratch.attach_persona_ref(persona)
         if hasattr(persona.scratch, "finish_complex_skill"):
             persona.scratch.finish_complex_skill("completed")
         persona.scratch.mark_action_completed(
@@ -59,23 +61,44 @@ class BaseSkillPack:
             action_event=action_event or persona.scratch.act_event,
             action_description=action_description or persona.scratch.act_description,
             action_address=action_address or persona.scratch.act_address,
+            outcome_effects=outcome_effects,
         )
         if hasattr(persona.scratch, "complete_execution"):
             persona.scratch.complete_execution()
         else:
-            persona.scratch.clear_current_action()
+            clearer = getattr(persona.scratch, "clear_current_action", None)
+            if callable(clearer):
+                clearer()
+            else:
+                persona.scratch.planned_path = []
+                persona.scratch.act_path_set = False
+                persona.scratch.act_address = None
+                persona.scratch.act_description = None
+                persona.scratch.act_command = None
+                persona.scratch.act_event = None
         self._last_precheck_result = None
 
     def finish_failure(self, persona, reason, payload=None):
         """
         Release the active execution state as a failure.
         """
+        if hasattr(persona.scratch, "attach_persona_ref"):
+            persona.scratch.attach_persona_ref(persona)
         if hasattr(persona.scratch, "finish_complex_skill"):
             persona.scratch.finish_complex_skill("failed", metadata={"reason": reason, "payload": payload or {}})
         if hasattr(persona.scratch, "fail_execution"):
             persona.scratch.fail_execution(reason, payload=payload)
         else:
-            persona.scratch.clear_current_action()
+            clearer = getattr(persona.scratch, "clear_current_action", None)
+            if callable(clearer):
+                clearer()
+            else:
+                persona.scratch.planned_path = []
+                persona.scratch.act_path_set = False
+                persona.scratch.act_address = None
+                persona.scratch.act_description = None
+                persona.scratch.act_command = None
+                persona.scratch.act_event = None
         self._last_precheck_result = None
 
     def finish_interrupted(self, persona, reason, payload=None):

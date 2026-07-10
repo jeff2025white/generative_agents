@@ -176,6 +176,203 @@ class ScratchLegacyLoadTests(unittest.TestCase):
         self.assertEqual(reloaded.motive_attributes["status"]["current_value"], 33.0)
         self.assertEqual(reloaded.motive_attributes["status"]["skill_flat_modifiers"]["sing"], 5.0)
 
+    def test_action_outcome_runtime_views_persist_across_save_and_load(self):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.curr_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.curr_step = 161
+
+        outcome = {
+            "schema_version": 1,
+            "outcome_id": "Isabella-161-abc",
+            "persona": "Isabella Rodriguez",
+            "curr_step": 161,
+            "action": {
+                "skill_id": "gather",
+                "target": "refrigerator",
+                "target_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+            },
+            "execution": {
+                "result": "failed",
+                "reason": "resource_empty",
+                "reason_class": "resource_state",
+            },
+            "effects": {
+                "self_attribute_effects": {
+                    "satiety": 0.0,
+                    "stamina": 0.0,
+                    "health": 0.0,
+                    "mood": 0.0,
+                },
+                "inventory_delta": {},
+                "progress_score": 0.0,
+            },
+            "resource_context": {
+                "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+            },
+        }
+
+        scratch.record_action_outcome(outcome)
+
+        self.assertEqual(scratch.last_action_outcome["outcome_id"], "Isabella-161-abc")
+        self.assertEqual(len(scratch.recent_action_outcomes), 1)
+        self.assertEqual(scratch.failed_resource_instances[0]["reason"], "resource_empty")
+        self.assertEqual(scratch.successful_resource_instances, [])
+
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            temp_path = tmp.name
+
+        try:
+            scratch.save(temp_path)
+            reloaded = Scratch(temp_path)
+        finally:
+            Path(temp_path).unlink(missing_ok=True)
+
+        self.assertEqual(reloaded.last_action_outcome["outcome_id"], "Isabella-161-abc")
+        self.assertEqual(len(reloaded.recent_action_outcomes), 1)
+        self.assertEqual(
+            reloaded.failed_resource_instances[0]["target_address"],
+            "the Ville:Hobbs Cafe:cafe:refrigerator",
+        )
+
+    @patch("persona.memory_structures.scratch.append_debug_log")
+    def test_record_action_outcome_appends_action_outcome_log(self, mock_log):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.curr_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.curr_step = 161
+
+        outcome = {
+            "schema_version": 1,
+            "outcome_id": "Isabella-161-log",
+            "persona": "Isabella Rodriguez",
+            "curr_step": 161,
+            "sim_time": "2026-07-10 12:00:00",
+            "action": {
+                "skill_id": "gather",
+                "target": "refrigerator",
+                "target_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+            },
+            "execution": {
+                "result": "failed",
+                "reason": "resource_empty",
+                "reason_class": "resource_state",
+            },
+            "effects": {
+                "self_attribute_effects": {
+                    "satiety": 0.0,
+                    "stamina": 0.0,
+                    "health": 0.0,
+                    "mood": 0.0,
+                },
+                "inventory_delta": {},
+                "progress_score": 0.0,
+            },
+        }
+
+        scratch.record_action_outcome(outcome)
+
+        self.assertTrue(mock_log.called)
+        self.assertEqual(mock_log.call_args.args[0], "action_outcome")
+
+    @patch("persona.memory_structures.scratch.record_projected_action_outcome")
+    @patch("persona.memory_structures.scratch.append_debug_log")
+    def test_record_action_outcome_projects_promoted_experience_when_persona_attached(self, _mock_log, mock_record):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.name = "Maria Lopez"
+        scratch.curr_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.curr_step = 161
+        persona = SimpleNamespace(name="Maria Lopez", scratch=scratch, a_mem=object())
+        scratch.attach_persona_ref(persona)
+
+        outcome = {
+            "schema_version": 1,
+            "outcome_id": "Maria-161-projection",
+            "persona": "Maria Lopez",
+            "curr_step": 161,
+            "sim_time": "2026-07-10 12:00:00",
+            "action": {
+                "skill_id": "consume",
+                "target": "apple",
+                "target_address": "inventory",
+            },
+            "execution": {
+                "result": "success",
+                "reason": None,
+                "reason_class": "other",
+            },
+            "effects": {
+                "self_attribute_effects": {
+                    "satiety": 12.0,
+                    "stamina": 0.0,
+                    "health": 0.0,
+                    "mood": 1.0,
+                },
+                "inventory_delta": {"apple": -1},
+                "progress_score": 1.0,
+            },
+            "experience_scoring": {
+                "effective_score": 0.9,
+                "should_promote_to_experience": True,
+            },
+            "memory_projection": {
+                "description": "Maria Lopez successfully used consume on apple at inventory.",
+            },
+        }
+
+        scratch.record_action_outcome(outcome)
+
+        mock_record.assert_called_once_with(persona, outcome)
+
+    @patch("persona.memory_structures.scratch.append_debug_log")
+    def test_mark_action_completed_records_successful_action_outcome(self, _mock_log):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.name = "Maria Lopez"
+        scratch.curr_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 10, 12, 0, 0)
+        scratch.curr_step = 161
+        scratch.act_address = "the Ville:Johnson Park:park:apple tree"
+        scratch.act_description = "gathering apples from the apple tree"
+        scratch.act_command = {
+            "skill_id": "gather",
+            "target": "apple tree",
+            "intent_family": "restore_satiety",
+            "raw_action": "Gather",
+        }
+
+        scratch.mark_action_completed(
+            action_command=scratch.act_command,
+            action_event=("Maria Lopez", "gather", "apple tree"),
+            action_description=scratch.act_description,
+            action_address=scratch.act_address,
+            outcome_effects={
+                "self_attribute_effects": {
+                    "satiety": 0.0,
+                    "stamina": 0.0,
+                    "health": 0.0,
+                    "mood": 1.0,
+                },
+                "inventory_delta": {"apple": 2},
+                "progress_score": 0.6,
+            },
+        )
+
+        self.assertEqual(scratch.last_action_observation["result"], "completed")
+        self.assertEqual(scratch.last_action_outcome["execution"]["result"], "success")
+        self.assertEqual(
+            scratch.last_action_outcome["effects"]["inventory_delta"]["apple"],
+            2,
+        )
+        self.assertEqual(
+            scratch.successful_resource_instances[0]["target_address"],
+            "the Ville:Johnson Park:park:apple tree",
+        )
+        self.assertEqual(
+            scratch.successful_resource_instances[0]["progress_score"],
+            0.6,
+        )
+
     def test_prompt_profile_defaults_and_persists(self):
         scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
         scratch.name = "Klaus Mueller"

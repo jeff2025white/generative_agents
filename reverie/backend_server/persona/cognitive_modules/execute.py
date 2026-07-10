@@ -377,6 +377,8 @@ def execute(persona, maze, personas, plan):
         }
       )
       if hasattr(persona.scratch, "fail_execution"):
+        if hasattr(persona.scratch, "attach_persona_ref"):
+          persona.scratch.attach_persona_ref(persona)
         persona.scratch.fail_execution("path_not_found", payload=failure_payload)
       else:
         persona.scratch.clear_current_action(keep_last_desc=True)
@@ -514,6 +516,8 @@ def execute(persona, maze, personas, plan):
           )
           # Objective physical failure: Clear current planned path and action, forcing LLM to re-evaluate in the next step
           if hasattr(persona.scratch, "fail_execution"):
+            if hasattr(persona.scratch, "attach_persona_ref"):
+              persona.scratch.attach_persona_ref(persona)
             persona.scratch.fail_execution(
               blocked_reason,
               payload=blocked_payload,

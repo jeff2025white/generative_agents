@@ -44,6 +44,7 @@ class DummySpatialMemory:
             "the Ville": {
                 "Dorm for Oak Hill College": {
                     "kitchen": {"refrigerator": {}},
+                    "lobby kitchen": {"refrigerator": {}},
                     "music room": {"piano": {}},
                     "common room": {"sofa": {}},
                 }
@@ -57,6 +58,17 @@ class DummySpatialMemory:
             "sofa": "the Ville:Dorm for Oak Hill College:common room:sofa",
         }
         return lookup.get(str(obj_name).strip().lower())
+
+    def find_all_objects(self, obj_name):
+        lookup = {
+            "refrigerator": [
+                "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                "the Ville:Dorm for Oak Hill College:lobby kitchen:refrigerator",
+            ],
+            "piano": ["the Ville:Dorm for Oak Hill College:music room:piano"],
+            "sofa": ["the Ville:Dorm for Oak Hill College:common room:sofa"],
+        }
+        return list(lookup.get(str(obj_name).strip().lower(), []))
 
 
 class ActionMappingTests(unittest.TestCase):
@@ -141,6 +153,46 @@ class ActionMappingTests(unittest.TestCase):
         self.assertEqual(resolved_name, "gym")
         self.assertEqual(resolved_kind, "known_arena")
 
+    def test_known_arena_resolution_skips_recent_failed_parent_arena(self):
+        maze = DummyMaze(
+            [
+                "the Ville:Dorm for Oak Hill College:common room",
+                "the Ville:Dorm for Oak Hill College:music room",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [
+                            {
+                                "target": "piano",
+                                "target_address": "the Ville:Dorm for Oak Hill College:music room:piano",
+                                "reason": "path_not_found",
+                                "curr_step": 12,
+                                "expires_after_step": 18,
+                            }
+                        ],
+                        "successful_resource_instances": [],
+                    },
+                )(),
+            },
+        )()
+
+        address, resolved_name, resolved_kind = resolve_known_arena_address(
+            maze,
+            target="piano",
+            detail="using the piano to sing",
+            persona=persona,
+        )
+
+        self.assertEqual(address, "the Ville:Dorm for Oak Hill College:common room")
+        self.assertEqual(resolved_kind, "known_arena")
+
     def test_unified_resolver_matches_direct_object_without_llm(self):
         maze = DummyMaze(
             [
@@ -176,6 +228,229 @@ class ActionMappingTests(unittest.TestCase):
         )
         self.assertEqual(address, "the Ville:Dorm for Oak Hill College:music room")
         self.assertIn("parent_arena", meta["kind"])
+
+    def test_unified_resolver_skips_recent_failed_resource_instance(self):
+        maze = DummyMaze(
+            [
+                "the Ville:Dorm for Oak Hill College:kitchen",
+                "the Ville:Dorm for Oak Hill College:lobby kitchen",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "s_mem": DummySpatialMemory(),
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [
+                            {
+                                "target": "refrigerator",
+                                "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                                "reason": "resource_empty",
+                                "curr_step": 20,
+                                "expires_after_step": 32,
+                            }
+                        ],
+                        "successful_resource_instances": [],
+                    },
+                )(),
+            },
+        )()
+
+        address, meta = resolve_action_target_address(
+            persona,
+            maze,
+            "gather",
+            target="refrigerator",
+            detail="opening the refrigerator to gather food items",
+        )
+
+        self.assertEqual(address, "the Ville:Dorm for Oak Hill College:lobby kitchen:refrigerator")
+        self.assertEqual(meta["kind"], "known_object")
+
+    def test_unified_resolver_prefers_recent_successful_resource_instance(self):
+        maze = DummyMaze(
+            [
+                "the Ville:Dorm for Oak Hill College:kitchen",
+                "the Ville:Dorm for Oak Hill College:lobby kitchen",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "s_mem": DummySpatialMemory(),
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [],
+                        "successful_resource_instances": [
+                            {
+                                "target": "refrigerator",
+                                "target_address": "the Ville:Dorm for Oak Hill College:lobby kitchen:refrigerator",
+                                "progress_score": 0.8,
+                                "curr_step": 21,
+                                "expires_after_step": 40,
+                            }
+                        ],
+                    },
+                )(),
+            },
+        )()
+
+        address, meta = resolve_action_target_address(
+            persona,
+            maze,
+            "gather",
+            target="refrigerator",
+            detail="opening the refrigerator to gather food items",
+        )
+
+        self.assertEqual(address, "the Ville:Dorm for Oak Hill College:lobby kitchen:refrigerator")
+        self.assertEqual(meta["kind"], "known_object")
+
+    def test_unified_resolver_prefers_higher_progress_score_over_more_recent_success(self):
+        maze = DummyMaze(
+            [
+                "the Ville:Dorm for Oak Hill College:kitchen",
+                "the Ville:Dorm for Oak Hill College:lobby kitchen",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "s_mem": DummySpatialMemory(),
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [],
+                        "successful_resource_instances": [
+                            {
+                                "target": "refrigerator",
+                                "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                                "progress_score": 0.9,
+                                "curr_step": 18,
+                                "expires_after_step": 40,
+                            },
+                            {
+                                "target": "refrigerator",
+                                "target_address": "the Ville:Dorm for Oak Hill College:lobby kitchen:refrigerator",
+                                "progress_score": 0.2,
+                                "curr_step": 22,
+                                "expires_after_step": 42,
+                            },
+                        ],
+                    },
+                )(),
+            },
+        )()
+
+        address, meta = resolve_action_target_address(
+            persona,
+            maze,
+            "gather",
+            target="refrigerator",
+            detail="opening the refrigerator to gather food items",
+        )
+
+        self.assertEqual(address, "the Ville:Dorm for Oak Hill College:kitchen:refrigerator")
+        self.assertEqual(meta["kind"], "known_object")
+
+    def test_unified_resolver_prefers_successful_parent_arena_for_arena_skill(self):
+        maze = DummyMaze(
+            [
+                "the Ville:Dorm for Oak Hill College:common room",
+                "the Ville:Dorm for Oak Hill College:music room",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "s_mem": DummySpatialMemory(),
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [],
+                        "successful_resource_instances": [
+                            {
+                                "target": "piano",
+                                "target_address": "the Ville:Dorm for Oak Hill College:music room:piano",
+                                "progress_score": 0.7,
+                                "curr_step": 21,
+                                "expires_after_step": 40,
+                            }
+                        ],
+                    },
+                )(),
+            },
+        )()
+
+        address, meta = resolve_action_target_address(
+            persona,
+            maze,
+            "use",
+            target="piano",
+            detail="using the piano to sing",
+        )
+
+        self.assertEqual(address, "the Ville:Dorm for Oak Hill College:music room")
+        self.assertIn("parent_arena", meta["kind"])
+
+    def test_unified_resolver_prefers_higher_progress_arena_over_more_recent_one(self):
+        maze = DummyMaze(
+            [
+                "the Ville:North Park:park garden",
+                "the Ville:South Park:park garden",
+            ]
+        )
+        persona = type(
+            "Persona",
+            (),
+            {
+                "scratch": type(
+                    "Scratch",
+                    (),
+                    {
+                        "failed_resource_instances": [],
+                        "successful_resource_instances": [
+                            {
+                                "target": "park garden",
+                                "target_address": "the Ville:North Park:park garden:bench",
+                                "progress_score": 0.95,
+                                "curr_step": 17,
+                                "expires_after_step": 38,
+                            },
+                            {
+                                "target": "park garden",
+                                "target_address": "the Ville:South Park:park garden:bench",
+                                "progress_score": 0.25,
+                                "curr_step": 23,
+                                "expires_after_step": 44,
+                            },
+                        ],
+                    },
+                )(),
+            },
+        )()
+
+        address, meta = resolve_action_target_address(
+            persona,
+            maze,
+            "wander",
+            target="park garden",
+            detail="walking through the park garden to relax",
+        )
+
+        self.assertEqual(address, "the Ville:North Park:park garden")
+        self.assertIn(meta["kind"], {"known_arena", "direct_arena_match"})
 
     def test_chat_with_non_person_target_resolves_to_location_not_person(self):
         persona = type("Persona", (), {"s_mem": DummySpatialMemory()})()

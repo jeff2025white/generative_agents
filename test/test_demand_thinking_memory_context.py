@@ -353,8 +353,8 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertIn("NavigationFailure:", capsule)
         self.assertIn("InvalidTargets:", capsule)
         self.assertIn("apple tree", capsule)
-        self.assertIn("unreachable", capsule.lower())
-        self.assertIn("must choose a new feasible target", capsule)
+        self.assertIn("was not reachable", capsule)
+        self.assertIn("Choose a different feasible target now.", capsule)
         self.assertIn("must not be selected", capsule)
         self.assertLess(capsule.index("NavigationFailure:"), capsule.index("LastAction:"))
         self.assertLess(capsule.index("DecisionPriority:"), capsule.index("LastAction:"))
@@ -382,6 +382,20 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
                     "reason": "resource_empty",
                     "curr_step": 42,
                 },
+                recent_action_outcomes=[
+                    {
+                        "action": {
+                            "skill_id": "gather",
+                            "target": "refrigerator",
+                            "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                        },
+                        "execution": {
+                            "result": "failed",
+                            "reason": "resource_empty",
+                        },
+                        "effects": {},
+                    }
+                ],
             )
         )
 
@@ -399,9 +413,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         self.assertIn("ExecutionResult:", capsule)
         self.assertNotIn("Observation:", capsule)
+        self.assertIn("RecentResult: failed gather -> refrigerator at kitchen / refrigerator: empty.", capsule)
+        self.assertIn("Hint: try another refrigerator or another feasible option.", capsule)
         self.assertIn("LastAction: opening the refrigerator to gather food items | execution_status=failed | target=refrigerator | failure_reason=resource_empty", capsule)
-        self.assertIn("previous immediate action reached the target, but that specific resource was empty", capsule)
-        self.assertIn("resource was empty", capsule)
+        self.assertIn("refrigerator at kitchen / refrigerator was empty", capsule)
+        self.assertIn("Try another instance or another feasible option.", capsule)
         self.assertNotIn("must not be selected", capsule)
         self.assertNotIn("InvalidTargets:", capsule)
 
@@ -422,6 +438,22 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
                     "action_description": "eating the apple from inventory to restore satiety",
                     "curr_step": 43,
                 },
+                recent_action_outcomes=[
+                    {
+                        "action": {
+                            "skill_id": "consume",
+                            "target": "apple",
+                            "target_address": "inventory",
+                        },
+                        "execution": {
+                            "result": "success",
+                            "reason": None,
+                        },
+                        "effects": {
+                            "inventory_delta": {"apple": -1},
+                        },
+                    }
+                ],
             )
         )
 
@@ -438,6 +470,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         )
 
         self.assertNotIn("Observation:", capsule)
+        self.assertIn("RecentResult: success consume -> apple.", capsule)
         self.assertIn("LastAction: eating the apple from inventory to restore satiety | execution_status=completed | target=apple | failure_reason=none", capsule)
         self.assertIn("outcome=eating the apple from inventory to restore satiety", capsule)
         self.assertIn("apple", capsule)
@@ -668,8 +701,8 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
             )
 
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
-        self.assertIn("previous immediate action failed", joined_prompt)
-        self.assertIn("must choose a new feasible target or a materially different plan right now", joined_prompt)
+        self.assertIn("NavigationFailure: apple tree at park / apple tree was not reachable.", joined_prompt)
+        self.assertIn("Choose a different feasible target now.", joined_prompt)
         self.assertNotIn("Decision Convergence Guidance:", joined_prompt)
 
     def test_prompt_includes_motive_guidance_text(self):
