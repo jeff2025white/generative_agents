@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 from persona.cognitive_modules.decision_constraints import build_invalid_targets
+from persona.cognitive_modules.intent_memory import infer_memory_focus
 from persona.cognitive_modules.motive_selector import (
   build_default_motive_attributes,
   select_motives,
@@ -134,6 +135,58 @@ def build_relevant_experience_text(intent_memory_summary=None):
   if intent_memory_summary:
     return _compact_text(intent_memory_summary)
   return "No especially relevant prior experience was retrieved."
+
+
+def _build_experience_priority_line(unit):
+  if not isinstance(unit, dict):
+    return None
+  summary = _compact_text(unit.get("evidence_summary"))
+  if summary:
+    return f"- {summary}"
+  instance_key = _compact_text(unit.get("resource_instance_key"))
+  resource_type = _compact_text(unit.get("resource_type")) or "resource"
+  if instance_key:
+    return f"- {resource_type} at {instance_key}"
+  return f"- {resource_type}"
+
+
+def build_experience_priority_texts(persona, intent_family=None):
+  scratch = getattr(persona, "scratch", None)
+  default_blocks = {
+    "StrongAvoidExperience": "None.",
+    "StrongPreferExperience": "None.",
+    "ExperienceGuidance": (
+      "Prioritize strong recent instance-level experience over older generic memories. "
+      "If a specific instance recently failed, prefer another feasible instance or another feasible source."
+    ),
+  }
+  if scratch is None:
+    return default_blocks
+
+  getter = getattr(scratch, "get_experience_priority_units", None)
+  units = []
+  if callable(getter):
+    units = getter(intent_family=intent_family) if intent_family else getter()
+
+  avoid_lines = [
+    _build_experience_priority_line(item)
+    for item in units
+    if item.get("experience_kind") == "avoid"
+  ]
+  avoid_lines = [line for line in avoid_lines if line][:2]
+
+  prefer_lines = [
+    _build_experience_priority_line(item)
+    for item in units
+    if item.get("experience_kind") == "prefer"
+  ]
+  prefer_lines = [line for line in prefer_lines if line][:2]
+
+  return {
+    "StrongAvoidExperience": "\n".join(avoid_lines) if avoid_lines else "None.",
+    "StrongPreferExperience": "\n".join(prefer_lines) if prefer_lines else "None.",
+    "ExperienceGuidance": default_blocks["ExperienceGuidance"],
+  }
 
 
 def build_decision_social_context_text(persona, cooperative_context=None):
@@ -856,11 +909,19 @@ def compile_stage1_prompt_context(persona,
     if hasattr(scratch, "prompt_profile"):
       scratch.prompt_profile = prompt_profile
 
+  intent_family = infer_memory_focus(persona)
+  experience_blocks = build_experience_priority_texts(
+    persona,
+    intent_family=intent_family,
+  )
   dynamic_fields = {
     "world_rules_text": build_world_rules_text(persona, base_rules=base_rules),
     "drive_system_summary_text": build_drive_system_summary_text(),
     "motive_guidance_text": build_motive_guidance_text(persona),
     "relevant_experience_text": build_relevant_experience_text(intent_memory_summary),
+    "strong_avoid_experience_text": experience_blocks["StrongAvoidExperience"],
+    "strong_prefer_experience_text": experience_blocks["StrongPreferExperience"],
+    "experience_guidance_text": experience_blocks["ExperienceGuidance"],
     "decision_social_context_text": build_decision_social_context_text(
       persona,
       cooperative_context=cooperative_context,

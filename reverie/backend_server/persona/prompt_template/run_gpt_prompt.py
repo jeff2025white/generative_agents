@@ -15,7 +15,7 @@ sys.path.append('../../')
 
 from global_methods import *
 from llm_api_config import get_task_route_request_config
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.decision_constraints import (
   build_invalid_targets,
   filter_invalid_resources,
@@ -145,20 +145,23 @@ def _append_training_prep_prompt_log(persona, prompt_kind, prompt, decision_id=N
   append_debug_log(
     "training_dataset/decision_training_prep.jsonl",
     normalize_training_log_record(
-      {
-        "event": "prompt_logged",
-        "decision_id": decision_id,
-        "persona": getattr(persona, "name", None),
-        "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
-        "prompt_kind": prompt_kind,
-        "final_prompt": prompt,
-        "prompt_hash": _prompt_hash(prompt),
-        "decision": None,
-        "execution_outcome": None,
-        "minimal_filter_enabled": bool((minimal_filter_context or {}).get("enabled")),
-        "minimal_filter_applied": bool((minimal_filter_context or {}).get("applied")),
-        "minimal_filter_summary": minimal_filter_context or {},
-      }
+      merge_log_context(
+        {
+          "event": "prompt_logged",
+          "decision_id": decision_id,
+          "persona": getattr(persona, "name", None),
+          "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
+          "prompt_kind": prompt_kind,
+          "final_prompt": prompt,
+          "prompt_hash": _prompt_hash(prompt),
+          "decision": None,
+          "execution_outcome": None,
+          "minimal_filter_enabled": bool((minimal_filter_context or {}).get("enabled")),
+          "minimal_filter_applied": bool((minimal_filter_context or {}).get("applied")),
+          "minimal_filter_summary": minimal_filter_context or {},
+        },
+        persona=persona,
+      )
     ),
   )
 
@@ -172,18 +175,6 @@ _DECISION_TRACE_STAGE_ORDER = {
 }
 
 
-def _format_persona_sim_time(persona):
-  curr_time = getattr(getattr(persona, "scratch", None), "curr_time", None)
-  if curr_time is None:
-    return None
-  try:
-    if isinstance(curr_time, str):
-      return curr_time
-    return curr_time.strftime("%Y-%m-%d %H:%M:%S")
-  except Exception:
-    return str(curr_time)
-
-
 def _append_decision_prompt_trace(persona,
                                   prompt_kind,
                                   prompt,
@@ -194,24 +185,26 @@ def _append_decision_prompt_trace(persona,
                                   extra=None):
   append_debug_log(
     DECISION_PROMPT_TRACE_LOG,
-    {
-      "event": "prompt_response",
-      "stage": prompt_kind,
-      "stage_order": _DECISION_TRACE_STAGE_ORDER.get(prompt_kind, 99),
-      "decision_id": decision_id,
-      "persona": getattr(persona, "name", None),
-      "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
-      "sim_time": _format_persona_sim_time(persona),
-      "prompt_kind": prompt_kind,
-      "prompt_template": prompt_template,
-      "final_prompt": prompt,
-      "prompt_hash": _prompt_hash(prompt),
-      "llm_response": llm_response,
-      "minimal_filter_enabled": bool((minimal_filter_context or {}).get("enabled")),
-      "minimal_filter_applied": bool((minimal_filter_context or {}).get("applied")),
-      "minimal_filter_summary": minimal_filter_context or {},
-      **dict(extra or {}),
-    },
+    merge_log_context(
+      {
+        "event": "prompt_response",
+        "stage": prompt_kind,
+        "stage_order": _DECISION_TRACE_STAGE_ORDER.get(prompt_kind, 99),
+        "decision_id": decision_id,
+        "persona": getattr(persona, "name", None),
+        "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
+        "prompt_kind": prompt_kind,
+        "prompt_template": prompt_template,
+        "final_prompt": prompt,
+        "prompt_hash": _prompt_hash(prompt),
+        "llm_response": llm_response,
+        "minimal_filter_enabled": bool((minimal_filter_context or {}).get("enabled")),
+        "minimal_filter_applied": bool((minimal_filter_context or {}).get("applied")),
+        "minimal_filter_summary": minimal_filter_context or {},
+        **dict(extra or {}),
+      },
+      persona=persona,
+    ),
   )
 
 
@@ -3638,6 +3631,9 @@ def build_decision_capsule(persona,
                            motive_guidance_text=None,
                            decision_social_context_text=None,
                            relevant_experience_text=None,
+                           strong_avoid_experience_text=None,
+                           strong_prefer_experience_text=None,
+                           experience_guidance_text=None,
                            static_resource_context_text=None):
   scratch = persona.scratch
   invalid_targets = build_invalid_targets(scratch)
@@ -3666,6 +3662,15 @@ def build_decision_capsule(persona,
     decision_social_context_text = "暂无其他 NPC 信息缓存。"
   if not relevant_experience_text:
     relevant_experience_text = intent_memory_summary
+  if not strong_avoid_experience_text:
+    strong_avoid_experience_text = "None."
+  if not strong_prefer_experience_text:
+    strong_prefer_experience_text = "None."
+  if not experience_guidance_text:
+    experience_guidance_text = (
+      "Prioritize strong recent instance-level experience over older generic memories. "
+      "If a specific instance recently failed, prefer another feasible instance or another feasible source."
+    )
   if not decision_convergence_hint:
     decision_convergence_hint = "Choose the immediate next action only and avoid expanding into a broader plan."
   compact_temporal_context = _compact_multiline_block(temporal_context, max_lines=1, max_chars=120)
@@ -3721,6 +3726,9 @@ def build_decision_capsule(persona,
     f"Rules: {_compact_multiline_block(rules, max_lines=5, max_chars=360)}",
     f"驱动力和满足方式: {_compact_multiline_block(drive_system_summary_text, max_lines=4, max_chars=360)}",
     f"Motives: {_compact_multiline_block(motive_guidance_text, max_lines=4, max_chars=320)}",
+    f"StrongAvoidExperience: {_compact_multiline_block(strong_avoid_experience_text, max_lines=4, max_chars=260)}",
+    f"StrongPreferExperience: {_compact_multiline_block(strong_prefer_experience_text, max_lines=4, max_chars=260)}",
+    f"ExperienceGuidance: {_compact_multiline_block(experience_guidance_text, max_lines=3, max_chars=260)}",
     f"Cooperative: {_compact_multiline_block(cooperative_context, max_lines=3, max_chars=220)}",
     f"Experience: {_compact_multiline_block(relevant_experience_text, max_lines=4, max_chars=260)}",
     "BackgroundRule: Identity, lifestyle, routine role behavior, and long-term goals are tie-breakers only after selecting among feasible immediate options.",
@@ -3803,6 +3811,9 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
       decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
       relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
+      strong_avoid_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_avoid_experience_text"),
+      strong_prefer_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_prefer_experience_text"),
+      experience_guidance_text=compiled_context.get("dynamic_fields", {}).get("experience_guidance_text"),
       static_resource_context_text=static_resource_context_text,
     )
 
@@ -3901,6 +3912,9 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
       decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
       relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
+      strong_avoid_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_avoid_experience_text"),
+      strong_prefer_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_prefer_experience_text"),
+      experience_guidance_text=compiled_context.get("dynamic_fields", {}).get("experience_guidance_text"),
       static_resource_context_text=static_resource_context_text,
     )
 

@@ -24,6 +24,13 @@ def _normalize_resource_instance_key(target_address):
     return text.lower() if text else None
 
 
+def _safe_float(value, default=0.0):
+    try:
+        return float(value or 0.0)
+    except Exception:
+        return float(default)
+
+
 def _build_outcome_id(persona_name, curr_step, skill_id, target_address, result, reason):
     base = "|".join(
         [
@@ -72,12 +79,56 @@ def _normalize_effects(effects):
     if isinstance(inventory_delta, dict):
         normalized["inventory_delta"] = dict(inventory_delta)
 
-    try:
-        normalized["progress_score"] = float(effects.get("progress_score", 0.0) or 0.0)
-    except Exception:
-        normalized["progress_score"] = 0.0
+    normalized["progress_score"] = _safe_float(effects.get("progress_score", 0.0), default=0.0)
 
     return normalized
+
+
+def build_experience_priority_unit(outcome):
+    if not isinstance(outcome, dict) or not outcome:
+        return None
+
+    action = outcome.get("action") or {}
+    execution = outcome.get("execution") or {}
+    effects = outcome.get("effects") or {}
+    reason = str(execution.get("reason") or "").strip().lower()
+    result = str(execution.get("result") or "").strip().lower()
+    progress_score = _safe_float(effects.get("progress_score", 0.0), default=0.0)
+    resource_type = action.get("target")
+    target_address = action.get("target_address")
+    instance_key = _normalize_resource_instance_key(target_address)
+
+    if reason == "resource_empty" and instance_key:
+        return {
+            "experience_kind": "avoid",
+            "intent_family": action.get("intent_family"),
+            "skill_id": action.get("skill_id"),
+            "resource_scope": "instance",
+            "resource_instance_key": instance_key,
+            "resource_type": resource_type,
+            "recommendation": "avoid_this_instance",
+            "confidence": 0.72,
+            "freshness_step": outcome.get("curr_step"),
+            "evidence_summary": f"{resource_type} at {target_address} was empty recently.",
+            "supporting_outcome_ids": [outcome.get("outcome_id")],
+        }
+
+    if result == "success" and instance_key and progress_score >= 0.6:
+        return {
+            "experience_kind": "prefer",
+            "intent_family": action.get("intent_family"),
+            "skill_id": action.get("skill_id"),
+            "resource_scope": "instance",
+            "resource_instance_key": instance_key,
+            "resource_type": resource_type,
+            "recommendation": "prefer_this_instance",
+            "confidence": min(1.0, 0.45 + progress_score * 0.5),
+            "freshness_step": outcome.get("curr_step"),
+            "evidence_summary": f"{resource_type} at {target_address} worked well recently.",
+            "supporting_outcome_ids": [outcome.get("outcome_id")],
+        }
+
+    return None
 
 
 def derive_progress_score_breakdown(skill_id=None, self_attribute_effects=None, inventory_delta=None):

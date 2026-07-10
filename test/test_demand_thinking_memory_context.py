@@ -36,12 +36,44 @@ import persona.cognitive_modules.plan as plan_module
 from persona.cognitive_modules.stage1_prompt_compiler import (
     WORLD_RULES_TEXT,
     build_background_identity_text,
-  build_motive_guidance_text,
+    build_experience_priority_texts,
+    build_motive_guidance_text,
     build_world_rules_text,
 )
 
 
 class DemandThinkingMemoryContextTests(unittest.TestCase):
+    def test_build_experience_priority_texts_prefers_instance_failure_over_generic_success(self):
+        scratch = SimpleNamespace(
+            get_experience_priority_units=lambda intent_family=None: [
+                {
+                    "experience_kind": "avoid",
+                    "intent_family": "restore_satiety",
+                    "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+                    "resource_type": "refrigerator",
+                    "recommendation": "avoid_this_instance",
+                    "confidence": 0.88,
+                    "evidence_summary": "refrigerator at Hobbs Cafe was empty recently.",
+                },
+                {
+                    "experience_kind": "prefer",
+                    "intent_family": "restore_satiety",
+                    "resource_instance_key": "the ville:johnson park:park:apple tree",
+                    "resource_type": "apple tree",
+                    "recommendation": "prefer_this_instance",
+                    "confidence": 0.79,
+                    "evidence_summary": "apple tree worked well recently.",
+                },
+            ]
+        )
+        persona = SimpleNamespace(name="Isabella Rodriguez", scratch=scratch)
+
+        blocks = build_experience_priority_texts(persona, intent_family="restore_satiety")
+
+        self.assertIn("Hobbs Cafe", blocks["StrongAvoidExperience"])
+        self.assertIn("apple tree", blocks["StrongPreferExperience"])
+        self.assertIn("instance-level experience over older generic memories", blocks["ExperienceGuidance"])
+
     def test_static_resource_context_lists_key_resources_from_map(self):
         tile_data = {
             (1, 1): {"collision": False},
@@ -484,6 +516,26 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
                 stamina=80.0,
                 health=90.0,
                 mood=65.0,
+                get_experience_priority_units=lambda intent_family=None: [
+                    {
+                        "experience_kind": "avoid",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                        "resource_type": "refrigerator",
+                        "recommendation": "avoid_this_instance",
+                        "confidence": 0.91,
+                        "evidence_summary": "refrigerator at Dorm for Oak Hill College was empty recently.",
+                    },
+                    {
+                        "experience_kind": "prefer",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the Ville:Johnson Park:park:apple tree",
+                        "resource_type": "apple tree",
+                        "recommendation": "prefer_this_instance",
+                        "confidence": 0.78,
+                        "evidence_summary": "apple tree worked well recently.",
+                    },
+                ],
                 get_str_iss=lambda: "Name: Maria Lopez",
                 get_str_firstname=lambda: "Maria",
             )
@@ -509,6 +561,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         self.assertIn("refrigerator", result.lower())
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
+        self.assertIn("StrongAvoidExperience:", joined_prompt)
+        self.assertIn("refrigerator at Dorm for Oak Hill College was empty recently.", joined_prompt)
+        self.assertIn("StrongPreferExperience:", joined_prompt)
+        self.assertIn("apple tree worked well recently.", joined_prompt)
+        self.assertIn("ExperienceGuidance:", joined_prompt)
         self.assertIn("Experience:", joined_prompt)
         self.assertIn("restored her satiety effectively", joined_prompt)
         self.assertIn("Failed attempts:", joined_prompt)

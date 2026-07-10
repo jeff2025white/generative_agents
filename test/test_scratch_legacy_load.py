@@ -91,6 +91,7 @@ class ScratchLegacyLoadTests(unittest.TestCase):
 
         self.assertEqual(scratch.act_event, ("Klaus Mueller", None, None))
         self.assertEqual(scratch.act_obj_event, (None, None, None))
+        self.assertEqual(scratch.experience_priority_units, [])
 
     def test_load_legacy_empty_act_address_normalizes_to_none(self):
         payload = self._build_legacy_payload()
@@ -233,6 +234,14 @@ class ScratchLegacyLoadTests(unittest.TestCase):
         self.assertEqual(
             reloaded.failed_resource_instances[0]["target_address"],
             "the Ville:Hobbs Cafe:cafe:refrigerator",
+        )
+        self.assertEqual(
+            reloaded.experience_priority_units[0]["resource_instance_key"],
+            "the ville:hobbs cafe:cafe:refrigerator",
+        )
+        self.assertEqual(
+            reloaded.experience_priority_units[0]["recommendation"],
+            "avoid_this_instance",
         )
 
     @patch("persona.memory_structures.scratch.append_debug_log")

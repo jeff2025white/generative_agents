@@ -11,7 +11,10 @@ from types import SimpleNamespace
 sys.path.append('../../')
 
 from global_methods import *
-from persona.cognitive_modules.action_outcomes import build_action_outcome_record
+from persona.cognitive_modules.action_outcomes import (
+  build_action_outcome_record,
+  build_experience_priority_unit,
+)
 from persona.cognitive_modules.action_command_utils import (
   build_decision_signature,
   infer_action_command_from_event,
@@ -144,6 +147,7 @@ class Scratch:
     self.last_action_observation = None
     self.last_action_outcome = None
     self.recent_action_outcomes = []
+    self.experience_priority_units = []
     self.failed_resource_instances = []
     self.successful_resource_instances = []
     self.active_execution_state = None
@@ -357,6 +361,7 @@ class Scratch:
       self.last_action_observation = scratch_load.get("last_action_observation", None)
       self.last_action_outcome = scratch_load.get("last_action_outcome", None)
       self.recent_action_outcomes = scratch_load.get("recent_action_outcomes", [])
+      self.experience_priority_units = scratch_load.get("experience_priority_units", [])
       self.failed_resource_instances = scratch_load.get("failed_resource_instances", [])
       self.successful_resource_instances = scratch_load.get("successful_resource_instances", [])
       self.active_execution_state = scratch_load.get("active_execution_state", None)
@@ -646,6 +651,7 @@ class Scratch:
     scratch["last_action_observation"] = self.last_action_observation
     scratch["last_action_outcome"] = self.last_action_outcome
     scratch["recent_action_outcomes"] = self.recent_action_outcomes
+    scratch["experience_priority_units"] = self.experience_priority_units
     scratch["failed_resource_instances"] = self.failed_resource_instances
     scratch["successful_resource_instances"] = self.successful_resource_instances
     scratch["active_execution_state"] = self.active_execution_state
@@ -1833,6 +1839,68 @@ class Scratch:
     return self._persona_ref
 
 
+  def _normalize_experience_unit(self, outcome):
+    return build_experience_priority_unit(outcome)
+
+
+  def _merge_experience_unit(self, unit):
+    if not isinstance(unit, dict) or not unit:
+      return None
+    self.experience_priority_units = list(getattr(self, "experience_priority_units", []) or [])
+    for existing in self.experience_priority_units:
+      same_key = (
+        existing.get("experience_kind") == unit.get("experience_kind")
+        and existing.get("intent_family") == unit.get("intent_family")
+        and existing.get("resource_instance_key") == unit.get("resource_instance_key")
+        and existing.get("recommendation") == unit.get("recommendation")
+      )
+      if not same_key:
+        continue
+      existing["confidence"] = min(
+        1.0,
+        max(
+          float(existing.get("confidence", 0.0) or 0.0),
+          float(unit.get("confidence", 0.0) or 0.0),
+        ) + 0.08,
+      )
+      existing["freshness_step"] = max(
+        existing.get("freshness_step") or -1,
+        unit.get("freshness_step") or -1,
+      )
+      existing["supporting_outcome_ids"] = list(
+        dict.fromkeys(
+          (existing.get("supporting_outcome_ids") or [])
+          + (unit.get("supporting_outcome_ids") or [])
+        )
+      )
+      if not existing.get("evidence_summary") and unit.get("evidence_summary"):
+        existing["evidence_summary"] = unit.get("evidence_summary")
+      if not existing.get("resource_type") and unit.get("resource_type"):
+        existing["resource_type"] = unit.get("resource_type")
+      if not existing.get("skill_id") and unit.get("skill_id"):
+        existing["skill_id"] = unit.get("skill_id")
+      return existing
+    self.experience_priority_units.append(dict(unit))
+    return unit
+
+
+  def get_experience_priority_units(self, intent_family=None):
+    units = list(getattr(self, "experience_priority_units", []) or [])
+    if intent_family:
+      units = [
+        item for item in units
+        if item.get("intent_family") == intent_family
+      ]
+    return sorted(
+      units,
+      key=lambda item: (
+        float(item.get("confidence", 0.0) or 0.0),
+        int(item.get("freshness_step", -1) or -1),
+      ),
+      reverse=True,
+    )
+
+
   def record_action_outcome(self, outcome, recent_limit=8, failed_ttl=12, success_ttl=20):
     if not isinstance(outcome, dict) or not outcome:
       return None
@@ -1847,6 +1915,9 @@ class Scratch:
     self.recent_action_outcomes = list(self.recent_action_outcomes or [])
     self.recent_action_outcomes.append(outcome)
     self.recent_action_outcomes = self.recent_action_outcomes[-int(recent_limit):]
+    experience_unit = self._normalize_experience_unit(outcome)
+    if experience_unit:
+      self._merge_experience_unit(experience_unit)
 
     action = outcome.get("action") or {}
     execution = outcome.get("execution") or {}

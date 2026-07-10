@@ -39,6 +39,7 @@ class DecisionPromptTraceTests(unittest.TestCase):
     def test_demand_thinking_writes_prompt_trace(self):
         persona = SimpleNamespace(
             name="Maria Lopez",
+            sim_code="sim_20260709_103000",
             scratch=SimpleNamespace(
                 curr_step=12,
                 curr_time=datetime.datetime(2026, 7, 9, 10, 30, 0),
@@ -47,6 +48,26 @@ class DecisionPromptTraceTests(unittest.TestCase):
                 stamina=80.0,
                 health=90.0,
                 mood=65.0,
+                get_experience_priority_units=lambda intent_family=None: [
+                    {
+                        "experience_kind": "avoid",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+                        "resource_type": "refrigerator",
+                        "recommendation": "avoid_this_instance",
+                        "confidence": 0.91,
+                        "evidence_summary": "refrigerator at Dorm for Oak Hill College was empty recently.",
+                    },
+                    {
+                        "experience_kind": "prefer",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the Ville:Johnson Park:park:apple tree",
+                        "resource_type": "apple tree",
+                        "recommendation": "prefer_this_instance",
+                        "confidence": 0.78,
+                        "evidence_summary": "apple tree worked well recently.",
+                    },
+                ],
                 get_str_iss=lambda: "Name: Maria Lopez",
                 get_str_firstname=lambda: "Maria",
             ),
@@ -74,7 +95,9 @@ class DecisionPromptTraceTests(unittest.TestCase):
         self.assertEqual(payload["event"], "prompt_response")
         self.assertEqual(payload["stage"], "demand_thinking")
         self.assertEqual(payload["persona"], "Maria Lopez")
+        self.assertEqual(payload["sim_code"], "sim_20260709_103000")
         self.assertEqual(payload["curr_step"], 12)
+        self.assertEqual(payload["sim_time"], "2026-07-09 10:30:00")
         self.assertEqual(payload["decision_id"], "Maria-12-abc123")
         self.assertIn("PROMPT", payload["final_prompt"])
         self.assertIn("Answer:", payload["final_prompt"])
@@ -85,6 +108,18 @@ class DecisionPromptTraceTests(unittest.TestCase):
             payload["stage1_dynamic_fields"]["relevant_experience_text"],
             "Relevant food experience.",
         )
+        self.assertEqual(
+            payload["stage1_dynamic_fields"]["strong_avoid_experience_text"],
+            "- refrigerator at Dorm for Oak Hill College was empty recently.",
+        )
+        self.assertEqual(
+            payload["stage1_dynamic_fields"]["strong_prefer_experience_text"],
+            "- apple tree worked well recently.",
+        )
+        self.assertIn(
+            "instance-level experience over older generic memories",
+            payload["stage1_dynamic_fields"]["experience_guidance_text"],
+        )
         self.assertIn(
             "long_term_goals_text",
             payload["stage1_prompt_profile"]["fields"],
@@ -93,6 +128,7 @@ class DecisionPromptTraceTests(unittest.TestCase):
     def test_action_translation_writes_prompt_trace(self):
         persona = SimpleNamespace(
             name="Klaus Mueller",
+            sim_code="sim_20260709_110000",
             scratch=SimpleNamespace(
                 curr_step=21,
                 curr_time=datetime.datetime(2026, 7, 9, 11, 0, 0),
@@ -127,6 +163,8 @@ class DecisionPromptTraceTests(unittest.TestCase):
         self.assertEqual(len(trace_calls), 1)
         payload = trace_calls[0][1]
         self.assertEqual(payload["stage"], "action_translation")
+        self.assertEqual(payload["sim_code"], "sim_20260709_110000")
+        self.assertEqual(payload["sim_time"], "2026-07-09 11:00:00")
         self.assertEqual(payload["decision_id"], "Klaus-21-xyz987")
         self.assertEqual(payload["final_prompt"], "TRANSLATION PROMPT")
         self.assertEqual(payload["llm_response"], decision)
@@ -135,6 +173,7 @@ class DecisionPromptTraceTests(unittest.TestCase):
     def test_final_decision_trace_contains_routed_decision(self):
         persona = SimpleNamespace(
             name="Isabella Rodriguez",
+            sim_code="sim_20260709_121500",
             scratch=SimpleNamespace(
                 curr_step=33,
                 curr_time=datetime.datetime(2026, 7, 9, 12, 15, 0),
@@ -171,6 +210,8 @@ class DecisionPromptTraceTests(unittest.TestCase):
         self.assertEqual(log_name, "decision_prompt_trace.jsonl")
         self.assertEqual(payload["event"], "final_decision")
         self.assertEqual(payload["stage_order"], 30)
+        self.assertEqual(payload["sim_code"], "sim_20260709_121500")
+        self.assertEqual(payload["sim_time"], "2026-07-09 12:15:00")
         self.assertEqual(payload["decision_id"], "Isabella-33-final01")
         self.assertEqual(payload["llm_decision_text"]["thought"], "I should eat the apple now.")
         self.assertEqual(payload["decision_routed_action"], "Consume")

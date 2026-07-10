@@ -18,6 +18,7 @@ from persona.cognitive_modules.action_outcomes import (
     derive_progress_score,
 )
 from persona.cognitive_modules.memory_effects import record_projected_action_outcome
+from persona.memory_structures.scratch import Scratch
 
 
 class ActionOutcomeRecordTests(unittest.TestCase):
@@ -100,6 +101,67 @@ class ActionOutcomeRecordTests(unittest.TestCase):
         self.assertEqual(outcome["memory_projection"]["object"], "execution_result")
         self.assertIn("gather", outcome["memory_projection"]["keywords"])
         self.assertIn("restore_satiety", outcome["memory_projection"]["keywords"])
+
+    def test_record_action_outcome_builds_instance_avoid_experience(self):
+        scratch = Scratch("Isabella Rodriguez")
+        scratch.curr_step = 16
+        outcome = {
+            "persona": "Isabella Rodriguez",
+            "curr_step": 16,
+            "action": {
+                "skill_id": "gather",
+                "target": "refrigerator",
+                "target_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+                "intent_family": "restore_satiety",
+            },
+            "execution": {
+                "result": "failed",
+                "reason": "resource_empty",
+                "reason_class": "resource_state",
+            },
+            "effects": {"progress_score": 0.0},
+        }
+
+        scratch.record_action_outcome(outcome)
+        units = scratch.get_experience_priority_units(intent_family="restore_satiety")
+
+        self.assertEqual(units[0]["experience_kind"], "avoid")
+        self.assertEqual(units[0]["resource_scope"], "instance")
+        self.assertEqual(
+            units[0]["resource_instance_key"],
+            "the ville:hobbs cafe:cafe:refrigerator",
+        )
+        self.assertEqual(units[0]["recommendation"], "avoid_this_instance")
+
+    def test_record_action_outcome_builds_instance_prefer_experience(self):
+        scratch = Scratch("Maria Lopez")
+        scratch.curr_step = 117
+        outcome = {
+            "persona": "Maria Lopez",
+            "curr_step": 117,
+            "action": {
+                "skill_id": "consume",
+                "target": "apple",
+                "target_address": "the Ville:Johnson Park:park:apple tree",
+                "intent_family": "restore_satiety",
+            },
+            "execution": {
+                "result": "success",
+                "reason": None,
+                "reason_class": "other",
+            },
+            "effects": {"progress_score": 0.95},
+        }
+
+        scratch.record_action_outcome(outcome)
+        units = scratch.get_experience_priority_units(intent_family="restore_satiety")
+
+        self.assertEqual(units[0]["experience_kind"], "prefer")
+        self.assertEqual(
+            units[0]["resource_instance_key"],
+            "the ville:johnson park:park:apple tree",
+        )
+        self.assertEqual(units[0]["recommendation"], "prefer_this_instance")
 
     def test_derive_progress_score_prefers_direct_recovery_over_small_inventory_gain(self):
         gather_score = derive_progress_score(
