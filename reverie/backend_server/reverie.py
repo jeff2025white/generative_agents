@@ -342,12 +342,21 @@ class ReverieServer:
 
     self._last_incremental_save_step = self.step
     self._last_incremental_save_ts = time.time()
+    sim_time = self.curr_time
+    if sim_time is not None:
+      try:
+        if not isinstance(sim_time, str):
+          sim_time = sim_time.strftime("%Y-%m-%d %H:%M:%S")
+      except Exception:
+        sim_time = str(sim_time)
     append_debug_log(
       "step_timing.jsonl",
       {
         "event": "incremental_memory_persist",
+        "persona": "__backend__",
         "sim_code": self.sim_code,
-        "step": self.step,
+        "curr_step": self.step,
+        "sim_time": sim_time,
         "dirty_personas": sorted(list(dirty_persona_set)),
         "force": force,
       }
@@ -886,13 +895,21 @@ class ReverieServer:
               print(f"{name_pad}[{mode}] {_fmt_ms(p_total)}")
 
           print(f"\u2500" * 55)
+          step_sim_time = self.curr_time
+          if step_sim_time is not None:
+            try:
+              if not isinstance(step_sim_time, str):
+                step_sim_time = step_sim_time.strftime("%Y-%m-%d %H:%M:%S")
+            except Exception:
+              step_sim_time = str(step_sim_time)
           append_debug_log(
             "step_timing.jsonl",
             {
               "event": "backend_step_timing",
+              "persona": "__backend__",
               "sim_code": self.sim_code,
-              "step": completed_step,
-              "curr_time": self.curr_time,
+              "curr_step": completed_step,
+              "sim_time": step_sim_time,
               "total_ms": total_step_ms,
               "timings_ms": step_timings_ms,
               "persona_states": persona_states,
@@ -1163,7 +1180,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

@@ -15,7 +15,6 @@ from persona.cognitive_modules.action_command_utils import infer_action_command_
 from persona.prompt_template.gpt_structure import get_embedding
 from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context, safe_json_dumps
 from persona.cognitive_modules.memory_effects import record_execution_result_experience
-from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.skill_packs import SKILL_REGISTRY
 
 
@@ -416,19 +415,6 @@ def execute(persona, maze, personas, plan):
           persona=persona,
         )
       )
-      if getattr(persona.scratch, "social_dialogue_id", None):
-        log_social_dialogue(
-          persona,
-          "path",
-          "path_started",
-          payload={
-            "closest_target_tile": closest_target_tile,
-            "path_length": len(path),
-            "remaining_path": persona.scratch.planned_path,
-            "act_address": persona.scratch.act_address,
-          },
-        )
-  
   # Setting up the next immediate step. We stay at our curr_tile if there is
   # no <planned_path> left, but otherwise, we go to the next tile in the path.
   ret = persona.scratch.curr_tile
@@ -466,20 +452,6 @@ def execute(persona, maze, personas, plan):
           persona=persona,
         )
       )
-      if getattr(persona.scratch, "social_dialogue_id", None):
-        log_social_dialogue(
-          persona,
-          "arrival",
-          "path_arrived",
-          target_name=target,
-          payload={
-            "curr_tile": persona.scratch.curr_tile,
-            "act_address": persona.scratch.act_address,
-            "act_description": persona.scratch.act_description,
-            "action": action,
-          },
-        )
-      
       skill = SKILL_REGISTRY.get(action.lower()) if action else None
       if skill:
         can_execute = skill.can_execute(persona, target, maze)
@@ -511,14 +483,6 @@ def execute(persona, maze, personas, plan):
         if can_execute:
           skill.on_arrive(persona, target, maze, personas)
         else:
-          if getattr(persona.scratch, "social_dialogue_id", None):
-            log_social_dialogue(
-              persona,
-              "failure",
-              "skill_blocked",
-              target_name=target,
-              payload=dict(blocked_payload, reason=blocked_reason, inventory=persona.scratch.inventory),
-            )
           append_debug_log(
             "action_execution_debug.jsonl",
             merge_log_context(
@@ -546,18 +510,6 @@ def execute(persona, maze, personas, plan):
           else:
             persona.scratch.clear_current_action()
       else:
-        if getattr(persona.scratch, "social_dialogue_id", None):
-          log_social_dialogue(
-            persona,
-            "failure",
-            "skill_missing",
-            target_name=target,
-            payload={
-              "action": action,
-              "act_event": act_event,
-              "act_description": persona.scratch.act_description,
-            },
-          )
         append_debug_log(
           "action_execution_debug.jsonl",
           merge_log_context(

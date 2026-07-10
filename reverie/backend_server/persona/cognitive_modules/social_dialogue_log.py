@@ -68,13 +68,3 @@ def get_social_dialogue_context(persona, target_name=None, dialogue_id=None):
     "role": getattr(scratch, "social_dialogue_role", None),
     "sim_code": getattr(persona, "sim_code", None),
   }
-
-
-def log_social_dialogue(persona, phase, event, target_name=None, dialogue_id=None, payload=None):
-  """Social dialogue debug logs are retired; keep the hook as a no-op."""
-  return None
-
-
-def log_chat_transcript(persona, conversation, target_name=None, dialogue_id=None, channel="social", payload=None):
-  """Chat transcript persistence is retired; keep the hook as a no-op."""
-  return None

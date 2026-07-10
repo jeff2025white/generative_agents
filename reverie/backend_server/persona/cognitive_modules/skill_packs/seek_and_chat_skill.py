@@ -1,6 +1,6 @@
 """Skill pack for explicitly seeking out a persona and then starting chat."""
 
-from persona.cognitive_modules.social_dialogue_log import build_dialogue_id, log_social_dialogue, set_social_dialogue_state
+from persona.cognitive_modules.social_dialogue_log import build_dialogue_id, set_social_dialogue_state
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 
 
@@ -57,15 +57,6 @@ class SeekAndChatSkillPack(BaseSkillPack):
             (persona.name, "chat with", target_persona.name),
             {"skill_id": "chat with", "target": target_persona.name, "source": "seek_and_chat_handoff", "raw_action": "chat with"},
         )
-        log_social_dialogue(
-            persona,
-            "schedule",
-            "seek_and_chat_handoff_to_chat",
-            target_name=target_persona.name,
-            dialogue_id=dialogue_id,
-            payload={"source_skill": "seek_and_chat", "topic": objective},
-        )
-
     def _build_conversation_objective(self, persona, target_name):
         detail = str((getattr(persona.scratch, "act_command", {}) or {}).get("detail") or getattr(persona.scratch, "act_description", "") or "").strip()
         if not detail:

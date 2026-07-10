@@ -58,7 +58,6 @@ from persona.cognitive_modules.social_trigger import (
   choose_social_focus,
   compute_social_cooldown,
   compute_social_opportunity_score,
-  log_social_decision,
   minimum_social_chat_score,
   should_auto_initiate_social_chat,
   social_hard_block,
@@ -66,7 +65,6 @@ from persona.cognitive_modules.social_trigger import (
 from persona.cognitive_modules.social_dialogue_log import (
   build_dialogue_id,
   clear_social_dialogue_state,
-  log_social_dialogue,
   set_social_dialogue_state,
 )
 from persona.prompt_template.run_gpt_prompt import *
@@ -709,7 +707,7 @@ def _run_decision_pipeline(persona,
           merge_log_context(
             {
               "persona": persona.name,
-              "step": getattr(persona.scratch, "curr_step", None),
+              "curr_step": getattr(persona.scratch, "curr_step", None),
               "invalid_targets": invalid_targets,
               "original_decision": joint_result,
               "retry_reason": retry_reason,
@@ -783,7 +781,7 @@ def _run_decision_pipeline(persona,
       merge_log_context(
         {
           "persona": persona.name,
-          "step": getattr(persona.scratch, "curr_step", None),
+          "curr_step": getattr(persona.scratch, "curr_step", None),
           "invalid_targets": invalid_targets,
           "original_decision": decision,
           "retry_reason": retry_reason,
@@ -1760,96 +1758,15 @@ def _should_react(persona, retrieved, personas):
   def lets_talk(init_persona, target_persona, retrieved):
     hard_blocked, hard_reasons = social_hard_block(init_persona, target_persona)
     score_detail = compute_social_opportunity_score(init_persona, target_persona, retrieved)
-    log_social_dialogue(
-      init_persona,
-      "trigger",
-      "chat_candidate",
-      target_name=target_persona.name,
-      payload={
-        "blocked": hard_blocked,
-        "hard_block_reasons": hard_reasons,
-        "score": score_detail,
-      },
-    )
-    log_social_decision(
-      init_persona,
-      target_persona.name,
-      "chat_candidate",
-      {
-        "blocked": hard_blocked,
-        "hard_block_reasons": hard_reasons,
-        "score": score_detail,
-      },
-    )
     if hard_blocked:
-      log_social_dialogue(
-        init_persona,
-        "trigger",
-        "chat_rejected_hard_block",
-        target_name=target_persona.name,
-        payload={"reasons": hard_reasons},
-      )
       return False
     if score_detail["total"] < minimum_social_chat_score(init_persona):
-      log_social_dialogue(
-        init_persona,
-        "trigger",
-        "chat_rejected_low_score",
-        target_name=target_persona.name,
-        payload={"score": score_detail},
-      )
-      log_social_decision(
-        init_persona,
-        target_persona.name,
-        "chat_rejected_low_score",
-        {
-          "score": score_detail,
-        },
-      )
       return False
 
     if should_auto_initiate_social_chat(score_detail):
-      log_social_dialogue(
-        init_persona,
-        "trigger",
-        "chat_auto_initiate",
-        target_name=target_persona.name,
-        payload={
-          "score": score_detail,
-          "reason": "high_opportunity_score",
-        },
-      )
-      log_social_decision(
-        init_persona,
-        target_persona.name,
-        "chat_auto_initiate",
-        {
-          "score": score_detail,
-          "reason": "high_opportunity_score",
-        },
-      )
       return True
 
     llm_wants_to_talk = generate_decide_to_talk(init_persona, target_persona, retrieved)
-    log_social_dialogue(
-      init_persona,
-      "trigger",
-      "chat_llm_decision",
-      target_name=target_persona.name,
-      payload={
-        "score": score_detail,
-        "llm_initiate": bool(llm_wants_to_talk),
-      },
-    )
-    log_social_decision(
-      init_persona,
-      target_persona.name,
-      "chat_llm_decision",
-      {
-        "score": score_detail,
-        "llm_initiate": bool(llm_wants_to_talk),
-      },
-    )
     if llm_wants_to_talk: 
       return True
 
@@ -2135,30 +2052,6 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
           "chatting_end_time": chatting_end_time.strftime("%B %d, %Y, %H:%M:%S"),
         },
       )
-    log_social_decision(
-      p,
-      chatting_with,
-      "chat_react_enqueued",
-      {
-        "cooldown": chatting_with_buffer.get(chatting_with),
-        "inserted_act": inserted_act,
-        "chatting_end_time": chatting_end_time,
-      },
-    )
-    log_social_dialogue(
-      p,
-      "schedule",
-      "chat_react_enqueued",
-      target_name=chatting_with,
-      dialogue_id=dialogue_id,
-      payload={
-        "cooldown": chatting_with_buffer.get(chatting_with),
-        "inserted_act": inserted_act,
-        "chatting_end_time": chatting_end_time,
-      },
-    )
-
-
 def _wait_react(persona, reaction_mode): 
   p = persona
 

@@ -14,7 +14,6 @@ from numpy import dot
 from numpy.linalg import norm
 
 from global_methods import *
-from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.stage1_prompt_compiler import (
   refresh_prompt_profile_from_reflection,
 )
@@ -231,17 +230,6 @@ def reflect(persona):
       persona.a_mem.add_thought(created, expiration, s, p, o, 
                                 planning_thought, keywords, thought_poignancy, 
                                 thought_embedding_pair, evidence)
-      if getattr(persona.scratch, "social_dialogue_id", None):
-        log_social_dialogue(
-          persona,
-          "reflect",
-          "reflect_thought_written",
-          payload={
-            "kind": "planning",
-            "evidence": evidence,
-          },
-        )
-
       memo_thought = generate_memo_on_convo(persona, all_utt)
       memo_thought = f"{persona.scratch.name} {memo_thought}"
 
@@ -255,23 +243,12 @@ def reflect(persona):
       persona.a_mem.add_thought(created, expiration, s, p, o, 
                                 memo_thought, keywords, thought_poignancy, 
                                 thought_embedding_pair, evidence)
-      if getattr(persona.scratch, "social_dialogue_id", None):
-        log_social_dialogue(
-          persona,
-          "reflect",
-          "reflect_thought_written",
-          payload={
-            "kind": "memo",
-            "evidence": evidence,
-          },
-        )
       refresh_prompt_profile_from_reflection(
         persona,
         planning_thought=planning_thought,
         memo_thought=memo_thought,
         source="conversation_reflection",
       )
-
 
 
 

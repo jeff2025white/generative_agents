@@ -28,7 +28,6 @@ from persona.cognitive_modules.reflect import *
 from persona.cognitive_modules.execute import *
 from persona.cognitive_modules.converse import *
 from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
-from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.cognitive_modules.social_trigger import should_run_periodic_social_scan
 
 
@@ -47,19 +46,6 @@ def _request_chat_wrap_for_physiological_crisis(persona):
       "health": scratch.health,
       "act_description": scratch.act_description,
       "chat_partner": scratch.chatting_with,
-    },
-  )
-  log_social_dialogue(
-    persona,
-    "interrupt",
-    "dialogue_wrap_requested",
-    target_name=scratch.chatting_with,
-    payload={
-      "reason": "physiological_interrupt",
-      "satiety": scratch.satiety,
-      "stamina": scratch.stamina,
-      "health": scratch.health,
-      "act_description": scratch.act_description,
     },
   )
   scratch.last_action_desc = f"{scratch.act_description} (Wrapping up due to physiological need)"
@@ -349,18 +335,6 @@ class Persona:
         pass
       else:
         print(f"[{self.name}] 生理危机打断！(饱食度: {self.scratch.satiety:.1f}, 精力: {self.scratch.stamina:.1f}). 清理当前路径与动作，紧急求生。")
-        if getattr(self.scratch, "social_dialogue_id", None):
-          log_social_dialogue(
-            self,
-            "failure",
-            "dialogue_aborted",
-            payload={
-              "reason": "physiological_interrupt",
-              "satiety": self.scratch.satiety,
-              "stamina": self.scratch.stamina,
-              "act_description": self.scratch.act_description,
-            },
-          )
         self.scratch.suspend_current_action("physiological_crisis", source="move")
         self.scratch.last_action_desc = f"{self.scratch.act_description} (Interrupted due to physiological crisis)"
         self.scratch.interrupt_execution(
@@ -426,7 +400,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

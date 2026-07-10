@@ -409,13 +409,6 @@ def choose_social_focus(persona, retrieved, personas, min_score=None):
       best_entry = rel_ctx
       best_score = score_detail["total"]
   return best_entry, candidates
-
-
-def log_social_decision(persona, target_name, event_name, payload):
-  """Social trigger debug logs are retired; keep the hook as a no-op."""
-  return None
-
-
 def should_run_periodic_social_scan(persona, interval=DEFAULT_SOCIAL_SCAN_INTERVAL):
   """Return True when a moving persona should briefly reconsider social chat."""
   curr_step = getattr(persona.scratch, "curr_step", None)

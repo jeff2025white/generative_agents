@@ -24,8 +24,6 @@ from persona.cognitive_modules.skill_effects import (
 from persona.cognitive_modules.social_dialogue_log import (
     clear_social_dialogue_state,
     inherit_social_dialogue_state,
-    log_chat_transcript,
-    log_social_dialogue,
     set_social_dialogue_state,
 )
 from persona.cognitive_modules.stage1_prompt_compiler import (
@@ -638,15 +636,6 @@ class ChatSkillPack(BaseSkillPack):
 
             target_p = personas[target_p_name]
             curr_context = f"{persona.name} and {target_p.name} met in the {maze.get_tile_path(persona.scratch.curr_tile, 'arena')}."
-            log_social_dialogue(
-                persona,
-                "generation",
-                "social_generation_started",
-                target_name=target_p_name,
-                payload={
-                    "arena_context": curr_context,
-                },
-            )
             
             convo = []
             speaker = persona
@@ -669,20 +658,6 @@ class ChatSkillPack(BaseSkillPack):
                 listener,
                 initial_memory_keys,
                 recent_events=initial_recent_events,
-            )
-            log_social_dialogue(
-                persona,
-                "generation",
-                "social_generation_plan",
-                target_name=target_p_name,
-                payload={
-                    "planned_turn_limit": max_turns,
-                    "relationship": str((initial_rel or {}).get("relationship", "stranger") or "stranger"),
-                    "trust": float((initial_rel or {}).get("trust", 0.0) or 0.0),
-                    "memory_key_count": len(initial_memory_keys),
-                    "recent_event_count": len(initial_recent_events),
-                    "dialogue_topic": dialogue_topic or None,
-                },
             )
             
             for turn in range(max_turns):
@@ -787,22 +762,6 @@ class ChatSkillPack(BaseSkillPack):
                     convo,
                 )
                 turn_decision["utterance"] = final_utterance
-                log_social_dialogue(
-                    persona,
-                    "generation",
-                    "social_generation_turn",
-                    target_name=target_p_name,
-                    payload={
-                        "turn": turn,
-                        "speaker": speaker.name,
-                        "listener": listener.name,
-                        "memory_keys": memory_keys,
-                        "dropped_memory_keys": dropped_memory_keys,
-                        "dropped_recent_events": dropped_recent_events,
-                        "utterance": final_utterance,
-                        "end": bool(turn_decision.get("end", False)),
-                    },
-                )
                 convo.append([speaker.name, final_utterance])
                 if turn_decision.get("end", False):
                     break
@@ -810,16 +769,6 @@ class ChatSkillPack(BaseSkillPack):
                 # Swap speaker and listener
                 speaker, listener = listener, speaker
 
-            log_social_dialogue(
-                persona,
-                "generation",
-                "social_generation_finished",
-                target_name=target_p_name,
-                payload={
-                    "turn_count": len(convo),
-                    "ended_by_model": bool(turn_decision.get("end", False)) if convo else False,
-                },
-            )
             return {
                 "mode": "social",
                 "convo": convo,
@@ -832,16 +781,6 @@ class ChatSkillPack(BaseSkillPack):
             "arrival",
             metadata={"dialogue_id": getattr(persona.scratch, "social_dialogue_id", None)},
         )
-        log_social_dialogue(
-            persona,
-            "arrival",
-            "on_arrive_enter",
-            target_name=target.strip() if isinstance(target, str) else target,
-            payload={
-                "act_address": persona.scratch.act_address,
-                "act_description": persona.scratch.act_description,
-            },
-        )
         # 0. Synchronization lock check:
         # If the interlocutor has already arrived and initiated the dialogue,
         # we copy their dialogue state and perform our own memory/physiological updates.
@@ -851,17 +790,6 @@ class ChatSkillPack(BaseSkillPack):
                 self.update_skill_phase(persona, "sync_settlement")
                 print(f"=== [会话锁定/同步触发] {persona.name} 到达，接入 {target_p.name} 已经建立的会话 ===")
                 inherited_dialogue_id = inherit_social_dialogue_state(persona, target_p, role="target")
-                log_social_dialogue(
-                    persona,
-                    "arrival",
-                    "conversation_lock_hit",
-                    target_name=target_p.name,
-                    dialogue_id=inherited_dialogue_id,
-                    payload={
-                        "source_persona": target_p.name,
-                        "shared_turn_count": len(target_p.scratch.chat or []),
-                    },
-                )
                 convo = target_p.scratch.chat
                 
                 # Update own state
@@ -897,16 +825,6 @@ class ChatSkillPack(BaseSkillPack):
                     convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
                     (convo_summary, is_emb), None
                 )
-                log_social_dialogue(
-                    persona,
-                    "memory",
-                    "summary_written",
-                    target_name=target_p.name,
-                    payload={
-                        "summary_node_id": getattr(summary_node, "node_id", None),
-                        "mode": "sync_copy",
-                    },
-                )
 
                 # Gossip extraction for persona
                 try:
@@ -928,32 +846,12 @@ class ChatSkillPack(BaseSkillPack):
                             g_cleaned, {"gossip", persona.scratch.first_name, target_p.scratch.first_name}, 5,
                             (g_cleaned, g_emb), None
                         )
-                        log_social_dialogue(
-                            persona,
-                            "memory",
-                            "gossip_written",
-                            target_name=target_p.name,
-                            payload={
-                                "gossip_node_id": getattr(gossip_node, "node_id", None),
-                                "mode": "sync_copy",
-                            },
-                        )
                         print(f"=== [传闻与八卦结算] {persona.name} 记住了八卦: {g_cleaned} ===")
                 except Exception as ge:
                     print(f"Warning: Gossip extraction failed: {ge}")
 
                 # Update relationship graph for both parties in synchronization
                 apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
-                log_social_dialogue(
-                    persona,
-                    "settlement",
-                    "relationship_updated",
-                    target_name=target_p.name,
-                    payload={
-                        "trust_delta": 0.02,
-                        "mode": "sync_copy",
-                    },
-                )
 
                 # Dialogue completion should update both core state and belonging.
                 self._apply_chat_settlement_effects(
@@ -962,44 +860,17 @@ class ChatSkillPack(BaseSkillPack):
                     base_state_effects={"stamina": 4.0, "mood": 1.0},
                     motive_effects={"belonging": 12.0},
                 )
-                log_social_dialogue(
-                    persona,
-                    "settlement",
-                    "dialogue_completed",
-                    target_name=target_p.name,
-                    payload={
-                        "result": "sync_copy_completed",
-                        "stamina": persona.scratch.stamina,
-                    },
-                )
                 self.finish_success(persona)
                 clear_social_dialogue_state(persona)
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
             if should_wait_for_dialogue_owner(persona, target_p):
                 self.update_skill_phase(persona, "waiting_for_partner")
-                log_social_dialogue(
-                    persona,
-                    "arrival",
-                    "conversation_lock_wait",
-                    target_name=target_p.name,
-                    payload={
-                        "reason": "waiting_for_initiator_generation",
-                        "dialogue_id": getattr(persona.scratch, "social_dialogue_id", None),
-                    },
-                )
                 persona.scratch.survival_applied = False
                 return
 
         if target and target.strip() in personas:
             self.update_skill_phase(persona, "generation_start")
-            log_social_dialogue(
-                persona,
-                "arrival",
-                "conversation_lock_miss",
-                target_name=target.strip(),
-                payload={"reason": "target_has_no_ready_chat"},
-            )
 
         # Trigger LLM cognitive decision
         self.update_skill_phase(persona, "generating")
@@ -1031,17 +902,6 @@ class ChatSkillPack(BaseSkillPack):
             persona.scratch.chat = [["User", user_msg], [persona.name, reply]]
             persona.scratch.chatting_with = "<creator>"
             persona.scratch.last_chat = reply
-            log_chat_transcript(
-                persona,
-                persona.scratch.chat,
-                target_name="creator",
-                channel="creator",
-                payload={
-                    "message_mode": message_mode,
-                    "action_id": action_id,
-                },
-            )
-
             # 3. Add to memory stream
             desc = f"{persona.name} handled creator {message_mode}: '{user_msg}' -> '{reply}'"
             is_emb = get_embedding(desc)
@@ -1145,25 +1005,6 @@ class ChatSkillPack(BaseSkillPack):
             target_p.scratch.chatting_with = persona.name
             persona.scratch.act_pronunciatio = "💬"
             target_p.scratch.act_pronunciatio = "💬"
-            log_chat_transcript(
-                persona,
-                convo,
-                target_name=target_p_name,
-                dialogue_id=getattr(persona.scratch, "social_dialogue_id", None),
-                channel="social",
-                payload={
-                    "participants": [persona.name, target_p.name],
-                },
-            )
-            log_social_dialogue(
-                persona,
-                "settlement",
-                "shared_conversation_written",
-                target_name=target_p_name,
-                payload={
-                    "turn_count": len(convo),
-                },
-            )
 
             # Update last_chat for both
             p_last = None
@@ -1194,16 +1035,6 @@ class ChatSkillPack(BaseSkillPack):
                 convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
                 (convo_summary, is_emb), None
             )
-            log_social_dialogue(
-                persona,
-                "memory",
-                "summary_written",
-                target_name=target_p_name,
-                payload={
-                    "summary_node_id": getattr(summary_node, "node_id", None),
-                    "mode": "generated",
-                },
-            )
 
             # 3. Gossip / Rumor Propagation
             self.update_skill_phase(persona, "memory_settlement")
@@ -1226,16 +1057,6 @@ class ChatSkillPack(BaseSkillPack):
                         g_cleaned, {"gossip", persona.scratch.first_name, target_p.scratch.first_name}, 5,
                         (g_cleaned, g_emb), None
                     )
-                    log_social_dialogue(
-                        persona,
-                        "memory",
-                        "gossip_written",
-                        target_name=target_p_name,
-                        payload={
-                            "gossip_node_id": getattr(gossip_node, "node_id", None),
-                            "mode": "generated",
-                        },
-                    )
                     print(f"=== [传闻与八卦结算] {persona.name} 记住了八卦: {g_cleaned} ===")
             except Exception as ge:
                 print(f"Warning: Gossip extraction failed: {ge}")
@@ -1243,16 +1064,6 @@ class ChatSkillPack(BaseSkillPack):
             # Update relationship graph for both parties
             self.update_skill_phase(persona, "relationship_settlement")
             apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
-            log_social_dialogue(
-                persona,
-                "settlement",
-                "relationship_updated",
-                target_name=target_p_name,
-                payload={
-                    "trust_delta": 0.02,
-                    "mode": "generated",
-                },
-            )
 
             self.update_skill_phase(persona, "finalizing")
             self._apply_chat_settlement_effects(
@@ -1260,18 +1071,6 @@ class ChatSkillPack(BaseSkillPack):
                 skill_id="chat_generated",
                 base_state_effects={"stamina": 4.0, "mood": 1.0},
                 motive_effects={"belonging": 12.0},
-            )
-            log_social_dialogue(
-                persona,
-                "settlement",
-                "dialogue_completed",
-                target_name=target_p_name,
-                payload={
-                    "result": "generated_completed",
-                    "turn_count": len(convo),
-                    "stamina": persona.scratch.stamina,
-                    "mood": persona.scratch.mood,
-                },
             )
             self.finish_success(persona)
             clear_social_dialogue_state(persona)

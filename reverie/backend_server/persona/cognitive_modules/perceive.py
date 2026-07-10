@@ -10,7 +10,6 @@ sys.path.append('../../')
 from operator import itemgetter
 from global_methods import *
 from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context, safe_json_dumps
-from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
 from persona.prompt_template.gpt_structure import *
 from persona.prompt_template.run_gpt_prompt import *
 
@@ -190,19 +189,6 @@ def perceive(persona, maze):
                       chat_poignancy, chat_embedding_pair, 
                       persona.scratch.chat)
         chat_node_ids = [chat_node.node_id]
-        if getattr(persona.scratch, "social_dialogue_id", None):
-          log_social_dialogue(
-            persona,
-            "memory",
-            "chat_memory_written",
-            target_name=curr_event[2],
-            payload={
-              "chat_node_id": chat_node.node_id,
-              "chat_poignancy": chat_poignancy,
-              "turn_count": len(persona.scratch.chat or []),
-            },
-          )
-
       # Finally, we add the current event to the agent's memory. 
       ret_events += [persona.a_mem.add_event(persona.scratch.curr_time, None,
                            s, p, o, desc, keywords, event_poignancy, 
@@ -252,7 +238,6 @@ def perceive(persona, maze):
 
 
   
-
 
 
 
