@@ -9,7 +9,11 @@ BACKEND_ROOT = ROOT / "reverie" / "backend_server"
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
-from persona.cognitive_modules.action_command_utils import normalize_skill_id
+from persona.cognitive_modules.action_command_utils import (
+    build_decision_signature,
+    infer_intent_family,
+    normalize_skill_id,
+)
 from persona.cognitive_modules.action_target_resolver import (
     resolve_action_target_address,
     resolve_known_arena_address,
@@ -91,6 +95,34 @@ class ActionMappingTests(unittest.TestCase):
             normalize_skill_id("use", target="game console", detail="using the game console"),
             "use",
         )
+
+    def test_internal_skill_ids_remain_stable_through_signature_building(self):
+        self.assertEqual(
+            normalize_skill_id("leisure_use", target="TV", detail="watching TV to relax"),
+            "leisure_use",
+        )
+        self.assertEqual(
+            normalize_skill_id("hangout_social_venue", target="bar customer seating", detail="relaxing at the bar customer seating"),
+            "hangout_social_venue",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="leisure_use", target="TV", detail="watching TV to relax"),
+            "leisure",
+        )
+
+        signature = build_decision_signature(
+            action_command={
+                "skill_id": "leisure_use",
+                "target": "TV",
+                "detail": "watching TV to relax",
+            },
+            action_description="watching TV to relax",
+            action_address="the Ville:Hobbs Cafe:cafe",
+        )
+
+        self.assertEqual(signature["skill_id"], "leisure_use")
+        self.assertEqual(signature["target"], "tv")
+        self.assertEqual(signature["intent_family"], "leisure")
 
     def test_fitness_machine_prefers_gym_like_arena(self):
         maze = DummyMaze(

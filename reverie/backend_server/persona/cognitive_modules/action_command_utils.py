@@ -134,6 +134,26 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "research": "study",
         "researching": "study",
     }
+    passthrough_skill_ids = {
+        "consume",
+        "gather",
+        "rest",
+        "idle",
+        "daydream",
+        "wander",
+        "chat with",
+        "seek_and_chat",
+        "hangout_social_venue",
+        "give",
+        "rob",
+        "creator_comm",
+        "leisure_use",
+        "study",
+        "sing",
+    }
+
+    if action in passthrough_skill_ids:
+        return action
 
     if action not in {"recreate", "recreation", "leisure", "play", "playing", "use", "using", "work", "working"}:
         return alias_map.get(action)
