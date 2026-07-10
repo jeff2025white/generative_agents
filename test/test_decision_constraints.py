@@ -1,6 +1,7 @@
 import sys
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,9 @@ from persona.cognitive_modules.decision_constraints import (
     build_invalid_targets,
     filter_invalid_resources,
     validate_decision_target,
+)
+from persona.cognitive_modules.action_target_resolver import (
+    rank_candidate_addresses_by_experience,
 )
 
 
@@ -95,6 +99,43 @@ class InvalidTargetTests(unittest.TestCase):
         feedback = build_retry_feedback("The target apple tree is invalid for this step.")
 
         self.assertIn("Choose another feasible immediate target", feedback)
+
+    def test_rank_candidate_addresses_by_experience_demotes_recent_empty_instance(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                get_experience_priority_units=lambda intent_family=None: [
+                    {
+                        "experience_kind": "avoid",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+                        "resource_type": "refrigerator",
+                        "recommendation": "avoid_this_instance",
+                        "confidence": 0.9,
+                    },
+                    {
+                        "experience_kind": "prefer",
+                        "intent_family": "restore_satiety",
+                        "resource_instance_key": "the ville:johnson park:park:apple tree",
+                        "resource_type": "apple tree",
+                        "recommendation": "prefer_this_instance",
+                        "confidence": 0.8,
+                    },
+                ]
+            )
+        )
+
+        ranked = rank_candidate_addresses_by_experience(
+            persona,
+            [
+                "the Ville:Hobbs Cafe:cafe:refrigerator",
+                "the Ville:Johnson Park:park:apple tree",
+            ],
+            intent_family="restore_satiety",
+            target="refrigerator",
+        )
+
+        self.assertEqual(ranked[0], "the Ville:Johnson Park:park:apple tree")
+        self.assertEqual(ranked[-1], "the Ville:Hobbs Cafe:cafe:refrigerator")
 
 
 if __name__ == "__main__":

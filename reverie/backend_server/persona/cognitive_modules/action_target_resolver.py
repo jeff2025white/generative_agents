@@ -72,6 +72,13 @@ KNOWN_ARENA_RULES = [
 ]
 
 ARENA_ONLY_SKILLS = {"use", "work", "study", "leisure_use", "hangout_social_venue", "wander"}
+EXPERIENCE_RANKED_TARGETS = {
+    "refrigerator",
+    "apple tree",
+    "cafe counter",
+    "behind the cafe counter",
+    "stove",
+}
 
 
 def _normalize_text(value):
@@ -195,6 +202,75 @@ def _get_successful_resource_address_ranking(persona, target=None):
     return ranked
 
 
+def _experience_intent_family_for_target(target):
+    if _normalize_text(target) in EXPERIENCE_RANKED_TARGETS:
+        return "restore_satiety"
+    return None
+
+
+def rank_candidate_addresses_by_experience(persona, candidate_addresses, intent_family=None, target=None):
+    getter = getattr(getattr(persona, "scratch", None), "get_experience_priority_units", None)
+    units = []
+    if callable(getter):
+        units = getter(intent_family=intent_family) if intent_family else getter()
+
+    ranked_candidates = []
+    seen = set()
+    for index, address in enumerate(candidate_addresses or []):
+        normalized_address = _normalize_text(address)
+        if not normalized_address or normalized_address in seen:
+            continue
+        seen.add(normalized_address)
+        ranked_candidates.append(
+            {
+                "address": str(address).strip(),
+                "normalized": normalized_address,
+                "index": index,
+                "score": 0.0,
+            }
+        )
+
+    if not ranked_candidates:
+        return []
+
+    failed_set = _get_failed_resource_address_set(persona, target=target)
+    success_ranked = _get_successful_resource_address_ranking(persona, target=target)
+    success_bonus_map = {
+        _normalize_text(address): float(len(success_ranked) - index)
+        for index, address in enumerate(success_ranked)
+        if _normalize_text(address)
+    }
+
+    for item in ranked_candidates:
+        normalized_address = item["normalized"]
+        score = 0.0
+        if normalized_address in failed_set:
+            score -= 1000.0
+
+        success_bonus = success_bonus_map.get(normalized_address)
+        if success_bonus:
+            score += 100.0 + success_bonus
+
+        for unit in units or []:
+            if not isinstance(unit, dict):
+                continue
+            if _normalize_text(unit.get("resource_instance_key")) != normalized_address:
+                continue
+            try:
+                confidence = float(unit.get("confidence", 0.0) or 0.0)
+            except Exception:
+                confidence = 0.0
+            experience_kind = _normalize_text(unit.get("experience_kind"))
+            if experience_kind == "avoid":
+                score -= 200.0 * max(confidence, 0.1)
+            elif experience_kind == "prefer":
+                score += 150.0 * max(confidence, 0.1)
+        item["score"] = score
+
+    ranked_candidates.sort(key=lambda item: (-item["score"], item["index"]))
+    return [item["address"] for item in ranked_candidates]
+
+
 def _pick_preferred_address(candidate_addresses, preferred_addresses=None, blocked_addresses=None):
     preferred_addresses = [str(item).strip() for item in (preferred_addresses or []) if str(item).strip()]
     blocked_set = {_normalize_text(item) for item in (blocked_addresses or []) if str(item or "").strip()}
@@ -233,6 +309,7 @@ def resolve_known_object_address(persona, target=None, detail=None):
     combined_text = _combined_text(target, detail)
     blocked_addresses = _get_failed_resource_address_set(persona, target=target)
     preferred_addresses = _get_successful_resource_address_ranking(persona, target=target)
+    intent_family = _experience_intent_family_for_target(target)
     for canonical_name, hints in KNOWN_OBJECT_HINTS.items():
         if any(hint in combined_text for hint in hints):
             candidate_addresses = []
@@ -246,13 +323,19 @@ def resolve_known_object_address(persona, target=None, detail=None):
                     address = persona.s_mem.find_nearest_object(candidate_name)
                     if address:
                         candidate_addresses.append(address)
+            candidate_addresses = rank_candidate_addresses_by_experience(
+                persona,
+                candidate_addresses,
+                intent_family=intent_family,
+                target=target or canonical_name,
+            )
             address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
             if address:
                 return address, canonical_name, "known_object"
     return None, None, None
 
 
-def resolve_candidate_object_address(persona, candidate_names):
+def resolve_candidate_object_address(persona, candidate_names, target=None, intent_family=None):
     blocked_addresses = _get_failed_resource_address_set(persona)
     preferred_addresses = _get_successful_resource_address_ranking(persona)
     for candidate_name in candidate_names or []:
@@ -265,6 +348,13 @@ def resolve_candidate_object_address(persona, candidate_names):
                 address = persona.s_mem.find_nearest_object(candidate_name)
                 if address:
                     candidate_addresses.append(address)
+        effective_target = target or candidate_name
+        candidate_addresses = rank_candidate_addresses_by_experience(
+            persona,
+            candidate_addresses,
+            intent_family=intent_family or _experience_intent_family_for_target(effective_target),
+            target=effective_target,
+        )
         address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
         if address:
             return address, candidate_name, "candidate_object"
@@ -330,6 +420,12 @@ def resolve_matching_object_address(persona, target=None, detail=None):
     if scored_matches:
         max_score = max(item[0] for item in scored_matches)
         candidate_addresses = [item[1] for item in scored_matches if item[0] == max_score]
+        candidate_addresses = rank_candidate_addresses_by_experience(
+            persona,
+            candidate_addresses,
+            intent_family=_experience_intent_family_for_target(target),
+            target=target,
+        )
         chosen_address = _pick_preferred_address(candidate_addresses, preferred_addresses, blocked_addresses)
         if chosen_address:
             for score, address, obj_name, kind in scored_matches:

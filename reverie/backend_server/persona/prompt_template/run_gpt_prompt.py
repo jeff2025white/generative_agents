@@ -376,6 +376,56 @@ def _build_recent_result_lines(scratch, max_items=2):
   return lines[: max_items * 2]
 
 
+def _build_action_translation_guard_item_text(unit):
+  if not isinstance(unit, dict):
+    return "unknown resource"
+  summary = _compact_multiline_block(
+    str(unit.get("evidence_summary") or "").strip(),
+    max_lines=1,
+    max_chars=160,
+  )
+  if summary:
+    return summary
+  resource_type = _compact_multiline_block(
+    str(unit.get("resource_type") or "resource").strip(),
+    max_lines=1,
+    max_chars=48,
+  )
+  short_address = _compact_recent_result_address(unit.get("resource_instance_key"))
+  return f"{resource_type} at {short_address}"
+
+
+def build_action_translation_experience_guard(persona, intent_family=None):
+  scratch = getattr(persona, "scratch", None)
+  getter = getattr(scratch, "get_experience_priority_units", None)
+  units = []
+  if callable(getter):
+    units = getter(intent_family=intent_family) if intent_family else getter()
+  avoid_units = [
+    item for item in units
+    if isinstance(item, dict) and item.get("experience_kind") == "avoid"
+  ][:2]
+  prefer_units = [
+    item for item in units
+    if isinstance(item, dict) and item.get("experience_kind") == "prefer"
+  ][:2]
+
+  lines = ["ExperienceGuard:"]
+  for item in avoid_units:
+    lines.append(f"- Avoid exact instance: {_build_action_translation_guard_item_text(item)}")
+  if prefer_units:
+    prefer_text = "; ".join(
+      _build_action_translation_guard_item_text(item)
+      for item in prefer_units
+    )
+    lines.append(f"- Preferred alternate sources: {prefer_text}")
+  if len(lines) == 1:
+    lines.append("- No strong recent experience guard.")
+  else:
+    lines.append("- Strong recent instance-level evidence outweighs older generic success memories.")
+  return "\n".join(lines)
+
+
 ##############################################################################
 # CHAPTER 1: Run GPT Prompt
 ##############################################################################
@@ -4031,7 +4081,7 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   return output
 
 
-def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None):
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None, intent_family=None):
   import os
   import json
   
@@ -4047,11 +4097,16 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   res_str = _compact_resource_context(nearby_resources, include_state=False, max_items=10)
   if not decision_convergence_hint:
     decision_convergence_hint = "Translate the intent faithfully using only the most immediate action implied by the current thought."
+  experience_guard = build_action_translation_experience_guard(
+    persona,
+    intent_family=intent_family,
+  ) if persona else "ExperienceGuard:\n- No strong recent experience guard."
   
   prompt_input = [
     thinking_text,
     schema_str,
     res_str,
+    experience_guard,
     firstname,
     decision_convergence_hint,
   ]
@@ -4071,6 +4126,10 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
   special_instruction += f" Translation Convergence Guidance: {decision_convergence_hint}"
+  special_instruction += (
+    " Follow the ExperienceGuard whenever it names a recently failed exact instance or a stronger alternate source. "
+    "Strong recent instance-level evidence outweighs older generic success memories."
+  )
   if admin_override_instruction:
     special_instruction += (
       f" ADMIN OVERRIDE: Faithfully translate the administrator instruction '{admin_override_instruction}' into the nearest valid schema action for this immediate step. "
@@ -4165,6 +4224,7 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     decision_id=decision_id,
     prompt_template=prompt_template,
     minimal_filter_context=minimal_filter_context,
+    extra={"experience_guard": experience_guard},
   )
 
   return output

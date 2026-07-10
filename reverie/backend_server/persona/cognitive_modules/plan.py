@@ -19,6 +19,7 @@ from persona.cognitive_modules.action_command_utils import build_action_command,
 from persona.cognitive_modules.action_target_resolver import (
   PLACE_TARGET_CANDIDATES,
   RESTABLE_OBJECT_TARGETS,
+  rank_candidate_addresses_by_experience,
   resolve_action_target,
   resolve_candidate_object_address,
   resolve_candidate_place_address,
@@ -528,7 +529,136 @@ def _normalize_reachable_targets(resources):
   return sorted(targets, key=lambda item: item.lower())
 
 
-def _resolve_food_source_address(persona, target):
+def _iter_known_object_addresses(persona):
+  tree = getattr(getattr(persona, "s_mem", None), "tree", {}) or {}
+  for world, sectors in tree.items():
+    for sector, arenas in sectors.items():
+      for arena, objects in arenas.items():
+        for obj in objects:
+          yield f"{world}:{sector}:{arena}:{obj}"
+
+
+def _find_object_address_by_experience_key(persona, resource_instance_key):
+  normalized_key = str(resource_instance_key or "").strip().lower()
+  if not normalized_key:
+    return None
+  for address in _iter_known_object_addresses(persona):
+    if str(address or "").strip().lower() == normalized_key:
+      return address
+  return None
+
+
+def _get_experience_guard_food_addresses(persona, intent_family="restore_satiety"):
+  scratch = getattr(persona, "scratch", None)
+  getter = getattr(scratch, "get_experience_priority_units", None)
+  units = []
+  if callable(getter):
+    units = getter(intent_family=intent_family) if intent_family else getter()
+
+  preferred_addresses = []
+  preferred_seen = set()
+  blocked_addresses = []
+  blocked_seen = set()
+  s_mem = getattr(persona, "s_mem", None)
+
+  for item in units:
+    if not isinstance(item, dict):
+      continue
+    resource_type = normalize_food_source_target(item.get("resource_type"))
+    resource_instance_key = str(item.get("resource_instance_key") or "").strip().lower()
+    actual_instance = _find_object_address_by_experience_key(persona, resource_instance_key)
+    if item.get("experience_kind") == "avoid":
+      blocked_address = str(actual_instance or resource_instance_key or "").strip()
+      blocked_key = blocked_address.lower()
+      if blocked_key and blocked_key not in blocked_seen:
+        blocked_seen.add(blocked_key)
+        blocked_addresses.append(blocked_address)
+      continue
+    if item.get("experience_kind") != "prefer":
+      continue
+
+    candidate_addresses = []
+    if actual_instance:
+      candidate_addresses.append(actual_instance)
+    if resource_type and is_valid_gather_food_source(resource_type) and s_mem:
+      addresses = s_mem.find_all_objects(resource_type) if hasattr(s_mem, "find_all_objects") else []
+      if not addresses and hasattr(s_mem, "find_nearest_object"):
+        single = s_mem.find_nearest_object(resource_type)
+        addresses = [single] if single else []
+      candidate_addresses.extend(addresses)
+
+    for address in candidate_addresses:
+      normalized_address = str(address or "").strip().lower()
+      if not normalized_address or normalized_address in blocked_seen or normalized_address in preferred_seen:
+        continue
+      target_name = normalize_food_source_target(str(address).split(":")[-1])
+      if not is_valid_gather_food_source(target_name):
+        continue
+      preferred_seen.add(normalized_address)
+      preferred_addresses.append(address)
+
+  return preferred_addresses, blocked_addresses
+
+
+def _resolve_preferred_experience_food_source(persona, target=None, preferred_addresses=None, blocked_addresses=None):
+  if preferred_addresses is None or blocked_addresses is None:
+    preferred_addresses, blocked_addresses = _get_experience_guard_food_addresses(
+      persona,
+      intent_family="restore_satiety",
+    )
+  preferred_addresses = _rank_food_source_addresses_by_experience(
+    persona,
+    target,
+    preferred_addresses,
+  )
+  blocked_set = {
+    str(address or "").strip().lower()
+    for address in (blocked_addresses or [])
+    if str(address or "").strip()
+  }
+  world_state = getattr(persona, "world_resource_state", None)
+  for address in preferred_addresses or []:
+    normalized_address = str(address or "").strip().lower()
+    if not normalized_address or normalized_address in blocked_set:
+      continue
+    if not world_state or world_state.is_available(address):
+      return address
+  return None
+
+
+def _rank_food_source_addresses_by_experience(persona, target, candidate_addresses):
+  ranked_addresses = rank_candidate_addresses_by_experience(
+    persona,
+    candidate_addresses,
+    intent_family="restore_satiety",
+    target=target,
+  )
+  if ranked_addresses:
+    try:
+      append_debug_log(
+        "translation_verify.jsonl",
+        merge_log_context(
+          {
+            "event": "experience_ranked_candidates",
+            "persona": getattr(persona, "name", None),
+            "target": target,
+            "candidate_addresses": [
+              str(address).strip()
+              for address in (candidate_addresses or [])
+              if str(address or "").strip()
+            ],
+            "ranked_addresses": ranked_addresses,
+            "intent_family": "restore_satiety",
+          },
+          persona=persona,
+        ),
+      )
+    except Exception:
+      pass
+  return ranked_addresses
+
+
+def _resolve_food_source_address(persona, target, blocked_addresses=None):
   if not target:
     return None
   s_mem = getattr(persona, "s_mem", None)
@@ -538,9 +668,20 @@ def _resolve_food_source_address(persona, target):
   if not addresses:
     single = s_mem.find_nearest_object(target)
     addresses = [single] if single else []
+  addresses = _rank_food_source_addresses_by_experience(persona, target, addresses)
   world_state = getattr(persona, "world_resource_state", None)
+  blocked_set = {
+    str(address or "").strip().lower()
+    for address in (blocked_addresses or [])
+    if str(address or "").strip()
+  }
   for address in addresses:
+    if str(address or "").strip().lower() in blocked_set:
+      continue
     if not world_state or world_state.is_available(address):
+      return address
+  for address in addresses:
+    if str(address or "").strip().lower() not in blocked_set:
       return address
   return addresses[0] if addresses else None
 
@@ -768,6 +909,7 @@ def _run_decision_pipeline(persona,
       decision_id=decision_id,
       persona=persona,
       request_config=decision_request_config,
+      intent_family=intent_family,
   )
   timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
   should_retry, retry_reason = validate_decision_target(decision, invalid_targets)
@@ -2546,6 +2688,10 @@ def decide_demand_action(persona, maze, personas=None):
           reasoning = f"{reasoning} [retargeted to valid food source]"
 
   normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
+  experience_guard = build_action_translation_experience_guard(
+    persona,
+    intent_family=intent_family,
+  )
 
   sim_time = str(getattr(persona.scratch, "curr_time", "unknown"))
   try:
@@ -2571,6 +2717,7 @@ def decide_demand_action(persona, maze, personas=None):
           "decision_routed_reasoning": reasoning,
           "collective_social_reroute": bool(collective_social_reroute),
           "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+          "experience_guard": experience_guard,
           "motives": motive_debug,
           "stats": {
             "satiety": persona.scratch.satiety,
@@ -2735,11 +2882,39 @@ def decide_demand_action(persona, maze, personas=None):
           "target_resolution_failure": resolution_result.get("failure_reason"),
         }
   if normalized_skill_id == "gather" and is_valid_gather_food_source(target):
-    available_address = _resolve_food_source_address(persona, target)
-    if available_address and available_address != new_address:
-      resolution_meta = dict(resolution_meta or {})
-      resolution_meta["retargeted_to_available_source"] = available_address
-      new_address = available_address
+    preferred_food_addresses, blocked_food_addresses = _get_experience_guard_food_addresses(
+      persona,
+      intent_family="restore_satiety",
+    )
+    experience_preferred = _resolve_preferred_experience_food_source(
+      persona,
+      target,
+      preferred_addresses=preferred_food_addresses,
+      blocked_addresses=blocked_food_addresses,
+    )
+    if experience_preferred:
+      preferred_target = normalize_food_source_target(str(experience_preferred).split(":")[-1])
+      if experience_preferred != new_address or preferred_target != normalize_food_source_target(target):
+        resolution_meta = dict(resolution_meta or {})
+        resolution_meta["retargeted_to_experience_source"] = experience_preferred
+        if blocked_food_addresses:
+          resolution_meta["experience_blocked_sources"] = list(blocked_food_addresses)
+      new_address = experience_preferred
+      if preferred_target:
+        target = preferred_target
+        reasoning = f"{reasoning} [retargeted to experience-preferred food source]".strip()
+    else:
+      available_address = _resolve_food_source_address(
+        persona,
+        target,
+        blocked_addresses=blocked_food_addresses,
+      )
+      if available_address and available_address != new_address:
+        resolution_meta = dict(resolution_meta or {})
+        resolution_meta["retargeted_to_available_source"] = available_address
+        if blocked_food_addresses:
+          resolution_meta["experience_blocked_sources"] = list(blocked_food_addresses)
+        new_address = available_address
   timings_ms["target_resolution"] = _elapsed_ms(phase_started_at)
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)

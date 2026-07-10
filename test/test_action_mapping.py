@@ -20,6 +20,7 @@ from persona.cognitive_modules.action_target_resolver import (
 )
 from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
 import persona.cognitive_modules.plan as plan_module
+import persona.prompt_template.run_gpt_prompt as prompt_module
 
 
 class DummyMaze:
@@ -476,6 +477,110 @@ class ActionMappingTests(unittest.TestCase):
         self.assertTrue(plan_module._is_collective_social_target("customers"))
         self.assertTrue(plan_module._is_collective_social_target("The Rose and Crown Pub", "socializing with pub patrons"))
         self.assertFalse(plan_module._is_collective_social_target("Maria Lopez"))
+
+    def test_build_action_translation_experience_guard_exposes_avoid_and_prefer_units(self):
+        scratch = type(
+            "Scratch",
+            (),
+            {
+                "get_experience_priority_units": staticmethod(
+                    lambda intent_family=None: [
+                        {
+                            "experience_kind": "avoid",
+                            "intent_family": "restore_satiety",
+                            "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+                            "resource_type": "refrigerator",
+                            "recommendation": "avoid_this_instance",
+                            "confidence": 0.88,
+                            "evidence_summary": "refrigerator at Hobbs Cafe was empty recently.",
+                        },
+                        {
+                            "experience_kind": "prefer",
+                            "intent_family": "restore_satiety",
+                            "resource_instance_key": "the ville:johnson park:park:apple tree",
+                            "resource_type": "apple tree",
+                            "recommendation": "prefer_this_instance",
+                            "confidence": 0.79,
+                            "evidence_summary": "apple tree worked well recently.",
+                        },
+                    ]
+                )
+            },
+        )()
+        persona = type("Persona", (), {"name": "Isabella Rodriguez", "scratch": scratch})()
+
+        guard = prompt_module.build_action_translation_experience_guard(
+            persona,
+            intent_family="restore_satiety",
+        )
+
+        self.assertIn("ExperienceGuard", guard)
+        self.assertIn("Avoid exact instance", guard)
+        self.assertIn("Hobbs Cafe", guard)
+        self.assertIn("Preferred alternate sources", guard)
+        self.assertIn("apple tree", guard)
+
+    def test_action_translation_prompt_includes_experience_guard(self):
+        captured = {}
+        scratch = type(
+            "Scratch",
+            (),
+            {
+                "get_experience_priority_units": staticmethod(
+                    lambda intent_family=None: [
+                        {
+                            "experience_kind": "avoid",
+                            "intent_family": "restore_satiety",
+                            "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+                            "resource_type": "refrigerator",
+                            "recommendation": "avoid_this_instance",
+                            "confidence": 0.88,
+                            "evidence_summary": "refrigerator at Hobbs Cafe was empty recently.",
+                        },
+                        {
+                            "experience_kind": "prefer",
+                            "intent_family": "restore_satiety",
+                            "resource_instance_key": "the ville:johnson park:park:apple tree",
+                            "resource_type": "apple tree",
+                            "recommendation": "prefer_this_instance",
+                            "confidence": 0.79,
+                            "evidence_summary": "apple tree worked well recently.",
+                        },
+                    ]
+                )
+            },
+        )()
+        persona = type("Persona", (), {"name": "Isabella Rodriguez", "scratch": scratch})()
+
+        def fake_generate_prompt(prompt_input, prompt_template):
+            captured["prompt_input"] = prompt_input
+            return "\n".join(str(item) for item in prompt_input)
+
+        with patch.object(prompt_module, "generate_prompt", side_effect=fake_generate_prompt), \
+             patch.object(
+                 prompt_module,
+                 "ChatGPT_safe_generate_response",
+                 return_value={
+                     "action": "Gather",
+                     "target": "apple tree",
+                     "detail": "gathering apples from the apple tree",
+                     "duration": 10,
+                     "reasoning": "Recent success points to the apple tree.",
+                 },
+             ):
+            result = prompt_module.run_gpt_prompt_action_translation(
+                "I should gather food now.",
+                ["refrigerator", "apple tree"],
+                "Isabella",
+                persona=persona,
+                intent_family="restore_satiety",
+            )
+
+        self.assertEqual(result["target"], "apple tree")
+        joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
+        self.assertIn("ExperienceGuard", joined_prompt)
+        self.assertIn("Hobbs Cafe", joined_prompt)
+        self.assertIn("Preferred alternate sources", joined_prompt)
 
     def test_collective_social_target_routes_to_hangout_skill(self):
         action, target, detail, reasoning, rerouted = plan_module._coerce_collective_social_hangout(
