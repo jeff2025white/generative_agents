@@ -1,11 +1,8 @@
 import sys
-import json
-import tempfile
 import unittest
 from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
-from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +15,6 @@ from persona.cognitive_modules.social_dialogue_log import (
     clear_social_dialogue_state,
     get_social_dialogue_context,
     inherit_social_dialogue_state,
-    log_chat_transcript,
     set_social_dialogue_state,
 )
 
@@ -67,55 +63,6 @@ class SocialDialogueLogTests(unittest.TestCase):
         self.assertIsNone(target.scratch.social_dialogue_id)
         self.assertIsNone(target.scratch.social_dialogue_partner)
         self.assertIsNone(target.scratch.social_dialogue_role)
-
-    def test_log_chat_transcript_writes_turns_channel_and_scoped_file(self):
-        initiator = make_persona("Klaus Mueller", step=157)
-        dialogue_id = "dlg_Klaus_Mueller_Maria_Lopez_20260701_142000_157"
-        conversation = [
-            ["Maria Lopez", "Hi Klaus!"],
-            ["Klaus Mueller", "Hi Maria, good to see you."],
-        ]
-
-        with tempfile.TemporaryDirectory() as temp_dir:
-            scoped_path = Path(temp_dir) / "chat_transcript.jsonl"
-            with patch("persona.cognitive_modules.social_dialogue_log.append_debug_log") as mock_append, \
-                 patch("persona.cognitive_modules.social_dialogue_log._scoped_chat_transcript_path", return_value=str(scoped_path)):
-                log_chat_transcript(
-                    initiator,
-                    conversation,
-                    target_name="Maria Lopez",
-                    dialogue_id=dialogue_id,
-                    channel="social",
-                    payload={"participants": ["Klaus Mueller", "Maria Lopez"]},
-                )
-
-            mock_append.assert_called_once()
-            log_name, record = mock_append.call_args.args
-            self.assertEqual(log_name, "chat_transcript.jsonl")
-            self.assertEqual(record["dialogue_id"], dialogue_id)
-            self.assertEqual(record["persona"], "Klaus Mueller")
-            self.assertEqual(record["target"], "Maria Lopez")
-            self.assertEqual(record["channel"], "social")
-            self.assertEqual(record["turn_count"], 2)
-            self.assertEqual(record["sim_code"], "sim_20260701_142000")
-            self.assertEqual(
-                record["conversation"],
-                [
-                    {"speaker": "Maria Lopez", "utterance": "Hi Klaus!"},
-                    {"speaker": "Klaus Mueller", "utterance": "Hi Maria, good to see you."},
-                ],
-            )
-            self.assertEqual(record["payload"]["participants"], ["Klaus Mueller", "Maria Lopez"])
-
-            scoped_records = [
-                json.loads(line)
-                for line in scoped_path.read_text(encoding="utf-8").splitlines()
-                if line.strip()
-            ]
-            self.assertEqual(len(scoped_records), 1)
-            self.assertEqual(scoped_records[0]["dialogue_id"], dialogue_id)
-            self.assertEqual(scoped_records[0]["sim_code"], "sim_20260701_142000")
-
 
 if __name__ == "__main__":
     unittest.main()

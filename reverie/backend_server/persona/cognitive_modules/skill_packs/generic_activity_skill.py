@@ -1,7 +1,7 @@
 """Generic skill packs for non-survival interactions."""
 
 from persona.cognitive_modules.action_command_utils import build_decision_signature
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.memory_effects import (
     capture_attribute_snapshot,
     compute_attribute_effects,
@@ -31,8 +31,7 @@ class GenericActivitySkillPack(BaseSkillPack):
             action_address=getattr(persona.scratch, "act_address", None),
         )
         if getattr(persona.scratch, "is_recent_duplicate_action", None) and persona.scratch.is_recent_duplicate_action(next_signature, within_steps=2):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": self.name,
@@ -63,8 +62,7 @@ class GenericActivitySkillPack(BaseSkillPack):
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
 
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": self.name,

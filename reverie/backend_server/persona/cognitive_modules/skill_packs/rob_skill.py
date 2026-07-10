@@ -1,4 +1,4 @@
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.memory_effects import (
     capture_attribute_snapshot,
     compute_attribute_effects,
@@ -27,8 +27,7 @@ class RobSkillPack(BaseSkillPack):
 
     def can_execute(self, persona, target, maze) -> bool:
         result = bool(str(target or "").strip())
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "rob",
@@ -120,8 +119,7 @@ class RobSkillPack(BaseSkillPack):
         actor_effects = compute_attribute_effects(actor_before_snapshot, actor_after_snapshot)
         target_effects = compute_attribute_effects(target_before_snapshot, target_after_snapshot)
 
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "rob",

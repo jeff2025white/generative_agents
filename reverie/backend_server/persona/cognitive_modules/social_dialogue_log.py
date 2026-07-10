@@ -1,43 +1,7 @@
 """
 Unified social dialogue logging helpers.
 """
-import json
-import os
 import re
-
-from persona.cognitive_modules.debug_log import append_debug_log
-
-
-SOCIAL_DIALOGUE_LOG_NAME = "social_dialogue_debug.jsonl"
-CHAT_TRANSCRIPT_LOG_NAME = "chat_transcript.jsonl"
-
-
-def _project_root():
-  return os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "..")
-  )
-
-
-def _scoped_chat_transcript_path(sim_code):
-  normalized_sim_code = str(sim_code or "").strip()
-  if not normalized_sim_code:
-    return None
-  return os.path.join(
-    _project_root(),
-    "environment",
-    "frontend_server",
-    "storage",
-    normalized_sim_code,
-    CHAT_TRANSCRIPT_LOG_NAME,
-  )
-
-
-def _append_jsonl_record(path, record):
-  if not path:
-    return
-  os.makedirs(os.path.dirname(path), exist_ok=True)
-  with open(path, "a", encoding="utf-8") as f:
-    f.write(json.dumps(record, ensure_ascii=False, default=str, sort_keys=True) + "\n")
 
 
 def _slug(value):
@@ -107,36 +71,10 @@ def get_social_dialogue_context(persona, target_name=None, dialogue_id=None):
 
 
 def log_social_dialogue(persona, phase, event, target_name=None, dialogue_id=None, payload=None):
-  """Append a unified social dialogue JSONL record."""
-  record = get_social_dialogue_context(persona, target_name=target_name, dialogue_id=dialogue_id)
-  record["phase"] = phase
-  record["event"] = event
-  if isinstance(payload, dict):
-    record["payload"] = payload
-  elif payload is not None:
-    record["payload"] = {"value": payload}
-  append_debug_log(SOCIAL_DIALOGUE_LOG_NAME, record)
+  """Social dialogue debug logs are retired; keep the hook as a no-op."""
+  return None
 
 
 def log_chat_transcript(persona, conversation, target_name=None, dialogue_id=None, channel="social", payload=None):
-  """Persist full chat turns into a dedicated transcript log."""
-  turns = []
-  for row in conversation or []:
-    if isinstance(row, (list, tuple)) and len(row) >= 2:
-      turns.append({
-        "speaker": row[0],
-        "utterance": row[1],
-      })
-  record = get_social_dialogue_context(persona, target_name=target_name, dialogue_id=dialogue_id)
-  record["phase"] = "transcript"
-  record["event"] = "chat_transcript_written"
-  record["channel"] = channel
-  record["turn_count"] = len(turns)
-  record["conversation"] = turns
-  if isinstance(payload, dict):
-    record["payload"] = payload
-  elif payload is not None:
-    record["payload"] = {"value": payload}
-  append_debug_log(CHAT_TRANSCRIPT_LOG_NAME, record)
-  scoped_log_path = _scoped_chat_transcript_path(record.get("sim_code"))
-  _append_jsonl_record(scoped_log_path, record)
+  """Chat transcript persistence is retired; keep the hook as a no-op."""
+  return None

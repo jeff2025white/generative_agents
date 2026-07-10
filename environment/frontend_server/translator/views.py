@@ -561,117 +561,6 @@ def _parse_log_timestamp(ts_str):
     return None
 
 
-def _get_sim_log_start_time(sim_code):
-  resolved_code = sim_code
-  if not sim_code.startswith("sim_"):
-    curr_sim_file = os.path.join(_project_root, "environment", "frontend_server", "temp_storage", "curr_sim_code.json")
-    if os.path.exists(curr_sim_file):
-      try:
-        with open(curr_sim_file, "r") as f:
-          data = json.load(f)
-          active_code = data.get("sim_code", "")
-          if active_code.startswith("sim_"):
-            resolved_code = active_code
-      except Exception:
-        pass
-
-  timing_file = os.path.join(_project_root, "logs", "step_timing.jsonl")
-  if not os.path.exists(timing_file):
-    return None
-  try:
-    with open(timing_file, "r", encoding="utf-8") as f:
-      for line in f:
-        if not line.strip():
-          continue
-        try:
-          data = json.loads(line)
-        except Exception:
-          continue
-        if data.get("sim_code") == resolved_code:
-          dt = _parse_log_timestamp(data.get("ts"))
-          if dt:
-            return dt - datetime.timedelta(seconds=60)
-  except Exception:
-    return None
-  return None
-
-
-def _load_chat_transcript_records(sim_code, step=None, limit=12, channel=None):
-  chat_files = [
-    os.path.join(_project_root, "environment", "frontend_server", "storage", sim_code, "chat_transcript.jsonl"),
-    os.path.join(_project_root, "logs", "chat_transcript.jsonl"),
-  ]
-
-  start_time = _get_sim_log_start_time(sim_code)
-  records = []
-  seen_dialogues = set()
-  try:
-    for chat_file in chat_files:
-      if not os.path.exists(chat_file):
-        continue
-      with open(chat_file, "r", encoding="utf-8") as f:
-        for line in f:
-          if not line.strip():
-            continue
-          try:
-            data = json.loads(line)
-          except Exception:
-            continue
-
-          record_sim_code = str(data.get("sim_code", "") or "").strip()
-          if record_sim_code and record_sim_code != sim_code:
-            continue
-          record_channel = str(data.get("channel", "") or "").strip()
-          if channel and record_channel != channel:
-            continue
-
-          record_time = _parse_log_timestamp(data.get("ts"))
-          if start_time and record_time and record_time < start_time:
-            continue
-          if step is not None:
-            try:
-              if int(data.get("step", -1)) > int(step):
-                continue
-            except Exception:
-              pass
-
-          dialogue_id = data.get("dialogue_id")
-          if dialogue_id and dialogue_id in seen_dialogues:
-            continue
-          if dialogue_id:
-            seen_dialogues.add(dialogue_id)
-
-          conversation = []
-          for turn in data.get("conversation", []) or []:
-            if isinstance(turn, dict):
-              speaker = turn.get("speaker", "")
-              utterance = turn.get("utterance", "")
-            elif isinstance(turn, (list, tuple)) and len(turn) >= 2:
-              speaker = turn[0]
-              utterance = turn[1]
-            else:
-              continue
-            if speaker and utterance:
-              conversation.append({"speaker": speaker, "utterance": utterance})
-
-          if conversation:
-            records.append({
-              "dialogue_id": dialogue_id or "",
-              "persona": data.get("persona", ""),
-              "target": data.get("target", ""),
-              "sim_time": data.get("sim_time", ""),
-              "step": data.get("step"),
-              "ts": data.get("ts", ""),
-              "channel": record_channel,
-              "conversation": conversation,
-            })
-  except Exception:
-    return []
-
-  records.sort(key=lambda item: item.get("ts") or "")
-  return records[-limit:]
-
-
 def _load_sim_meta(sim_code):
   candidate_paths = [
     os.path.join("storage", sim_code, "reverie", "meta.json"),
@@ -1444,48 +1333,6 @@ def api_get_environment(request):
 
 
 @csrf_exempt
-def api_get_chat_transcript(request):
-  sim_code = request.GET.get("sim_code", "").strip()
-  if not sim_code:
-    return JsonResponse({"error": "sim_code required"}, status=400)
-
-  step = request.GET.get("step")
-  limit = request.GET.get("limit", 12)
-  channel = request.GET.get("channel", "").strip()
-  try:
-    step = int(step) if step not in (None, "") else None
-  except Exception:
-    step = None
-  try:
-    limit = max(1, min(int(limit), 50))
-  except Exception:
-    limit = 12
-
-  dialogues = _load_chat_transcript_records(
-    sim_code,
-    step=step,
-    limit=limit,
-    channel=channel or None,
-  )
-  messages = []
-  for dialogue in dialogues:
-    dialogue_id = dialogue.get("dialogue_id", "")
-    for index, turn in enumerate(dialogue.get("conversation", [])):
-      messages.append({
-        "key": f"{dialogue_id}:{index}" if dialogue_id else "",
-        "dialogue_id": dialogue_id,
-        "speaker": turn.get("speaker", ""),
-        "utterance": turn.get("utterance", ""),
-        "sim_time": dialogue.get("sim_time", ""),
-        "step": dialogue.get("step"),
-        "ts": dialogue.get("ts", ""),
-        "channel": dialogue.get("channel", ""),
-      })
-
-  return JsonResponse({"dialogues": dialogues, "messages": messages})
-
-
-@csrf_exempt
 def api_post_movement(request):
   if request.method != "POST":
     return JsonResponse({"error": "POST required"}, status=400)
@@ -1745,6 +1592,5 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
 
 

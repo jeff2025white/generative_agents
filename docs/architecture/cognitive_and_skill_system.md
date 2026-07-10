@@ -334,14 +334,9 @@ sequenceDiagram
 #### 精力大幅恢复 (Stamina Boosting)
 接受造物主的指令与关怀，会给智能体带来心流状态，**Stamina 直接充能 +20.0 点**。
 
-### 4.5 对话物理存储与记忆契约
+### 4.5 对话存储与记忆契约
 
-聊天相关信息在持久化及运行时状态中被严格规范，仅在以下两处持久化位置保留：
-
-#### 唯一原文持久化入口
-`logs/chat_transcript.jsonl`
-*   **用途**：保存 NPC-NPC 社交聊天，以及 Creator-NPC 问答的逐句对话原文。
-*   **关键字段**：`dialogue_id`、`persona`、`target`、`sim_time`、`step`、`channel`、`turn_count`、`conversation` (包含 `[name, utterance]` 的多轮数组)。
+聊天相关信息在持久化及运行时状态中被严格规范，当前不再额外维护独立的 transcript 调试日志文件。
 
 #### 唯一长期沉淀记忆入口
 角色目录下的 `associative_memory/nodes.json`
@@ -350,10 +345,14 @@ sequenceDiagram
     *   `type = "chat"`：完整对话节点，`filling` 中包含多轮台词原文。
     *   `type = "event"` / `type = "thought"`：保存对话的主观摘要、传闻/八卦、反思和关系图谱变化。
 
+#### 已退役的旧聊天日志入口
+以下旧入口已经退役，不再作为正式日志链路的一部分：
+*   `logs/chat_transcript.jsonl`
+*   `logs/social_dialogue_debug.jsonl`
+
 #### 不再承担聊天持久化职责的字段
-以下位置在运行时可能保留临时流程态数据，但**不再**承担持久化职责，序列化时会予以剔除：
+以下位置在运行时可能保留临时流程态数据，但**不再**承担独立日志持久化职责，序列化时会予以剔除：
 *   `scratch.json`：不再落盘 `chat`、`chatting_with`、`last_chat`、`chatting_with_buffer`、`chatting_end_time`、`social_dialogue_*`。
-*   `logs/social_dialogue_debug.jsonl`：仅保留诊断和流程故障排查，不再持久化对话正文、八卦或反思。
 
 ### 4.6 社交系统约束与后续优化建议
 
@@ -420,5 +419,5 @@ persona.a_mem.update_relationship(
     看 `normalize_skill_id` 是否转换了正确的 `skill_id`，以及 `action_target_resolver` 是否精确命中了地址。若地址映射错误或漂移，修改 `action_target_resolver.py`。
 3.  **检查执行分发日志 (`logs/action_execution_debug.jsonl`)**  
     看是否有 `skill_missing`（技能未注册）或 `skill_blocked`（物理前置can_execute未满足）记录。
-4.  **检查特定技能运行日志 (`logs/skill_execution_debug.jsonl`)**  
-    看技能包在 `on_arrive()` 是否正确变更了背包、生理数值和 XP。
+4.  **检查结果反馈日志 (`logs/action_outcome.jsonl`)**  
+    看动作最终结果、失败原因、目标地址与 `progress_score`，确认技能执行是否真正生效。

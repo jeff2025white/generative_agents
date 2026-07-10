@@ -20,16 +20,11 @@ TRANSLATION_CACHE_PATH = ROOT_TEMP_DIR / "translation_cache.json"
 
 TRANSIENT_LOGS = [
     "action_execution_debug.jsonl",
-    "chat_transcript.jsonl",
     "decision_constraint_hits.jsonl",
     "decision_prompt_trace.jsonl",
     "decision_stability.jsonl",
     "intent_memory_retrieval.jsonl",
-    "ollama_request_timing.jsonl",
     "perception_debug.jsonl",
-    "skill_execution_debug.jsonl",
-    "social_dialogue_debug.jsonl",
-    "social_trigger_debug.jsonl",
     "step_timing.jsonl",
     "translation_verify.jsonl",
 ]
@@ -90,17 +85,6 @@ def reset_transient_logs() -> list[str]:
     return actions
 
 
-def reset_scoped_chat_transcripts() -> list[str]:
-    actions = []
-    if not FRONTEND_STORAGE_DIR.exists():
-        return actions
-
-    for transcript_path in FRONTEND_STORAGE_DIR.glob("*/chat_transcript.jsonl"):
-        _truncate_file(transcript_path)
-        actions.append(str(transcript_path))
-    return actions
-
-
 def reset_frontend_db() -> list[str]:
     if not DB_PATH.exists():
         return []
@@ -120,7 +104,6 @@ def main() -> int:
         "caches": reset_prompt_caches(),
         "temp_state": reset_temp_state(),
         "logs": reset_transient_logs(),
-        "scoped_chat_logs": reset_scoped_chat_transcripts(),
         "db_tables": reset_frontend_db(),
     }
     print("[cleanup] transient run state cleared")

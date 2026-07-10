@@ -7,6 +7,15 @@ from persona.training.training_candidate_builder import (
     normalize_training_log_record,
 )
 
+# Retired legacy logs kept here so lingering call sites cannot recreate them.
+DISABLED_RUNTIME_LOGS = {
+    "chat_transcript.jsonl",
+    "ollama_request_timing.jsonl",
+    "skill_execution_debug.jsonl",
+    "social_dialogue_debug.jsonl",
+    "social_trigger_debug.jsonl",
+}
+
 
 def _logs_dir():
     return os.path.abspath(
@@ -62,8 +71,10 @@ def merge_log_context(payload, persona=None, scratch=None, sim_code=None):
 
 
 def append_debug_log(log_name, payload, level="info"):
-    os.makedirs(_logs_dir(), exist_ok=True)
     normalized_log_name = normalize_log_name(log_name)
+    if normalized_log_name in DISABLED_RUNTIME_LOGS:
+        return
+    os.makedirs(_logs_dir(), exist_ok=True)
     log_path = os.path.join(_logs_dir(), normalized_log_name)
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     real_time = datetime.datetime.now(datetime.timezone.utc).astimezone().isoformat()

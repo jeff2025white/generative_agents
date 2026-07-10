@@ -1,7 +1,7 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.action_command_utils import build_decision_signature
 from persona.cognitive_modules.action_outcomes import derive_progress_score_breakdown
-from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.food_sources import normalize_food_source_target
 from persona.cognitive_modules.memory_effects import (
     capture_attribute_snapshot,
@@ -27,8 +27,7 @@ class ConsumeSkillPack(BaseSkillPack):
         item_key = normalized_target.strip().lower()
         for k in persona.scratch.inventory:
             if k.strip().lower() in item_key and persona.scratch.inventory[k] > 0:
-                append_debug_log(
-                    "skill_execution_debug.jsonl",
+                append_skill_debug_log(
                     {
                         "persona": persona.name,
                         "skill": "consume",
@@ -43,8 +42,7 @@ class ConsumeSkillPack(BaseSkillPack):
         # 2. Fallback 1: If they have ANY consumable item in inventory, they can execute
         for k in persona.scratch.inventory:
             if persona.scratch.inventory[k] > 0:
-                append_debug_log(
-                    "skill_execution_debug.jsonl",
+                append_skill_debug_log(
                     {
                         "persona": persona.name,
                         "skill": "consume",
@@ -58,8 +56,7 @@ class ConsumeSkillPack(BaseSkillPack):
                 return self.set_precheck_result(True, "any_food_in_inventory", {"target": target, "inventory": persona.scratch.inventory})
         act_addr = normalize_food_source_target(persona.scratch.act_address).lower() if persona.scratch.act_address else ""
         if act_addr and act_addr == item_key:
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "consume",
@@ -76,8 +73,7 @@ class ConsumeSkillPack(BaseSkillPack):
                 {"target": target, "act_address": persona.scratch.act_address},
             )
         if self._is_recent_duplicate_resource_consume(persona, target):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "consume",
@@ -92,8 +88,7 @@ class ConsumeSkillPack(BaseSkillPack):
             )
             return self.set_precheck_result(False, "recent_duplicate_resource_consume", {"target": target, "inventory": persona.scratch.inventory})
         curr_obj = maze.access_tile(persona.scratch.curr_tile)["game_object"] if (persona.scratch.curr_tile and maze.access_tile(persona.scratch.curr_tile)) else ""
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "consume",
@@ -133,8 +128,7 @@ class ConsumeSkillPack(BaseSkillPack):
             "health": persona.scratch.health,
             "mood": persona.scratch.mood,
         }
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "consume",
@@ -162,8 +156,7 @@ class ConsumeSkillPack(BaseSkillPack):
                     break
                     
         if not item_found:
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "consume",
@@ -204,8 +197,7 @@ class ConsumeSkillPack(BaseSkillPack):
             inventory_delta=inventory_delta,
         )
         progress_score = progress_breakdown["score"]
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "consume",
@@ -248,8 +240,7 @@ class ConsumeSkillPack(BaseSkillPack):
         if persona.scratch.skills[self.associated_xp]["xp"] >= persona.scratch.skills[self.associated_xp]["level"] * 100:
             persona.scratch.skills[self.associated_xp]["level"] += 1
             persona.scratch.skills[self.associated_xp]["xp"] = 0
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "consume",

@@ -14,8 +14,6 @@ import threading
 import inspect
 
 from utils import *
-from persona.cognitive_modules.debug_log import append_debug_log
-
 openai.api_key = openai_api_key
 if openai_api_base:
   openai.api_base = openai_api_base
@@ -30,7 +28,6 @@ _cache_lock = threading.Lock()
 _cache = {}
 _cache_hits = 0
 _cache_misses = 0
-LLM_TIMING_LOG = "ollama_request_timing.jsonl"
 _openai_config_lock = threading.Lock()
 _cache_sim_scope = None
 
@@ -135,11 +132,7 @@ def _caller_label(default_label="unknown"):
 
 
 def _log_llm_event(event, payload):
-  record = dict(payload or {})
-  record.setdefault("event", event)
-  record.setdefault("api_base", openai_api_base)
-  record.setdefault("model", gpt35_model)
-  append_debug_log(LLM_TIMING_LOG, record)
+  return None
 
 
 def _resolve_request_config(request_config=None):
@@ -785,8 +778,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
 
 
 

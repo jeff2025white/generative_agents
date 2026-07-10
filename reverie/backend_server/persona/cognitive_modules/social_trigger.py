@@ -3,7 +3,6 @@ Utilities for NPC-to-NPC social trigger decisions.
 """
 
 from persona.cognitive_modules.action_command_utils import build_action_command, build_decision_signature
-from persona.cognitive_modules.debug_log import append_debug_log
 
 
 DEFAULT_SOCIAL_SCAN_INTERVAL = 5
@@ -413,19 +412,8 @@ def choose_social_focus(persona, retrieved, personas, min_score=None):
 
 
 def log_social_decision(persona, target_name, event_name, payload):
-  """Append a JSONL debug record for social trigger decisions."""
-  record = {
-    "persona": getattr(persona, "name", None),
-    "target": target_name,
-    "event": event_name,
-    "curr_time": getattr(getattr(persona, "scratch", None), "curr_time", None),
-    "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
-  }
-  if isinstance(payload, dict):
-    record.update(payload)
-  else:
-    record["payload"] = payload
-  append_debug_log("social_trigger_debug.jsonl", record)
+  """Social trigger debug logs are retired; keep the hook as a no-op."""
+  return None
 
 
 def should_run_periodic_social_scan(persona, interval=DEFAULT_SOCIAL_SCAN_INTERVAL):

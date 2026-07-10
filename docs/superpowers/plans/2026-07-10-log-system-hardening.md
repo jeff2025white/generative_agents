@@ -394,15 +394,10 @@ Expected: FAIL，或现有测试尚未覆盖“保留日志不被 truncate”的
 # cleanup_run_state.py
 TRANSIENT_LOGS = [
     "action_execution_debug.jsonl",
-    "chat_transcript.jsonl",
     "decision_prompt_trace.jsonl",
     "decision_stability.jsonl",
     "intent_memory_retrieval.jsonl",
-    "ollama_request_timing.jsonl",
     "perception_debug.jsonl",
-    "skill_execution_debug.jsonl",
-    "social_dialogue_debug.jsonl",
-    "social_trigger_debug.jsonl",
     "step_timing.jsonl",
     "translation_verify.jsonl",
 ]
@@ -412,6 +407,8 @@ PRESERVED_LOGS = [
     "motive_monitor.jsonl",
 ]
 ```
+
+说明：`chat_transcript.jsonl`、`ollama_request_timing.jsonl`、`skill_execution_debug.jsonl`、`social_dialogue_debug.jsonl`、`social_trigger_debug.jsonl` 已在后续收敛中退役，不再属于当前日志体系。
 
 ```markdown
 <!-- docs/guides/simulator_commands_guide.md -->

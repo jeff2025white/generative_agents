@@ -118,10 +118,8 @@
 
 	let mapChatMessages = [];
 	const mapChatMessageLimit = 80;
-	const mapChatPollIntervalMs = 1200;
 	let dialogueInitiators = {};
 	let mapChatSeenKeys = {};
-	let lastMapChatPollAt = 0;
 
 	function buildMapChatMessageKey(speaker, utterance, dialogueId, explicitKey) {
 	  const providedKey = String(explicitKey || "").trim();
@@ -261,51 +259,6 @@
 	    }
 	  });
 	}
-
-		function fetchMapChatTranscript() {
-		  const currentStep = Number.isFinite(step) ? step : 0;
-		  const url = "{% url 'api_get_chat_transcript' %}" +
-		    "?sim_code=" + encodeURIComponent(sim_code) +
-		    "&step=" + encodeURIComponent(currentStep) +
-		    "&limit=24" +
-		    "&channel=social";
-	  return fetch(url)
-	    .then(function(response) {
-	      if (!response.ok) {
-	        throw new Error("chat transcript request failed");
-	      }
-	      return response.json();
-	    })
-	    .then(function(data) {
-	      const messages = Array.isArray(data.messages) ? data.messages : [];
-	      messages.forEach(function(message) {
-	        appendMapChatMessage(
-	          message.speaker,
-	          message.utterance,
-	          message.dialogue_id || message.key,
-	          message.key
-	        );
-	      });
-	    })
-	    .catch(function(error) {
-	      console.error("Failed to load chat transcript:", error);
-	    });
-	}
-
-	function loadInitialMapChatFeed() {
-	  fetchMapChatTranscript();
-	}
-
-	function pollMapChatTranscript() {
-	  const now = Date.now();
-	  if (now - lastMapChatPollAt < mapChatPollIntervalMs) {
-	    return;
-	  }
-	  lastMapChatPollAt = now;
-	  fetchMapChatTranscript();
-	}
-
-	loadInitialMapChatFeed();
 
 	// Variables for storing movements that are sent from the backend server.
 	let execute_movement;
@@ -562,8 +515,6 @@
 			return;
 		}
 
-	  pollMapChatTranscript();
-
 	  // *** MOVE CAMERA *** 
 	  // This is where we finish up the camera setting we started in the create() 
 	  // function. We set the movement speed of the camera and wire up the keys to
@@ -791,7 +742,6 @@
 	    // Filling in the action description. 
 	    if (execute_count == execute_count_max) { 
 	      updateMapChatFeed(execute_movement);
-	      pollMapChatTranscript();
 	      for (let i=0; i<Object.keys(personas).length; i++) {
 	      	let action_description = ""
 	        let curr_persona_name = Object.keys(personas)[i];

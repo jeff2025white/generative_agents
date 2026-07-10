@@ -3,7 +3,7 @@ from persona.cognitive_modules.action_command_utils import build_action_command,
 from persona.cognitive_modules.action_outcomes import (
     derive_progress_score_breakdown,
 )
-from persona.cognitive_modules.debug_log import append_debug_log, safe_json_dumps
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.food_sources import (
     is_valid_gather_food_source,
     normalize_food_source_target,
@@ -63,8 +63,7 @@ class GatherSkillPack(BaseSkillPack):
             action_address=getattr(persona.scratch, "act_address", None),
         )
         if getattr(persona.scratch, "is_recent_duplicate_action", None) and persona.scratch.is_recent_duplicate_action(next_signature, within_steps=2):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",
@@ -99,8 +98,7 @@ class GatherSkillPack(BaseSkillPack):
                 and curr_step is not None
                 and curr_step - recent_step <= 6
             ):
-                append_debug_log(
-                    "skill_execution_debug.jsonl",
+                append_skill_debug_log(
                     {
                         "persona": persona.name,
                         "skill": "gather",
@@ -125,8 +123,7 @@ class GatherSkillPack(BaseSkillPack):
                 if world_state and curr_obj_clean != "apple tree":
                     curr_address = getattr(persona.scratch, "act_address", None) or self._find_available_address(persona, curr_obj_clean)
                     if curr_address and not world_state.is_available(curr_address):
-                        append_debug_log(
-                            "skill_execution_debug.jsonl",
+                        append_skill_debug_log(
                             {
                                 "persona": persona.name,
                                 "skill": "gather",
@@ -143,8 +140,7 @@ class GatherSkillPack(BaseSkillPack):
                             "resource_empty",
                             {"target": target, "clean_target": clean_target, "curr_address": curr_address},
                         )
-                append_debug_log(
-                    "skill_execution_debug.jsonl",
+                append_skill_debug_log(
                     {
                         "persona": persona.name,
                         "skill": "gather",
@@ -163,8 +159,7 @@ class GatherSkillPack(BaseSkillPack):
                     {"target": target, "clean_target": clean_target, "curr_obj": curr_obj, "curr_tile": persona.scratch.curr_tile},
                 )
         if not is_valid_gather_food_source(clean_target):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",
@@ -180,8 +175,7 @@ class GatherSkillPack(BaseSkillPack):
         # 2. Fallback: Target object must exist in spatial memory
         address = self._find_available_address(persona, clean_target)
         result = address is not None and (not world_state or world_state.is_available(address) or clean_target == "apple tree")
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "gather",
@@ -222,8 +216,7 @@ class GatherSkillPack(BaseSkillPack):
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         curr_obj = curr_obj.lower() if curr_obj else ""
         before_inventory = dict(persona.scratch.inventory)
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "gather",
@@ -246,8 +239,7 @@ class GatherSkillPack(BaseSkillPack):
             metadata={"effective_source": effective_source, "source_address": source_address},
         )
         if not is_valid_gather_food_source(effective_source):
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",
@@ -275,8 +267,7 @@ class GatherSkillPack(BaseSkillPack):
                 attribute_effects={"satiety": 0.0, "stamina": 0.0, "health": 0.0, "mood": 0.0},
                 poignancy=5.0,
             )
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",
@@ -348,8 +339,7 @@ class GatherSkillPack(BaseSkillPack):
                 predicate="changed",
                 obj="gather_recovery",
             )
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "gather",
@@ -410,8 +400,7 @@ class GatherSkillPack(BaseSkillPack):
                 ("apple", "consumed_by", persona.name),
                 persona.scratch.curr_time
             )
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",
@@ -429,8 +418,7 @@ class GatherSkillPack(BaseSkillPack):
         if persona.scratch.skills[self.associated_xp]["xp"] >= persona.scratch.skills[self.associated_xp]["level"] * 100:
             persona.scratch.skills[self.associated_xp]["level"] += 1
             persona.scratch.skills[self.associated_xp]["xp"] = 0
-            append_debug_log(
-                "skill_execution_debug.jsonl",
+            append_skill_debug_log(
                 {
                     "persona": persona.name,
                     "skill": "gather",

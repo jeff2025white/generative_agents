@@ -1,6 +1,5 @@
 """Shared helpers for NPC-to-NPC inventory transfer skills."""
 
-from persona.cognitive_modules.debug_log import append_debug_log
 from persona.cognitive_modules.action_target_resolver import resolve_target_persona as _resolve_target_persona
 
 
@@ -54,17 +53,5 @@ def clear_current_action(persona):
     persona.scratch.act_command = None
 
 def log_transfer_failure(persona, skill_name, target, reason, extra=None):
-    """Emit a consistent failure log for transfer-style skills."""
-    payload = {
-        "persona": persona.name,
-        "skill": skill_name,
-        "event": "transfer_failed",
-        "target": target,
-        "reason": reason,
-        "inventory": dict(getattr(persona.scratch, "inventory", {}) or {}),
-        "curr_tile": getattr(persona.scratch, "curr_tile", None),
-        "act_address": getattr(persona.scratch, "act_address", None),
-    }
-    if extra:
-        payload.update(extra)
-    append_debug_log("skill_execution_debug.jsonl", payload)
+    """Legacy skill execution logs are retired; keep the helper as a no-op."""
+    return None

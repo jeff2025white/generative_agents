@@ -1,4 +1,4 @@
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.memory_effects import (
     capture_attribute_snapshot,
     compute_attribute_effects,
@@ -28,8 +28,7 @@ class GiveSkillPack(BaseSkillPack):
     def can_execute(self, persona, target, maze) -> bool:
         has_item = any(float(count or 0) > 0 for count in (persona.scratch.inventory or {}).values())
         result = bool(str(target or "").strip()) and has_item
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "give",
@@ -113,8 +112,7 @@ class GiveSkillPack(BaseSkillPack):
         actor_effects = compute_attribute_effects(actor_before_snapshot, actor_after_snapshot)
         target_effects = compute_attribute_effects(target_before_snapshot, target_after_snapshot)
 
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": "give",

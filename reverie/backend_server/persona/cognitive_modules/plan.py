@@ -272,7 +272,7 @@ def _coerce_explicit_persona_chat(action, target, act_desp, reasoning, personas=
   return "seek_and_chat", target, act_desp, next_reasoning, True
 
 
-def _log_timing_event(event_name, payload):
+def _log_timing_event(event_name, payload, persona=None):
   record = dict(payload or {})
   timings = record.get("timings_ms", {}) or {}
   max_stage_ms = 0.0
@@ -2942,6 +2942,7 @@ def decide_demand_action(persona, maze, personas=None):
       "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
       "minimal_filter_summary": minimal_filter_summary,
     },
+    persona=persona,
   )
   return persona.scratch.act_address
 

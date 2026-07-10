@@ -1,6 +1,6 @@
 """Leisure skill pack for intentionally hanging out at social venues."""
 
-from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.skill_packs.skill_log import append_skill_debug_log
 from persona.cognitive_modules.memory_effects import (
     capture_attribute_snapshot,
     compute_attribute_effects,
@@ -37,8 +37,7 @@ class SocialVenueHangoutSkillPack(BaseSkillPack):
         self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
-        append_debug_log(
-            "skill_execution_debug.jsonl",
+        append_skill_debug_log(
             {
                 "persona": persona.name,
                 "skill": self.name,
