@@ -7,7 +7,7 @@ PLACE_TARGET_CANDIDATES = {
     "work": ("office", "counter", "computer", "desk", "classroom"),
     "use": ("computer", "game console", "tv", "fitness machine", "pool table", "piano"),
     "leisure_use": ("game console", "tv", "pool table", "piano", "park garden", "cafe customer seating"),
-    "hangout_social_venue": ("hobbs cafe", "cafe", "pub", "bar", "plaza", "park garden", "common room"),
+    "hangout_social_venue": ("pub", "bar", "tavern", "rose and crown"),
     "wander": ("park garden", "park", "plaza", "courtyard", "common room"),
 }
 

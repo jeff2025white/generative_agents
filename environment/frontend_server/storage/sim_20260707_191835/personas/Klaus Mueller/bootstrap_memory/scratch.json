@@ -1,0 +1,442 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 08:15:00",
+  "curr_tile": [
+    63,
+    37
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 32.720000000000155,
+  "stamina": 93.66000000000061,
+  "health": 100.0,
+  "mood": 46.36000000000008,
+  "last_social_time": null,
+  "last_action_switch_time": "July 07, 2026, 08:00:00",
+  "decision_commit_until_step": 2,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "gathering apples from the apple tree",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "active_execution_state": {
+    "id": "Klaus Mueller-0-gather-apple tree",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park:apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "description": "gathering apples from the apple tree",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "gathering apples from the apple tree"
+    ],
+    "path": [
+      [
+        61,
+        37
+      ],
+      [
+        60,
+        37
+      ],
+      [
+        59,
+        37
+      ],
+      [
+        58,
+        37
+      ],
+      [
+        57,
+        37
+      ],
+      [
+        56,
+        37
+      ],
+      [
+        55,
+        37
+      ],
+      [
+        54,
+        37
+      ],
+      [
+        53,
+        37
+      ],
+      [
+        52,
+        37
+      ],
+      [
+        51,
+        37
+      ],
+      [
+        50,
+        37
+      ],
+      [
+        49,
+        37
+      ],
+      [
+        48,
+        37
+      ],
+      [
+        47,
+        37
+      ],
+      [
+        46,
+        37
+      ],
+      [
+        45,
+        37
+      ],
+      [
+        44,
+        37
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        42,
+        37
+      ],
+      [
+        41,
+        37
+      ],
+      [
+        40,
+        37
+      ],
+      [
+        39,
+        37
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        37,
+        37
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        35,
+        37
+      ],
+      [
+        34,
+        37
+      ],
+      [
+        33,
+        37
+      ],
+      [
+        32,
+        37
+      ],
+      [
+        31,
+        37
+      ],
+      [
+        31,
+        38
+      ],
+      [
+        31,
+        39
+      ],
+      [
+        31,
+        40
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 0,
+    "updated_step": 90,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "apple tree",
+    "target_type": "object",
+    "resolved_target": "apple tree",
+    "resolved_address": "the Ville:Johnson Park:park:apple tree",
+    "description": "gathering apples from the apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "gathering apples from the apple tree"
+    ],
+    "duration": 30,
+    "created_step": 0,
+    "updated_step": 90,
+    "failure": null
+  },
+  "active_skill_name": "gather",
+  "active_skill_id": "Klaus Mueller-0-gather",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 0,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "apple tree",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "gathering apples from the apple tree"
+  },
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 129,
+  "importance_ele_n": 12,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park:apple tree",
+  "act_start_time": "July 07, 2026, 08:00:00",
+  "act_duration": 30,
+  "act_description": "gathering apples from the apple tree",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "gathering apples from the apple tree"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "gathering apples from the apple tree"
+  },
+  "act_obj_description": "apple tree is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "apple tree",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      61,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      46,
+      37
+    ],
+    [
+      45,
+      37
+    ],
+    [
+      44,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      40,
+      37
+    ],
+    [
+      39,
+      37
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      37,
+      37
+    ],
+    [
+      36,
+      37
+    ],
+    [
+      35,
+      37
+    ],
+    [
+      34,
+      37
+    ],
+    [
+      33,
+      37
+    ],
+    [
+      32,
+      37
+    ],
+    [
+      31,
+      37
+    ],
+    [
+      31,
+      38
+    ],
+    [
+      31,
+      39
+    ],
+    [
+      31,
+      40
+    ]
+  ]
+}

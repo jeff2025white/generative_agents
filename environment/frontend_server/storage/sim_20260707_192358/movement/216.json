@@ -1,0 +1,187 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        86,
+        43
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "checking the inventory for new supplies for the cafe party @ the Ville:The Willows Market and Pharmacy:store:behind the grocery counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.5200000000001,
+      "stamina": 89.20000000000137,
+      "health": 100.0,
+      "mood": 55.28000000000035,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "behind the grocery counter is idle",
+          "created": "2026-07-07 08:35:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pharmacy store counter is idle",
+          "created": "2026-07-07 08:35:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pharmacy store shelf is idle",
+          "created": "2026-07-07 08:35:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:13:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-07 08:15:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-07 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "grocery store counter is idle",
+          "created": "2026-07-07 08:35:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "grocery store shelf is idle",
+          "created": "2026-07-07 08:35:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-07 08:27:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        112,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting in her dorm room bed @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 62.64000000000037,
+      "stamina": 99.72000000000061,
+      "health": 100.0,
+      "mood": 43.320000000000185,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83e\udd16",
+      "description": "communicating with the Creator @ the Ville:::",
+      "chat": [
+        [
+          "User",
+          "\u4f60\u73b0\u5728\u5728\u505a\u4ec0\u4e48\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002",
+      "satiety": 95.76000000000009,
+      "stamina": 97.99999999999969,
+      "health": 100.0,
+      "mood": 47.46000000000035,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:36:00"
+  }
+}

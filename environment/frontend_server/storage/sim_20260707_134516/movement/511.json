@@ -1,0 +1,98 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        67,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "writing research paper on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.55999999999996,
+      "stamina": 81.2100000000014,
+      "health": 100.0,
+      "mood": 80.35999999999662,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is writing research paper on gentrification",
+          "created": "2026-07-07 09:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations for the Valentine's Day party",
+          "created": "2026-07-07 09:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 09:25:00"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller's survival is linked to gathering food and maintaining physical condition",
+          "created": "2026-07-07 09:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is arranging decorations for the Valentine's Day party",
+          "created": "2026-07-07 09:21:40",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        54,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.44000000000052,
+      "stamina": 95.61000000000078,
+      "health": 100.0,
+      "mood": 75.63999999999751,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        127,
+        51
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.44000000000001,
+      "stamina": 99.53000000000002,
+      "health": 100.0,
+      "mood": 99.85999999999993,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is working on research paper",
+          "created": "2026-07-07 09:25:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 09:25:10"
+  }
+}

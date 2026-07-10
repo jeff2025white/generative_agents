@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        36
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 64.88000000000032,
+      "stamina": 85.01000000000124,
+      "health": 100.0,
+      "mood": 45.44000000000016,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        61,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "searching for a book on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.64000000000007,
+      "stamina": 88.87000000000111,
+      "health": 100.0,
+      "mood": 47.28000000000029,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        71,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "gathering food from Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 64.88000000000032,
+      "stamina": 88.78000000000115,
+      "health": 100.0,
+      "mood": 44.44000000000016,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:31:20"
+  }
+}

@@ -21,6 +21,7 @@ TRANSLATION_CACHE_PATH = ROOT_TEMP_DIR / "translation_cache.json"
 TRANSIENT_LOGS = [
     "action_execution_debug.jsonl",
     "chat_transcript.jsonl",
+    "decision_prompt_trace.jsonl",
     "decision_stability.jsonl",
     "intent_memory_retrieval.jsonl",
     "ollama_request_timing.jsonl",

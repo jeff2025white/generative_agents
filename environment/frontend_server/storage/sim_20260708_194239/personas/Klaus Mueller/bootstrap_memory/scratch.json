@@ -1,0 +1,322 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 09:12:30",
+  "curr_tile": [
+    33,
+    42
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 63.12000000000074,
+  "stamina": 86.5099999999991,
+  "health": 100.0,
+  "mood": 41.74000000000002,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 63.12000000000074,
+      "initial_value": 40.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.08,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 86.5099999999991,
+      "initial_value": 100.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 100.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 60.640000000000164,
+      "initial_value": 65.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 41.74000000000002,
+      "initial_value": 50.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 49.27999999999864,
+      "initial_value": 58.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 50.64000000000087,
+      "initial_value": 55.0,
+      "safe_threshold": 42.0,
+      "critical_threshold": 24.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.64000000000087,
+      "initial_value": 62.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 53.45999999999975,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.015,
+      "priority_weight": 0.92,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 61.640000000000434,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.88,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 08, 2026, 09:12:30",
+  "last_action_switch_time": "July 08, 2026, 09:11:50",
+  "decision_commit_until_step": 432,
+  "last_decision_signature": {
+    "skill_id": "chat with",
+    "target": "isabella rodriguez",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "having a conversation with Isabella Rodriguez",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 137,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "consume",
+    "action_description": "eating the apple from inventory to restore satiety",
+    "curr_step": 137
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-431-chat with-isabella rodriguez",
+    "phase": "pathing",
+    "address": "<persona> Isabella Rodriguez",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Isabella Rodriguez",
+      "source": "add_new_action",
+      "raw_action": "chat with",
+      "detail": null
+    },
+    "description": "having a conversation with Isabella Rodriguez",
+    "event": [
+      "Klaus Mueller",
+      "chat with",
+      "Isabella Rodriguez"
+    ],
+    "path": [
+      [
+        34,
+        43
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "chat with",
+      "target": "isabella rodriguez",
+      "intent_family": "communication"
+    },
+    "started_step": 431,
+    "updated_step": 435,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "chat with",
+    "intent_family": "communication",
+    "target": "isabella rodriguez",
+    "target_type": "persona",
+    "resolved_target": "Hobbs Cafe",
+    "resolved_address": "<persona> Isabella Rodriguez",
+    "description": "having a conversation with Isabella Rodriguez",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Isabella Rodriguez",
+      "source": "add_new_action",
+      "raw_action": "chat with",
+      "detail": null
+    },
+    "event": [
+      "Klaus Mueller",
+      "chat with",
+      "Isabella Rodriguez"
+    ],
+    "duration": 10,
+    "created_step": 138,
+    "updated_step": 435,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "chat",
+  "active_skill_id": "dlg_Isabella_Rodriguez_Klaus_Mueller_20260708_091150_431",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 431,
+  "active_skill_owner": "target",
+  "active_skill_target": "Isabella Rodriguez",
+  "active_skill_metadata": {
+    "dialogue_id": "dlg_Isabella_Rodriguez_Klaus_Mueller_20260708_091150_431",
+    "chatting_end_time": "July 08, 2026, 09:22:00"
+  },
+  "social_dialogue_id": "dlg_Isabella_Rodriguez_Klaus_Mueller_20260708_091150_431",
+  "social_dialogue_partner": "Isabella Rodriguez",
+  "social_dialogue_role": "target",
+  "social_dialogue_started_step": 431,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 42,
+  "importance_ele_n": 42,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<persona> Isabella Rodriguez",
+  "act_start_time": "July 08, 2026, 09:11:50",
+  "act_duration": 10,
+  "act_description": "having a conversation with Isabella Rodriguez",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Klaus Mueller",
+    "chat with",
+    "Isabella Rodriguez"
+  ],
+  "act_command": {
+    "skill_id": "chat with",
+    "target": "Isabella Rodriguez",
+    "source": "add_new_action",
+    "raw_action": "chat with",
+    "detail": null
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      34,
+      43
+    ]
+  ]
+}

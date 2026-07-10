@@ -1,0 +1,82 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        47,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.7600000000003,
+      "stamina": 82.78000000000117,
+      "health": 100.0,
+      "mood": 59.88000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering food for dinner at Hobbs Cafe",
+          "created": "2026-07-07 08:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        65,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting in the dorm room to recover stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.24000000000008,
+      "stamina": 96.24000000000066,
+      "health": 100.0,
+      "mood": 79.81999999999962,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        51,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "gathering food for dinner at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.88000000000007,
+      "stamina": 89.61000000000105,
+      "health": 100.0,
+      "mood": 79.65999999999971,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:29:30"
+  }
+}

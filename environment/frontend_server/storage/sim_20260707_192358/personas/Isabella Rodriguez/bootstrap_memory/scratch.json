@@ -1,0 +1,359 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 08:41:40",
+  "curr_tile": [
+    76,
+    26
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 92.80000000000015,
+  "stamina": 91.35000000000133,
+  "health": 100.0,
+  "mood": 54.600000000000485,
+  "last_social_time": "July 07, 2026, 08:26:30",
+  "last_action_switch_time": "July 07, 2026, 08:36:40",
+  "decision_commit_until_step": 222,
+  "last_decision_signature": {
+    "skill_id": "rest",
+    "target": "bed",
+    "intent_family": "restore_stamina"
+  },
+  "last_decision_reason": "resting on the bed to improve mood and energy",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 160,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "behind the grocery counter",
+    "target_address": "the Ville:The Willows Market and Pharmacy:store:behind the grocery counter",
+    "skill_id": "gather",
+    "action_description": "checking the inventory for new supplies for the cafe party",
+    "reason": "invalid_food_source",
+    "payload": {
+      "target": "behind the grocery counter",
+      "clean_target": "behind the grocery counter",
+      "action": "gather",
+      "curr_tile": [
+        88,
+        43
+      ]
+    },
+    "curr_step": 219
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-220-rest-bed",
+    "phase": "pathing",
+    "address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the bed to improve mood and energy"
+    },
+    "description": "resting on the bed to improve mood and energy",
+    "event": [
+      "Isabella Rodriguez",
+      "resting",
+      "bed"
+    ],
+    "path": [
+      [
+        75,
+        25
+      ],
+      [
+        75,
+        24
+      ],
+      [
+        75,
+        23
+      ],
+      [
+        75,
+        22
+      ],
+      [
+        75,
+        21
+      ],
+      [
+        75,
+        20
+      ],
+      [
+        75,
+        19
+      ],
+      [
+        76,
+        19
+      ],
+      [
+        77,
+        19
+      ],
+      [
+        78,
+        19
+      ],
+      [
+        78,
+        18
+      ],
+      [
+        78,
+        17
+      ],
+      [
+        78,
+        16
+      ],
+      [
+        77,
+        16
+      ],
+      [
+        76,
+        16
+      ],
+      [
+        75,
+        16
+      ],
+      [
+        74,
+        16
+      ],
+      [
+        73,
+        16
+      ],
+      [
+        73,
+        15
+      ],
+      [
+        73,
+        14
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "rest",
+      "target": "bed",
+      "intent_family": "restore_stamina"
+    },
+    "started_step": 220,
+    "updated_step": 250,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "rest",
+    "intent_family": "restore_stamina",
+    "target": "bed",
+    "target_type": "object",
+    "resolved_target": "bed",
+    "resolved_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+    "description": "resting on the bed to improve mood and energy",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the bed to improve mood and energy"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "resting",
+      "bed"
+    ],
+    "duration": 30,
+    "created_step": 220,
+    "updated_step": 250,
+    "failure": null
+  },
+  "active_skill_name": "rest",
+  "active_skill_id": "Isabella Rodriguez-220-rest",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 220,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "bed",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "resting on the bed to improve mood and energy"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 4
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 20
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 7,
+  "importance_ele_n": 59,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+  "act_start_time": "July 07, 2026, 08:36:40",
+  "act_duration": 30,
+  "act_description": "resting on the bed to improve mood and energy",
+  "act_pronunciatio": "\ud83d\udecc",
+  "act_event": [
+    "Isabella Rodriguez",
+    "resting",
+    "bed"
+  ],
+  "act_command": {
+    "skill_id": "rest",
+    "target": "bed",
+    "source": "decision_translation",
+    "raw_action": "Rest",
+    "detail": "resting on the bed to improve mood and energy"
+  },
+  "act_obj_description": "bed is being used for recovery",
+  "act_obj_pronunciatio": "\ud83d\udecc",
+  "act_obj_event": [
+    "bed",
+    "is",
+    "being used for recovery"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      75,
+      25
+    ],
+    [
+      75,
+      24
+    ],
+    [
+      75,
+      23
+    ],
+    [
+      75,
+      22
+    ],
+    [
+      75,
+      21
+    ],
+    [
+      75,
+      20
+    ],
+    [
+      75,
+      19
+    ],
+    [
+      76,
+      19
+    ],
+    [
+      77,
+      19
+    ],
+    [
+      78,
+      19
+    ],
+    [
+      78,
+      18
+    ],
+    [
+      78,
+      17
+    ],
+    [
+      78,
+      16
+    ],
+    [
+      77,
+      16
+    ],
+    [
+      76,
+      16
+    ],
+    [
+      75,
+      16
+    ],
+    [
+      74,
+      16
+    ],
+    [
+      73,
+      16
+    ],
+    [
+      73,
+      15
+    ],
+    [
+      73,
+      14
+    ]
+  ]
+}

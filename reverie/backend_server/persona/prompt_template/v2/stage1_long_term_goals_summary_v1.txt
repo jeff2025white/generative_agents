@@ -1,0 +1,32 @@
+stage1_long_term_goals_summary_v1.txt
+
+Variables:
+!<INPUT 0>! -- persona name
+!<INPUT 1>! -- learned traits summary
+!<INPUT 2>! -- lifestyle summary
+!<INPUT 3>! -- extracted recurring themes
+!<INPUT 4>! -- high-value reflection thoughts
+
+<commentblockmarker>###</commentblockmarker>
+Persona: !<INPUT 0>!
+
+Learned traits:
+!<INPUT 1>!
+
+Lifestyle:
+!<INPUT 2>!
+
+Recurring themes inferred from reflections:
+!<INPUT 3>!
+
+High-value reflection thoughts:
+!<INPUT 4>!
+
+Write this persona's long-term goals summary.
+Requirements:
+- The summary must explicitly include survival as the baseline priority.
+- Then explain how this persona understands the world they live in and what longer-term direction they are pursuing beyond immediate survival.
+- Use the reflection thoughts as the main evidence for their deeper direction.
+- Mention stable responsibilities, relationships, routines, or ambitions only if supported by the reflection thoughts.
+- Write 2 to 4 sentences in first person.
+- Return only the summary text.

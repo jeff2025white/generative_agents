@@ -167,22 +167,36 @@ class ActionMappingTests(unittest.TestCase):
 
     def test_collective_social_target_is_detected(self):
         self.assertTrue(plan_module._is_collective_social_target("customers"))
-        self.assertTrue(plan_module._is_collective_social_target("pub patrons"))
+        self.assertTrue(plan_module._is_collective_social_target("The Rose and Crown Pub", "socializing with pub patrons"))
         self.assertFalse(plan_module._is_collective_social_target("Maria Lopez"))
 
     def test_collective_social_target_routes_to_hangout_skill(self):
         action, target, detail, reasoning, rerouted = plan_module._coerce_collective_social_hangout(
             "Socialize",
-            "customers at Hobbs Cafe",
-            "socializing with customers at Hobbs Cafe",
+            "The Rose and Crown Pub",
+            "socializing with pub patrons at The Rose and Crown Pub",
             "Mood is low and social comfort would help.",
         )
 
         self.assertTrue(rerouted)
         self.assertEqual(action, "hangout_social_venue")
-        self.assertEqual(target, "hobbs cafe")
+        self.assertEqual(target, "pub")
         self.assertIn("people-watching", detail)
         self.assertIn("collective social target routed", reasoning)
+
+    def test_collective_social_target_at_cafe_does_not_route_to_hangout_skill(self):
+        action, target, detail, reasoning, rerouted = plan_module._coerce_collective_social_hangout(
+            "Socialize",
+            "Hobbs Cafe",
+            "socializing with customers at Hobbs Cafe",
+            "Mood is low and social comfort would help.",
+        )
+
+        self.assertFalse(rerouted)
+        self.assertEqual(action, "Socialize")
+        self.assertEqual(target, "Hobbs Cafe")
+        self.assertEqual(detail, "socializing with customers at Hobbs Cafe")
+        self.assertEqual(reasoning, "Mood is low and social comfort would help.")
 
     def test_explicit_persona_chat_routes_to_seek_and_chat(self):
         personas = {

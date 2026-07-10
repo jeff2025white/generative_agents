@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 73 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 87.68000000000026,
+      "stamina": 94.71999999999917,
+      "health": 100.0,
+      "mood": 53.4199999999994,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        30,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 30 42",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 74.2400000000005,
+      "stamina": 92.15999999999993,
+      "health": 100.0,
+      "mood": 45.85999999999991,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        30,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 30 42",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 74.2400000000005,
+      "stamina": 92.39999999999982,
+      "health": 100.0,
+      "mood": 46.019999999999875,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:49:20"
+  }
+}

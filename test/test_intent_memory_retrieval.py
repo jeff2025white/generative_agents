@@ -184,6 +184,19 @@ class IntentMemoryRetrievalTests(unittest.TestCase):
         result = intent_memory.infer_memory_focus(persona, action_signature={})
         self.assertEqual(result, "restore_mood")
 
+    def test_mood_dominance_prefers_restore_mood_without_old_safe_body_gate(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                satiety=62.0,
+                stamina=78.0,
+                health=88.0,
+                mood=34.0,
+                recent_completed_action_signature=None,
+            )
+        )
+        result = intent_memory.infer_memory_focus(persona, action_signature={})
+        self.assertEqual(result, "restore_mood")
+
     def test_low_health_prefers_positive_health_memories(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             memory_dir = Path(tmpdir)

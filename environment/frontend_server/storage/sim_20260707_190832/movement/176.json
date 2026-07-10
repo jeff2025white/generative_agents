@@ -1,0 +1,99 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        49,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "searching for a book on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.60000000000005,
+      "stamina": 89.71000000000103,
+      "health": 100.0,
+      "mood": 47.520000000000245,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        59,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "gathering food from Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.8400000000003,
+      "stamina": 89.62000000000107,
+      "health": 100.0,
+      "mood": 44.92000000000015,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        48,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.8400000000003,
+      "stamina": 85.85000000000116,
+      "health": 100.0,
+      "mood": 45.92000000000015,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is searching for a book on gentrification",
+          "created": "2026-07-07 08:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:13:40",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:29:20"
+  }
+}

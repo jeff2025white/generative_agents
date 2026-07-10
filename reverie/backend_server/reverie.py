@@ -35,6 +35,7 @@ import time
 import math
 import os
 import shutil
+import sqlite3
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -43,7 +44,12 @@ from utils import *
 from maze import *
 from persona.persona import *
 from persona.cognitive_modules.action_command_utils import build_action_command
+from persona.cognitive_modules.admin_console import (
+  handle_admin_console_action,
+  handle_admin_console_query,
+)
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.state_dynamics import apply_step_state_dynamics
 from persona.cognitive_modules.world_resource_state import WorldResourceState
 from persona.prompt_template.gpt_structure import save_cache_to_disk, set_cache_sim_scope
 import requests
@@ -56,6 +62,47 @@ FRONTEND_HEARTBEAT_TTL_SECONDS = 30.0
 FRONTEND_ENV_WAIT_POLL_SECONDS = 0.2
 INCREMENTAL_MEMORY_SAVE_INTERVAL_STEPS = 5
 INCREMENTAL_MEMORY_SAVE_MIN_WALL_SECONDS = 15.0
+ADMIN_CONSOLE_QUERY_EXECUTOR = ThreadPoolExecutor(max_workers=2)
+
+
+def _frontend_db_path():
+  return os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "environment", "frontend_server", "db.sqlite3")
+  )
+
+
+def _write_pending_action_result(action_id, *, reply="", status="replied"):
+  conn = sqlite3.connect(_frontend_db_path())
+  try:
+    cursor = conn.cursor()
+    cursor.execute(
+      "UPDATE translator_simpendingaction SET response = ?, processed = 1, status = ? WHERE id = ?",
+      (str(reply or ""), str(status or "replied"), int(action_id)),
+    )
+    conn.commit()
+  finally:
+    conn.close()
+
+
+def _run_admin_console_query_job(persona, maze, content, conversation_history, action_id):
+  try:
+    result = handle_admin_console_query(
+      persona,
+      maze,
+      content,
+      conversation_history=conversation_history,
+    )
+    _write_pending_action_result(
+      action_id,
+      reply=result.get("reply", ""),
+      status=result.get("status", "replied"),
+    )
+  except Exception as admin_err:
+    _write_pending_action_result(
+      action_id,
+      reply=f"Admin console query failed: {admin_err}",
+      status="failed",
+    )
 
 class ReverieServer: 
   def __init__(self, 
@@ -526,8 +573,42 @@ class ReverieServer:
                   
                   if p_name in self.personas:
                     p = self.personas[p_name]
-                    print(f"=== [造物主沟通指令注入] {p.name} 接收到指令: {content} (类型: {a_type}) ===")
-                    
+                    print(f"=== [待处理动作] {p.name} 接收到请求: {content} (类型: {a_type}) ===")
+
+                    if a_type == "admin_console":
+                      normalized_mode = str(message_mode or "query").strip().lower()
+                      if normalized_mode == "query":
+                        processing_ids.append(action_id)
+                        ADMIN_CONSOLE_QUERY_EXECUTOR.submit(
+                          _run_admin_console_query_job,
+                          p,
+                          self.maze,
+                          content,
+                          conversation_history,
+                          action_id,
+                        )
+                        continue
+                      try:
+                        result = handle_admin_console_action(
+                          p,
+                          self.maze,
+                          normalized_mode,
+                          content,
+                          conversation_history=conversation_history,
+                        )
+                        _write_pending_action_result(
+                          action_id,
+                          reply=result.get("reply", ""),
+                          status=result.get("status", "replied"),
+                        )
+                      except Exception as admin_err:
+                        _write_pending_action_result(
+                          action_id,
+                          reply=f"Admin console processing failed: {admin_err}",
+                          status="failed",
+                        )
+                      continue
+
                     target_str = json.dumps({
                       "id": action_id,
                       "action_type": a_type,
@@ -535,7 +616,7 @@ class ReverieServer:
                       "content": content,
                       "conversation_history": conversation_history,
                     })
-                    
+
                     p.scratch.add_new_action(
                       f"<creator> {target_str}",
                       1,
@@ -556,6 +637,12 @@ class ReverieServer:
                     p.scratch.planned_path = []
                     p.scratch.act_path_set = False
                     processing_ids.append(action_id)
+                  else:
+                    _write_pending_action_result(
+                      action_id,
+                      reply=f"Unknown persona: {p_name}",
+                      status="failed",
+                    )
                   
                 if processing_ids:
                   requests.post("http://127.0.0.1:8000/api/get_pending_actions/", json={"processing_ids": processing_ids}, timeout=5)
@@ -605,63 +692,9 @@ class ReverieServer:
 
           # Apply metabolic decay and recovery for each persona per step
           for persona_name, persona in self.personas.items():
-            # If already dead, freeze all values to 0.0 and bypass decay calculations
-            if persona.scratch.health <= 0.0:
-              persona.scratch.satiety = 0.0
-              persona.scratch.stamina = 0.0
-              persona.scratch.health = 0.0
-              persona.scratch.mood = 0.0
-              continue
-
-            act_desc = persona.scratch.act_description.lower() if persona.scratch.act_description else ""
-            
-            # 1. 饱食度（Satiety）代谢
-            if "sleeping" in act_desc or "sleep" in act_desc:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.04)
-            else:
-              persona.scratch.satiety = max(0.0, persona.scratch.satiety - 0.08)
-              
-            # 2. 精力（Stamina）消耗与恢复
-            if "sleeping" in act_desc or "sleep" in act_desc:
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.15)
-            elif "resting" in act_desc or "rest" in act_desc:
-              persona.scratch.stamina = min(100.0, persona.scratch.stamina + 0.08)
-            else:
-              decay_stamina = 0.07 if persona.scratch.planned_path else 0.04
-              persona.scratch.stamina = max(0.0, persona.scratch.stamina - decay_stamina)
-
-            # 3. 情绪/幸福度（Mood）状态更新
-            # A. 基础更新：社交增加，独处自然衰减
-            if persona.scratch.chatting_with and persona.scratch.chatting_with not in ["", "<creator>"]:
-              persona.scratch.last_social_time = self.curr_time
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.30)
-            else:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.06)
-            
-            # B. 生理指标联动：饱腹与充足精力提供额外情绪增益/惩罚
-            if persona.scratch.satiety >= 80.0:
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.02)  # 饱食的幸福增益
-            elif persona.scratch.satiety < 20.0:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.08)  # 饥饿的抑郁惩罚
-              
-            if persona.scratch.stamina >= 80.0:
-              persona.scratch.mood = min(100.0, persona.scratch.mood + 0.02)  # 精力充沛增益
-            elif persona.scratch.stamina < 20.0:
-              persona.scratch.mood = max(0.0, persona.scratch.mood - 0.06)  # 疲惫抑郁惩罚
-
-            # 4. 健康度（Health）状态扣减与恢复
-            # A. 饥饿扣血惩罚
-            if persona.scratch.satiety <= 0.0:
-              persona.scratch.health = max(0.0, persona.scratch.health - 0.05)
-            # B. 精力枯竭扣血惩罚
-            if persona.scratch.stamina <= 0.0:
-              persona.scratch.health = max(0.0, persona.scratch.health - 0.02)
-            # C. 极度沮丧躯体化扣血惩罚
-            if persona.scratch.mood < 20.0:
-              persona.scratch.health = max(0.0, persona.scratch.health - 0.02)
-            # D. 自然康复：饱食度、精力和幸福度均在良好状态（>50.0），生命值缓慢康复
-            if persona.scratch.satiety > 50.0 and persona.scratch.stamina > 50.0 and persona.scratch.mood > 50.0:
-              persona.scratch.health = min(100.0, persona.scratch.health + 0.01)
+            apply_step_state_dynamics(persona, curr_time=self.curr_time)
+            if hasattr(persona.scratch, "decay_nonphysical_motives"):
+              persona.scratch.decay_nonphysical_motives()
           step_timings_ms["world_sync"] = round((time.perf_counter() - world_sync_started_at) * 1000.0, 3)
 
           # Then we need to actually have each of the personas perceive and
@@ -1130,11 +1163,6 @@ if __name__ == '__main__':
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
-
-
-
-
 
 
 

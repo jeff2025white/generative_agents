@@ -6,6 +6,7 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.skill_effects import build_skill_effect_spec
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 
 
@@ -16,6 +17,11 @@ class SocialVenueHangoutSkillPack(BaseSkillPack):
         super().__init__()
         self.name = "hangout_social_venue"
         self.associated_xp = ""
+        self.effect_spec = build_skill_effect_spec(
+            base_state_effects={"stamina": -1.0, "mood": 1.0},
+            motive_effects={"belonging": 10.0},
+            intent_tags=("social", "hangout", "belonging"),
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         return self.set_precheck_result(True, "social_venue_hangout_allowed", {"target": target})
@@ -27,10 +33,8 @@ class SocialVenueHangoutSkillPack(BaseSkillPack):
         self.mark_arrival_phase(persona, target=target)
         self.update_skill_phase(persona, "settling", metadata={"target": target})
         before_snapshot = capture_attribute_snapshot(persona)
-
-        persona.scratch.stamina = max(0.0, min(100.0, persona.scratch.stamina - 1.0))
-        persona.scratch.mood = max(0.0, min(100.0, persona.scratch.mood + 1.0))
-
+        self.apply_declared_base_state_effects(persona)
+        self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(

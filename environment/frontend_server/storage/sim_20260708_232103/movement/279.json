@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        95,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.02500000000022,
+      "stamina": 75.75600000000169,
+      "health": 100.0,
+      "mood": 54.94000000000041,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is writing research paper at library table",
+          "created": "2026-07-08 08:45:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        89,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.69000000000023,
+      "stamina": 77.50300000000192,
+      "health": 100.0,
+      "mood": 47.3599999999997,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        54,
+        26
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 100.0,
+      "stamina": 76.27700000000175,
+      "health": 100.0,
+      "mood": 76.39999999999993,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:46:30"
+  }
+}

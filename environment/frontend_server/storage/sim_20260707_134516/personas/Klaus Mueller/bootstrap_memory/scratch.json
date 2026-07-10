@@ -1,0 +1,200 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 09:34:10",
+  "curr_tile": [
+    118,
+    30
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 69.24000000000005,
+  "stamina": 77.43000000000177,
+  "health": 100.0,
+  "mood": 77.45999999999643,
+  "last_social_time": null,
+  "last_action_switch_time": "July 07, 2026, 09:17:30",
+  "decision_commit_until_step": 468,
+  "last_decision_signature": {
+    "skill_id": "study",
+    "target": "library table",
+    "intent_family": "study"
+  },
+  "last_decision_reason": "writing research paper on gentrification",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 464,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "curr_step": 464
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-465-study-library table",
+    "phase": "pathing",
+    "address": "the Ville:Oak Hill College:library",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "writing research paper on gentrification"
+    },
+    "description": "writing research paper on gentrification",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "writing research paper"
+    ],
+    "path": [
+      [
+        119,
+        29
+      ],
+      [
+        119,
+        28
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "study",
+      "target": "library table",
+      "intent_family": "study"
+    },
+    "started_step": 465,
+    "updated_step": 565,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "study",
+    "intent_family": "study",
+    "target": "library table",
+    "target_type": "place",
+    "resolved_target": "library table",
+    "resolved_address": "the Ville:Oak Hill College:library",
+    "description": "writing research paper on gentrification",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "writing research paper on gentrification"
+    },
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "writing research paper"
+    ],
+    "duration": 90,
+    "created_step": 465,
+    "updated_step": 565,
+    "failure": null
+  },
+  "active_skill_name": "study",
+  "active_skill_id": "Klaus Mueller-465-study",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 465,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "library table",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "writing research paper on gentrification"
+  },
+  "inventory": {
+    "apple": 4
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 20
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 32,
+  "importance_ele_n": 31,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Oak Hill College:library",
+  "act_start_time": "July 07, 2026, 09:17:30",
+  "act_duration": 90,
+  "act_description": "writing research paper on gentrification",
+  "act_pronunciatio": "\ud83d\udcda",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "writing research paper"
+  ],
+  "act_command": {
+    "skill_id": "study",
+    "target": "library table",
+    "source": "decision_translation",
+    "raw_action": "Work",
+    "detail": "writing research paper on gentrification"
+  },
+  "act_obj_description": "library is being used for work",
+  "act_obj_pronunciatio": "\ud83d\udcda",
+  "act_obj_event": [
+    "library",
+    "is",
+    "being used for work"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      119,
+      29
+    ],
+    [
+      119,
+      28
+    ]
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        86,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "having a meal at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 97.04000000000006,
+      "stamina": 83.48000000000123,
+      "health": 100.0,
+      "mood": 49.48000000000092,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        38,
+        36
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u592a\u597d\u4e86\uff0c\u5230\u65f6\u5019\u6211\u4e00\u5b9a\u7b2c\u4e00\u4e2a\u6765\u6367\u573a\uff01",
+      "satiety": 99.76,
+      "stamina": 81.49000000000214,
+      "health": 100.0,
+      "mood": 92.87999999999896,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations in the park garden for the Valentine's Day party",
+          "created": "2026-07-07 08:58:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        35
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u559c\u6b22\u5c31\u597d\uff01\u90a3\u8fd9\u4e2a\u914d\u65b9\u6211\u5c31\u5b9a\u4e0b\u6765\u5566\uff0c\u56de\u5934\u591a\u505a\u4e9b\u7ed9\u5927\u5bb6\u5c1d\u5c1d\u3002",
+      "satiety": 83.76000000000035,
+      "stamina": 85.43000000000065,
+      "health": 100.0,
+      "mood": 42.300000000000935,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is making a coffee from the refrigerator",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from cafe counter at the Ville:Hobbs Cafe:cafe.",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:45:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:54:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:59:00"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        64,
+        56
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u5c31\u884c\u5566\uff0c\u4f60\u8fd9\u8fb9\u51c6\u5907\u5f97\u53ef\u771f\u7528\u5fc3\u5462\u3002",
+      "satiety": 93.36000000000014,
+      "stamina": 79.95000000000266,
+      "health": 100.0,
+      "mood": 99.01999999999813,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        66,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "finding more party decorations @ the Ville:Harvey Oak Supply Store:supply store",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u5f53\u7136\u5566\uff0c\u60c5\u4eba\u8282\u561b\uff0c\u5f97\u8ba9\u5927\u5bb6\u90fd\u751c\u5230\u5fc3\u91cc\u53bb\uff01",
+      "satiety": 77.36000000000048,
+      "stamina": 83.89000000000117,
+      "health": 100.0,
+      "mood": 59.76000000000112,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is finding more party decorations",
+          "created": "2026-07-07 09:11:40"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        115,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 94.80000000000011,
+      "stamina": 70.12000000000167,
+      "health": 100.0,
+      "mood": 50.280000000001145,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 09:11:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-07 09:11:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:25:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:33:30",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:38:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:44:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Klaus",
+          "created": "2026-07-07 08:25:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is studying at the library table",
+          "created": "2026-07-07 08:39:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is involved in various activities, including study and meals",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The library is a common location for study and communication",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:35:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-07 08:33:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-07 08:27:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-07 08:52:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-07 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-07 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-07 09:10:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 09:12:20"
+  }
+}

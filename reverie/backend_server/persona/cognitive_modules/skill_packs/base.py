@@ -1,4 +1,10 @@
 from persona.prompt_template.gpt_structure import ChatGPT_safe_generate_response
+from persona.cognitive_modules.skill_effects import (
+    apply_declared_motive_effects,
+    apply_base_state_effects,
+    build_skill_effect_spec,
+    normalize_skill_effect_spec,
+)
 
 class BaseSkillPack:
     def __init__(self):
@@ -123,6 +129,25 @@ class BaseSkillPack:
         Physical prerequisite check. Returns True if physical constraints are met, False otherwise.
         """
         raise NotImplementedError
+
+    def get_effect_spec(self):
+        effect_spec = getattr(self, "effect_spec", None)
+        if effect_spec:
+            return normalize_skill_effect_spec(effect_spec)
+        legacy_state_effects = getattr(self, "stat_effects", None) or {}
+        if legacy_state_effects:
+            return build_skill_effect_spec(base_state_effects=legacy_state_effects)
+        return build_skill_effect_spec()
+
+    def apply_declared_base_state_effects(self, persona):
+        return apply_base_state_effects(persona, self.get_effect_spec().base_state_effects)
+
+    def apply_declared_motive_effects(self, persona):
+        return apply_declared_motive_effects(
+            persona,
+            skill_id=self.name,
+            motive_effects=self.get_effect_spec().motive_effects,
+        )
 
     def cognitive_decision(self, persona, target, maze, personas) -> dict:
         """

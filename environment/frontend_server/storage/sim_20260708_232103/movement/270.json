@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        98,
+        43
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.79000000000016,
+      "stamina": 76.54800000000164,
+      "health": 100.0,
+      "mood": 55.390000000000384,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        53,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "checking inventory for additional food items @ the Ville:The Rose and Crown Pub:pub:shelf",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.69000000000023,
+      "stamina": 76.98800000000169,
+      "health": 100.0,
+      "mood": 71.5799999999999,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.32000000000016,
+      "stamina": 78.10600000000186,
+      "health": 100.0,
+      "mood": 47.89999999999972,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:45:00"
+  }
+}

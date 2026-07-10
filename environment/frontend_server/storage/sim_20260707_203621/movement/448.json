@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        103,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 93.68000000000013,
+      "stamina": 69.14000000000176,
+      "health": 100.0,
+      "mood": 49.72000000000116,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a meal at Hobbs Cafe",
+          "created": "2026-07-07 09:14:10"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        78,
+        56
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u5c31\u884c\u5566\uff0c\u4f60\u8fd9\u8fb9\u51c6\u5907\u5f97\u53ef\u771f\u7528\u5fc3\u5462\u3002",
+      "satiety": 92.24000000000017,
+      "stamina": 78.97000000000276,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        65,
+        41
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing and people-watching at pub @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u5f53\u7136\u5566\uff0c\u60c5\u4eba\u8282\u561b\uff0c\u5f97\u8ba9\u5927\u5bb6\u90fd\u751c\u5230\u5fc3\u91cc\u53bb\uff01",
+      "satiety": 76.2400000000005,
+      "stamina": 82.94000000000125,
+      "health": 100.0,
+      "mood": 59.20000000000113,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 09:14:40"
+  }
+}

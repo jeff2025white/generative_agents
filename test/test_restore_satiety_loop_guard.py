@@ -99,4 +99,3 @@ class RestoreSatietyLoopGuardTests(unittest.TestCase):
 
         result = GatherSkillPack().can_execute(persona, "refrigerator", maze)
         self.assertFalse(result)
-

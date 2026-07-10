@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        26
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to rest @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 66.43999999999987,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 44.04000000000017,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        71,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u5e73\u65f6\u5c31\u5199\u5199\u8bba\u6587\u3001\u6ce1\u6ce1\u56fe\u4e66\u9986\uff0c\u5076\u5c14\u4e5f\u51fa\u6765\u6e9c\u8fbe\u6e9c\u8fbe\u900f\u900f\u6c14\u3002",
+      "satiety": 95.2000000000001,
+      "stamina": 92.17000000000118,
+      "health": 100.0,
+      "mood": 47.960000000000356,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        65,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "having lunch at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u5076\u5c14\u6765\uff0c\u4e3b\u8981\u8fd9\u6811\u6ca1\u4eba\u7ba1\uff0c\u6458\u51e0\u4e2a\u4e5f\u4e0d\u5fc3\u75bc\u3002\u4f60\u5462\uff0c\u5e73\u65f6\u9664\u4e86\u5199\u8bba\u6587\u8fd8\u5e72\u561b\uff1f",
+      "satiety": 64.08000000000034,
+      "stamina": 92.17000000000118,
+      "health": 100.0,
+      "mood": 48.560000000000166,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:33:00"
+  }
+}

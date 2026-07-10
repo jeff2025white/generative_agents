@@ -1,0 +1,85 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        81,
+        44
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the bed to improve mood and energy @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.72000000000011,
+      "stamina": 89.43000000000137,
+      "health": 100.0,
+      "mood": 55.08000000000039,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the bed to improve mood and energy",
+          "created": "2026-07-07 08:37:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-07 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83e\udd16",
+      "description": "communicating with the Creator @ the Ville:::",
+      "chat": [
+        [
+          "User",
+          "\u4f60\u73b0\u5728\u5728\u505a\u4ec0\u4e48\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002",
+      "satiety": 94.96000000000011,
+      "stamina": 97.59999999999962,
+      "health": 100.0,
+      "mood": 47.26000000000039,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        116,
+        43
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting in her dorm room bed @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 61.84000000000039,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 42.92000000000019,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:37:40"
+  }
+}

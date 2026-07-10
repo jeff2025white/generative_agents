@@ -1,0 +1,403 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 08:22:10",
+  "curr_tile": [
+    25,
+    42
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 29.28000000000023,
+  "stamina": 90.80000000000089,
+  "health": 100.0,
+  "mood": 45.640000000000114,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 29.28000000000023,
+      "initial_value": 40.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.08,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 90.80000000000089,
+      "initial_value": 100.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 100.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 63.65999999999956,
+      "initial_value": 65.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 45.640000000000114,
+      "initial_value": 50.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 55.31999999999958,
+      "initial_value": 58.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 53.66000000000027,
+      "initial_value": 55.0,
+      "safe_threshold": 42.0,
+      "critical_threshold": 24.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 60.66000000000027,
+      "initial_value": 62.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 57.989999999999924,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.015,
+      "priority_weight": 0.92,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 56.66000000000027,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.88,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 08, 2026, 08:20:40",
+  "decision_commit_until_step": 126,
+  "last_decision_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "eating the apple from inventory to restore satiety",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 124,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "curr_step": 124
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-124-consume-apple",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park:apple tree",
+    "command": {
+      "skill_id": "consume",
+      "target": "apple",
+      "source": "post_gather_followup",
+      "raw_action": "consume",
+      "detail": null
+    },
+    "description": "eating the apple from inventory to restore satiety",
+    "event": [
+      "Klaus Mueller",
+      "consume",
+      "apple"
+    ],
+    "path": [
+      [
+        27,
+        42
+      ],
+      [
+        27,
+        43
+      ],
+      [
+        27,
+        44
+      ],
+      [
+        27,
+        45
+      ],
+      [
+        27,
+        46
+      ],
+      [
+        27,
+        47
+      ],
+      [
+        27,
+        48
+      ],
+      [
+        27,
+        49
+      ],
+      [
+        26,
+        49
+      ],
+      [
+        25,
+        49
+      ],
+      [
+        25,
+        50
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "consume",
+      "target": "apple",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 124,
+    "updated_step": 133,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "consume",
+    "intent_family": "restore_satiety",
+    "target": "apple",
+    "target_type": "object",
+    "resolved_target": "apple tree",
+    "resolved_address": "the Ville:Johnson Park:park:apple tree",
+    "description": "eating the apple from inventory to restore satiety",
+    "command": {
+      "skill_id": "consume",
+      "target": "apple",
+      "source": "post_gather_followup",
+      "raw_action": "consume",
+      "detail": null
+    },
+    "event": [
+      "Klaus Mueller",
+      "consume",
+      "apple"
+    ],
+    "duration": 2,
+    "creator_instruction": null,
+    "created_step": 0,
+    "updated_step": 133,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "consume",
+  "active_skill_id": "Klaus Mueller-124-consume",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 124,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "apple",
+  "active_skill_metadata": {
+    "source": "post_gather_followup",
+    "action_description": "eating the apple from inventory to restore satiety"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 81,
+  "importance_ele_n": 27,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park:apple tree",
+  "act_start_time": "July 08, 2026, 08:20:40",
+  "act_duration": 2,
+  "act_description": "eating the apple from inventory to restore satiety",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Klaus Mueller",
+    "consume",
+    "apple"
+  ],
+  "act_command": {
+    "skill_id": "consume",
+    "target": "apple",
+    "source": "post_gather_followup",
+    "raw_action": "consume",
+    "detail": null
+  },
+  "act_obj_description": "being eaten by Klaus",
+  "act_obj_pronunciatio": "\ud83c\udf7d\ufe0f",
+  "act_obj_event": [
+    "apple",
+    "consumed_by",
+    "Klaus Mueller"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      27,
+      42
+    ],
+    [
+      27,
+      43
+    ],
+    [
+      27,
+      44
+    ],
+    [
+      27,
+      45
+    ],
+    [
+      27,
+      46
+    ],
+    [
+      27,
+      47
+    ],
+    [
+      27,
+      48
+    ],
+    [
+      27,
+      49
+    ],
+    [
+      26,
+      49
+    ],
+    [
+      25,
+      49
+    ],
+    [
+      25,
+      50
+    ]
+  ]
+}

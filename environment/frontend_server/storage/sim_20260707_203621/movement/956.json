@@ -1,0 +1,284 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        27
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "setting up decorations for the Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u54c7\uff0c\u4f0a\u838e\u8d1d\u62c9\uff0c\u4f60\u5df2\u7ecf\u5f00\u59cb\u5e03\u7f6e\u60c5\u4eba\u8282\u6d3e\u5bf9\u7684\u88c5\u9970\u5566\uff1f\u9700\u8981\u6211\u642d\u628a\u624b\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u662f\u554a\uff0c\u521a\u6302\u4e0a\u8fd9\u4e9b\u5f69\u5e26\u5462\uff01\u4f60\u8981\u662f\u80fd\u5e2e\u5fd9\u8d34\u51e0\u4e2a\u5fc3\u5f62\u6c14\u7403\u5c31\u592a\u597d\u5566\uff0c\u6211\u4e00\u4e2a\u4eba\u5fd9\u4e0d\u8fc7\u6765\u54c8\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u554a\uff0c\u6211\u6700\u559c\u6b22\u8d34\u6c14\u7403\u4e86\uff01\u8fd9\u4e9b\u5fc3\u5f62\u7684\u8981\u8d34\u5728\u5899\u8fb9\u8fd8\u662f\u7a97\u6237\u90a3\u8fb9\u5462\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u8d34\u7a97\u6237\u90a3\u8fb9\u5427\uff0c\u9633\u5149\u900f\u8fc7\u6765\u4f1a\u7279\u522b\u597d\u770b\u5462\uff01"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u561e\uff0c\u90a3\u6211\u5148\u628a\u6c14\u7403\u9012\u7ed9\u4f60\uff0c\u8d34\u9ad8\u4e00\u70b9\u597d\u770b\uff01"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\u5bf9\uff0c\u9ad8\u4e00\u70b9\u6c14\u7403\u624d\u597d\u770b\u5462\uff0c\u8c22\u8c22\u4f60\u5e2e\u5fd9\u5440\uff01"
+        ],
+        [
+          "Maria Lopez",
+          "\u4e0d\u5ba2\u6c14\u5440\uff01\u8d34\u9ad8\u4e00\u70b9\u786e\u5b9e\u597d\u770b\uff0c\u6211\u518d\u6765\u68c0\u67e5\u4e00\u4e0b\u6709\u6ca1\u6709\u6b6a\u7684\u5462\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54c8\u54c8\uff0c\u8fd9\u68c0\u67e5\u5de5\u4f5c\u4ea4\u7ed9\u4f60\u6211\u5c31\u653e\u5fc3\u5566\uff0c\u8d34\u5f97\u771f\u6f02\u4eae\u5462\uff01"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u8fd9\u68c0\u67e5\u5de5\u4f5c\u4ea4\u7ed9\u4f60\u6211\u5c31\u653e\u5fc3\u5566\uff0c\u8d34\u5f97\u771f\u6f02\u4eae\u5462\uff01",
+      "satiety": 68.48000000000067,
+      "stamina": 92.4000000000011,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 10:36:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-07 10:36:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 09:49:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 10:29:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from cafe counter at the Ville:Hobbs Cafe:cafe.",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:54:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 09:48:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        74,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u516b\u6298\u54ea\u591f\u554a\uff0c\u51b2\u54b1\u8fd9\u4ea4\u60c5\uff0c\u8d77\u7801\u5f97\u7ed9\u6211\u514d\u5355\u5427\u3002",
+      "satiety": 80.56000000000041,
+      "stamina": 38.21000000000216,
+      "health": 100.0,
+      "mood": 89.43999999999876,
+      "inventory": {
+        "apple": 10
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a meal at Hobbs Cafe",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is setting up the cafe with decorations for the Valentine's Day party",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is relaxing and people-watching at pub",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is involved in various activities, including study and meals",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller works on a research paper",
+          "created": "2026-07-07 09:48:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The library is a common location for study and communication",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is studying at the library table",
+          "created": "2026-07-07 08:29:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-07 08:52:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-07 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-07 08:52:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-07 09:49:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-07 09:10:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-07 08:52:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-07 08:52:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-07 09:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-07 09:50:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 09:38:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-07 08:26:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        45,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4e0d\u5ba2\u6c14\u5440\uff01\u8d34\u9ad8\u4e00\u70b9\u786e\u5b9e\u597d\u770b\uff0c\u6211\u518d\u6765\u68c0\u67e5\u4e00\u4e0b\u6709\u6ca1\u6709\u6b6a\u7684\u5462\u3002",
+      "satiety": 85.28000000000031,
+      "stamina": 92.13000000000102,
+      "health": 100.0,
+      "mood": 99.69999999999985,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations for the Valentine's Day party",
+          "created": "2026-07-07 10:39:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is preparing decorations for the Valentine's Day party",
+          "created": "2026-07-07 09:56:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is setting up decorations in the park garden for the Valentine's Day party",
+          "created": "2026-07-07 08:58:50",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 10:39:20"
+  }
+}

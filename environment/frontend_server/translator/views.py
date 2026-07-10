@@ -596,7 +596,7 @@ def _get_sim_log_start_time(sim_code):
   return None
 
 
-def _load_chat_transcript_records(sim_code, step=None, limit=12):
+def _load_chat_transcript_records(sim_code, step=None, limit=12, channel=None):
   chat_files = [
     os.path.join(_project_root, "environment", "frontend_server", "storage", sim_code, "chat_transcript.jsonl"),
     os.path.join(_project_root, "logs", "chat_transcript.jsonl"),
@@ -620,6 +620,9 @@ def _load_chat_transcript_records(sim_code, step=None, limit=12):
 
           record_sim_code = str(data.get("sim_code", "") or "").strip()
           if record_sim_code and record_sim_code != sim_code:
+            continue
+          record_channel = str(data.get("channel", "") or "").strip()
+          if channel and record_channel != channel:
             continue
 
           record_time = _parse_log_timestamp(data.get("ts"))
@@ -659,6 +662,7 @@ def _load_chat_transcript_records(sim_code, step=None, limit=12):
               "sim_time": data.get("sim_time", ""),
               "step": data.get("step"),
               "ts": data.get("ts", ""),
+              "channel": record_channel,
               "conversation": conversation,
             })
   except Exception:
@@ -868,6 +872,31 @@ def _load_recent_decision_stability_logs(persona_name, limit=10):
   return matched[-limit:]
 
 
+def _load_recent_motive_monitor_logs(persona_name, limit=12):
+  logs_path = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "..", "logs", "motive_monitor.jsonl")
+  )
+  if not os.path.exists(logs_path):
+    return []
+
+  matched = []
+  with open(logs_path, "r", encoding="utf-8") as f:
+    for line in f:
+      line = line.strip()
+      if not line:
+        continue
+      try:
+        entry = json.loads(line)
+      except Exception:
+        continue
+      if entry.get("persona") != persona_name:
+        continue
+      if entry.get("event") != "motive_delta":
+        continue
+      matched.append(entry)
+  return matched[-limit:]
+
+
 def _translate_inventory_items(inventory, translate_func=translate_to_chinese):
   translated = []
   for item_name, count in (inventory or {}).items():
@@ -907,6 +936,11 @@ def _translate_recent_decision_logs(logs, translate_func=translate_to_chinese):
     copied = dict(log)
     if copied.get("event") == "decision_snapshot":
       copied["intent_zh"] = translate_func(copied.get("intent", ""))
+      llm_decision_text = copied.get("llm_decision_text") or {}
+      copied["llm_decision_text_zh"] = {
+        "thought": translate_func(str(llm_decision_text.get("thought", copied.get("intent", "")))),
+        "reasoning": translate_func(str(llm_decision_text.get("reasoning", copied.get("decision_routed_reasoning", "")))),
+      }
       decision = copied.get("decision")
       if isinstance(decision, dict):
         copied["decision_zh"] = {
@@ -918,6 +952,24 @@ def _translate_recent_decision_logs(logs, translate_func=translate_to_chinese):
         }
       else:
         copied["decision_zh"] = translate_func(str(decision))
+      motives = copied.get("motives")
+      if isinstance(motives, dict):
+        copied["motives_zh"] = {
+          "dominant_motive": translate_func(str(motives.get("dominant_motive", ""))),
+          "secondary_motive": translate_func(str(motives.get("secondary_motive", ""))),
+          "guard_motive": translate_func(str(motives.get("guard_motive", ""))),
+          "dominant_motive_text": translate_func(str(motives.get("dominant_motive_text", ""))),
+          "secondary_motive_text": translate_func(str(motives.get("secondary_motive_text", ""))),
+          "motive_sentence": translate_func(str(motives.get("motive_sentence", ""))),
+          "top_scores": [
+            {
+              **score,
+              "motive_zh": translate_func(str(score.get("motive", ""))),
+              "reason_zh": translate_func(str(score.get("reason", ""))),
+            }
+            for score in motives.get("top_scores", [])
+          ],
+        }
     elif copied.get("event") == "target_resolution":
       copied["target_zh"] = translate_func(copied.get("target", ""))
       copied["new_address_zh"] = translate_func(copied.get("new_address", ""))
@@ -952,6 +1004,37 @@ def _translate_recent_decision_stability_logs(logs, translate_func=translate_to_
       copied["source_zh"] = translate_func(str(copied.get("source", "")))
     elif event == "action_completed":
       copied["signature_zh"] = _translate_decision_signature(copied.get("signature"), translate_func=translate_func)
+    translated.append(copied)
+  return translated
+
+
+def _translate_recent_motive_monitor_logs(logs, translate_func=translate_to_chinese):
+  translated = []
+  for log in logs or []:
+    copied = dict(log)
+    copied["source_zh"] = translate_func(str(copied.get("source", "")))
+    copied["reason_zh"] = translate_func(str(copied.get("reason", "")))
+    copied["dominant_motive_zh"] = translate_func(str(copied.get("dominant_motive", "")))
+    copied["secondary_motive_zh"] = translate_func(str(copied.get("secondary_motive", "")))
+    copied["guard_motive_zh"] = translate_func(str(copied.get("guard_motive", "")))
+    copied["motive_sentence_zh"] = translate_func(str(copied.get("motive_sentence", "")))
+    copied["changed_motives_zh"] = []
+    for item in copied.get("changed_motives", []):
+      copied["changed_motives_zh"].append(
+        {
+          **item,
+          "motive_zh": translate_func(str(item.get("motive", ""))),
+        }
+      )
+    copied["top_scores_zh"] = []
+    for score in copied.get("top_scores", []):
+      copied["top_scores_zh"].append(
+        {
+          **score,
+          "motive_zh": translate_func(str(score.get("motive", ""))),
+          "reason_zh": translate_func(str(score.get("reason", ""))),
+        }
+      )
     translated.append(copied)
   return translated
 
@@ -1010,6 +1093,7 @@ def replay_persona_state(request, sim_code, step, persona_name):
   decision_rules = _build_decision_rules(live_status)
   recent_decision_logs = _load_recent_decision_logs(persona_name)
   recent_decision_stability_logs = _load_recent_decision_stability_logs(persona_name)
+  recent_motive_monitor_logs = _load_recent_motive_monitor_logs(persona_name)
   derived_sim_time = _derive_sim_time(sim_code, step, scratch)
   state_translate = translate_to_chinese_with_deepseek
   translated_inventory_items = _translate_inventory_items(live_inventory, translate_func=state_translate)
@@ -1020,6 +1104,7 @@ def replay_persona_state(request, sim_code, step, persona_name):
   translated_decision_rules = [state_translate(rule) for rule in decision_rules]
   translated_recent_decision_logs = _translate_recent_decision_logs(recent_decision_logs, translate_func=state_translate)
   translated_recent_decision_stability_logs = _translate_recent_decision_stability_logs(recent_decision_stability_logs, translate_func=state_translate)
+  translated_recent_motive_monitor_logs = _translate_recent_motive_monitor_logs(recent_motive_monitor_logs, translate_func=state_translate)
   translated_current_action = state_translate(current_action)
   translated_current_address = state_translate(current_address)
   translated_last_chat = state_translate(movement_snapshot.get("last_chat", ""))
@@ -1060,6 +1145,8 @@ def replay_persona_state(request, sim_code, step, persona_name):
              "translated_recent_decision_logs": translated_recent_decision_logs,
              "recent_decision_stability_logs": recent_decision_stability_logs,
              "translated_recent_decision_stability_logs": translated_recent_decision_stability_logs,
+             "recent_motive_monitor_logs": recent_motive_monitor_logs,
+             "translated_recent_motive_monitor_logs": translated_recent_motive_monitor_logs,
              "translated_scratch_currently": translated_scratch_currently,
              "translated_innate": translated_innate,
              "translated_learned": translated_learned,
@@ -1206,9 +1293,9 @@ def path_tester_update(request):
   return HttpResponse("received")
 
 
-def chat_with_persona(request):
+def admin_console_with_persona(request):
     """
-    Web API: 用户通过网页与角色对话。
+    Web API: 用户通过网页打开管理员控制台与角色通信。
     POST 请求，JSON 格式：
     {
       "sim_code": "sim_20260624_192342",
@@ -1251,9 +1338,9 @@ def chat_with_persona(request):
                 sim_code=sim_code,
                 persona_name=persona_name,
                 step=step,
-                action_type="chat",
+                action_type="admin_console",
                 message_mode=message_mode,
-                content=f"User said: {user_message}",
+                content=user_message,
                 conversation_history=json.dumps(conversation_history, ensure_ascii=False),
                 status="queued"
             )
@@ -1287,7 +1374,8 @@ def chat_with_persona(request):
         return JsonResponse({
             "reply": reply,
             "persona_name": persona_name,
-            "message_mode": message_mode
+            "message_mode": message_mode,
+            "channel": "admin",
         })
 
     except FileNotFoundError as e:
@@ -1300,6 +1388,10 @@ def chat_with_persona(request):
         return JsonResponse({"error": str(e)}, status=500)
     finally:
         pass
+
+
+def chat_with_persona(request):
+    return admin_console_with_persona(request)
 
 
 @csrf_exempt
@@ -1347,6 +1439,7 @@ def api_get_chat_transcript(request):
 
   step = request.GET.get("step")
   limit = request.GET.get("limit", 12)
+  channel = request.GET.get("channel", "").strip()
   try:
     step = int(step) if step not in (None, "") else None
   except Exception:
@@ -1356,7 +1449,12 @@ def api_get_chat_transcript(request):
   except Exception:
     limit = 12
 
-  dialogues = _load_chat_transcript_records(sim_code, step=step, limit=limit)
+  dialogues = _load_chat_transcript_records(
+    sim_code,
+    step=step,
+    limit=limit,
+    channel=channel or None,
+  )
   messages = []
   for dialogue in dialogues:
     dialogue_id = dialogue.get("dialogue_id", "")
@@ -1369,6 +1467,7 @@ def api_get_chat_transcript(request):
         "sim_time": dialogue.get("sim_time", ""),
         "step": dialogue.get("step"),
         "ts": dialogue.get("ts", ""),
+        "channel": dialogue.get("channel", ""),
       })
 
   return JsonResponse({"dialogues": dialogues, "messages": messages})
@@ -1634,8 +1733,6 @@ def api_translate_memories(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
   return JsonResponse({"error": "POST method required"}, status=400)
-
-
 
 
 

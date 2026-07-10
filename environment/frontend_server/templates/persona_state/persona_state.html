@@ -245,10 +245,29 @@
     <div class="log-item">
       <div class="log-event">{{ log.event }}{% if log.sim_time %} · {{ log.sim_time }}{% endif %}</div>
       {% if log.event == "decision_snapshot" %}
+        <div class="kv-grid" style="margin-bottom:12px;">
+          <div class="kv-item">
+            <div class="kv-label">主动机</div>
+            <div class="kv-value">{{ log.motives_zh.dominant_motive|default:"暂无" }}</div>
+          </div>
+          <div class="kv-item">
+            <div class="kv-label">次动机</div>
+            <div class="kv-value">{{ log.motives_zh.secondary_motive|default:"暂无" }}</div>
+          </div>
+        </div>
+        <div class="kv-label">动机总结</div>
+        <div class="kv-value" style="margin-bottom:10px;">{{ log.motives_zh.motive_sentence|default:"暂无" }}</div>
         <div class="kv-label">意图</div>
         <div class="kv-value" style="margin-bottom:10px;">{{ log.intent_zh }}</div>
+        <div class="kv-label">LLM 决策文字</div>
+        <div class="mono-box" style="padding:10px 12px; margin-bottom:10px;">thought: {{ log.llm_decision_text_zh.thought }}
+reasoning: {{ log.llm_decision_text_zh.reasoning }}</div>
         <div class="kv-label">结构化决策</div>
         <div class="mono-box" style="padding:10px 12px;">{{ log.decision_zh }}</div>
+        {% if log.motives_zh.top_scores %}
+        <div class="kv-label" style="margin-top:10px;">最高压力动机</div>
+        <div class="mono-box" style="padding:10px 12px;">{{ log.motives_zh.top_scores }}</div>
+        {% endif %}
       {% elif log.event == "target_resolution" %}
         <div class="kv-label">目标</div>
         <div class="kv-value" style="margin-bottom:8px;">{{ log.target_zh }}</div>
@@ -269,6 +288,46 @@
     </div>
     {% empty %}
     <div class="small-note">还没有找到这个角色的最近决策日志。</div>
+    {% endfor %}
+  </div>
+
+  <div class="state-card">
+    <div class="state-title">动机值监测日志</div>
+    <div class="state-subtitle">这部分直接来自 `motive_monitor.jsonl`，专门记录 NPC 驱动力值的变化来源、幅度，以及变化后的主次动机。</div>
+    {% for log in translated_recent_motive_monitor_logs %}
+    <div class="log-item">
+      <div class="log-event">{{ log.event }}{% if log.curr_step != None %} · Step {{ log.curr_step }}{% endif %}{% if log.sim_time %} · {{ log.sim_time }}{% endif %}</div>
+      <div class="kv-grid">
+        <div class="kv-item">
+          <div class="kv-label">变化来源</div>
+          <div class="kv-value">{{ log.source_zh|default:"暂无" }}</div>
+        </div>
+        <div class="kv-item">
+          <div class="kv-label">变化原因</div>
+          <div class="kv-value">{{ log.reason_zh|default:"暂无" }}</div>
+        </div>
+      </div>
+      <div class="kv-grid" style="margin-top:12px;">
+        <div class="kv-item">
+          <div class="kv-label">主动机</div>
+          <div class="kv-value">{{ log.dominant_motive_zh|default:"暂无" }}</div>
+        </div>
+        <div class="kv-item">
+          <div class="kv-label">次动机</div>
+          <div class="kv-value">{{ log.secondary_motive_zh|default:"暂无" }}</div>
+        </div>
+      </div>
+      <div class="kv-label" style="margin-top:12px;">动机变化</div>
+      <div class="mono-box" style="padding:10px 12px;">{{ log.changed_motives_zh }}</div>
+      <div class="kv-label" style="margin-top:12px;">变化后动机总结</div>
+      <div class="kv-value">{{ log.motive_sentence_zh|default:"暂无" }}</div>
+      {% if log.top_scores_zh %}
+      <div class="kv-label" style="margin-top:12px;">变化后最高压力动机</div>
+      <div class="mono-box" style="padding:10px 12px;">{{ log.top_scores_zh }}</div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="small-note">还没有找到这个角色的动机值变化日志。</div>
     {% endfor %}
   </div>
 
@@ -337,7 +396,6 @@
   </div>
 </div>
 {% endblock content %}
-
 
 
 

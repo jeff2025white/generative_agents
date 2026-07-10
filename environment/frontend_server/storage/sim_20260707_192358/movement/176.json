@@ -1,0 +1,73 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83e\udd16",
+      "description": "communicating with the Creator @ the Ville:::",
+      "chat": [
+        [
+          "User",
+          "\u4f60\u73b0\u5728\u5728\u505a\u4ec0\u4e48\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u6211\u73b0\u5728\u5728\u4e0e\u9020\u7269\u4e3b\u8fdb\u884c\u5bf9\u8bdd\u3002",
+      "satiety": 98.96000000000002,
+      "stamina": 99.59999999999994,
+      "health": 100.0,
+      "mood": 48.26000000000019,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        57,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "checking the inventory for new supplies for the cafe party @ the Ville:The Willows Market and Pharmacy:store:behind the grocery counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.72000000000003,
+      "stamina": 92.0000000000011,
+      "health": 100.0,
+      "mood": 56.08000000000019,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        72,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting in her dorm room bed @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.8400000000003,
+      "stamina": 96.52000000000068,
+      "health": 100.0,
+      "mood": 44.92000000000015,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:29:20"
+  }
+}

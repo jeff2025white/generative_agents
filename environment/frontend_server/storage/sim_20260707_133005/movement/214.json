@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        89,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 62.80000000000037,
+      "stamina": 86.99000000000132,
+      "health": 100.0,
+      "mood": 67.3999999999997,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        65,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple from the tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 62.80000000000037,
+      "stamina": 86.99000000000132,
+      "health": 100.0,
+      "mood": 59.40000000000018,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is going to Hobbs Cafe to get something to eat",
+          "created": "2026-07-07 08:35:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is finding something to eat in the refrigerator",
+          "created": "2026-07-07 08:33:10",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        53,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.04000000000006,
+      "stamina": 96.42000000000033,
+      "health": 100.0,
+      "mood": 70.13999999999965,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:35:40"
+  }
+}

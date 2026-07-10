@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        46,
+        31
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "setting up decorations in the park garden for the Valentine's Day party @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 88.24000000000025,
+      "stamina": 91.17000000000034,
+      "health": 100.0,
+      "mood": 40.980000000000715,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        104,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "writing research paper on gentrification in low-income communities @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 90.08000000000021,
+      "stamina": 91.31000000000088,
+      "health": 100.0,
+      "mood": 48.6000000000007,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        88,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u8bbf\u8c08\u5bf9\u8c61\u786e\u5b9e\u96be\u7ea6\uff0c\u6211\u8fd9\u7269\u7406\u9898\u4e5f\u5361\u5f97\u5934\u75bc\uff0c\u54b1\u4fe9\u90fd\u6b47\u53e3\u6c14\u5457\u3002",
+      "satiety": 97.20000000000006,
+      "stamina": 81.3200000000018,
+      "health": 100.0,
+      "mood": 84.39999999999941,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:49:40"
+  }
+}

@@ -7,17 +7,23 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.skill_effects import build_skill_effect_spec
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 
 
 class GenericActivitySkillPack(BaseSkillPack):
     """Execute generic leisure, work, study, and use interactions."""
 
-    def __init__(self, skill_name, stat_effects=None):
+    def __init__(self, skill_name, stat_effects=None, motive_effects=None):
         super().__init__()
         self.name = skill_name
         self.associated_xp = ""
         self.stat_effects = stat_effects or {}
+        self.effect_spec = build_skill_effect_spec(
+            base_state_effects=self.stat_effects,
+            motive_effects=motive_effects,
+            intent_tags=(skill_name,),
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         next_signature = build_decision_signature(
@@ -52,15 +58,8 @@ class GenericActivitySkillPack(BaseSkillPack):
         }
         before_snapshot = capture_attribute_snapshot(persona)
 
-        persona.scratch.stamina = max(
-            0.0, min(100.0, persona.scratch.stamina + self.stat_effects.get("stamina", 0.0))
-        )
-        persona.scratch.mood = max(
-            0.0, min(100.0, persona.scratch.mood + self.stat_effects.get("mood", 0.0))
-        )
-        persona.scratch.health = max(
-            0.0, min(100.0, persona.scratch.health + self.stat_effects.get("health", 0.0))
-        )
+        self.apply_declared_base_state_effects(persona)
+        self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
 

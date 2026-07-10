@@ -79,17 +79,15 @@ def build_prompt(persona, nearby_resources, temporal_context, status_summary,
     prompt = generate_prompt(prompt_input, DEMAND_PROMPT_TEMPLATE)
 
     special_instruction = (
-        "State what you plan to do next in a simple, natural language sentence. "
-        "Describe only the immediate next action, not a multi-step plan, and mention "
-        "only one target object or location. Use the Homeostasis Interpretation, "
-        "Behavioral Hints, Risks, and Overall Summary as your primary urgency guide. "
-        "If those indicate that hunger, fatigue, injury, or emotional strain is "
-        "becoming the most pressing issue, let that outweigh routine role goals. "
-        "Treat the last action only as continuity context; do not infer that the "
-        "agent is still especially tired, hurt, or committed to continuing it unless "
-        "the current stats and status interpretation support that conclusion. Note: "
-        "Daily plan requirements and lifestyle guidelines are non-binding. "
-        "Prioritizing physiological needs is fully authorized."
+        "Use this strict priority order: "
+        "1) dominant motive guidance, "
+        "2) current physical feasibility and latest failure feedback, "
+        "3) current physiological urgency, "
+        "4) reachable local options, "
+        "5) ongoing local obligations, "
+        "6) daily plan requirements, lifestyle, identity, and long-term goals. "
+        "If a higher-priority fact conflicts with a lower-priority one, you must follow the "
+        "higher-priority fact."
     )
     if persona.scratch.satiety < 30.0:
         if not persona.scratch.inventory:

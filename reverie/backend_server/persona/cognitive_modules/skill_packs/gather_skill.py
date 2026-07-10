@@ -108,7 +108,7 @@ class GatherSkillPack(BaseSkillPack):
                         "clean_target": clean_target,
                         "curr_obj": curr_obj,
                         "curr_tile": persona.scratch.curr_tile,
-                        "satiety": satiety,
+                        "satiety": float(getattr(persona.scratch, "satiety", 100.0) or 100.0),
                         "inventory": inventory,
                         "recent_completed_action_signature": recent_signature,
                     }

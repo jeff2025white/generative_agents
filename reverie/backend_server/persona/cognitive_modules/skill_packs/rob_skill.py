@@ -11,6 +11,10 @@ from persona.cognitive_modules.skill_packs.transfer_skill_utils import (
     log_transfer_failure,
     resolve_target_persona,
 )
+from persona.cognitive_modules.skill_effects import (
+    apply_base_state_effects,
+    apply_declared_motive_effects,
+)
 
 
 class RobSkillPack(BaseSkillPack):
@@ -91,8 +95,10 @@ class RobSkillPack(BaseSkillPack):
 
         target_persona.scratch.inventory[item_name] = max(0, int(target_persona.scratch.inventory.get(item_name, 0)) - 1)
         persona.scratch.inventory[item_name] = int(persona.scratch.inventory.get(item_name, 0)) + 1
-        persona.scratch.mood = max(0.0, min(100.0, float(persona.scratch.mood) - 2.0))
-        target_persona.scratch.mood = max(0.0, min(100.0, float(target_persona.scratch.mood) - 18.0))
+        apply_base_state_effects(persona, {"mood": -2.0})
+        apply_base_state_effects(target_persona, {"mood": -18.0})
+        apply_declared_motive_effects(persona, skill_id="rob_actor", motive_effects={"autonomy": 6.0, "status": 3.0, "belonging": -4.0})
+        apply_declared_motive_effects(target_persona, skill_id="rob_target", motive_effects={"safety": -18.0, "belonging": -8.0, "autonomy": -6.0})
 
         if getattr(persona, "a_mem", None):
             persona.a_mem.update_relationship(

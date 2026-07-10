@@ -233,22 +233,25 @@
 	  list.scrollTop = list.scrollHeight;
 	}
 
-	function updateMapChatFeed(movementPayload) {
-	  if (!movementPayload || !movementPayload["persona"]) {
-	    return;
-	  }
-	  Object.keys(movementPayload["persona"]).forEach(function(personaName) {
-	    const personaData = movementPayload["persona"][personaName];
-	    const chatTurns = Array.isArray(personaData && personaData["chat"]) ? personaData["chat"] : [];
-	    
-	    if (chatTurns.length > 0) {
-	      const speakers = [];
-	      chatTurns.forEach(function(t) {
-	        if (Array.isArray(t) && t.length >= 2 && !speakers.includes(t[0])) {
-	          speakers.push(t[0]);
-	        }
-	      });
-	      const dlgId = "dlg_" + speakers.sort().join("_").replace(/ /g, "_");
+		function updateMapChatFeed(movementPayload) {
+		  if (!movementPayload || !movementPayload["persona"]) {
+		    return;
+		  }
+		  Object.keys(movementPayload["persona"]).forEach(function(personaName) {
+		    const personaData = movementPayload["persona"][personaName];
+		    const chatTurns = Array.isArray(personaData && personaData["chat"]) ? personaData["chat"] : [];
+		    
+		    if (chatTurns.length > 0) {
+		      const speakers = [];
+		      chatTurns.forEach(function(t) {
+		        if (Array.isArray(t) && t.length >= 2 && !speakers.includes(t[0])) {
+		          speakers.push(t[0]);
+		        }
+		      });
+		      if (speakers.includes("User")) {
+		        return;
+		      }
+		      const dlgId = "dlg_" + speakers.sort().join("_").replace(/ /g, "_");
 
 	      chatTurns.forEach(function(turn, index) {
 	        if (Array.isArray(turn) && turn.length >= 2) {
@@ -259,12 +262,13 @@
 	  });
 	}
 
-	function fetchMapChatTranscript() {
-	  const currentStep = Number.isFinite(step) ? step : 0;
-	  const url = "{% url 'api_get_chat_transcript' %}" +
-	    "?sim_code=" + encodeURIComponent(sim_code) +
-	    "&step=" + encodeURIComponent(currentStep) +
-	    "&limit=24";
+		function fetchMapChatTranscript() {
+		  const currentStep = Number.isFinite(step) ? step : 0;
+		  const url = "{% url 'api_get_chat_transcript' %}" +
+		    "?sim_code=" + encodeURIComponent(sim_code) +
+		    "&step=" + encodeURIComponent(currentStep) +
+		    "&limit=24" +
+		    "&channel=social";
 	  return fetch(url)
 	    .then(function(response) {
 	      if (!response.ok) {
@@ -929,11 +933,11 @@ function openChat(personaNameUnderscore) {
   chatState.personaName = personaNameUnderscore;
   chatState.displayName = personaNameUnderscore.replace(/_/g, " ");
   chatState.conversationHistory = [];
-  chatState.isWaiting = false;
+	  chatState.isWaiting = false;
 
-  document.getElementById("chat-persona-display-name").innerText = chatState.displayName;
-  document.getElementById("chat-messages").innerHTML = 
-    '<p style="color:#888; text-align:center; font-style:italic;">Start a conversation with ' + chatState.displayName + '...</p>';
+	  document.getElementById("chat-persona-display-name").innerText = chatState.displayName;
+	  document.getElementById("chat-messages").innerHTML = 
+	    '<p style="color:#888; text-align:center; font-style:italic;">Send an admin query or instruction to ' + chatState.displayName + '...</p>';
   document.getElementById("chat-input").value = "";
   document.getElementById("chat-modal").style.display = "block";
   
@@ -1044,9 +1048,9 @@ function sendChatMessage() {
   // 显示"正在思考"
   showTypingIndicator();
 
-  // 发送请求到后端
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "{% url 'chat_with_persona' %}", true);
+	  // 发送请求到后端
+	  var xhr = new XMLHttpRequest();
+	  xhr.open("POST", "{% url 'admin_console_with_persona' %}", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onload = function() {
     removeTypingIndicator();

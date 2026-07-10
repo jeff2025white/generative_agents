@@ -1,0 +1,189 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "writing research paper on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.5199999999999,
+      "stamina": 83.80000000000115,
+      "health": 100.0,
+      "mood": 81.83999999999685,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is preparing decorations and restocking inventory for the Valentine's Day party",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is resting in the dorm room to recover stamina",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is writing research paper on gentrification",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is freshening up at the bathroom sink",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations for the Valentine's Day party",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller consumed apple and restored physical condition.",
+          "created": "2026-07-07 08:22:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller's survival is linked to gathering food and maintaining physical condition",
+          "created": "2026-07-07 09:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2026-07-07 08:22:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-07 08:26:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is frequently consuming apples",
+          "created": "2026-07-07 08:34:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is arranging decorations for the Valentine's Day party",
+          "created": "2026-07-07 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:55:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-07 08:34:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-07 08:49:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-07 08:53:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-07 08:48:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-07 08:45:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "toaster is idle",
+          "created": "2026-07-07 08:45:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        108,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "freshening up at the bathroom sink @ the Ville:Dorm for Oak Hill College:woman's bathroom:bathroom sink",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.20000000000036,
+      "stamina": 85.31000000000138,
+      "health": 100.0,
+      "mood": 91.87999999999658,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is working on research paper",
+          "created": "2026-07-07 09:18:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is freshening up at the bathroom sink",
+          "created": "2026-07-07 09:18:20"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "preparing decorations and restocking inventory for the Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 78.40000000000046,
+      "stamina": 96.82000000000062,
+      "health": 100.0,
+      "mood": 77.11999999999775,
+      "inventory": {
+        "apple": 4
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 09:19:00"
+  }
+}

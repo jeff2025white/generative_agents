@@ -1,0 +1,177 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 08:36:40",
+  "curr_tile": [
+    73,
+    14
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 100.0,
+  "stamina": 99.96,
+  "health": 100.0,
+  "mood": 44.16000000000019,
+  "last_social_time": null,
+  "last_action_switch_time": "July 08, 2026, 08:36:40",
+  "decision_commit_until_step": 222,
+  "last_decision_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "eating an apple from inventory",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 220,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple",
+    "target_address": "<waiting> 73 14",
+    "skill_id": "consume",
+    "action_description": "eating an apple from inventory",
+    "curr_step": 220
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-220-consume-apple",
+    "phase": "completed",
+    "address": "<waiting> 73 14",
+    "command": {
+      "skill_id": "consume",
+      "target": "apple",
+      "source": "decision_translation",
+      "raw_action": "Consume",
+      "detail": "eating an apple from inventory"
+    },
+    "description": "eating an apple from inventory",
+    "event": [
+      "Isabella Rodriguez",
+      "consume",
+      "apple"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "consume",
+      "target": "apple",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 220,
+    "updated_step": 220,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "completed",
+    "skill_id": "consume",
+    "intent_family": "restore_satiety",
+    "target": "apple",
+    "target_type": "inventory_item",
+    "resolved_target": "apple",
+    "resolved_address": "<waiting> 73 14",
+    "description": "eating an apple from inventory",
+    "command": {
+      "skill_id": "consume",
+      "target": "apple",
+      "source": "decision_translation",
+      "raw_action": "Consume",
+      "detail": "eating an apple from inventory"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "consume",
+      "apple"
+    ],
+    "duration": 10,
+    "created_step": 220,
+    "updated_step": 220,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 0
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 5,
+  "importance_ele_n": 58,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 08, 2026, 08:36:40",
+  "act_duration": 10,
+  "act_description": null,
+  "act_pronunciatio": "\ud83c\udf74",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

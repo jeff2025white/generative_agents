@@ -1,9 +1,10 @@
-import sys
 import os
+import sys
+from pathlib import Path
 
-# Set working directory to backend_server to match reverie.py execution context
-backend_dir = r"g:\generative_agents\reverie\backend_server"
-sys.path.insert(0, backend_dir)
+ROOT = Path(__file__).resolve().parents[1]
+backend_dir = ROOT / "reverie" / "backend_server"
+sys.path.insert(0, str(backend_dir))
 os.chdir(backend_dir)
 
 from persona.persona import Persona
@@ -12,10 +13,11 @@ from maze import Maze
 
 print("Initializing test environment...")
 maze = Maze("the_ville")
-sim_folder = r"g:\generative_agents\environment\frontend_server\storage\test_reconstruct_run_1"
+default_sim = ROOT / "environment" / "frontend_server" / "storage" / "sim_20260708_232103"
+sim_folder = Path(os.environ.get("TEST_SIM_FOLDER", str(default_sim)))
 
 # Load Klaus Mueller
-p = Persona("Klaus Mueller", f"{sim_folder}/personas/Klaus Mueller")
+p = Persona("Klaus Mueller", str(sim_folder / "personas" / "Klaus Mueller"))
 
 print(f"Loaded Klaus Mueller. Stats: Satiety={p.scratch.satiety}, Stamina={p.scratch.stamina}, Health={p.scratch.health}, Mood={p.scratch.mood}")
 print("Calling decide_demand_action...")

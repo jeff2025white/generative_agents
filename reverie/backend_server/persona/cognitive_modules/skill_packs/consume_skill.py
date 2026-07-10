@@ -7,12 +7,18 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.skill_effects import build_skill_effect_spec
 
 class ConsumeSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
         self.name = "consume"
         self.associated_xp = "cooking"
+        self.effect_spec = build_skill_effect_spec(
+            base_state_effects={"satiety": 58.0, "health": 5.0, "mood": 5.0},
+            motive_effects={},
+            intent_tags=("consume", "restore_satiety", "recovery"),
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         # 1. Check if target matches an item in inventory
@@ -161,9 +167,8 @@ class ConsumeSkillPack(BaseSkillPack):
         # 3. Metabolic changes
         self.update_skill_phase(persona, "consuming", metadata={"resolved_item": target_item})
         before_snapshot = capture_attribute_snapshot(persona)
-        persona.scratch.satiety = min(100.0, persona.scratch.satiety + 40.0)
-        persona.scratch.health = min(100.0, persona.scratch.health + 5.0)
-        persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
+        self.apply_declared_base_state_effects(persona)
+        self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(

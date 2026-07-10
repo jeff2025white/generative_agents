@@ -1,0 +1,23 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about a conversation about studying and academic interests, specifically focusing on a paper about gentrification and a shared curiosity about urban changes",
+        "conversing about two friends discussing their activities and plans to meet at the library"
+      ]
+    },
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.6200000000000001,
+      "recent_events": [
+        "conversing about preparing for a Valentine's Day party and discussing the sweetness of strawberries with chocolate sauce",
+        "conversing about Maria Lopez and Isabella Rodriguez discussing preparations for a Valentine's Day party, including choosing and tasting strawberries for a dessert.",
+        "conversing about Maria Lopez and Isabella Rodriguez are discussing their activities of picking apples and sharing stories about food, including strawberries and chocolate sauce.",
+        "conversing about Maria and Isabella discussing the preparations for a gathering and sharing a moment of leisure over a strawberry chocolate dessert",
+        "conversing about Maria Lopez and Isabella Rodriguez discussing the decoration of a Valentine's Day party"
+      ]
+    }
+  }
+}

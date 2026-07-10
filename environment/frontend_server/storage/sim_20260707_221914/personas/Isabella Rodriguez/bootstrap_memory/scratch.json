@@ -1,0 +1,184 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 08:23:20",
+  "curr_tile": [
+    30,
+    40
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 68.72000000000024,
+  "stamina": 97.67999999999964,
+  "health": 100.0,
+  "mood": 46.36000000000012,
+  "last_social_time": null,
+  "last_action_switch_time": "July 07, 2026, 08:13:40",
+  "decision_commit_until_step": 83,
+  "last_decision_signature": {
+    "skill_id": "chat with",
+    "target": "hobbs cafe",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "socializing at Hobbs Cafe",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 81,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "consume",
+    "action_description": "eating the apple from inventory to restore satiety",
+    "curr_step": 81
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-82-chat with-hobbs cafe",
+    "phase": "arrived",
+    "address": "<waiting> 30 40",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Hobbs Cafe",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "socializing at Hobbs Cafe"
+    },
+    "description": "socializing at Hobbs Cafe",
+    "event": [
+      "Isabella Rodriguez",
+      "socialize",
+      "Hobbs Cafe"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "chat with",
+      "target": "hobbs cafe",
+      "intent_family": "communication"
+    },
+    "started_step": 82,
+    "updated_step": 82,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "arrived",
+    "skill_id": "chat with",
+    "intent_family": "communication",
+    "target": "hobbs cafe",
+    "target_type": "persona",
+    "resolved_target": "Hobbs Cafe",
+    "resolved_address": "<waiting> 30 40",
+    "description": "socializing at Hobbs Cafe",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Hobbs Cafe",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "socializing at Hobbs Cafe"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "socialize",
+      "Hobbs Cafe"
+    ],
+    "duration": 30,
+    "created_step": 82,
+    "updated_step": 82,
+    "failure": null
+  },
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 58,
+  "importance_ele_n": 35,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<waiting> 30 40",
+  "act_start_time": "July 07, 2026, 08:13:40",
+  "act_duration": 30,
+  "act_description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+  "act_pronunciatio": "\ud83d\udcad",
+  "act_event": [
+    "Isabella Rodriguez",
+    "socialize",
+    "Hobbs Cafe"
+  ],
+  "act_command": {
+    "skill_id": "chat with",
+    "target": "Hobbs Cafe",
+    "source": "decision_translation",
+    "raw_action": "Socialize",
+    "detail": "socializing at Hobbs Cafe"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": []
+}

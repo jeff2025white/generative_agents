@@ -3,6 +3,7 @@ import datetime
 import sqlite3
 import re
 import random
+from pathlib import Path
 from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.prompt_template.gpt_structure import (
@@ -16,12 +17,19 @@ from persona.cognitive_modules.creator_chat_context import (
     build_creator_instruction_context,
     build_creator_notify_context,
 )
+from persona.cognitive_modules.skill_effects import (
+    apply_base_state_effects,
+    apply_declared_motive_effects,
+)
 from persona.cognitive_modules.social_dialogue_log import (
     clear_social_dialogue_state,
     inherit_social_dialogue_state,
     log_chat_transcript,
     log_social_dialogue,
     set_social_dialogue_state,
+)
+from persona.cognitive_modules.stage1_prompt_compiler import (
+    remember_known_persona_profile,
 )
 from llm_api_config import (
     get_default_social_chat_request_config,
@@ -54,6 +62,9 @@ GENERIC_SOCIAL_CHAT_UTTERANCES = {
     "你好！": True,
     "...": True,
 }
+
+REPO_ROOT = Path(__file__).resolve().parents[5]
+FRONTEND_DB_PATH = REPO_ROOT / "environment" / "frontend_server" / "db.sqlite3"
 
 def _contains_cjk(text):
     """Return True when the text contains at least one CJK ideograph."""
@@ -398,6 +409,7 @@ def should_wait_for_dialogue_owner(persona, target_persona):
 
 def apply_social_relationship_effect(persona, target_persona, convo_summary, trust_delta=0.02):
     """Apply one-sided post-chat relationship gain for the settling persona."""
+    remember_known_persona_profile(persona, target_persona, source="chat_interaction")
     persona.a_mem.update_relationship(
         target_persona.name,
         relation_type="friend" if persona.a_mem.get_relationship(target_persona.name) is None else None,
@@ -414,6 +426,14 @@ class ChatSkillPack(BaseSkillPack):
         super().__init__()
         self.name = "chat"
         self.associated_xp = "socializing"
+
+    def _apply_chat_settlement_effects(self, persona, *, skill_id, base_state_effects=None, motive_effects=None):
+        apply_base_state_effects(persona, base_state_effects or {})
+        apply_declared_motive_effects(
+            persona,
+            skill_id=skill_id,
+            motive_effects=motive_effects or {},
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         # Preconditions are always physically satisfied for monologues & creator comms.
@@ -432,7 +452,7 @@ class ChatSkillPack(BaseSkillPack):
         return [persona.scratch.curr_tile]
 
     def _update_pending_action(self, action_id, reply, status="replied"):
-        db_path = "G:\\generative_agents\\environment\\frontend_server\\db.sqlite3"
+        db_path = str(FRONTEND_DB_PATH)
         try:
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
@@ -935,9 +955,13 @@ class ChatSkillPack(BaseSkillPack):
                     },
                 )
 
-                # Physiological recovery
-                persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
-                persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
+                # Dialogue completion should update both core state and belonging.
+                self._apply_chat_settlement_effects(
+                    persona,
+                    skill_id="chat_sync_copy",
+                    base_state_effects={"stamina": 4.0, "mood": 1.0},
+                    motive_effects={"belonging": 12.0},
+                )
                 log_social_dialogue(
                     persona,
                     "settlement",
@@ -1028,9 +1052,13 @@ class ChatSkillPack(BaseSkillPack):
                 (desc, is_emb), None
             )
 
-            # 4. Metabolic and physiological effect
             # Interaction with creator gives emotional stability / comfort
-            persona.scratch.stamina = min(100.0, persona.scratch.stamina + 20.0)
+            self._apply_chat_settlement_effects(
+                persona,
+                skill_id="creator_comm",
+                base_state_effects={"stamina": 20.0},
+                motive_effects={"meaning": 6.0, "competence": 4.0},
+            )
 
             # 5. Handle compliance task scheduling
             if message_mode == "instruction" and next_action:
@@ -1089,8 +1117,13 @@ class ChatSkillPack(BaseSkillPack):
                 (desc, is_emb), None
             )
 
-            # 3. Emotional comfort restoring Stamina
-            persona.scratch.stamina = min(100.0, persona.scratch.stamina + 8.0)
+            # Inner monologue should mildly restore order and meaning.
+            self._apply_chat_settlement_effects(
+                persona,
+                skill_id="monologue",
+                base_state_effects={"stamina": 8.0},
+                motive_effects={"meaning": 8.0},
+            )
             print(f"=== [内心独白物理结算] {persona.name} 进行独白: {monologue}，恢复精力至 {persona.scratch.stamina:.1f} ===")
 
         elif mode == "social":
@@ -1221,10 +1254,13 @@ class ChatSkillPack(BaseSkillPack):
                 },
             )
 
-            # 4. Metabolic / physiological effect for the initiator
             self.update_skill_phase(persona, "finalizing")
-            persona.scratch.stamina = min(100.0, persona.scratch.stamina + 4.0)
-            persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
+            self._apply_chat_settlement_effects(
+                persona,
+                skill_id="chat_generated",
+                base_state_effects={"stamina": 4.0, "mood": 1.0},
+                motive_effects={"belonging": 12.0},
+            )
             log_social_dialogue(
                 persona,
                 "settlement",

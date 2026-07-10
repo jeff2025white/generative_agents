@@ -1,0 +1,321 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 09:36:10",
+  "curr_tile": [
+    130,
+    48
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "energetic, enthusiastic, inquisitive",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 71.69500000000208,
+  "stamina": 59.67400000000276,
+  "health": 100.0,
+  "mood": 46.08000000000095,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 71.69500000000208,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 59.67400000000276,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 53.06399999999974,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 46.08000000000095,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 44.65999999999934,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 47.595999999999606,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 60.75199999999836,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 53.28400000000025,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 59.907999999998324,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 08, 2026, 09:18:20",
+  "decision_commit_until_step": 471,
+  "last_decision_signature": {
+    "skill_id": "chat with",
+    "target": "hobbs cafe",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "hanging out with friends at Hobbs Cafe",
+  "recent_completed_action_signature": {
+    "skill_id": null,
+    "target": "game console",
+    "intent_family": "unknown"
+  },
+  "recent_completed_action_step": 469,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "game console",
+    "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+    "skill_id": null,
+    "action_description": "playing her favorite video game",
+    "curr_step": 469
+  },
+  "active_execution_state": {
+    "id": "Maria Lopez-470-chat with-hobbs cafe",
+    "phase": "arrived",
+    "address": "<waiting> 130 48",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Hobbs Cafe",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "hanging out with friends at Hobbs Cafe"
+    },
+    "description": "hanging out with friends at Hobbs Cafe",
+    "event": [
+      "Maria Lopez",
+      "socialize",
+      "person"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "chat with",
+      "target": "hobbs cafe",
+      "intent_family": "communication"
+    },
+    "started_step": 470,
+    "updated_step": 470,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "arrived",
+    "skill_id": "chat with",
+    "intent_family": "communication",
+    "target": "hobbs cafe",
+    "target_type": "persona",
+    "resolved_target": "Hobbs Cafe",
+    "resolved_address": "<waiting> 130 48",
+    "description": "hanging out with friends at Hobbs Cafe",
+    "command": {
+      "skill_id": "chat with",
+      "target": "Hobbs Cafe",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "hanging out with friends at Hobbs Cafe"
+    },
+    "event": [
+      "Maria Lopez",
+      "socialize",
+      "person"
+    ],
+    "duration": 60,
+    "creator_instruction": null,
+    "created_step": 470,
+    "updated_step": 470,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 3
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 30
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 20
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 90,
+  "importance_ele_n": 27,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<waiting> 130 48",
+  "act_start_time": "July 08, 2026, 09:18:20",
+  "act_duration": 60,
+  "act_description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+  "act_pronunciatio": "\ud83d\udcad",
+  "act_event": [
+    "Maria Lopez",
+    "socialize",
+    "person"
+  ],
+  "act_command": {
+    "skill_id": "chat with",
+    "target": "Hobbs Cafe",
+    "source": "decision_translation",
+    "raw_action": "Socialize",
+    "detail": "hanging out with friends at Hobbs Cafe"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": []
+}

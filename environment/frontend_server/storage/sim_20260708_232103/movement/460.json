@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        125,
+        50
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "playing her favorite video game @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 81.64000000000135,
+      "stamina": 59.866000000002465,
+      "health": 100.0,
+      "mood": 46.890000000000924,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        63,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a break on the bed @ the Ville:Isabella Rodriguez's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.8500000000003,
+      "stamina": 89.91100000000081,
+      "health": 100.0,
+      "mood": 81.38000000000014,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        118,
+        30
+      ],
+      "pronunciatio": "\ud83c\udfb5",
+      "description": "focusing on tasks to improve mood @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.57000000000033,
+      "stamina": 65.43400000000317,
+      "health": 100.0,
+      "mood": 42.49999999999929,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 09:16:40"
+  }
+}

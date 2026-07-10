@@ -1,0 +1,242 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        26
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u65e9\u554aIsabella\uff01\u4f60\u8fd9\u662f\u5728\u51c6\u5907\u60c5\u4eba\u8282\u6d3e\u5bf9\u8981\u7528\u7684\u98df\u6750\u5417\uff1f\u6211\u521a\u5403\u4e86\u4e2a\u82f9\u679c\uff0c\u7cbe\u795e\u597d\u591a\u4e86\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\u5bf9\uff0c\u5c31\u662f\u5728\u51c6\u5907\u60c5\u4eba\u8282\u6d3e\u5bf9\u5462\uff01\u4f60\u5403\u4e86\u82f9\u679c\u6b63\u597d\u8865\u5145\u4f53\u529b\uff0c\u5f85\u4f1a\u513f\u5e2e\u6211\u4e00\u8d77\u6574\u7406\u98df\u6750\u5457\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u5440\u597d\u5440\uff0c\u6211\u521a\u5403\u5b8c\u82f9\u679c\u6b63\u597d\u6709\u529b\u6c14\uff0c\u6709\u5565\u9700\u8981\u6211\u5e2e\u5fd9\u5c1d\u7684\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u6b63\u597d\uff01\u6211\u521a\u62ff\u51fa\u6765\u7684\u5de7\u514b\u529b\u9171\u548c\u8349\u8393\uff0c\u4f60\u5e2e\u6211\u5c1d\u5c1d\u751c\u4e0d\u751c\u5457\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u54c7\uff0c\u5de7\u514b\u529b\u9171\u914d\u8349\u8393\uff0c\u8fd9\u53ef\u662f\u7ecf\u5178\u642d\u914d\uff01\u6211\u5e2e\u4f60\u5c1d\u5c1d\u770b\uff0c\u55ef...\u8fd9\u8349\u8393\u597d\u65b0\u9c9c\u554a\uff0c\u751c\u5ea6\u6b63\u597d\uff01"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u662f\u5427\uff0c\u6211\u5c31\u6015\u592a\u751c\u5462\uff0c\u4f60\u8fd9\u4e00\u8bf4\u6211\u5c31\u653e\u5fc3\u5566\uff01"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u5c31\u884c\u5566\uff0c\u4f60\u8fd9\u8fb9\u51c6\u5907\u5f97\u53ef\u771f\u7528\u5fc3\u5462\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54c8\u54c8\uff0c\u90a3\u5f53\u7136\u5566\uff0c\u60c5\u4eba\u8282\u561b\uff0c\u5f97\u8ba9\u5927\u5bb6\u90fd\u751c\u5230\u5fc3\u91cc\u53bb\uff01"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u5f53\u7136\u5566\uff0c\u60c5\u4eba\u8282\u561b\uff0c\u5f97\u8ba9\u5927\u5bb6\u90fd\u751c\u5230\u5fc3\u91cc\u53bb\uff01",
+      "satiety": 80.00000000000043,
+      "stamina": 86.17000000000095,
+      "health": 100.0,
+      "mood": 57.8400000000011,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-07 08:59:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:59:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations in the park garden for the Valentine's Day party",
+          "created": "2026-07-07 08:59:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from cafe counter at the Ville:Hobbs Cafe:cafe.",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is studying at the library table",
+          "created": "2026-07-07 08:44:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is frequently resting",
+          "created": "2026-07-07 08:43:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is setting up decorations for the Valentine's Day party",
+          "created": "2026-07-07 08:43:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-07 08:54:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-07 08:43:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-07 08:26:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-07 08:30:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-07 08:39:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-07 08:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-07 08:57:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:52:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        35,
+        52
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "continuing study session with gaming or streaming @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u5c31\u884c\u5566\uff0c\u4f60\u8fd9\u8fb9\u51c6\u5907\u5f97\u53ef\u771f\u7528\u5fc3\u5462\u3002",
+      "satiety": 96.00000000000009,
+      "stamina": 82.26000000000244,
+      "health": 100.0,
+      "mood": 95.37999999999847,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is continuing study session with gaming or streaming",
+          "created": "2026-07-07 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is working on research paper at the library",
+          "created": "2026-07-07 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is writing research paper on gentrification in low-income communities",
+          "created": "2026-07-07 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-07 09:06:40"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Community involvement in local events",
+          "created": "2026-07-07 08:58:40",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        103,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 97.44000000000005,
+      "stamina": 80.22000000000153,
+      "health": 100.0,
+      "mood": 49.54000000000111,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 09:06:50"
+  }
+}

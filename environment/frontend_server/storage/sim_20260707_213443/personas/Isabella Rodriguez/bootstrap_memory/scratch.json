@@ -1,0 +1,174 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 08:19:40",
+  "curr_tile": [
+    31,
+    38
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 30.480000000000203,
+  "stamina": 98.43999999999976,
+  "health": 100.0,
+  "mood": 45.2400000000001,
+  "last_social_time": null,
+  "last_action_switch_time": "July 07, 2026, 08:13:00",
+  "decision_commit_until_step": 79,
+  "last_decision_signature": {
+    "skill_id": "creator_comm",
+    "target": "creator",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "communicating with the Creator",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-78-creator_comm-creator",
+    "phase": "arrived",
+    "address": "<creator> {\"id\": 10032, \"action_type\": \"chat\", \"message_mode\": \"query\", \"content\": \"User said: \\u4f60\\u597d\", \"conversation_history\": \"[]\"}",
+    "command": {
+      "skill_id": "creator_comm",
+      "target": "creator",
+      "source": "creator_injection",
+      "raw_action": "creator_comm",
+      "detail": null
+    },
+    "description": "communicating with the Creator",
+    "event": [
+      "Isabella Rodriguez",
+      "creator_comm",
+      "creator"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "creator_comm",
+      "target": "creator",
+      "intent_family": "communication"
+    },
+    "started_step": 78,
+    "updated_step": 79,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "arrived",
+    "skill_id": "creator_comm",
+    "intent_family": "communication",
+    "target": "creator",
+    "target_type": "object",
+    "resolved_target": "apple tree",
+    "resolved_address": "<creator> {\"id\": 10032, \"action_type\": \"chat\", \"message_mode\": \"query\", \"content\": \"User said: \\u4f60\\u597d\", \"conversation_history\": \"[]\"}",
+    "description": "communicating with the Creator",
+    "command": {
+      "skill_id": "creator_comm",
+      "target": "creator",
+      "source": "creator_injection",
+      "raw_action": "creator_comm",
+      "detail": null
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "creator_comm",
+      "creator"
+    ],
+    "duration": 1,
+    "created_step": 0,
+    "updated_step": 79,
+    "failure": null
+  },
+  "active_skill_name": "gather",
+  "active_skill_id": "Isabella Rodriguez-0-gather",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "generating",
+  "active_skill_started_step": 0,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "apple tree",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "gathering apples from the apple tree",
+    "dialogue_id": null
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 109,
+  "importance_ele_n": 20,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<creator> {\"id\": 10032, \"action_type\": \"chat\", \"message_mode\": \"query\", \"content\": \"User said: \\u4f60\\u597d\", \"conversation_history\": \"[]\"}",
+  "act_start_time": "July 07, 2026, 08:13:00",
+  "act_duration": 1,
+  "act_description": "communicating with the Creator",
+  "act_pronunciatio": "\ud83d\udc4b",
+  "act_event": [
+    "Isabella Rodriguez",
+    "creator_comm",
+    "creator"
+  ],
+  "act_command": {
+    "skill_id": "creator_comm",
+    "target": "creator",
+    "source": "creator_injection",
+    "raw_action": "creator_comm",
+    "detail": null
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": []
+}

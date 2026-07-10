@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        47,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "checking inventory for additional food items @ the Ville:The Rose and Crown Pub:pub:shelf",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.18000000000018,
+      "stamina": 77.54100000000165,
+      "health": 100.0,
+      "mood": 71.71999999999987,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is splashing water on face at the bathroom sink",
+          "created": "2026-07-08 08:43:20"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        105,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.81000000000012,
+      "stamina": 78.57500000000181,
+      "health": 100.0,
+      "mood": 48.31999999999974,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a snack from the fridge",
+          "created": "2026-07-08 08:43:20"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        103,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.38500000000012,
+      "stamina": 77.1640000000016,
+      "health": 100.0,
+      "mood": 55.740000000000364,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:43:50"
+  }
+}

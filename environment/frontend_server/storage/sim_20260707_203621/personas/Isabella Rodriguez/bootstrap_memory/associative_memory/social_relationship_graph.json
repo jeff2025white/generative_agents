@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about Isabella and Maria discussing their plans to pick apples and prepare desserts",
+        "conversing about a friendly exchange about sharing homemade food and preparing for a Valentine's Day party",
+        "conversing about Isabella and Maria discussing their plans to bring apple pies to a Valentine's Day party and sharing their excitement over the collaboration"
+      ]
+    }
+  }
+}

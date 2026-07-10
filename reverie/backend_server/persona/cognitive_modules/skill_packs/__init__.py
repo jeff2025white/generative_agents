@@ -10,6 +10,11 @@ from persona.cognitive_modules.skill_packs.give_skill import GiveSkillPack
 from persona.cognitive_modules.skill_packs.rob_skill import RobSkillPack
 from persona.cognitive_modules.skill_packs.social_venue_hangout_skill import SocialVenueHangoutSkillPack
 from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
+from persona.cognitive_modules.skill_packs.hide_skill import HideSkillPack
+from persona.cognitive_modules.skill_packs.collective_worship_skill import CollectiveWorshipSkillPack
+from persona.cognitive_modules.skill_packs.occupy_mansion_skill import OccupyMansionSkillPack
+from persona.cognitive_modules.skill_packs.smash_fence_skill import SmashFenceSkillPack
+from persona.cognitive_modules.skill_packs.long_term_planning_skill import LongTermPlanningSkillPack
 
 SKILL_REGISTRY = {
     # Consume Skill
@@ -62,16 +67,34 @@ SKILL_REGISTRY = {
     "singing": SingingSkillPack(),
 
     # Generic non-survival skills
-    "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 1.0}),
-    "working": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
-    "work": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}),
-    "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
-    "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}),
-    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 1.0}),
+    "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 1.0}, {}),
+    "working": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}, {}),
+    "work": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}, {}),
+    "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}, {}),
+    "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}, {}),
+    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 7.0}, {}),
     "hangout_social_venue": SocialVenueHangoutSkillPack(),
     "hangout": SocialVenueHangoutSkillPack(),
-    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 1.0}),
-    "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 1.0}),
+    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 5.0}, {}),
+    "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 1.0}, {}),
+    
+    # Custom Motive Skills
+    "hide": HideSkillPack(),
+    "hiding": HideSkillPack(),
+    "worship": CollectiveWorshipSkillPack(),
+    "worshipping": CollectiveWorshipSkillPack(),
+    "pray": CollectiveWorshipSkillPack(),
+    "praying": CollectiveWorshipSkillPack(),
+    "occupy": OccupyMansionSkillPack(),
+    "occupying": OccupyMansionSkillPack(),
+    "claim": OccupyMansionSkillPack(),
+    "claiming": OccupyMansionSkillPack(),
+    "smash": SmashFenceSkillPack(),
+    "smashing": SmashFenceSkillPack(),
+    "bashing": SmashFenceSkillPack(),
+    "plan": LongTermPlanningSkillPack(),
+    "planning": LongTermPlanningSkillPack(),
+    "micro-planning": LongTermPlanningSkillPack(),
     
     # Pluggable Chat Skill Pack mapping
     "chat with": ChatSkillPack(),

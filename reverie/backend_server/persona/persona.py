@@ -444,5 +444,3 @@ class Persona:
 
 
 
-
-

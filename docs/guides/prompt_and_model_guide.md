@@ -85,9 +85,17 @@ Relevant Prior Experience:
 Decision Convergence Guidance:
 <decision_convergence_guidance> (限制发散，要求只做当前最直接的一步决策)
 
-Task: What is the next planned action for <名字> to balance their stats and fulfill their daily role/goals?
-Describe what <名字> wants to do next in a simple, natural language sentence...
-Answer in one sentence.
+Task: What is the next immediate feasible action for <名字> under the current physical constraints?
+Output Requirements:
+- 用 <名字> 的第一人称
+- 只写一个句子
+- 只描述一个即时动作，不要写多步计划
+- 只提一个目标物体或地点
+- 明确当前最迫切的内部需求
+- 优先服务主导动机，不要平均看待所有信息
+- 如果主导动机是 mood，应优先说一个直接修复 mood 的即时动作，除非硬性物理约束阻止该选择
+- 如果上一个即时动作失败了，或者目标不可达，必须换一个新的即时办法，而不是重复失败目标
+- 只有当主导动机对应的首选动作因物理不可行或最新失败反馈而失效时，才允许回退到次优方案
 ```
 
 ---

@@ -15,6 +15,9 @@ from numpy.linalg import norm
 
 from global_methods import *
 from persona.cognitive_modules.social_dialogue_log import log_social_dialogue
+from persona.cognitive_modules.stage1_prompt_compiler import (
+  refresh_prompt_profile_from_reflection,
+)
 from persona.prompt_template.run_gpt_prompt import *
 from persona.prompt_template.gpt_structure import *
 from persona.cognitive_modules.retrieve import *
@@ -239,8 +242,6 @@ def reflect(persona):
           },
         )
 
-
-
       memo_thought = generate_memo_on_convo(persona, all_utt)
       memo_thought = f"{persona.scratch.name} {memo_thought}"
 
@@ -264,7 +265,12 @@ def reflect(persona):
             "evidence": evidence,
           },
         )
-
+      refresh_prompt_profile_from_reflection(
+        persona,
+        planning_thought=planning_thought,
+        memo_thought=memo_thought,
+        source="conversation_reflection",
+      )
 
 
 

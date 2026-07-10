@@ -37,6 +37,7 @@ from persona.cognitive_modules.skill_packs.chat_skill import (
     apply_social_relationship_effect,
     collect_social_chat_memory_keys,
     compute_social_chat_turn_limit,
+    format_social_chat_state,
     filter_social_chat_recent_events,
     is_structurally_valid_social_chat_response,
     is_valid_social_chat_response,
@@ -218,6 +219,30 @@ class ChatSkillGuardTests(unittest.TestCase):
         args, kwargs = persona_updates[0]
         self.assertEqual(args[0], "Maria Lopez")
         self.assertEqual(kwargs["trust_delta"], 0.02)
+
+    def test_format_social_chat_state_uses_motive_priority_tags(self):
+        persona = SimpleNamespace(
+            name="Klaus Mueller",
+            scratch=SimpleNamespace(
+                curr_time=None,
+                act_description="reading quietly",
+                planned_path=[],
+                satiety=62.0,
+                stamina=75.0,
+                health=90.0,
+                mood=34.0,
+                get_motive_attributes_snapshot=lambda: {
+                    "satiety": {"current_value": 62.0, "initial_value": 60.0, "safe_threshold": 50.0, "critical_threshold": 25.0},
+                    "stamina": {"current_value": 75.0, "initial_value": 75.0, "safe_threshold": 45.0, "critical_threshold": 20.0},
+                    "health": {"current_value": 90.0, "initial_value": 85.0, "safe_threshold": 55.0, "critical_threshold": 25.0},
+                    "mood": {"current_value": 34.0, "initial_value": 60.0, "safe_threshold": 50.0, "critical_threshold": 30.0},
+                },
+            ),
+        )
+
+        state_summary = format_social_chat_state(persona)
+
+        self.assertIn("pressure=low_mood", state_summary)
 
     def test_enemy_relationship_after_robbery_can_still_trigger_hostile_social_contact(self):
         init_persona = SimpleNamespace(

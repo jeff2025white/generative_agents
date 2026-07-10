@@ -1,0 +1,147 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        61,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "writing research paper on gentrification @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u597d\u554a\uff0c\u6b63\u597d\u8fb9\u5403\u8fb9\u7ed9\u4f60\u8bb2\u8bb2\u6211\u8fd9\u7814\u7a76\u2014\u2014\u4f60\u731c\u600e\u4e48\u7740\uff0c\u4f4e\u7aef\u5546\u94fa\u662f\u600e\u4e48\u88ab\u7cbe\u54c1\u5e97\u6162\u6162\u6324\u8d70\u7684\u3002",
+      "satiety": 96.32000000000008,
+      "stamina": 93.34000000000107,
+      "health": 100.0,
+      "mood": 48.8000000000003,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        77,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.04000000000032,
+      "stamina": 99.75000000000001,
+      "health": 100.0,
+      "mood": 45.52000000000016,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-08 08:30:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "closet is idle",
+          "created": "2026-07-08 08:30:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-08 08:29:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-08 08:27:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-08 08:30:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-08 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-08 08:29:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-08 08:15:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-08 08:30:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-08 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-08 08:18:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-08 08:27:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-08 08:18:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-08 08:27:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        34,
+        46
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 34 46",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u54ce\u5440\uff0c\u8fd9\u6211\u53ef\u5f97\u597d\u597d\u542c\u542c\uff0c\u7cbe\u54c1\u5e97\u600e\u4e48\u6324\u8d70\u8001\u94fa\u5b50\u7684\uff1f",
+      "satiety": 96.08000000000008,
+      "stamina": 98.51999999999977,
+      "health": 100.0,
+      "mood": 52.32000000000033,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:31:00"
+  }
+}

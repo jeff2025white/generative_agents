@@ -1,0 +1,679 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 10:40:10",
+  "curr_tile": [
+    78,
+    37
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 80.16000000000042,
+  "stamina": 37.86000000000216,
+  "health": 100.0,
+  "mood": 89.23999999999873,
+  "last_social_time": "July 07, 2026, 10:21:20",
+  "last_action_switch_time": "July 07, 2026, 10:31:50",
+  "decision_commit_until_step": 913,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "refrigerator",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "opening the refrigerator to gather food items",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 909,
+  "suspended_action": {
+    "act_address": "<creator> {\"id\": 10031, \"action_type\": \"chat\", \"message_mode\": \"query\", \"content\": \"User said: \\u4f60\\u597d\", \"conversation_history\": \"[]\"}",
+    "act_duration": 1,
+    "act_description": "communicating with the Creator",
+    "act_pronunciatio": "\ud83d\udc4b",
+    "act_event": [
+      "Klaus Mueller",
+      "creator_comm",
+      "creator"
+    ],
+    "act_command": {
+      "skill_id": "creator_comm",
+      "target": "creator",
+      "source": "creator_injection",
+      "raw_action": "creator_comm",
+      "detail": null
+    },
+    "act_obj_description": null,
+    "act_obj_pronunciatio": null,
+    "act_obj_event": [
+      null,
+      null,
+      null
+    ],
+    "chatting_with": "<creator>",
+    "chat": [
+      [
+        "User",
+        "\u4f60\u597d"
+      ],
+      [
+        "Klaus Mueller",
+        "\u60a8\u597d\uff0c\u9020\u7269\u4e3b\u3002\u6839\u636e\u8bb0\u5f55\uff0c\u7528\u6237\u8bf4\uff1a\u4f60\u597d\u3002\u76ee\u524d\u6ca1\u6709\u6700\u8fd1\u7684\u521b\u4f5c\u8005\u5bf9\u8bdd\u5386\u53f2\u3002\u6211\u7684\u5f53\u524d\u72b6\u6001\u662f\u6c9f\u901a\u4e2d\uff0c\u9971\u548c\u5ea6\u4e3a32.2\uff0c\u4f53\u529b\u4e3a93.2\uff0c\u5065\u5eb7\u5ea6\u4e3a100.0\uff0c\u60c5\u7eea\u4e3a46.1\u3002\u6211\u7684\u5e93\u5b58\u4e3a\u7a7a\u3002"
+      ]
+    ],
+    "chatting_with_buffer": {
+      "Maria Lopez": 60,
+      "Isabella Rodriguez": 82
+    },
+    "chatting_end_time": null,
+    "signature": {
+      "skill_id": "creator_comm",
+      "target": "creator",
+      "intent_family": "communication"
+    },
+    "planned_path": [],
+    "action_record": {
+      "status": "arrived",
+      "skill_id": "creator_comm",
+      "intent_family": "communication",
+      "target": "creator",
+      "target_type": "object",
+      "resolved_target": "apple tree",
+      "resolved_address": "<creator> {\"id\": 10031, \"action_type\": \"chat\", \"message_mode\": \"query\", \"content\": \"User said: \\u4f60\\u597d\", \"conversation_history\": \"[]\"}",
+      "description": "communicating with the Creator",
+      "command": {
+        "skill_id": "creator_comm",
+        "target": "creator",
+        "source": "creator_injection",
+        "raw_action": "creator_comm",
+        "detail": null
+      },
+      "event": [
+        "Klaus Mueller",
+        "creator_comm",
+        "creator"
+      ],
+      "duration": 1,
+      "created_step": 0,
+      "updated_step": 97,
+      "failure": null
+    }
+  },
+  "suspended_action_step": 125,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "reason": "recent_duplicate_action",
+    "payload": {
+      "target": "apple tree",
+      "clean_target": "apple tree",
+      "action": "gather",
+      "curr_tile": [
+        31,
+        40
+      ]
+    },
+    "curr_step": 910
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-911-gather-refrigerator",
+    "phase": "pathing",
+    "address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+    "command": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "opening the refrigerator to gather food items"
+    },
+    "description": "opening the refrigerator to gather food items",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "gathering"
+    ],
+    "path": [
+      [
+        80,
+        37
+      ],
+      [
+        81,
+        37
+      ],
+      [
+        82,
+        37
+      ],
+      [
+        83,
+        37
+      ],
+      [
+        84,
+        37
+      ],
+      [
+        85,
+        37
+      ],
+      [
+        86,
+        37
+      ],
+      [
+        87,
+        37
+      ],
+      [
+        88,
+        37
+      ],
+      [
+        89,
+        37
+      ],
+      [
+        90,
+        37
+      ],
+      [
+        91,
+        37
+      ],
+      [
+        92,
+        37
+      ],
+      [
+        93,
+        37
+      ],
+      [
+        94,
+        37
+      ],
+      [
+        95,
+        37
+      ],
+      [
+        96,
+        37
+      ],
+      [
+        97,
+        37
+      ],
+      [
+        98,
+        37
+      ],
+      [
+        99,
+        37
+      ],
+      [
+        100,
+        37
+      ],
+      [
+        101,
+        37
+      ],
+      [
+        102,
+        37
+      ],
+      [
+        103,
+        37
+      ],
+      [
+        104,
+        37
+      ],
+      [
+        105,
+        37
+      ],
+      [
+        106,
+        37
+      ],
+      [
+        107,
+        37
+      ],
+      [
+        108,
+        37
+      ],
+      [
+        109,
+        37
+      ],
+      [
+        110,
+        37
+      ],
+      [
+        111,
+        37
+      ],
+      [
+        112,
+        37
+      ],
+      [
+        113,
+        37
+      ],
+      [
+        114,
+        37
+      ],
+      [
+        115,
+        37
+      ],
+      [
+        116,
+        37
+      ],
+      [
+        116,
+        38
+      ],
+      [
+        116,
+        39
+      ],
+      [
+        116,
+        40
+      ],
+      [
+        116,
+        41
+      ],
+      [
+        116,
+        42
+      ],
+      [
+        116,
+        43
+      ],
+      [
+        116,
+        44
+      ],
+      [
+        116,
+        45
+      ],
+      [
+        117,
+        45
+      ],
+      [
+        118,
+        45
+      ],
+      [
+        119,
+        45
+      ],
+      [
+        120,
+        45
+      ],
+      [
+        121,
+        45
+      ],
+      [
+        122,
+        45
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 911,
+    "updated_step": 961,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "refrigerator",
+    "target_type": "object",
+    "resolved_target": "refrigerator",
+    "resolved_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+    "description": "opening the refrigerator to gather food items",
+    "command": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "opening the refrigerator to gather food items"
+    },
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "gathering"
+    ],
+    "duration": 20,
+    "created_step": 911,
+    "updated_step": 961,
+    "failure": null
+  },
+  "active_skill_name": "gather",
+  "active_skill_id": "Klaus Mueller-911-gather",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 911,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "refrigerator",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "opening the refrigerator to gather food items"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 10
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 60
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 70
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": -100,
+  "importance_ele_n": 73,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+  "act_start_time": "July 07, 2026, 10:31:50",
+  "act_duration": 20,
+  "act_description": "opening the refrigerator to gather food items",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "gathering"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "refrigerator",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "opening the refrigerator to gather food items"
+  },
+  "act_obj_description": "refrigerator is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "refrigerator",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      80,
+      37
+    ],
+    [
+      81,
+      37
+    ],
+    [
+      82,
+      37
+    ],
+    [
+      83,
+      37
+    ],
+    [
+      84,
+      37
+    ],
+    [
+      85,
+      37
+    ],
+    [
+      86,
+      37
+    ],
+    [
+      87,
+      37
+    ],
+    [
+      88,
+      37
+    ],
+    [
+      89,
+      37
+    ],
+    [
+      90,
+      37
+    ],
+    [
+      91,
+      37
+    ],
+    [
+      92,
+      37
+    ],
+    [
+      93,
+      37
+    ],
+    [
+      94,
+      37
+    ],
+    [
+      95,
+      37
+    ],
+    [
+      96,
+      37
+    ],
+    [
+      97,
+      37
+    ],
+    [
+      98,
+      37
+    ],
+    [
+      99,
+      37
+    ],
+    [
+      100,
+      37
+    ],
+    [
+      101,
+      37
+    ],
+    [
+      102,
+      37
+    ],
+    [
+      103,
+      37
+    ],
+    [
+      104,
+      37
+    ],
+    [
+      105,
+      37
+    ],
+    [
+      106,
+      37
+    ],
+    [
+      107,
+      37
+    ],
+    [
+      108,
+      37
+    ],
+    [
+      109,
+      37
+    ],
+    [
+      110,
+      37
+    ],
+    [
+      111,
+      37
+    ],
+    [
+      112,
+      37
+    ],
+    [
+      113,
+      37
+    ],
+    [
+      114,
+      37
+    ],
+    [
+      115,
+      37
+    ],
+    [
+      116,
+      37
+    ],
+    [
+      116,
+      38
+    ],
+    [
+      116,
+      39
+    ],
+    [
+      116,
+      40
+    ],
+    [
+      116,
+      41
+    ],
+    [
+      116,
+      42
+    ],
+    [
+      116,
+      43
+    ],
+    [
+      116,
+      44
+    ],
+    [
+      116,
+      45
+    ],
+    [
+      117,
+      45
+    ],
+    [
+      118,
+      45
+    ],
+    [
+      119,
+      45
+    ],
+    [
+      120,
+      45
+    ],
+    [
+      121,
+      45
+    ],
+    [
+      122,
+      45
+    ]
+  ]
+}

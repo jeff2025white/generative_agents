@@ -11,6 +11,10 @@ from persona.cognitive_modules.skill_packs.transfer_skill_utils import (
     log_transfer_failure,
     resolve_target_persona,
 )
+from persona.cognitive_modules.skill_effects import (
+    apply_base_state_effects,
+    apply_declared_motive_effects,
+)
 
 
 class GiveSkillPack(BaseSkillPack):
@@ -84,8 +88,10 @@ class GiveSkillPack(BaseSkillPack):
 
         persona.scratch.inventory[item_name] = max(0, int(persona.scratch.inventory.get(item_name, 0)) - 1)
         target_persona.scratch.inventory[item_name] = int(target_persona.scratch.inventory.get(item_name, 0)) + 1
-        persona.scratch.mood = min(100.0, float(persona.scratch.mood) + 1.0)
-        target_persona.scratch.mood = min(100.0, float(target_persona.scratch.mood) + 1.0)
+        apply_base_state_effects(persona, {"mood": 1.0})
+        apply_base_state_effects(target_persona, {"mood": 1.0})
+        apply_declared_motive_effects(persona, skill_id="give_actor", motive_effects={"belonging": 6.0, "status": 2.0})
+        apply_declared_motive_effects(target_persona, skill_id="give_target", motive_effects={"belonging": 8.0, "safety": 2.0})
 
         if getattr(persona, "a_mem", None):
             persona.a_mem.update_relationship(

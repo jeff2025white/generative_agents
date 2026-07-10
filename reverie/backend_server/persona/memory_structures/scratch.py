@@ -15,6 +15,17 @@ from persona.cognitive_modules.action_command_utils import (
   infer_action_command_from_event,
 )
 from persona.cognitive_modules.debug_log import append_debug_log
+from persona.cognitive_modules.motive_selector import (
+  CORE_STATE_MOTIVES,
+  apply_passive_motive_decay,
+  apply_skill_motive_effects,
+  build_default_motive_attributes,
+  build_persona_motive_attributes,
+  generate_innate_traits_from_motives,
+  normalize_motive_attributes,
+  select_motives,
+  sync_core_motive_values,
+)
 
 
 def _normalize_event_tuple(raw_event, fallback):
@@ -32,6 +43,35 @@ def _normalize_action_address(raw_address):
     raw_address = raw_address.strip()
     return raw_address or None
   return raw_address
+
+
+def _round_motive_value(value):
+  try:
+    return round(float(value), 3)
+  except Exception:
+    return 0.0
+
+
+PROMPT_PROFILE_SCHEMA_VERSION = 1
+PROMPT_PROFILE_FIELD_ORDER = (
+  "innate_traits_text",
+  "learned_traits_text",
+  "current_situation_text",
+  "long_term_goals_text",
+  "lifestyle_text",
+  "daily_plan_text",
+  "social_relationships_text",
+)
+
+
+def _stringify_prompt_profile_value(value):
+  if value is None:
+    return ""
+  if isinstance(value, str):
+    return value
+  if isinstance(value, (list, tuple)):
+    return "; ".join(str(item).strip() for item in value if str(item).strip())
+  return str(value)
 
 class Scratch: 
   def __init__(self, f_saved): 
@@ -68,6 +108,10 @@ class Scratch:
     self.currently = None
     self.lifestyle = None
     self.living_area = None
+    self.prompt_profile = {
+      "schema_version": PROMPT_PROFILE_SCHEMA_VERSION,
+      "fields": {},
+    }
 
     # Physiological metabolic states
     self.satiety = 40.0
@@ -75,6 +119,14 @@ class Scratch:
     self.health = 100.0
     # Psychological and switching state
     self.mood = 50.0
+    self.motive_attributes = build_default_motive_attributes(
+      core_state_values={
+        "satiety": self.satiety,
+        "stamina": self.stamina,
+        "health": self.health,
+        "mood": self.mood,
+      }
+    )
     self.last_social_time = None
     self.last_action_switch_time = None
     self.decision_commit_until_step = None
@@ -89,6 +141,9 @@ class Scratch:
     self.last_action_observation = None
     self.active_execution_state = None
     self.current_action_record = None
+    self.admin_override_intent = None
+    self.admin_override_source = None
+    self.admin_override_step = None
     # Inventory state
     self.inventory = {}
     # Skills system
@@ -256,12 +311,26 @@ class Scratch:
       self.currently = scratch_load["currently"]
       self.lifestyle = scratch_load["lifestyle"]
       self.living_area = scratch_load["living_area"]
+      self.prompt_profile = self._normalize_prompt_profile(
+        scratch_load.get("prompt_profile"),
+      )
 
       # Load physiological and skill parameters
       self.satiety = scratch_load.get("satiety", 40.0)
       self.stamina = scratch_load.get("stamina", 100.0)
       self.health = scratch_load.get("health", 100.0)
       self.mood = scratch_load.get("mood", 50.0)
+      self.motive_attributes = build_persona_motive_attributes(
+        self.name,
+        core_state_values={
+          "satiety": self.satiety,
+          "stamina": self.stamina,
+          "health": self.health,
+          "mood": self.mood,
+        },
+        overrides=scratch_load.get("motive_attributes"),
+      )
+      self._maybe_refresh_legacy_innate_traits()
       
       lst_str = scratch_load.get("last_social_time", None)
       self.last_social_time = datetime.datetime.strptime(lst_str, "%B %d, %Y, %H:%M:%S") if lst_str else None
@@ -280,6 +349,9 @@ class Scratch:
       self.last_action_observation = scratch_load.get("last_action_observation", None)
       self.active_execution_state = scratch_load.get("active_execution_state", None)
       self.current_action_record = scratch_load.get("current_action_record", None)
+      self.admin_override_intent = scratch_load.get("admin_override_intent", None)
+      self.admin_override_source = scratch_load.get("admin_override_source", None)
+      self.admin_override_step = scratch_load.get("admin_override_step", None)
 
       self.inventory = scratch_load.get("inventory", {})
       self.skills = scratch_load.get("skills", {
@@ -362,6 +434,144 @@ class Scratch:
 
       self.act_path_set = scratch_load["act_path_set"]
       self.planned_path = scratch_load["planned_path"]
+    else:
+      self.prompt_profile = self._normalize_prompt_profile()
+
+
+  def _get_prompt_profile_fallbacks(self):
+    daily_plan_text = _stringify_prompt_profile_value(self.daily_plan_req)
+    if not daily_plan_text:
+      daily_plan_text = _stringify_prompt_profile_value(self.daily_req)
+    if not daily_plan_text:
+      daily_plan_text = "No daily plan summary has been cached yet."
+
+    social_relationships_text = "No social relationship summary has been cached yet."
+    if self.chatting_with and self.chatting_with != "<creator>":
+      social_relationships_text = f"I am currently talking with {self.chatting_with}."
+    elif self.last_chat:
+      social_relationships_text = f"I recently talked with {self.last_chat}."
+
+    return {
+      "innate_traits_text": _stringify_prompt_profile_value(self.innate),
+      "learned_traits_text": _stringify_prompt_profile_value(self.learned),
+      "current_situation_text": _stringify_prompt_profile_value(self.currently),
+      "long_term_goals_text": (
+        "First, stay alive and preserve my basic wellbeing in this sandbox world. "
+        "Beyond that, keep pursuing the routines, relationships, and responsibilities "
+        "that fit who I am."
+      ),
+      "lifestyle_text": _stringify_prompt_profile_value(self.lifestyle),
+      "daily_plan_text": daily_plan_text,
+      "social_relationships_text": social_relationships_text,
+    }
+
+
+  def _normalize_prompt_profile(self, raw_profile=None):
+    fallback_values = self._get_prompt_profile_fallbacks()
+    raw_profile = raw_profile if isinstance(raw_profile, dict) else {}
+    raw_fields = raw_profile.get("fields") if isinstance(raw_profile.get("fields"), dict) else {}
+    normalized_fields = {}
+    for field_name in PROMPT_PROFILE_FIELD_ORDER:
+      raw_record = raw_fields.get(field_name)
+      fallback_value = fallback_values.get(field_name, "")
+      updated_at = None
+      source = "legacy_bootstrap"
+      version = PROMPT_PROFILE_SCHEMA_VERSION
+      value = fallback_value
+      if isinstance(raw_record, dict):
+        source = str(raw_record.get("source") or source)
+        version = raw_record.get("version", version)
+        updated_at = raw_record.get("updated_at")
+        if source.startswith("legacy"):
+          value = fallback_value
+        else:
+          value = _stringify_prompt_profile_value(raw_record.get("value"))
+      elif raw_record is not None:
+        value = _stringify_prompt_profile_value(raw_record)
+        source = "legacy_bootstrap"
+      normalized_fields[field_name] = {
+        "value": value,
+        "source": source,
+        "updated_at": updated_at,
+        "version": version,
+      }
+    return {
+      "schema_version": raw_profile.get("schema_version", PROMPT_PROFILE_SCHEMA_VERSION),
+      "fields": normalized_fields,
+      "last_compiled_at": raw_profile.get("last_compiled_at"),
+    }
+
+
+  def refresh_prompt_profile_from_legacy(self):
+    self.prompt_profile = self._normalize_prompt_profile(self.prompt_profile)
+    return self.prompt_profile
+
+
+  def refresh_innate_traits_from_motives(self, source="motive_llm_refresh", force_llm=True, request_config=None):
+    innate_text = generate_innate_traits_from_motives(
+      self,
+      force_llm=force_llm,
+      request_config=request_config,
+    )
+    innate_text = _stringify_prompt_profile_value(innate_text).strip()
+    if not innate_text:
+      return ""
+    self.innate = innate_text
+    self.set_prompt_profile_field(
+      "innate_traits_text",
+      innate_text,
+      source=source,
+    )
+    return innate_text
+
+
+  def _maybe_refresh_legacy_innate_traits(self):
+    try:
+      profile = self.get_prompt_profile()
+      innate_field = (profile.get("fields") or {}).get("innate_traits_text") or {}
+      source = str(innate_field.get("source") or "")
+      current_value = _stringify_prompt_profile_value(innate_field.get("value")).strip()
+      if source not in {"legacy_bootstrap", "legacy_fallback"} and current_value:
+        return False
+      if not getattr(self, "name", None) or not getattr(self, "motive_attributes", None):
+        return False
+      refreshed = self.refresh_innate_traits_from_motives(
+        source="motive_llm_refresh",
+        force_llm=True,
+      )
+      return bool(refreshed)
+    except Exception:
+      return False
+
+
+  def get_prompt_profile(self):
+    return self.refresh_prompt_profile_from_legacy()
+
+
+  def get_prompt_profile_field(self, field_name, fallback=""):
+    profile = self.get_prompt_profile()
+    field = (profile.get("fields") or {}).get(field_name) or {}
+    value = _stringify_prompt_profile_value(field.get("value"))
+    return value or fallback
+
+
+  def set_prompt_profile_field(self, field_name, value, source="manual_update", updated_at=None, version=PROMPT_PROFILE_SCHEMA_VERSION):
+    profile = self.get_prompt_profile()
+    if field_name not in PROMPT_PROFILE_FIELD_ORDER:
+      raise KeyError(f"Unknown prompt profile field: {field_name}")
+    if updated_at is None and self.curr_time is not None:
+      try:
+        updated_at = self.curr_time.strftime("%Y-%m-%d %H:%M:%S")
+      except Exception:
+        updated_at = str(self.curr_time)
+    profile["fields"][field_name] = {
+      "value": _stringify_prompt_profile_value(value),
+      "source": str(source or "manual_update"),
+      "updated_at": updated_at,
+      "version": version,
+    }
+    self.prompt_profile = profile
+    return profile["fields"][field_name]
 
 
   def save(self, out_json):
@@ -397,6 +607,7 @@ class Scratch:
     scratch["stamina"] = self.stamina
     scratch["health"] = self.health
     scratch["mood"] = self.mood
+    scratch["motive_attributes"] = self.motive_attributes
     scratch["last_social_time"] = self.last_social_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_social_time else None
     scratch["last_action_switch_time"] = self.last_action_switch_time.strftime("%B %d, %Y, %H:%M:%S") if self.last_action_switch_time else None
     scratch["decision_commit_until_step"] = self.decision_commit_until_step
@@ -411,6 +622,9 @@ class Scratch:
     scratch["last_action_observation"] = self.last_action_observation
     scratch["active_execution_state"] = self.active_execution_state
     scratch["current_action_record"] = self.current_action_record
+    scratch["admin_override_intent"] = self.admin_override_intent
+    scratch["admin_override_source"] = self.admin_override_source
+    scratch["admin_override_step"] = self.admin_override_step
     scratch["active_skill_name"] = self.active_skill_name
     scratch["active_skill_id"] = self.active_skill_id
     scratch["active_skill_status"] = self.active_skill_status
@@ -427,6 +641,7 @@ class Scratch:
     scratch["inventory"] = self.inventory
     scratch["skills"] = self.skills
     scratch["personal_knowledge"] = self.personal_knowledge
+    scratch["prompt_profile"] = self.refresh_prompt_profile_from_legacy()
 
     scratch["concept_forget"] = self.concept_forget
     scratch["daily_reflection_time"] = self.daily_reflection_time
@@ -466,6 +681,173 @@ class Scratch:
 
     with open(out_json, "w") as outfile:
       json.dump(scratch, outfile, indent=2) 
+
+
+  def sync_motive_attributes_from_states(self):
+    previous_attributes = normalize_motive_attributes(self.motive_attributes)
+    self.motive_attributes = sync_core_motive_values(
+      self.motive_attributes,
+      satiety=self.satiety,
+      stamina=self.stamina,
+      health=self.health,
+      mood=self.mood,
+    )
+    self._log_motive_changes(
+      previous_attributes,
+      self.motive_attributes,
+      source="state_sync",
+      reason="sync_core_states",
+    )
+    return self.motive_attributes
+
+
+  def decay_nonphysical_motives(self):
+    current_attributes = self.sync_motive_attributes_from_states()
+    previous_attributes = normalize_motive_attributes(current_attributes)
+    self.motive_attributes, applied = apply_passive_motive_decay(
+      current_attributes,
+      skip_motives=set(CORE_STATE_MOTIVES),
+    )
+    self._log_motive_changes(
+      previous_attributes,
+      self.motive_attributes,
+      source="passive_decay",
+      reason="decay_nonphysical_motives",
+      metadata={"applied": applied},
+    )
+    return applied
+
+
+  def get_motive_attributes_snapshot(self):
+    return normalize_motive_attributes(
+      self.sync_motive_attributes_from_states(),
+      core_state_values={
+        "satiety": self.satiety,
+        "stamina": self.stamina,
+        "health": self.health,
+        "mood": self.mood,
+      },
+    )
+
+
+  def get_motive_debug_snapshot(self):
+    motive_attributes = self.get_motive_attributes_snapshot()
+    motive_result = select_motives(motive_attributes)
+    top_scores = []
+    for item in motive_result.get("scores", [])[:3]:
+      top_scores.append(
+        {
+          "motive": item.get("motive"),
+          "current_value": _round_motive_value(item.get("current_value")),
+          "pressure_score": _round_motive_value(item.get("pressure_score")),
+          "urgency_band": item.get("urgency_band"),
+          "reason": item.get("reason"),
+        }
+      )
+    return {
+      "dominant_motive": motive_result.get("dominant_motive"),
+      "secondary_motive": motive_result.get("secondary_motive"),
+      "guard_motive": motive_result.get("guard_motive"),
+      "dominant_urgency_band": motive_result.get("dominant_urgency_band"),
+      "dominant_pressure_score": motive_result.get("dominant_pressure_score"),
+      "dominant_strength": motive_result.get("dominant_strength"),
+      "has_urgent_motive": motive_result.get("has_urgent_motive"),
+      "dominant_motive_text": motive_result.get("dominant_motive_text"),
+      "secondary_motive_text": motive_result.get("secondary_motive_text"),
+      "motive_sentence": motive_result.get("motive_sentence"),
+      "reasoning": motive_result.get("reasoning"),
+      "top_scores": top_scores,
+      "motive_values": {
+        key: _round_motive_value((value or {}).get("current_value"))
+        for key, value in motive_attributes.items()
+      },
+    }
+
+
+  def set_motive_attributes(self, updated_attributes, source="external_update", reason=None, metadata=None, refresh_innate=False):
+    previous_attributes = normalize_motive_attributes(self.motive_attributes)
+    self.motive_attributes = normalize_motive_attributes(
+      updated_attributes,
+      core_state_values={
+        "satiety": self.satiety,
+        "stamina": self.stamina,
+        "health": self.health,
+        "mood": self.mood,
+      },
+    )
+    self._log_motive_changes(
+      previous_attributes,
+      self.motive_attributes,
+      source=source,
+      reason=reason,
+      metadata=metadata,
+    )
+    if refresh_innate:
+      refresh_source = f"{source}_innate_refresh" if source else "motive_profile_refresh"
+      self.refresh_innate_traits_from_motives(source=refresh_source, force_llm=True)
+    return self.motive_attributes
+
+
+  def _log_motive_changes(self, before_attributes, after_attributes, source="unknown", reason=None, metadata=None):
+    before_attributes = normalize_motive_attributes(before_attributes)
+    after_attributes = normalize_motive_attributes(
+      after_attributes,
+      core_state_values={
+        "satiety": self.satiety,
+        "stamina": self.stamina,
+        "health": self.health,
+        "mood": self.mood,
+      },
+    )
+    changed_motives = []
+    all_keys = sorted(set(before_attributes.keys()) | set(after_attributes.keys()))
+    for motive in all_keys:
+      before_value = _round_motive_value((before_attributes.get(motive) or {}).get("current_value"))
+      after_value = _round_motive_value((after_attributes.get(motive) or {}).get("current_value"))
+      delta = _round_motive_value(after_value - before_value)
+      if abs(delta) < 0.001:
+        continue
+      changed_motives.append(
+        {
+          "motive": motive,
+          "before": before_value,
+          "after": after_value,
+          "delta": delta,
+        }
+      )
+    if not changed_motives:
+      return False
+
+    motive_debug = self.get_motive_debug_snapshot()
+    sim_time = None
+    if self.curr_time is not None:
+      try:
+        sim_time = self.curr_time.strftime('%Y-%m-%d %H:%M:%S')
+      except Exception:
+        sim_time = str(self.curr_time)
+    append_debug_log(
+      "motive_monitor.jsonl",
+      {
+        "persona": self.name,
+        "event": "motive_delta",
+        "curr_step": self.curr_step,
+        "sim_time": sim_time,
+        "source": source,
+        "reason": reason,
+        "changed_motives": changed_motives,
+        "dominant_motive": motive_debug.get("dominant_motive"),
+        "secondary_motive": motive_debug.get("secondary_motive"),
+        "guard_motive": motive_debug.get("guard_motive"),
+        "dominant_urgency_band": motive_debug.get("dominant_urgency_band"),
+        "dominant_pressure_score": motive_debug.get("dominant_pressure_score"),
+        "dominant_strength": motive_debug.get("dominant_strength"),
+        "has_urgent_motive": motive_debug.get("has_urgent_motive"),
+        "motive_sentence": motive_debug.get("motive_sentence"),
+        "top_scores": motive_debug.get("top_scores"),
+        "metadata": metadata or {},
+      }
+    )
+    return True
 
 
   def get_f_daily_schedule_index(self, advance=0):
@@ -791,11 +1173,57 @@ class Scratch:
     )
 
 
+  def set_admin_override_intent(self, intent, source="admin_console"):
+    normalized_intent = str(intent or "").strip()
+    if not normalized_intent:
+      self.clear_admin_override_intent()
+      return False
+    self.admin_override_intent = normalized_intent
+    self.admin_override_source = str(source or "admin_console")
+    self.admin_override_step = self.curr_step
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "admin_override_set",
+        "curr_step": self.curr_step,
+        "intent": normalized_intent,
+        "source": self.admin_override_source,
+      }
+    )
+    return True
+
+
+  def get_admin_override_intent(self):
+    intent = str(self.admin_override_intent or "").strip()
+    if not intent:
+      return None
+    return intent
+
+
+  def clear_admin_override_intent(self):
+    if self.admin_override_intent:
+      append_debug_log(
+        "decision_stability.jsonl",
+        {
+          "persona": self.name,
+          "event": "admin_override_cleared",
+          "curr_step": self.curr_step,
+          "intent": self.admin_override_intent,
+          "source": self.admin_override_source,
+        }
+      )
+    self.admin_override_intent = None
+    self.admin_override_source = None
+    self.admin_override_step = None
+
+
   def _is_forced_switch_source(self, action_command):
     if not isinstance(action_command, dict):
       return False
     return action_command.get("source") in {
       "survival_direct",
+      "admin_console",
       "creator_injection",
       "chat_followup",
       "post_gather_followup",
@@ -1122,6 +1550,7 @@ class Scratch:
       "command": self.act_command,
       "event": list(self.act_event) if isinstance(self.act_event, tuple) else self.act_event,
       "duration": self.act_duration,
+      "creator_instruction": existing.get("creator_instruction"),
       "created_step": existing.get("created_step", self.curr_step),
       "updated_step": self.curr_step,
       "failure": failure,
@@ -1240,6 +1669,10 @@ class Scratch:
     self.social_dialogue_role = None
     self.social_dialogue_started_step = None
     self.social_dialogue_topic = None
+    # Once an action has fully released, the old commitment window should no
+    # longer block the next replan. Keeping it would reject the next decision
+    # even though there is no active action left to preserve.
+    self.decision_commit_until_step = None
     self.clear_complex_skill_state()
     self.act_address = None
     self.act_description = None
@@ -1459,6 +1892,48 @@ class Scratch:
         "signature": signature,
       }
     )
+    self._reward_creator_task_completion()
+
+
+  def _reward_creator_task_completion(self):
+    action_record = self.current_action_record or {}
+    creator_instruction = str(action_record.get("creator_instruction") or "").strip()
+    if not creator_instruction:
+      return False
+    if getattr(self, "motive_attributes", None) is None:
+      return False
+
+    updated, applied = apply_skill_motive_effects(
+      self.motive_attributes,
+      skill_id="creator_task_completion",
+      motive_effects={"competence": 3.0},
+    )
+    if hasattr(self, "set_motive_attributes"):
+      self.set_motive_attributes(
+        updated,
+        source="admin_override_reward",
+        reason="creator_instruction_completed",
+        metadata={
+          "applied": applied,
+          "skill_id": "creator_task_completion",
+          "creator_instruction": creator_instruction,
+        },
+      )
+    else:
+      self.motive_attributes = updated
+
+    append_debug_log(
+      "decision_stability.jsonl",
+      {
+        "persona": self.name,
+        "event": "creator_instruction_completed",
+        "curr_step": self.curr_step,
+        "creator_instruction": creator_instruction,
+        "applied": applied,
+      }
+    )
+
+    return True
 
 
   def act_time_str(self): 

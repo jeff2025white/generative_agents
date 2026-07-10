@@ -207,6 +207,37 @@ class DecisionStabilityTests(unittest.TestCase):
         self.assertEqual(scratch.last_decision_signature["skill_id"], "consume")
         self.assertEqual(scratch.last_decision_signature["intent_family"], "restore_satiety")
 
+    def test_completed_action_clears_commit_window_for_next_replan(self):
+        scratch = self.make_scratch()
+        accepted = self.add_action(
+            scratch,
+            "consume",
+            "apple",
+            "eating an apple from inventory",
+            event_verb="eat",
+        )
+        self.assertTrue(accepted)
+        self.assertIsNotNone(scratch.decision_commit_until_step)
+
+        scratch.complete_execution()
+
+        self.assertIsNone(scratch.decision_commit_until_step)
+        self.assertFalse(scratch.has_active_plan())
+
+        scratch.curr_step += 1
+        scratch.curr_time += timedelta(minutes=1)
+        switched = self.add_action(
+            scratch,
+            "rest",
+            "bed",
+            "resting on the bed to recharge stamina",
+            event_verb="rest",
+        )
+
+        self.assertTrue(switched)
+        self.assertEqual(scratch.act_command["skill_id"], "rest")
+        self.assertEqual(scratch.last_decision_signature["intent_family"], "restore_stamina")
+
     def test_switch_cost_penalizes_interrupting_committed_work_for_chat(self):
         scratch = self.make_scratch()
         self.add_action(
@@ -274,6 +305,51 @@ class DecisionStabilityTests(unittest.TestCase):
         scratch.planned_path = [(1, 1), (1, 2)]
 
         self.assertTrue(scratch.should_interrupt_for_physiological_crisis())
+
+    def test_resume_suspended_action_blocked_by_guard_motive_survival_need(self):
+        scratch = self.make_scratch()
+        scratch.satiety = 18.0
+        scratch.act_address = None
+        scratch.act_command = None
+        scratch.planned_path = []
+        scratch.suspended_action = {
+            "address": "the Ville:Dorm for Oak Hill College:bedroom:desk",
+            "duration": 10,
+            "description": "working quietly at the desk",
+            "pronunciatio": "X",
+            "event": (scratch.name, "work", "desk"),
+            "command": build_action_command("work", "desk", source="decision_translation", raw_action="work"),
+            "signature": build_decision_signature(
+                build_action_command("work", "desk", source="decision_translation", raw_action="work")
+            ),
+        }
+        scratch.suspended_action_step = scratch.curr_step
+
+        self.assertFalse(scratch.should_resume_suspended_action())
+
+    def test_resume_suspended_food_acquisition_allowed_during_satiety_guard(self):
+        scratch = self.make_scratch()
+        scratch.satiety = 18.0
+        scratch.act_address = None
+        scratch.act_command = None
+        scratch.planned_path = []
+        scratch.suspended_action = {
+            "address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+            "duration": 10,
+            "description": "opening the refrigerator to gather food items",
+            "pronunciatio": "X",
+            "event": (scratch.name, "gather", "refrigerator"),
+            "command": build_action_command("gather", "refrigerator", source="decision_translation", raw_action="gather"),
+            "signature": {
+                **build_decision_signature(
+                    build_action_command("gather", "refrigerator", source="decision_translation", raw_action="gather")
+                ),
+                "intent_family": "acquire_resource",
+            },
+        }
+        scratch.suspended_action_step = scratch.curr_step
+
+        self.assertTrue(scratch.should_resume_suspended_action())
 
     def test_suspend_and_resume_restores_previous_plan_with_fresh_path(self):
         scratch = self.make_scratch()

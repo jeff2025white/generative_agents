@@ -1,0 +1,198 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        88,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "having a meal at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u884c\u554a\uff0c\u90a3\u4e00\u8d77\u6b47\u53e3\u6c14\u3002\u521a\u597d\u6211\u8fd9\u513f\u6709\u74f6\u6c34\uff0c\u5206\u4f60\u4e00\u534a\uff1f",
+      "satiety": 97.20000000000006,
+      "stamina": 83.62000000000121,
+      "health": 100.0,
+      "mood": 49.52000000000091,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        35
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": [
+        [
+          "Maria Lopez",
+          "Isabella\uff0c\u4f60\u770b\u8d77\u6765\u5728\u5fd9\u5462\uff0c\u65e9\u4e0a\u597d\u5440\uff01"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u65e9\u4e0a\u597d\u5440\uff0cMaria\uff01\u6b63\u5fd9\u7740\u51c6\u5907\u60c5\u4eba\u8282\u6d3e\u5bf9\u7684\u98df\u6750\u5462\uff0c\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u56de\u5934\u5e2e\u6211\u5c1d\u5c1d\u5473\u9053\u54c8\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u54c7\uff0c\u60c5\u4eba\u8282\u6d3e\u5bf9\u554a\uff01\u90a3\u6211\u5f97\u8ba4\u771f\u5c1d\u5c1d\uff0c\u8981\u662f\u5473\u9053\u597d\u6211\u4e5f\u597d\u5e2e\u4f60\u5406\u559d\u51e0\u58f0\u561b\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6709\u4f60\u8fd9\u53e5\u8bdd\u6211\u53ef\u653e\u5fc3\u4e86\uff0c\u90a3\u8fd9\u76d8\u65b0\u8c03\u7684\u5de7\u514b\u529b\u9171\u4f60\u5148\u5c1d\u5c1d\uff0c\u7ed9\u70b9\u610f\u89c1\u54c8\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u561e\uff0c\u90a3\u6211\u53ef\u5c31\u4e0d\u5ba2\u6c14\u5566\uff01\u54c7\uff0c\u8fd9\u5de7\u514b\u529b\u9171\u95fb\u7740\u5c31\u597d\u9999\uff0c\u5473\u9053\u80af\u5b9a\u5dee\u4e0d\u4e86\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54c8\u54c8\uff0c\u559c\u6b22\u5c31\u597d\uff01\u90a3\u8fd9\u4e2a\u914d\u65b9\u6211\u5c31\u5b9a\u4e0b\u6765\u5566\uff0c\u56de\u5934\u591a\u505a\u4e9b\u7ed9\u5927\u5bb6\u5c1d\u5c1d\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u592a\u597d\u4e86\uff0c\u5230\u65f6\u5019\u6211\u4e00\u5b9a\u7b2c\u4e00\u4e2a\u6765\u6367\u573a\uff01"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u559c\u6b22\u5c31\u597d\uff01\u90a3\u8fd9\u4e2a\u914d\u65b9\u6211\u5c31\u5b9a\u4e0b\u6765\u5566\uff0c\u56de\u5934\u591a\u505a\u4e9b\u7ed9\u5927\u5bb6\u5c1d\u5c1d\u3002",
+      "satiety": 83.92000000000034,
+      "stamina": 85.57000000000063,
+      "health": 100.0,
+      "mood": 41.62000000000093,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is making a coffee from the refrigerator",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:13:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from cafe counter at the Ville:Hobbs Cafe:cafe.",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:45:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:54:50",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        40,
+        36
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u592a\u597d\u4e86\uff0c\u5230\u65f6\u5019\u6211\u4e00\u5b9a\u7b2c\u4e00\u4e2a\u6765\u6367\u573a\uff01",
+      "satiety": 99.92,
+      "stamina": 81.60000000000214,
+      "health": 100.0,
+      "mood": 92.91999999999898,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:58:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is writing research paper on gentrification in low-income communities",
+          "created": "2026-07-07 08:58:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 08:22:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 08:19:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:00:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:19:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-07 08:19:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:20:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:58:40"
+  }
+}

@@ -10,12 +10,21 @@ Background Identity:
 !<INPUT 0>!
 
 Priority Rules:
-1. The newest concrete world-state change has the highest decision weight for this step.
-2. Immediate feasibility and recent failure feedback override routine role behavior, static identity, and long-term goals.
-3. Identity, lifestyle, and future goals may only break ties between currently feasible immediate options.
-4. Do not weigh all information equally.
-5. If a target appears in InvalidTargets, it is forbidden for this immediate step.
+1. The current dominant motive has the highest internal decision weight for this step.
+2. Hard physical feasibility and recent failure feedback may override the dominant motive only when they make the preferred action impossible or invalid.
+3. Immediate feasibility overrides routine role behavior, static identity, and long-term goals.
+4. Identity, lifestyle, and future goals may only break ties between currently feasible immediate options.
+5. Do not weigh all information equally.
+6. If a target appears in InvalidTargets, it is forbidden for this immediate step.
 
 Task: What is the next immediate feasible action for !<INPUT 2>! under the current physical constraints?
-Describe what !<INPUT 2>! wants to do next in a simple, natural language sentence. Write it from !<INPUT 2>!'s perspective, state which internal need feels most pressing, and mention only one immediate target object or location. Let the highest-priority current fact override any lower-priority static or future-oriented information. If the previous immediate action failed or a target was unreachable, !<INPUT 2>! must think of a new immediate approach instead of repeating the failed target.
-Answer in one sentence.
+Output Requirements:
+- Write in !<INPUT 2>!'s first-person voice.
+- Write exactly one sentence.
+- Describe only one immediate action, not a multi-step plan.
+- Mention only one target object or location.
+- Make the most urgent current internal need explicit.
+- Prioritize the dominant motive instead of weighing all information equally.
+- If the dominant motive is mood, prefer an immediate action that directly repairs mood unless hard physical constraints block that option.
+- If the previous immediate action failed or the target was unreachable, choose a new immediate approach instead of repeating the failed target.
+- Fall back to a secondary option only when the dominant motive's preferred action is blocked by physical infeasibility or the latest failure feedback.

@@ -20,6 +20,14 @@ from persona.cognitive_modules.decision_constraints import (
   build_invalid_targets,
   filter_invalid_resources,
 )
+from persona.cognitive_modules.stage1_prompt_compiler import (
+  compile_stage1_prompt_context,
+)
+from persona.cognitive_modules.motive_selector import (
+  build_default_motive_attributes,
+  select_motives,
+  sync_core_motive_values,
+)
 from persona.prompt_template.gpt_structure import *
 from persona.prompt_template.print_prompt import *
 from persona.training.training_candidate_builder import normalize_training_log_record
@@ -38,6 +46,42 @@ def get_random_alphanumeric(i=6, j=6):
   k = random.randint(i, j)
   x = ''.join(random.choices(string.ascii_letters + string.digits, k=k))
   return x
+
+
+def _build_motive_prompt_instruction(persona):
+  scratch = getattr(persona, "scratch", None)
+  if scratch is None:
+    return ""
+  getter = getattr(scratch, "get_motive_attributes_snapshot", None)
+  if callable(getter):
+    motive_attributes = getter()
+  else:
+    motive_attributes = sync_core_motive_values(
+      build_default_motive_attributes(),
+      satiety=getattr(scratch, "satiety", 100.0),
+      stamina=getattr(scratch, "stamina", 100.0),
+      health=getattr(scratch, "health", 100.0),
+      mood=getattr(scratch, "mood", 100.0),
+    )
+  motive_result = select_motives(motive_attributes)
+  motive_sentence = str(motive_result.get("motive_sentence") or "").strip()
+  dominant = str(motive_result.get("dominant_motive") or "").strip()
+  has_urgent_motive = bool(motive_result.get("has_urgent_motive"))
+  if not has_urgent_motive:
+    if not dominant:
+      return ""
+    return (
+      "Current motive guidance: internal motives are broadly stable. "
+      f"Treat {dominant} only as a light tie-breaker among otherwise feasible immediate options, "
+      "not as an urgent need."
+    )
+  if not motive_sentence:
+    return ""
+  return (
+    f"Current motive guidance: {motive_sentence} "
+    "This is the highest-priority internal guidance for the immediate next action. "
+    "Treat the dominant motive as the main reason for the choice, and only deviate from it when hard physical constraints or execution impossibility force a fallback."
+  )
 
 
 def _run_task_routed_text_prompt(prompt,
@@ -119,6 +163,58 @@ def _append_training_prep_prompt_log(persona, prompt_kind, prompt, decision_id=N
   )
 
 
+DECISION_PROMPT_TRACE_LOG = "decision_prompt_trace.jsonl"
+_DECISION_TRACE_STAGE_ORDER = {
+  "demand_thinking": 10,
+  "joint_decision": 10,
+  "action_translation": 20,
+  "final_decision": 30,
+}
+
+
+def _format_persona_sim_time(persona):
+  curr_time = getattr(getattr(persona, "scratch", None), "curr_time", None)
+  if curr_time is None:
+    return None
+  try:
+    if isinstance(curr_time, str):
+      return curr_time
+    return curr_time.strftime("%Y-%m-%d %H:%M:%S")
+  except Exception:
+    return str(curr_time)
+
+
+def _append_decision_prompt_trace(persona,
+                                  prompt_kind,
+                                  prompt,
+                                  llm_response,
+                                  decision_id=None,
+                                  prompt_template=None,
+                                  minimal_filter_context=None,
+                                  extra=None):
+  append_debug_log(
+    DECISION_PROMPT_TRACE_LOG,
+    {
+      "event": "prompt_response",
+      "stage": prompt_kind,
+      "stage_order": _DECISION_TRACE_STAGE_ORDER.get(prompt_kind, 99),
+      "decision_id": decision_id,
+      "persona": getattr(persona, "name", None),
+      "curr_step": getattr(getattr(persona, "scratch", None), "curr_step", None),
+      "sim_time": _format_persona_sim_time(persona),
+      "prompt_kind": prompt_kind,
+      "prompt_template": prompt_template,
+      "final_prompt": prompt,
+      "prompt_hash": _prompt_hash(prompt),
+      "llm_response": llm_response,
+      "minimal_filter_enabled": bool((minimal_filter_context or {}).get("enabled")),
+      "minimal_filter_applied": bool((minimal_filter_context or {}).get("applied")),
+      "minimal_filter_summary": minimal_filter_context or {},
+      **dict(extra or {}),
+    },
+  )
+
+
 def _get_recent_action_observation(scratch, max_age_steps=6):
   getter = getattr(scratch, "get_recent_action_observation", None)
   if callable(getter):
@@ -156,6 +252,32 @@ def _build_recent_observation_line(scratch):
     f"outcome={_compact_multiline_block(str(action_description), max_lines=1, max_chars=120)}. "
     "This is the latest execution feedback from the environment."
   )
+
+
+def _build_last_action_with_result_line(last_action_desc, scratch):
+  action_text = _compact_multiline_block(last_action_desc or "None", max_lines=1, max_chars=160)
+  observation = _get_recent_action_observation(scratch) or {}
+  result = str(observation.get("result") or "").strip().lower()
+  reason = _compact_multiline_block(observation.get("reason") or "none", max_lines=1, max_chars=80)
+  target = _compact_multiline_block(observation.get("target") or "unknown", max_lines=1, max_chars=80)
+  if result == "completed":
+    outcome = observation.get("action_description") or observation.get("skill_id") or "completed"
+    outcome = _compact_multiline_block(str(outcome), max_lines=1, max_chars=120)
+    return (
+      f"LastAction: {action_text} | execution_status=completed | "
+      f"target={target} | failure_reason=none | outcome={outcome}"
+    )
+  if result == "failed":
+    return (
+      f"LastAction: {action_text} | execution_status=failed | "
+      f"target={target} | failure_reason={reason}"
+    )
+  if result:
+    return (
+      f"LastAction: {action_text} | execution_status={result} | "
+      f"target={target} | failure_reason={reason}"
+    )
+  return f"LastAction: {action_text} | execution_status=unknown | failure_reason=none"
 
 
 def _build_current_action_record_line(scratch):
@@ -3254,17 +3376,9 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
       ]
       
-      # Inject critical survival priorities
-      if persona.scratch.satiety < 30.0:
-        if not persona.scratch.inventory:
-          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!")
-        else:
-          # Find any non-empty food item
-          food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
-          rules_list.insert(0, f"- CRITICAL: Satiety ({persona.scratch.satiety:.1f}) is critically low! You have food in your inventory. You MUST immediately select 'Consume' targeting '{food_item}' to eat!")
-          
-      if persona.scratch.stamina < 30.0:
-        rules_list.insert(0, f"- CRITICAL: Stamina ({persona.scratch.stamina:.1f}) is critically low! You MUST immediately select 'Rest' targeting 'bed' or 'sofa' to sleep and restore stamina.")
+      motive_instruction = _build_motive_prompt_instruction(persona).strip()
+      if motive_instruction:
+        rules_list.insert(0, f"- {motive_instruction}")
 
       rules = "\n".join(rules_list)
     if not cooperative_context:
@@ -3334,16 +3448,17 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
   
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   
-  # Assemble dynamic special instruction based on critical survival stats
-  special_instruction = "Select the best action, target, detail and duration based on stats and identity goals. Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs and leaving work to eat or rest is fully authorized."
-  if persona.scratch.satiety < 30.0:
-    if not persona.scratch.inventory:
-      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST choose 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!"
-    else:
-      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
-      special_instruction += f" CRITICAL: Satiety is critically low! You MUST choose 'Consume' targeting '{food_item}' to eat immediately!"
-  elif persona.scratch.stamina < 30.0:
-    special_instruction += " CRITICAL: Stamina is critically low! You MUST choose 'Rest' targeting 'bed' or 'sofa' to sleep immediately!"
+  # Assemble dynamic special instruction based on motive priority
+  special_instruction = (
+    "Select the best action, target, detail and duration based on stats and identity goals. "
+    "The strongest prompt signal is the current dominant motive guidance. "
+    "Your chosen action must primarily serve that dominant motive unless hard physical constraints or immediate execution impossibility require a fallback. "
+    "Do not treat the dominant motive as flavor text. "
+    "Note: Daily plan requirements and lifestyle guidelines are non-binding. Prioritizing physiological needs and leaving work to eat or rest is fully authorized."
+  )
+  motive_instruction = _build_motive_prompt_instruction(persona)
+  if motive_instruction:
+    special_instruction += f" {motive_instruction}"
 
   output = ChatGPT_safe_generate_response(
     prompt, example_output, special_instruction,
@@ -3449,7 +3564,12 @@ def build_decision_capsule(persona,
                            nearby_resources,
                            last_action_desc,
                            intent_memory_summary,
-                           decision_convergence_hint):
+                           decision_convergence_hint,
+                           drive_system_summary_text=None,
+                           motive_guidance_text=None,
+                           decision_social_context_text=None,
+                           relevant_experience_text=None,
+                           static_resource_context_text=None):
   scratch = persona.scratch
   invalid_targets = build_invalid_targets(scratch)
   filtered_resources = filter_invalid_resources(nearby_resources, invalid_targets)
@@ -3459,8 +3579,6 @@ def build_decision_capsule(persona,
     navigation_failure = failure_getter()
   else:
     navigation_failure = getattr(scratch, "navigation_failure", None)
-  observation_line = _build_recent_observation_line(scratch)
-  current_action_record_line = _build_current_action_record_line(scratch)
   if not temporal_context:
     temporal_context = f"Current Time: {scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if scratch.curr_time else 'Unknown'}"
   if not status_summary:
@@ -3471,6 +3589,14 @@ def build_decision_capsule(persona,
     cooperative_context = "No special requests or cooperative events are currently active nearby."
   if not intent_memory_summary:
     intent_memory_summary = "No especially relevant prior experience was retrieved."
+  if not drive_system_summary_text:
+    drive_system_summary_text = "Drive system summary unavailable."
+  if not motive_guidance_text:
+    motive_guidance_text = "No motive guidance available."
+  if not decision_social_context_text:
+    decision_social_context_text = "暂无其他 NPC 信息缓存。"
+  if not relevant_experience_text:
+    relevant_experience_text = intent_memory_summary
   if not decision_convergence_hint:
     decision_convergence_hint = "Choose the immediate next action only and avoid expanding into a broader plan."
   compact_temporal_context = _compact_multiline_block(temporal_context, max_lines=1, max_chars=120)
@@ -3513,27 +3639,17 @@ def build_decision_capsule(persona,
     f"Time: {compact_temporal_context}",
     (
       "DecisionPriority: "
+      "dominant_motive_guidance > "
       "current_feasibility_and_latest_failure > "
       "immediate_physiological_urgency > "
       "reachable_local_options > "
       "ongoing_local_obligations > "
       "long_term_goals_and_identity. "
-      "The current situation is the controlling constraint for the next immediate action. "
+      "The dominant motive is the strongest internal reason for the next immediate action. "
+      "Only hard physical constraints, execution impossibility, or the newest concrete failure feedback may force a fallback away from it. "
       "Do not weigh all information equally."
     ),
-    (
-      "Status: "
-      f"satiety={float(getattr(scratch, 'satiety', 0.0)):.1f} "
-      f"stamina={float(getattr(scratch, 'stamina', 0.0)):.1f} "
-      f"health={float(getattr(scratch, 'health', 0.0)):.1f} "
-      f"mood={float(getattr(scratch, 'mood', 0.0)):.1f} "
-      f"inventory={_compact_inventory_context(getattr(scratch, 'inventory', {}) or {})}"
-    ),
   ]
-  if observation_line:
-    capsule_lines.append(observation_line)
-  if current_action_record_line:
-    capsule_lines.append(current_action_record_line)
   if navigation_failure_line:
     capsule_lines.append(navigation_failure_line)
   if invalid_targets:
@@ -3543,19 +3659,40 @@ def build_decision_capsule(persona,
       + ". These targets are invalid for the next immediate step and must not be selected."
     )
   capsule_lines.extend([
-    f"LastAction: {_compact_multiline_block(last_action_desc or 'None', max_lines=1, max_chars=160)}",
-    f"Interpretation: {_compact_multiline_block(status_summary, max_lines=3, max_chars=260)}",
+    _build_last_action_with_result_line(last_action_desc, scratch),
     f"Rules: {_compact_multiline_block(rules, max_lines=5, max_chars=360)}",
-    f"Resources: {_compact_resource_context(filtered_resources, include_state=True, max_items=10)}",
+    f"驱动力和满足方式: {_compact_multiline_block(drive_system_summary_text, max_lines=4, max_chars=360)}",
+    f"Motives: {_compact_multiline_block(motive_guidance_text, max_lines=4, max_chars=320)}",
     f"Cooperative: {_compact_multiline_block(cooperative_context, max_lines=3, max_chars=220)}",
-    f"Experience: {_compact_multiline_block(intent_memory_summary, max_lines=4, max_chars=260)}",
+    f"Experience: {_compact_multiline_block(relevant_experience_text, max_lines=4, max_chars=260)}",
     "BackgroundRule: Identity, lifestyle, routine role behavior, and long-term goals are tie-breakers only after selecting among feasible immediate options.",
-    f"Convergence: {_compact_multiline_block(decision_convergence_hint, max_lines=5, max_chars=720)}",
   ])
+  resource_insert_index = next(
+    (idx for idx, line in enumerate(capsule_lines) if str(line).startswith("Cooperative:")),
+    len(capsule_lines),
+  )
+  if static_resource_context_text:
+    capsule_lines.insert(resource_insert_index, str(static_resource_context_text).strip())
+  else:
+    capsule_lines.insert(resource_insert_index, f"Resources: {_compact_resource_context(filtered_resources, include_state=True, max_items=10)}")
   return "\n".join(capsule_lines)
 
 
-def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None", intent_memory_summary=None, decision_id=None, request_config=None):
+def _append_social_context_after_other_people(identity_text, decision_social_context_text):
+  identity_text = str(identity_text or "").rstrip()
+  social_text = _compact_multiline_block(
+    decision_social_context_text or "暂无社交关系信息缓存。",
+    max_lines=4,
+    max_chars=320,
+  )
+  if not identity_text:
+    return f"社交关系: {social_text}"
+  if "社交关系:" in identity_text:
+    return identity_text
+  return identity_text + f"\n社交关系: {social_text}"
+
+
+def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None", intent_memory_summary=None, admin_override_instruction=None, decision_id=None, static_resource_context_text=None, request_config=None):
   def has_relevant_experience(intent_memory_summary):
     if not intent_memory_summary:
       return False
@@ -3563,93 +3700,6 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
     if not lowered:
       return False
     return "no especially relevant prior experience was retrieved" not in lowered
-
-  def get_latest_change_hint(persona, cooperative_context):
-    pending_interrupt = getattr(persona.scratch, "pending_interrupt", None) or {}
-    parts = []
-    current_action_record_line = _build_current_action_record_line(persona.scratch)
-    if current_action_record_line:
-      parts.append(current_action_record_line)
-    if pending_interrupt:
-      reason = pending_interrupt.get("reason")
-      source = pending_interrupt.get("source")
-      payload = pending_interrupt.get("payload") or {}
-      if reason:
-        parts.append(f"Latest interrupt reason: {reason}.")
-      if source:
-        parts.append(f"Interrupt source: {source}.")
-      if payload:
-        compact_payload = ", ".join(f"{k}={v}" for k, v in list(payload.items())[:3])
-        if compact_payload:
-          parts.append(f"Interrupt payload: {compact_payload}.")
-    if cooperative_context and "No special" not in str(cooperative_context):
-      parts.append("Pay special attention to the newest cooperative or social situation described below.")
-    navigation_failure = None
-    failure_getter = getattr(persona.scratch, "get_recent_navigation_failure", None)
-    if callable(failure_getter):
-      navigation_failure = failure_getter()
-    if navigation_failure:
-      failed_target = navigation_failure.get("target") or navigation_failure.get("target_address") or "the previous destination"
-      failure_reason = str(navigation_failure.get("reason") or "").strip().lower()
-      if failure_reason == "resource_empty":
-        parts.append(
-          f"Recent execution result: {failed_target} was reached, but that specific resource was empty. "
-          "Treat this as fresh evidence and decide what feasible immediate option to try next."
-        )
-      else:
-        parts.append(
-          f"Recent navigation failure: {failed_target} was unreachable from the current location, so the previous immediate action failed. "
-          "You must choose a different immediate target or materially different plan now instead of repeating that failed target."
-        )
-    latest_observation = _get_recent_action_observation(persona.scratch)
-    if latest_observation and str(latest_observation.get("result") or "").strip().lower() == "completed":
-      observed_target = latest_observation.get("target") or latest_observation.get("target_address") or "the previous target"
-      observed_outcome = latest_observation.get("action_description") or latest_observation.get("skill_id") or "completed successfully"
-      parts.append(
-        f"Latest execution feedback: the previous immediate action involving {observed_target} completed successfully ({observed_outcome}). "
-        "Use this fresh result when choosing the next immediate action."
-      )
-    if not parts:
-      return "No explicit interrupt is pending; focus on whether the newest local situation materially changes urgency."
-    return " ".join(parts)
-
-  def build_decision_convergence_hint(persona, intent_memory_summary, cooperative_context):
-    scratch = persona.scratch
-    moving_check = getattr(scratch, "is_moving_to_action", None)
-    is_in_transit = moving_check() if callable(moving_check) else bool(getattr(scratch, "planned_path", None))
-    has_experience = has_relevant_experience(intent_memory_summary)
-    act_desc = getattr(scratch, "act_description", None) or "current action"
-    act_addr = getattr(scratch, "act_address", None)
-    latest_change_hint = get_latest_change_hint(persona, cooperative_context)
-
-    guidance = []
-    if is_in_transit:
-      guidance.append(
-        f"You are still on the way to execute the previous decision result: {act_desc}."
-      )
-      if act_addr:
-        guidance.append(f"Current destination context: {act_addr}.")
-      guidance.append(
-        "Default to continuing that route unless the newest situation clearly changes urgency, safety, or feasibility."
-      )
-      guidance.append(
-        f"When reconsidering, focus only on the latest change instead of re-planning from scratch. {latest_change_hint}"
-      )
-    else:
-      guidance.append(
-        "You are not currently committed to an in-progress travel route, so focus on the latest situation and choose the next immediate action."
-      )
-
-    if has_experience:
-      guidance.append(
-        "Relevant prior experience has already narrowed the likely good options. Use that experience to converge quickly instead of exploring many broad alternatives."
-      )
-    else:
-      guidance.append(
-        "No strongly relevant prior experience was retrieved, so rely on current status and the latest situation to decide the next immediate action."
-      )
-
-    return " ".join(guidance)
 
   def create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary):
     if not temporal_context:
@@ -3667,22 +3717,35 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
     rules = _compact_multiline_block(rules, max_lines=6, max_chars=420)
     cooperative_context = _compact_multiline_block(cooperative_context, max_lines=4, max_chars=260)
     intent_memory_summary = _compact_multiline_block(intent_memory_summary, max_lines=5, max_chars=420)
-    identity_summary = _compact_multiline_block(persona.scratch.get_str_iss(), max_lines=7, max_chars=900)
-    decision_convergence_hint = build_decision_convergence_hint(
+    compiled_context = compile_stage1_prompt_context(
       persona,
-      intent_memory_summary,
-      cooperative_context,
+      base_rules=rules,
+      cooperative_context=cooperative_context,
+      intent_memory_summary=intent_memory_summary,
+    )
+    identity_summary = _compact_multiline_block(
+      _append_social_context_after_other_people(
+        compiled_context.get("background_identity_text") or persona.scratch.get_str_iss(),
+        compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
+      ),
+      max_lines=12,
+      max_chars=1400,
     )
     decision_capsule = build_decision_capsule(
       persona,
       temporal_context,
       status_summary,
-      rules,
+      compiled_context.get("dynamic_fields", {}).get("world_rules_text"),
       cooperative_context,
       nearby_resources,
       last_action_desc,
       intent_memory_summary,
-      decision_convergence_hint,
+      None,
+      drive_system_summary_text=compiled_context.get("dynamic_fields", {}).get("drive_system_summary_text"),
+      motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
+      decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
+      relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
+      static_resource_context_text=static_resource_context_text,
     )
 
     prompt_input = [
@@ -3690,44 +3753,29 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       decision_capsule,
       persona.scratch.get_str_firstname(),
     ]
-    return prompt_input
+    return prompt_input, compiled_context
 
   prompt_template = "persona/prompt_template/v2/demand_decision_thinking_v1.txt"
-  prompt_input = create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary)
+  prompt_input, compiled_context = create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary)
   prompt = generate_prompt(prompt_input, prompt_template)
   minimal_filter_context = _build_minimal_decision_filter_context(persona, nearby_resources)
   
   # Assemble dynamic special instruction based on critical survival stats
-  special_instruction = (
-    "State what you plan to do next in a simple, natural language sentence. "
-    "Describe only the immediate next action, not a multi-step plan, and mention only one target object or location. "
-    "Do not weigh all information equally. Use this strict priority order: "
-    "1) current physical feasibility and latest failure feedback, "
-    "2) current physiological urgency, "
-    "3) reachable local options, "
-    "4) ongoing local obligations, "
-    "5) daily plan requirements, lifestyle, identity, and long-term goals. "
-    "If a higher-priority fact conflicts with a lower-priority one, you must follow the higher-priority fact. "
-    "Treat the current situation as the controlling constraint for the next immediate action. "
-    "Treat the last action only as continuity context; do not infer that the agent is still especially tired, hurt, or committed to continuing it unless the current stats and status interpretation support that conclusion. "
-    "Daily plan requirements, lifestyle guidelines, and long-term goals are tie-breakers only after choosing among feasible immediate options."
-  )
-  decision_convergence_hint = build_decision_convergence_hint(
-    persona,
-    intent_memory_summary,
-    cooperative_context,
-  )
-  special_instruction += f" Decision Convergence Guidance: {decision_convergence_hint}"
-  if persona.scratch.satiety < 30.0:
-    if not persona.scratch.inventory:
-      special_instruction += " CRITICAL: Satiety is critically low and inventory is empty! You MUST state that you plan to gather food from a valid nearby source like a refrigerator, stove, cafe counter, or apple tree first!"
-    else:
-      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
-      special_instruction += f" CRITICAL: Satiety is critically low! You MUST state that you plan to eat/consume the {food_item} from your inventory immediately!"
-  elif persona.scratch.stamina < 30.0:
-    special_instruction += " CRITICAL: Stamina is critically low! You MUST state that you plan to sleep or rest immediately!"
+  special_instruction = ""
+  if admin_override_instruction:
+    special_instruction += (
+      f" ADMIN OVERRIDE: The administrator explicitly instructed you to '{admin_override_instruction}'. "
+      "You must make this your immediate next intention and express it as the next action unless a hard physical constraint makes the literal instruction impossible."
+    )
+  motive_instruction = _build_motive_prompt_instruction(persona)
+  if motive_instruction:
+    special_instruction += f" {motive_instruction}"
 
-  prompt += f"\n{special_instruction}\nAnswer:"
+  special_instruction = special_instruction.strip()
+  if special_instruction:
+    prompt += f"\n{special_instruction}\nAnswer:"
+  else:
+    prompt += "\nAnswer:"
   _append_training_prep_prompt_log(persona, "demand_thinking", prompt, decision_id=decision_id, minimal_filter_context=minimal_filter_context)
 
   output = ChatGPT_request(
@@ -3740,10 +3788,20 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
     output = "I want to rest for a while."
   else:
     output = output.strip()
+  _append_decision_prompt_trace(
+    persona,
+    "demand_thinking",
+    prompt,
+    output,
+    decision_id=decision_id,
+    prompt_template=prompt_template,
+    minimal_filter_context=minimal_filter_context,
+    extra=compiled_context.get("trace_payload"),
+  )
   return output
 
 
-def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, verbose=False, intent_memory_summary=None, decision_convergence_hint=None, decision_id=None, request_config=None):
+def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, verbose=False, intent_memory_summary=None, admin_override_instruction=None, decision_convergence_hint=None, decision_id=None, static_resource_context_text=None, request_config=None):
   import os
   import json
 
@@ -3755,10 +3813,19 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
     except Exception:
       schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate, Idle."
 
+    compiled_context = compile_stage1_prompt_context(
+      persona,
+      base_rules=rules,
+      cooperative_context=cooperative_context,
+      intent_memory_summary=intent_memory_summary,
+    )
     compact_identity = _compact_multiline_block(
-      persona.scratch.get_str_iss(),
-      max_lines=8,
-      max_chars=900,
+      _append_social_context_after_other_people(
+        compiled_context.get("background_identity_text") or persona.scratch.get_str_iss(),
+        compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
+      ),
+      max_lines=12,
+      max_chars=1400,
     )
     if not decision_convergence_hint:
       decision_convergence_hint = "Choose the immediate next action only and avoid expanding into a broader plan."
@@ -3766,12 +3833,17 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       persona,
       temporal_context,
       status_summary,
-      rules,
+      compiled_context.get("dynamic_fields", {}).get("world_rules_text"),
       cooperative_context,
       nearby_resources,
       last_action_desc,
       intent_memory_summary,
       decision_convergence_hint,
+      drive_system_summary_text=compiled_context.get("dynamic_fields", {}).get("drive_system_summary_text"),
+      motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
+      decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
+      relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
+      static_resource_context_text=static_resource_context_text,
     )
 
     return [
@@ -3779,7 +3851,7 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       decision_capsule,
       persona.scratch.get_str_firstname(),
       schema_str,
-    ]
+    ], compiled_context
 
   def __func_clean_up(gpt_response, prompt=""):
     try:
@@ -3823,7 +3895,7 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
     }
 
   prompt_template = "persona/prompt_template/v2/joint_decision_v1.txt"
-  prompt_input = create_prompt_input(
+  prompt_input, compiled_context = create_prompt_input(
     persona,
     nearby_resources,
     temporal_context,
@@ -3840,14 +3912,25 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   special_instruction = (
     "Return the immediate next action only. Output one valid JSON object with thought, action, target, detail, duration, and reasoning. "
     "Do not weigh all information equally. Apply this strict priority order before choosing the action: "
-    "1) current physical feasibility and latest failure feedback, "
-    "2) current physiological urgency, "
-    "3) reachable local options, "
-    "4) ongoing local obligations, "
-    "5) identity, routine role behavior, and long-term goals. "
+    "1) dominant motive guidance, "
+    "2) current physical feasibility and latest failure feedback, "
+    "3) current physiological urgency, "
+    "4) reachable local options, "
+    "5) ongoing local obligations, "
+    "6) identity, routine role behavior, and long-term goals. "
     "If higher-priority information conflicts with lower-priority information, obey the higher-priority information. "
+    "Treat the dominant motive as the primary reason for the chosen immediate action, not as decoration. "
+    "If the dominant motive is mood, choose an action that directly repairs mood unless a hard physical constraint or execution impossibility forces a fallback. "
     "Identity and long-term goals may only break ties between currently feasible immediate options."
   )
+  if admin_override_instruction:
+    special_instruction += (
+      f" ADMIN OVERRIDE: The administrator explicitly instructed you to '{admin_override_instruction}'. "
+      "Return the closest valid immediate JSON action that faithfully executes this instruction unless hard physical constraints prevent it."
+    )
+  motive_instruction = _build_motive_prompt_instruction(persona)
+  if motive_instruction:
+    special_instruction += f" {motive_instruction}"
   _append_training_prep_prompt_log(persona, "joint_decision", prompt, decision_id=decision_id, minimal_filter_context=minimal_filter_context)
 
   output = ChatGPT_safe_generate_response(
@@ -3863,10 +3946,20 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
     metadata={"prompt_template": prompt_template, "decision_id": decision_id, "minimal_decision_filter": minimal_filter_context},
     request_config=request_config,
   )
+  _append_decision_prompt_trace(
+    persona,
+    "joint_decision",
+    prompt,
+    output,
+    decision_id=decision_id,
+    prompt_template=prompt_template,
+    minimal_filter_context=minimal_filter_context,
+    extra=compiled_context.get("trace_payload"),
+  )
   return output
 
 
-def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None):
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None):
   import os
   import json
   
@@ -3906,6 +3999,11 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
   special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
   special_instruction += f" Translation Convergence Guidance: {decision_convergence_hint}"
+  if admin_override_instruction:
+    special_instruction += (
+      f" ADMIN OVERRIDE: Faithfully translate the administrator instruction '{admin_override_instruction}' into the nearest valid schema action for this immediate step. "
+      "Do not replace it with an unrelated leisure or generic use action unless hard physical constraints force a fallback."
+    )
   if persona:
     invalid_targets = build_invalid_targets(getattr(persona, "scratch", None))
     if invalid_targets:
@@ -3986,5 +4084,15 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     )
   except Exception:
     pass  # Never let training logging break the simulation
+
+  _append_decision_prompt_trace(
+    persona,
+    "action_translation",
+    prompt,
+    output,
+    decision_id=decision_id,
+    prompt_template=prompt_template,
+    minimal_filter_context=minimal_filter_context,
+  )
 
   return output

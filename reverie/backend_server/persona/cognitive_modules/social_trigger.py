@@ -33,7 +33,6 @@ def _mood_recovery_drive(init_persona):
   satiety = float(getattr(scratch, "satiety", 100.0) or 100.0)
   stamina = float(getattr(scratch, "stamina", 100.0) or 100.0)
   health = float(getattr(scratch, "health", 100.0) or 100.0)
-
   drive = 0.0
   if mood < 60:
     drive += 0.04
@@ -41,11 +40,8 @@ def _mood_recovery_drive(init_persona):
     drive += 0.04
   if mood < 30:
     drive += 0.04
-
-  # When the body is otherwise safe, social comfort should be easier to choose.
   if mood < 60 and satiety >= 65 and stamina >= 45 and health >= 65:
     drive += 0.04
-
   return _clamp(drive, 0.0, 0.16)
 
 

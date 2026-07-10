@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        48,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on research paper @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 66.0800000000003,
+      "stamina": 89.86000000000104,
+      "health": 100.0,
+      "mood": 69.03999999999995,
+      "inventory": {
+        "apple": 3
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is going to Hobbs Cafe to get something to eat",
+          "created": "2026-07-07 08:28:20"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        77,
+        19
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "finding something to eat in the refrigerator @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.27999999999966,
+      "stamina": 99.26000000000006,
+      "health": 100.0,
+      "mood": 61.04000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        56,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "going to Hobbs Cafe to get something to eat @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 66.0800000000003,
+      "stamina": 89.83000000000105,
+      "health": 100.0,
+      "mood": 61.04000000000015,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 08:28:50"
+  }
+}

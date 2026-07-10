@@ -1,0 +1,75 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        16
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.79000000000002,
+      "stamina": 85.45200000000101,
+      "health": 100.0,
+      "mood": 66.35999999999974,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        48,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "taking a snack from the fridge @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.62000000000018,
+      "stamina": 86.01400000000098,
+      "health": 100.0,
+      "mood": 54.43000000000035,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        41,
+        34
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "writing research paper at library table @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 86.59000000000013,
+      "stamina": 89.28400000000111,
+      "health": 100.0,
+      "mood": 46.71999999999971,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is splashing water on face at the bathroom sink",
+          "created": "2026-07-08 08:26:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a snack from the fridge",
+          "created": "2026-07-08 08:26:40"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 08, 2026, 08:27:00"
+  }
+}

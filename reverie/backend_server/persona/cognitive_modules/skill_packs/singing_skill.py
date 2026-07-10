@@ -5,6 +5,7 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.skill_effects import build_skill_effect_spec
 
 
 class SingingSkillPack(BaseSkillPack):
@@ -12,6 +13,11 @@ class SingingSkillPack(BaseSkillPack):
         super().__init__()
         self.name = "sing"
         self.associated_xp = "singing"
+        self.effect_spec = build_skill_effect_spec(
+            base_state_effects={"stamina": 5.0, "mood": 1.0},
+            motive_effects={"competence": 6.0, "meaning": 4.0},
+            intent_tags=("sing", "music", "expression"),
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         # Singing can be executed anywhere without physical checks
@@ -23,12 +29,11 @@ class SingingSkillPack(BaseSkillPack):
 
     def on_arrive(self, persona, target, maze, personas):
         self.mark_arrival_phase(persona, target=target)
-        # 1. Restore Stamina and Mood as singing boosts happiness
         before_stamina = persona.scratch.stamina
         before_mood = persona.scratch.mood
         before_snapshot = capture_attribute_snapshot(persona)
-        persona.scratch.stamina = min(100.0, persona.scratch.stamina + 5.0)
-        persona.scratch.mood = min(100.0, persona.scratch.mood + 1.0)
+        self.apply_declared_base_state_effects(persona)
+        self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(

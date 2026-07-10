@@ -1,0 +1,1047 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 07, 2026, 08:23:20",
+  "curr_tile": [
+    30,
+    42
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 99.84,
+  "stamina": 92.2000000000008,
+  "health": 100.0,
+  "mood": 47.40000000000013,
+  "last_social_time": null,
+  "last_action_switch_time": "July 07, 2026, 08:23:20",
+  "decision_commit_until_step": 143,
+  "last_decision_signature": {
+    "skill_id": "study",
+    "target": "library table",
+    "intent_family": "study"
+  },
+  "last_decision_reason": "working on research paper",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 138,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": null,
+    "target_address": null,
+    "skill_id": null,
+    "action_description": null,
+    "reason": "empty_plan_idle_fallback",
+    "payload": {},
+    "curr_step": 139
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-140-study-library table",
+    "phase": "pathing",
+    "address": "the Ville:Oak Hill College:library",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "working on research paper"
+    },
+    "description": "working on research paper",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "writing"
+    ],
+    "path": [
+      [
+        32,
+        42
+      ],
+      [
+        33,
+        42
+      ],
+      [
+        34,
+        42
+      ],
+      [
+        34,
+        43
+      ],
+      [
+        34,
+        44
+      ],
+      [
+        34,
+        45
+      ],
+      [
+        35,
+        45
+      ],
+      [
+        36,
+        45
+      ],
+      [
+        36,
+        44
+      ],
+      [
+        37,
+        44
+      ],
+      [
+        38,
+        44
+      ],
+      [
+        38,
+        43
+      ],
+      [
+        38,
+        42
+      ],
+      [
+        38,
+        41
+      ],
+      [
+        38,
+        40
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        38,
+        38
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        38,
+        36
+      ],
+      [
+        39,
+        36
+      ],
+      [
+        40,
+        36
+      ],
+      [
+        41,
+        36
+      ],
+      [
+        41,
+        35
+      ],
+      [
+        41,
+        34
+      ],
+      [
+        41,
+        33
+      ],
+      [
+        41,
+        32
+      ],
+      [
+        42,
+        32
+      ],
+      [
+        43,
+        32
+      ],
+      [
+        44,
+        32
+      ],
+      [
+        45,
+        32
+      ],
+      [
+        46,
+        32
+      ],
+      [
+        47,
+        32
+      ],
+      [
+        48,
+        32
+      ],
+      [
+        49,
+        32
+      ],
+      [
+        50,
+        32
+      ],
+      [
+        51,
+        32
+      ],
+      [
+        52,
+        32
+      ],
+      [
+        53,
+        32
+      ],
+      [
+        54,
+        32
+      ],
+      [
+        55,
+        32
+      ],
+      [
+        56,
+        32
+      ],
+      [
+        57,
+        32
+      ],
+      [
+        58,
+        32
+      ],
+      [
+        59,
+        32
+      ],
+      [
+        60,
+        32
+      ],
+      [
+        61,
+        32
+      ],
+      [
+        62,
+        32
+      ],
+      [
+        63,
+        32
+      ],
+      [
+        64,
+        32
+      ],
+      [
+        65,
+        32
+      ],
+      [
+        66,
+        32
+      ],
+      [
+        67,
+        32
+      ],
+      [
+        68,
+        32
+      ],
+      [
+        69,
+        32
+      ],
+      [
+        70,
+        32
+      ],
+      [
+        71,
+        32
+      ],
+      [
+        72,
+        32
+      ],
+      [
+        73,
+        32
+      ],
+      [
+        74,
+        32
+      ],
+      [
+        75,
+        32
+      ],
+      [
+        76,
+        32
+      ],
+      [
+        77,
+        32
+      ],
+      [
+        78,
+        32
+      ],
+      [
+        79,
+        32
+      ],
+      [
+        80,
+        32
+      ],
+      [
+        81,
+        32
+      ],
+      [
+        82,
+        32
+      ],
+      [
+        83,
+        32
+      ],
+      [
+        84,
+        32
+      ],
+      [
+        85,
+        32
+      ],
+      [
+        86,
+        32
+      ],
+      [
+        87,
+        32
+      ],
+      [
+        88,
+        32
+      ],
+      [
+        89,
+        32
+      ],
+      [
+        90,
+        32
+      ],
+      [
+        91,
+        32
+      ],
+      [
+        92,
+        32
+      ],
+      [
+        93,
+        32
+      ],
+      [
+        94,
+        32
+      ],
+      [
+        95,
+        32
+      ],
+      [
+        96,
+        32
+      ],
+      [
+        97,
+        32
+      ],
+      [
+        98,
+        32
+      ],
+      [
+        99,
+        32
+      ],
+      [
+        100,
+        32
+      ],
+      [
+        101,
+        32
+      ],
+      [
+        102,
+        32
+      ],
+      [
+        103,
+        32
+      ],
+      [
+        104,
+        32
+      ],
+      [
+        105,
+        32
+      ],
+      [
+        106,
+        32
+      ],
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        109,
+        32
+      ],
+      [
+        109,
+        31
+      ],
+      [
+        109,
+        30
+      ],
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ],
+      [
+        113,
+        30
+      ],
+      [
+        114,
+        30
+      ],
+      [
+        115,
+        30
+      ],
+      [
+        116,
+        30
+      ],
+      [
+        117,
+        30
+      ],
+      [
+        118,
+        30
+      ],
+      [
+        119,
+        30
+      ],
+      [
+        119,
+        29
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "study",
+      "target": "library table",
+      "intent_family": "study"
+    },
+    "started_step": 140,
+    "updated_step": 140,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "study",
+    "intent_family": "study",
+    "target": "library table",
+    "target_type": "place",
+    "resolved_target": "library table",
+    "resolved_address": "the Ville:Oak Hill College:library",
+    "description": "working on research paper",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "working on research paper"
+    },
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "writing"
+    ],
+    "duration": 60,
+    "created_step": 140,
+    "updated_step": 140,
+    "failure": null
+  },
+  "active_skill_name": "chat",
+  "active_skill_id": "dlg_Klaus_Mueller_Maria_Lopez_20260707_082320_140",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 140,
+  "active_skill_owner": "init",
+  "active_skill_target": "Maria Lopez",
+  "active_skill_metadata": {
+    "dialogue_id": "dlg_Klaus_Mueller_Maria_Lopez_20260707_082320_140",
+    "chatting_end_time": "July 07, 2026, 08:34:00"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 0
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 53,
+  "importance_ele_n": 37,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Oak Hill College:library",
+  "act_start_time": "July 07, 2026, 08:23:20",
+  "act_duration": 60,
+  "act_description": "working on research paper",
+  "act_pronunciatio": "\ud83d\udcda",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "writing"
+  ],
+  "act_command": {
+    "skill_id": "study",
+    "target": "library table",
+    "source": "decision_translation",
+    "raw_action": "Work",
+    "detail": "working on research paper"
+  },
+  "act_obj_description": "library is being used for work",
+  "act_obj_pronunciatio": "\ud83d\udcda",
+  "act_obj_event": [
+    "library",
+    "is",
+    "being used for work"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      32,
+      42
+    ],
+    [
+      33,
+      42
+    ],
+    [
+      34,
+      42
+    ],
+    [
+      34,
+      43
+    ],
+    [
+      34,
+      44
+    ],
+    [
+      34,
+      45
+    ],
+    [
+      35,
+      45
+    ],
+    [
+      36,
+      45
+    ],
+    [
+      36,
+      44
+    ],
+    [
+      37,
+      44
+    ],
+    [
+      38,
+      44
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      38,
+      42
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      38,
+      40
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      38,
+      38
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      38,
+      36
+    ],
+    [
+      39,
+      36
+    ],
+    [
+      40,
+      36
+    ],
+    [
+      41,
+      36
+    ],
+    [
+      41,
+      35
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      41,
+      33
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      42,
+      32
+    ],
+    [
+      43,
+      32
+    ],
+    [
+      44,
+      32
+    ],
+    [
+      45,
+      32
+    ],
+    [
+      46,
+      32
+    ],
+    [
+      47,
+      32
+    ],
+    [
+      48,
+      32
+    ],
+    [
+      49,
+      32
+    ],
+    [
+      50,
+      32
+    ],
+    [
+      51,
+      32
+    ],
+    [
+      52,
+      32
+    ],
+    [
+      53,
+      32
+    ],
+    [
+      54,
+      32
+    ],
+    [
+      55,
+      32
+    ],
+    [
+      56,
+      32
+    ],
+    [
+      57,
+      32
+    ],
+    [
+      58,
+      32
+    ],
+    [
+      59,
+      32
+    ],
+    [
+      60,
+      32
+    ],
+    [
+      61,
+      32
+    ],
+    [
+      62,
+      32
+    ],
+    [
+      63,
+      32
+    ],
+    [
+      64,
+      32
+    ],
+    [
+      65,
+      32
+    ],
+    [
+      66,
+      32
+    ],
+    [
+      67,
+      32
+    ],
+    [
+      68,
+      32
+    ],
+    [
+      69,
+      32
+    ],
+    [
+      70,
+      32
+    ],
+    [
+      71,
+      32
+    ],
+    [
+      72,
+      32
+    ],
+    [
+      73,
+      32
+    ],
+    [
+      74,
+      32
+    ],
+    [
+      75,
+      32
+    ],
+    [
+      76,
+      32
+    ],
+    [
+      77,
+      32
+    ],
+    [
+      78,
+      32
+    ],
+    [
+      79,
+      32
+    ],
+    [
+      80,
+      32
+    ],
+    [
+      81,
+      32
+    ],
+    [
+      82,
+      32
+    ],
+    [
+      83,
+      32
+    ],
+    [
+      84,
+      32
+    ],
+    [
+      85,
+      32
+    ],
+    [
+      86,
+      32
+    ],
+    [
+      87,
+      32
+    ],
+    [
+      88,
+      32
+    ],
+    [
+      89,
+      32
+    ],
+    [
+      90,
+      32
+    ],
+    [
+      91,
+      32
+    ],
+    [
+      92,
+      32
+    ],
+    [
+      93,
+      32
+    ],
+    [
+      94,
+      32
+    ],
+    [
+      95,
+      32
+    ],
+    [
+      96,
+      32
+    ],
+    [
+      97,
+      32
+    ],
+    [
+      98,
+      32
+    ],
+    [
+      99,
+      32
+    ],
+    [
+      100,
+      32
+    ],
+    [
+      101,
+      32
+    ],
+    [
+      102,
+      32
+    ],
+    [
+      103,
+      32
+    ],
+    [
+      104,
+      32
+    ],
+    [
+      105,
+      32
+    ],
+    [
+      106,
+      32
+    ],
+    [
+      107,
+      32
+    ],
+    [
+      108,
+      32
+    ],
+    [
+      109,
+      32
+    ],
+    [
+      109,
+      31
+    ],
+    [
+      109,
+      30
+    ],
+    [
+      110,
+      30
+    ],
+    [
+      111,
+      30
+    ],
+    [
+      112,
+      30
+    ],
+    [
+      113,
+      30
+    ],
+    [
+      114,
+      30
+    ],
+    [
+      115,
+      30
+    ],
+    [
+      116,
+      30
+    ],
+    [
+      117,
+      30
+    ],
+    [
+      118,
+      30
+    ],
+    [
+      119,
+      30
+    ],
+    [
+      119,
+      29
+    ]
+  ]
+}

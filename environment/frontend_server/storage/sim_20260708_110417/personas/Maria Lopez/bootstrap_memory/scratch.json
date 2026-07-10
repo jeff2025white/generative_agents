@@ -1,0 +1,792 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 08:36:40",
+  "curr_tile": [
+    77,
+    29
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "energetic, enthusiastic, inquisitive",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 99.52000000000001,
+  "stamina": 91.41000000000128,
+  "health": 100.0,
+  "mood": 48.8000000000002,
+  "last_social_time": "July 08, 2026, 08:24:50",
+  "last_action_switch_time": "July 08, 2026, 08:35:50",
+  "decision_commit_until_step": 217,
+  "last_decision_signature": {
+    "skill_id": "rest",
+    "target": "bed",
+    "intent_family": "restore_stamina"
+  },
+  "last_decision_reason": "resting in her dorm room bed",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "hobbs cafe",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 214,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "hobbs cafe",
+    "target_address": "the Ville:Hobbs Cafe:cafe",
+    "skill_id": "consume",
+    "action_description": "having lunch at Hobbs Cafe",
+    "curr_step": 214
+  },
+  "active_execution_state": {
+    "id": "Maria Lopez-215-rest-bed",
+    "phase": "pathing",
+    "address": "the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting in her dorm room bed"
+    },
+    "description": "resting in her dorm room bed",
+    "event": [
+      "Maria Lopez",
+      "resting",
+      "dorm room bed"
+    ],
+    "path": [
+      [
+        78,
+        30
+      ],
+      [
+        79,
+        30
+      ],
+      [
+        80,
+        30
+      ],
+      [
+        81,
+        30
+      ],
+      [
+        82,
+        30
+      ],
+      [
+        83,
+        30
+      ],
+      [
+        84,
+        30
+      ],
+      [
+        85,
+        30
+      ],
+      [
+        86,
+        30
+      ],
+      [
+        87,
+        30
+      ],
+      [
+        88,
+        30
+      ],
+      [
+        89,
+        30
+      ],
+      [
+        90,
+        30
+      ],
+      [
+        91,
+        30
+      ],
+      [
+        92,
+        30
+      ],
+      [
+        93,
+        30
+      ],
+      [
+        94,
+        30
+      ],
+      [
+        95,
+        30
+      ],
+      [
+        96,
+        30
+      ],
+      [
+        97,
+        30
+      ],
+      [
+        98,
+        30
+      ],
+      [
+        99,
+        30
+      ],
+      [
+        100,
+        30
+      ],
+      [
+        101,
+        30
+      ],
+      [
+        102,
+        30
+      ],
+      [
+        103,
+        30
+      ],
+      [
+        103,
+        31
+      ],
+      [
+        103,
+        32
+      ],
+      [
+        104,
+        32
+      ],
+      [
+        105,
+        32
+      ],
+      [
+        106,
+        32
+      ],
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        108,
+        33
+      ],
+      [
+        108,
+        34
+      ],
+      [
+        108,
+        35
+      ],
+      [
+        108,
+        36
+      ],
+      [
+        108,
+        37
+      ],
+      [
+        109,
+        37
+      ],
+      [
+        110,
+        37
+      ],
+      [
+        111,
+        37
+      ],
+      [
+        112,
+        37
+      ],
+      [
+        113,
+        37
+      ],
+      [
+        114,
+        37
+      ],
+      [
+        115,
+        37
+      ],
+      [
+        116,
+        37
+      ],
+      [
+        116,
+        38
+      ],
+      [
+        116,
+        39
+      ],
+      [
+        116,
+        40
+      ],
+      [
+        116,
+        41
+      ],
+      [
+        116,
+        42
+      ],
+      [
+        116,
+        43
+      ],
+      [
+        116,
+        44
+      ],
+      [
+        116,
+        45
+      ],
+      [
+        117,
+        45
+      ],
+      [
+        118,
+        45
+      ],
+      [
+        119,
+        45
+      ],
+      [
+        120,
+        45
+      ],
+      [
+        121,
+        45
+      ],
+      [
+        122,
+        45
+      ],
+      [
+        123,
+        45
+      ],
+      [
+        123,
+        46
+      ],
+      [
+        123,
+        47
+      ],
+      [
+        123,
+        48
+      ],
+      [
+        123,
+        49
+      ],
+      [
+        124,
+        49
+      ],
+      [
+        124,
+        50
+      ],
+      [
+        124,
+        51
+      ],
+      [
+        124,
+        52
+      ],
+      [
+        124,
+        53
+      ],
+      [
+        124,
+        54
+      ],
+      [
+        123,
+        54
+      ],
+      [
+        123,
+        55
+      ],
+      [
+        123,
+        56
+      ],
+      [
+        123,
+        57
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "rest",
+      "target": "bed",
+      "intent_family": "restore_stamina"
+    },
+    "started_step": 215,
+    "updated_step": 220,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "rest",
+    "intent_family": "restore_stamina",
+    "target": "bed",
+    "target_type": "object",
+    "resolved_target": "bed",
+    "resolved_address": "the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+    "description": "resting in her dorm room bed",
+    "command": {
+      "skill_id": "rest",
+      "target": "bed",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting in her dorm room bed"
+    },
+    "event": [
+      "Maria Lopez",
+      "resting",
+      "dorm room bed"
+    ],
+    "duration": 30,
+    "created_step": 215,
+    "updated_step": 220,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "rest",
+  "active_skill_id": "Maria Lopez-215-rest",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 215,
+  "active_skill_owner": "Maria Lopez",
+  "active_skill_target": "bed",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "resting in her dorm room bed"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 126,
+  "importance_ele_n": 6,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+  "act_start_time": "July 08, 2026, 08:35:50",
+  "act_duration": 30,
+  "act_description": "resting in her dorm room bed",
+  "act_pronunciatio": "\ud83d\udecc",
+  "act_event": [
+    "Maria Lopez",
+    "resting",
+    "dorm room bed"
+  ],
+  "act_command": {
+    "skill_id": "rest",
+    "target": "bed",
+    "source": "decision_translation",
+    "raw_action": "Rest",
+    "detail": "resting in her dorm room bed"
+  },
+  "act_obj_description": "bed is being used for recovery",
+  "act_obj_pronunciatio": "\ud83d\udecc",
+  "act_obj_event": [
+    "bed",
+    "is",
+    "being used for recovery"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      78,
+      30
+    ],
+    [
+      79,
+      30
+    ],
+    [
+      80,
+      30
+    ],
+    [
+      81,
+      30
+    ],
+    [
+      82,
+      30
+    ],
+    [
+      83,
+      30
+    ],
+    [
+      84,
+      30
+    ],
+    [
+      85,
+      30
+    ],
+    [
+      86,
+      30
+    ],
+    [
+      87,
+      30
+    ],
+    [
+      88,
+      30
+    ],
+    [
+      89,
+      30
+    ],
+    [
+      90,
+      30
+    ],
+    [
+      91,
+      30
+    ],
+    [
+      92,
+      30
+    ],
+    [
+      93,
+      30
+    ],
+    [
+      94,
+      30
+    ],
+    [
+      95,
+      30
+    ],
+    [
+      96,
+      30
+    ],
+    [
+      97,
+      30
+    ],
+    [
+      98,
+      30
+    ],
+    [
+      99,
+      30
+    ],
+    [
+      100,
+      30
+    ],
+    [
+      101,
+      30
+    ],
+    [
+      102,
+      30
+    ],
+    [
+      103,
+      30
+    ],
+    [
+      103,
+      31
+    ],
+    [
+      103,
+      32
+    ],
+    [
+      104,
+      32
+    ],
+    [
+      105,
+      32
+    ],
+    [
+      106,
+      32
+    ],
+    [
+      107,
+      32
+    ],
+    [
+      108,
+      32
+    ],
+    [
+      108,
+      33
+    ],
+    [
+      108,
+      34
+    ],
+    [
+      108,
+      35
+    ],
+    [
+      108,
+      36
+    ],
+    [
+      108,
+      37
+    ],
+    [
+      109,
+      37
+    ],
+    [
+      110,
+      37
+    ],
+    [
+      111,
+      37
+    ],
+    [
+      112,
+      37
+    ],
+    [
+      113,
+      37
+    ],
+    [
+      114,
+      37
+    ],
+    [
+      115,
+      37
+    ],
+    [
+      116,
+      37
+    ],
+    [
+      116,
+      38
+    ],
+    [
+      116,
+      39
+    ],
+    [
+      116,
+      40
+    ],
+    [
+      116,
+      41
+    ],
+    [
+      116,
+      42
+    ],
+    [
+      116,
+      43
+    ],
+    [
+      116,
+      44
+    ],
+    [
+      116,
+      45
+    ],
+    [
+      117,
+      45
+    ],
+    [
+      118,
+      45
+    ],
+    [
+      119,
+      45
+    ],
+    [
+      120,
+      45
+    ],
+    [
+      121,
+      45
+    ],
+    [
+      122,
+      45
+    ],
+    [
+      123,
+      45
+    ],
+    [
+      123,
+      46
+    ],
+    [
+      123,
+      47
+    ],
+    [
+      123,
+      48
+    ],
+    [
+      123,
+      49
+    ],
+    [
+      124,
+      49
+    ],
+    [
+      124,
+      50
+    ],
+    [
+      124,
+      51
+    ],
+    [
+      124,
+      52
+    ],
+    [
+      124,
+      53
+    ],
+    [
+      124,
+      54
+    ],
+    [
+      123,
+      54
+    ],
+    [
+      123,
+      55
+    ],
+    [
+      123,
+      56
+    ],
+    [
+      123,
+      57
+    ]
+  ]
+}

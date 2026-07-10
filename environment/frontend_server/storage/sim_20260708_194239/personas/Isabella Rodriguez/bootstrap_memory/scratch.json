@@ -1,0 +1,756 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 09:12:30",
+  "curr_tile": [
+    38,
+    44
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "friendly, outgoing, hospitable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 99.52000000000001,
+  "stamina": 86.6399999999994,
+  "health": 100.0,
+  "mood": 55.89999999999911,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 99.52000000000001,
+      "initial_value": 40.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.08,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 86.6399999999994,
+      "initial_value": 100.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 100.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 60.640000000000164,
+      "initial_value": 65.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 55.89999999999911,
+      "initial_value": 50.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 49.27999999999864,
+      "initial_value": 58.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 50.64000000000087,
+      "initial_value": 55.0,
+      "safe_threshold": 42.0,
+      "critical_threshold": 24.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.64000000000087,
+      "initial_value": 62.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 53.45999999999975,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.015,
+      "priority_weight": 0.92,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 61.640000000000626,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.88,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 08, 2026, 09:11:50",
+  "decision_commit_until_step": 434,
+  "last_decision_signature": {
+    "skill_id": null,
+    "target": "park",
+    "intent_family": "unknown"
+  },
+  "last_decision_reason": "enjoying a cup of coffee at the Rose and Crown Pub",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 429,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": null,
+    "target_address": null,
+    "skill_id": null,
+    "action_description": null,
+    "reason": "empty_plan_idle_fallback",
+    "payload": {},
+    "curr_step": 430
+  },
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-431-unknown-park",
+    "phase": "pathing",
+    "address": "the Ville:Ryan Park's apartment:bathroom",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "park",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "enjoying a cup of coffee at the Rose and Crown Pub"
+    },
+    "description": "enjoying a cup of coffee at the Rose and Crown Pub",
+    "event": [
+      "Isabella Rodriguez",
+      "enjoying",
+      "coffee"
+    ],
+    "path": [
+      [
+        38,
+        42
+      ],
+      [
+        38,
+        41
+      ],
+      [
+        38,
+        40
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        38,
+        38
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        38,
+        36
+      ],
+      [
+        39,
+        36
+      ],
+      [
+        40,
+        36
+      ],
+      [
+        41,
+        36
+      ],
+      [
+        41,
+        35
+      ],
+      [
+        41,
+        34
+      ],
+      [
+        41,
+        33
+      ],
+      [
+        41,
+        32
+      ],
+      [
+        42,
+        32
+      ],
+      [
+        43,
+        32
+      ],
+      [
+        44,
+        32
+      ],
+      [
+        44,
+        31
+      ],
+      [
+        45,
+        31
+      ],
+      [
+        46,
+        31
+      ],
+      [
+        47,
+        31
+      ],
+      [
+        48,
+        31
+      ],
+      [
+        49,
+        31
+      ],
+      [
+        49,
+        30
+      ],
+      [
+        50,
+        30
+      ],
+      [
+        51,
+        30
+      ],
+      [
+        52,
+        30
+      ],
+      [
+        53,
+        30
+      ],
+      [
+        54,
+        30
+      ],
+      [
+        55,
+        30
+      ],
+      [
+        56,
+        30
+      ],
+      [
+        57,
+        30
+      ],
+      [
+        58,
+        30
+      ],
+      [
+        59,
+        30
+      ],
+      [
+        60,
+        30
+      ],
+      [
+        61,
+        30
+      ],
+      [
+        62,
+        30
+      ],
+      [
+        63,
+        30
+      ],
+      [
+        64,
+        30
+      ],
+      [
+        65,
+        30
+      ],
+      [
+        66,
+        30
+      ],
+      [
+        66,
+        29
+      ],
+      [
+        66,
+        28
+      ],
+      [
+        66,
+        27
+      ],
+      [
+        66,
+        26
+      ],
+      [
+        67,
+        26
+      ],
+      [
+        67,
+        25
+      ],
+      [
+        67,
+        24
+      ],
+      [
+        67,
+        23
+      ],
+      [
+        67,
+        22
+      ],
+      [
+        67,
+        21
+      ],
+      [
+        67,
+        20
+      ],
+      [
+        67,
+        19
+      ],
+      [
+        67,
+        18
+      ],
+      [
+        67,
+        17
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": null,
+      "target": "park",
+      "intent_family": "unknown"
+    },
+    "started_step": 431,
+    "updated_step": 435,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": null,
+    "intent_family": "unknown",
+    "target": "park",
+    "target_type": "place",
+    "resolved_target": "bathroom",
+    "resolved_address": "the Ville:Ryan Park's apartment:bathroom",
+    "description": "enjoying a cup of coffee at the Rose and Crown Pub",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "park",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "enjoying a cup of coffee at the Rose and Crown Pub"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "enjoying",
+      "coffee"
+    ],
+    "duration": 60,
+    "created_step": 431,
+    "updated_step": 435,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "chat",
+  "active_skill_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260708_091210_433",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 433,
+  "active_skill_owner": "target",
+  "active_skill_target": "Maria Lopez",
+  "active_skill_metadata": {
+    "dialogue_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260708_091210_433",
+    "chatting_end_time": "July 08, 2026, 09:23:00"
+  },
+  "social_dialogue_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260708_091210_433",
+  "social_dialogue_partner": "Maria Lopez",
+  "social_dialogue_role": "target",
+  "social_dialogue_started_step": 433,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 30
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 119,
+  "importance_ele_n": 10,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Ryan Park's apartment:bathroom",
+  "act_start_time": "July 08, 2026, 09:11:50",
+  "act_duration": 60,
+  "act_description": "enjoying a cup of coffee at the Rose and Crown Pub",
+  "act_pronunciatio": "\u2615",
+  "act_event": [
+    "Isabella Rodriguez",
+    "enjoying",
+    "coffee"
+  ],
+  "act_command": {
+    "skill_id": "leisure_use",
+    "target": "park",
+    "source": "decision_translation",
+    "raw_action": "Recreate",
+    "detail": "enjoying a cup of coffee at the Rose and Crown Pub"
+  },
+  "act_obj_description": "bathroom is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "bathroom",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      38,
+      42
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      38,
+      40
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      38,
+      38
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      38,
+      36
+    ],
+    [
+      39,
+      36
+    ],
+    [
+      40,
+      36
+    ],
+    [
+      41,
+      36
+    ],
+    [
+      41,
+      35
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      41,
+      33
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      42,
+      32
+    ],
+    [
+      43,
+      32
+    ],
+    [
+      44,
+      32
+    ],
+    [
+      44,
+      31
+    ],
+    [
+      45,
+      31
+    ],
+    [
+      46,
+      31
+    ],
+    [
+      47,
+      31
+    ],
+    [
+      48,
+      31
+    ],
+    [
+      49,
+      31
+    ],
+    [
+      49,
+      30
+    ],
+    [
+      50,
+      30
+    ],
+    [
+      51,
+      30
+    ],
+    [
+      52,
+      30
+    ],
+    [
+      53,
+      30
+    ],
+    [
+      54,
+      30
+    ],
+    [
+      55,
+      30
+    ],
+    [
+      56,
+      30
+    ],
+    [
+      57,
+      30
+    ],
+    [
+      58,
+      30
+    ],
+    [
+      59,
+      30
+    ],
+    [
+      60,
+      30
+    ],
+    [
+      61,
+      30
+    ],
+    [
+      62,
+      30
+    ],
+    [
+      63,
+      30
+    ],
+    [
+      64,
+      30
+    ],
+    [
+      65,
+      30
+    ],
+    [
+      66,
+      30
+    ],
+    [
+      66,
+      29
+    ],
+    [
+      66,
+      28
+    ],
+    [
+      66,
+      27
+    ],
+    [
+      66,
+      26
+    ],
+    [
+      67,
+      26
+    ],
+    [
+      67,
+      25
+    ],
+    [
+      67,
+      24
+    ],
+    [
+      67,
+      23
+    ],
+    [
+      67,
+      22
+    ],
+    [
+      67,
+      21
+    ],
+    [
+      67,
+      20
+    ],
+    [
+      67,
+      19
+    ],
+    [
+      67,
+      18
+    ],
+    [
+      67,
+      17
+    ]
+  ]
+}

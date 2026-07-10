@@ -1,0 +1,257 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        53,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u516b\u6298\u54ea\u591f\u554a\uff0c\u51b2\u54b1\u8fd9\u4ea4\u60c5\uff0c\u8d77\u7801\u5f97\u7ed9\u6211\u514d\u5355\u5427\u3002",
+      "satiety": 82.24000000000038,
+      "stamina": 39.68000000000217,
+      "health": 100.0,
+      "mood": 90.27999999999889,
+      "inventory": {
+        "apple": 10
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is communicating with the Creator",
+          "created": "2026-07-07 10:35:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-07 10:35:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller handled creator query: '\u4f60\u597d' -> '\u60a8\u597d\uff0c\u9020\u7269\u4e3b\u3002\u6839\u636e\u8bb0\u5f55\uff0c\u7528\u6237\u8bf4\uff1a\u4f60\u597d\u3002\u76ee\u524d\u6ca1\u6709\u6700\u8fd1\u7684\u521b\u4f5c\u8005\u5bf9\u8bdd\u5386\u53f2\u3002\u6211\u7684\u5f53\u524d\u72b6\u6001\u662f\u6c9f\u901a\u4e2d\uff0c\u9971\u548c\u5ea6\u4e3a32.2\uff0c\u4f53\u529b\u4e3a93.2\uff0c\u5065\u5eb7\u5ea6\u4e3a100.0\uff0c\u60c5\u7eea\u4e3a46.1\u3002\u6211\u7684\u5e93\u5b58\u4e3a\u7a7a\u3002'",
+          "created": "2026-07-07 08:16:10",
+          "poignancy": 10
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        60,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "setting up decorations for the Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u542c\u4f60\u8fd9\u6837\u8bf4\u6211\u90fd\u6709\u70b9\u998b\u4e86\uff0c\u6539\u5929\u54b1\u4e5f\u4e70\u70b9\u8349\u8393\u548c\u5de7\u514b\u529b\u9171\uff0c\u5728\u5e97\u91cc\u8bd5\u8bd5\u5457\uff1f",
+      "satiety": 70.16000000000064,
+      "stamina": 89.84000000000097,
+      "health": 100.0,
+      "mood": 98.43999999999976,
+      "inventory": {
+        "apple": 5
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 10:35:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is relaxing and people-watching at pub",
+          "created": "2026-07-07 10:35:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2026-07-07 10:35:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 09:49:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 10:29:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from cafe counter at the Ville:Hobbs Cafe:cafe.",
+          "created": "2026-07-07 08:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 08:54:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 08:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-07 08:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters engage in various activities at different locations",
+          "created": "2026-07-07 09:31:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is frequently resting",
+          "created": "2026-07-07 08:32:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters interact with each other in various settings",
+          "created": "2026-07-07 09:49:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters engage in social activities and personal care at various locations",
+          "created": "2026-07-07 08:59:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is communicating with a higher power",
+          "created": "2026-07-07 09:31:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is engaged in communication with a higher power",
+          "created": "2026-07-07 08:59:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is focused on research and social activities",
+          "created": "2026-07-07 09:31:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 09:48:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        59,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u6211\u73b0\u5728\u5c31\u6765\u5f53\u4f60\u7684\u4e13\u4e1a\u54c1\u9274\u5e08\u5566\uff0c\u8349\u8393\u5de7\u514b\u529b\u51c6\u5907\u597d\u4e86\u6ca1\uff1f",
+      "satiety": 86.96000000000028,
+      "stamina": 89.5400000000009,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is setting up decorations for the Valentine's Day party",
+          "created": "2026-07-07 10:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-07 10:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sleeping in bed to regain stamina",
+          "created": "2026-07-07 10:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-07 09:49:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-07 09:04:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez rested at bed and recovered stamina.",
+          "created": "2026-07-07 09:25:40",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is setting up decorations in the park garden for the Valentine's Day party",
+          "created": "2026-07-07 09:05:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is preparing decorations for the Valentine's Day party",
+          "created": "2026-07-07 09:56:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-07 09:50:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-07 10:00:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-07 08:19:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-07 08:25:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-07 09:26:40",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 07, 2026, 10:35:50"
+  }
+}

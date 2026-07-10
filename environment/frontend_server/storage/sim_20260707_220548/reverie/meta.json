@@ -1,0 +1,13 @@
+{
+  "fork_sim_code": "base_the_ville_isabella_maria_klaus",
+  "start_date": "July 07, 2026",
+  "curr_time": "July 07, 2026, 08:19:20",
+  "sec_per_step": 10,
+  "maze_name": "the_ville",
+  "persona_names": [
+    "Isabella Rodriguez",
+    "Maria Lopez",
+    "Klaus Mueller"
+  ],
+  "step": 116
+}

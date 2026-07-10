@@ -8,7 +8,7 @@ from unittest.mock import patch
 from types import ModuleType, SimpleNamespace
 
 
-ROOT = Path(r"g:\generative_agents")
+ROOT = Path(__file__).resolve().parents[1]
 BACKEND_ROOT = ROOT / "environment" / "frontend_server"
 
 
@@ -90,6 +90,78 @@ class PersonaStateStabilityLogTests(unittest.TestCase):
         self.assertEqual(translated[0]["new_signature_zh"]["intent_family"], "ZH:communication")
         self.assertEqual(translated[0]["description_zh"], "ZH:chatting with Maria Lopez")
         self.assertEqual(translated[1]["signature_zh"]["target"], "ZH:refrigerator")
+
+    def test_load_recent_motive_monitor_logs_filters_persona(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            logs_path = Path(tmp_dir) / "motive_monitor.jsonl"
+            rows = [
+                {"persona": "Maria Lopez", "event": "motive_delta", "curr_step": 10},
+                {"persona": "Maria Lopez", "event": "other_event", "curr_step": 11},
+                {"persona": "Klaus Mueller", "event": "motive_delta", "curr_step": 12},
+            ]
+            with open(logs_path, "w", encoding="utf-8") as f:
+                for row in rows:
+                    f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+            with patch.object(views.os.path, "abspath", return_value=str(logs_path)):
+                loaded = views._load_recent_motive_monitor_logs("Maria Lopez", limit=10)
+
+        self.assertEqual(len(loaded), 1)
+        self.assertEqual(loaded[0]["event"], "motive_delta")
+
+    def test_translate_recent_decision_logs_adds_motive_and_llm_fields(self):
+        logs = [
+            {
+                "event": "decision_snapshot",
+                "intent": "I should eat now.",
+                "llm_decision_text": {"thought": "I should eat now.", "reasoning": "Hunger is dominant."},
+                "decision": {
+                    "action": "Gather",
+                    "target": "refrigerator",
+                    "detail": "opening the refrigerator",
+                    "duration": 10,
+                    "reasoning": "Hunger is dominant.",
+                },
+                "motives": {
+                    "dominant_motive": "satiety",
+                    "secondary_motive": "stamina",
+                    "guard_motive": None,
+                    "dominant_motive_text": "我很饿，我很想进食",
+                    "secondary_motive_text": "我很累，我想休息一下",
+                    "motive_sentence": "我很饿，我很想进食；我很累，我想休息一下。",
+                    "top_scores": [
+                        {"motive": "satiety", "reason": "Satiety dropped below safe threshold."}
+                    ],
+                },
+            }
+        ]
+
+        translated = views._translate_recent_decision_logs(logs, translate_func=lambda text: f"ZH:{text}")
+
+        self.assertEqual(translated[0]["llm_decision_text_zh"]["thought"], "ZH:I should eat now.")
+        self.assertEqual(translated[0]["motives_zh"]["dominant_motive"], "ZH:satiety")
+        self.assertEqual(translated[0]["motives_zh"]["top_scores"][0]["reason_zh"], "ZH:Satiety dropped below safe threshold.")
+
+    def test_translate_recent_motive_monitor_logs_adds_translated_fields(self):
+        logs = [
+            {
+                "event": "motive_delta",
+                "source": "skill_effect",
+                "reason": "consume",
+                "dominant_motive": "satiety",
+                "secondary_motive": "stamina",
+                "guard_motive": None,
+                "motive_sentence": "我很饿，我很想进食。",
+                "changed_motives": [{"motive": "satiety", "before": 20.0, "after": 35.0, "delta": 15.0}],
+                "top_scores": [{"motive": "satiety", "reason": "Satiety is still low."}],
+            }
+        ]
+
+        translated = views._translate_recent_motive_monitor_logs(logs, translate_func=lambda text: f"ZH:{text}")
+
+        self.assertEqual(translated[0]["source_zh"], "ZH:skill_effect")
+        self.assertEqual(translated[0]["changed_motives_zh"][0]["motive_zh"], "ZH:satiety")
+        self.assertEqual(translated[0]["top_scores_zh"][0]["reason_zh"], "ZH:Satiety is still low.")
 
 
 if __name__ == "__main__":

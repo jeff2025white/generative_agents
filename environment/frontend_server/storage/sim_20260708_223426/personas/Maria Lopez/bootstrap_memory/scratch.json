@@ -1,0 +1,771 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 08:22:10",
+  "curr_tile": [
+    36,
+    46
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "energetic, enthusiastic, inquisitive",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 99.92,
+  "stamina": 90.89000000000085,
+  "health": 100.0,
+  "mood": 55.680000000000106,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 99.92,
+      "initial_value": 40.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.08,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 90.89000000000085,
+      "initial_value": 100.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 100.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 63.65999999999956,
+      "initial_value": 65.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 55.680000000000106,
+      "initial_value": 50.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 55.31999999999958,
+      "initial_value": 58.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 53.66000000000027,
+      "initial_value": 55.0,
+      "safe_threshold": 42.0,
+      "critical_threshold": 24.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 60.66000000000027,
+      "initial_value": 62.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 57.989999999999924,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.015,
+      "priority_weight": 0.92,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 56.66000000000027,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.88,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 08, 2026, 08:22:10",
+  "decision_commit_until_step": 135,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "grocery store",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "going to the grocery store to find more food",
+  "recent_completed_action_signature": {
+    "skill_id": "consume",
+    "target": "apple",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 132,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple",
+    "target_address": "<waiting> 36 46",
+    "skill_id": "consume",
+    "action_description": "eating an apple from inventory to restore satiety",
+    "curr_step": 132
+  },
+  "active_execution_state": {
+    "id": "Maria Lopez-133-gather-grocery store",
+    "phase": "pathing",
+    "address": "the Ville:The Willows Market and Pharmacy:store",
+    "command": {
+      "skill_id": "gather",
+      "target": "grocery store",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "going to the grocery store to find more food"
+    },
+    "description": "going to the grocery store to find more food",
+    "event": [
+      "Maria Lopez",
+      "is",
+      "going"
+    ],
+    "path": [
+      [
+        36,
+        44
+      ],
+      [
+        37,
+        44
+      ],
+      [
+        38,
+        44
+      ],
+      [
+        38,
+        43
+      ],
+      [
+        38,
+        42
+      ],
+      [
+        38,
+        41
+      ],
+      [
+        38,
+        40
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        38,
+        38
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        39,
+        37
+      ],
+      [
+        40,
+        37
+      ],
+      [
+        41,
+        37
+      ],
+      [
+        42,
+        37
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        44,
+        37
+      ],
+      [
+        45,
+        37
+      ],
+      [
+        46,
+        37
+      ],
+      [
+        47,
+        37
+      ],
+      [
+        48,
+        37
+      ],
+      [
+        49,
+        37
+      ],
+      [
+        50,
+        37
+      ],
+      [
+        51,
+        37
+      ],
+      [
+        52,
+        37
+      ],
+      [
+        53,
+        37
+      ],
+      [
+        54,
+        37
+      ],
+      [
+        55,
+        37
+      ],
+      [
+        56,
+        37
+      ],
+      [
+        57,
+        37
+      ],
+      [
+        58,
+        37
+      ],
+      [
+        59,
+        37
+      ],
+      [
+        60,
+        37
+      ],
+      [
+        61,
+        37
+      ],
+      [
+        62,
+        37
+      ],
+      [
+        63,
+        37
+      ],
+      [
+        64,
+        37
+      ],
+      [
+        65,
+        37
+      ],
+      [
+        66,
+        37
+      ],
+      [
+        67,
+        37
+      ],
+      [
+        68,
+        37
+      ],
+      [
+        69,
+        37
+      ],
+      [
+        70,
+        37
+      ],
+      [
+        71,
+        37
+      ],
+      [
+        72,
+        37
+      ],
+      [
+        73,
+        37
+      ],
+      [
+        74,
+        37
+      ],
+      [
+        75,
+        37
+      ],
+      [
+        76,
+        37
+      ],
+      [
+        77,
+        37
+      ],
+      [
+        78,
+        37
+      ],
+      [
+        79,
+        37
+      ],
+      [
+        80,
+        37
+      ],
+      [
+        80,
+        38
+      ],
+      [
+        80,
+        39
+      ],
+      [
+        80,
+        40
+      ],
+      [
+        80,
+        41
+      ],
+      [
+        80,
+        42
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "grocery store",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 133,
+    "updated_step": 133,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "grocery store",
+    "target_type": "place",
+    "resolved_target": "store",
+    "resolved_address": "the Ville:The Willows Market and Pharmacy:store",
+    "description": "going to the grocery store to find more food",
+    "command": {
+      "skill_id": "gather",
+      "target": "grocery store",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "going to the grocery store to find more food"
+    },
+    "event": [
+      "Maria Lopez",
+      "is",
+      "going"
+    ],
+    "duration": 30,
+    "creator_instruction": null,
+    "created_step": 133,
+    "updated_step": 133,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "chat",
+  "active_skill_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260708_082210_133",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 133,
+  "active_skill_owner": "init",
+  "active_skill_target": "Isabella Rodriguez",
+  "active_skill_metadata": {
+    "dialogue_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260708_082210_133",
+    "chatting_end_time": "July 08, 2026, 08:33:00"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 0
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 31,
+  "importance_ele_n": 44,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:The Willows Market and Pharmacy:store",
+  "act_start_time": "July 08, 2026, 08:22:10",
+  "act_duration": 30,
+  "act_description": "going to the grocery store to find more food",
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": [
+    "Maria Lopez",
+    "is",
+    "going"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "grocery store",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "going to the grocery store to find more food"
+  },
+  "act_obj_description": "store is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "store",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      36,
+      44
+    ],
+    [
+      37,
+      44
+    ],
+    [
+      38,
+      44
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      38,
+      42
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      38,
+      40
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      38,
+      38
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      39,
+      37
+    ],
+    [
+      40,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      44,
+      37
+    ],
+    [
+      45,
+      37
+    ],
+    [
+      46,
+      37
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      61,
+      37
+    ],
+    [
+      62,
+      37
+    ],
+    [
+      63,
+      37
+    ],
+    [
+      64,
+      37
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      66,
+      37
+    ],
+    [
+      67,
+      37
+    ],
+    [
+      68,
+      37
+    ],
+    [
+      69,
+      37
+    ],
+    [
+      70,
+      37
+    ],
+    [
+      71,
+      37
+    ],
+    [
+      72,
+      37
+    ],
+    [
+      73,
+      37
+    ],
+    [
+      74,
+      37
+    ],
+    [
+      75,
+      37
+    ],
+    [
+      76,
+      37
+    ],
+    [
+      77,
+      37
+    ],
+    [
+      78,
+      37
+    ],
+    [
+      79,
+      37
+    ],
+    [
+      80,
+      37
+    ],
+    [
+      80,
+      38
+    ],
+    [
+      80,
+      39
+    ],
+    [
+      80,
+      40
+    ],
+    [
+      80,
+      41
+    ],
+    [
+      80,
+      42
+    ]
+  ]
+}

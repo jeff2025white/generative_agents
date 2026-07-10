@@ -20,12 +20,15 @@ Task:
 Choose only the immediate next action. Do not describe a multi-step plan.
 Do not weigh all information equally.
 Use this strict priority order:
-1. Immediate feasibility and the newest failure feedback
-2. Immediate physiological urgency
-3. Reachable local options
-4. Ongoing local obligations
-5. Identity, routine role behavior, and long-term goals
+1. Dominant motive guidance
+2. Immediate feasibility and the newest failure feedback
+3. Immediate physiological urgency
+4. Reachable local options
+5. Ongoing local obligations
+6. Identity, routine role behavior, and long-term goals
 If higher-priority information conflicts with lower-priority information, always obey the higher-priority information.
+Treat the dominant motive as the primary reason for the chosen immediate action.
+If the dominant motive is mood, choose a directly mood-repairing immediate action unless hard physical constraints or execution impossibility force a fallback.
 Identity and long-term goals may only break ties between currently feasible immediate options.
 If the previous immediate action failed or a target was unreachable, you must choose a different immediate target or materially different plan instead of repeating that failed target.
 If a target appears in InvalidTargets, it is forbidden for this immediate step.

@@ -6,12 +6,18 @@ from persona.cognitive_modules.memory_effects import (
     record_stat_change_experience,
 )
 from persona.cognitive_modules.action_target_resolver import resolve_candidate_object_address
+from persona.cognitive_modules.skill_effects import build_skill_effect_spec
 
 class RestSkillPack(BaseSkillPack):
     def __init__(self):
         super().__init__()
         self.name = "rest"
         self.associated_xp = "" # Rest doesn't have an associated skill tree XP in bootstrap
+        self.effect_spec = build_skill_effect_spec(
+            base_state_effects={"stamina": 40.0},
+            motive_effects={},
+            intent_tags=("rest", "restore_stamina", "recovery"),
+        )
 
     def can_execute(self, persona, target, maze) -> bool:
         # 1. If currently standing on a restable object (bed/sofa/chair), they can rest.
@@ -34,10 +40,10 @@ class RestSkillPack(BaseSkillPack):
 
     def on_arrive(self, persona, target, maze, personas):
         self.mark_arrival_phase(persona, target=target)
-        # 1. Metabolism stamina recovery
         before_stamina = persona.scratch.stamina
         before_snapshot = capture_attribute_snapshot(persona)
-        persona.scratch.stamina = min(100.0, persona.scratch.stamina + 40.0)
+        self.apply_declared_base_state_effects(persona)
+        self.apply_declared_motive_effects(persona)
         after_snapshot = capture_attribute_snapshot(persona)
         attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
         append_debug_log(

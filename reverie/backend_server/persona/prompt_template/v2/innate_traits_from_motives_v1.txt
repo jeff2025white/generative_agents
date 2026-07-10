@@ -1,0 +1,37 @@
+innate_traits_from_motives_v1.txt
+
+Variables:
+!<INPUT 0>! -- persona name
+!<INPUT 1>! -- lifestyle / role summary
+!<INPUT 2>! -- learned traits summary
+!<INPUT 3>! -- motive profile snapshot
+!<INPUT 4>! -- dominant / secondary / guard motive names
+!<INPUT 5>! -- lightweight role trait hints
+
+<commentblockmarker>###</commentblockmarker>
+Persona: !<INPUT 0>!
+
+Lifestyle / role:
+!<INPUT 1>!
+
+Learned traits:
+!<INPUT 2>!
+
+Motive profile snapshot:
+!<INPUT 3>!
+
+Motive summary:
+!<INPUT 4>!
+
+Optional role trait hints:
+!<INPUT 5>!
+
+Write this persona's innate traits text.
+Requirements:
+- Infer enduring temperament from the motive profile, not from one temporary mood spike.
+- Use the motive pressures and role context as evidence for what kind of person they generally are.
+- Keep the text short and stable.
+- Output 3 to 5 comma-separated traits or short descriptors.
+- Do not mention motive names, raw numbers, thresholds, or temporary states.
+- Do not write a full sentence.
+- Return only the innate-traits text.

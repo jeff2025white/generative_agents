@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from pathlib import Path
 
 # Ensure project path is in sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -117,7 +118,10 @@ def run_migration(sim_dir):
 
 if __name__ == "__main__":
     # 默认整理项目基础模板: base_the_ville_isabella_maria_klaus
-    default_sim = "g:/generative_agents/environment/frontend_server/storage/base_the_ville_isabella_maria_klaus"
+    repo_root = Path(__file__).resolve().parents[2]
+    default_sim = str(
+        repo_root / "environment" / "frontend_server" / "storage" / "base_the_ville_isabella_maria_klaus"
+    )
     
     # 也可以从命令行参数传入其他项目目录
     if len(sys.argv) > 1:

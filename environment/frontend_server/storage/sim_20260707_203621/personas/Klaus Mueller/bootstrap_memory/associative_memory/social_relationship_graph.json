@@ -1,0 +1,19 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about a study session and the challenges they are facing in their respective tasks",
+        "conversing about a friendly discussion about preparing for a Valentine's Day party and the possibility of Maria Lopez turning her decorative skills into a business"
+      ]
+    },
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about planning a Valentine's Day party"
+      ]
+    }
+  }
+}

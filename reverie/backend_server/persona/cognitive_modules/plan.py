@@ -14,7 +14,7 @@ import uuid
 sys.path.append('../../')
 
 from global_methods import *
-from llm_api_config import get_default_decision_request_config, get_default_translation_request_config
+from llm_api_config import get_default_decision_request_config
 from persona.cognitive_modules.action_command_utils import build_action_command, normalize_skill_id
 from persona.cognitive_modules.action_target_resolver import (
   PLACE_TARGET_CANDIDATES,
@@ -47,6 +47,12 @@ from persona.cognitive_modules.intent_memory import (
   retrieve_intent_memories,
   summarize_intent_memories,
 )
+from persona.cognitive_modules.motive_selector import (
+  select_motives,
+)
+from persona.cognitive_modules.stage1_prompt_compiler import (
+  refresh_prompt_profile_from_planning,
+)
 from persona.training.training_candidate_builder import normalize_training_log_record
 from persona.cognitive_modules.social_trigger import (
   choose_social_focus,
@@ -72,6 +78,7 @@ from persona.cognitive_modules.converse import *
 ##############################################################################
 
 STEP_TIMING_LOG = "step_timing.jsonl"
+DECISION_PROMPT_TRACE_LOG = "decision_prompt_trace.jsonl"
 SLOW_TIMING_THRESHOLD_MS = 10000
 _ACT_OBJ_STATE_CACHE = {}
 COLLECTIVE_SOCIAL_TARGET_KEYWORDS = {
@@ -88,24 +95,128 @@ COLLECTIVE_SOCIAL_TARGET_KEYWORDS = {
 }
 
 SOCIAL_VENUE_HINTS = (
-  "hobbs cafe",
-  "cafe",
   "pub",
   "bar",
   "tavern",
-  "plaza",
-  "park",
-  "common room",
   "rose and crown",
 )
+STATIC_RESOURCE_PURPOSES = {
+  "apple tree": "可获取食物",
+  "refrigerator": "可获取 / 储存食物",
+  "stove": "可准备食物 / 做饭",
+  "cafe counter": "潜在食物来源 / 工作点位",
+  "behind the cafe counter": "潜在食物来源 / 工作点位",
+  "behind the bar counter": "社交服务 / 工作点位",
+  "behind the grocery counter": "购物服务 / 工作点位",
+  "behind the pharmacy counter": "购物服务 / 工作点位",
+  "behind the supply store counter": "购物服务 / 工作点位",
+  "bed": "休息 / 恢复体力",
+  "sofa": "休息 / 恢复体力",
+  "common room sofa": "休息 / 放松",
+  "library sofa": "休息 / 阅读",
+  "chair": "短暂休息 / 等待",
+  "garden chair": "短暂休息 / 放松",
+  "bench": "短暂休息 / 情绪修复",
+  "park bench": "短暂休息 / 情绪修复",
+  "desk": "工作 / 学习",
+  "computer desk": "工作 / 学习",
+  "computer": "工作 / 学习",
+  "library table": "工作 / 学习",
+  "bookshelf": "学习",
+  "blackboard": "工作 / 教学",
+  "classroom student seating": "学习 / 听课",
+  "classroom podium": "教学 / 演讲",
+  "game console": "娱乐 / 情绪修复",
+  "piano": "娱乐 / 情绪修复",
+  "pool table": "娱乐 / 社交",
+  "park garden": "散步 / 情绪修复",
+  "dorm garden": "散步 / 放松",
+  "house garden": "散步 / 放松",
+  "cafe customer seating": "社交 / 休息",
+  "bar customer seating": "社交 / 休息",
+  "common room": "社交 / 休息 / 放松",
+  "library": "学习 / 工作",
+  "plaza": "散步 / 社交",
+  "courtyard": "散步 / 社交",
+  "pub": "社交 / 情绪修复",
+  "bar": "社交 / 情绪修复",
+  "tavern": "社交 / 情绪修复",
+  "rose and crown": "社交 / 情绪修复",
+}
 
 
 def _elapsed_ms(started_at):
   return round((time.perf_counter() - started_at) * 1000.0, 3)
 
 
-def _is_collective_social_target(target):
-  normalized = str(target or "").strip().lower()
+def _address_has_approach_tile(maze, address):
+  tiles = list(getattr(maze, "address_tiles", {}).get(address, []))
+  if not tiles:
+    return False
+  for raw_tile in tiles:
+    x, y = int(raw_tile[0]), int(raw_tile[1])
+    tile_info = maze.access_tile((x, y))
+    if tile_info and not tile_info.get("collision"):
+      return True
+    for neighbor in ((x, y - 1), (x, y + 1), (x - 1, y), (x + 1, y)):
+      try:
+        neighbor_info = maze.access_tile(neighbor)
+      except Exception:
+        neighbor_info = None
+      if neighbor_info and not neighbor_info.get("collision"):
+        return True
+  return False
+
+
+def _resource_purpose_for_label(label):
+  normalized_label = str(label or "").strip().lower()
+  return STATIC_RESOURCE_PURPOSES.get(normalized_label)
+
+
+def _build_static_resource_context_text(persona, maze):
+  scratch = getattr(persona, "scratch", None)
+  maze_name = getattr(maze, "maze_name", None) or "default"
+  cached_text = getattr(scratch, "static_resource_context_text", None) if scratch is not None else None
+  cached_maze_name = getattr(scratch, "static_resource_context_maze_name", None) if scratch is not None else None
+  if cached_text and cached_maze_name == maze_name:
+    return cached_text
+
+  entries = {}
+  for address in sorted(getattr(maze, "address_tiles", {}).keys()):
+    if str(address).startswith("<spawn_loc>"):
+      continue
+    parts = str(address).split(":")
+    if len(parts) < 3:
+      continue
+    label = parts[-1].strip().lower()
+    purpose = _resource_purpose_for_label(label)
+    if not purpose:
+      continue
+    if not _address_has_approach_tile(maze, address):
+      continue
+    entries[label] = purpose
+
+  if not entries:
+    text = "可达的资源/场所:\n  暂无稳定关键资源记录"
+  else:
+    lines = ["可达的资源/场所:"]
+    for label in sorted(entries):
+      lines.append(f"  {label}:")
+      lines.append(f"    用途: {entries[label]}")
+    text = "\n".join(lines)
+
+  if scratch is not None:
+    scratch.static_resource_context_text = text
+    scratch.static_resource_context_maze_name = maze_name
+  return text
+
+
+def _is_collective_social_target(target, detail=None):
+  normalized = " ".join(
+    str(value or "").strip().lower()
+    for value in (target, detail)
+    if value
+  ).strip()
   if not normalized:
     return False
   tokens = set(normalized.replace("-", " ").split())
@@ -126,7 +237,7 @@ def _extract_social_venue_target(target, detail):
 
 def _coerce_collective_social_hangout(action, target, act_desp, reasoning):
   normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
-  if normalized_skill_id != "chat with" or not _is_collective_social_target(target):
+  if normalized_skill_id != "chat with" or not _is_collective_social_target(target, act_desp):
     return action, target, act_desp, reasoning, False
   venue_target = _extract_social_venue_target(target, act_desp)
   if not venue_target:
@@ -148,7 +259,7 @@ def _coerce_explicit_persona_chat(action, target, act_desp, reasoning, personas=
   normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
   if normalized_skill_id != "chat with":
     return action, target, act_desp, reasoning, False
-  if _is_collective_social_target(target):
+  if _is_collective_social_target(target, act_desp):
     return action, target, act_desp, reasoning, False
   persona_resolution = resolve_persona_target(personas or {}, target)
   if not persona_resolution.get("ok"):
@@ -175,7 +286,63 @@ def _log_timing_event(event_name, payload):
   append_debug_log(STEP_TIMING_LOG, record)
 
 
-def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None):
+def _append_step_decision_trace(persona,
+                                decision_id,
+                                thinking_text,
+                                reasoning,
+                                decision,
+                                action,
+                                target,
+                                act_desp,
+                                motive_debug,
+                                minimal_filter_summary,
+                                collective_social_reroute=False,
+                                explicit_persona_chat_reroute=False):
+  curr_time = getattr(persona.scratch, "curr_time", None)
+  if curr_time is None:
+    sim_time = None
+  else:
+    try:
+      sim_time = curr_time if isinstance(curr_time, str) else curr_time.strftime('%Y-%m-%d %H:%M:%S')
+    except Exception:
+      sim_time = str(curr_time)
+  append_debug_log(
+    DECISION_PROMPT_TRACE_LOG,
+    {
+      "event": "final_decision",
+      "stage": "final_decision",
+      "stage_order": 30,
+      "decision_id": decision_id,
+      "persona": persona.name,
+      "curr_step": getattr(persona.scratch, "curr_step", None),
+      "sim_time": sim_time,
+      "llm_decision_text": {
+        "thought": thinking_text,
+        "reasoning": reasoning,
+      },
+      "decision": decision,
+      "decision_routed_action": action,
+      "decision_routed_target": target,
+      "decision_routed_detail": act_desp,
+      "decision_routed_reasoning": reasoning,
+      "collective_social_reroute": bool(collective_social_reroute),
+      "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+      "motives": motive_debug,
+      "stats": {
+        "satiety": persona.scratch.satiety,
+        "stamina": persona.scratch.stamina,
+        "health": persona.scratch.health,
+        "mood": persona.scratch.mood,
+      },
+      "inventory": persona.scratch.inventory,
+      "minimal_filter_enabled": bool((minimal_filter_summary or {}).get("enabled")),
+      "minimal_filter_applied": bool((minimal_filter_summary or {}).get("applied")),
+      "minimal_filter_summary": minimal_filter_summary or {},
+    },
+  )
+
+
+def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None):
   resolution_meta = resolution_meta or {}
   return {
     "status": "resolved",
@@ -194,6 +361,7 @@ def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved
     "created_step": getattr(persona.scratch, "curr_step", None),
     "updated_step": getattr(persona.scratch, "curr_step", None),
     "failure": None,
+    "creator_instruction": str(creator_instruction or "").strip() or None,
   }
 
 
@@ -245,66 +413,12 @@ def _build_translation_convergence_hint(persona, intent_memory_summary):
   return hint
 
 
-def _maybe_promote_boredom_recovery(persona, maze, action, target, act_desp, reasoning):
-  """Steer safe idle states toward concrete leisure actions instead of null idle."""
-  scratch = getattr(persona, "scratch", None)
-  if not scratch:
-    return action, target, act_desp, reasoning
-
-  mood = float(getattr(scratch, "mood", 100.0) or 100.0)
-  satiety = float(getattr(scratch, "satiety", 100.0) or 100.0)
-  stamina = float(getattr(scratch, "stamina", 100.0) or 100.0)
-  health = float(getattr(scratch, "health", 100.0) or 100.0)
-
-  normalized_action = str(action or "").strip().lower()
-  normalized_target = str(target or "").strip().lower()
-  if normalized_action not in {"idle", "recreate", ""}:
-    return action, target, act_desp, reasoning
-  if normalized_action == "recreate" and normalized_target not in {"", "none"}:
-    return action, target, act_desp, reasoning
-  if satiety < 65.0 or stamina < 50.0 or health < 75.0:
-    return action, target, act_desp, reasoning
-
-  curr_tile = getattr(scratch, "curr_tile", None)
-  current_object = maze.get_tile_path(curr_tile, "game_object") if curr_tile else None
-  current_arena = maze.get_tile_path(curr_tile, "arena") if curr_tile else None
-  current_context = " ".join(str(part or "").lower() for part in [current_object, current_arena])
-  if any(keyword in current_context for keyword in ["park", "garden", "bench", "sofa", "cafe customer seating", "common room", "plaza", "courtyard"]):
-    daydream_target = current_object or current_arena or "bench"
-    reason_tag = "low mood" if mood < 60.0 else "safe idle"
-    return (
-      "Idle",
-      daydream_target,
-      f"daydreaming quietly at the {daydream_target} and people-watching for a while",
-      f"{reasoning} [{reason_tag} leisure fallback: in-place daydream]",
-    )
-
-  for leisure_target in ["park garden", "park", "common room sofa", "cafe customer seating", "bench"]:
-    wander_detail = f"strolling through the {leisure_target} to unwind and clear my head"
-    resolved_address, _meta = resolve_action_target_address(
-      persona,
-      maze,
-      "wander",
-      target=leisure_target,
-      detail=wander_detail,
-    )
-    if resolved_address:
-      reason_tag = "low mood" if mood < 60.0 else "safe idle"
-      return (
-        "Recreate",
-        leisure_target,
-        wander_detail,
-        f"{reasoning} [{reason_tag} leisure fallback: wander to relaxing place]",
-      )
-
-  fallback_target = current_object or current_arena or "bench"
-  reason_tag = "low mood" if mood < 60.0 else "safe idle"
-  return (
-    "Idle",
-    fallback_target,
-    f"daydreaming quietly at the {fallback_target} to reset my mood",
-    f"{reasoning} [{reason_tag} leisure fallback: in-place daydream]",
-  )
+def _get_admin_override_instruction(persona):
+  getter = getattr(persona.scratch, "get_admin_override_intent", None)
+  if callable(getter):
+    return getter()
+  intent = str(getattr(persona.scratch, "admin_override_intent", "") or "").strip()
+  return intent or None
 
 
 def _autofill_rest_target(persona, action, target, act_desp, reasoning):
@@ -520,17 +634,22 @@ def _run_decision_pipeline(persona,
                            cooperative_context,
                            last_action_desc,
                            intent_memory_summary,
+                           admin_override_instruction=None,
                            intent_family=None,
                            decision_id=None,
                            decision_convergence_hint=None,
-                           allow_retry=True):
+                           allow_retry=True,
+                           static_resource_context_text=None):
   base_translation_hint = _build_translation_convergence_hint(persona, intent_memory_summary)
   translation_convergence_hint = base_translation_hint
   if decision_convergence_hint:
     translation_convergence_hint = f"{base_translation_hint} {decision_convergence_hint}".strip()
   invalid_targets = build_invalid_targets(persona.scratch)
   use_joint_decision = os.getenv("ENABLE_JOINT_DECISION_PIPELINE", "0") == "1"
-  use_semantic_cache = os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
+  use_semantic_cache = (
+    os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
+    and not admin_override_instruction
+  )
   timing_meta = {
     "decision_cache_lookup": 0.0,
     "decision_cache_hit": 0.0,
@@ -569,8 +688,10 @@ def _run_decision_pipeline(persona,
       cooperative_context=cooperative_context,
       last_action_desc=last_action_desc,
       intent_memory_summary=intent_memory_summary,
+      admin_override_instruction=admin_override_instruction,
       decision_convergence_hint=translation_convergence_hint,
       decision_id=decision_id,
+      static_resource_context_text=static_resource_context_text,
       request_config=decision_request_config,
     )
     timing_meta["joint_decision"] = _elapsed_ms(stage_started_at)
@@ -604,10 +725,12 @@ def _run_decision_pipeline(persona,
           cooperative_context,
           last_action_desc,
           intent_memory_summary,
+          admin_override_instruction=admin_override_instruction,
           intent_family=intent_family,
           decision_id=decision_id,
           decision_convergence_hint=retry_hint,
           allow_retry=False,
+          static_resource_context_text=static_resource_context_text,
         )
         return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
       thinking_text = str(joint_result.get("thought") or "").strip()
@@ -625,7 +748,9 @@ def _run_decision_pipeline(persona,
       cooperative_context=cooperative_context,
       last_action_desc=last_action_desc,
       intent_memory_summary=intent_memory_summary,
+      admin_override_instruction=admin_override_instruction,
       decision_id=decision_id,
+      static_resource_context_text=static_resource_context_text,
       request_config=decision_request_config,
   )
   timing_meta["demand_thinking"] = _elapsed_ms(stage_started_at)
@@ -634,11 +759,12 @@ def _run_decision_pipeline(persona,
       thinking_text,
       object_states,
       persona.scratch.get_str_firstname(),
+      admin_override_instruction=admin_override_instruction,
       decision_convergence_hint=translation_convergence_hint,
       retry_count=1,
       decision_id=decision_id,
       persona=persona,
-      request_config=get_default_translation_request_config(),
+      request_config=decision_request_config,
   )
   timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
   should_retry, retry_reason = validate_decision_target(decision, invalid_targets)
@@ -670,10 +796,12 @@ def _run_decision_pipeline(persona,
       cooperative_context,
       last_action_desc,
       intent_memory_summary,
+      admin_override_instruction=admin_override_instruction,
       intent_family=intent_family,
       decision_id=decision_id,
       decision_convergence_hint=retry_hint,
       allow_retry=False,
+      static_resource_context_text=static_resource_context_text,
     )
     return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
   return thinking_text, decision, translation_convergence_hint, False, timing_meta, cache_signature
@@ -1022,6 +1150,7 @@ def _describe_mood(mood):
 
 def _build_homeostasis_status_summary(persona):
   """Builds descriptive homeostasis text so the LLM sees feelings and urgency, not just raw numbers."""
+  motive_result = select_motives(persona.scratch.get_motive_attributes_snapshot())
   satiety = float(persona.scratch.satiety)
   stamina = float(persona.scratch.stamina)
   health = float(persona.scratch.health)
@@ -1061,7 +1190,7 @@ def _build_homeostasis_status_summary(persona):
       f"Overall Summary: Your body is safe and well supplied, but your mood is lagging behind. "
       f"With Mood at {mood:.1f} and Satiety at {satiety:.1f}, enjoyable leisure or social contact should usually beat neutral work or more food gathering."
     )
-  elif top_need == "mood" and mood < 50:
+  elif top_need == "mood":
     overall_summary = (
       f"Overall Summary: Emotional recovery is becoming a meaningful need. "
       f"With Mood at {mood:.1f}, comforting or restorative activity should become more attractive."
@@ -1073,6 +1202,7 @@ def _build_homeostasis_status_summary(persona):
     )
 
   return "\n".join([
+    f"- Dominant Motive: {motive_result.get('motive_sentence') or '暂无明显主动机。'}",
     f"- Satiety Interpretation: {satiety_label}. Feeling: {satiety_feel} Behavioral Hint: {satiety_hint} Risk: {satiety_risk}",
     f"- Stamina Interpretation: {stamina_label}. Feeling: {stamina_feel} Behavioral Hint: {stamina_hint} Risk: {stamina_risk}",
     f"- Health Interpretation: {health_label}. Feeling: {health_feel} Behavioral Hint: {health_hint} Risk: {health_risk}",
@@ -1271,6 +1401,7 @@ def revise_identity(persona):
   new_daily_req = new_daily_req.replace('\n', ' ')
 
   persona.scratch.daily_plan_req = new_daily_req
+  refresh_prompt_profile_from_planning(persona, source="revise_identity")
 
 
 def _long_term_planning(persona, new_day): 
@@ -1349,6 +1480,7 @@ def _long_term_planning(persona, new_day):
   persona.a_mem.add_thought(created, expiration, s, p, o, 
                             thought, keywords, thought_poignancy, 
                             thought_embedding_pair, None)
+  refresh_prompt_profile_from_planning(persona, source="long_term_planning")
 
   # print("Sleeping for 20 seconds...")
   # time.sleep(10)
@@ -2130,15 +2262,6 @@ def decide_survival_action(persona, maze):
     act_desp,
     reasoning,
   )
-  action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
-    persona,
-    maze,
-    action,
-    target,
-    act_desp,
-    reasoning,
-  )
-
   print(f"[{persona.name}] 经过LLM生存分析做出决策: Action={action}, Target={target}, 原因={reasoning}")
 
   if action == "Idle" or target == "none":
@@ -2228,6 +2351,8 @@ def decide_demand_action(persona, maze, personas=None):
   decision_started_at = time.perf_counter()
   phase_started_at = decision_started_at
   timings_ms = {}
+  if personas is not None:
+    persona.runtime_known_personas = personas
 
   # Get all objects the persona knows about
   objs = set()
@@ -2277,7 +2402,7 @@ def decide_demand_action(persona, maze, personas=None):
   temporal_context = f"- Current Time: {curr_time_str}"
   status_summary = _build_homeostasis_status_summary(persona)
 
-  # Compile Homeostasis & World Rules dynamically based on stats and inventory
+  # Compile world facts and execution constraints without prescribing a motive.
   rules_list = [
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
@@ -2290,51 +2415,24 @@ def decide_demand_action(persona, maze, personas=None):
       "- If Satiety reaches 0.0, Health decays by -0.05 per step."
   ]
 
-  # Inject critical biological/environmental physics rules based on current state (What they touch/can utilize)
+  # Add only factual availability and physical consequence notes.
   if persona.scratch.satiety < 40.0:
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Satiety ({persona.scratch.satiety:.1f}) is low! If Satiety drops to 0.0, the physical world engine will degrade your Health by -0.05 per step until you die.")
-    # Check if they have food in inventory to utilize
     has_food = False
     for k, v in persona.scratch.inventory.items():
       if v > 0:
-        rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You have food ({k}) in your inventory! You can utilize the 'Consume' action targeting '{k}' to restore Satiety immediately.")
+        rules_list.insert(0, f"- AVAILABLE RESOURCE: You currently have food ({k}) in your inventory, so 'Consume' can target '{k}'.")
         has_food = True
         break
     if not has_food:
-      rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: Since your inventory is empty, you CANNOT eat directly. You MUST utilize a valid nearby food source (like refrigerator, stove, cafe counter, or apple tree) with the 'Gather' action to get food first.")
+      rules_list.insert(0, "- EXECUTION CONSTRAINT: Your inventory is empty, so 'Consume' is not currently executable until food is acquired.")
   if not any(v > 0 for v in persona.scratch.inventory.values()):
-    if world_state and any(t in gatherable_food_targets for t in ["refrigerator", "stove", "cafe counter", "apple tree"]):
-      rules_list.insert(0, "- FOOD SECURITY RULE: Your inventory is empty. Even if you are not starving yet, you should prefer gathering food to rebuild a small safety stock instead of doing optional leisure or party preparation.")
     if world_state and not any(t in gatherable_food_targets for t in ["refrigerator", "stove", "cafe counter"]) and "apple tree" in gatherable_food_targets:
-      rules_list.insert(0, "- FORAGING RULE: Known town food sources are depleted or unavailable. You should go to the apple tree in the wild to gather food.")
+      rules_list.insert(0, "- WORLD FACT: Known town food sources are depleted or unavailable right now; the apple tree is still available.")
   
   if persona.scratch.stamina < 40.0:
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, while normal activities decay it by about -0.04 per step and walking/pathing decays it by about -0.07 per step.")
-    rules_list.insert(0, f"- AVAILABLE PHYSICAL RULE: You can utilize the 'Rest' action targeting 'bed' or 'sofa' to sleep and restore Stamina.")
-
-  if (
-    persona.scratch.satiety >= 70.0
-    and persona.scratch.stamina >= 50.0
-    and persona.scratch.health >= 70.0
-    and persona.scratch.mood < 60.0
-  ):
-    rules_list.insert(
-      0,
-      f"- MOOD RECOVERY RULE: Your body is in a safe state (Satiety {persona.scratch.satiety:.1f}, Stamina {persona.scratch.stamina:.1f}, Health {persona.scratch.health:.1f}) but your Mood ({persona.scratch.mood:.1f}) is low. You should prefer 'Recreate' or 'Socialize' to raise mood instead of gathering extra food or doing neutral work."
-    )
-
-  # Inject critical survival priorities (< 30.0) - Satiety (Life) overrides Stamina (Rest)
-  if persona.scratch.satiety < 30.0:
-    if not persona.scratch.inventory:
-      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! Since your inventory is empty, you CANNOT select 'Consume'. You MUST select 'Gather' targeting a valid food source like 'refrigerator', 'stove', 'cafe counter', or 'apple tree' to get food first!")
-    else:
-      food_item = next((k for k, v in persona.scratch.inventory.items() if v > 0), "food")
-      rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Satiety ({persona.scratch.satiety:.1f}) is critically low! You have food in your inventory. You MUST immediately select 'Consume' targeting '{food_item}' to eat!")
-  elif persona.scratch.stamina < 30.0:
-    rules_list.insert(0, f"- CRITICAL HOMEOPATHY RULE: Stamina ({persona.scratch.stamina:.1f}) is critically low! You MUST immediately select 'Rest' targeting 'bed' or 'sofa' to sleep and restore stamina.")
-
-  # Add Survival Privilege rule under survival mode
-  rules_list.append("- Survival Privilege: Daily plan requirements and lifestyle guidelines are non-binding recommendations. You are fully authorized and encouraged to leave work, rest, or eat at any time to maintain Satiety and Stamina above 40.0.")
+    rules_list.insert(0, "- AVAILABLE RESOURCE: Rest can target a 'bed' or 'sofa' when either is reachable.")
 
   physiological_rules = "\n".join(rules_list)
 
@@ -2365,8 +2463,16 @@ def decide_demand_action(persona, maze, personas=None):
   intent_memory_summary = summarize_intent_memories(intent_family, intent_memories)
   timings_ms["intent_memory_retrieval"] = _elapsed_ms(phase_started_at)
   timings_ms["context_build"] = _elapsed_ms(context_build_started_at)
+  static_resource_context_text = _build_static_resource_context_text(persona, maze)
 
   decision_id = _build_decision_id(persona)
+  admin_override_instruction = _get_admin_override_instruction(persona)
+  if admin_override_instruction:
+    override_line = (
+      f"Active administrator override: {admin_override_instruction}. "
+      "This external instruction has highest priority for the next replan unless blocked by hard physical constraints."
+    )
+    physiological_rules = f"{override_line}\n{physiological_rules}"
   thinking_text, decision, translation_convergence_hint, used_joint_decision, decision_timing_meta, decision_cache_signature = _run_decision_pipeline(
     persona,
     object_states,
@@ -2376,8 +2482,10 @@ def decide_demand_action(persona, maze, personas=None):
     cooperative_context,
     last_action_desc,
     intent_memory_summary,
+    admin_override_instruction=admin_override_instruction,
     intent_family=intent_family,
     decision_id=decision_id,
+    static_resource_context_text=static_resource_context_text,
   )
   timings_ms["decision_cache_lookup"] = float(decision_timing_meta.get("decision_cache_lookup", 0.0) or 0.0)
   timings_ms["decision_cache_hit"] = float(decision_timing_meta.get("decision_cache_hit", 0.0) or 0.0)
@@ -2431,14 +2539,6 @@ def decide_demand_action(persona, maze, personas=None):
     act_desp,
     reasoning,
   )
-  action, target, act_desp, reasoning = _maybe_promote_boredom_recovery(
-    persona,
-    maze,
-    action,
-    target,
-    act_desp,
-    reasoning,
-  )
   action, target, act_desp, reasoning, collective_social_reroute = _coerce_collective_social_hangout(
     action,
     target,
@@ -2453,6 +2553,7 @@ def decide_demand_action(persona, maze, personas=None):
     personas=personas,
   )
   minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=decision_timing_meta)
+  motive_debug = persona.scratch.get_motive_debug_snapshot() if hasattr(persona.scratch, "get_motive_debug_snapshot") else {}
   append_debug_log(
     "training_dataset/decision_training_prep.jsonl",
     normalize_training_log_record(
@@ -2547,12 +2648,18 @@ def decide_demand_action(persona, maze, personas=None):
         "persona": persona.name,
         "event": "decision_snapshot",
         "intent": thinking_text,
+        "llm_decision_text": {
+          "thought": thinking_text,
+          "reasoning": reasoning,
+        },
         "decision": decision,
         "decision_routed_action": action,
         "decision_routed_target": target,
         "decision_routed_detail": act_desp,
+        "decision_routed_reasoning": reasoning,
         "collective_social_reroute": bool(collective_social_reroute),
         "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
+        "motives": motive_debug,
         "stats": {
           "satiety": persona.scratch.satiety,
           "stamina": persona.scratch.stamina,
@@ -2561,6 +2668,20 @@ def decide_demand_action(persona, maze, personas=None):
         },
         "inventory": persona.scratch.inventory,
       }
+    )
+    _append_step_decision_trace(
+      persona,
+      decision_id,
+      thinking_text,
+      reasoning,
+      decision,
+      action,
+      target,
+      act_desp,
+      motive_debug,
+      minimal_filter_summary,
+      collective_social_reroute=collective_social_reroute,
+      explicit_persona_chat_reroute=explicit_persona_chat_reroute,
     )
   except Exception:
     pass
@@ -2639,7 +2760,7 @@ def decide_demand_action(persona, maze, personas=None):
         "target_type": "persona",
         "target_resolution_failure": persona_resolution.get("failure_reason"),
       }
-      if normalized_skill_id == "chat with" and _is_collective_social_target(target):
+      if normalized_skill_id == "chat with" and _is_collective_social_target(target, act_desp):
         location_resolution = resolve_action_target(
           persona,
           maze,
@@ -2751,29 +2872,32 @@ def decide_demand_action(persona, maze, personas=None):
 
   # Adding the action to persona's queue. 
   phase_started_at = time.perf_counter()
-  persona.scratch.add_new_action(new_address, 
-                                 int(act_dura), 
-                                 act_desp, 
-                                 act_pron, 
-                                 act_event,
-                                 build_action_command(action, target, source="decision_translation", raw_action=action, detail=act_desp),
-                                 None,
-                                 None,
-                                 None,
-                                 None,
-                                 act_obj_desp, 
-                                 act_obj_pron, 
-                                 act_obj_event,
-                                 action_record=_build_action_record(
-                                   persona,
-                                   normalized_skill_id,
-                                   target,
-                                   act_desp,
-                                   act_dura,
-                                   new_address,
-                                   reasoning,
-                                   resolution_meta=resolution_meta,
-                                 ))
+  action_added = persona.scratch.add_new_action(new_address, 
+                                                int(act_dura), 
+                                                act_desp, 
+                                                act_pron, 
+                                                act_event,
+                                                build_action_command(action, target, source="decision_translation", raw_action=action, detail=act_desp),
+                                                None,
+                                                None,
+                                                None,
+                                                None,
+                                                act_obj_desp, 
+                                                act_obj_pron, 
+                                                act_obj_event,
+                                                action_record=_build_action_record(
+                                                  persona,
+                                                  normalized_skill_id,
+                                                  target,
+                                                  act_desp,
+                                                act_dura,
+                                                new_address,
+                                                reasoning,
+                                                resolution_meta=resolution_meta,
+                                                creator_instruction=admin_override_instruction,
+                                              ))
+  if action_added and admin_override_instruction and getattr(persona.scratch, "clear_admin_override_intent", None):
+    persona.scratch.clear_admin_override_intent()
   timings_ms["add_new_action"] = _elapsed_ms(phase_started_at)
   total_ms = _elapsed_ms(decision_started_at)
   _log_timing_event(
@@ -2814,7 +2938,7 @@ def plan(persona, maze, personas, new_day, retrieved):
   if persona.scratch.act_check_finished() or not act_desc:
     if act_desc:
       persona.scratch.last_action_desc = act_desc
-    if persona.scratch.should_resume_suspended_action():
+    if not _get_admin_override_instruction(persona) and persona.scratch.should_resume_suspended_action():
       persona.scratch.resume_suspended_action()
       return persona.scratch.act_address
     decide_demand_action(persona, maze, personas)
@@ -2830,53 +2954,10 @@ def plan(persona, maze, personas, new_day, retrieved):
   #                     ["thoughts"] = [<ConceptNode>, ...]}
   focused_event = False
   if retrieved.keys(): 
-    social_focus, social_candidates = choose_social_focus(persona, retrieved, personas)
-    log_social_dialogue(
-      persona,
-      "trigger",
-      "social_focus_scan",
-      payload={
-        "candidate_count": len(social_candidates),
-        "candidates": social_candidates[:5],
-        "selected_target": (
-          social_focus.get("curr_event").subject
-          if social_focus and social_focus.get("curr_event")
-          else None
-        ),
-      },
-    )
-    log_social_decision(
-      persona,
-      None,
-      "social_focus_scan",
-      {
-        "candidate_count": len(social_candidates),
-        "candidates": social_candidates[:5],
-        "selected_target": (
-          social_focus.get("curr_event").subject
-          if social_focus and social_focus.get("curr_event")
-          else None
-        ),
-      },
-    )
-    focused_event = social_focus if social_focus else _choose_retrieved(persona, retrieved)
+    focused_event = _choose_retrieved(persona, retrieved)
   
-  # Step 2: Once we choose an event, we need to determine whether the
-  #         persona will take any actions for the perceived event. There are
-  #         three possible modes of reaction returned by _should_react. 
-  #         a) "chat with {target_persona.name}"
-  #         b) "react"
-  #         c) False
-  if focused_event: 
-    reaction_mode = _should_react(persona, focused_event, personas)
-    if reaction_mode: 
-      # If we do want to chat, then we generate conversation 
-      if reaction_mode[:9] == "chat with":
-        _chat_react(maze, persona, focused_event, reaction_mode, personas)
-      elif reaction_mode[:4] == "wait": 
-        _wait_react(persona, reaction_mode)
-      # elif reaction_mode == "do other things": 
-      #   _chat_react(persona, focused_event, reaction_mode, personas)
+  # Step 2: Perceived social opportunities are logged as context only.
+  # Directly injecting a reaction here would bypass the main decision path.
 
   # Step 3: Chat-related state clean up. 
   # If the persona is not chatting with anyone, we clean up any of the 
@@ -2895,56 +2976,9 @@ def plan(persona, maze, personas, new_day, retrieved):
 
 def plan_social_reaction(persona, maze, personas, retrieved):
   """
-  Evaluate only social chat opportunities during fast-path movement steps.
+  Fast-path movement steps no longer inject social reactions outside the
+  main decision pipeline.
   """
-  if getattr(persona.scratch, "should_lock_high_level_planning", lambda: False)():
-    _decrement_chatting_with_buffer(persona)
-    return persona.scratch.act_address
-  if getattr(persona.scratch, "should_defer_social_interrupts", lambda: False)():
-    persona.scratch.remember_pending_interrupt(
-      "defer_social_during_committed_survival",
-      source="periodic_social_scan",
-      payload={"retrieved_keys": list(retrieved.keys())[:5] if retrieved else []},
-    )
-    _decrement_chatting_with_buffer(persona)
-    return persona.scratch.act_address
-  if not retrieved:
-    _decrement_chatting_with_buffer(persona)
-    return persona.scratch.act_address
-
-  social_focus, social_candidates = choose_social_focus(persona, retrieved, personas)
-  log_social_dialogue(
-    persona,
-    "trigger",
-    "periodic_social_scan",
-    payload={
-      "candidate_count": len(social_candidates),
-      "candidates": social_candidates[:5],
-      "selected_target": (
-        social_focus.get("curr_event").subject
-        if social_focus and social_focus.get("curr_event")
-        else None
-      ),
-    },
-  )
-  log_social_decision(
-    persona,
-    None,
-    "periodic_social_scan",
-    {
-      "candidate_count": len(social_candidates),
-      "candidates": social_candidates[:5],
-      "selected_target": (
-        social_focus.get("curr_event").subject
-        if social_focus and social_focus.get("curr_event")
-        else None
-      ),
-    },
-  )
-  if social_focus:
-    reaction_mode = _should_react(persona, social_focus, personas)
-    if reaction_mode and reaction_mode[:9] == "chat with":
-      _chat_react(maze, persona, social_focus, reaction_mode, personas)
   _decrement_chatting_with_buffer(persona)
   return persona.scratch.act_address
 

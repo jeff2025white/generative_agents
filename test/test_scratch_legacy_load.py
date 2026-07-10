@@ -2,8 +2,10 @@ import json
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -104,6 +106,31 @@ class ScratchLegacyLoadTests(unittest.TestCase):
 
         self.assertIsNone(scratch.act_address)
 
+    @patch(
+        "persona.memory_structures.scratch.generate_innate_traits_from_motives",
+        return_value="reflective, inquisitive, steady",
+    )
+    def test_load_legacy_scratch_refreshes_innate_traits_from_motives(self, _mock_refresh):
+        payload = self._build_legacy_payload()
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            json.dump(payload, tmp)
+            temp_path = tmp.name
+
+        try:
+            scratch = Scratch(temp_path)
+        finally:
+            Path(temp_path).unlink(missing_ok=True)
+
+        self.assertEqual(scratch.innate, "reflective, inquisitive, steady")
+        self.assertEqual(
+            scratch.get_prompt_profile_field("innate_traits_text"),
+            "reflective, inquisitive, steady",
+        )
+        self.assertEqual(
+            scratch.prompt_profile["fields"]["innate_traits_text"]["source"],
+            "motive_llm_refresh",
+        )
+
     def test_resume_suspended_action_normalizes_empty_address(self):
         scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
         scratch.suspended_action = {
@@ -128,6 +155,102 @@ class ScratchLegacyLoadTests(unittest.TestCase):
     def test_missing_file_uses_lower_default_mood(self):
         scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
         self.assertEqual(scratch.mood, 50.0)
+        self.assertIn("mood", scratch.motive_attributes)
+        self.assertEqual(scratch.motive_attributes["mood"]["current_value"], 50.0)
+
+    def test_motive_attributes_persist_across_save_and_load(self):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.curr_time = datetime(2026, 7, 8, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 8, 12, 0, 0)
+        scratch.motive_attributes["status"]["current_value"] = 33.0
+        scratch.motive_attributes["status"]["skill_flat_modifiers"] = {"sing": 5.0}
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            temp_path = tmp.name
+
+        try:
+            scratch.save(temp_path)
+            reloaded = Scratch(temp_path)
+        finally:
+            Path(temp_path).unlink(missing_ok=True)
+
+        self.assertEqual(reloaded.motive_attributes["status"]["current_value"], 33.0)
+        self.assertEqual(reloaded.motive_attributes["status"]["skill_flat_modifiers"]["sing"], 5.0)
+
+    def test_prompt_profile_defaults_and_persists(self):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.name = "Klaus Mueller"
+        scratch.first_name = "Klaus"
+        scratch.age = 28
+        scratch.innate = "kind"
+        scratch.learned = "likes reading"
+        scratch.currently = "testing prompt profile persistence"
+        scratch.lifestyle = "regular"
+        scratch.daily_plan_req = "stay healthy"
+        scratch.curr_time = datetime(2026, 7, 8, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 8, 12, 0, 0)
+
+        profile = scratch.get_prompt_profile()
+        self.assertEqual(
+            profile["fields"]["innate_traits_text"]["value"],
+            "kind",
+        )
+        self.assertEqual(
+            profile["fields"]["daily_plan_text"]["value"],
+            "stay healthy",
+        )
+
+        scratch.set_prompt_profile_field(
+            "long_term_goals_text",
+            "First stay alive, then build a steady life through reading and calm routines.",
+            source="unit_test",
+        )
+
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8") as tmp:
+            temp_path = tmp.name
+
+        try:
+            scratch.save(temp_path)
+            reloaded = Scratch(temp_path)
+        finally:
+            Path(temp_path).unlink(missing_ok=True)
+
+        self.assertEqual(
+            reloaded.get_prompt_profile_field("long_term_goals_text"),
+            "First stay alive, then build a steady life through reading and calm routines.",
+        )
+        self.assertEqual(
+            reloaded.prompt_profile["fields"]["long_term_goals_text"]["source"],
+            "unit_test",
+        )
+
+    @patch(
+        "persona.memory_structures.scratch.generate_innate_traits_from_motives",
+        return_value="independent, capable, reflective",
+    )
+    def test_set_motive_attributes_can_refresh_innate_traits(self, _mock_refresh):
+        scratch = Scratch(str(ROOT / "test" / "__missing_scratch__.json"))
+        scratch.name = "Klaus Mueller"
+        scratch.curr_time = datetime(2026, 7, 8, 12, 0, 0)
+        scratch.act_start_time = datetime(2026, 7, 8, 12, 0, 0)
+
+        updated = scratch.get_motive_attributes_snapshot()
+        updated["autonomy"]["current_value"] = 18.0
+
+        scratch.set_motive_attributes(
+            updated,
+            source="unit_test_motive_profile",
+            refresh_innate=True,
+        )
+
+        self.assertEqual(scratch.innate, "independent, capable, reflective")
+        self.assertEqual(
+            scratch.get_prompt_profile_field("innate_traits_text"),
+            "independent, capable, reflective",
+        )
+        self.assertEqual(
+            scratch.prompt_profile["fields"]["innate_traits_text"]["source"],
+            "unit_test_motive_profile_innate_refresh",
+        )
 
 
 if __name__ == "__main__":

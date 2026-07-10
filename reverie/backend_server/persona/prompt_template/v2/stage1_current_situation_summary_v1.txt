@@ -1,0 +1,27 @@
+stage1_current_situation_summary_v1.txt
+
+Variables:
+!<INPUT 0>! -- persona name
+!<INPUT 1>! -- existing current situation text
+!<INPUT 2>! -- daily plan summary
+!<INPUT 3>! -- high-value reflection thoughts
+
+<commentblockmarker>###</commentblockmarker>
+Persona: !<INPUT 0>!
+
+Existing current situation summary:
+!<INPUT 1>!
+
+Today's plan:
+!<INPUT 2>!
+
+High-value reflection thoughts:
+!<INPUT 3>!
+
+Write a stable current situation summary for this persona.
+Requirements:
+- Focus on what stage of life or work they are currently in, what they are actively trying to manage, and what near-term background matters.
+- Use the reflection thoughts as the primary evidence, not just the old summary.
+- Keep it grounded in recent concerns and plans, but do not collapse into a one-step action.
+- Write 2 to 4 sentences in third person.
+- Return only the summary text.

@@ -1,0 +1,536 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 08, 2026, 08:34:00",
+  "curr_tile": [
+    78,
+    32
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "kind, inquisitive, passionate",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 94.88000000000011,
+  "stamina": 92.08000000000119,
+  "health": 100.0,
+  "mood": 48.440000000000374,
+  "last_social_time": "July 08, 2026, 08:24:10",
+  "last_action_switch_time": "July 08, 2026, 08:24:20",
+  "decision_commit_until_step": 149,
+  "last_decision_signature": {
+    "skill_id": "study",
+    "target": "library table",
+    "intent_family": "study"
+  },
+  "last_decision_reason": "writing research paper on gentrification",
+  "recent_completed_action_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 145,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "apple tree",
+    "target_address": "the Ville:Johnson Park:park:apple tree",
+    "skill_id": "gather",
+    "action_description": "gathering apples from the apple tree",
+    "curr_step": 145
+  },
+  "active_execution_state": {
+    "id": "Klaus Mueller-146-study-library table",
+    "phase": "pathing",
+    "address": "the Ville:Oak Hill College:library",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "writing research paper on gentrification"
+    },
+    "description": "writing research paper on gentrification",
+    "event": [
+      "Klaus Mueller",
+      "writing",
+      "research paper on gentrification"
+    ],
+    "path": [
+      [
+        80,
+        32
+      ],
+      [
+        81,
+        32
+      ],
+      [
+        82,
+        32
+      ],
+      [
+        83,
+        32
+      ],
+      [
+        84,
+        32
+      ],
+      [
+        85,
+        32
+      ],
+      [
+        86,
+        32
+      ],
+      [
+        87,
+        32
+      ],
+      [
+        88,
+        32
+      ],
+      [
+        89,
+        32
+      ],
+      [
+        90,
+        32
+      ],
+      [
+        91,
+        32
+      ],
+      [
+        92,
+        32
+      ],
+      [
+        93,
+        32
+      ],
+      [
+        94,
+        32
+      ],
+      [
+        95,
+        32
+      ],
+      [
+        96,
+        32
+      ],
+      [
+        97,
+        32
+      ],
+      [
+        98,
+        32
+      ],
+      [
+        99,
+        32
+      ],
+      [
+        100,
+        32
+      ],
+      [
+        101,
+        32
+      ],
+      [
+        102,
+        32
+      ],
+      [
+        103,
+        32
+      ],
+      [
+        104,
+        32
+      ],
+      [
+        105,
+        32
+      ],
+      [
+        106,
+        32
+      ],
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        109,
+        32
+      ],
+      [
+        109,
+        31
+      ],
+      [
+        109,
+        30
+      ],
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ],
+      [
+        113,
+        30
+      ],
+      [
+        114,
+        30
+      ],
+      [
+        115,
+        30
+      ],
+      [
+        116,
+        30
+      ],
+      [
+        117,
+        30
+      ],
+      [
+        118,
+        30
+      ],
+      [
+        119,
+        30
+      ],
+      [
+        119,
+        29
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "study",
+      "target": "library table",
+      "intent_family": "study"
+    },
+    "started_step": 146,
+    "updated_step": 204,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "study",
+    "intent_family": "study",
+    "target": "library table",
+    "target_type": "place",
+    "resolved_target": "library table",
+    "resolved_address": "the Ville:Oak Hill College:library",
+    "description": "writing research paper on gentrification",
+    "command": {
+      "skill_id": "study",
+      "target": "library table",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "writing research paper on gentrification"
+    },
+    "event": [
+      "Klaus Mueller",
+      "writing",
+      "research paper on gentrification"
+    ],
+    "duration": 90,
+    "created_step": 146,
+    "updated_step": 204,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "chat",
+  "active_skill_id": "dlg_Klaus_Mueller_Maria_Lopez_20260708_082420_146",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 146,
+  "active_skill_owner": "init",
+  "active_skill_target": "Maria Lopez",
+  "active_skill_metadata": {
+    "dialogue_id": "dlg_Klaus_Mueller_Maria_Lopez_20260708_082420_146",
+    "chatting_end_time": "July 08, 2026, 08:35:00"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {},
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 75,
+  "importance_ele_n": 21,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Oak Hill College:library",
+  "act_start_time": "July 08, 2026, 08:24:20",
+  "act_duration": 90,
+  "act_description": "writing research paper on gentrification",
+  "act_pronunciatio": "\ud83d\udcda",
+  "act_event": [
+    "Klaus Mueller",
+    "writing",
+    "research paper on gentrification"
+  ],
+  "act_command": {
+    "skill_id": "study",
+    "target": "library table",
+    "source": "decision_translation",
+    "raw_action": "Work",
+    "detail": "writing research paper on gentrification"
+  },
+  "act_obj_description": "library is being used for work",
+  "act_obj_pronunciatio": "\ud83d\udcda",
+  "act_obj_event": [
+    "library",
+    "is",
+    "being used for work"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      80,
+      32
+    ],
+    [
+      81,
+      32
+    ],
+    [
+      82,
+      32
+    ],
+    [
+      83,
+      32
+    ],
+    [
+      84,
+      32
+    ],
+    [
+      85,
+      32
+    ],
+    [
+      86,
+      32
+    ],
+    [
+      87,
+      32
+    ],
+    [
+      88,
+      32
+    ],
+    [
+      89,
+      32
+    ],
+    [
+      90,
+      32
+    ],
+    [
+      91,
+      32
+    ],
+    [
+      92,
+      32
+    ],
+    [
+      93,
+      32
+    ],
+    [
+      94,
+      32
+    ],
+    [
+      95,
+      32
+    ],
+    [
+      96,
+      32
+    ],
+    [
+      97,
+      32
+    ],
+    [
+      98,
+      32
+    ],
+    [
+      99,
+      32
+    ],
+    [
+      100,
+      32
+    ],
+    [
+      101,
+      32
+    ],
+    [
+      102,
+      32
+    ],
+    [
+      103,
+      32
+    ],
+    [
+      104,
+      32
+    ],
+    [
+      105,
+      32
+    ],
+    [
+      106,
+      32
+    ],
+    [
+      107,
+      32
+    ],
+    [
+      108,
+      32
+    ],
+    [
+      109,
+      32
+    ],
+    [
+      109,
+      31
+    ],
+    [
+      109,
+      30
+    ],
+    [
+      110,
+      30
+    ],
+    [
+      111,
+      30
+    ],
+    [
+      112,
+      30
+    ],
+    [
+      113,
+      30
+    ],
+    [
+      114,
+      30
+    ],
+    [
+      115,
+      30
+    ],
+    [
+      116,
+      30
+    ],
+    [
+      117,
+      30
+    ],
+    [
+      118,
+      30
+    ],
+    [
+      119,
+      30
+    ],
+    [
+      119,
+      29
+    ]
+  ]
+}
