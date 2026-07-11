@@ -1,29 +1,34 @@
 # Prompt Template for Action Translation Legend
 Input 0: Natural language decision/thought
-Input 1: Action Schema Definition
-Input 2: Nearby interactive targets
+Input 1: Decision Capsule
+Input 2: Action Schema Definition
 Input 3: Agent's first name
-Input 4: Translation convergence guidance
+Input 4: Experience Guard
+Input 5: Translation convergence guidance
 <commentblockmarker>###</commentblockmarker>
 You are a precise physical translation engine for a sandbox simulation.
 Your job is to translate the natural language intent of !<INPUT 3>! into a standard physical command JSON object that the world physics engine can execute.
+Treat the stage-1 thought as the authoritative immediate intent. Use the Decision Capsule only to ground that thought in the same current world context used by stage 1. Do not replace it with a different plan unless the literal translation would be forbidden or physically impossible.
+
+Decision Capsule:
+!<INPUT 1>!
 
 Here is the Action Schema containing the allowed action categories, their allowed target objects, and their descriptions:
-!<INPUT 1>!
-Treat the signed delta numbers in the Action Schema as prompt-only amplitude hints for the acting NPC: positive means likely improvement, negative means likely cost or penalty. They are not runtime settlement and not guaranteed results.
-
-Here are the interactive targets currently physically near !<INPUT 3>!:
 !<INPUT 2>!
+Treat the signed delta numbers in the Action Schema as prompt-only amplitude hints for the acting NPC: positive means likely improvement, negative means likely cost or penalty. They are not runtime settlement and not guaranteed results.
 
 Now, translate !<INPUT 3>!'s natural language intent:
 Intent: "!<INPUT 0>!"
 
-Translation Convergence Guidance:
+Experience Guard:
 !<INPUT 4>!
+
+Translation Convergence Guidance:
+!<INPUT 5>!
 
 Select:
 1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Work", "Socialize", "Request", "Trade", "Coordinate", "Pressure", "Avoid", "Recreate", "Idle").
-2. "target": Must be one of the target objects physically near the agent, or a food item/resource in the schema (e.g. "refrigerator", "stove", "apple tree", "bed", "sofa", "classroom podium", "computer desk", "library table", "tv", "apple", "cooked meal"), or the name of another resident (for Socialize / Request / Trade / Coordinate / Pressure / Avoid). If no target fits, use "none".
+2. "target": Must stay consistent with the stage-1 thought and be grounded in the current Decision Capsule. Use a reachable object, place, food item, or person named there when possible. Another resident's name is allowed for Socialize / Request / Trade / Coordinate / Pressure / Avoid. If no target fits, use "none".
 3. "detail": A descriptive action description string (e.g., "eating an apple", "sleeping in bed", "working on research paper").
 4. "duration": Estimate the duration of the action in minutes (between 10 and 120 minutes).
 5. "reasoning": A brief explanation of the physical mapping.

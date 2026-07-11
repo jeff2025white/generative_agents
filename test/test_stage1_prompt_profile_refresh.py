@@ -22,6 +22,7 @@ if "numpy" not in sys.modules:
     sys.modules["numpy.linalg"] = numpy_linalg_stub
 
 from persona.cognitive_modules.stage1_prompt_compiler import (
+    _build_other_people_social_leverage_text,
     build_background_identity_text,
     build_decision_social_context_text,
     remember_known_persona_profile,
@@ -210,16 +211,19 @@ class Stage1PromptProfileRefreshTests(unittest.TestCase):
 
         decision_social_text = build_decision_social_context_text(persona)
         background_identity = build_background_identity_text(persona)
+        predicted_behavior_text = _build_other_people_social_leverage_text(persona)
 
         self.assertIn("Klaus Mueller: 亲密程度=0.82", decision_social_text)
         self.assertIn("Isabella Rodriguez: 亲密程度=0.91", decision_social_text)
-        self.assertIn("Other People / Social Leverage:", background_identity)
-        self.assertIn("- Klaus Mueller", background_identity)
-        self.assertIn("- Isabella Rodriguez", background_identity)
-        self.assertIn("likely_current_motive: satiety (secondary mood)", background_identity)
-        self.assertIn("likely_resources:", background_identity)
-        self.assertIn("social_affordances:", background_identity)
-        self.assertIn("suggested_use_now:", background_identity)
+        self.assertNotIn("Other People / Predicted Behavior:", background_identity)
+        self.assertIn("Other People / Predicted Behavior:", predicted_behavior_text)
+        self.assertIn("- Klaus Mueller", predicted_behavior_text)
+        self.assertIn("- Isabella Rodriguez", predicted_behavior_text)
+        self.assertIn("likely_current_motive: satiety (secondary mood)", predicted_behavior_text)
+        self.assertIn("likely_behavior_now:", predicted_behavior_text)
+        self.assertIn("likely_resources:", predicted_behavior_text)
+        self.assertIn("social_affordances:", predicted_behavior_text)
+        self.assertIn("suggested_use_now:", predicted_behavior_text)
         self.assertNotIn("Social Relationships:", background_identity)
 
     def test_remember_known_persona_profile_persists_static_traits(self):

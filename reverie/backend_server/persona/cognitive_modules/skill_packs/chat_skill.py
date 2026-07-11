@@ -26,8 +26,14 @@ from persona.cognitive_modules.social_dialogue_log import (
     inherit_social_dialogue_state,
     set_social_dialogue_state,
 )
+from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.stage1_prompt_compiler import (
     remember_known_persona_profile,
+)
+from persona.cognitive_modules.motive_selector import (
+    build_default_motive_attributes,
+    select_motives,
+    sync_core_motive_values,
 )
 from llm_api_config import (
     get_default_social_chat_request_config,
@@ -60,9 +66,103 @@ GENERIC_SOCIAL_CHAT_UTTERANCES = {
     "你好！": True,
     "...": True,
 }
+SOCIAL_CHAT_FOCAL_STOPWORDS = {
+    "with", "from", "that", "this", "have", "will", "they", "them", "their",
+    "about", "into", "while", "where", "there", "because", "should", "could",
+    "would", "conversation", "chatting", "talking", "social", "interaction",
+    "resource", "requesting", "engaging", "known", "source", "supportive",
+    "friendly", "contact", "approach", "perhaps", "going", "improve",
+    "mood", "satiety", "stamina", "health", "need", "needs", "objective",
+}
 
 REPO_ROOT = Path(__file__).resolve().parents[5]
 FRONTEND_DB_PATH = REPO_ROOT / "environment" / "frontend_server" / "db.sqlite3"
+
+
+def _redact_request_config_for_log(request_config):
+    """Keep request config details useful for debugging without leaking secrets."""
+    config = dict(request_config or {})
+    return {
+        "model": config.get("model"),
+        "api_base": config.get("api_base"),
+        "route_name": config.get("route_name"),
+        "has_api_key": bool(config.get("api_key")),
+    }
+
+
+def log_social_dialogue(
+    persona,
+    *,
+    dialogue_id,
+    turn_index,
+    speaker_name,
+    listener_name,
+    prompt,
+    prompt_template,
+    prompt_sections,
+    latest_turn,
+    conversation_history,
+    model_output,
+    request_config=None,
+    metadata=None,
+):
+    """Persist one social chat generation step with prompt and cleaned model output."""
+    record = {
+        "event": "social_chat_turn",
+        "prompt_kind": "social_chat_generation",
+        "dialogue_id": dialogue_id,
+        "turn_index": turn_index,
+        "speaker": speaker_name,
+        "listener": listener_name,
+        "prompt_template": prompt_template,
+        "final_prompt": prompt,
+        "prompt_sections": dict(prompt_sections or {}),
+        "conversation_history": conversation_history,
+        "latest_turn": latest_turn,
+        "llm_response": model_output,
+        "request_config": _redact_request_config_for_log(request_config),
+    }
+    if metadata:
+        record.update(dict(metadata))
+    append_debug_log(
+        "llm_request_events.jsonl",
+        merge_log_context(record, persona=persona),
+    )
+
+
+def log_chat_transcript(
+    persona,
+    *,
+    dialogue_id,
+    partner_name,
+    dialogue_topic,
+    convo,
+    convo_summary,
+    source,
+):
+    """Persist a completed social dialogue transcript for later inspection."""
+    transcript_text = "\n".join(
+        f"{speaker}: {utterance}" for speaker, utterance in (convo or [])
+    )
+    append_debug_log(
+        "social_dialogue_trace.jsonl",
+        merge_log_context(
+            {
+                "event": "social_dialogue_completed",
+                "dialogue_id": dialogue_id,
+                "source": source,
+                "persona": getattr(persona, "name", None),
+                "partner_name": partner_name,
+                "dialogue_topic": dialogue_topic,
+                "turn_count": len(convo or []),
+                "convo": list(convo or []),
+                "transcript_text": transcript_text,
+                "convo_summary": convo_summary,
+            },
+            persona=persona,
+        ),
+    )
+
 
 def _contains_cjk(text):
     """Return True when the text contains at least one CJK ideograph."""
@@ -311,13 +411,97 @@ def format_social_chat_state(persona):
     if not pressure_tags:
         pressure_tags.append("stable")
 
+    dominant_motive = "unknown"
+    secondary_motive = ""
+    urgency_band = "unknown"
+    motive_sentence = ""
+    getter = getattr(scratch, "get_motive_attributes_snapshot", None)
+    if callable(getter):
+        motive_attributes = getter()
+    else:
+        motive_attributes = sync_core_motive_values(
+            build_default_motive_attributes(),
+            satiety=satiety,
+            stamina=stamina,
+            health=health,
+            mood=mood,
+        )
+    try:
+        motive_result = select_motives(motive_attributes)
+        dominant_motive = str(motive_result.get("dominant_motive") or "unknown").strip() or "unknown"
+        secondary_motive = str(motive_result.get("secondary_motive") or "").strip()
+        urgency_band = str(motive_result.get("dominant_urgency_band") or "unknown").strip() or "unknown"
+        motive_sentence = str(motive_result.get("motive_sentence") or "").strip()
+    except Exception:
+        pass
+    dialogue_goal = str(getattr(scratch, "social_dialogue_topic", "") or "").strip()
+    action_detail = str((getattr(scratch, "act_command", {}) or {}).get("detail") or "").strip()
+    if not dialogue_goal:
+        dialogue_goal = action_detail or act_desc
+
     return (
         f"{persona.name}: time={curr_time_str}; "
         f"current_action={act_desc}; "
         f"movement={'moving' if is_moving else 'stationary'}; "
         f"mood={mood:.1f}; satiety={satiety:.1f}; stamina={stamina:.1f}; health={health:.1f}; "
-        f"pressure={', '.join(pressure_tags)}."
+        f"pressure={', '.join(pressure_tags)}; "
+        f"dominant_motive={dominant_motive}; "
+        + (f"secondary_motive={secondary_motive}; " if secondary_motive and secondary_motive != dominant_motive else "")
+        + f"urgency={urgency_band}; "
+        + (f"motive_pull={motive_sentence}; " if motive_sentence else "")
+        + (f"conversation_goal={dialogue_goal}." if dialogue_goal else "conversation_goal=none.")
     )
+
+
+def _extract_social_chat_focal_points(*texts):
+    focal_points = []
+    seen = set()
+    for text in texts:
+        raw = str(text or "").strip()
+        if not raw:
+            continue
+        for chunk in re.split(r"[^A-Za-z0-9_]+", raw):
+            token = str(chunk or "").strip()
+            lowered = token.lower()
+            if len(token) < 4 or lowered in SOCIAL_CHAT_FOCAL_STOPWORDS:
+                continue
+            if lowered in seen:
+                continue
+            seen.add(lowered)
+            focal_points.append(token)
+    return focal_points[:8]
+
+
+def _build_social_chat_focal_points(persona, listener_name, dialogue_topic):
+    scratch = getattr(persona, "scratch", None)
+    act_description = str(getattr(scratch, "act_description", "") or "").strip()
+    act_command = getattr(scratch, "act_command", {}) or {}
+    action_detail = str(act_command.get("detail") or "").strip()
+    action_target = str(act_command.get("target") or "").strip()
+    focal_points = [listener_name, "news", "rumor", "town"]
+    for extra in _extract_social_chat_focal_points(dialogue_topic, action_detail, action_target, act_description):
+        if extra not in focal_points:
+            focal_points.append(extra)
+    return focal_points
+
+
+def _iter_social_chat_request_configs():
+    configs = []
+    seen = set()
+    for config in (
+        SOCIAL_CHAT_REQUEST_CONFIG,
+        get_task_route_request_config("general_chat"),
+    ):
+        key = (
+            str(config.get("api_base") or ""),
+            str(config.get("model") or ""),
+            str(config.get("api_key") or ""),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        configs.append(dict(config))
+    return configs
 
 
 def _relationship_chat_depth_score(persona, target_persona):
@@ -641,9 +825,11 @@ class ChatSkillPack(BaseSkillPack):
             speaker = persona
             listener = target_p
             dialogue_topic = _get_dialogue_topic(persona)
-            initial_focal_points = [listener.name, "news", "rumor", "town"]
-            if dialogue_topic:
-                initial_focal_points.append(dialogue_topic)
+            initial_focal_points = _build_social_chat_focal_points(
+                speaker,
+                listener.name,
+                dialogue_topic,
+            )
             initial_retrieved = new_retrieve(speaker, initial_focal_points, 10)
             initial_memory_keys, initial_dropped_memory_keys = collect_social_chat_memory_keys(initial_retrieved)
             initial_rel = speaker.a_mem.get_relationship(listener.name)
@@ -668,9 +854,11 @@ class ChatSkillPack(BaseSkillPack):
                     dropped_recent_events = initial_dropped_recent_events
                     rel = initial_rel
                 else:
-                    focal_points = [listener.name, "news", "rumor", "town"]
-                    if dialogue_topic:
-                        focal_points.append(dialogue_topic)
+                    focal_points = _build_social_chat_focal_points(
+                        speaker,
+                        listener.name,
+                        dialogue_topic,
+                    )
                     retrieved = new_retrieve(speaker, focal_points, 10)
                     memory_keys, dropped_memory_keys = collect_social_chat_memory_keys(retrieved)
                     rel = speaker.a_mem.get_relationship(listener.name)
@@ -739,20 +927,62 @@ class ChatSkillPack(BaseSkillPack):
                     "end": True if turn >= 3 else False
                 }
 
-                turn_decision = self.run_skill_llm_request(
-                    prompt,
-                    example_output='{"utterance": "是吗，那还真有点突然。要是你想去看看，我晚点也能陪你绕一圈。", "end": false, "reasoning": "先回应对方刚说的消息，再顺着关系和场景给出自然跟进"}',
-                    special_instruction="Provide valid JSON containing utterance and end. The utterance must directly respond to the listener's most recent line before introducing any new topic. It must be brief colloquial Simplified Chinese, ideally one short sentence and at most two short sentences, with low AI tone and a light natural humor when appropriate, never English.",
-                    repeat=3,
-                    fail_safe_response=fail_safe,
-                    func_validate=chat_val,
-                    func_clean_up=chat_clean,
-                    verbose=False,
-                    prompt_kind="social_chat_generation",
-                    metadata={"llm_route": "default_social_chat"},
-                    request_config=SOCIAL_CHAT_REQUEST_CONFIG,
-                    skip_cache=True,
-                )
+                turn_decision = dict(fail_safe)
+                request_configs = _iter_social_chat_request_configs()
+                for config_index, request_config in enumerate(request_configs):
+                    turn_decision = self.run_skill_llm_request(
+                        prompt,
+                        example_output='{"utterance": "是吗，那还真有点突然。要是你想去看看，我晚点也能陪你绕一圈。", "end": false, "reasoning": "先回应对方刚说的消息，再顺着关系和场景给出自然跟进"}',
+                        special_instruction="Provide valid JSON containing utterance and end. The utterance must directly respond to the listener's most recent line before introducing any new topic. It must be brief colloquial Simplified Chinese, ideally one short sentence and at most two short sentences, with low AI tone and a light natural humor when appropriate, never English.",
+                        repeat=1,
+                        fail_safe_response=fail_safe,
+                        func_validate=chat_val,
+                        func_clean_up=chat_clean,
+                        verbose=False,
+                        prompt_kind="social_chat_generation",
+                        metadata={
+                            "llm_route": "social_chat_primary" if config_index == 0 else "social_chat_fallback",
+                            "provider_index": config_index,
+                        },
+                        request_config=request_config,
+                        skip_cache=True,
+                    )
+                    log_social_dialogue(
+                        speaker,
+                        dialogue_id=getattr(persona.scratch, "social_dialogue_id", None),
+                        turn_index=turn,
+                        speaker_name=speaker.name,
+                        listener_name=listener.name,
+                        prompt=prompt,
+                        prompt_template="persona/prompt_template/dialogue/generation/social_chat_reply_v1.txt",
+                        prompt_sections={
+                            "speaker_profile": speaker_profile,
+                            "listener_profile": listener_profile,
+                            "relationship_context": relationship_context,
+                            "speaker_state": speaker_state,
+                            "listener_state": listener_state,
+                            "encounter_context": contextual_frame,
+                            "relevant_memories": mems_str,
+                            "conversation_history": history_str if history_str else "No conversation started yet.",
+                            "latest_turn": latest_turn,
+                            "speaker_first_name": speaker.scratch.first_name,
+                        },
+                        latest_turn=latest_turn,
+                        conversation_history=history_str if history_str else "No conversation started yet.",
+                        model_output=turn_decision,
+                        request_config=request_config,
+                        metadata={
+                            "llm_route": "social_chat_primary" if config_index == 0 else "social_chat_fallback",
+                            "provider_index": config_index,
+                            "dialogue_topic": dialogue_topic,
+                            "used_fail_safe": turn_decision == fail_safe,
+                            "memory_keys": list(memory_keys),
+                            "dropped_memory_keys": list(dropped_memory_keys),
+                            "dropped_recent_events": list(dropped_recent_events),
+                        },
+                    )
+                    if turn_decision != fail_safe:
+                        break
 
                 final_utterance = sanitize_social_chat_utterance(
                     turn_decision.get("utterance", "..."),
@@ -1034,6 +1264,15 @@ class ChatSkillPack(BaseSkillPack):
                 persona.name, "chat with", target_p.name,
                 convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
                 (convo_summary, is_emb), None
+            )
+            log_chat_transcript(
+                persona,
+                dialogue_id=getattr(persona.scratch, "social_dialogue_id", None),
+                partner_name=target_p.name,
+                dialogue_topic=_get_dialogue_topic(persona),
+                convo=convo,
+                convo_summary=convo_summary,
+                source="initiator_settlement",
             )
 
             # 3. Gossip / Rumor Propagation

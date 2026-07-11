@@ -14,6 +14,7 @@ import threading
 import inspect
 
 from utils import *
+from persona.cognitive_modules.debug_log import append_debug_log
 openai.api_key = openai_api_key
 if openai_api_base:
   openai.api_base = openai_api_base
@@ -132,7 +133,27 @@ def _caller_label(default_label="unknown"):
 
 
 def _log_llm_event(event, payload):
-  return None
+  try:
+    record = dict(payload or {})
+    record.setdefault("event", event)
+    if _cache_sim_scope and "sim_code" not in record:
+      record["sim_code"] = _cache_sim_scope
+    append_debug_log("llm_request_events.jsonl", record)
+  except Exception:
+    # Logging must never interrupt the simulation path.
+    return None
+
+
+def _llm_error_summary(prompt_kind, resolved_config, metadata=None, error=None):
+  metadata = dict(metadata or {})
+  route = metadata.get("llm_route") or metadata.get("route_name") or "unknown"
+  model = resolved_config.get("model") or "unknown"
+  api_base = resolved_config.get("api_base") or "unknown"
+  error_text = _truncate_text(error, 200) if error is not None else "unknown"
+  return (
+    f"ChatGPT ERROR [prompt_kind={prompt_kind} route={route} "
+    f"model={model} api_base={api_base}] {error_text}"
+  )
 
 
 def _resolve_request_config(request_config=None):
@@ -344,7 +365,7 @@ def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config
         "eval_count": 0,
       }
     )
-    print ("ChatGPT ERROR")
+    print(_llm_error_summary(prompt_kind, resolved_config, metadata=metadata, error=e))
     return "ChatGPT ERROR"
 
 
@@ -778,7 +799,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
 
 
 

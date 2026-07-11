@@ -35,7 +35,7 @@ _REQUEST_CONFIGS = {
 # system-wide cloud model used by chat, social, decision, and status flows.
 DEFAULT_PRIMARY_CLOUD_CONFIG_NAME = "zhipu_chat"
 DEFAULT_CLOUD_CHAT_CONFIG_NAME = DEFAULT_PRIMARY_CLOUD_CONFIG_NAME
-DEFAULT_SOCIAL_CHAT_CONFIG_NAME = "deepseek_chat"
+DEFAULT_SOCIAL_CHAT_CONFIG_NAME = "bailian_chat"
 DEFAULT_DECISION_CONFIG_NAME = DEFAULT_PRIMARY_CLOUD_CONFIG_NAME
 
 # Task-routed LLM config map. Update individual values only when a specific

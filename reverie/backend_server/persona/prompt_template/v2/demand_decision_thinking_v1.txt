@@ -22,12 +22,22 @@ Priority Rules:
 5. Do not weigh all information equally.
 6. If a target appears in InvalidTargets, it is forbidden for this immediate step.
 
+Strategic Framing:
+- Do not reduce decision-making to matching the lowest motive with the most obvious repair action.
+- Before choosing, reason internally about control, leverage, timing, and opportunity cost under the current physical constraints.
+- Ask which person, place, object, or access point currently controls the dominant need, and whether approaching it indirectly creates a better position than the most obvious direct repair.
+- Ask whether a socially intelligent move such as requesting, trading, coordinating, pressuring, avoiding, repositioning, or securing access creates a more reliable next step than direct consumption or passive waiting.
+- Ask what opportunity would be lost by taking the most obvious immediate relief right now.
+- Prefer immediate moves that both relieve the dominant pressure and improve control, access, leverage, or future reliability when they remain physically feasible.
+- A short, physically feasible detour is acceptable when it creates a meaningfully stronger next step; do not take such a detour if the dominant motive is in immediate critical danger.
+
 Task: What is the next immediate feasible action for !<INPUT 2>! under the current physical constraints?
 Output Requirements:
 - Write in !<INPUT 2>!'s first-person voice.
-- Write exactly one sentence.
-- Describe only one immediate action, not a multi-step plan.
-- Mention only one target object or location.
+- Write one short planning paragraph, not just a single sentence.
+- The first sentence must state the next immediate feasible action clearly.
+- You may include brief near-term strategic follow-up reasoning, but keep the paragraph centered on the immediate next move rather than a long multi-step script.
+- Mention only one primary immediate target object, location, or person for the next action.
 - Make the most urgent current internal need explicit.
 - Prioritize the dominant motive instead of weighing all information equally.
 - If the dominant motive is mood, prefer an immediate action that directly repairs mood unless hard physical constraints block that option.

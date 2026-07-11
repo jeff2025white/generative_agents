@@ -31,9 +31,12 @@ if "numpy" not in sys.modules:
 
 
 import persona.cognitive_modules.skill_packs.chat_skill as chat_skill_module
+import persona.cognitive_modules.skill_packs.seek_and_chat_skill as seek_and_chat_module
 from llm_api_config import get_default_social_chat_request_config, get_request_config
 from persona.cognitive_modules.skill_packs.chat_skill import (
     SOCIAL_CHAT_REQUEST_CONFIG,
+    _build_social_chat_focal_points,
+    _iter_social_chat_request_configs,
     apply_social_relationship_effect,
     collect_social_chat_memory_keys,
     compute_social_chat_turn_limit,
@@ -44,6 +47,7 @@ from persona.cognitive_modules.skill_packs.chat_skill import (
     normalize_social_chat_response,
     should_wait_for_dialogue_owner,
 )
+from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
 from persona.cognitive_modules.social_trigger import (
     compute_social_cooldown,
     compute_social_opportunity_score,
@@ -60,7 +64,7 @@ def make_node(description, embedding_key=None):
 class ChatSkillGuardTests(unittest.TestCase):
     def test_default_social_chat_request_config_comes_from_central_config(self):
         self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_default_social_chat_request_config())
-        self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_request_config("deepseek_chat"))
+        self.assertEqual(SOCIAL_CHAT_REQUEST_CONFIG, get_request_config("bailian_chat"))
 
     def test_bailian_chat_request_config_is_available(self):
         self.assertEqual(
@@ -243,6 +247,37 @@ class ChatSkillGuardTests(unittest.TestCase):
         state_summary = format_social_chat_state(persona)
 
         self.assertIn("pressure=low_mood", state_summary)
+        self.assertIn("dominant_motive=mood", state_summary)
+        self.assertIn("urgency=warning", state_summary)
+
+    def test_social_chat_focal_points_include_goal_and_task_keywords(self):
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                act_description="heading to Hobbs Cafe to ask for breakfast",
+                act_command={
+                    "detail": "requesting a meal and discussing food access at Hobbs Cafe",
+                    "target": "Isabella Rodriguez",
+                },
+            )
+        )
+
+        focal_points = _build_social_chat_focal_points(
+            persona,
+            "Isabella Rodriguez",
+            "Find Isabella Rodriguez and ask about food at Hobbs Cafe",
+        )
+
+        self.assertIn("Isabella Rodriguez", focal_points)
+        self.assertIn("Hobbs", focal_points)
+        self.assertIn("Cafe", focal_points)
+        self.assertIn("food", [item.lower() for item in focal_points])
+
+    def test_social_chat_request_configs_include_general_chat_fallback(self):
+        configs = _iter_social_chat_request_configs()
+
+        self.assertGreaterEqual(len(configs), 1)
+        self.assertEqual(configs[0], SOCIAL_CHAT_REQUEST_CONFIG)
+        self.assertTrue(any(config["model"] == get_request_config("zhipu_chat")["model"] for config in configs))
 
     def test_enemy_relationship_after_robbery_can_still_trigger_hostile_social_contact(self):
         init_persona = SimpleNamespace(
@@ -286,6 +321,81 @@ class ChatSkillGuardTests(unittest.TestCase):
         self.assertLessEqual(score_detail["relationship_penalty"], 0.08)
         self.assertGreater(score_detail["total"], 0.30)
         self.assertLess(cooldown, 120)
+
+    def test_seek_and_chat_handoff_supplies_full_add_new_action_payload(self):
+        captured = {}
+
+        def record_add_new_action(
+            action_address,
+            action_duration,
+            action_description,
+            action_pronunciatio,
+            action_event,
+            action_command,
+            chatting_with,
+            chat,
+            chatting_with_buffer,
+            chatting_end_time,
+            act_obj_description,
+            act_obj_pronunciatio,
+            act_obj_event,
+            act_start_time=None,
+            action_record=None,
+        ):
+            captured["action_address"] = action_address
+            captured["action_duration"] = action_duration
+            captured["action_description"] = action_description
+            captured["action_pronunciatio"] = action_pronunciatio
+            captured["action_event"] = action_event
+            captured["action_command"] = action_command
+            captured["chatting_with"] = chatting_with
+            captured["chat"] = chat
+            captured["chatting_with_buffer"] = chatting_with_buffer
+            captured["chatting_end_time"] = chatting_end_time
+            captured["act_obj_description"] = act_obj_description
+            captured["act_obj_pronunciatio"] = act_obj_pronunciatio
+            captured["act_obj_event"] = act_obj_event
+            captured["act_start_time"] = act_start_time
+            captured["action_record"] = action_record
+            return True
+
+        persona = SimpleNamespace(
+            name="Isabella Rodriguez",
+            scratch=SimpleNamespace(
+                curr_time=None,
+                act_command={"detail": "Find Klaus and talk about breakfast."},
+                act_description="seeking out Klaus",
+                begin_complex_skill=lambda *args, **kwargs: captured.setdefault("begin_complex_skill_calls", []).append((args, kwargs)),
+                add_new_action=record_add_new_action,
+            ),
+        )
+        target_persona = SimpleNamespace(name="Klaus Mueller")
+        skill = SeekAndChatSkillPack()
+        skill.mark_arrival_phase = lambda *args, **kwargs: None
+        skill.mark_finalizing_phase = lambda *args, **kwargs: None
+        skill.finish_success = lambda *args, **kwargs: None
+
+        with patch.object(seek_and_chat_module, "build_dialogue_id", return_value="dlg_seek_1"), \
+             patch.object(seek_and_chat_module, "set_social_dialogue_state") as state_mock:
+            skill.on_arrive(
+                persona,
+                "Klaus Mueller",
+                maze=None,
+                personas={"Klaus Mueller": target_persona},
+            )
+
+        self.assertEqual(captured["action_address"], "<persona> Klaus Mueller")
+        self.assertEqual(captured["action_duration"], 10)
+        self.assertEqual(captured["action_event"], ("Isabella Rodriguez", "chat with", "Klaus Mueller"))
+        self.assertEqual(captured["chatting_with"], "Klaus Mueller")
+        self.assertEqual(captured["chat"], None)
+        self.assertEqual(captured["chatting_with_buffer"], {})
+        self.assertEqual(captured["act_obj_description"], None)
+        self.assertEqual(captured["act_obj_pronunciatio"], None)
+        self.assertEqual(captured["act_obj_event"], (None, None, None))
+        self.assertIsNone(captured["action_record"])
+        self.assertIn("begin_complex_skill_calls", captured)
+        state_mock.assert_called_once()
 
 
 if __name__ == "__main__":

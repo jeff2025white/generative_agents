@@ -73,6 +73,8 @@ How to use the available data:
 - If trust is low or the relationship is distant, be more guarded, polite, and lightweight.
 - If the relationship is close, you may sound warmer, more direct, and more playful.
 - Actively weave in retrieved memories or recent interactions. If a memory mentions a specific event, person, or place, reference it concretely (e.g., "上次在公园那事儿" instead of "上次那事儿").
+- Let the speaker's motive pressure and conversation goal shape what the line is trying to get, protect, or test right now.
+- If the conversation goal points to a concrete need, the line may naturally talk about resources, places, tasks, prior experience, access constraints, or practical world rules instead of drifting into generic gossip.
 - Use your body and mood state to control length and energy.
 - If satiety, stamina, or health is low, prefer shorter and lower-energy replies.
 - If mood is low, the reply may sound flatter, more distracted, or more in need of support.

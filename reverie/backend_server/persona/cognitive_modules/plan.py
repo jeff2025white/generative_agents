@@ -910,6 +910,13 @@ def _run_decision_pipeline(persona,
       persona=persona,
       request_config=decision_request_config,
       intent_family=intent_family,
+      temporal_context=temporal_context,
+      status_summary=status_summary,
+      rules=physiological_rules,
+      cooperative_context=cooperative_context,
+      last_action_desc=last_action_desc,
+      intent_memory_summary=intent_memory_summary,
+      static_resource_context_text=static_resource_context_text,
   )
   timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
   should_retry, retry_reason = validate_decision_target(decision, invalid_targets)

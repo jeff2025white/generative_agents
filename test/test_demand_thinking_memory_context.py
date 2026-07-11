@@ -245,7 +245,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertIn("Rules:", capsule)
         self.assertIn("可达的资源/场所:", capsule)
         self.assertIn("apple tree:", capsule)
-        self.assertIn("驱动力和满足方式:", capsule)
+        self.assertIn("驱动力系统说明:", capsule)
         self.assertIn("Experience:", capsule)
         self.assertIn("BackgroundRule:", capsule)
         self.assertNotIn("社交关系:", capsule)
@@ -593,15 +593,18 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         compiled_context = {
             "background_identity_text": (
                 "Name: Maria Lopez\n"
-                "Age: 21\n"
-                "Other People / Social Leverage:\n"
-                "- Klaus Mueller\n"
-                "  - likely_resources: companionship, cooperation"
+                "Age: 21"
             ),
             "dynamic_fields": {
                 "world_rules_text": "Gathering food restores survival options.",
                 "drive_system_summary_text": "satiety=food seeking",
                 "motive_guidance_text": "dominant=satiety 我很饿，我很想进食。",
+                "other_people_prediction_text": (
+                    "Other People / Predicted Behavior:\n"
+                    "- Klaus Mueller\n"
+                    "  - likely_current_motive: belonging (secondary mood)\n"
+                    "  - likely_behavior_now: Likely to seek company and emotionally easier contact."
+                ),
                 "decision_social_context_text": "Klaus Mueller: 亲密程度=0.82，适合作为稳定社交对象。",
                 "relevant_experience_text": "Relevant prior food-related experience.",
             },
@@ -623,9 +626,10 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         identity_summary = captured["prompt_input"][0]
         decision_capsule = captured["prompt_input"][1]
-        self.assertIn("Other People / Social Leverage:", identity_summary)
         self.assertIn("社交关系:", identity_summary)
-        self.assertLess(identity_summary.index("Other People / Social Leverage:"), identity_summary.index("社交关系:"))
+        self.assertNotIn("Other People / Predicted Behavior:", identity_summary)
+        self.assertIn("Other People / Predicted Behavior:", decision_capsule)
+        self.assertIn("likely_behavior_now:", decision_capsule)
         self.assertNotIn("社交关系:", decision_capsule)
 
     def test_prompt_omits_convergence_guidance_for_in_transit_and_experience(self):
@@ -885,6 +889,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertLess(template.index("Background Identity:"), template.index("Action Schema:"))
         self.assertIn("Do not weigh all information equally.", template)
         self.assertIn("prompt-only amplitude hints", template)
+        self.assertIn("Do not reduce decision-making to matching the lowest motive", template)
+        self.assertIn("control, leverage, timing, and opportunity cost", template)
+        self.assertIn("improve control, access, leverage, or future reliability", template)
+        self.assertIn("Write one short planning paragraph", template)
+        self.assertIn("The first sentence must state the next immediate feasible action clearly.", template)
 
     def test_load_action_schema_text_includes_actor_effect_hints(self):
         schema_text = load_action_schema_text()

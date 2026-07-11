@@ -20,21 +20,30 @@ from persona.prompt_template.gpt_structure import ChatGPT_single_request, genera
 
 
 DRIVE_SYSTEM_SUMMARY_TEXT = (
-  "satiety=food seeking; stamina=rest and recovery; health=injury avoidance and healing; "
-  "safety=risk avoidance; mood=emotion repair; belonging=social connection; "
-  "status=recognition and standing; autonomy=self-direction; competence=mastery and effectiveness; "
-  "meaning=purpose and significance."
+  "satiety=food pressure, when low seek food access or a reliable way to eat; "
+  "stamina=rest pressure, when low reduce exertion and favor recovery; "
+  "health=injury risk, when low protect the body before non-survival goals; "
+  "safety=threat avoidance, when low avoid danger and unstable confrontation; "
+  "mood=emotional repair, when low prefer soothing, leisure, or supportive company but usually not over urgent bodily needs; "
+  "belonging=connection pressure, when low seek company, warmth, or social inclusion; "
+  "status=recognition pressure, when low care more about respect, face, and standing; "
+  "autonomy=control pressure, when low prefer moves that restore agency and reduce being constrained; "
+  "competence=effectiveness pressure, when low prefer moves that prove capability or improve execution; "
+  "meaning=purpose pressure, when low prefer actions that restore direction, order, or identity-consistent purpose."
 )
 WORLD_RULES_TEXT = (
-  "Physical Rules: The world follows hard feasibility constraints. "
-  "The agent can only choose one immediate action per step, and the target must be physically reachable now. "
-  "If inventory has no edible item, Consume is invalid until food is first Gathered or received. "
+  "Sandbox World Rules: You are living in a small town-like social sandbox: homes, cafes, classrooms, shops, gardens, streets, and shared public spaces are all real places in the same physical world. "
+  "This is not a symbolic story world. People have one body, stand in one place at a time, move through reachable space, and can only act on people, objects, and resources that are actually present and reachable now. "
+  "Each step allows only one immediate action. The next move must be concrete, local, and physically executable right now. "
+  "Respect causal order: if you do not already have edible food in inventory, Consume is invalid until food is first gathered, received, requested, traded for, or otherwise physically obtained. "
   "Any target listed in InvalidTargets is forbidden for this step. "
-  "If the previous action failed due to path_not_found or unreachable target, the same failed target must not be repeated immediately; "
-  "a new feasible target or materially different immediate plan is required. "
-  "If a resource was reached but empty, treat it as fresh evidence and switch to another feasible source. "
-  "Prioritize survival and feasibility first: critical satiety/stamina/health needs override routine role behavior, "
-  "while identity, lifestyle, and long-term goals only break ties among feasible immediate options."
+  "Treat the town as a lived social environment, not just a map of objects. Other people are part of the world: they may be helpers, gatekeepers, collaborators, obstacles, witnesses, leverage points, or safer alternatives to a failed object path. "
+  "You may approach, avoid, request, trade, coordinate with, pressure, help, or position around them, but only if they are truly present and reachable. "
+  "Failure is real evidence. If a target was just unreachable or produced path_not_found, do not immediately repeat the same failed move. Change the target or change the approach. "
+  "If a resource was reached but found empty, accept that update and switch to another feasible source instead of pretending the world did not change. "
+  "Think like someone managing life inside a real town. Survival and feasibility come first: urgent satiety, stamina, and health needs override routine role behavior. "
+  "Within those hard limits, do not only ask what relieves pain fastest. Also ask who controls access, whose cooperation matters, who can be used as leverage, what move quietly improves your position, and what immediate action leaves you with more options in the next step. "
+  "Identity, lifestyle, relationships, and long-term goals matter only after the action is physically feasible."
 )
 LEGACY_PROMPT_PROFILE_SOURCES = {"legacy_bootstrap", "legacy_fallback"}
 _PROMPT_TEMPLATE_ROOT = Path(__file__).resolve().parents[1] / "prompt_template" / "v2"
@@ -103,6 +112,36 @@ def build_drive_system_summary_text():
   return DRIVE_SYSTEM_SUMMARY_TEXT
 
 
+def _explain_motive_score(score, motive, *, role="dominant"):
+  if not isinstance(score, dict):
+    return ""
+  value = _safe_float(score.get("current_value"))
+  safe = _safe_float(score.get("safe_threshold"))
+  critical = _safe_float(score.get("critical_threshold"))
+  decay = _safe_float(score.get("decay_per_step"))
+  urgency_band = _compact_text(score.get("urgency_band")) or "unknown"
+  motive_name = _compact_text(motive) or "unknown"
+  header = f"{role} {motive_name}: value={value:.1f}, safe={safe:.1f}, critical={critical:.1f}."
+  if urgency_band == "critical":
+    meaning = (
+      "This need is in immediate danger and should override clever detours unless a detour is the only physically workable path."
+    )
+  elif urgency_band == "warning":
+    meaning = (
+      "This need is already below its safe range, so it should materially shape the next step instead of being treated as background noise."
+    )
+  else:
+    meaning = (
+      "This need is currently manageable and should act more like a tie-breaker than a command."
+    )
+  decay_text = ""
+  if decay >= 0.06:
+    decay_text = " If ignored, it will keep worsening at a noticeable pace."
+  elif decay >= 0.02:
+    decay_text = " If ignored, it will continue to drift downward."
+  return header + " " + meaning + decay_text
+
+
 def build_motive_guidance_text(persona):
   motive_result = _get_motive_result(persona)
   dominant = motive_result.get("dominant_motive") or "unknown"
@@ -111,7 +150,14 @@ def build_motive_guidance_text(persona):
   dominant_strength = motive_result.get("dominant_strength") or "weak"
   has_urgent_motive = bool(motive_result.get("has_urgent_motive"))
   motive_sentence = _compact_text(motive_result.get("motive_sentence"))
-  reasoning = _compact_text(motive_result.get("reasoning"))
+  reasoning = motive_result.get("reasoning") or {}
+  score_lookup = {
+    str(item.get("motive")): item
+    for item in (motive_result.get("scores") or [])
+    if item.get("motive")
+  }
+  dominant_score = score_lookup.get(dominant)
+  secondary_score = score_lookup.get(secondary) if secondary else None
   parts = [
     f"dominant={dominant}",
     f"urgency={urgency_band}",
@@ -122,8 +168,20 @@ def build_motive_guidance_text(persona):
     parts.append("No urgent internal need dominates this step.")
   elif motive_sentence:
     parts.append(motive_sentence)
-  if reasoning:
-    parts.append(f"Reasoning: {reasoning}")
+  if dominant_score:
+    parts.append(f"DominantMeaning: {_explain_motive_score(dominant_score, dominant, role='dominant')}")
+  if secondary and secondary_score:
+    parts.append(f"SecondaryMeaning: {_explain_motive_score(secondary_score, secondary, role='secondary')}")
+  dominant_reason = _compact_text(reasoning.get("dominant_reason"))
+  secondary_reason = _compact_text(reasoning.get("secondary_reason"))
+  if dominant_reason:
+    parts.append(f"DominantReasoning: {dominant_reason}")
+  if secondary_reason:
+    parts.append(f"SecondaryReasoning: {secondary_reason}")
+  if urgency_band == "critical":
+    parts.append("StrategyFreedom: The dominant need is too urgent for decorative planning; take the fastest reliable immediate step.")
+  elif urgency_band == "warning":
+    parts.append("StrategyFreedom: A short, smarter detour is acceptable only if it improves access, leverage, or reliability for the dominant need.")
   if dominant_strength == "weak":
     parts.append("Dominant motive should only act as a light tie-breaker right now.")
   return " ".join(parts)
@@ -254,7 +312,6 @@ def build_background_identity_text(persona):
     f"Current Situation: {field_value('current_situation_text', _compact_text(getattr(scratch, 'currently', None)) or 'No current situation summary cached yet.')}",
     f"Lifestyle: {field_value('lifestyle_text', _compact_text(getattr(scratch, 'lifestyle', None)) or 'No lifestyle summary cached yet.')}",
     f"Daily Plan: {field_value('daily_plan_text', _compact_text(getattr(scratch, 'daily_plan_req', None)) or 'No daily plan summary cached yet.')}",
-    _build_other_people_social_leverage_text(persona),
   ]
   return "\n".join(lines)
 
@@ -552,6 +609,32 @@ def _build_suggested_use_now_text(observer_persona, resources, affordances, reac
   return "Use only if this person is more reliable than current object paths."
 
 
+def _build_behavior_prediction_text(dominant_motive, secondary_motive, resources, affordances, reachable_now):
+  motive = _compact_text(dominant_motive) or "unknown"
+  prediction_map = {
+    "satiety": "Likely to protect, seek, or negotiate for food access.",
+    "stamina": "Likely to conserve effort, reduce exertion, or seek rest.",
+    "health": "Likely to protect the body and avoid costly strain or harm.",
+    "safety": "Likely to avoid risk, uncertainty, and unstable confrontation.",
+    "mood": "Likely to seek comfort, soothing activity, or emotionally easier company.",
+    "belonging": "Likely to seek company, inclusion, or cooperative contact.",
+    "status": "Likely to protect face, seek respect, or resist humiliation.",
+    "autonomy": "Likely to resist control and prefer choices that preserve agency.",
+    "competence": "Likely to pursue useful action, effective progress, or proof of capability.",
+    "meaning": "Likely to favor purposeful, orderly, or identity-consistent action.",
+  }
+  base = prediction_map.get(motive, "Likely to act in line with their strongest current pressure.")
+  if secondary_motive:
+    base += f" Secondary pressure may also pull toward {secondary_motive}."
+  if "request" in affordances or "trade" in affordances:
+    base += " They may respond to exchange, help, or negotiated access."
+  if not reachable_now:
+    base += " Treat this as predictive context unless they become reachable."
+  if "food" in resources and motive == "satiety":
+    base += " Food-related behavior is especially plausible."
+  return base
+
+
 def _build_other_people_social_leverage_text(observer_persona, max_people=4):
   relation_lookup = _build_relation_lookup(observer_persona)
   entries = []
@@ -577,6 +660,7 @@ def _build_other_people_social_leverage_text(observer_persona, max_people=4):
         f"  - likely_current_motive: {dominant_motive}"
         + (f" (secondary {secondary_motive})" if secondary_motive else "")
       ),
+      f"  - likely_behavior_now: {_build_behavior_prediction_text(dominant_motive, secondary_motive, likely_resources, social_affordances, reachable_now)}",
       f"  - likely_resources: {', '.join(likely_resources)}",
       f"  - social_affordances: {', '.join(social_affordances)}",
       f"  - leverage_points: {', '.join(leverage_points)}",
@@ -592,11 +676,11 @@ def _build_other_people_social_leverage_text(observer_persona, max_people=4):
     if len(entries) >= max_people:
       break
   if not entries:
-    return "Other People / Social Leverage:\n- No currently modeled social leverage targets."
+    return "Other People / Predicted Behavior:\n- No currently modeled nearby people with usable motive-based behavior forecasts."
   guidance = (
-    "Other People / Social Leverage:\n"
-    "Use nearby people as possible resources, collaborators, blockers, or leverage points when object paths are weak or recently failed.\n"
-    "If another reachable person can satisfy the dominant motive more reliably than a failed object, treat that person as a serious immediate target.\n"
+    "Other People / Predicted Behavior:\n"
+    "Use the motives below to predict what nearby people are likely trying to protect, seek, avoid, trade, or cooperate around right now.\n"
+    "Treat them as possible allies, gatekeepers, collaborators, blockers, competitors, witnesses, or leverage points when direct object paths are weak or recently failed.\n"
   )
   return guidance + "\n".join(entries)
 
@@ -1160,6 +1244,7 @@ def compile_stage1_prompt_context(persona,
     "world_rules_text": build_world_rules_text(persona, base_rules=base_rules),
     "drive_system_summary_text": build_drive_system_summary_text(),
     "motive_guidance_text": build_motive_guidance_text(persona),
+    "other_people_prediction_text": _build_other_people_social_leverage_text(persona),
     "action_schema_text": load_action_schema_text(),
     "relevant_experience_text": build_relevant_experience_text(intent_memory_summary),
     "strong_avoid_experience_text": experience_blocks["StrongAvoidExperience"],

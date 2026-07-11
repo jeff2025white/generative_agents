@@ -3680,6 +3680,7 @@ def build_decision_capsule(persona,
                            decision_convergence_hint,
                            drive_system_summary_text=None,
                            motive_guidance_text=None,
+                           other_people_prediction_text=None,
                            decision_social_context_text=None,
                            relevant_experience_text=None,
                            strong_avoid_experience_text=None,
@@ -3709,6 +3710,8 @@ def build_decision_capsule(persona,
     drive_system_summary_text = "Drive system summary unavailable."
   if not motive_guidance_text:
     motive_guidance_text = "No motive guidance available."
+  if not other_people_prediction_text:
+    other_people_prediction_text = "Other People / Predicted Behavior:\n- No currently modeled nearby people with usable motive-based behavior forecasts."
   if not decision_social_context_text:
     decision_social_context_text = "暂无其他 NPC 信息缓存。"
   if not relevant_experience_text:
@@ -3774,9 +3777,10 @@ def build_decision_capsule(persona,
     )
   capsule_lines.extend([
     _build_last_action_with_result_line(last_action_desc, scratch),
-    f"Rules: {_compact_multiline_block(rules, max_lines=5, max_chars=360)}",
-    f"驱动力和满足方式: {_compact_multiline_block(drive_system_summary_text, max_lines=4, max_chars=360)}",
-    f"Motives: {_compact_multiline_block(motive_guidance_text, max_lines=4, max_chars=320)}",
+    f"Rules: {_compact_multiline_block(rules, max_lines=8, max_chars=900)}",
+    f"驱动力系统说明: {_compact_multiline_block(drive_system_summary_text, max_lines=8, max_chars=900)}",
+    f"Motives: {_compact_multiline_block(motive_guidance_text, max_lines=8, max_chars=900)}",
+    _compact_multiline_block(other_people_prediction_text, max_lines=18, max_chars=1600),
     f"StrongAvoidExperience: {_compact_multiline_block(strong_avoid_experience_text, max_lines=4, max_chars=260)}",
     f"StrongPreferExperience: {_compact_multiline_block(strong_prefer_experience_text, max_lines=4, max_chars=260)}",
     f"ExperienceGuidance: {_compact_multiline_block(experience_guidance_text, max_lines=3, max_chars=260)}",
@@ -3807,6 +3811,76 @@ def _append_social_context_after_other_people(identity_text, decision_social_con
   if "社交关系:" in identity_text:
     return identity_text
   return identity_text + f"\n社交关系: {social_text}"
+
+
+def _build_action_translation_decision_capsule(persona,
+                                               nearby_resources,
+                                               temporal_context=None,
+                                               status_summary=None,
+                                               rules=None,
+                                               cooperative_context=None,
+                                               last_action_desc=None,
+                                               intent_memory_summary=None,
+                                               decision_convergence_hint=None,
+                                               static_resource_context_text=None):
+  if persona is None or getattr(persona, "scratch", None) is None:
+    capsule_lines = []
+    compact_temporal_context = _compact_multiline_block(
+      temporal_context or "Current Time: Unknown",
+      max_lines=1,
+      max_chars=120,
+    )
+    if compact_temporal_context.startswith("- "):
+      compact_temporal_context = compact_temporal_context[2:]
+    capsule_lines.append(f"Time: {compact_temporal_context or 'Current Time: Unknown'}")
+    capsule_lines.append(
+      "DecisionPriority: Treat the stage-1 thought as the authoritative immediate intent. "
+      "Use the current world context only to ground action, target, and feasibility; do not invent a different plan unless the literal mapping is forbidden or impossible."
+    )
+    if static_resource_context_text:
+      capsule_lines.append(str(static_resource_context_text).strip())
+    else:
+      capsule_lines.append(f"Resources: {_compact_resource_context(nearby_resources, include_state=True, max_items=10)}")
+    capsule_lines.append(
+      "Other People / Predicted Behavior:\n"
+      "- No currently modeled nearby people with usable motive-based behavior forecasts."
+    )
+    return "\n".join(capsule_lines), load_action_schema_text(), {}
+
+  if not static_resource_context_text:
+    static_resource_context_text = getattr(persona.scratch, "static_resource_context_text", None)
+
+  compiled_context = compile_stage1_prompt_context(
+    persona,
+    base_rules=rules,
+    cooperative_context=cooperative_context,
+    intent_memory_summary=intent_memory_summary,
+  )
+  decision_capsule = build_decision_capsule(
+    persona,
+    temporal_context,
+    status_summary,
+    compiled_context.get("dynamic_fields", {}).get("world_rules_text") or rules,
+    cooperative_context,
+    nearby_resources,
+    last_action_desc or "None",
+    intent_memory_summary,
+    decision_convergence_hint,
+    drive_system_summary_text=compiled_context.get("dynamic_fields", {}).get("drive_system_summary_text"),
+    motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
+    other_people_prediction_text=compiled_context.get("dynamic_fields", {}).get("other_people_prediction_text"),
+    decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
+    relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
+    strong_avoid_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_avoid_experience_text"),
+    strong_prefer_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_prefer_experience_text"),
+    experience_guidance_text=compiled_context.get("dynamic_fields", {}).get("experience_guidance_text"),
+    static_resource_context_text=static_resource_context_text,
+  )
+  action_schema_text = (
+    compiled_context.get("dynamic_fields", {}).get("action_schema_text")
+    or load_action_schema_text()
+  )
+  return decision_capsule, action_schema_text, compiled_context.get("trace_payload") or {}
 
 
 def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, verbose=False, last_action_desc="None", intent_memory_summary=None, admin_override_instruction=None, decision_id=None, static_resource_context_text=None, request_config=None):
@@ -3860,6 +3934,7 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       None,
       drive_system_summary_text=compiled_context.get("dynamic_fields", {}).get("drive_system_summary_text"),
       motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
+      other_people_prediction_text=compiled_context.get("dynamic_fields", {}).get("other_people_prediction_text"),
       decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
       relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
       strong_avoid_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_avoid_experience_text"),
@@ -3960,6 +4035,7 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       decision_convergence_hint,
       drive_system_summary_text=compiled_context.get("dynamic_fields", {}).get("drive_system_summary_text"),
       motive_guidance_text=compiled_context.get("dynamic_fields", {}).get("motive_guidance_text"),
+      other_people_prediction_text=compiled_context.get("dynamic_fields", {}).get("other_people_prediction_text"),
       decision_social_context_text=compiled_context.get("dynamic_fields", {}).get("decision_social_context_text"),
       relevant_experience_text=compiled_context.get("dynamic_fields", {}).get("relevant_experience_text"),
       strong_avoid_experience_text=compiled_context.get("dynamic_fields", {}).get("strong_avoid_experience_text"),
@@ -4081,14 +4157,23 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   return output
 
 
-def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None, intent_family=None):
+def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None, intent_family=None, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, intent_memory_summary=None, static_resource_context_text=None):
   import json
   
-  schema_str = load_action_schema_text()
-
-  res_str = _compact_resource_context(nearby_resources, include_state=False, max_items=10)
   if not decision_convergence_hint:
     decision_convergence_hint = "Translate the intent faithfully using only the most immediate action implied by the current thought."
+  decision_capsule_text, schema_str, translation_trace_payload = _build_action_translation_decision_capsule(
+    persona,
+    nearby_resources,
+    temporal_context=temporal_context,
+    status_summary=status_summary,
+    rules=rules,
+    cooperative_context=cooperative_context,
+    last_action_desc=last_action_desc,
+    intent_memory_summary=intent_memory_summary,
+    decision_convergence_hint=decision_convergence_hint,
+    static_resource_context_text=static_resource_context_text,
+  )
   experience_guard = build_action_translation_experience_guard(
     persona,
     intent_family=intent_family,
@@ -4096,10 +4181,10 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   
   prompt_input = [
     thinking_text,
+    decision_capsule_text,
     schema_str,
-    res_str,
-    experience_guard,
     firstname,
+    experience_guard,
     decision_convergence_hint,
   ]
   
@@ -4116,7 +4201,12 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
   }
   
   example_output = '{"action": "Consume", "target": "apple", "detail": "eating an apple for breakfast", "duration": 15, "reasoning": "Satiety is critical."}'
-  special_instruction = "Select the best action, target, detail and duration based on intent and schema targets."
+  special_instruction = (
+    "Translate the stage-1 thought into the nearest valid immediate schema action. "
+    "Treat the thought as the primary source of intent. "
+    "Use the Decision Capsule only to keep the translation aligned with the same resources, places, people, and latest failure evidence seen in stage 1. "
+    "Do not invent a different immediate plan unless the literal mapping is forbidden or physically impossible."
+  )
   special_instruction += f" Translation Convergence Guidance: {decision_convergence_hint}"
   special_instruction += (
     " Follow the ExperienceGuard whenever it names a recently failed exact instance or a stronger alternate source. "
@@ -4216,7 +4306,7 @@ def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname
     decision_id=decision_id,
     prompt_template=prompt_template,
     minimal_filter_context=minimal_filter_context,
-    extra={"experience_guard": experience_guard},
+    extra=dict(translation_trace_payload or {}, experience_guard=experience_guard),
   )
 
   return output
