@@ -2803,7 +2803,7 @@ def decide_demand_action(persona, maze, personas=None):
   act_world = maze.access_tile(persona.scratch.curr_tile)["world"]
   resolution_meta = None
   target_persona_name = None
-  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target not in {"none", "", None}:
+  if normalized_skill_id in {"chat with", "seek_and_chat", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob"} and target not in {"none", "", None}:
     persona_resolution = resolve_persona_target(personas or {}, target)
     if persona_resolution.get("ok"):
       candidate_target = persona_resolution.get("resolved_target")
@@ -2919,7 +2919,7 @@ def decide_demand_action(persona, maze, personas=None):
 
   act_desp = tighten_food_action_description(normalized_skill_id, target, new_address, act_desp)
 
-  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target_persona_name:
+  if normalized_skill_id in {"chat with", "seek_and_chat", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob"} and target_persona_name:
     act_pron = "💬"
     act_event = (persona.name, normalized_skill_id, target_persona_name)
   else:
@@ -2951,7 +2951,7 @@ def decide_demand_action(persona, maze, personas=None):
   
   # Persona's actions also influence the object states. We set those up here. 
   phase_started_at = time.perf_counter()
-  if normalized_skill_id in {"chat with", "seek_and_chat", "give", "rob"} and target not in {"none", "", None}:
+  if normalized_skill_id in {"chat with", "seek_and_chat", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob"} and target not in {"none", "", None}:
     act_obj_desp = None
     act_obj_pron = None
     act_obj_event = (None, None, None)

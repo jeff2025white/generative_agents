@@ -39,6 +39,7 @@ from persona.cognitive_modules.stage1_prompt_compiler import (
     build_experience_priority_texts,
     build_motive_guidance_text,
     build_world_rules_text,
+    load_action_schema_text,
 )
 
 
@@ -593,7 +594,9 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
             "background_identity_text": (
                 "Name: Maria Lopez\n"
                 "Age: 21\n"
-                "其他人: Klaus Mueller: 天生特质=kind, calm"
+                "Other People / Social Leverage:\n"
+                "- Klaus Mueller\n"
+                "  - likely_resources: companionship, cooperation"
             ),
             "dynamic_fields": {
                 "world_rules_text": "Gathering food restores survival options.",
@@ -620,9 +623,9 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         identity_summary = captured["prompt_input"][0]
         decision_capsule = captured["prompt_input"][1]
-        self.assertIn("其他人:", identity_summary)
+        self.assertIn("Other People / Social Leverage:", identity_summary)
         self.assertIn("社交关系:", identity_summary)
-        self.assertLess(identity_summary.index("其他人:"), identity_summary.index("社交关系:"))
+        self.assertLess(identity_summary.index("Other People / Social Leverage:"), identity_summary.index("社交关系:"))
         self.assertNotIn("社交关系:", decision_capsule)
 
     def test_prompt_omits_convergence_guidance_for_in_transit_and_experience(self):
@@ -778,6 +781,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         captured = {}
 
         def fake_generate_prompt(prompt_input, prompt_template):
+            captured["prompt_input"] = prompt_input
             return "base-prompt"
 
         def fake_chatgpt_request(prompt, **kwargs):
@@ -798,6 +802,12 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
             )
 
         self.assertIn("Current motive guidance:", captured["prompt"])
+        self.assertEqual(captured["prompt_input"][3], load_action_schema_text())
+        self.assertIn('"Consume"', captured["prompt_input"][3])
+        self.assertIn('"actor_delta_amplitude_by_variant"', captured["prompt_input"][3])
+        self.assertIn('"satiety": 58.0', captured["prompt_input"][3])
+        self.assertIn('"belonging": 12.0', captured["prompt_input"][3])
+        self.assertIn('"mood": -2.0', captured["prompt_input"][3])
         self.assertNotIn("Decision Convergence Guidance:", captured["prompt"])
         self.assertNotIn("Use this strict priority order:", captured["prompt"])
         self.assertNotIn("Write the answer in Maria's first-person voice.", captured["prompt"])
@@ -859,6 +869,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         decision_capsule = prompt_input[1]
         self.assertIn("Time: Current Time", decision_capsule)
         self.assertIn("Rules:", decision_capsule)
+        self.assertEqual(prompt_input[3], load_action_schema_text())
         resource_context = decision_capsule
         self.assertIn("refrigerator", resource_context)
         self.assertIn("additional known resources omitted", resource_context)
@@ -871,7 +882,22 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         template = template_path.read_text(encoding="utf-8")
 
         self.assertLess(template.index("Decision Capsule:"), template.index("Background Identity:"))
+        self.assertLess(template.index("Background Identity:"), template.index("Action Schema:"))
         self.assertIn("Do not weigh all information equally.", template)
+        self.assertIn("prompt-only amplitude hints", template)
+
+    def test_load_action_schema_text_includes_actor_effect_hints(self):
+        schema_text = load_action_schema_text()
+
+        self.assertIn('"prompt_delta_amplitude_note"', schema_text)
+        self.assertIn('"consume": {', schema_text)
+        self.assertIn('"satiety": 58.0', schema_text)
+        self.assertIn('"chat with": {', schema_text)
+        self.assertIn('"belonging": 12.0', schema_text)
+        self.assertIn('"give_actor": {', schema_text)
+        self.assertIn('"status": 2.0', schema_text)
+        self.assertIn('"rob_actor": {', schema_text)
+        self.assertIn('"mood": -2.0', schema_text)
 
 
 if __name__ == "__main__":

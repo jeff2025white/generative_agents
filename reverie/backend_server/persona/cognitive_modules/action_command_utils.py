@@ -81,6 +81,34 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "socialize": "chat with",
         "socializing": "chat with",
         "communicate": "chat with",
+        "request": "request",
+        "requesting": "request",
+        "ask": "request",
+        "asking": "request",
+        "seek": "request",
+        "trade": "trade",
+        "trading": "trade",
+        "exchange": "trade",
+        "exchanging": "trade",
+        "barter": "trade",
+        "bartering": "trade",
+        "coordinate": "coordinate",
+        "coordinating": "coordinate",
+        "cooperate": "coordinate",
+        "cooperating": "coordinate",
+        "align": "coordinate",
+        "team up": "coordinate",
+        "pressure": "pressure",
+        "pressuring": "pressure",
+        "push": "pressure",
+        "pushing": "pressure",
+        "corner": "pressure",
+        "demand": "pressure",
+        "avoid": "avoid",
+        "avoiding": "avoid",
+        "bypass": "avoid",
+        "disengage": "avoid",
+        "leave": "avoid",
         "hangout_social_venue": "hangout_social_venue",
         "hangout": "hangout_social_venue",
         "loiter": "hangout_social_venue",
@@ -143,6 +171,11 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "wander",
         "chat with",
         "seek_and_chat",
+        "request",
+        "trade",
+        "coordinate",
+        "pressure",
+        "avoid",
         "hangout_social_venue",
         "give",
         "rob",
@@ -164,6 +197,8 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         return "daydream"
     if _contains_any(context_text, ["chat with", "chatting with", "conversation with", "talking with", "talk to", "gossip with", "socializing with"]):
         return "chat with"
+    if _contains_any(context_text, ["bar", "pub", "tavern", "rose and crown", "people-watching", "people watching", "hang out", "hanging out", "patrons"]):
+        return "hangout_social_venue"
     if "singing" in context_text or _contains_any(context_text, ["piano", "song", "music", "karaoke", "melody"]):
         return "sing"
     if _contains_any(context_text, ["bed", "sofa", "couch", "bench", "chair", "nap", "sleep", "rest", "lying down", "lie down"]):
@@ -210,6 +245,18 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         if _contains_any(context_text, food_keywords):
             return "restore_satiety"
         return "acquire_resource"
+    if normalized_skill == "request":
+        if _contains_any(context_text, food_keywords):
+            return "restore_satiety"
+        return "communication"
+    if normalized_skill == "trade":
+        if _contains_any(context_text, food_keywords):
+            return "restore_satiety"
+        return "acquire_resource"
+    if normalized_skill in {"coordinate", "pressure"}:
+        return "communication"
+    if normalized_skill == "avoid":
+        return "avoid"
     if normalized_skill in {"chat with", "seek_and_chat", "creator_comm"}:
         return "communication"
     if normalized_skill == "give":

@@ -36,8 +36,14 @@ import math
 import os
 import shutil
 import sqlite3
+import sys
 import traceback
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+  sys.path.append(str(PROJECT_ROOT))
 
 from global_methods import *
 from utils import *
@@ -52,6 +58,7 @@ from persona.cognitive_modules.debug_log import append_debug_log
 from persona.cognitive_modules.state_dynamics import apply_step_state_dynamics
 from persona.cognitive_modules.world_resource_state import WorldResourceState
 from persona.prompt_template.gpt_structure import save_cache_to_disk, set_cache_sim_scope
+from logs.clear_runtime_logs import clear_runtime_logs
 import requests
 
 ##############################################################################
@@ -69,6 +76,10 @@ def _frontend_db_path():
   return os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "..", "environment", "frontend_server", "db.sqlite3")
   )
+
+
+def clear_logs_for_new_run():
+  return clear_runtime_logs(PROJECT_ROOT / "logs")
 
 
 def _write_pending_action_result(action_id, *, reply="", status="replied"):
@@ -1153,6 +1164,7 @@ if __name__ == '__main__':
   if len(sys.argv) >= 3:
     origin = sys.argv[1].strip()
     target = sys.argv[2].strip()
+    clear_logs_for_new_run()
     setup_logging(target)
     
     auto_run_steps = None
@@ -1176,11 +1188,11 @@ if __name__ == '__main__':
   else:
     origin = input("Enter the name of the forked simulation: ").strip()
     target = input("Enter the name of the new simulation: ").strip()
+    clear_logs_for_new_run()
     setup_logging(target)
 
     rs = ReverieServer(origin, target)
     rs.open_server()
-
 
 
 

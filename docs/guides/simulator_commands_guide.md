@@ -77,8 +77,9 @@
 
 ## 6.1 日志分层约定
 
-- `TRANSIENT_LOGS`：启动新一轮模拟前会清空，只用于本轮调试，例如 `translation_verify.jsonl`、`step_timing.jsonl`、`decision_stability.jsonl`
-- `PRESERVED_LOGS`：默认跨运行保留，用于长期行为分析，例如 `motive_monitor.jsonl`、`action_outcome.jsonl`
+- 启动新一轮模拟前，会先清空 `logs/` 根目录下的运行期 `*.jsonl` 日志
+- `logs/agents/` 下按 `sim_code` 生成的 agent prompt 日志也会在启动前一并清空
+- `logs/training_dataset/` 下的训练数据文件不会被启动清理脚本删除
 - 所有运行期 JSONL 日志都应包含 `sim_code`、`curr_step`、`sim_time`
 - 前端状态页与后续日志读取器必须优先按 `sim_code` 过滤，不能只依赖真实时间窗口
 

@@ -1,2 +1,9 @@
 # Ignore logs directory in search tools (e.g. ripgrep)
 logs/
+
+# Ignore runtime-generated simulation state
+environment/frontend_server/db.sqlite3
+environment/frontend_server/temp_storage/curr_sim_code.json
+environment/frontend_server/temp_storage/frontend_active_*.json
+reverie/backend_server/.prompt_cache/llm_cache.json
+environment/frontend_server/storage/sim_*/

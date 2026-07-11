@@ -22,6 +22,7 @@ from persona.cognitive_modules.decision_constraints import (
 )
 from persona.cognitive_modules.stage1_prompt_compiler import (
   compile_stage1_prompt_context,
+  load_action_schema_text,
 )
 from persona.cognitive_modules.motive_selector import (
   build_default_motive_attributes,
@@ -3866,11 +3867,16 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
       experience_guidance_text=compiled_context.get("dynamic_fields", {}).get("experience_guidance_text"),
       static_resource_context_text=static_resource_context_text,
     )
+    action_schema_text = (
+      compiled_context.get("dynamic_fields", {}).get("action_schema_text")
+      or load_action_schema_text()
+    )
 
     prompt_input = [
       identity_summary,
       decision_capsule,
       persona.scratch.get_str_firstname(),
+      action_schema_text,
     ]
     return prompt_input, compiled_context
 
@@ -3921,16 +3927,10 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
 
 
 def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, verbose=False, intent_memory_summary=None, admin_override_instruction=None, decision_convergence_hint=None, decision_id=None, static_resource_context_text=None, request_config=None):
-  import os
   import json
 
   def create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary, decision_convergence_hint):
-    schema_path = os.path.join("persona", "prompt_template", "v2", "action_schema.json")
-    try:
-      with open(schema_path, "r", encoding="utf-8") as f:
-        schema_str = f.read()
-    except Exception:
-      schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate, Idle."
+    schema_str = load_action_schema_text()
 
     compiled_context = compile_stage1_prompt_context(
       persona,
@@ -4082,17 +4082,9 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
 
 
 def run_gpt_prompt_action_translation(thinking_text, nearby_resources, firstname, verbose=False, admin_override_instruction=None, decision_convergence_hint=None, retry_count=1, decision_id=None, persona=None, request_config=None, intent_family=None):
-  import os
   import json
   
-  # Load action_schema.json
-  schema_path = os.path.join("persona", "prompt_template", "v2", "action_schema.json")
-  try:
-    with open(schema_path, "r", encoding="utf-8") as f:
-      schema_str = f.read()
-  except Exception as e:
-    # Fallback default schema text if file read fails
-    schema_str = "Action Schema defining Categories: Consume, Gather, Rest, Work, Socialize, Give, Rob, Recreate, Idle."
+  schema_str = load_action_schema_text()
 
   res_str = _compact_resource_context(nearby_resources, include_state=False, max_items=10)
   if not decision_convergence_hint:

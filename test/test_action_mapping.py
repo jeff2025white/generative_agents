@@ -90,6 +90,54 @@ class ActionMappingTests(unittest.TestCase):
             normalize_skill_id("Recreate", target="TV", detail="watching TV to relax"),
             "leisure_use",
         )
+        self.assertEqual(
+            normalize_skill_id("Recreate", target="pub", detail="hanging out at the pub to relax"),
+            "hangout_social_venue",
+        )
+
+    def test_request_and_trade_map_to_resource_exchange_skills(self):
+        self.assertEqual(
+            normalize_skill_id("Request", target="Klaus Mueller", detail="asking Klaus Mueller for a snack"),
+            "request",
+        )
+        self.assertEqual(
+            normalize_skill_id("Trade", target="Isabella Rodriguez", detail="trading for food with Isabella Rodriguez"),
+            "trade",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="Request", target="Klaus Mueller", detail="asking Klaus Mueller for a snack"),
+            "restore_satiety",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="Trade", target="Isabella Rodriguez", detail="trading for food with Isabella Rodriguez"),
+            "restore_satiety",
+        )
+
+    def test_coordinate_pressure_and_avoid_map_to_social_control_skills(self):
+        self.assertEqual(
+            normalize_skill_id("Coordinate", target="Klaus Mueller", detail="teaming up with Klaus Mueller"),
+            "coordinate",
+        )
+        self.assertEqual(
+            normalize_skill_id("Pressure", target="Isabella Rodriguez", detail="demanding compliance from Isabella Rodriguez"),
+            "pressure",
+        )
+        self.assertEqual(
+            normalize_skill_id("Avoid", target="Maria Lopez", detail="leaving to avoid Maria Lopez"),
+            "avoid",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="Coordinate", target="Klaus Mueller", detail="teaming up with Klaus Mueller"),
+            "communication",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="Pressure", target="Isabella Rodriguez", detail="demanding compliance from Isabella Rodriguez"),
+            "communication",
+        )
+        self.assertEqual(
+            infer_intent_family(skill_id="Avoid", target="Maria Lopez", detail="leaving to avoid Maria Lopez"),
+            "avoid",
+        )
 
     def test_work_and_use_map_to_stable_skill_ids(self):
         self.assertEqual(

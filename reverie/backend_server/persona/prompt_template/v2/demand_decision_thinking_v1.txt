@@ -2,12 +2,17 @@
 Input 0: Agent's ISS (Identity Stable Set)
 Input 1: Decision Capsule
 Input 2: Agent's first name
+Input 3: Action Schema Definition
 <commentblockmarker>###</commentblockmarker>
 Decision Capsule:
 !<INPUT 1>!
 
 Background Identity:
 !<INPUT 0>!
+
+Action Schema:
+!<INPUT 3>!
+Treat the signed delta numbers in the Action Schema as prompt-only amplitude hints for the acting NPC: positive means likely improvement, negative means likely cost or penalty. They are not runtime settlement and not guaranteed results.
 
 Priority Rules:
 1. The current dominant motive has the highest internal decision weight for this step.

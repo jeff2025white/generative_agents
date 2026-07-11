@@ -108,6 +108,34 @@ class DecisionPromptTraceTests(unittest.TestCase):
             payload["stage1_dynamic_fields"]["relevant_experience_text"],
             "Relevant food experience.",
         )
+        self.assertIn(
+            '"Consume"',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"actor_delta_amplitude_by_variant"',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"satiety": 58.0',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"mood": -2.0',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"Request"',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"Coordinate"',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
+        self.assertIn(
+            '"Pressure"',
+            payload["stage1_dynamic_fields"]["action_schema_text"],
+        )
         self.assertEqual(
             payload["stage1_dynamic_fields"]["strong_avoid_experience_text"],
             "- refrigerator at Dorm for Oak Hill College was empty recently.",

@@ -10,6 +10,7 @@ Your job is to translate the natural language intent of !<INPUT 3>! into a stand
 
 Here is the Action Schema containing the allowed action categories, their allowed target objects, and their descriptions:
 !<INPUT 1>!
+Treat the signed delta numbers in the Action Schema as prompt-only amplitude hints for the acting NPC: positive means likely improvement, negative means likely cost or penalty. They are not runtime settlement and not guaranteed results.
 
 Here are the interactive targets currently physically near !<INPUT 3>!:
 !<INPUT 2>!
@@ -21,8 +22,8 @@ Translation Convergence Guidance:
 !<INPUT 4>!
 
 Select:
-1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Work", "Socialize", "Recreate", "Idle").
-2. "target": Must be one of the target objects physically near the agent, or a food item/resource in the schema (e.g. "refrigerator", "stove", "apple tree", "bed", "sofa", "classroom podium", "computer desk", "library table", "tv", "apple", "cooked meal"), or the name of another resident (for Socialize). If no target fits, use "none".
+1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Work", "Socialize", "Request", "Trade", "Coordinate", "Pressure", "Avoid", "Recreate", "Idle").
+2. "target": Must be one of the target objects physically near the agent, or a food item/resource in the schema (e.g. "refrigerator", "stove", "apple tree", "bed", "sofa", "classroom podium", "computer desk", "library table", "tv", "apple", "cooked meal"), or the name of another resident (for Socialize / Request / Trade / Coordinate / Pressure / Avoid). If no target fits, use "none".
 3. "detail": A descriptive action description string (e.g., "eating an apple", "sleeping in bed", "working on research paper").
 4. "duration": Estimate the duration of the action in minutes (between 10 and 120 minutes).
 5. "reasoning": A brief explanation of the physical mapping.
@@ -30,7 +31,7 @@ Select:
 Response format:
 Respond ONLY in valid JSON format:
 {
-  "action": "<Consume/Gather/Rest/Work/Socialize/Recreate/Idle>",
+  "action": "<Consume/Gather/Rest/Work/Socialize/Request/Trade/Coordinate/Pressure/Avoid/Recreate/Idle>",
   "target": "<target_object_or_person_name>",
   "detail": "<descriptive action detail string>",
   "duration": <integer_duration_in_minutes>,

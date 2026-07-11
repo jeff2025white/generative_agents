@@ -28,6 +28,7 @@ from persona.cognitive_modules.stage1_prompt_compiler import (
     refresh_prompt_profile_from_planning,
     refresh_prompt_profile_from_reflection,
 )
+from persona.cognitive_modules.motive_selector import build_default_motive_attributes
 from persona.memory_structures.scratch import Scratch
 
 
@@ -116,6 +117,14 @@ class Stage1PromptProfileRefreshTests(unittest.TestCase):
         scratch.learned = "good at research and patient conversation"
         scratch.curr_time = datetime(2026, 7, 9, 8, 0, 0)
         scratch.act_start_time = datetime(2026, 7, 9, 8, 0, 0)
+        scratch.get_motive_attributes_snapshot = lambda: build_default_motive_attributes(
+            overrides={
+                "satiety": {"current_value": 38.0},
+                "mood": {"current_value": 49.0},
+                "stamina": {"current_value": 80.0},
+                "health": {"current_value": 92.0},
+            }
+        )
         return SimpleNamespace(name="Klaus Mueller", scratch=scratch, a_mem=SimpleNamespace())
 
     def test_refresh_from_planning_updates_daily_and_social_fields(self):
@@ -186,6 +195,15 @@ class Stage1PromptProfileRefreshTests(unittest.TestCase):
                 scratch=SimpleNamespace(
                     innate="warm, sociable, imaginative",
                     get_prompt_profile_field=lambda field_name: "warm, sociable, imaginative" if field_name == "innate_traits_text" else "",
+                    get_motive_attributes_snapshot=lambda: build_default_motive_attributes(
+                        overrides={
+                            "mood": {"current_value": 41.0},
+                            "belonging": {"current_value": 48.0},
+                            "satiety": {"current_value": 78.0},
+                            "stamina": {"current_value": 84.0},
+                            "health": {"current_value": 95.0},
+                        }
+                    ),
                 ),
             ),
         }
@@ -195,9 +213,13 @@ class Stage1PromptProfileRefreshTests(unittest.TestCase):
 
         self.assertIn("Klaus Mueller: 亲密程度=0.82", decision_social_text)
         self.assertIn("Isabella Rodriguez: 亲密程度=0.91", decision_social_text)
-        self.assertIn("其他人:", background_identity)
-        self.assertIn("Klaus Mueller: 天生特质=kind, inquisitive, calm", background_identity)
-        self.assertIn("Isabella Rodriguez: 天生特质=warm, sociable, imaginative", background_identity)
+        self.assertIn("Other People / Social Leverage:", background_identity)
+        self.assertIn("- Klaus Mueller", background_identity)
+        self.assertIn("- Isabella Rodriguez", background_identity)
+        self.assertIn("likely_current_motive: satiety (secondary mood)", background_identity)
+        self.assertIn("likely_resources:", background_identity)
+        self.assertIn("social_affordances:", background_identity)
+        self.assertIn("suggested_use_now:", background_identity)
         self.assertNotIn("Social Relationships:", background_identity)
 
     def test_remember_known_persona_profile_persists_static_traits(self):
@@ -210,6 +232,7 @@ class Stage1PromptProfileRefreshTests(unittest.TestCase):
         cached = persona.scratch.personal_knowledge["persona_profiles"]["Klaus Mueller"]
         self.assertEqual(cached["source"], "unit_test_memory")
         self.assertEqual(cached["innate_traits_text"], "kind, inquisitive, calm")
+        self.assertEqual(cached["motive_summary_text"], "主次动机=主satiety, 次mood")
 
     def test_current_situation_summary_consumes_reflection_thoughts(self):
         persona = self._build_persona()

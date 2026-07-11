@@ -8,6 +8,8 @@ import os
 import sqlite3
 from pathlib import Path
 
+from logs.clear_runtime_logs import clear_runtime_logs
+
 
 ROOT = Path(__file__).resolve().parent
 LOGS_DIR = ROOT / "logs"
@@ -17,22 +19,6 @@ FRONTEND_STORAGE_DIR = ROOT / "environment" / "frontend_server" / "storage"
 DB_PATH = ROOT / "environment" / "frontend_server" / "db.sqlite3"
 LLM_CACHE_PATH = ROOT / "reverie" / "backend_server" / ".prompt_cache" / "llm_cache.json"
 TRANSLATION_CACHE_PATH = ROOT_TEMP_DIR / "translation_cache.json"
-
-TRANSIENT_LOGS = [
-    "action_execution_debug.jsonl",
-    "decision_constraint_hits.jsonl",
-    "decision_prompt_trace.jsonl",
-    "decision_stability.jsonl",
-    "intent_memory_retrieval.jsonl",
-    "perception_debug.jsonl",
-    "step_timing.jsonl",
-    "translation_verify.jsonl",
-]
-
-PRESERVED_LOGS = [
-    "action_outcome.jsonl",
-    "motive_monitor.jsonl",
-]
 
 
 def _write_json(path: Path, payload) -> None:
@@ -76,13 +62,8 @@ def reset_temp_state() -> list[str]:
     return actions
 
 
-def reset_transient_logs() -> list[str]:
-    actions = []
-    for log_name in TRANSIENT_LOGS:
-        path = LOGS_DIR / log_name
-        _truncate_file(path)
-        actions.append(str(path))
-    return actions
+def reset_runtime_logs() -> list[str]:
+    return clear_runtime_logs(LOGS_DIR)
 
 
 def reset_frontend_db() -> list[str]:
@@ -103,7 +84,7 @@ def main() -> int:
     touched = {
         "caches": reset_prompt_caches(),
         "temp_state": reset_temp_state(),
-        "logs": reset_transient_logs(),
+        "logs": reset_runtime_logs(),
         "db_tables": reset_frontend_db(),
     }
     print("[cleanup] transient run state cleared")

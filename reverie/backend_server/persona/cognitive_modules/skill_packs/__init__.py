@@ -8,6 +8,11 @@ from persona.cognitive_modules.skill_packs.generic_activity_skill import Generic
 from persona.cognitive_modules.skill_packs.singing_skill import SingingSkillPack
 from persona.cognitive_modules.skill_packs.give_skill import GiveSkillPack
 from persona.cognitive_modules.skill_packs.rob_skill import RobSkillPack
+from persona.cognitive_modules.skill_packs.request_skill import RequestSkillPack
+from persona.cognitive_modules.skill_packs.trade_skill import TradeSkillPack
+from persona.cognitive_modules.skill_packs.coordinate_skill import CoordinateSkillPack
+from persona.cognitive_modules.skill_packs.pressure_skill import PressureSkillPack
+from persona.cognitive_modules.skill_packs.avoid_skill import AvoidSkillPack
 from persona.cognitive_modules.skill_packs.social_venue_hangout_skill import SocialVenueHangoutSkillPack
 from persona.cognitive_modules.skill_packs.seek_and_chat_skill import SeekAndChatSkillPack
 from persona.cognitive_modules.skill_packs.hide_skill import HideSkillPack
@@ -107,7 +112,35 @@ SKILL_REGISTRY = {
     "communicate": ChatSkillPack(),
     "creator_comm": ChatSkillPack(),
 
-    # NPC-to-NPC inventory transfer skills
+    # NPC-to-NPC resource exchange skills
+    "request": RequestSkillPack(),
+    "requesting": RequestSkillPack(),
+    "ask": RequestSkillPack(),
+    "asking": RequestSkillPack(),
+    "seek": RequestSkillPack(),
+    "trade": TradeSkillPack(),
+    "trading": TradeSkillPack(),
+    "exchange": TradeSkillPack(),
+    "exchanging": TradeSkillPack(),
+    "barter": TradeSkillPack(),
+    "bartering": TradeSkillPack(),
+    "coordinate": CoordinateSkillPack(),
+    "coordinating": CoordinateSkillPack(),
+    "cooperate": CoordinateSkillPack(),
+    "cooperating": CoordinateSkillPack(),
+    "align": CoordinateSkillPack(),
+    "team up": CoordinateSkillPack(),
+    "pressure": PressureSkillPack(),
+    "pressuring": PressureSkillPack(),
+    "push": PressureSkillPack(),
+    "pushing": PressureSkillPack(),
+    "corner": PressureSkillPack(),
+    "demand": PressureSkillPack(),
+    "avoid": AvoidSkillPack(),
+    "avoiding": AvoidSkillPack(),
+    "bypass": AvoidSkillPack(),
+    "disengage": AvoidSkillPack(),
+    "leave": AvoidSkillPack(),
     "give": GiveSkillPack(),
     "giving": GiveSkillPack(),
     "gift": GiveSkillPack(),

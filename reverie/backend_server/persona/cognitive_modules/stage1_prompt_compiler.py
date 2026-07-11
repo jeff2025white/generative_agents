@@ -6,6 +6,7 @@ per-decision prompt assembly logic used by demand thinking and joint decision.
 """
 
 import os
+import re
 from pathlib import Path
 
 from persona.cognitive_modules.decision_constraints import build_invalid_targets
@@ -39,6 +40,7 @@ LEGACY_PROMPT_PROFILE_SOURCES = {"legacy_bootstrap", "legacy_fallback"}
 _PROMPT_TEMPLATE_ROOT = Path(__file__).resolve().parents[1] / "prompt_template" / "v2"
 CURRENT_SITUATION_SUMMARY_TEMPLATE = str(_PROMPT_TEMPLATE_ROOT / "stage1_current_situation_summary_v1.txt")
 LONG_TERM_GOALS_SUMMARY_TEMPLATE = str(_PROMPT_TEMPLATE_ROOT / "stage1_long_term_goals_summary_v1.txt")
+ACTION_SCHEMA_PATH = _PROMPT_TEMPLATE_ROOT / "action_schema.json"
 
 
 def _compact_text(value):
@@ -129,6 +131,16 @@ def build_motive_guidance_text(persona):
 
 def build_world_rules_text(persona, base_rules=None):
   return WORLD_RULES_TEXT
+
+
+def load_action_schema_text():
+  try:
+    return ACTION_SCHEMA_PATH.read_text(encoding="utf-8")
+  except Exception:
+    return (
+      "Action Schema defining Categories: Consume, Gather, Rest, Work, "
+      "Socialize, Give, Rob, Recreate, Idle."
+    )
 
 
 def build_relevant_experience_text(intent_memory_summary=None):
@@ -242,7 +254,7 @@ def build_background_identity_text(persona):
     f"Current Situation: {field_value('current_situation_text', _compact_text(getattr(scratch, 'currently', None)) or 'No current situation summary cached yet.')}",
     f"Lifestyle: {field_value('lifestyle_text', _compact_text(getattr(scratch, 'lifestyle', None)) or 'No lifestyle summary cached yet.')}",
     f"Daily Plan: {field_value('daily_plan_text', _compact_text(getattr(scratch, 'daily_plan_req', None)) or 'No daily plan summary cached yet.')}",
-    f"其他人: {_build_other_people_text(persona)}",
+    _build_other_people_social_leverage_text(persona),
   ]
   return "\n".join(lines)
 
@@ -368,6 +380,227 @@ def _extract_learned_traits_text(target_persona):
   return _compact_text(getattr(scratch, "learned", None))
 
 
+def _extract_other_persona_motive_summary_text(target_persona):
+  if target_persona is None:
+    return ""
+  try:
+    motive_result = _get_motive_result(target_persona)
+  except Exception:
+    return ""
+  dominant = _compact_text(motive_result.get("dominant_motive"))
+  secondary = _compact_text(motive_result.get("secondary_motive"))
+  if not dominant:
+    return ""
+  if secondary and secondary != dominant:
+    return f"主次动机=主{dominant}, 次{secondary}"
+  return f"主次动机=主{dominant}"
+
+
+def _parse_motive_summary_text(motive_summary_text):
+  text = _compact_text(motive_summary_text)
+  if not text:
+    return ("unknown", "")
+  dominant_match = re.search(r"(?:=主|dominant=)([A-Za-z_]+)", text)
+  secondary_match = re.search(r"(?:次|secondary=)([A-Za-z_]+)", text)
+  dominant = dominant_match.group(1).strip() if dominant_match else _compact_text(text)
+  secondary = secondary_match.group(1).strip() if secondary_match else ""
+  return dominant or "unknown", secondary
+
+
+def _build_relation_lookup(observer_persona):
+  a_mem = getattr(observer_persona, "a_mem", None)
+  graph = getattr(a_mem, "social_relationship_graph", {}) or {}
+  relations = (graph.get("relations") or {}) if isinstance(graph, dict) else {}
+  lookup = {}
+  for target_name, payload in relations.items():
+    if not target_name:
+      continue
+    lookup[str(target_name).strip()] = payload or {}
+  return lookup
+
+
+def _is_person_reachable_now(observer_persona, target_name):
+  if not target_name:
+    return False
+  scratch = getattr(observer_persona, "scratch", None)
+  if scratch is not None and getattr(scratch, "chatting_with", None) == target_name:
+    return True
+  runtime_persona = _lookup_runtime_persona(observer_persona, target_name)
+  return runtime_persona is not None
+
+
+def _infer_role_identity_text(name, learned_traits_text):
+  learned = _compact_text(learned_traits_text)
+  if not learned:
+    return f"{name} has no summarized structural role yet."
+  return _trim_text(learned, max_chars=120)
+
+
+def _infer_likely_resources(innate_traits_text, learned_traits_text):
+  joined = f"{innate_traits_text} {learned_traits_text}".lower()
+  resources = []
+  if any(keyword in joined for keyword in ("cafe", "cook", "kitchen", "food", "owner", "host", "hospitable", "bar")):
+    resources.extend(["food access", "local access", "social authority"])
+  if any(keyword in joined for keyword in ("study", "student", "research", "physics", "teacher", "library", "inquisitive")):
+    resources.extend(["information", "problem-solving", "labor"])
+  if any(keyword in joined for keyword in ("friendly", "empathetic", "supportive", "kind", "warm", "sociable", "reliable")):
+    resources.extend(["companionship", "emotional support", "cooperation"])
+  if any(keyword in joined for keyword in ("persistent", "organized", "organizing", "responsible", "routine")):
+    resources.extend(["coordination", "steady labor"])
+  if not resources:
+    resources.extend(["companionship", "cooperation"])
+  ordered = []
+  for item in resources:
+    if item not in ordered:
+      ordered.append(item)
+  return ordered[:4]
+
+
+def _infer_social_affordances(resources, relation_payload):
+  affordances = ["socialize"]
+  joined = " ".join(resources).lower()
+  if any(keyword in joined for keyword in ("food access", "local access", "information", "social authority")):
+    affordances.extend(["request", "trade"])
+  if any(keyword in joined for keyword in ("cooperation", "labor", "coordination", "problem-solving")):
+    affordances.append("coordinate")
+  if "emotional support" in joined or "companionship" in joined:
+    affordances.append("comfort")
+  trust = _safe_float((relation_payload or {}).get("trust"), default=0.0)
+  if trust < 0.35:
+    affordances.extend(["avoid", "pressure"])
+  else:
+    affordances.append("avoid")
+  if "pressure" in affordances:
+    affordances.append("rob")
+  ordered = []
+  for item in affordances:
+    if item not in ordered:
+      ordered.append(item)
+  return ordered[:6]
+
+
+def _infer_leverage_points(innate_traits_text, learned_traits_text, relation_payload):
+  joined = f"{innate_traits_text} {learned_traits_text}".lower()
+  leverage = []
+  if any(keyword in joined for keyword in ("friendly", "empathetic", "supportive", "kind", "warm", "hospitable")):
+    leverage.append("kindness")
+  if any(keyword in joined for keyword in ("owner", "teacher", "responsible", "reliable", "organizing", "routine")):
+    leverage.append("routine duty")
+  relationship = _compact_text((relation_payload or {}).get("relationship"))
+  if relationship in {"friend", "coworker", "ally"}:
+    leverage.append("existing rapport")
+  trust = _safe_float((relation_payload or {}).get("trust"), default=0.0)
+  if trust >= 0.7:
+    leverage.append("trust")
+  if not leverage:
+    leverage.append("limited leverage known")
+  ordered = []
+  for item in leverage:
+    if item not in ordered:
+      ordered.append(item)
+  return ordered[:3]
+
+
+def _build_relationship_state_text(relation_payload):
+  payload = relation_payload or {}
+  relationship = _compact_text(payload.get("relationship")) or "unknown"
+  trust = _safe_float(payload.get("trust"), default=0.0)
+  if relationship == "unknown" and trust <= 0.0:
+    return "known but socially under-modeled"
+  return f"{relationship}, trust={trust:.2f}"
+
+
+def _build_recent_social_feedback_text(observer_persona, target_name, relation_payload):
+  payload = relation_payload or {}
+  recent_events = payload.get("recent_events") or []
+  if recent_events:
+    return _trim_text(_compact_text(recent_events[-1]), max_chars=90)
+  scratch = getattr(observer_persona, "scratch", None)
+  if scratch is not None and getattr(scratch, "chatting_with", None) == target_name:
+    return "currently interacting"
+  return "no recent data"
+
+
+def _build_current_relevance_text(observer_persona, target_name, resources, reachable_now):
+  dominant = _compact_text(_get_motive_result(observer_persona).get("dominant_motive")) or "unknown"
+  resource_joined = ", ".join(resources)
+  if not reachable_now:
+    return f"{target_name} is not confirmed local right now; use only as a weak social option."
+  if dominant == "satiety" and any("food" in item for item in resources):
+    return f"{target_name} may be a faster food-access path than retrying failed objects."
+  if dominant in {"mood", "belonging"} and any(item in resources for item in ("companionship", "emotional support", "cooperation")):
+    return f"{target_name} can directly help repair social or emotional pressure right now."
+  return f"{target_name} is a reachable social option with {resource_joined}."
+
+
+def _build_suggested_use_now_text(observer_persona, resources, affordances, reachable_now):
+  if not reachable_now:
+    return "Deprioritize unless no better local object or person is available."
+  dominant_motive = _compact_text(_get_motive_result(observer_persona).get("dominant_motive")) or "unknown"
+  affordance_set = set(affordances)
+  if dominant_motive == "satiety" and any("food" in item for item in resources):
+    if "request" in affordance_set:
+      return "Request food or trade for food access before repeating a failed object target."
+    return "Use as an indirect path to food access."
+  if dominant_motive in {"mood", "belonging"} and any(item in resources for item in ("companionship", "emotional support")):
+    if "socialize" in affordance_set or "comfort" in affordance_set:
+      return "Use as an immediate social-repair target."
+  if "coordinate" in affordance_set:
+    return "Coordinate for access, help, or lower-risk execution."
+  if "pressure" in affordance_set:
+    return "Apply pressure only if urgency is high and softer leverage is weak."
+  return "Use only if this person is more reliable than current object paths."
+
+
+def _build_other_people_social_leverage_text(observer_persona, max_people=4):
+  relation_lookup = _build_relation_lookup(observer_persona)
+  entries = []
+  for profile in _iter_other_persona_profiles(observer_persona):
+    name = _compact_text(profile.get("name"))
+    if not name:
+      continue
+    innate_traits = _compact_text(profile.get("innate_traits_text")) or "unknown"
+    learned_traits = _compact_text(profile.get("learned_traits_text"))
+    motive_summary = _compact_text(profile.get("motive_summary_text"))
+    dominant_motive, secondary_motive = _parse_motive_summary_text(motive_summary)
+    relation_payload = relation_lookup.get(name, {})
+    reachable_now = _is_person_reachable_now(observer_persona, name)
+    likely_resources = _infer_likely_resources(innate_traits, learned_traits)
+    social_affordances = _infer_social_affordances(likely_resources, relation_payload)
+    leverage_points = _infer_leverage_points(innate_traits, learned_traits, relation_payload)
+    lines = [
+      f"- {name}",
+      f"  - reachable_now: {'yes' if reachable_now else 'unknown'}",
+      f"  - current_relevance: {_build_current_relevance_text(observer_persona, name, likely_resources, reachable_now)}",
+      f"  - role_identity: {_infer_role_identity_text(name, learned_traits)}",
+      (
+        f"  - likely_current_motive: {dominant_motive}"
+        + (f" (secondary {secondary_motive})" if secondary_motive else "")
+      ),
+      f"  - likely_resources: {', '.join(likely_resources)}",
+      f"  - social_affordances: {', '.join(social_affordances)}",
+      f"  - leverage_points: {', '.join(leverage_points)}",
+      f"  - relationship_state: {_build_relationship_state_text(relation_payload)}",
+      f"  - recent_social_feedback: {_build_recent_social_feedback_text(observer_persona, name, relation_payload)}",
+      (
+        "  - risks: "
+        + ("low; reachable and socially usable." if reachable_now else "medium; local reachability is not confirmed.")
+      ),
+      f"  - suggested_use_now: {_build_suggested_use_now_text(observer_persona, likely_resources, social_affordances, reachable_now)}",
+    ]
+    entries.append("\n".join(lines))
+    if len(entries) >= max_people:
+      break
+  if not entries:
+    return "Other People / Social Leverage:\n- No currently modeled social leverage targets."
+  guidance = (
+    "Other People / Social Leverage:\n"
+    "Use nearby people as possible resources, collaborators, blockers, or leverage points when object paths are weak or recently failed.\n"
+    "If another reachable person can satisfy the dominant motive more reliably than a failed object, treat that person as a serious immediate target.\n"
+  )
+  return guidance + "\n".join(entries)
+
+
 def remember_known_persona_profile(observer_persona, target_persona, source="runtime_observation"):
   if observer_persona is None or target_persona is None:
     return False
@@ -387,6 +620,7 @@ def remember_known_persona_profile(observer_persona, target_persona, source="run
     "name": str(target_name),
     "innate_traits_text": _extract_innate_traits_text(target_persona),
     "learned_traits_text": _extract_learned_traits_text(target_persona),
+    "motive_summary_text": _extract_other_persona_motive_summary_text(target_persona),
     "source": str(source or "runtime_observation"),
   }
   return True
@@ -693,6 +927,8 @@ def _iter_other_persona_profiles(observer_persona):
       yield {
         "name": normalized_name,
         "innate_traits_text": _extract_innate_traits_text(runtime_persona),
+        "learned_traits_text": _extract_learned_traits_text(runtime_persona),
+        "motive_summary_text": _extract_other_persona_motive_summary_text(runtime_persona),
       }
 
   scratch = getattr(observer_persona, "scratch", None)
@@ -712,6 +948,8 @@ def _iter_other_persona_profiles(observer_persona):
       yield {
         "name": normalized_name,
         "innate_traits_text": _compact_text(profile.get("innate_traits_text")),
+        "learned_traits_text": _compact_text(profile.get("learned_traits_text")),
+        "motive_summary_text": _compact_text(profile.get("motive_summary_text")),
       }
 
 
@@ -722,7 +960,11 @@ def _build_other_people_text(observer_persona, max_people=6):
     if not name:
       continue
     innate_traits = _compact_text(profile.get("innate_traits_text")) or "未知"
-    entries.append(f"{name}: 天生特质={innate_traits}")
+    motive_summary = _compact_text(profile.get("motive_summary_text"))
+    entry = f"{name}: 天生特质={innate_traits}"
+    if motive_summary:
+      entry += f", {motive_summary}"
+    entries.append(entry)
     if len(entries) >= max_people:
       break
   if not entries:
@@ -918,6 +1160,7 @@ def compile_stage1_prompt_context(persona,
     "world_rules_text": build_world_rules_text(persona, base_rules=base_rules),
     "drive_system_summary_text": build_drive_system_summary_text(),
     "motive_guidance_text": build_motive_guidance_text(persona),
+    "action_schema_text": load_action_schema_text(),
     "relevant_experience_text": build_relevant_experience_text(intent_memory_summary),
     "strong_avoid_experience_text": experience_blocks["StrongAvoidExperience"],
     "strong_prefer_experience_text": experience_blocks["StrongPreferExperience"],
