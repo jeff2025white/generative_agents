@@ -201,7 +201,7 @@ class ActionTranslationConvergenceTests(unittest.TestCase):
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
         self.assertIn("可达的资源/场所:", joined_prompt)
         self.assertIn("refrigerator:", joined_prompt)
-        self.assertIn("Other People / Predicted Behavior:", joined_prompt)
+        self.assertIn("Available People nearby:", joined_prompt)
         self.assertIn("Klaus Mueller", joined_prompt)
         self.assertIn("ExperienceGuard", joined_prompt)
 
