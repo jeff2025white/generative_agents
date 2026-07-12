@@ -18,6 +18,12 @@ ZHIPU_CHAT_REQUEST_CONFIG = {
     "model": "glm-4-flash",
 }
 
+ZHIPU_AIR_REQUEST_CONFIG = {
+    "api_key": "b1cd40c82d59411b81071d190a0badb7.voukUXlnTWEx44Li",
+    "api_base": "https://open.bigmodel.cn/api/paas/v4/",
+    "model": "glm-4-air",
+}
+
 BAILIAN_CHAT_REQUEST_CONFIG = {
     "api_key": "sk-ws-H.RXEXPRM.V7xV.MEUCIQCX_Ht-mq4d9JvazH5E1ylm78Ethrks6UmDyOsEzEfdiAIgQ68FlOQTwKKExJ5pfftcJC8c3wI7n9DG9lU6Aevbvmk",
     "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -28,6 +34,7 @@ _REQUEST_CONFIGS = {
     "local": LOCAL_LLM_CONFIG,
     "deepseek_chat": DEEPSEEK_CHAT_REQUEST_CONFIG,
     "zhipu_chat": ZHIPU_CHAT_REQUEST_CONFIG,
+    "zhipu_air": ZHIPU_AIR_REQUEST_CONFIG,
     "bailian_chat": BAILIAN_CHAT_REQUEST_CONFIG,
 }
 

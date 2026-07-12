@@ -20,17 +20,28 @@ class RestSkillPack(BaseSkillPack):
         )
 
     def can_execute(self, persona, target, maze) -> bool:
-        # 1. If currently standing on a restable object (bed/sofa/chair), they can rest.
+        # 1. If currently standing on a restable object (bed/sofa/chair), they can rest immediately.
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         if curr_obj:
             curr_obj_lower = curr_obj.lower()
             if any(w in curr_obj_lower for w in ["bed", "sofa", "couch", "chair", "bench"]):
                 return self.set_precheck_result(True, "already_on_rest_object", {"curr_obj": curr_obj})
-        # 2. Fallback: Target object must exist in spatial memory
-        address, _matched_target, _kind = resolve_candidate_object_address(persona, [target])
-        if address is not None:
-            return self.set_precheck_result(True, "rest_target_available", {"target": target, "address": address})
-        return self.set_precheck_result(False, "rest_target_missing", {"target": target})
+
+        # 2. Try to use the requested target if it is not "none" or empty
+        if target and str(target).lower() not in ["none", "", "none target"]:
+            address, _matched_target, _kind = resolve_candidate_object_address(persona, [target])
+            if address is not None:
+                return self.set_precheck_result(True, "rest_target_available", {"target": target, "address": address})
+        
+        # 3. If target is "none" or requested target is missing, try to find ANY other restable object in spatial memory
+        alt_address, alt_target, _ = resolve_candidate_object_address(
+            persona, ["bed", "sofa", "couch", "chair", "bench"]
+        )
+        if alt_address is not None:
+            return self.set_precheck_result(True, "alternative_rest_target_available", {"target": alt_target, "address": alt_address})
+            
+        # 4. If no restable objects are found anywhere, fallback to idling in place.
+        return self.set_precheck_result(True, "idle_in_place", {"curr_tile": persona.scratch.curr_tile})
 
     def get_target_tiles(self, persona, target, maze) -> list:
         address, _matched_target, _kind = resolve_candidate_object_address(persona, [target])

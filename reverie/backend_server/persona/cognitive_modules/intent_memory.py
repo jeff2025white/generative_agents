@@ -198,7 +198,7 @@ def rerank_by_intent(retrieved, intent_family, n_count=5, attribute_preferences=
   return [node for score, node in scored[:n_count]]
 
 
-def summarize_intent_memories(intent_family, retrieved_nodes, max_items=4, max_chars=420):
+def summarize_intent_memories(intent_family, retrieved_nodes, max_items=7, max_chars=550):
   if not intent_family or not retrieved_nodes:
     return ""
 
@@ -232,27 +232,25 @@ def summarize_intent_memories(intent_family, retrieved_nodes, max_items=4, max_c
       failure_lines.append(f"- {description}")
     else:
       success_lines.append(f"- {description}")
+  
+  selected_success = success_lines[:4]
+  selected_failure = failure_lines[:3]
+
   lines = [f"Relevant prior {label}:"]
-  remaining = max_items
-  if success_lines:
-    selected = success_lines[:remaining]
+  if selected_success:
     lines.append("Successful experience:")
-    lines.extend(selected)
-    remaining = max(0, remaining - len(selected))
-  if failure_lines and remaining > 0:
-    selected = failure_lines[:remaining]
+    lines.extend(selected_success)
+  if selected_failure:
     lines.append("Failed attempts:")
-    lines.extend(selected)
-  elif failure_lines and not success_lines:
-    lines.append("Failed attempts:")
-    lines.extend(failure_lines[:max_items])
+    lines.extend(selected_failure)
+
   summary = "\n".join(lines)
   if len(summary) > max_chars:
     summary = summary[:max_chars - 15].rstrip() + "...(truncated)"
   return summary
 
 
-def retrieve_intent_memories(persona, intent_family, action_signature=None, n_count=5):
+def retrieve_intent_memories(persona, intent_family, action_signature=None, n_count=10):
   if not intent_family:
     return []
   if not getattr(persona, "a_mem", None):
@@ -265,7 +263,7 @@ def retrieve_intent_memories(persona, intent_family, action_signature=None, n_co
     return []
 
   started_at = time.perf_counter()
-  raw_retrieved = new_retrieve(persona, focal_points, n_count=max(n_count, 6))
+  raw_retrieved = new_retrieve(persona, focal_points, n_count=max(n_count, 12))
   attribute_preferences = _build_attribute_preferences(persona, intent_family)
   reranked = rerank_by_intent(
     raw_retrieved,

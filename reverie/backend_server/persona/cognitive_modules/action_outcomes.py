@@ -15,6 +15,7 @@ def classify_reason(reason):
         "path_not_found": "navigation",
         "target_not_found": "resolution",
         "invalid_food_source": "resolution",
+        "target_inventory_empty": "resource_state",
     }
     return mapping.get(normalized, "other")
 
@@ -207,7 +208,12 @@ def score_action_outcome(effects, reason=None, dominant_motive=None, result=None
     )
     failure_learning_value = 0.0
     normalized_reason = str(reason or "").strip().lower()
-    if normalized_reason in {"resource_empty", "consume_no_food_available", "path_not_found", "consume_no_food"}:
+    if normalized_reason in {
+        "resource_empty", "consume_no_food_available", "path_not_found", "consume_no_food",
+        "target_inventory_empty", "target_not_close", "target_not_found",
+        "recent_duplicate_action", "self_chat_target", "invalid_food_source",
+        "rest_target_missing",
+    }:
         failure_learning_value = 0.72
     elif str(result or "").strip().lower() == "failed":
         failure_learning_value = 0.35

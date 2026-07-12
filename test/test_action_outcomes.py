@@ -260,5 +260,159 @@ class ActionOutcomeRecordTests(unittest.TestCase):
         self.assertEqual(recorded["attribute_effects"]["satiety"], 10.0)
 
 
+class ScoreActionOutcomeFailureTests(unittest.TestCase):
+    """Tests that persona-interaction failures are promoted to experience."""
+
+    def test_target_inventory_empty_with_satiety_motive_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="target_inventory_empty",
+            dominant_motive="satiety",
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+        self.assertEqual(scoring["failure_learning_value"], 0.72)
+
+    def test_target_not_close_with_satiety_motive_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="target_not_close",
+            dominant_motive="satiety",
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+
+    def test_recent_duplicate_action_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="recent_duplicate_action",
+            dominant_motive=None,
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+
+    def test_self_chat_target_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="self_chat_target",
+            dominant_motive=None,
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+
+    def test_invalid_food_source_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="invalid_food_source",
+            dominant_motive="satiety",
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+
+    def test_rest_target_missing_promotes(self):
+        from persona.cognitive_modules.action_outcomes import score_action_outcome
+        scoring = score_action_outcome(
+            effects={"self_attribute_effects": {}, "inventory_delta": {}, "progress_score": 0.0},
+            reason="rest_target_missing",
+            dominant_motive="stamina",
+            result="failed",
+        )
+        self.assertGreaterEqual(scoring["effective_score"], 0.55)
+        self.assertTrue(scoring["should_promote_to_experience"])
+
+
+class BuildActionRecordFieldTests(unittest.TestCase):
+    """Tests that _build_action_record propagates decision_id and dominant_motive."""
+
+    def test_decision_id_and_dominant_motive_in_record(self):
+        sys.path.insert(0, str(BACKEND_ROOT))
+        from persona.cognitive_modules.plan import _build_action_record
+        persona = SimpleNamespace(scratch=SimpleNamespace(curr_step=135))
+        record = _build_action_record(
+            persona,
+            skill_id="request",
+            target="Isabella Rodriguez",
+            act_desp="requesting food",
+            act_dura=10,
+            resolved_address="<persona> Isabella Rodriguez",
+            reasoning="hungry",
+            decision_id="Klaus_Mueller-135-abc123",
+            dominant_motive="satiety",
+        )
+        self.assertEqual(record["decision_id"], "Klaus_Mueller-135-abc123")
+        self.assertEqual(record["dominant_motive"], "satiety")
+
+    def test_decision_id_defaults_to_none(self):
+        from persona.cognitive_modules.plan import _build_action_record
+        persona = SimpleNamespace(scratch=SimpleNamespace(curr_step=10))
+        record = _build_action_record(
+            persona, "gather", "refrigerator", "opening fridge", 5,
+            "the Ville:cafe:refrigerator", "need food",
+        )
+        self.assertIsNone(record["decision_id"])
+        self.assertIsNone(record["dominant_motive"])
+
+    def test_dominant_motive_from_intent_family(self):
+        from persona.cognitive_modules.plan import _dominant_motive_from_intent_family
+        self.assertEqual(_dominant_motive_from_intent_family("restore_satiety"), "satiety")
+        self.assertEqual(_dominant_motive_from_intent_family("restore_stamina"), "stamina")
+        self.assertEqual(_dominant_motive_from_intent_family("restore_mood"), "mood")
+        self.assertIsNone(_dominant_motive_from_intent_family(None))
+        self.assertIsNone(_dominant_motive_from_intent_family(""))
+
+
+class OutcomeRecordDecisionContextTests(unittest.TestCase):
+    """Tests that build_action_outcome_record correctly reads decision_id and dominant_motive from current_action_record."""
+
+    def test_outcome_record_reads_dominant_motive_from_action_record(self):
+        scratch = SimpleNamespace(
+            curr_step=135,
+            curr_time=None,
+            act_address="<persona> Isabella Rodriguez",
+            act_description="requesting food from Isabella",
+            act_command={
+                "skill_id": "request",
+                "target": "Isabella Rodriguez",
+                "intent_family": "restore_satiety",
+                "raw_action": "Request",
+            },
+            inventory={},
+            satiety=39.9,
+            stamina=62.0,
+            health=91.0,
+            mood=50.0,
+            current_action_record={
+                "decision_id": "Klaus_Mueller-135-abc123",
+                "dominant_motive": "satiety",
+                "resolved_target": "Isabella Rodriguez",
+                "resolved_address": "<persona> Isabella Rodriguez",
+                "resolution_kind": "persona",
+            },
+        )
+        persona = SimpleNamespace(name="Klaus Mueller", scratch=scratch, sim_code="test")
+
+        outcome = build_action_outcome_record(
+            persona,
+            result="failed",
+            reason="target_inventory_empty",
+        )
+
+        self.assertEqual(outcome["decision_context"]["dominant_motive"], "satiety")
+        self.assertEqual(outcome["decision_context"]["decision_id"], "Klaus_Mueller-135-abc123")
+        self.assertGreaterEqual(outcome["experience_scoring"]["effective_score"], 0.55)
+        self.assertTrue(outcome["experience_scoring"]["should_promote_to_experience"])
+        self.assertEqual(outcome["experience_scoring"]["dominant_motive_alignment"], 0.95)
+
+
 if __name__ == "__main__":
     unittest.main()

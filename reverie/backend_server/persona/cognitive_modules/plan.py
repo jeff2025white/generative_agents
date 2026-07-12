@@ -343,7 +343,16 @@ def _append_step_decision_trace(persona,
   )
 
 
-def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None):
+def _dominant_motive_from_intent_family(intent_family):
+  """Map intent_family (e.g. 'restore_satiety') to dominant_motive (e.g. 'satiety')."""
+  prefix = "restore_"
+  text = str(intent_family or "").strip().lower()
+  if text.startswith(prefix):
+    return text[len(prefix):]
+  return None
+
+
+def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None, decision_id=None, dominant_motive=None):
   resolution_meta = resolution_meta or {}
   return {
     "status": "resolved",
@@ -363,6 +372,8 @@ def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved
     "updated_step": getattr(persona.scratch, "curr_step", None),
     "failure": None,
     "creator_instruction": str(creator_instruction or "").strip() or None,
+    "decision_id": decision_id,
+    "dominant_motive": dominant_motive,
   }
 
 
@@ -2997,6 +3008,8 @@ def decide_demand_action(persona, maze, personas=None):
                                                 reasoning,
                                                 resolution_meta=resolution_meta,
                                                 creator_instruction=admin_override_instruction,
+                                                decision_id=decision_id,
+                                                dominant_motive=_dominant_motive_from_intent_family(intent_family),
                                               ))
   if action_added and admin_override_instruction and getattr(persona.scratch, "clear_admin_override_intent", None):
     persona.scratch.clear_admin_override_intent()
