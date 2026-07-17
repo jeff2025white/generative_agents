@@ -30,8 +30,7 @@ from persona.cognitive_modules.debug_log import append_debug_log, merge_log_cont
 from persona.cognitive_modules.decision_constraints import (
   build_invalid_targets,
   build_retry_feedback,
-  filter_invalid_resources,
-  validate_decision_target,
+  validate_decision,
 )
 from persona.cognitive_modules.decision_state_cache import (
   build_state_signature,
@@ -39,19 +38,22 @@ from persona.cognitive_modules.decision_state_cache import (
   put_cached_decision,
 )
 from persona.cognitive_modules.food_sources import (
-  VALID_GATHER_FOOD_SOURCES,
   is_valid_gather_food_source,
   normalize_food_source_target,
 )
+from object_affordances import default_registry
 from persona.cognitive_modules.intent_memory import (
   infer_memory_focus,
-  retrieve_intent_memories,
+  retrieve_memories_by_motives,
+  summarize_memories_by_motives,
   summarize_intent_memories,
 )
 from persona.cognitive_modules.motive_selector import (
   select_motives,
 )
 from persona.cognitive_modules.stage1_prompt_compiler import (
+  build_motive_grouped_experience_list,
+  build_motive_grouped_skill_list,
   refresh_prompt_profile_from_planning,
 )
 from persona.cognitive_modules.structured_action_intent import compile_action_intent
@@ -101,51 +103,18 @@ SOCIAL_VENUE_HINTS = (
   "tavern",
   "rose and crown",
 )
-STATIC_RESOURCE_PURPOSES = {
-  "apple tree": "可获取食物",
-  "refrigerator": "可获取 / 储存食物",
-  "stove": "可准备食物 / 做饭",
-  "cafe counter": "潜在食物来源 / 工作点位",
-  "behind the cafe counter": "潜在食物来源 / 工作点位",
-  "behind the bar counter": "社交服务 / 工作点位",
-  "behind the grocery counter": "购物服务 / 工作点位",
-  "behind the pharmacy counter": "购物服务 / 工作点位",
-  "behind the supply store counter": "购物服务 / 工作点位",
-  "bed": "休息 / 恢复体力",
-  "sofa": "休息 / 恢复体力",
-  "common room sofa": "休息 / 放松",
-  "library sofa": "休息 / 阅读",
-  "chair": "短暂休息 / 等待",
-  "garden chair": "短暂休息 / 放松",
-  "bench": "短暂休息 / 情绪修复",
-  "park bench": "短暂休息 / 情绪修复",
-  "desk": "工作 / 学习",
-  "computer desk": "工作 / 学习",
-  "computer": "工作 / 学习",
-  "library table": "工作 / 学习",
-  "bookshelf": "学习",
-  "blackboard": "工作 / 教学",
-  "classroom student seating": "学习 / 听课",
-  "classroom podium": "教学 / 演讲",
-  "game console": "娱乐 / 情绪修复",
-  "piano": "娱乐 / 情绪修复",
-  "pool table": "娱乐 / 社交",
-  "park garden": "散步 / 情绪修复",
-  "dorm garden": "散步 / 放松",
-  "house garden": "散步 / 放松",
-  "cafe customer seating": "社交 / 休息",
-  "bar customer seating": "社交 / 休息",
-  "common room": "社交 / 休息 / 放松",
-  "library": "学习 / 工作",
-  "plaza": "散步 / 社交",
-  "courtyard": "散步 / 社交",
-  "pub": "社交 / 情绪修复",
-  "bar": "社交 / 情绪修复",
-  "tavern": "社交 / 情绪修复",
-  "rose and crown": "社交 / 情绪修复",
-}
-
-
+MOTIVE_RESOURCE_GROUPS = (
+  ("satiety", "饱食 / 食物"),
+  ("stamina", "精力 / 休息"),
+  ("health", "健康 / 恢复"),
+  ("safety", "安全 / 庇护"),
+  ("mood", "情绪 / 娱乐"),
+  ("belonging", "归属 / 社交"),
+  ("status", "地位 / 展示"),
+  ("autonomy", "自主 / 私密"),
+  ("competence", "胜任 / 学习工作"),
+  ("meaning", "意义 / 反思"),
+)
 def _elapsed_ms(started_at):
   return round((time.perf_counter() - started_at) * 1000.0, 3)
 
@@ -170,16 +139,16 @@ def _address_has_approach_tile(maze, address):
 
 
 def _resource_purpose_for_label(label):
-  normalized_label = str(label or "").strip().lower()
-  return STATIC_RESOURCE_PURPOSES.get(normalized_label)
+  return default_registry.get_purpose_text(label)
 
 
-def _build_static_resource_context_text(persona, maze):
+def _build_static_resource_context_text(persona, maze, dominant_motive=None):
   scratch = getattr(persona, "scratch", None)
   maze_name = getattr(maze, "maze_name", None) or "default"
   cached_text = getattr(scratch, "static_resource_context_text", None) if scratch is not None else None
   cached_maze_name = getattr(scratch, "static_resource_context_maze_name", None) if scratch is not None else None
-  if cached_text and cached_maze_name == maze_name:
+  cached_motive = getattr(scratch, "static_resource_context_dominant_motive", None) if scratch is not None else None
+  if cached_text and cached_maze_name == maze_name and cached_motive == dominant_motive:
     return cached_text
 
   entries = {}
@@ -201,14 +170,27 @@ def _build_static_resource_context_text(persona, maze):
     text = "可达的资源/场所:\n  暂无稳定关键资源记录"
   else:
     lines = ["可达的资源/场所:"]
-    for label in sorted(entries):
-      lines.append(f"  {label}:")
-      lines.append(f"    用途: {entries[label]}")
+    group_order = list(MOTIVE_RESOURCE_GROUPS)
+    if dominant_motive:
+      group_order.sort(key=lambda group: group[0] != dominant_motive)
+    for motive_key, group_name in group_order:
+      labels = [
+        label for label in sorted(entries)
+        if default_registry.has_any_affordance(label, motive_key)
+      ]
+      if not labels:
+        continue
+      heading = f"与当前主导动机最相关（{group_name} / {motive_key}）:" if motive_key == dominant_motive else f"{group_name}（{motive_key}）:"
+      lines.append(heading)
+      for label in labels:
+        marker = "⭐ " if motive_key == dominant_motive else "  "
+        lines.append(f"{marker}{label} — {entries[label]}")
     text = "\n".join(lines)
 
   if scratch is not None:
     scratch.static_resource_context_text = text
     scratch.static_resource_context_maze_name = maze_name
+    scratch.static_resource_context_dominant_motive = dominant_motive
   return text
 
 
@@ -364,7 +346,7 @@ def _dominant_motive_from_intent_family(intent_family):
   return alias_map.get(text)
 
 
-def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None, decision_id=None, dominant_motive=None):
+def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None, decision_id=None, dominant_motive=None, secondary_motive=None):
   resolution_meta = resolution_meta or {}
   return {
     "status": "resolved",
@@ -386,6 +368,11 @@ def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved
     "creator_instruction": str(creator_instruction or "").strip() or None,
     "decision_id": decision_id,
     "dominant_motive": dominant_motive,
+    "secondary_motive": secondary_motive,
+    "motive_values_before": (
+      persona.scratch.get_motive_attributes_snapshot()
+      if hasattr(persona.scratch, "get_motive_attributes_snapshot") else {}
+    ),
   }
 
 
@@ -712,7 +699,7 @@ def _resolve_food_source_address(persona, target, blocked_addresses=None):
 def _describe_resource_state(persona, obj, address=None):
   world_state = getattr(persona, "world_resource_state", None)
   canonical_target = normalize_food_source_target(obj)
-  if not world_state or canonical_target not in VALID_GATHER_FOOD_SOURCES:
+  if not world_state or not is_valid_gather_food_source(canonical_target):
     return "normal"
   source_address = address or _resolve_food_source_address(persona, canonical_target)
   if source_address:
@@ -758,6 +745,12 @@ def _build_decision_state_signature(persona, intent_family, object_states, coope
 def _merge_timing_meta(base_meta, extra_meta):
   merged = dict(base_meta or {})
   for key, value in (extra_meta or {}).items():
+    if isinstance(value, list):
+      merged[key] = list(merged.get(key) or []) + list(value)
+      continue
+    if isinstance(value, dict):
+      merged[key] = dict(value)
+      continue
     try:
       merged[key] = float(merged.get(key, 0.0) or 0.0) + float(value or 0.0)
     except Exception:
@@ -773,20 +766,75 @@ def _build_decision_id(persona):
 
 def _build_minimal_filter_summary(persona, object_states, decision_timing_meta=None):
   invalid_targets = build_invalid_targets(getattr(persona, "scratch", None))
-  filtered_resources = filter_invalid_resources(object_states, invalid_targets)
-  original_count = len(list(object_states or []))
-  filtered_count = len(list(filtered_resources or []))
-  removed_count = max(0, original_count - filtered_count)
   retry_triggered = bool((decision_timing_meta or {}).get("constraint_hits", 0))
   return {
-    "enabled": True,
-    "applied": bool(invalid_targets or removed_count or retry_triggered),
+    "enabled": False,
+    "applied": False,
+    "mode": "shadow_validation",
+    "shadow_validation_enabled": True,
     "invalid_targets": invalid_targets,
     "invalid_target_count": len(invalid_targets),
-    "resource_filter_applied": removed_count > 0,
-    "removed_resource_count": removed_count,
+    "resource_filter_applied": False,
+    "removed_resource_count": 0,
     "output_validation_enabled": True,
     "retry_triggered": retry_triggered,
+  }
+
+
+def _decision_correction_mode():
+  mode = str(os.getenv("LLM_CORRECTION_MODE", "evaluation") or "evaluation").strip().lower()
+  return mode if mode in {"evaluation", "production"} else "evaluation"
+
+
+def _decision_correction_limit():
+  try:
+    return max(0, min(3, int(os.getenv("LLM_CORRECTION_MAX_RETRIES", "1") or 1)))
+  except Exception:
+    return 1
+
+
+def _validate_decision_candidate(persona, decision, object_states):
+  known_personas = getattr(persona, "runtime_known_personas", None)
+  return validate_decision(
+    decision,
+    invalid_targets=build_invalid_targets(persona.scratch),
+    inventory=getattr(persona.scratch, "inventory", {}) or {},
+    object_states=object_states,
+    persona_name=getattr(persona, "name", None),
+    known_personas=known_personas,
+  )
+
+
+def _summarize_correction_trace(trace, terminal_fallback=False):
+  trace = list(trace or [])
+  invalid_attempts = [item for item in trace if not item.get("valid")]
+  reason_codes = [item.get("reason_code") for item in invalid_attempts]
+  return {
+    "first_pass_valid": bool(trace and trace[0].get("valid")),
+    "correction_attempts": max(0, len(trace) - 1),
+    "correction_success": bool(len(trace) > 1 and trace[-1].get("valid")),
+    "repeated_invalid": bool(len(reason_codes) > 1 and reason_codes[-1] == reason_codes[-2]),
+    "terminal_fallback": bool(terminal_fallback),
+  }
+
+
+def _build_validation_failsafe(original_decision, validation):
+  thought = str((original_decision or {}).get("thought") or "I should pause and reassess.").strip()
+  return thought, {
+    "schema_version": 2,
+    "thought": thought,
+    "action": "Idle",
+    "target": "none",
+    "target_type": "none",
+    "mode": "idle",
+    "topic": "",
+    "detail": "idling after exhausting autonomous correction attempts",
+    "duration": 10,
+    "reasoning": "Safety fallback activated only after the model exhausted its correction budget.",
+    "correction_fallback": {
+      "original_decision": dict(original_decision or {}),
+      "validation": dict(validation or {}),
+    },
   }
 
 
@@ -803,12 +851,14 @@ def _run_decision_pipeline(persona,
                            decision_id=None,
                            decision_convergence_hint=None,
                            allow_retry=True,
+                           correction_attempt=0,
                            static_resource_context_text=None):
   base_translation_hint = _build_translation_convergence_hint(persona, intent_memory_summary)
   translation_convergence_hint = base_translation_hint
   if decision_convergence_hint:
     translation_convergence_hint = f"{base_translation_hint} {decision_convergence_hint}".strip()
   invalid_targets = build_invalid_targets(persona.scratch)
+  correction_mode = _decision_correction_mode()
   use_joint_decision = os.getenv("ENABLE_JOINT_DECISION_PIPELINE", "1") == "1"
   use_semantic_cache = (
     os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
@@ -822,6 +872,9 @@ def _run_decision_pipeline(persona,
     "action_translation": 0.0,
     "constraint_hits": 0.0,
     "last_retry_reason": "",
+    "correction_mode": correction_mode,
+    "correction_trace": [],
+    "correction_metrics": {},
   }
   cache_signature = None
   decision_request_config = get_default_decision_request_config()
@@ -837,9 +890,19 @@ def _run_decision_pipeline(persona,
     cached_decision = get_cached_decision(cache_signature) if cache_signature else None
     timing_meta["decision_cache_lookup"] = _elapsed_ms(stage_started_at)
     if cached_decision:
-      timing_meta["decision_cache_hit"] = 1.0
-      thinking_text = str(cached_decision.get("thought") or cached_decision.get("detail") or "I should pause briefly.").strip()
-      return thinking_text, cached_decision, translation_convergence_hint, False, timing_meta, cache_signature
+      cached_validation = _validate_decision_candidate(persona, cached_decision, object_states)
+      if cached_validation.get("valid"):
+        timing_meta["decision_cache_hit"] = 1.0
+        timing_meta["correction_trace"].append({
+          "attempt": correction_attempt,
+          "source": "semantic_cache",
+          "valid": True,
+          "reason_code": None,
+          "decision": dict(cached_decision),
+        })
+        timing_meta["correction_metrics"] = _summarize_correction_trace(timing_meta["correction_trace"])
+        thinking_text = str(cached_decision.get("thought") or cached_decision.get("detail") or "I should pause briefly.").strip()
+        return thinking_text, cached_decision, translation_convergence_hint, False, timing_meta, cache_signature
 
   if use_joint_decision:
     stage_started_at = time.perf_counter()
@@ -860,49 +923,106 @@ def _run_decision_pipeline(persona,
     )
     timing_meta["joint_decision"] = _elapsed_ms(stage_started_at)
     if isinstance(joint_result, dict) and joint_result.get("action"):
-      should_retry, retry_reason = validate_decision_target(joint_result, invalid_targets)
-      if should_retry and allow_retry:
-        retry_hint = build_retry_feedback(retry_reason)
+      validation = _validate_decision_candidate(persona, joint_result, object_states)
+      timing_meta["correction_trace"].append({
+        "attempt": correction_attempt,
+        "source": "joint_decision",
+        "valid": bool(validation.get("valid")),
+        "reason_code": validation.get("reason_code"),
+        "decision": dict(joint_result),
+        "evidence": dict(validation.get("evidence") or {}),
+      })
+      if not validation.get("valid"):
+        retry_hint = build_retry_feedback(validation, mode=correction_mode)
         timing_meta["constraint_hits"] = 1.0
-        timing_meta["last_retry_reason"] = retry_reason
+        timing_meta["last_retry_reason"] = validation.get("reason_code") or "invalid_decision"
         minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
+        correction_log = merge_log_context(
+          {
+            "persona": persona.name,
+            "curr_step": getattr(persona.scratch, "curr_step", None),
+            "decision_id": decision_id,
+            "correction_mode": correction_mode,
+            "correction_attempt": correction_attempt,
+            "invalid_targets": invalid_targets,
+            "original_decision": joint_result,
+            "validation": validation,
+            "retry_feedback": retry_hint,
+            "retry_reason": timing_meta["last_retry_reason"],
+            "pipeline": "joint_decision",
+            "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+            "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+            "minimal_filter_summary": minimal_filter_summary,
+          },
+          persona=persona,
+        )
+        append_debug_log("decision_constraint_hits.jsonl", correction_log)
+        append_debug_log("decision_correction_trace.jsonl", correction_log)
+        can_retry = allow_retry and correction_attempt < _decision_correction_limit()
+        if can_retry:
+          retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
+            persona,
+            object_states,
+            temporal_context,
+            status_summary,
+            physiological_rules,
+            cooperative_context,
+            last_action_desc,
+            intent_memory_summary,
+            admin_override_instruction=admin_override_instruction,
+            intent_family=intent_family,
+            decision_id=decision_id,
+            decision_convergence_hint=retry_hint,
+            allow_retry=allow_retry,
+            correction_attempt=correction_attempt + 1,
+            static_resource_context_text=static_resource_context_text,
+          )
+          merged_meta = _merge_timing_meta(timing_meta, retry_timing_meta)
+          terminal_fallback = bool((retry_decision or {}).get("correction_fallback"))
+          merged_meta["correction_metrics"] = _summarize_correction_trace(
+            merged_meta.get("correction_trace"), terminal_fallback=terminal_fallback,
+          )
+          return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, merged_meta, retry_cache_signature
+        fallback_thought, fallback_decision = _build_validation_failsafe(joint_result, validation)
+        timing_meta["correction_metrics"] = _summarize_correction_trace(
+          timing_meta["correction_trace"], terminal_fallback=True,
+        )
         append_debug_log(
-          "decision_constraint_hits.jsonl",
+          "decision_correction_trace.jsonl",
           merge_log_context(
             {
+              "event": "correction_budget_exhausted",
               "persona": persona.name,
-              "curr_step": getattr(persona.scratch, "curr_step", None),
-              "invalid_targets": invalid_targets,
-              "original_decision": joint_result,
-              "retry_reason": retry_reason,
-              "pipeline": "joint_decision",
-              "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
-              "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
-              "minimal_filter_summary": minimal_filter_summary,
+              "decision_id": decision_id,
+              "correction_mode": correction_mode,
+              "correction_attempt": correction_attempt,
+              "fallback_decision": fallback_decision,
+              "correction_metrics": timing_meta["correction_metrics"],
             },
             persona=persona,
           ),
         )
-        retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
-          persona,
-          object_states,
-          temporal_context,
-          status_summary,
-          physiological_rules,
-          cooperative_context,
-          last_action_desc,
-          intent_memory_summary,
-          admin_override_instruction=admin_override_instruction,
-          intent_family=intent_family,
-          decision_id=decision_id,
-          decision_convergence_hint=retry_hint,
-          allow_retry=False,
-          static_resource_context_text=static_resource_context_text,
-        )
-        return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
+        return fallback_thought, fallback_decision, retry_hint, True, timing_meta, cache_signature
       thinking_text = str(joint_result.get("thought") or "").strip()
       if not thinking_text:
         thinking_text = str(joint_result.get("detail") or "I should pause briefly.").strip()
+      timing_meta["correction_metrics"] = _summarize_correction_trace(timing_meta["correction_trace"])
+      if correction_attempt > 0:
+        append_debug_log(
+          "decision_correction_trace.jsonl",
+          merge_log_context(
+            {
+              "event": "correction_resolved",
+              "persona": persona.name,
+              "decision_id": decision_id,
+              "correction_mode": correction_mode,
+              "correction_attempt": correction_attempt,
+              "corrected_decision": joint_result,
+              "validation": validation,
+            },
+            persona=persona,
+          ),
+        )
       return thinking_text, joint_result, translation_convergence_hint, True, timing_meta, cache_signature
     if os.getenv("ENABLE_LEGACY_TRANSLATION_FALLBACK", "0") != "1":
       timing_meta["constraint_hits"] = 1.0
@@ -959,46 +1079,103 @@ def _run_decision_pipeline(persona,
       static_resource_context_text=static_resource_context_text,
   )
   timing_meta["action_translation"] = _elapsed_ms(stage_started_at)
-  should_retry, retry_reason = validate_decision_target(decision, invalid_targets)
-  if should_retry and allow_retry:
-    retry_hint = build_retry_feedback(retry_reason)
+  validation = _validate_decision_candidate(persona, decision, object_states)
+  timing_meta["correction_trace"].append({
+    "attempt": correction_attempt,
+    "source": "thinking_translation",
+    "valid": bool(validation.get("valid")),
+    "reason_code": validation.get("reason_code"),
+    "decision": dict(decision or {}),
+    "evidence": dict(validation.get("evidence") or {}),
+  })
+  if not validation.get("valid"):
+    retry_hint = build_retry_feedback(validation, mode=correction_mode)
     timing_meta["constraint_hits"] = 1.0
-    timing_meta["last_retry_reason"] = retry_reason
+    timing_meta["last_retry_reason"] = validation.get("reason_code") or "invalid_decision"
     minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=timing_meta)
+    correction_log = merge_log_context(
+      {
+        "persona": persona.name,
+        "curr_step": getattr(persona.scratch, "curr_step", None),
+        "decision_id": decision_id,
+        "correction_mode": correction_mode,
+        "correction_attempt": correction_attempt,
+        "invalid_targets": invalid_targets,
+        "original_decision": decision,
+        "validation": validation,
+        "retry_feedback": retry_hint,
+        "retry_reason": timing_meta["last_retry_reason"],
+        "pipeline": "thinking_translation",
+        "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
+        "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
+        "minimal_filter_summary": minimal_filter_summary,
+      },
+      persona=persona,
+    )
+    append_debug_log("decision_constraint_hits.jsonl", correction_log)
+    append_debug_log("decision_correction_trace.jsonl", correction_log)
+    can_retry = allow_retry and correction_attempt < _decision_correction_limit()
+    if can_retry:
+      retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
+        persona,
+        object_states,
+        temporal_context,
+        status_summary,
+        physiological_rules,
+        cooperative_context,
+        last_action_desc,
+        intent_memory_summary,
+        admin_override_instruction=admin_override_instruction,
+        intent_family=intent_family,
+        decision_id=decision_id,
+        decision_convergence_hint=retry_hint,
+        allow_retry=allow_retry,
+        correction_attempt=correction_attempt + 1,
+        static_resource_context_text=static_resource_context_text,
+      )
+      merged_meta = _merge_timing_meta(timing_meta, retry_timing_meta)
+      terminal_fallback = bool((retry_decision or {}).get("correction_fallback"))
+      merged_meta["correction_metrics"] = _summarize_correction_trace(
+        merged_meta.get("correction_trace"), terminal_fallback=terminal_fallback,
+      )
+      return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, merged_meta, retry_cache_signature
+    fallback_thought, fallback_decision = _build_validation_failsafe(decision, validation)
+    timing_meta["correction_metrics"] = _summarize_correction_trace(
+      timing_meta["correction_trace"], terminal_fallback=True,
+    )
     append_debug_log(
-      "decision_constraint_hits.jsonl",
+      "decision_correction_trace.jsonl",
       merge_log_context(
         {
+          "event": "correction_budget_exhausted",
           "persona": persona.name,
-          "curr_step": getattr(persona.scratch, "curr_step", None),
-          "invalid_targets": invalid_targets,
-          "original_decision": decision,
-          "retry_reason": retry_reason,
-          "pipeline": "thinking_translation",
-          "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
-          "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
-          "minimal_filter_summary": minimal_filter_summary,
+          "decision_id": decision_id,
+          "correction_mode": correction_mode,
+          "correction_attempt": correction_attempt,
+          "fallback_decision": fallback_decision,
+          "correction_metrics": timing_meta["correction_metrics"],
         },
         persona=persona,
       ),
     )
-    retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, retry_timing_meta, retry_cache_signature = _run_decision_pipeline(
-      persona,
-      object_states,
-      temporal_context,
-      status_summary,
-      physiological_rules,
-      cooperative_context,
-      last_action_desc,
-      intent_memory_summary,
-      admin_override_instruction=admin_override_instruction,
-      intent_family=intent_family,
-      decision_id=decision_id,
-      decision_convergence_hint=retry_hint,
-      allow_retry=False,
-      static_resource_context_text=static_resource_context_text,
+    return fallback_thought, fallback_decision, retry_hint, False, timing_meta, cache_signature
+  timing_meta["correction_metrics"] = _summarize_correction_trace(timing_meta["correction_trace"])
+  if correction_attempt > 0:
+    append_debug_log(
+      "decision_correction_trace.jsonl",
+      merge_log_context(
+        {
+          "event": "correction_resolved",
+          "persona": persona.name,
+          "decision_id": decision_id,
+          "correction_mode": correction_mode,
+          "correction_attempt": correction_attempt,
+          "corrected_decision": decision,
+          "validation": validation,
+        },
+        persona=persona,
+      ),
     )
-    return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, _merge_timing_meta(timing_meta, retry_timing_meta), retry_cache_signature
   return thinking_text, decision, translation_convergence_hint, False, timing_meta, cache_signature
 
 
@@ -2313,7 +2490,7 @@ def decide_survival_action(persona, maze):
   # Compile Physiological Rules
   physiological_rules = (
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.\n"
-      "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.\n"
+      f"- Gathering food (Gather action) from resources (like {', '.join(default_registry.find_objects_by_affordance('satiety', 'can_gather_food'))}) adds items to inventory.\n"
       "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n"
       "- Satiety decays by about -0.08 per step during normal activity, and by about -0.04 per step while sleeping.\n"
       "- If Satiety reaches 0.0, Health decays by -0.2 per step."
@@ -2390,11 +2567,14 @@ def decide_survival_action(persona, maze):
     if not in_inv:
       print(f"[{persona.name}] 背包中没有 {target}！修改动作为 Gather 从环境获取。")
       action = "Gather"
-      # Route cafe food acquisition to the executable counter resource.
-      if "behind the cafe counter" in objs_list or "cafe customer seating" in objs_list:
-        target = "cafe counter"
-      else:
-        target = "refrigerator" if "refrigerator" in objs_list else "apple tree"
+      # Choose a known, configured food source rather than a fixed map object.
+      known_food_sources = [
+        normalize_food_source_target(obj) for obj in objs_list
+        if is_valid_gather_food_source(normalize_food_source_target(obj))
+      ]
+      target = next(iter(dict.fromkeys(known_food_sources)), "")
+      if not target:
+        target = default_registry.find_objects_by_affordance("satiety", "can_gather_food")[0]
       address = persona.s_mem.find_nearest_object(target) or address
     else:
       address = _current_tile_wait_address(persona)
@@ -2514,7 +2694,7 @@ def decide_demand_action(persona, maze, personas=None):
   # Compile world facts and execution constraints without prescribing a motive.
   rules_list = [
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
-      "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
+      f"- Gathering food (Gather action) from resources (like {', '.join(default_registry.find_objects_by_affordance('satiety', 'can_gather_food'))}) adds items to inventory.",
       "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.",
       "- Socializing (Socialize action) provides a meaningful mood lift (+4.0 Mood) and social comfort, so short chats should usually beat solitary leisure when mood is the main problem and the body is otherwise okay.",
       "- Normal activities decay Satiety by -0.08 per step, and sleeping decays Satiety by -0.04 per step.",
@@ -2559,16 +2739,34 @@ def decide_demand_action(persona, maze, personas=None):
   phase_started_at = time.perf_counter()
   active_signature = persona.scratch.get_active_decision_signature() or {}
   intent_family = infer_memory_focus(persona, active_signature)
-  intent_memories = retrieve_intent_memories(
+  motive_result = select_motives(persona.scratch.get_motive_attributes_snapshot())
+  dominant_motive = motive_result.get("dominant_motive")
+  secondary_motive = motive_result.get("secondary_motive")
+  motive_memory_results = retrieve_memories_by_motives(
     persona,
-    intent_family,
-    action_signature=active_signature,
-    n_count=5,
+    dominant_motive=dominant_motive,
+    secondary_motive=secondary_motive,
   )
-  intent_memory_summary = summarize_intent_memories(intent_family, intent_memories)
+  intent_memories = motive_memory_results["combined"]
+  motive_memory_context = summarize_memories_by_motives(
+    intent_memories,
+    dominant_motive=dominant_motive,
+    secondary_motive=secondary_motive,
+  )
+  intent_memory_summary = motive_memory_context or summarize_intent_memories(intent_family, intent_memories)
   timings_ms["intent_memory_retrieval"] = _elapsed_ms(phase_started_at)
   timings_ms["context_build"] = _elapsed_ms(context_build_started_at)
-  static_resource_context_text = _build_static_resource_context_text(persona, maze)
+  static_resource_context_text = _build_static_resource_context_text(
+    persona,
+    maze,
+    dominant_motive=dominant_motive,
+  )
+  static_resource_context_text = "\n\n".join([
+    static_resource_context_text,
+    build_motive_grouped_skill_list(dominant_motive),
+    motive_memory_context,
+    build_motive_grouped_experience_list(persona, dominant_motive, secondary_motive),
+  ])
 
   decision_id = _build_decision_id(persona)
   admin_override_instruction = _get_admin_override_instruction(persona)
@@ -2705,6 +2903,9 @@ def decide_demand_action(persona, maze, personas=None):
           "explicit_persona_chat_reroute": bool(explicit_persona_chat_reroute),
           "constraint_hit": bool(decision_timing_meta.get("constraint_hits", 0)),
           "retry_reason": decision_timing_meta.get("last_retry_reason", ""),
+          "correction_mode": decision_timing_meta.get("correction_mode", _decision_correction_mode()),
+          "correction_trace": decision_timing_meta.get("correction_trace", []),
+          "correction_metrics": decision_timing_meta.get("correction_metrics", {}),
           "execution_outcome": "decision_selected",
           "minimal_filter_enabled": bool(minimal_filter_summary.get("enabled")),
           "minimal_filter_applied": bool(minimal_filter_summary.get("applied")),
@@ -2714,70 +2915,6 @@ def decide_demand_action(persona, maze, personas=None):
       )
     ),
   )
-  has_food_inventory = any(v > 0 for v in persona.scratch.inventory.values())
-  normalized_target = normalize_food_source_target(target)
-  if action.lower() == "consume" and not has_food_inventory and is_valid_gather_food_source(normalized_target):
-    append_debug_log(
-      "translation_verify.jsonl",
-      merge_log_context(
-        {
-          "persona": persona.name,
-          "event": "coerce_consume_source_to_gather",
-          "original_action": action,
-          "original_target": target,
-          "coerced_target": normalized_target,
-          "reason": "inventory_empty_food_source_target",
-        },
-        persona=persona,
-      )
-    )
-    action = "Gather"
-    target = normalized_target
-    if normalized_target == "refrigerator":
-      act_desp = "opening the refrigerator to gather food items"
-    elif normalized_target == "stove":
-      act_desp = "preparing food from the stove"
-    elif normalized_target == "cafe counter":
-      act_desp = "getting prepared food from the cafe counter"
-    elif normalized_target == "apple tree":
-      act_desp = "gathering apples from the apple tree"
-
-  if action.lower() == "gather":
-    normalized_target = normalize_food_source_target(target)
-    if persona.scratch.satiety < 40.0 and not has_food_inventory:
-      if not is_valid_gather_food_source(normalized_target):
-        fallback_target = None
-        for candidate in ["refrigerator", "stove", "cafe counter", "apple tree"]:
-          if candidate in gatherable_food_targets:
-            fallback_target = candidate
-            break
-        if not fallback_target and gatherable_food_targets:
-          fallback_target = normalize_food_source_target(gatherable_food_targets[0])
-        if fallback_target:
-          append_debug_log(
-            "translation_verify.jsonl",
-            merge_log_context(
-              {
-                "persona": persona.name,
-                "event": "retarget_invalid_food_source",
-                "original_target": target,
-                "fallback_target": fallback_target,
-                "valid_sources": gatherable_food_targets,
-              },
-              persona=persona,
-            )
-          )
-          target = fallback_target
-          if "refrigerator" in fallback_target:
-            act_desp = "opening the refrigerator to gather food items"
-          elif "stove" in fallback_target:
-            act_desp = "preparing food from the stove"
-          elif "cafe counter" in fallback_target:
-            act_desp = "getting prepared food from the cafe counter"
-          elif "apple tree" in fallback_target:
-            act_desp = "gathering apples from the apple tree"
-          reasoning = f"{reasoning} [retargeted to valid food source]"
-
   normalized_skill_id = normalize_skill_id(action, target=target, detail=act_desp)
   experience_guard = build_action_translation_experience_guard(
     persona,
@@ -2878,16 +3015,10 @@ def decide_demand_action(persona, maze, personas=None):
     if str(skill_id or "").lower() != "gather":
       return current_description
     normalized_target = normalize_food_source_target(raw_target)
-    address_text = str(resolved_address or "").lower()
-    if normalized_target == "refrigerator" or address_text.endswith(":refrigerator"):
-      return "opening the refrigerator to gather food items"
-    if normalized_target == "stove" or address_text.endswith(":stove"):
-      return "preparing food from the stove"
-    if normalized_target == "cafe counter" or address_text.endswith(":behind the cafe counter"):
-      return "getting prepared food from the cafe counter"
-    if normalized_target == "apple tree" or address_text.endswith(":apple tree"):
-      return "gathering apples from the apple tree"
-    return current_description
+    description = default_registry.get_gather_description(normalized_target)
+    if not description and resolved_address:
+      description = default_registry.get_gather_description(str(resolved_address).split(":")[-1])
+    return description or current_description
 
   # Resolve sector, arena, object
   phase_started_at = time.perf_counter()
@@ -3082,7 +3213,8 @@ def decide_demand_action(persona, maze, personas=None):
                                                 resolution_meta=resolution_meta,
                                                 creator_instruction=admin_override_instruction,
                                                 decision_id=decision_id,
-                                                dominant_motive=_dominant_motive_from_intent_family(intent_family),
+                                                dominant_motive=dominant_motive,
+                                                secondary_motive=secondary_motive,
                                               ))
   if action_added and admin_override_instruction and getattr(persona.scratch, "clear_admin_override_intent", None):
     persona.scratch.clear_admin_override_intent()

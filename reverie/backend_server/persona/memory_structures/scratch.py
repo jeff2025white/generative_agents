@@ -1580,6 +1580,10 @@ class Scratch:
       "event": list(self.act_event) if isinstance(self.act_event, tuple) else self.act_event,
       "duration": self.act_duration,
       "creator_instruction": existing.get("creator_instruction"),
+      "decision_id": existing.get("decision_id"),
+      "dominant_motive": existing.get("dominant_motive"),
+      "secondary_motive": existing.get("secondary_motive"),
+      "motive_values_before": existing.get("motive_values_before", {}),
       "created_step": existing.get("created_step", self.curr_step),
       "updated_step": self.curr_step,
       "failure": failure,
@@ -1599,6 +1603,11 @@ class Scratch:
     normalized.setdefault("created_step", self.curr_step)
     normalized.setdefault("updated_step", self.curr_step)
     normalized.setdefault("status", "planned")
+    if "motive_values_before" not in normalized:
+      try:
+        normalized["motive_values_before"] = self.get_motive_attributes_snapshot()
+      except Exception:
+        normalized["motive_values_before"] = {}
     self.current_action_record = normalized
     return self.current_action_record
 
@@ -1740,6 +1749,12 @@ class Scratch:
       reason=reason,
       payload=payload,
     )
+    goal = outcome.get("goal") or {}
+    self.last_action_observation.update({
+      "goal_status": goal.get("status"),
+      "goal_progress_score": goal.get("progress_score", 0.0),
+      "replan_required": bool(goal.get("replan_required", True)),
+    })
     self.record_action_outcome(outcome)
     self.release_execution_state(
       phase="failed",
@@ -1928,6 +1943,10 @@ class Scratch:
     target = action.get("target")
     target_address = action.get("target_address")
     progress_score = effects.get("progress_score", 0.0)
+    try:
+      progress_score = float(progress_score or 0.0)
+    except Exception:
+      progress_score = 0.0
 
     current_step = self.curr_step if self.curr_step is not None else curr_step
     self.failed_resource_instances = [
@@ -1952,11 +1971,20 @@ class Scratch:
         }
       )
 
-    if execution.get("result") == "success" and target_address:
-      try:
-        progress_score = float(progress_score or 0.0)
-      except Exception:
-        progress_score = 0.0
+    goal = outcome.get("goal") or {}
+    goal_status = str(goal.get("status") or "").strip().lower()
+    if not goal_status:
+      if execution.get("result") == "failed":
+        goal_status = "blocked"
+      elif progress_score >= 0.6:
+        goal_status = "achieved"
+      elif progress_score > 0.0:
+        goal_status = "advanced"
+      else:
+        goal_status = "no_progress"
+    if (execution.get("result") == "success"
+        and goal_status in {"advanced", "achieved"}
+        and target_address):
       self.successful_resource_instances.append(
         {
           "target": target,
@@ -2172,6 +2200,12 @@ class Scratch:
       reason=None,
       effects=outcome_effects,
     )
+    goal = outcome.get("goal") or {}
+    self.last_action_observation.update({
+      "goal_status": goal.get("status"),
+      "goal_progress_score": goal.get("progress_score", 0.0),
+      "replan_required": bool(goal.get("replan_required", True)),
+    })
     self.record_action_outcome(outcome)
     self._append_runtime_log(
       "decision_stability.jsonl",

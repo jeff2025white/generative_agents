@@ -353,11 +353,63 @@ class DecisionPipelineFallbackTests(unittest.TestCase):
         self.assertEqual(joint_mock.call_args_list[0].kwargs["request_config"], config)
         self.assertEqual(joint_mock.call_args_list[1].kwargs["request_config"], config)
         log_mock.assert_called()
-        constraint_log = log_mock.call_args.args[1]
+        constraint_log = next(
+            call.args[1]
+            for call in log_mock.call_args_list
+            if call.args[0] == "decision_constraint_hits.jsonl"
+        )
         self.assertEqual(constraint_log["pipeline"], "joint_decision")
-        self.assertEqual(constraint_log["minimal_filter_enabled"], True)
-        self.assertEqual(constraint_log["minimal_filter_applied"], True)
+        self.assertEqual(constraint_log["minimal_filter_enabled"], False)
+        self.assertEqual(constraint_log["minimal_filter_applied"], False)
         self.assertEqual(constraint_log["minimal_filter_summary"]["invalid_targets"], ["apple tree"])
+        self.assertEqual(constraint_log["minimal_filter_summary"]["removed_resource_count"], 0)
+        self.assertEqual(len(timing_meta["correction_trace"]), 2)
+        self.assertFalse(timing_meta["correction_metrics"]["first_pass_valid"])
+        self.assertTrue(timing_meta["correction_metrics"]["correction_success"])
+        self.assertFalse(timing_meta["correction_metrics"]["terminal_fallback"])
+        resolved_log = next(
+            call.args[1]
+            for call in log_mock.call_args_list
+            if call.args[0] == "decision_correction_trace.jsonl"
+            and call.args[1].get("event") == "correction_resolved"
+        )
+        self.assertEqual(resolved_log["corrected_decision"]["target"], "refrigerator")
+
+    def test_repeated_invalid_decision_uses_fallback_only_after_retry_budget(self):
+        self.persona.scratch.inventory = {}
+        invalid_consume = {
+            "thought": "I should eat an apple now.",
+            "action": "Consume",
+            "target": "apple",
+            "detail": "eating an apple",
+            "duration": 10,
+            "reasoning": "Hunger is urgent.",
+        }
+
+        with patch.dict(os.environ, {
+            "ENABLE_JOINT_DECISION_PIPELINE": "1",
+            "LLM_CORRECTION_MODE": "evaluation",
+            "LLM_CORRECTION_MAX_RETRIES": "1",
+        }, clear=False), \
+             patch.object(plan_module, "run_gpt_prompt_joint_decision", side_effect=[invalid_consume, invalid_consume]), \
+             patch.object(plan_module, "append_debug_log"):
+            _thinking, decision, hint, _used_joint, timing_meta, _cache_signature = plan_module._run_decision_pipeline(
+                self.persona,
+                object_states=["apple tree (idle/normal; stock: infinite)"],
+                temporal_context="now",
+                status_summary="hungry",
+                physiological_rules="Inventory is empty.",
+                cooperative_context="none",
+                last_action_desc="none",
+                intent_memory_summary="none",
+            )
+
+        self.assertEqual(decision["action"], "Idle")
+        self.assertIn("correction_fallback", decision)
+        self.assertIn("inventory_missing", hint)
+        self.assertEqual(len(timing_meta["correction_trace"]), 2)
+        self.assertTrue(timing_meta["correction_metrics"]["repeated_invalid"])
+        self.assertTrue(timing_meta["correction_metrics"]["terminal_fallback"])
 
 
 if __name__ == "__main__":

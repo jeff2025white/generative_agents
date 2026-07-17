@@ -12,6 +12,7 @@ if str(BACKEND_ROOT) not in sys.path:
 
 
 from persona.cognitive_modules.action_outcomes import (
+    build_goal_evaluation,
     build_action_outcome_record,
     classify_reason,
     derive_progress_score_breakdown,
@@ -101,6 +102,75 @@ class ActionOutcomeRecordTests(unittest.TestCase):
         self.assertEqual(outcome["memory_projection"]["object"], "execution_result")
         self.assertIn("gather", outcome["memory_projection"]["keywords"])
         self.assertIn("restore_satiety", outcome["memory_projection"]["keywords"])
+
+    def test_execution_success_without_effect_is_not_goal_success(self):
+        persona = self._build_persona()
+
+        outcome = build_action_outcome_record(persona, result="success")
+
+        self.assertEqual(outcome["execution"]["result"], "success")
+        self.assertEqual(outcome["goal"]["status"], "no_progress")
+        self.assertTrue(outcome["goal"]["replan_required"])
+        self.assertIn("goal_no_progress", outcome["memory_projection"]["keywords"])
+        self.assertIn("no measurable progress", outcome["memory_projection"]["description"])
+
+    def test_inventory_gain_is_partial_goal_progress(self):
+        evaluation = build_goal_evaluation(
+            "success",
+            {"inventory_delta": {"apple": 1}, "progress_score": 0.25},
+        )
+
+        self.assertEqual(evaluation["status"], "advanced")
+        self.assertTrue(evaluation["replan_required"])
+        self.assertIn("inventory:apple:+1", evaluation["evidence"])
+
+    @patch("persona.memory_structures.scratch.append_debug_log")
+    def test_completed_action_without_progress_is_not_a_successful_resource(self, _mock_log):
+        scratch = Scratch("/tmp/nonexistent_scratch_for_no_progress_outcome_test.json")
+        scratch.name = "Klaus Mueller"
+        scratch.curr_step = 22
+        scratch.act_address = "<persona> Isabella Rodriguez"
+        scratch.act_description = "requesting food from Isabella Rodriguez"
+        scratch.act_command = {
+            "skill_id": "request",
+            "target": "Isabella Rodriguez",
+            "intent_family": "restore_satiety",
+            "raw_action": "Request",
+        }
+
+        scratch.mark_action_completed(outcome_effects={"progress_score": 0.0})
+
+        self.assertEqual(scratch.last_action_observation["goal_status"], "no_progress")
+        self.assertTrue(scratch.last_action_observation["replan_required"])
+        self.assertEqual(scratch.successful_resource_instances, [])
+
+    def test_failed_execution_is_blocked_even_if_effects_are_reported(self):
+        evaluation = build_goal_evaluation(
+            "failed",
+            {"self_attribute_effects": {"mood": 1.0}, "progress_score": 0.7},
+            reason="target_not_close",
+        )
+
+        self.assertEqual(evaluation["status"], "blocked")
+        self.assertTrue(evaluation["replan_required"])
+
+    def test_outcome_captures_ten_motive_effects_from_action_snapshots(self):
+        persona = self._build_persona()
+        before = {key: {"current_value": 50.0} for key in (
+            "satiety", "stamina", "health", "safety", "mood", "belonging",
+            "status", "autonomy", "competence", "meaning",
+        )}
+        after = {key: {"current_value": 50.0} for key in before}
+        after["belonging"] = {"current_value": 58.0}
+        after["competence"] = {"current_value": 46.0}
+        persona.scratch.current_action_record["motive_values_before"] = before
+        persona.scratch.get_motive_attributes_snapshot = lambda: after
+
+        outcome = build_action_outcome_record(persona, result="success")
+
+        self.assertEqual(len(outcome["effects"]["motive_effects"]), 10)
+        self.assertEqual(outcome["effects"]["motive_effects"]["belonging"], 8.0)
+        self.assertEqual(outcome["effects"]["motive_effects"]["competence"], -4.0)
 
     def test_record_action_outcome_builds_instance_avoid_experience(self):
         scratch = Scratch("Isabella Rodriguez")

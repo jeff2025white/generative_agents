@@ -330,6 +330,51 @@ class IntentMemoryRetrievalTests(unittest.TestCase):
             self.assertTrue(any("could not find a reachable path" in desc for desc in descriptions))
             self.assertTrue(any("apple tree" in desc for desc in descriptions))
 
+    def test_dominant_and_secondary_motives_are_retrieved_independently(self):
+        food_node = SimpleNamespace(
+            node_id="food", description="Food from the refrigerator worked.", subject="Maria", predicate="gathered", object="food",
+            keywords={"food", "refrigerator"}, attribute_effects={"satiety": 20}, poignancy=6,
+        )
+        social_node = SimpleNamespace(
+            node_id="social", description="A chat with Klaus improved belonging.", subject="Maria", predicate="chatted", object="Klaus",
+            keywords={"chat", "belonging"}, attribute_effects={}, poignancy=6,
+        )
+        persona = SimpleNamespace(
+            name="Maria Lopez",
+            a_mem=SimpleNamespace(seq_event=[food_node, social_node], seq_thought=[]),
+            scratch=SimpleNamespace(),
+        )
+
+        def retrieve_for_focal_points(_persona, focal_points, n_count):
+            nodes = [food_node] if any("food" in point.lower() for point in focal_points) else [social_node]
+            return {"test": nodes}
+
+        with patch.object(intent_memory, "new_retrieve", side_effect=retrieve_for_focal_points), \
+             patch.object(intent_memory, "append_debug_log"):
+            result = intent_memory.retrieve_memories_by_motives(persona, "satiety", "belonging")
+
+        self.assertEqual([node.node_id for node in result["dominant"]], ["food"])
+        self.assertEqual([node.node_id for node in result["secondary"]], ["social"])
+        self.assertEqual([node.node_id for node in result["combined"]], ["food", "social"])
+
+    def test_memory_tags_persist_across_associative_memory_reload(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            memory_dir = Path(tmpdir)
+            ensure_associative_memory_dir(memory_dir)
+            memory = AssociativeMemory(str(memory_dir))
+            created = datetime.datetime(2026, 7, 2, 9, 0, 0)
+            memory.add_event(
+                created, None, "Maria Lopez", "experienced", "execution_result",
+                "Maria successfully gathered food.", {"gather", "satiety"}, 6.0,
+                ("Maria successfully gathered food.", [1.0, 0.0]), None,
+                motive_effects={"satiety": 18.0, "autonomy": 2.0},
+                memory_tags={"dominant_motive": "satiety", "target": "refrigerator"},
+            )
+            memory.save(str(memory_dir))
+            reloaded = AssociativeMemory(str(memory_dir))
+            self.assertEqual(reloaded.id_to_node["node_1"].memory_tags["dominant_motive"], "satiety")
+            self.assertEqual(reloaded.id_to_node["node_1"].motive_effects["satiety"], 18.0)
+
 
 if __name__ == "__main__":
     unittest.main()

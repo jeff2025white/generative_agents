@@ -37,6 +37,33 @@ from persona.memory_structures.scratch import Scratch
 
 
 class ExecutionStateLifecycleTests(unittest.TestCase):
+    def test_action_context_survives_execution_phase_updates(self):
+        scratch = Scratch("/tmp/nonexistent_scratch_for_execution_context_test.json")
+        scratch.name = "Klaus Mueller"
+        scratch.curr_step = 21
+        scratch.act_command = build_action_command(
+            "request", "Isabella Rodriguez", source="test", raw_action="Request"
+        )
+        scratch.act_event = ("Klaus Mueller", "request", "Isabella Rodriguez")
+        scratch.act_description = "requesting food from Isabella Rodriguez"
+        scratch.act_address = "<persona> Isabella Rodriguez"
+        motive_values_before = {"satiety": {"current_value": 18.0}}
+        scratch.set_current_action_record(
+            {
+                "decision_id": "Klaus-21-request",
+                "dominant_motive": "satiety",
+                "secondary_motive": "mood",
+                "motive_values_before": motive_values_before,
+            }
+        )
+
+        scratch.update_current_action_record_status(status="pathing")
+
+        self.assertEqual(scratch.current_action_record["decision_id"], "Klaus-21-request")
+        self.assertEqual(scratch.current_action_record["dominant_motive"], "satiety")
+        self.assertEqual(scratch.current_action_record["secondary_motive"], "mood")
+        self.assertEqual(scratch.current_action_record["motive_values_before"], motive_values_before)
+
     def test_action_pathing_and_completion_update_active_execution_state(self):
         scratch = Scratch("/tmp/nonexistent_scratch_for_execution_state_test.json")
         scratch.name = "Maria Lopez"

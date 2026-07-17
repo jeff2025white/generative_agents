@@ -14,6 +14,7 @@ from persona.cognitive_modules.decision_constraints import (
     build_retry_feedback,
     build_invalid_targets,
     filter_invalid_resources,
+    validate_decision,
     validate_decision_target,
 )
 from persona.cognitive_modules.action_target_resolver import (
@@ -95,10 +96,60 @@ class InvalidTargetTests(unittest.TestCase):
         self.assertTrue(should_retry)
         self.assertIn("invalid for this step", reason)
 
-    def test_build_retry_feedback_tells_model_to_choose_different_plan(self):
-        feedback = build_retry_feedback("The target apple tree is invalid for this step.")
+    def test_build_retry_feedback_returns_evidence_without_selecting_replacement(self):
+        feedback = build_retry_feedback({
+            "valid": False,
+            "reason_code": "resource_empty",
+            "message": "The apple tree is empty.",
+            "evidence": {"selected_target": "apple tree", "stock": "empty"},
+        })
 
-        self.assertIn("Choose another feasible immediate target", feedback)
+        self.assertIn("VALIDATION_FEEDBACK", feedback)
+        self.assertIn('"reason_code": "resource_empty"', feedback)
+        self.assertIn('"stock": "empty"', feedback)
+        self.assertIn("will not choose an action or target for you", feedback)
+        self.assertNotIn("refrigerator", feedback)
+        self.assertNotIn("idle", feedback.lower())
+
+    def test_validate_consume_rejects_missing_inventory_without_replacement(self):
+        validation = validate_decision(
+            {"action": "Consume", "target": "apple"},
+            inventory={},
+            object_states=["apple tree (idle/normal; stock: infinite)"],
+        )
+
+        self.assertFalse(validation["valid"])
+        self.assertEqual(validation["reason_code"], "inventory_missing")
+        self.assertEqual(validation["evidence"]["inventory"], {})
+        self.assertNotIn("recommended_action", validation)
+
+    def test_validate_gather_rejects_observed_empty_resource(self):
+        validation = validate_decision(
+            {"action": "Gather", "target": "refrigerator"},
+            inventory={},
+            object_states=["refrigerator (idle/normal; stock: empty)"],
+        )
+
+        self.assertFalse(validation["valid"])
+        self.assertEqual(validation["reason_code"], "resource_empty")
+        self.assertIn("stock: empty", validation["evidence"]["observed_resource_state"])
+
+    def test_validate_request_reports_empty_target_inventory_without_alternative(self):
+        helper = type("Persona", (), {
+            "name": "Isabella Rodriguez",
+            "scratch": type("Scratch", (), {"inventory": {}})(),
+        })()
+
+        validation = validate_decision(
+            {"action": "Request", "target": "Isabella Rodriguez"},
+            persona_name="Klaus Mueller",
+            known_personas={"Isabella Rodriguez": helper},
+        )
+
+        self.assertFalse(validation["valid"])
+        self.assertEqual(validation["reason_code"], "target_inventory_empty")
+        self.assertEqual(validation["evidence"]["target_inventory"], {})
+        self.assertNotIn("recommended_target", validation)
 
     def test_rank_candidate_addresses_by_experience_demotes_recent_empty_instance(self):
         persona = SimpleNamespace(

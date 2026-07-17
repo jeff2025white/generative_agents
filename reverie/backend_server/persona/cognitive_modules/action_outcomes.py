@@ -5,6 +5,10 @@ from datetime import datetime
 
 
 CORE_ATTRIBUTE_KEYS = ("satiety", "stamina", "health", "mood")
+MOTIVE_KEYS = (
+    "satiety", "stamina", "health", "safety", "mood", "belonging",
+    "status", "autonomy", "competence", "meaning",
+)
 
 
 def classify_reason(reason):
@@ -60,6 +64,7 @@ def _format_sim_time(curr_time):
 def _default_effects():
     return {
         "self_attribute_effects": {key: 0.0 for key in CORE_ATTRIBUTE_KEYS},
+        "motive_effects": {key: 0.0 for key in MOTIVE_KEYS},
         "inventory_delta": {},
         "progress_score": 0.0,
     }
@@ -75,6 +80,13 @@ def _normalize_effects(effects):
         normalized["self_attribute_effects"] = {
             key: float(raw_self_effects.get(key, 0.0) or 0.0)
             for key in CORE_ATTRIBUTE_KEYS
+        }
+
+    raw_motive_effects = effects.get("motive_effects")
+    if isinstance(raw_motive_effects, dict):
+        normalized["motive_effects"] = {
+            key: _safe_float(raw_motive_effects.get(key, 0.0), default=0.0)
+            for key in MOTIVE_KEYS
         }
 
     inventory_delta = effects.get("inventory_delta")
@@ -207,11 +219,51 @@ def derive_progress_score(skill_id=None, self_attribute_effects=None, inventory_
     )["score"]
 
 
+def build_goal_evaluation(result, effects, reason=None):
+    """Separate runtime completion from measurable progress toward the action goal."""
+    normalized_result = str(result or "").strip().lower()
+    normalized_effects = _normalize_effects(effects)
+    progress_score = round(
+        max(0.0, min(1.0, _safe_float(normalized_effects.get("progress_score"), default=0.0))),
+        3,
+    )
+
+    if normalized_result == "failed":
+        status = "blocked"
+    elif progress_score >= 0.6:
+        status = "achieved"
+    elif progress_score > 0.0:
+        status = "advanced"
+    else:
+        status = "no_progress"
+
+    evidence = []
+    if reason:
+        evidence.append(f"reason:{str(reason).strip().lower()}")
+    for key, delta in normalized_effects["self_attribute_effects"].items():
+        if abs(float(delta or 0.0)) > 0.0:
+            evidence.append(f"{key}:{float(delta):+g}")
+    for item_name, delta in normalized_effects["inventory_delta"].items():
+        if abs(_safe_float(delta, default=0.0)) > 0.0:
+            evidence.append(f"inventory:{item_name}:{_safe_float(delta):+g}")
+
+    return {
+        "status": status,
+        "progress_score": progress_score,
+        "replan_required": status in {"blocked", "advanced", "no_progress"},
+        "evidence": evidence,
+    }
+
+
 def score_action_outcome(effects, reason=None, dominant_motive=None, result=None):
     normalized_effects = _normalize_effects(effects)
     self_effect_magnitude = min(
         1.0,
         sum(abs(float(v or 0.0)) for v in normalized_effects["self_attribute_effects"].values()) / 20.0,
+    )
+    motive_effect_magnitude = min(
+        1.0,
+        sum(abs(float(v or 0.0)) for v in normalized_effects["motive_effects"].values()) / 20.0,
     )
     failure_learning_value = 0.0
     normalized_reason = str(reason or "").strip().lower()
@@ -226,16 +278,20 @@ def score_action_outcome(effects, reason=None, dominant_motive=None, result=None
         failure_learning_value = 0.35
 
     novelty_value = 0.1 if normalized_effects["inventory_delta"] else 0.0
-    dominant_motive_alignment = 0.95 if str(dominant_motive or "").strip().lower() in {
-        "satiety",
-        "stamina",
-        "health",
-        "mood",
-    } else 0.3
+    dominant_key = str(dominant_motive or "").strip().lower()
+    dominant_delta = float(normalized_effects["motive_effects"].get(dominant_key, 0.0) or 0.0)
+    if dominant_key in MOTIVE_KEYS and dominant_delta:
+        dominant_motive_alignment = min(1.0, abs(dominant_delta) / 8.0)
+    elif dominant_key in {"satiety", "stamina", "health", "mood"}:
+        # Legacy outcomes lack a motive snapshot; preserve their historical score.
+        dominant_motive_alignment = 0.95
+    else:
+        dominant_motive_alignment = 0.3
 
     base_significance = min(
         1.0,
         self_effect_magnitude
+        + motive_effect_magnitude
         + failure_learning_value
         + novelty_value
         + (dominant_motive_alignment * 0.2)
@@ -244,6 +300,7 @@ def score_action_outcome(effects, reason=None, dominant_motive=None, result=None
     effective_score = round(base_significance, 3)
     return {
         "self_effect_magnitude": round(self_effect_magnitude, 3),
+        "motive_effect_magnitude": round(motive_effect_magnitude, 3),
         "other_effect_magnitude": 0.0,
         "failure_learning_value": round(failure_learning_value, 3),
         "novelty_value": round(novelty_value, 3),
@@ -265,6 +322,8 @@ def build_memory_projection(persona, outcome):
     skill_id = str(action.get("skill_id") or "action").strip()
     result = str(execution.get("result") or "unknown").strip().lower()
     reason = str(execution.get("reason") or "").strip().lower()
+    goal = outcome.get("goal") or build_goal_evaluation(result, effects, reason=reason)
+    goal_status = str(goal.get("status") or "no_progress").strip().lower()
     persona_name = getattr(persona, "name", None) or outcome.get("persona") or "persona"
 
     if result == "failed":
@@ -280,11 +339,23 @@ def build_memory_projection(persona, outcome):
                 + (f" at {target_address}" if target_address else "")
                 + "."
             )
-    else:
+    elif goal_status == "achieved":
         description = (
             f"{persona_name} successfully used {skill_id} on {target}"
             + (f" at {target_address}" if target_address else "")
             + "."
+        )
+    elif goal_status == "advanced":
+        description = (
+            f"{persona_name} completed {skill_id} on {target}"
+            + (f" at {target_address}" if target_address else "")
+            + " and made partial progress toward the goal."
+        )
+    else:
+        description = (
+            f"{persona_name} completed {skill_id} on {target}"
+            + (f" at {target_address}" if target_address else "")
+            + " but made no measurable progress toward the goal."
         )
 
     keywords = {
@@ -292,6 +363,7 @@ def build_memory_projection(persona, outcome):
         target.lower(),
         result,
         "execution_result",
+        f"goal_{goal_status}",
     }
     if reason:
         keywords.add(reason)
@@ -321,12 +393,18 @@ def build_memory_projection(persona, outcome):
         "keywords": sorted(keyword for keyword in keywords if keyword),
         "poignancy": round(4.0 + float((outcome.get("experience_scoring") or {}).get("effective_score", 0.0)) * 4.0, 2),
         "attribute_effects": dict((effects.get("self_attribute_effects") or {})),
+        "motive_effects": dict((effects.get("motive_effects") or {})),
         "memory_tags": {
             "skill_id": action.get("skill_id"),
             "target": action.get("target"),
             "target_address": action.get("target_address"),
             "reason": execution.get("reason"),
             "dominant_motive": decision_context.get("dominant_motive"),
+            "outcome_status": result,
+            "goal_status": goal_status,
+            "goal_progress_score": goal.get("progress_score", 0.0),
+            "replan_required": bool(goal.get("replan_required")),
+            "motive_effects": dict((effects.get("motive_effects") or {})),
             "resource_instance_key": ((outcome.get("resource_context") or {}).get("resource_instance_key")),
         },
     }
@@ -341,9 +419,17 @@ def build_action_outcome_record(persona, result, reason=None, payload=None, effe
     target = action_command.get("target")
     curr_step = getattr(scratch, "curr_step", None)
     normalized_effects = _normalize_effects(effects)
+    before_motives = current_record.get("motive_values_before") or {}
+    motive_getter = getattr(scratch, "get_motive_attributes_snapshot", None)
+    after_attributes = motive_getter() if callable(motive_getter) else {}
+    for motive in MOTIVE_KEYS:
+        before_value = _safe_float((before_motives.get(motive) or {}).get("current_value", before_motives.get(motive, 0.0)))
+        after_value = _safe_float((after_attributes.get(motive) or {}).get("current_value", after_attributes.get(motive, before_value)))
+        normalized_effects["motive_effects"][motive] = round(after_value - before_value, 3)
     decision_context = {
         "decision_id": current_record.get("decision_id"),
         "dominant_motive": current_record.get("dominant_motive"),
+        "secondary_motive": current_record.get("secondary_motive"),
     }
     scoring = score_action_outcome(
         normalized_effects,
@@ -351,6 +437,7 @@ def build_action_outcome_record(persona, result, reason=None, payload=None, effe
         dominant_motive=decision_context.get("dominant_motive"),
         result=result,
     )
+    goal = build_goal_evaluation(result, normalized_effects, reason=reason)
 
     outcome = {
         "schema_version": 1,
@@ -385,6 +472,7 @@ def build_action_outcome_record(persona, result, reason=None, payload=None, effe
             "reason_class": classify_reason(reason),
             "payload": dict(payload or {}),
         },
+        "goal": goal,
         "effects": normalized_effects,
         "resource_context": {
             "resource_type": target,

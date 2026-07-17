@@ -52,6 +52,9 @@ class RequestTradeSkillTests(unittest.TestCase):
         self.assertEqual(requester.scratch.inventory["apple"], 1)
         self.assertEqual(helper.scratch.inventory["apple"], 1)
         requester.scratch.mark_action_completed.assert_called_once()
+        outcome_effects = requester.scratch.mark_action_completed.call_args.kwargs["outcome_effects"]
+        self.assertEqual(outcome_effects["inventory_delta"], {"apple": 1})
+        self.assertGreater(outcome_effects["progress_score"], 0.0)
         self.assertEqual(mock_exp.call_count, 2)
 
     def test_trade_skill_is_registered_and_accepts_future_favor_when_inventory_empty(self):
@@ -66,6 +69,9 @@ class RequestTradeSkillTests(unittest.TestCase):
         self.assertEqual(trader.scratch.inventory["snack"], 1)
         self.assertEqual(partner.scratch.inventory["snack"], 0)
         trader.scratch.mark_action_completed.assert_called_once()
+        outcome_effects = trader.scratch.mark_action_completed.call_args.kwargs["outcome_effects"]
+        self.assertEqual(outcome_effects["inventory_delta"], {"snack": 1})
+        self.assertGreater(outcome_effects["progress_score"], 0.0)
         self.assertEqual(mock_exp.call_count, 2)
 
 

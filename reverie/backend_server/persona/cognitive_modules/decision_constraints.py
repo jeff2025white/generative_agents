@@ -1,6 +1,11 @@
-"""Utilities for minimal immediate-step decision constraints."""
+"""Read-only validation utilities for observing LLM decision correction."""
 
-from persona.cognitive_modules.food_sources import normalize_food_source_target
+import json
+
+from persona.cognitive_modules.food_sources import (
+  is_valid_gather_food_source,
+  normalize_food_source_target,
+)
 
 
 def _normalize_invalid_targets(targets):
@@ -86,14 +91,161 @@ def validate_decision_target(decision, invalid_targets):
   return False, ""
 
 
-def build_retry_feedback(reason):
-  """Construct one-shot retry guidance after an invalid target is produced."""
-  reason = str(reason or "").strip()
-  if not reason:
-    reason = "The previous target is invalid for this step."
-  return (
-    reason
-    + " Choose another feasible immediate target or a materially different immediate plan. "
-    + "If the same underlying need still matters, keep the need but switch to a different reachable target of that type. "
-    + "If no suitable target is available, fall back to a clearly feasible alternative such as waiting, idle, or wandering instead of repeating the failed target."
+def _positive_inventory(inventory):
+  result = {}
+  for item, count in (inventory or {}).items():
+    try:
+      numeric_count = int(count or 0)
+    except Exception:
+      numeric_count = 0
+    if numeric_count > 0:
+      result[str(item)] = numeric_count
+  return result
+
+
+def _resource_state_for_target(object_states, target):
+  target_text = str(target or "").strip().lower()
+  canonical_target = str(normalize_food_source_target(target) or target).strip().lower()
+  for item in object_states or []:
+    text = str(item or "").strip()
+    label = text.split("(", 1)[0].strip().lower()
+    canonical_label = str(normalize_food_source_target(label) or label).strip().lower()
+    if target_text in {label, canonical_label} or canonical_target in {label, canonical_label}:
+      return text
+  return None
+
+
+def validate_decision(decision, *, invalid_targets=None, inventory=None,
+                      object_states=None, persona_name=None, known_personas=None):
+  """Return objective validity evidence without selecting or rewriting an action."""
+  decision = decision or {}
+  action = str(decision.get("action") or "").strip().lower()
+  target = str(decision.get("target") or "").strip()
+  target_lower = target.lower()
+
+  target_invalid, target_reason = validate_decision_target(decision, invalid_targets)
+  if target_invalid:
+    return {
+      "valid": False,
+      "reason_code": "recent_target_failure",
+      "message": target_reason,
+      "evidence": {
+        "selected_target": target,
+        "recently_invalid_targets": _normalize_invalid_targets(invalid_targets),
+      },
+    }
+
+  if action == "consume":
+    available_inventory = _positive_inventory(inventory)
+    matching_count = next(
+      (count for item, count in available_inventory.items() if item.strip().lower() == target_lower),
+      0,
+    )
+    if matching_count <= 0:
+      return {
+        "valid": False,
+        "reason_code": "inventory_missing",
+        "message": f"Consume requires the selected item '{target}' to exist in inventory.",
+        "evidence": {
+          "selected_target": target,
+          "inventory": available_inventory,
+          "required_count": 1,
+          "observed_count": matching_count,
+        },
+      }
+
+  if action == "gather":
+    canonical_target = normalize_food_source_target(target)
+    if not is_valid_gather_food_source(canonical_target):
+      return {
+        "valid": False,
+        "reason_code": "invalid_food_source",
+        "message": f"Gather target '{target}' is not a configured food source.",
+        "evidence": {"selected_target": target},
+      }
+    resource_state = _resource_state_for_target(object_states, target)
+    if resource_state and "stock: empty" in resource_state.lower():
+      return {
+        "valid": False,
+        "reason_code": "resource_empty",
+        "message": f"Gather target '{target}' is currently empty.",
+        "evidence": {
+          "selected_target": target,
+          "observed_resource_state": resource_state,
+        },
+      }
+
+  if action in {"socialize", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob"}:
+    if persona_name and target_lower == str(persona_name).strip().lower():
+      return {
+        "valid": False,
+        "reason_code": "self_target",
+        "message": f"Action '{action}' cannot target the acting persona.",
+        "evidence": {"selected_target": target, "persona": persona_name},
+      }
+    if known_personas is not None:
+      if isinstance(known_personas, dict):
+        persona_by_name = {
+          str(name).strip().lower(): persona
+          for name, persona in known_personas.items()
+        }
+      else:
+        persona_by_name = {
+          str(getattr(persona, "name", persona)).strip().lower(): persona
+          for persona in known_personas
+        }
+      names = [str(getattr(persona, "name", name)) for name, persona in persona_by_name.items()]
+      if target_lower not in persona_by_name:
+        return {
+          "valid": False,
+          "reason_code": "persona_not_found",
+          "message": f"Persona target '{target}' is not present in the current simulation context.",
+          "evidence": {"selected_target": target, "present_personas": names},
+        }
+      target_persona = persona_by_name.get(target_lower)
+      if action in {"request", "trade"} and target_persona is not None:
+        target_inventory = _positive_inventory(
+          getattr(getattr(target_persona, "scratch", None), "inventory", {}) or {}
+        )
+        if not target_inventory:
+          return {
+            "valid": False,
+            "reason_code": "target_inventory_empty",
+            "message": f"Persona target '{target}' has no transferable inventory.",
+            "evidence": {
+              "selected_target": target,
+              "target_inventory": target_inventory,
+            },
+          }
+
+  return {
+    "valid": True,
+    "reason_code": None,
+    "message": "Decision passed read-only validation.",
+    "evidence": {},
+  }
+
+
+def build_retry_feedback(validation, mode="evaluation"):
+  """Return failure evidence without prescribing the replacement decision."""
+  if isinstance(validation, dict):
+    payload = {
+      "validation_result": "rejected",
+      "reason_code": validation.get("reason_code"),
+      "message": validation.get("message"),
+      "evidence": validation.get("evidence") or {},
+    }
+  else:
+    payload = {
+      "validation_result": "rejected",
+      "reason_code": "invalid_decision",
+      "message": str(validation or "The previous decision is invalid."),
+      "evidence": {},
+    }
+  instruction = (
+    "Revise the immediate decision using the current world state and the objective evidence. "
+    "Return a complete decision. The validator will not choose an action or target for you."
   )
+  if str(mode or "evaluation").strip().lower() == "production":
+    instruction += " Respect all stated physical preconditions and do not repeat a rejected decision unless its evidence changed."
+  return "VALIDATION_FEEDBACK\n" + json.dumps(payload, ensure_ascii=False, sort_keys=True) + "\n" + instruction

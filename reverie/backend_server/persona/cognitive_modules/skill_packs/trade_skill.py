@@ -3,6 +3,7 @@ from persona.cognitive_modules.memory_effects import (
     compute_attribute_effects,
     record_stat_change_experience,
 )
+from persona.cognitive_modules.action_outcomes import derive_progress_score
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 from persona.cognitive_modules.skill_packs.transfer_skill_utils import (
     are_personas_close,
@@ -190,4 +191,20 @@ class TradeSkillPack(BaseSkillPack):
             persona,
             metadata={"item": requested_item, "offered_item": offered_item, "target": target_persona.name},
         )
-        self.finish_success(persona)
+        inventory_delta = {
+            item: int(persona.scratch.inventory.get(item, 0)) - int(actor_before_inventory.get(item, 0))
+            for item in set(actor_before_inventory) | set(persona.scratch.inventory or {})
+        }
+        inventory_delta = {item: delta for item, delta in inventory_delta.items() if delta}
+        self.finish_success(
+            persona,
+            outcome_effects={
+                "self_attribute_effects": actor_effects,
+                "inventory_delta": inventory_delta,
+                "progress_score": derive_progress_score(
+                    "trade",
+                    self_attribute_effects=actor_effects,
+                    inventory_delta=inventory_delta,
+                ),
+            },
+        )
