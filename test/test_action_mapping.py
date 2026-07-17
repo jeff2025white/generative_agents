@@ -139,6 +139,20 @@ class ActionMappingTests(unittest.TestCase):
             "avoid",
         )
 
+    def test_socialize_with_place_targets_does_not_turn_into_chat(self):
+        self.assertEqual(
+            normalize_skill_id("Socialize", target="park", detail="going to the park to socialize and relax"),
+            "wander",
+        )
+        self.assertEqual(
+            normalize_skill_id("Socialize", target="pub", detail="hanging out at the pub with other patrons"),
+            "hangout_social_venue",
+        )
+        self.assertEqual(
+            normalize_skill_id("Socialize", target="Klaus Mueller", detail="chatting with Klaus Mueller about town gossip"),
+            "chat with",
+        )
+
     def test_work_and_use_map_to_stable_skill_ids(self):
         self.assertEqual(
             normalize_skill_id("Work", target="blackboard", detail="studying at the blackboard"),

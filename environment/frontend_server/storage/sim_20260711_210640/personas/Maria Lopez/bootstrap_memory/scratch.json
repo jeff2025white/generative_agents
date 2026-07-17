@@ -1,0 +1,1248 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 11, 2026, 08:18:30",
+  "curr_tile": [
+    39,
+    36
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "inquisitive, studious, friendly, hospitable",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 30.479999999999905,
+  "stamina": 90.44800000000066,
+  "health": 100.0,
+  "mood": 45.40000000000032,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 30.479999999999905,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 90.44800000000066,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 58.65599999999995,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 45.40000000000032,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 60.63999999999987,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 55.983999999999924,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 68.2079999999994,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 64.5359999999995,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 58.431999999999675,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 11, 2026, 08:00:00",
+  "decision_commit_until_step": null,
+  "last_decision_signature": {
+    "skill_id": "request",
+    "target": "isabella rodriguez",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe",
+  "recent_completed_action_signature": {
+    "skill_id": "request",
+    "target": "isabella rodriguez",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 107,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "isabella rodriguez",
+    "target_address": "<persona> Isabella Rodriguez",
+    "skill_id": "request",
+    "action_description": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe",
+    "reason": "target_inventory_empty",
+    "payload": {
+      "target": "Isabella Rodriguez",
+      "target_inventory": {
+        "apple": 0
+      }
+    },
+    "curr_step": 111
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Maria_Lopez-111-fcaf084d71",
+    "sim_code": null,
+    "persona": "Maria Lopez",
+    "curr_step": 111,
+    "sim_time": "2026-07-11 08:18:30",
+    "wall_ts": "2026-07-11T21:10:49.625573+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "request",
+      "raw_action": "Request",
+      "intent_family": null,
+      "target": "Isabella Rodriguez",
+      "target_type": "persona",
+      "target_address": "<persona> Isabella Rodriguez",
+      "resolved_target": "Isabella Rodriguez",
+      "resolution_kind": null,
+      "detail": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "execution": {
+      "result": "failed",
+      "reason": "target_inventory_empty",
+      "reason_class": "other",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "target_inventory": {
+          "apple": 0
+        }
+      }
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "Isabella Rodriguez",
+      "resource_instance_key": "<persona> isabella rodriguez"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.35,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.41,
+      "recency_weight": 1.0,
+      "effective_score": 0.41,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Maria_Lopez-111-fcaf084d71",
+      "memory_type": "event",
+      "subject": "Maria Lopez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+      "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+      "keywords": [
+        "execution_result",
+        "failed",
+        "isabella rodriguez",
+        "request",
+        "target_inventory_empty"
+      ],
+      "poignancy": 5.64,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "request",
+        "target": "Isabella Rodriguez",
+        "target_address": "<persona> Isabella Rodriguez",
+        "reason": "target_inventory_empty",
+        "dominant_motive": null,
+        "resource_instance_key": "<persona> isabella rodriguez"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-50-4d345829fc",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 50,
+      "sim_time": "2026-07-11 08:08:20",
+      "wall_ts": "2026-07-11T21:07:44.499704+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "asking Isabella Rodriguez for a snack at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            52,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-50-4d345829fc",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-75-fe6a6c3440",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 75,
+      "sim_time": "2026-07-11 08:12:30",
+      "wall_ts": "2026-07-11T21:08:05.243127+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            33,
+            36
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-75-fe6a6c3440",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-94-37abd2570c",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 94,
+      "sim_time": "2026-07-11 08:15:40",
+      "wall_ts": "2026-07-11T21:09:39.437833+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting a snack from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            25,
+            37
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-94-37abd2570c",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-107-00fd7e2a04",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 107,
+      "sim_time": "2026-07-11 08:17:50",
+      "wall_ts": "2026-07-11T21:10:01.023371+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-107-00fd7e2a04",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used request on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "embedding_text": "Maria Lopez successfully used request on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "keywords": [
+          "execution_result",
+          "isabella rodriguez",
+          "request",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-108-b034558ac6",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 108,
+      "sim_time": "2026-07-11 08:18:00",
+      "wall_ts": "2026-07-11T21:10:15.192902+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_inventory_empty",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_inventory": {
+            "apple": 0
+          }
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-108-b034558ac6",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_inventory_empty"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_inventory_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-109-5aca04eab7",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 109,
+      "sim_time": "2026-07-11 08:18:10",
+      "wall_ts": "2026-07-11T21:10:24.415407+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_inventory_empty",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_inventory": {
+            "apple": 0
+          }
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-109-5aca04eab7",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_inventory_empty"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_inventory_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-110-12ec816f51",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 110,
+      "sim_time": "2026-07-11 08:18:20",
+      "wall_ts": "2026-07-11T21:10:36.492292+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_inventory_empty",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_inventory": {
+            "apple": 0
+          }
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-110-12ec816f51",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_inventory_empty"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_inventory_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-111-fcaf084d71",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 111,
+      "sim_time": "2026-07-11 08:18:30",
+      "wall_ts": "2026-07-11T21:10:49.625573+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_inventory_empty",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_inventory": {
+            "apple": 0
+          }
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-111-fcaf084d71",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_inventory_empty"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_inventory_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "Isabella Rodriguez",
+      "target_address": "<persona> Isabella Rodriguez",
+      "progress_score": 0.0,
+      "curr_step": 107,
+      "expires_after_step": 127
+    }
+  ],
+  "active_execution_state": {
+    "id": "Maria Lopez-111-request-isabella rodriguez",
+    "phase": "failed",
+    "address": "<persona> Isabella Rodriguez",
+    "command": {
+      "skill_id": "request",
+      "target": "Isabella Rodriguez",
+      "source": "decision_translation",
+      "raw_action": "Request",
+      "detail": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "description": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe",
+    "event": [
+      "Maria Lopez",
+      "request",
+      "Isabella Rodriguez"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "request",
+      "target": "isabella rodriguez",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 111,
+    "updated_step": 111,
+    "failure": {
+      "reason": "target_inventory_empty",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "target_inventory": {
+          "apple": 0
+        }
+      }
+    }
+  },
+  "current_action_record": {
+    "status": "failed",
+    "skill_id": "request",
+    "intent_family": "restore_satiety",
+    "target": "isabella rodriguez",
+    "target_type": "persona",
+    "resolved_target": "Isabella Rodriguez",
+    "resolved_address": "<persona> Isabella Rodriguez",
+    "description": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe",
+    "command": {
+      "skill_id": "request",
+      "target": "Isabella Rodriguez",
+      "source": "decision_translation",
+      "raw_action": "Request",
+      "detail": "requesting food or trading for food access from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "event": [
+      "Maria Lopez",
+      "request",
+      "Isabella Rodriguez"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "created_step": 111,
+    "updated_step": 111,
+    "failure": {
+      "reason": "target_inventory_empty",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "target_inventory": {
+          "apple": 0
+        }
+      }
+    }
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "empathetic, social, accommodating",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime_known_personas"
+      },
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, friendly, hospitable",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:18:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:18:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.. My preferred rhythm is: Maria Lopez goes to bed arou...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:18:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:18:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-11 08:18:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 92,
+  "importance_ele_n": 25,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 11, 2026, 08:18:30",
+  "act_duration": 10,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

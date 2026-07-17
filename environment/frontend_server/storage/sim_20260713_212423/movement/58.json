@@ -1,0 +1,75 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        86,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.98500000000037,
+      "stamina": 94.88400000000036,
+      "health": 100.0,
+      "mood": 51.18999999999997,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:08:30"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        44,
+        31
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to relax @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.8700000000004,
+      "stamina": 95.40700000000037,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        94,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.8700000000004,
+      "stamina": 96.1050000000004,
+      "health": 100.0,
+      "mood": 49.16000000000006,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:09:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:09:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:09:40"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        23
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "sitting on the library sofa to relax @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.77000000000197,
+      "stamina": 83.78700000000147,
+      "health": 100.0,
+      "mood": 45.360000000000234,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-12 08:47:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-12 08:47:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the sofa to relax and distract from low mood",
+          "created": "2026-07-12 08:12:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-12 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 08:12:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:12:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-12 08:12:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        74,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the library sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.77000000000197,
+      "stamina": 82.81900000000105,
+      "health": 100.0,
+      "mood": 63.91999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-12 08:47:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:19:50",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.4350000000018,
+      "stamina": 89.05000000000062,
+      "health": 100.0,
+      "mood": 40.249999999999886,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:48:00"
+  }
+}

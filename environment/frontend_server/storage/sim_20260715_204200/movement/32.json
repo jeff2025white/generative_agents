@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        102,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.1950000000002,
+      "stamina": 97.1340000000002,
+      "health": 100.0,
+      "mood": 49.00999999999996,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is relaxing and reading a book on the library sofa",
+          "created": "2026-07-15 08:05:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.69000000000023,
+      "stamina": 98.55999999999995,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        110,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "relaxing and reading a book on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.69000000000023,
+      "stamina": 97.81800000000023,
+      "health": 100.0,
+      "mood": 48.68000000000003,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:05:20"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        74,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book on the library sofa to improve mood @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 68.01000000000312,
+      "stamina": 87.06100000000113,
+      "health": 100.0,
+      "mood": 42.27999999999985,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-12 09:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:12:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        37,
+        44
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk and enjoying nature in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 68.01000000000312,
+      "stamina": 89.61500000000068,
+      "health": 100.0,
+      "mood": 67.0400000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 09:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at none and recovered stamina.",
+          "created": "2026-07-12 08:19:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is frequently taking naps on the library sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often seeks relaxation on the sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 61.155000000002616,
+      "stamina": 98.90000000000006,
+      "health": 100.0,
+      "mood": 31.850000000000353,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:16:00"
+  }
+}

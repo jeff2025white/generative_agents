@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        62,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:closet",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.52000000000044,
+      "stamina": 99.08600000000007,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        81,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:bar customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.5600000000004,
+      "stamina": 95.6380000000003,
+      "health": 100.0,
+      "mood": 48.07999999999993,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        88,
+        56
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Willows Market and Pharmacy:store:behind the grocery counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.52000000000044,
+      "stamina": 95.74100000000044,
+      "health": 100.0,
+      "mood": 47.440000000000055,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:10:30"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        77,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "seeking food at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.79499999999994,
+      "stamina": 93.61400000000044,
+      "health": 100.0,
+      "mood": 46.35000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        87,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.88999999999998,
+      "stamina": 95.1960000000005,
+      "health": 100.0,
+      "mood": 45.619999999999834,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        87,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u63a8\u8350\u6211\u4eec\u5bb6\u7684\u62db\u724c\u4e09\u660e\u6cbb\uff0c\u8fd8\u6709\u73b0\u78e8\u5496\u5561\u3002\u8d70\u5427\uff0c\u6211\u5e26\u8def\uff1f",
+      "satiety": 34.88999999999998,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 52.919999999999796,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-12 08:11:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:12:00"
+  }
+}

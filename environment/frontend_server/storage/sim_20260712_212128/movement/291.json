@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        93,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u8fd9\u4e2a\u8fd8\u6ca1\u60f3\u597d\u5462\uff0c\u5f97\u770b\u5927\u5bb6\u7684\u65f6\u95f4\u3002\u5bf9\u4e86\uff0c\u4f60\u4e0d\u662f\u8981\u529e\u4e2a\u60c5\u4eba\u8282\u805a\u4f1a\u561b\uff0c\u51c6\u5907\u5f97\u548b\u6837\u4e86\uff1f",
+      "satiety": 75.18000000000183,
+      "stamina": 89.59200000000072,
+      "health": 100.0,
+      "mood": 62.60000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        116,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a brief nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.56000000000199,
+      "stamina": 81.57700000000149,
+      "health": 100.0,
+      "mood": 52.18000000000023,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        86,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u51c6\u5907\u5f97\u5dee\u4e0d\u591a\u5566\uff0c\u6750\u6599\u90fd\u4e70\u5f97\u5dee\u4e0d\u591a\u4e86\u3002\u4f60\u8981\u662f\u6709\u7a7a\uff0c\u4e5f\u53ef\u4ee5\u6765\u53c2\u52a0\u554a\u3002",
+      "satiety": 79.56000000000199,
+      "stamina": 75.52800000000124,
+      "health": 100.0,
+      "mood": 98.57999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:48:30"
+  }
+}

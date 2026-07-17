@@ -2,6 +2,7 @@
 
 import datetime
 
+from persona.cognitive_modules.action_command_utils import build_action_command, build_decision_signature
 from persona.cognitive_modules.social_dialogue_log import build_dialogue_id, set_social_dialogue_state
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
 
@@ -19,6 +20,27 @@ class SeekAndChatSkillPack(BaseSkillPack):
             return self.set_precheck_result(False, "missing_chat_target", {"target": target})
         if str(target).strip() == getattr(persona, "name", None):
             return self.set_precheck_result(False, "self_chat_target", {"target": target})
+        target_name = str(target).strip()
+        cooldown_steps = int((getattr(persona.scratch, "chatting_with_buffer", {}) or {}).get(target_name, 0) or 0)
+        if cooldown_steps > 0:
+            return self.set_precheck_result(
+                False,
+                "recent_social_cooldown",
+                {"target": target_name, "cooldown_steps": cooldown_steps},
+            )
+        recent_chat_signature = build_decision_signature(
+            build_action_command("chat with", target_name, source="seek_and_chat", raw_action="chat with"),
+            action_description=f"chatting with {target_name}",
+        )
+        if getattr(persona.scratch, "is_recent_duplicate_action", lambda *_args, **_kwargs: False)(
+            recent_chat_signature,
+            within_steps=12,
+        ):
+            return self.set_precheck_result(
+                False,
+                "recent_duplicate_social_target",
+                {"target": target_name},
+            )
         return self.set_precheck_result(True, "seek_and_chat_allowed", {"target": target})
 
     def get_target_tiles(self, persona, target, maze) -> list:

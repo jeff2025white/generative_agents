@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        57,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:The Rose and Crown Pub:pub:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.519999999999925,
+      "stamina": 92.33200000000053,
+      "health": 100.0,
+      "mood": 45.60000000000025,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        39
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 23.839999999999975,
+      "stamina": 93.11600000000055,
+      "health": 100.0,
+      "mood": 48.239999999999725,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        65,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:The Rose and Crown Pub:pub:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 23.839999999999975,
+      "stamina": 94.1620000000006,
+      "health": 100.0,
+      "mood": 44.7199999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:14:30"
+  }
+}

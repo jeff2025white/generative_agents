@@ -1,0 +1,105 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        81,
+        56
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.29000000000183,
+      "stamina": 85.19100000000104,
+      "health": 100.0,
+      "mood": 59.43999999999944,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        92,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.29000000000143,
+      "stamina": 97.68400000000024,
+      "health": 100.0,
+      "mood": 37.19999999999957,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        103,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the dorm garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 67.99500000000074,
+      "stamina": 97.48600000000017,
+      "health": 100.0,
+      "mood": 51.07000000000077,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is relaxing on the common room sofa",
+          "created": "2026-07-10 08:58:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-10 08:58:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-10 08:36:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is often found resting or sitting on a sofa",
+          "created": "2026-07-10 08:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller gathers apples from the apple tree",
+          "created": "2026-07-10 08:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is frequently consuming apples and resting on the sofa",
+          "created": "2026-07-10 08:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez encounters issues with gathering and consuming food",
+          "created": "2026-07-10 08:53:20",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:58:40"
+  }
+}

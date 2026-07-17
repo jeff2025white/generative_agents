@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        117,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the common room sofa to unwind @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.72999999999998,
+      "stamina": 95.94200000000042,
+      "health": 100.0,
+      "mood": 46.33999999999986,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        105,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.72999999999998,
+      "stamina": 95.24900000000038,
+      "health": 100.0,
+      "mood": 48.77999999999981,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2026-07-11 08:10:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-11 08:00:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        108,
+        33
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.81499999999995,
+      "stamina": 90.78400000000036,
+      "health": 100.0,
+      "mood": 47.95000000000017,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the common room sofa to relax",
+          "created": "2026-07-11 08:10:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:10:00"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        120,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.06500000000007,
+      "stamina": 99.07000000000006,
+      "health": 100.0,
+      "mood": 49.66999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        19
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and lift mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.23000000000008,
+      "stamina": 99.16500000000006,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        129,
+        50
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.23000000000008,
+      "stamina": 99.29200000000007,
+      "health": 100.0,
+      "mood": 49.56000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-13 08:01:40"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:01:40"
+  }
+}

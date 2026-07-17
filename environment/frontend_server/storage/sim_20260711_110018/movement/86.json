@@ -1,0 +1,148 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        117,
+        46
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.909999999999975,
+      "stamina": 93.19500000000055,
+      "health": 100.0,
+      "mood": 48.25999999999973,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        117,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.909999999999975,
+      "stamina": 99.12000000000009,
+      "health": 100.0,
+      "mood": 44.7799999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2026-07-11 08:14:10"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        122,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:kitchen sink",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 32.604999999999926,
+      "stamina": 88.49600000000052,
+      "health": 100.0,
+      "mood": 46.65000000000025,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "toaster is idle",
+          "created": "2026-07-11 08:14:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the common room sofa to unwind",
+          "created": "2026-07-11 08:03:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-11 08:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-11 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-11 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom podium is idle",
+          "created": "2026-07-11 08:08:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2026-07-11 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom student seating is idle",
+          "created": "2026-07-11 08:08:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-11 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:14:20"
+  }
+}

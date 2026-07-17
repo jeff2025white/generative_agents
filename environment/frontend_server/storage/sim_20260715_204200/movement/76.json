@@ -1,0 +1,147 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        22
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "sitting with Isabella Rodriguez at the library to unwind @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.61000000000053,
+      "stamina": 99.82800000000002,
+      "health": 100.0,
+      "mood": 46.920000000000066,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting with Isabella Rodriguez at the library to unwind",
+          "created": "2026-07-15 08:12:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-15 08:12:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-15 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-15 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-15 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-15 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-15 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-15 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-15 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-15 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-15 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-15 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-15 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-15 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.61000000000053,
+      "stamina": 96.57999999999987,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        76,
+        29
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u53eb Maria\uff0c\u7ecf\u5e38\u6765 Hobbs Cafe\u3002\u6211\u60f3\u95ee\u95ee\u4f60\u60c5\u4eba\u8282\u805a\u4f1a\u7684\u4e8b\u513f\u3002",
+      "satiety": 93.45500000000048,
+      "stamina": 97.30000000000047,
+      "health": 100.0,
+      "mood": 58.31000000000003,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-15 08:08:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:12:40"
+  }
+}

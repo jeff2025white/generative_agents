@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        90,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.32500000000034,
+      "stamina": 95.23600000000033,
+      "health": 100.0,
+      "mood": 49.829999999999956,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:08:30"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        48,
+        31
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to relax @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.15000000000038,
+      "stamina": 95.72300000000034,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.15000000000038,
+      "stamina": 96.34400000000038,
+      "health": 100.0,
+      "mood": 47.80000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:09:00"
+  }
+}

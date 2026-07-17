@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        108,
+        42
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the library sofa to relax @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.05999999999996,
+      "stamina": 95.46400000000047,
+      "health": 100.0,
+      "mood": 41.47999999999968,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        75,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:The Rose and Crown Pub:pub:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.92999999999988,
+      "stamina": 83.69400000000086,
+      "health": 100.0,
+      "mood": 43.900000000000404,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        89,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.05999999999996,
+      "stamina": 96.40000000000029,
+      "health": 100.0,
+      "mood": 47.159999999999556,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:23:30"
+  }
+}

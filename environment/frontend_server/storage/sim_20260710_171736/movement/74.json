@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        39,
+        36
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.74999999999998,
+      "stamina": 94.17700000000046,
+      "health": 100.0,
+      "mood": 48.499999999999766,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        76,
+        31
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "having a snack at the cafe customer seating @ the Ville:Hobbs Cafe:cafe:cafe customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 33.624999999999936,
+      "stamina": 93.47600000000045,
+      "health": 100.0,
+      "mood": 46.25000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.74999999999998,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 45.49999999999983,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:12:20"
+  }
+}

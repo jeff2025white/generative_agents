@@ -1,0 +1,855 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 11, 2026, 08:12:30",
+  "curr_tile": [
+    83,
+    32
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "resilient, empathetic, approachable",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 34.67999999999998,
+  "stamina": 98.09800000000047,
+  "health": 100.0,
+  "mood": 54.23999999999981,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 34.67999999999998,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 98.09800000000047,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 67.39200000000034,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 54.23999999999981,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 84.63199999999995,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 63.087999999999965,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.24000000000015,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 61.70799999999977,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 60.087999999999965,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 11, 2026, 08:12:30",
+  "last_action_switch_time": "July 11, 2026, 08:10:00",
+  "decision_commit_until_step": 62,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "refrigerator",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "opening the refrigerator to gather food items",
+  "recent_completed_action_signature": {
+    "skill_id": "chat with",
+    "target": "klaus mueller",
+    "intent_family": "communication"
+  },
+  "recent_completed_action_step": 59,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "klaus mueller",
+    "target_address": "<persona> Klaus Mueller",
+    "skill_id": "chat with",
+    "action_description": "having a conversation with Klaus Mueller",
+    "curr_step": 59
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Isabella_Rodriguez-59-1735349016",
+    "sim_code": null,
+    "persona": "Isabella Rodriguez",
+    "curr_step": 59,
+    "sim_time": "2026-07-11 08:09:50",
+    "wall_ts": "2026-07-11T20:43:42.765981+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "chat with",
+      "raw_action": "chat with",
+      "intent_family": null,
+      "target": "Klaus Mueller",
+      "target_type": "persona",
+      "target_address": "<persona> Klaus Mueller",
+      "resolved_target": "Klaus Mueller",
+      "resolution_kind": null,
+      "detail": "having a conversation with Klaus Mueller"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "Klaus Mueller",
+      "resource_instance_key": "<persona> klaus mueller"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.06,
+      "recency_weight": 1.0,
+      "effective_score": 0.06,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Isabella_Rodriguez-59-1735349016",
+      "memory_type": "event",
+      "subject": "Isabella Rodriguez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Isabella Rodriguez successfully used chat with on Klaus Mueller at <persona> Klaus Mueller.",
+      "embedding_text": "Isabella Rodriguez successfully used chat with on Klaus Mueller at <persona> Klaus Mueller.",
+      "keywords": [
+        "chat with",
+        "execution_result",
+        "klaus mueller",
+        "success"
+      ],
+      "poignancy": 4.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "chat with",
+        "target": "Klaus Mueller",
+        "target_address": "<persona> Klaus Mueller",
+        "reason": null,
+        "dominant_motive": null,
+        "resource_instance_key": "<persona> klaus mueller"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-54-94894dd909",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 54,
+      "sim_time": "2026-07-11 08:09:00",
+      "wall_ts": "2026-07-11T20:42:47.932118+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": null,
+        "target": "Klaus Mueller",
+        "target_type": "persona",
+        "target_address": "<persona> Klaus Mueller",
+        "resolved_target": "Klaus Mueller",
+        "resolution_kind": null,
+        "detail": "talking to Klaus Mueller at the cafe"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Klaus Mueller",
+        "resource_instance_key": "<persona> klaus mueller"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-54-94894dd909",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used seek_and_chat on Klaus Mueller at <persona> Klaus Mueller.",
+        "embedding_text": "Isabella Rodriguez successfully used seek_and_chat on Klaus Mueller at <persona> Klaus Mueller.",
+        "keywords": [
+          "execution_result",
+          "klaus mueller",
+          "seek_and_chat",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Klaus Mueller",
+          "target_address": "<persona> Klaus Mueller",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> klaus mueller"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-59-1735349016",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 59,
+      "sim_time": "2026-07-11 08:09:50",
+      "wall_ts": "2026-07-11T20:43:42.765981+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": null,
+        "target": "Klaus Mueller",
+        "target_type": "persona",
+        "target_address": "<persona> Klaus Mueller",
+        "resolved_target": "Klaus Mueller",
+        "resolution_kind": null,
+        "detail": "having a conversation with Klaus Mueller"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Klaus Mueller",
+        "resource_instance_key": "<persona> klaus mueller"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-59-1735349016",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used chat with on Klaus Mueller at <persona> Klaus Mueller.",
+        "embedding_text": "Isabella Rodriguez successfully used chat with on Klaus Mueller at <persona> Klaus Mueller.",
+        "keywords": [
+          "chat with",
+          "execution_result",
+          "klaus mueller",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Klaus Mueller",
+          "target_address": "<persona> Klaus Mueller",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> klaus mueller"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "Klaus Mueller",
+      "target_address": "<persona> Klaus Mueller",
+      "progress_score": 0.0,
+      "curr_step": 54,
+      "expires_after_step": 74
+    },
+    {
+      "target": "Klaus Mueller",
+      "target_address": "<persona> Klaus Mueller",
+      "progress_score": 0.0,
+      "curr_step": 59,
+      "expires_after_step": 79
+    }
+  ],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-60-gather-refrigerator",
+    "phase": "pathing",
+    "address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+    "command": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "opening the refrigerator to gather food items"
+    },
+    "description": "opening the refrigerator to gather food items",
+    "event": [
+      "Isabella Rodriguez",
+      "opening",
+      "refrigerator"
+    ],
+    "path": [
+      [
+        81,
+        32
+      ],
+      [
+        80,
+        32
+      ],
+      [
+        79,
+        32
+      ],
+      [
+        78,
+        32
+      ],
+      [
+        77,
+        32
+      ],
+      [
+        76,
+        32
+      ],
+      [
+        76,
+        31
+      ],
+      [
+        76,
+        30
+      ],
+      [
+        76,
+        29
+      ],
+      [
+        76,
+        28
+      ],
+      [
+        76,
+        27
+      ],
+      [
+        76,
+        26
+      ],
+      [
+        75,
+        26
+      ],
+      [
+        74,
+        26
+      ],
+      [
+        74,
+        25
+      ],
+      [
+        74,
+        24
+      ],
+      [
+        74,
+        23
+      ],
+      [
+        74,
+        22
+      ],
+      [
+        73,
+        22
+      ],
+      [
+        73,
+        21
+      ],
+      [
+        73,
+        20
+      ],
+      [
+        73,
+        19
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 60,
+    "updated_step": 75,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "refrigerator",
+    "target_type": "object",
+    "resolved_target": "refrigerator",
+    "resolved_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+    "description": "opening the refrigerator to gather food items",
+    "command": {
+      "skill_id": "gather",
+      "target": "refrigerator",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "opening the refrigerator to gather food items"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "opening",
+      "refrigerator"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "created_step": 60,
+    "updated_step": 75,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "gather",
+  "active_skill_id": "Isabella Rodriguez-60-gather",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 60,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "refrigerator",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "opening the refrigerator to gather food items"
+  },
+  "social_dialogue_id": "dlg_Maria_Lopez_Isabella_Rodriguez_20260711_081130_69",
+  "social_dialogue_partner": "Maria Lopez",
+  "social_dialogue_role": "target",
+  "social_dialogue_started_step": 71,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "resilient, empathetic, approachable",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:10:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:10:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.. My preferr...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:10:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-11 08:10:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "I am currently talking with Maria Lopez.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-11 08:10:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 107,
+  "importance_ele_n": 22,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Hobbs Cafe:cafe:refrigerator",
+  "act_start_time": "July 11, 2026, 08:10:00",
+  "act_duration": 10,
+  "act_description": "opening the refrigerator to gather food items",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Isabella Rodriguez",
+    "opening",
+    "refrigerator"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "refrigerator",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "opening the refrigerator to gather food items"
+  },
+  "act_obj_description": "refrigerator is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "refrigerator",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      81,
+      32
+    ],
+    [
+      80,
+      32
+    ],
+    [
+      79,
+      32
+    ],
+    [
+      78,
+      32
+    ],
+    [
+      77,
+      32
+    ],
+    [
+      76,
+      32
+    ],
+    [
+      76,
+      31
+    ],
+    [
+      76,
+      30
+    ],
+    [
+      76,
+      29
+    ],
+    [
+      76,
+      28
+    ],
+    [
+      76,
+      27
+    ],
+    [
+      76,
+      26
+    ],
+    [
+      75,
+      26
+    ],
+    [
+      74,
+      26
+    ],
+    [
+      74,
+      25
+    ],
+    [
+      74,
+      24
+    ],
+    [
+      74,
+      23
+    ],
+    [
+      74,
+      22
+    ],
+    [
+      73,
+      22
+    ],
+    [
+      73,
+      21
+    ],
+    [
+      73,
+      20
+    ],
+    [
+      73,
+      19
+    ]
+  ]
+}

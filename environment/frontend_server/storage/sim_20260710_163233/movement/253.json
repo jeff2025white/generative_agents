@@ -1,0 +1,62 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        117,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple to satisfy hunger @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.219999999999928,
+      "stamina": 88.02700000000124,
+      "health": 100.0,
+      "mood": 34.75999999999942,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        124,
+        54
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing on the common room sofa to lift mood @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.41000000000075,
+      "stamina": 99.68600000000002,
+      "health": 100.0,
+      "mood": 51.32000000000024,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        59,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting in the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 80.22000000000021,
+      "stamina": 87.666000000001,
+      "health": 100.0,
+      "mood": 51.71999999999933,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:42:10"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        116,
+        43
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.809999999999967,
+      "stamina": 97.1480000000003,
+      "health": 100.0,
+      "mood": 42.979999999999734,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:19:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-10 08:03:30",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:04:10",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        102,
+        47
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.809999999999967,
+      "stamina": 98.29600000000013,
+      "health": 100.0,
+      "mood": 47.659999999999634,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        31,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.0549999999999,
+      "stamina": 89.78000000000071,
+      "health": 100.0,
+      "mood": 45.15000000000033,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:19:20"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 63.53500000000264,
+      "stamina": 82.05000000000102,
+      "health": 100.0,
+      "mood": 33.250000000000284,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        58,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk and enjoying nature in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.97000000000293,
+      "stamina": 91.8270000000005,
+      "health": 100.0,
+      "mood": 67.6000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        46,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book on the library sofa to improve mood @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.97000000000293,
+      "stamina": 88.93700000000094,
+      "health": 100.0,
+      "mood": 43.959999999999916,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:11:20"
+  }
+}

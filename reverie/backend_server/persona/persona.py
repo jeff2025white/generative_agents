@@ -56,6 +56,21 @@ def _request_chat_wrap_for_physiological_crisis(persona):
   return True
 
 
+def _snapshot_destination_for_step(persona):
+  """Preserve the intended destination before execution clears transient action state."""
+  scratch = getattr(persona, "scratch", None)
+  if scratch is None:
+    return None
+  current_address = getattr(scratch, "act_address", None)
+  if current_address:
+    return current_address
+  current_record = getattr(scratch, "current_action_record", None) or {}
+  resolved_address = current_record.get("resolved_address")
+  if resolved_address:
+    return resolved_address
+  return None
+
+
 class Persona: 
   def __init__(self, name, folder_mem_saved=False):
     # PERSONA BASE STATE 
@@ -302,6 +317,7 @@ class Persona:
           self.scratch.last_retrieved_memories = retrieved
           plan_social_reaction(self, maze, personas, retrieved)
         timings_ms["fast_path_social_scan"] = round((time.perf_counter() - fast_path_scan_started_at) * 1000.0, 3)
+        destination_before_execute = _snapshot_destination_for_step(self)
         execute_started_at = time.perf_counter()
         result = self.execute(maze, personas, self.scratch.act_address)
         timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
@@ -310,7 +326,7 @@ class Persona:
           "mode": "fast_path",
           "total_ms": total_ms,
           "timings_ms": timings_ms,
-          "destination": self.scratch.act_address,
+          "destination": destination_before_execute,
           "remaining_path_len": len(self.scratch.planned_path),
         }
         append_debug_log(
@@ -368,6 +384,7 @@ class Persona:
     # <description> is a string description of the movement. e.g., 
     #   writing her next novel (editing her novel) 
     #   @ double studio:double studio:common room:sofa
+    destination_before_execute = _snapshot_destination_for_step(self)
     execute_started_at = time.perf_counter()
     result = self.execute(maze, personas, plan)
     timings_ms["execute"] = round((time.perf_counter() - execute_started_at) * 1000.0, 3)
@@ -376,7 +393,7 @@ class Persona:
       "mode": "full_pipeline",
       "total_ms": total_ms,
       "timings_ms": timings_ms,
-      "destination": self.scratch.act_address,
+      "destination": destination_before_execute,
       "remaining_path_len": len(self.scratch.planned_path) if self.scratch.planned_path else 0,
     }
     append_debug_log(
@@ -400,7 +417,6 @@ class Persona:
   def open_convo_session(self, convo_mode): 
     open_convo_session(self, convo_mode)
     
-
 
 
 

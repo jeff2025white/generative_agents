@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.85500000000148,
+      "stamina": 91.65000000000047,
+      "health": 100.0,
+      "mood": 42.84999999999974,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        40
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the library sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.41000000000162,
+      "stamina": 86.92700000000072,
+      "health": 100.0,
+      "mood": 64.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        76,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "sitting on the library sofa to relax @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.41000000000162,
+      "stamina": 87.27100000000111,
+      "health": 100.0,
+      "mood": 47.5200000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:39:20"
+  }
+}

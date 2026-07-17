@@ -1,0 +1,74 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        38,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the garden chair to relax and recharge mood @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u662f\u554a\uff0c\u4f60\u4e5f\u559c\u6b22\u8fd9\u79cd\u70ed\u95f9\u7684\u6d3b\u52a8\u561b\u3002",
+      "satiety": 90.44000000000015,
+      "stamina": 89.76300000000066,
+      "health": 100.0,
+      "mood": 63.05999999999976,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is requesting food from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-11 08:17:30"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        45,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u70ed\u95f9\u7684\u6d3b\u52a8\u786e\u5b9e\u80fd\u8ba9\u4eba\u5fc3\u60c5\u597d\u4e00\u4e9b\u3002",
+      "satiety": 32.43999999999997,
+      "stamina": 96.88000000000073,
+      "health": 100.0,
+      "mood": 56.299999999999834,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        37,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.819999999999908,
+      "stamina": 90.64800000000065,
+      "health": 100.0,
+      "mood": 45.60000000000031,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the garden chair to relax and recharge mood",
+          "created": "2026-07-11 08:17:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:17:50"
+  }
+}

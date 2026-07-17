@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about Isabella Rodriguez inviting Maria Lopez to a Valentine's Day party at Hobbs Cafe on February 14th from 5 to 7 PM",
+        "conversing about a Valentine's Day party and new coffee drinks"
+      ]
+    }
+  }
+}

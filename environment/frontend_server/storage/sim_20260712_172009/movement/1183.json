@@ -1,0 +1,260 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        60,
+        56
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and clear the mind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 57.36000000000326,
+      "stamina": 52.430000000002586,
+      "health": 100.0,
+      "mood": 31.390000000000036,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        113,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting help from Klaus Mueller to understand the complexities of the world @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5c31\u4eca\u5929\u4e0b\u5348\u505a\u5462\u3002\u5bf9\u4e86\uff0c\u4f60\u8981\u662f\u6709\u7a7a\uff0c\u6765\u5c1d\u5c1d\u5457\u3002",
+      "satiety": 75.12000000000515,
+      "stamina": 75.06200000000257,
+      "health": 100.0,
+      "mood": 85.92000000000088,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short nap on the common room sofa",
+          "created": "2026-07-12 11:16:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 11:16:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to clear mind",
+          "created": "2026-07-12 11:16:40"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Failed attempts are common",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food-related activities are central",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Library and common room sofas are places of rest and relaxation",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller struggles with a low mood",
+          "created": "2026-07-12 09:34:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller frequently seeks relaxation on sofas",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food consumption and sourcing challenges",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Location-specific interactions are occurring",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Target proximity issues",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Repeated actions and goals reassessment",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Duplicate actions are a common issue",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often seeks relaxation on the sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are seeking relaxation",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Recovery is a key aspect",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 10:32:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk and relaxing in the park garden",
+          "created": "2026-07-12 10:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 09:35:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        93,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6211\u89c9\u5f97\u793e\u533a\u6539\u9020\u633a\u590d\u6742\u7684\uff0c\u50cf\u6211\u7814\u7a76\u7684 gentrification \u5c31\u4f1a\u5e26\u6765\u5f88\u591a\u53d8\u5316\u3002",
+      "satiety": 17.120000000003316,
+      "stamina": 89.2930000000011,
+      "health": 100.0,
+      "mood": 82.01999999999808,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is resting on the library sofa to relax and reassess goals",
+          "created": "2026-07-12 11:16:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:12:30",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:12:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 10:33:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-12 10:50:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 08:12:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is resting on the library sofa to clear the mind",
+          "created": "2026-07-12 11:02:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on the common room and library as places for relaxation and recovery",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is frequently seeking relaxation and recovery",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez and Klaus Mueller both utilize the library sofa for rest",
+          "created": "2026-07-12 09:06:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often uses the library sofa for rest and relaxation",
+          "created": "2026-07-12 09:45:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is also seen resting on sofas",
+          "created": "2026-07-12 09:06:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:48:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 11:17:10"
+  }
+}

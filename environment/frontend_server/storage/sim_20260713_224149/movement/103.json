@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        95,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 91.16000000000065,
+      "stamina": 96.78200000000022,
+      "health": 100.0,
+      "mood": 46.87999999999988,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        101,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.72000000000071,
+      "stamina": 98.0190000000002,
+      "health": 100.0,
+      "mood": 45.84000000000009,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        48,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading and relaxing on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u884c\uff0c\u90a3\u6211\u7ed9\u4f60\u505a\u676f\u62ff\u94c1\u3002\u4f60\u770b\u7740\u653e\u677e\u70b9\u6ca1\uff1f",
+      "satiety": 92.72000000000071,
+      "stamina": 87.96500000000064,
+      "health": 100.0,
+      "mood": 57.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:17:10"
+  }
+}

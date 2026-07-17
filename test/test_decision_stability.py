@@ -394,7 +394,7 @@ class DecisionStabilityTests(unittest.TestCase):
 
         self.assertFalse(can_execute)
 
-    def test_generic_skill_blocks_recent_duplicate_action(self):
+    def test_generic_skill_allows_recent_duplicate_action(self):
         scratch = SimpleNamespace(
             curr_step=20,
             recent_completed_action_signature=build_decision_signature(
@@ -411,7 +411,7 @@ class DecisionStabilityTests(unittest.TestCase):
 
         can_execute = skill.can_execute(persona, "desk", DummyMaze())
 
-        self.assertFalse(can_execute)
+        self.assertTrue(can_execute)
 
 
 if __name__ == "__main__":

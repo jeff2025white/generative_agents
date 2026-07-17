@@ -1,0 +1,194 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        98,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u51c6\u5907\u5f97\u5dee\u4e0d\u591a\u5566\uff0c\u6750\u6599\u90fd\u4e70\u5f97\u5dee\u4e0d\u591a\u4e86\u3002\u4f60\u8981\u662f\u6709\u7a7a\uff0c\u4e5f\u53ef\u4ee5\u6765\u53c2\u52a0\u554a\u3002",
+      "satiety": 78.72000000000207,
+      "stamina": 74.58000000000132,
+      "health": 100.0,
+      "mood": 98.09999999999991,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        21
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a brief nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 78.72000000000207,
+      "stamina": 80.77300000000157,
+      "health": 100.0,
+      "mood": 51.4600000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-12 08:50:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-12 08:12:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 08:31:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 08:13:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:13:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:34:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-12 08:31:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        105,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u8fd9\u4e2a\u8fd8\u6ca1\u60f3\u597d\u5462\uff0c\u5f97\u770b\u5927\u5bb6\u7684\u65f6\u95f4\u3002\u5bf9\u4e86\uff0c\u4f60\u4e0d\u662f\u8981\u529e\u4e2a\u60c5\u4eba\u8282\u805a\u4f1a\u561b\uff0c\u51c6\u5907\u5f97\u548b\u6837\u4e86\uff1f",
+      "satiety": 74.1600000000019,
+      "stamina": 88.5360000000008,
+      "health": 100.0,
+      "mood": 62.00000000000006,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is reading a book to lift my mood",
+          "created": "2026-07-12 08:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is resting on the common room sofa at Hobbs Cafe",
+          "created": "2026-07-12 08:50:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is relaxing on the common room sofa in the library",
+          "created": "2026-07-12 08:50:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is reading a book on the library sofa",
+          "created": "2026-07-12 08:46:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:32:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden to relax",
+          "created": "2026-07-12 08:35:00",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:50:30"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        76,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 90.97000000000088,
+      "stamina": 96.34400000000038,
+      "health": 100.0,
+      "mood": 44.84000000000011,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is visiting the park garden for mood improvement",
+          "created": "2026-07-13 08:20:50"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        70,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 89.0350000000008,
+      "stamina": 94.62000000000037,
+      "health": 100.0,
+      "mood": 51.67999999999992,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:19:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-13 08:19:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading and relaxing on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u884c\uff0c\u90a3\u6211\u7ed9\u4f60\u505a\u676f\u62ff\u94c1\u3002\u4f60\u770b\u7740\u653e\u677e\u70b9\u6ca1\uff1f",
+      "satiety": 90.97000000000088,
+      "stamina": 85.9900000000008,
+      "health": 100.0,
+      "mood": 57.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:20:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:21:20"
+  }
+}

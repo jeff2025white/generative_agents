@@ -1,0 +1,1496 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 13, 2026, 09:19:00",
+  "curr_tile": [
+    95,
+    32
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "inquisitive, studious, reflective",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 66.75000000000324,
+  "stamina": 45.539000000001636,
+  "health": 100.0,
+  "mood": 62.76000000000023,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 66.75000000000324,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 45.539000000001636,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 61.299999999999784,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 62.76000000000023,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 54.499999999998515,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 44.19999999999873,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.299999999999784,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 59.449999999999676,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 64.50000000000189,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 13, 2026, 09:19:00",
+  "last_action_switch_time": "July 13, 2026, 09:06:20",
+  "decision_commit_until_step": 400,
+  "last_decision_signature": {
+    "skill_id": "rest",
+    "target": "library sofa",
+    "intent_family": "restore_stamina"
+  },
+  "last_decision_reason": "reading a book to relax and find inspiration for research",
+  "recent_completed_action_signature": {
+    "skill_id": "leisure_use",
+    "target": "park garden",
+    "intent_family": "restore_mood"
+  },
+  "recent_completed_action_step": 397,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "park garden",
+    "target_address": "the Ville:Johnson Park:park",
+    "skill_id": "leisure_use",
+    "action_description": "taking a short walk in the park garden to relax and lift my mood",
+    "curr_step": 397
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Klaus_Mueller-397-6b5f4771e0",
+    "sim_code": null,
+    "persona": "Klaus Mueller",
+    "curr_step": 397,
+    "sim_time": "2026-07-13 09:06:10",
+    "wall_ts": "2026-07-13T22:57:36.204734+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "leisure_use",
+      "raw_action": "Recreate",
+      "intent_family": "restore_mood",
+      "target": "park garden",
+      "target_type": "place",
+      "target_address": "the Ville:Johnson Park:park",
+      "resolved_target": "park garden",
+      "resolution_kind": null,
+      "detail": "taking a short walk in the park garden to relax and lift my mood"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "park garden",
+      "resource_instance_key": "the ville:johnson park:park"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.06,
+      "recency_weight": 1.0,
+      "effective_score": 0.06,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Klaus_Mueller-397-6b5f4771e0",
+      "memory_type": "event",
+      "subject": "Klaus Mueller",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+      "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+      "keywords": [
+        "execution_result",
+        "leisure_use",
+        "park garden",
+        "restore_mood",
+        "success"
+      ],
+      "poignancy": 4.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "leisure_use",
+        "target": "park garden",
+        "target_address": "the Ville:Johnson Park:park",
+        "reason": null,
+        "dominant_motive": null,
+        "resource_instance_key": "the ville:johnson park:park"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-192-99ba4e5b53",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 192,
+      "sim_time": "2026-07-13 08:32:00",
+      "wall_ts": "2026-07-13T22:50:48.462651+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to clear the mind"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-192-99ba4e5b53",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-193-c06fc385b2",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 193,
+      "sim_time": "2026-07-13 08:32:10",
+      "wall_ts": "2026-07-13T22:51:03.217279+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to clear the mind"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-193-c06fc385b2",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-194-0496de91af",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 194,
+      "sim_time": "2026-07-13 08:32:20",
+      "wall_ts": "2026-07-13T22:51:18.177764+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to clear the mind"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-194-0496de91af",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-300-8897764fab",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 300,
+      "sim_time": "2026-07-13 08:50:00",
+      "wall_ts": "2026-07-13T22:55:00.310289+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "study",
+        "raw_action": "Work",
+        "intent_family": "study",
+        "target": "library",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:classroom",
+        "resolved_target": "classroom",
+        "resolution_kind": null,
+        "detail": "working on research paper in the library"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "library",
+        "resource_instance_key": "the ville:oak hill college:classroom"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-300-8897764fab",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used study on library at the Ville:Oak Hill College:classroom.",
+        "embedding_text": "Klaus Mueller successfully used study on library at the Ville:Oak Hill College:classroom.",
+        "keywords": [
+          "execution_result",
+          "library",
+          "study",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "study",
+          "target": "library",
+          "target_address": "the Ville:Oak Hill College:classroom",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:oak hill college:classroom"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-394-21a3da38da",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 394,
+      "sim_time": "2026-07-13 09:05:40",
+      "wall_ts": "2026-07-13T22:56:47.036186+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to relax"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-394-21a3da38da",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-395-a247b149da",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 395,
+      "sim_time": "2026-07-13 09:05:50",
+      "wall_ts": "2026-07-13T22:57:08.685219+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to relax"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-395-a247b149da",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-396-bddaf43773",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 396,
+      "sim_time": "2026-07-13 09:06:00",
+      "wall_ts": "2026-07-13T22:57:19.911842+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to relax"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-396-bddaf43773",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-397-6b5f4771e0",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 397,
+      "sim_time": "2026-07-13 09:06:10",
+      "wall_ts": "2026-07-13T22:57:36.204734+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "Recreate",
+        "intent_family": "restore_mood",
+        "target": "park garden",
+        "target_type": "place",
+        "target_address": "the Ville:Johnson Park:park",
+        "resolved_target": "park garden",
+        "resolution_kind": null,
+        "detail": "taking a short walk in the park garden to relax and lift my mood"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "park garden",
+        "resource_instance_key": "the ville:johnson park:park"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-397-6b5f4771e0",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on park garden at the Ville:Johnson Park:park.",
+        "keywords": [
+          "execution_result",
+          "leisure_use",
+          "park garden",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "park garden",
+          "target_address": "the Ville:Johnson Park:park",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:johnson park:park"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "park garden",
+      "target_address": "the Ville:Johnson Park:park",
+      "progress_score": 0.0,
+      "curr_step": 394,
+      "expires_after_step": 414
+    },
+    {
+      "target": "park garden",
+      "target_address": "the Ville:Johnson Park:park",
+      "progress_score": 0.0,
+      "curr_step": 395,
+      "expires_after_step": 415
+    },
+    {
+      "target": "park garden",
+      "target_address": "the Ville:Johnson Park:park",
+      "progress_score": 0.0,
+      "curr_step": 396,
+      "expires_after_step": 416
+    },
+    {
+      "target": "park garden",
+      "target_address": "the Ville:Johnson Park:park",
+      "progress_score": 0.0,
+      "curr_step": 397,
+      "expires_after_step": 417
+    }
+  ],
+  "active_execution_state": {
+    "id": "Klaus Mueller-398-rest-library sofa",
+    "phase": "pathing",
+    "address": "the Ville:Oak Hill College:library:library sofa",
+    "command": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "intent_family": "restore_stamina",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "reading a book to relax and find inspiration for research"
+    },
+    "description": "reading a book to relax and find inspiration for research",
+    "event": [
+      "Klaus Mueller",
+      "reading",
+      "book"
+    ],
+    "path": [
+      [
+        97,
+        32
+      ],
+      [
+        98,
+        32
+      ],
+      [
+        99,
+        32
+      ],
+      [
+        100,
+        32
+      ],
+      [
+        101,
+        32
+      ],
+      [
+        102,
+        32
+      ],
+      [
+        103,
+        32
+      ],
+      [
+        104,
+        32
+      ],
+      [
+        105,
+        32
+      ],
+      [
+        106,
+        32
+      ],
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        109,
+        32
+      ],
+      [
+        109,
+        31
+      ],
+      [
+        109,
+        30
+      ],
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ],
+      [
+        113,
+        30
+      ],
+      [
+        114,
+        30
+      ],
+      [
+        115,
+        30
+      ],
+      [
+        116,
+        30
+      ],
+      [
+        117,
+        30
+      ],
+      [
+        118,
+        30
+      ],
+      [
+        119,
+        30
+      ],
+      [
+        119,
+        29
+      ],
+      [
+        119,
+        28
+      ],
+      [
+        119,
+        27
+      ],
+      [
+        119,
+        26
+      ],
+      [
+        119,
+        25
+      ],
+      [
+        119,
+        24
+      ],
+      [
+        119,
+        23
+      ],
+      [
+        119,
+        22
+      ],
+      [
+        119,
+        21
+      ],
+      [
+        119,
+        20
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "intent_family": "restore_stamina"
+    },
+    "started_step": 398,
+    "updated_step": 474,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "rest",
+    "intent_family": "restore_stamina",
+    "target": "library sofa",
+    "target_type": "object",
+    "resolved_target": "sofa",
+    "resolved_address": "the Ville:Oak Hill College:library:library sofa",
+    "description": "reading a book to relax and find inspiration for research",
+    "command": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "intent_family": "restore_stamina",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "reading a book to relax and find inspiration for research"
+    },
+    "event": [
+      "Klaus Mueller",
+      "reading",
+      "book"
+    ],
+    "duration": 60,
+    "creator_instruction": null,
+    "created_step": 398,
+    "updated_step": 474,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "rest",
+  "active_skill_id": "Klaus Mueller-398-rest",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 398,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "library sofa",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "reading a book to relax and find inspiration for research"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "even-tempered, welcoming, energetic",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "chat_interaction"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, reflective",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller, a dedicated researcher, is deeply engaged in writing a comprehensive paper on gentrification's impact on low-income communities. He regularly frequents Oak Hill College's library, leveraging its resources to enhance his work, and often engages in various scholarly activities alongside his writing. Klaus's routine includes dining at Hobbs Ca...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals are to secure a stable life, focusing on my studies and contributing to social justice. I understand the world as a complex tapestry of diverse perspectives, and I aim to navigate it by engaging in research and community activities. My routines, like utilizing library resources and engaging with peers like Isabella, are integral to my growth and ambition to make a meaningful impact.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Isabella Rodriguez\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: even-tempered, welcoming, energetic\u3002 \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Klaus Mueller Isabella Rodriguez expressed interest in Klaus Mueller's research and found it meaningful.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-13 09:17:10",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-13 09:06:20"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 20,
+  "importance_ele_n": 40,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Oak Hill College:library:library sofa",
+  "act_start_time": "July 13, 2026, 09:06:20",
+  "act_duration": 60,
+  "act_description": "reading a book to relax and find inspiration for research",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Klaus Mueller",
+    "reading",
+    "book"
+  ],
+  "act_command": {
+    "skill_id": "rest",
+    "target": "library sofa",
+    "intent_family": "restore_stamina",
+    "source": "decision_translation",
+    "raw_action": "Recreate",
+    "detail": "reading a book to relax and find inspiration for research"
+  },
+  "act_obj_description": "library sofa is being used for work",
+  "act_obj_pronunciatio": "\ud83d\udcda",
+  "act_obj_event": [
+    "library sofa",
+    "is",
+    "being used for work"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      97,
+      32
+    ],
+    [
+      98,
+      32
+    ],
+    [
+      99,
+      32
+    ],
+    [
+      100,
+      32
+    ],
+    [
+      101,
+      32
+    ],
+    [
+      102,
+      32
+    ],
+    [
+      103,
+      32
+    ],
+    [
+      104,
+      32
+    ],
+    [
+      105,
+      32
+    ],
+    [
+      106,
+      32
+    ],
+    [
+      107,
+      32
+    ],
+    [
+      108,
+      32
+    ],
+    [
+      109,
+      32
+    ],
+    [
+      109,
+      31
+    ],
+    [
+      109,
+      30
+    ],
+    [
+      110,
+      30
+    ],
+    [
+      111,
+      30
+    ],
+    [
+      112,
+      30
+    ],
+    [
+      113,
+      30
+    ],
+    [
+      114,
+      30
+    ],
+    [
+      115,
+      30
+    ],
+    [
+      116,
+      30
+    ],
+    [
+      117,
+      30
+    ],
+    [
+      118,
+      30
+    ],
+    [
+      119,
+      30
+    ],
+    [
+      119,
+      29
+    ],
+    [
+      119,
+      28
+    ],
+    [
+      119,
+      27
+    ],
+    [
+      119,
+      26
+    ],
+    [
+      119,
+      25
+    ],
+    [
+      119,
+      24
+    ],
+    [
+      119,
+      23
+    ],
+    [
+      119,
+      22
+    ],
+    [
+      119,
+      21
+    ],
+    [
+      119,
+      20
+    ]
+  ]
+}

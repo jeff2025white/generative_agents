@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about the impact of community development on Hobbs Cafe",
+        "conversing about planning a Valentine's Day party at a café",
+        "conversing about a Valentine's Day party preparation and the host's plans for games and desserts"
+      ]
+    }
+  }
+}

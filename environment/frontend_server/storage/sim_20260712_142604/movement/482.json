@@ -1,0 +1,182 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        32,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 32 42",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u653e\u5fc3\uff0c\u4e0d\u4f1a\u8ba9\u4f60\u7b49\u592a\u4e45\u7684\uff0c\u6211\u8fd9\u8fb9\u9a6c\u4e0a\u5c31\u5f04\u597d\u4e86\u3002",
+      "satiety": 64.19000000000105,
+      "stamina": 92.61999999999972,
+      "health": 100.0,
+      "mood": 60.719999999998656,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        89,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4e0d\u5ba2\u6c14\u5440\uff0c\u4f60\u6162\u6162\u5403\u3002\u6211\u5f97\u8d76\u7d27\u53bb\u970d\u5e03\u65af\u5496\u5561\u9986\u4e86\uff0c\u8fd8\u5f97\u5b66\u4e60\u5462\u3002",
+      "satiety": 56.9450000000006,
+      "stamina": 74.78800000000176,
+      "health": 100.0,
+      "mood": 62.38000000000113,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        123,
+        45
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u8c22\u8c22\u554a\uff0c\u4f60\u81ea\u5df1\u4e5f\u7559\u7740\u70b9\u5403\u3002\u6211\u5403\u5b8c\u4e5f\u5f97\u53bb\u56fe\u4e66\u9986\u4e86\uff0c\u8fd8\u6709\u8bba\u6587\u6ca1\u5199\u5b8c\u5462\u3002",
+      "satiety": 6.189999999999863,
+      "stamina": 81.5590000000019,
+      "health": 98.94000000000021,
+      "mood": 12.599999999999262,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 09:20:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed idle attempt on none at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because rest_target_missing.",
+          "created": "2026-07-12 09:19:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-12 08:33:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idling",
+          "created": "2026-07-12 08:37:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 09:13:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is experiencing multiple failed request attempts",
+          "created": "2026-07-12 08:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Failed request attempts are often due to inventory issues",
+          "created": "2026-07-12 08:46:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-12 09:01:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "toaster is idle",
+          "created": "2026-07-12 09:20:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-12 09:20:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 09:20:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2026-07-12 09:19:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:53:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:20:20"
+  }
+}

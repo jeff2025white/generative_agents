@@ -1,0 +1,168 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        56,
+        26
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting down to relax and reset mood @ the Ville:The Rose and Crown Pub:pub:behind the bar counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 89.04000000000025,
+      "stamina": 90.18300000000079,
+      "health": 100.0,
+      "mood": 54.239999999999725,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        108,
+        34
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.11999999999989,
+      "stamina": 88.85000000000078,
+      "health": 100.0,
+      "mood": 43.600000000000364,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        122,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple for breakfast @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:desk",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.039999999999964,
+      "stamina": 92.50700000000036,
+      "health": 100.0,
+      "mood": 43.31999999999971,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "toaster is idle",
+          "created": "2026-07-10 08:20:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the sofa to read a book",
+          "created": "2026-07-10 08:15:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-10 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-10 08:03:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-10 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom student seating is idle",
+          "created": "2026-07-10 08:15:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom podium is idle",
+          "created": "2026-07-10 08:15:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-10 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-10 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-10 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-10 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "stove is idle",
+          "created": "2026-07-10 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-10 08:10:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:21:10"
+  }
+}

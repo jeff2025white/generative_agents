@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        124,
+        53
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Willows Market and Pharmacy:store:grocery store counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.574999999999996,
+      "stamina": 99.59800000000003,
+      "health": 100.0,
+      "mood": 49.750000000000014,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        46
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:garden:dorm garden",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.65,
+      "stamina": 99.69400000000003,
+      "health": 100.0,
+      "mood": 49.69999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        77,
+        14
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Ryan Park's apartment:main room:cooking area",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.65,
+      "stamina": 99.63900000000002,
+      "health": 100.0,
+      "mood": 49.899999999999984,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:00:40"
+  }
+}

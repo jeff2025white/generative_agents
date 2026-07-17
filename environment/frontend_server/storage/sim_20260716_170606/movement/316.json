@@ -1,0 +1,233 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        47,
+        31
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "starting a conversation with Klaus to seek relaxation @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u4f60\u53ef\u5f97\u5feb\u70b9\uff0c\u6211\u8fd9\u91cc\u7684\u4e1c\u897f\u90fd\u662f\u73b0\u505a\u7684\u3002",
+      "satiety": 65.81000000000152,
+      "stamina": 99.00700000000008,
+      "health": 100.0,
+      "mood": 49.51999999999911,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        78,
+        17
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Isabella Rodriguez's apartment:main room:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u6211\u5feb\u997f\u574f\u4e86\uff0c\u90a3\u6211\u5c31\u53bb\u4f60\u5496\u5561\u9986\uff0c\u987a\u4fbf\u542c\u542c\u4f60\u7684\u6d3e\u5bf9\u8ba1\u5212\u3002",
+      "satiety": 7.80999999999991,
+      "stamina": 78.93500000000218,
+      "health": 100.0,
+      "mood": 29.19999999999967,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-16 08:52:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-16 08:52:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Ryan Park's apartment:main room:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:34:10",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Hobbs Cafe:cafe:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:28:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Arthur Burton's apartment:main room:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:42:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:The Rose and Crown Pub:pub:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:19:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:03:30",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idling",
+          "created": "2026-07-16 08:51:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:36:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idling",
+          "created": "2026-07-16 08:30:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller has difficulties with gathering food items",
+          "created": "2026-07-16 08:42:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2026-07-16 08:30:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-16 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-16 08:40:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-16 08:39:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-16 08:43:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-16 08:50:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-16 08:30:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-16 08:35:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bar customer seating is idle",
+          "created": "2026-07-16 08:39:10",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        77,
+        14
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 3.054999999999782,
+      "stamina": 72.37000000000192,
+      "health": 99.5000000000001,
+      "mood": 16.39000000000024,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-16 08:52:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:The Rose and Crown Pub:pub:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:18:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Hobbs Cafe:cafe:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:26:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Ryan Park's apartment:main room:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:32:50",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Arthur Burton's apartment:main room:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:41:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Isabella Rodriguez's apartment:main room:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:52:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-16 08:02:10",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is opening the refrigerator to gather food items",
+          "created": "2026-07-16 08:51:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-16 08:38:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:52:40"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about a friendly interaction between a store owner and a customer offering a coffee break",
+        "conversing about a friendly interaction between a store owner and a customer offering a coffee break"
+      ]
+    },
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about Maria wants to discuss something about the Hobbs Cafe with Isabella"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about a casual chat about Isabella Rodriguez's visit to Klaus Mueller and their discussions on research and reading"
+      ]
+    }
+  }
+}

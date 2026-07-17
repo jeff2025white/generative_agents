@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        73,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "sitting on the library sofa to relax @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.6200000000016,
+      "stamina": 87.47200000000109,
+      "health": 100.0,
+      "mood": 47.6400000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 80.11000000000146,
+      "stamina": 91.80000000000047,
+      "health": 100.0,
+      "mood": 42.979999999999734,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        41
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.6200000000016,
+      "stamina": 87.09600000000071,
+      "health": 100.0,
+      "mood": 64.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 08:38:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 08:37:50",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 08:37:40",
+          "poignancy": 5.0
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:38:50"
+  }
+}

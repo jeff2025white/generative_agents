@@ -80,6 +80,17 @@ def _truncate_text(value, limit=160):
   return text[:limit] + "...(truncated)"
 
 
+def _preview_response(value, limit=1200):
+  try:
+    if isinstance(value, (dict, list)):
+      text = json.dumps(value, ensure_ascii=False)
+    else:
+      text = str(value or "")
+  except Exception:
+    text = str(value or "")
+  return _truncate_text(text, limit=limit)
+
+
 def _ns_to_ms(value):
   if value in (None, "", 0):
     return 0.0
@@ -439,8 +450,9 @@ def ChatGPT_safe_generate_response(prompt,
   metadata = dict(metadata or {})
   prompt = '"""\n' + prompt + '\n"""\n'
   prompt += f"Output the response to the prompt above in json. {special_instruction}\n"
-  prompt += "Example output json:\n"
-  prompt += '{"output": "' + str(example_output) + '"}'
+  if example_output is not None:
+    prompt += "Example output json:\n"
+    prompt += '{"output": "' + str(example_output) + '"}'
 
   if verbose: 
     print ("CHAT GPT PROMPT")
@@ -453,6 +465,7 @@ def ChatGPT_safe_generate_response(prompt,
   safe_started_at = time.perf_counter()
   for i in range(repeat): 
     raw_response = ""
+    parsed_response_preview = ""
     attempt_started_at = time.perf_counter()
     try: 
       raw_response = ChatGPT_request(
@@ -488,6 +501,7 @@ def ChatGPT_safe_generate_response(prompt,
           curr_gpt_response = output_val
       else:
         curr_gpt_response = data
+      parsed_response_preview = _preview_response(curr_gpt_response)
       
       is_valid = func_validate(curr_gpt_response, prompt=prompt)
       _log_llm_event(
@@ -500,6 +514,8 @@ def ChatGPT_safe_generate_response(prompt,
           "repeat": repeat,
           "valid": bool(is_valid),
           "raw_response_chars": len(str(raw_response)),
+          "raw_response_preview": _preview_response(raw_response),
+          "parsed_response_preview": parsed_response_preview,
           "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
           "status": "ok",
           "metadata": metadata,
@@ -543,6 +559,8 @@ def ChatGPT_safe_generate_response(prompt,
           "repeat": repeat,
           "valid": False,
           "raw_response_chars": len(str(raw_response)),
+          "raw_response_preview": _preview_response(raw_response),
+          "parsed_response_preview": parsed_response_preview,
           "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
           "status": "exception",
           "error": _truncate_text(e, 240),
@@ -799,8 +817,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
 
 
 

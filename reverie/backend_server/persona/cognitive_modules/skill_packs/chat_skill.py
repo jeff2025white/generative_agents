@@ -28,13 +28,21 @@ from persona.cognitive_modules.social_dialogue_log import (
 )
 from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.stage1_prompt_compiler import (
+    build_motive_guidance_text,
     remember_known_persona_profile,
+    refresh_prompt_profile_from_reflection,
+)
+from persona.cognitive_modules.memory_effects import (
+    capture_attribute_snapshot,
+    compute_attribute_effects,
+    record_stat_change_experience,
 )
 from persona.cognitive_modules.motive_selector import (
     build_default_motive_attributes,
     select_motives,
     sync_core_motive_values,
 )
+from persona.cognitive_modules.social_trigger import compute_social_cooldown
 from llm_api_config import (
     get_default_social_chat_request_config,
     get_default_translation_request_config,
@@ -359,11 +367,33 @@ def format_social_chat_profile(persona):
     if not scratch:
         return f"Name: {getattr(persona, 'name', 'Unknown')}"
 
+    getter = getattr(scratch, "get_prompt_profile_field", None)
+    if callable(getter):
+        innate_traits = str(
+            getter("innate_traits_text", getattr(scratch, "innate", "") or "unknown")
+            or "unknown"
+        ).strip()
+        learned_traits = str(
+            getter("learned_traits_text", getattr(scratch, "learned", "") or "unknown")
+            or "unknown"
+        ).strip()
+        current_life_context = str(
+            getter(
+                "current_situation_text",
+                getattr(scratch, "currently", "") or "unknown",
+            )
+            or "unknown"
+        ).strip()
+    else:
+        innate_traits = str(getattr(scratch, "innate", "") or "unknown").strip()
+        learned_traits = str(getattr(scratch, "learned", "") or "unknown").strip()
+        current_life_context = str(getattr(scratch, "currently", "") or "unknown").strip()
+
     profile_lines = [
         f"Name: {persona.name}",
-        f"Innate traits: {str(getattr(scratch, 'innate', '') or 'unknown').strip()}",
-        f"Learned traits: {str(getattr(scratch, 'learned', '') or 'unknown').strip()}",
-        f"Current life context: {str(getattr(scratch, 'currently', '') or 'unknown').strip()}",
+        f"Innate traits: {innate_traits}",
+        f"Learned traits: {learned_traits}",
+        f"Current life context: {current_life_context}",
     ]
     return "\n".join(profile_lines)
 
@@ -384,47 +414,78 @@ def format_social_chat_relationship(rel, recent_events=None):
     )
 
 
+def _describe_motive_name(motive):
+    labels = {
+        "satiety": "进食与饱腹",
+        "stamina": "休息与恢复体力",
+        "health": "身体恢复与自我照顾",
+        "safety": "安全感与避险",
+        "mood": "情绪修复与放松",
+        "belonging": "陪伴、连接与被接纳",
+        "status": "体面、表现与被看见",
+        "autonomy": "主动权与自己做主",
+        "competence": "把事情做好与证明能力",
+        "meaning": "方向感、秩序与意义感",
+    }
+    return labels.get(str(motive or "").strip(), str(motive or "unknown").strip() or "unknown")
+
+
+def _build_social_chat_topic_bias(dominant_motive, secondary_motive, dominant_text, secondary_text, dialogue_goal):
+    dominant_label = _describe_motive_name(dominant_motive)
+    secondary_label = _describe_motive_name(secondary_motive) if secondary_motive else ""
+    parts = [
+        f"这轮对话最好优先贴着主导动机“{dominant_label}”展开",
+    ]
+    if dominant_text:
+        parts.append(f"说话时要让人感觉到：{dominant_text}")
+    if secondary_label:
+        parts.append(f"其次可以轻轻带出“{secondary_label}”这一层顾虑或期待")
+    if secondary_text:
+        parts.append(f"副动机在语气里的影子可以是：{secondary_text}")
+    if dialogue_goal:
+        parts.append(f"同时别忘了这轮对话本来的目标是：{dialogue_goal}")
+    return "；".join(parts) + "。"
+
+
 def format_social_chat_state(persona):
     """Summarize the actor's visible state so dialogue can reflect urgency and tone."""
     scratch = getattr(persona, "scratch", None)
     if not scratch:
         return f"{getattr(persona, 'name', 'Unknown')}: no state available."
 
+    profile_getter = getattr(scratch, "get_prompt_profile_field", None)
     curr_time = getattr(scratch, "curr_time", None)
     curr_time_str = curr_time.strftime("%Y-%m-%d %H:%M") if curr_time else "unknown"
     act_desc = str(getattr(scratch, "act_description", None) or "idle").strip()
     is_moving = bool(getattr(scratch, "planned_path", None))
-    satiety = float(getattr(scratch, "satiety", 0.0) or 0.0)
-    stamina = float(getattr(scratch, "stamina", 0.0) or 0.0)
-    health = float(getattr(scratch, "health", 0.0) or 0.0)
-    mood = float(getattr(scratch, "mood", 0.0) or 0.0)
 
-    pressure_tags = []
-    if satiety < 30.0:
-        pressure_tags.append("hungry")
-    if stamina < 30.0:
-        pressure_tags.append("tired")
-    if health < 40.0:
-        pressure_tags.append("physically_unwell")
-    if mood < 35.0:
-        pressure_tags.append("low_mood")
-    if not pressure_tags:
-        pressure_tags.append("stable")
+    current_situation = ""
+    if callable(profile_getter):
+        current_situation = str(
+            profile_getter(
+                "current_situation_text",
+                getattr(scratch, "currently", "") or "",
+            )
+            or ""
+        ).strip()
 
     dominant_motive = "unknown"
     secondary_motive = ""
     urgency_band = "unknown"
     motive_sentence = ""
+    dominant_text = ""
+    secondary_text = ""
+
     getter = getattr(scratch, "get_motive_attributes_snapshot", None)
     if callable(getter):
         motive_attributes = getter()
     else:
         motive_attributes = sync_core_motive_values(
             build_default_motive_attributes(),
-            satiety=satiety,
-            stamina=stamina,
-            health=health,
-            mood=mood,
+            satiety=float(getattr(scratch, "satiety", 0.0) or 0.0),
+            stamina=float(getattr(scratch, "stamina", 0.0) or 0.0),
+            health=float(getattr(scratch, "health", 0.0) or 0.0),
+            mood=float(getattr(scratch, "mood", 0.0) or 0.0),
         )
     try:
         motive_result = select_motives(motive_attributes)
@@ -432,6 +493,8 @@ def format_social_chat_state(persona):
         secondary_motive = str(motive_result.get("secondary_motive") or "").strip()
         urgency_band = str(motive_result.get("dominant_urgency_band") or "unknown").strip() or "unknown"
         motive_sentence = str(motive_result.get("motive_sentence") or "").strip()
+        dominant_text = str(motive_result.get("dominant_motive_text") or "").strip()
+        secondary_text = str(motive_result.get("secondary_motive_text") or "").strip()
     except Exception:
         pass
     dialogue_goal = str(getattr(scratch, "social_dialogue_topic", "") or "").strip()
@@ -439,17 +502,34 @@ def format_social_chat_state(persona):
     if not dialogue_goal:
         dialogue_goal = action_detail or act_desc
 
+    dominant_label = _describe_motive_name(dominant_motive)
+    secondary_label = _describe_motive_name(secondary_motive) if secondary_motive and secondary_motive != dominant_motive else ""
+    movement_text = "正在移动或赶路，说话通常会更短更直接" if is_moving else "暂时停下来了，可以稍微完整地把话说出来"
+    urgency_text = {
+        "critical": "这股主导动机已经很强，会明显牵着这轮说话走",
+        "warning": "这股主导动机正在往前顶，会悄悄影响这轮对话的方向",
+        "stable": "主导动机存在，但更像轻微偏好，不一定会强硬主导整轮对话",
+        "unknown": "此刻没有特别清晰的紧迫驱动",
+    }.get(urgency_band, "此刻没有特别清晰的紧迫驱动")
+    topic_bias = _build_social_chat_topic_bias(
+        dominant_motive,
+        secondary_motive if secondary_label else "",
+        dominant_text or motive_sentence,
+        secondary_text,
+        dialogue_goal,
+    )
+
     return (
         f"{persona.name}: time={curr_time_str}; "
-        f"current_action={act_desc}; "
-        f"movement={'moving' if is_moving else 'stationary'}; "
-        f"mood={mood:.1f}; satiety={satiety:.1f}; stamina={stamina:.1f}; health={health:.1f}; "
-        f"pressure={', '.join(pressure_tags)}; "
-        f"dominant_motive={dominant_motive}; "
-        + (f"secondary_motive={secondary_motive}; " if secondary_motive and secondary_motive != dominant_motive else "")
-        + f"urgency={urgency_band}; "
-        + (f"motive_pull={motive_sentence}; " if motive_sentence else "")
-        + (f"conversation_goal={dialogue_goal}." if dialogue_goal else "conversation_goal=none.")
+        + (f"current_situation={current_situation}; " if current_situation else "")
+        + f"current_action={act_desc}; "
+        + f"movement_note={movement_text}; "
+        + f"primary_motive={dominant_label}; "
+        + (f"primary_motive_pull={dominant_text or motive_sentence}; " if (dominant_text or motive_sentence) else "")
+        + (f"secondary_motive={secondary_label}; " if secondary_label else "")
+        + (f"secondary_motive_pull={secondary_text}; " if secondary_text else "")
+        + f"motive_urgency_note={urgency_text}; "
+        + f"topic_bias={topic_bias}"
     )
 
 
@@ -598,6 +678,158 @@ def apply_social_relationship_effect(persona, target_persona, convo_summary, tru
         trust_delta=trust_delta,
         recent_event=convo_summary,
     )
+
+
+def apply_mutual_social_relationship_effects(persona, target_persona, convo_summary,
+                                             actor_trust_delta=0.02,
+                                             target_trust_delta=0.02):
+    """Apply post-chat relationship gains for both participants."""
+    apply_social_relationship_effect(
+        persona,
+        target_persona,
+        convo_summary,
+        trust_delta=actor_trust_delta,
+    )
+    apply_social_relationship_effect(
+        target_persona,
+        persona,
+        convo_summary,
+        trust_delta=target_trust_delta,
+    )
+
+
+def persist_social_summary_memory(persona, target_persona, convo_summary):
+    """Persist a conversation-summary event into one persona's associative memory."""
+    is_emb = get_embedding(convo_summary)
+    return persona.a_mem.add_event(
+        persona.scratch.curr_time, None,
+        persona.name, "chat with", target_persona.name,
+        convo_summary, {"chat", persona.scratch.first_name, target_persona.scratch.first_name}, 6,
+        (convo_summary, is_emb), None
+    )
+
+
+def record_social_chat_experience(persona, target_persona, convo_summary, attribute_effects):
+    """Persist a stat-tagged experience memory so future retrieval can prefer chat as mood support."""
+    relationship = getattr(persona.a_mem, "get_relationship", lambda _name: None)(target_persona.name) or {}
+    relationship_name = str(relationship.get("relationship") or "acquaintance").strip().lower() or "acquaintance"
+    trust_value = float(relationship.get("trust", 0.0) or 0.0)
+    description = (
+        f"{persona.name} felt better after talking with {target_persona.name}. "
+        f"Conversation summary: {convo_summary}"
+    )
+    keywords = {
+        "chat",
+        "conversation",
+        "social_support",
+        "restore_mood",
+        "belonging",
+        target_persona.name.lower(),
+        relationship_name,
+    }
+    if trust_value >= 0.6:
+        keywords.add("trusted_person")
+    record_stat_change_experience(
+        persona,
+        description,
+        keywords,
+        attribute_effects,
+        poignancy=6.5,
+        predicate="felt_better_after_talking_with",
+        obj=target_persona.name,
+    )
+
+
+def _store_post_conversation_reflection(persona, target_persona, convo):
+    """Immediately convert a finished dialogue into planning/memo thoughts."""
+    if not convo:
+        return
+    all_utt = "\n".join(f"{speaker}: {utterance}" for speaker, utterance in convo)
+    if not all_utt.strip():
+        return
+
+    last_chat = persona.a_mem.get_last_chat(target_persona.name)
+    evidence = [last_chat.node_id] if last_chat else []
+    created = persona.scratch.curr_time
+    expiration = created + datetime.timedelta(days=30) if created else None
+
+    try:
+        from persona.cognitive_modules.reflect import (
+            generate_action_event_triple,
+            generate_memo_on_convo,
+            generate_planning_thought_on_convo,
+            generate_poig_score,
+        )
+    except Exception:
+        return
+
+    thought_specs = []
+    try:
+        planning_thought = generate_planning_thought_on_convo(persona, all_utt)
+        if planning_thought:
+            thought_specs.append((
+                f"For {persona.scratch.name}'s planning: {planning_thought}",
+                "planning_thought",
+            ))
+    except Exception:
+        pass
+
+    try:
+        memo_thought = generate_memo_on_convo(persona, all_utt)
+        if memo_thought:
+            thought_specs.append((
+                f"{persona.scratch.name} {memo_thought}",
+                "memo_thought",
+            ))
+    except Exception:
+        pass
+
+    created_thoughts = {}
+    for thought_text, thought_kind in thought_specs:
+        try:
+            s, p, o = generate_action_event_triple(thought_text, persona)
+            keywords = set([s, p, o])
+            thought_poignancy = generate_poig_score(persona, "thought", thought_text)
+            thought_embedding_pair = (thought_text, get_embedding(thought_text))
+            persona.a_mem.add_thought(
+                created,
+                expiration,
+                s,
+                p,
+                o,
+                thought_text,
+                keywords,
+                thought_poignancy,
+                thought_embedding_pair,
+                evidence,
+            )
+            created_thoughts[thought_kind] = thought_text
+        except Exception:
+            continue
+
+    if created_thoughts:
+        refresh_prompt_profile_from_reflection(
+            persona,
+            planning_thought=created_thoughts.get("planning_thought"),
+            memo_thought=created_thoughts.get("memo_thought"),
+            source="chat_settlement",
+        )
+
+
+def _apply_post_chat_cooldown(persona, target_persona):
+    """Record a short same-target cooldown after a completed conversation."""
+    try:
+        cooldown_steps = compute_social_cooldown(persona, target_persona)
+    except Exception:
+        cooldown_steps = 120
+    if not getattr(persona.scratch, "chatting_with_buffer", None):
+        persona.scratch.chatting_with_buffer = {}
+    persona.scratch.chatting_with_buffer[target_persona.name] = max(
+        int(persona.scratch.chatting_with_buffer.get(target_persona.name, 0) or 0),
+        int(cooldown_steps),
+    )
+    if getattr(persona.scratch, "curr_time", None):
+        persona.scratch.last_social_time = persona.scratch.curr_time
 
 
 class ChatSkillPack(BaseSkillPack):
@@ -1021,6 +1253,7 @@ class ChatSkillPack(BaseSkillPack):
                 print(f"=== [会话锁定/同步触发] {persona.name} 到达，接入 {target_p.name} 已经建立的会话 ===")
                 inherited_dialogue_id = inherit_social_dialogue_state(persona, target_p, role="target")
                 convo = target_p.scratch.chat
+                before_snapshot = capture_attribute_snapshot(persona)
                 
                 # Update own state
                 persona.scratch.chat = convo
@@ -1048,13 +1281,7 @@ class ChatSkillPack(BaseSkillPack):
                 except Exception as e:
                     print(f"Warning: Failed to call run_gpt_prompt_summarize_conversation: {e}")
 
-                is_emb = get_embedding(convo_summary)
-                summary_node = persona.a_mem.add_event(
-                    persona.scratch.curr_time, None,
-                    persona.name, "chat with", target_p.name,
-                    convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
-                    (convo_summary, is_emb), None
-                )
+                persist_social_summary_memory(persona, target_p, convo_summary)
 
                 # Gossip extraction for persona
                 try:
@@ -1080,8 +1307,11 @@ class ChatSkillPack(BaseSkillPack):
                 except Exception as ge:
                     print(f"Warning: Gossip extraction failed: {ge}")
 
-                # Update relationship graph for both parties in synchronization
+                # Update relationship graph for the participant joining the existing chat.
                 apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
+                _store_post_conversation_reflection(persona, target_p, convo)
+                _apply_post_chat_cooldown(persona, target_p)
+                _apply_post_chat_cooldown(target_p, persona)
 
                 # Dialogue completion should update both core state and belonging.
                 self._apply_chat_settlement_effects(
@@ -1090,8 +1320,19 @@ class ChatSkillPack(BaseSkillPack):
                     base_state_effects={"stamina": 4.0, "mood": 1.0},
                     motive_effects={"belonging": 12.0},
                 )
-                self.finish_success(persona)
+                after_snapshot = capture_attribute_snapshot(persona)
+                attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+                record_social_chat_experience(persona, target_p, convo_summary, attribute_effects)
+                self.finish_success(
+                    persona,
+                    outcome_effects={
+                        "self_attribute_effects": attribute_effects,
+                        "inventory_delta": {},
+                        "progress_score": 0.2,
+                    },
+                )
                 clear_social_dialogue_state(persona)
+                clear_social_dialogue_state(target_p)
                 print(f"=== [社交物理结算] {persona.name} 完成与 {target_p.name} 的对话同步结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")
                 return
             if should_wait_for_dialogue_owner(persona, target_p):
@@ -1220,6 +1461,7 @@ class ChatSkillPack(BaseSkillPack):
             convo = decision.get("convo", [])
             target_p_name = decision.get("target_persona_name")
             target_p = personas[target_p_name]
+            before_snapshot = capture_attribute_snapshot(persona)
             self.update_skill_phase(
                 persona,
                 "sharing_conversation",
@@ -1258,13 +1500,10 @@ class ChatSkillPack(BaseSkillPack):
             except Exception as e:
                 print(f"Warning: Failed to call run_gpt_prompt_summarize_conversation: {e}")
 
-            is_emb = get_embedding(convo_summary)
-            summary_node = persona.a_mem.add_event(
-                persona.scratch.curr_time, None,
-                persona.name, "chat with", target_p.name,
-                convo_summary, {"chat", persona.scratch.first_name, target_p.scratch.first_name}, 6,
-                (convo_summary, is_emb), None
-            )
+            persist_social_summary_memory(persona, target_p, convo_summary)
+            persist_social_summary_memory(target_p, persona, convo_summary)
+            _store_post_conversation_reflection(persona, target_p, convo)
+            _store_post_conversation_reflection(target_p, persona, convo)
             log_chat_transcript(
                 persona,
                 dialogue_id=getattr(persona.scratch, "social_dialogue_id", None),
@@ -1302,7 +1541,9 @@ class ChatSkillPack(BaseSkillPack):
 
             # Update relationship graph for both parties
             self.update_skill_phase(persona, "relationship_settlement")
-            apply_social_relationship_effect(persona, target_p, convo_summary, trust_delta=0.02)
+            apply_mutual_social_relationship_effects(persona, target_p, convo_summary, actor_trust_delta=0.02, target_trust_delta=0.02)
+            _apply_post_chat_cooldown(persona, target_p)
+            _apply_post_chat_cooldown(target_p, persona)
 
             self.update_skill_phase(persona, "finalizing")
             self._apply_chat_settlement_effects(
@@ -1311,7 +1552,18 @@ class ChatSkillPack(BaseSkillPack):
                 base_state_effects={"stamina": 4.0, "mood": 1.0},
                 motive_effects={"belonging": 12.0},
             )
-            self.finish_success(persona)
+            after_snapshot = capture_attribute_snapshot(persona)
+            attribute_effects = compute_attribute_effects(before_snapshot, after_snapshot)
+            record_social_chat_experience(persona, target_p, convo_summary, attribute_effects)
+            self.finish_success(
+                persona,
+                outcome_effects={
+                    "self_attribute_effects": attribute_effects,
+                    "inventory_delta": {},
+                        "progress_score": 0.2,
+                    },
+                )
             clear_social_dialogue_state(persona)
+            clear_social_dialogue_state(target_p)
 
             print(f"=== [社交物理结算] {persona.name} 发起与 {target_p_name} 的对话物理结算，已更新双向关系图谱并恢复精力至 {persona.scratch.stamina:.1f} ===")

@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        128,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "relaxing and reading a book on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.16000000000008,
+      "stamina": 99.22500000000008,
+      "health": 100.0,
+      "mood": 49.52000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-15 08:01:40"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        119,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 98.98000000000008,
+      "stamina": 98.98200000000007,
+      "health": 100.0,
+      "mood": 49.639999999999986,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 99.16000000000008,
+      "stamina": 99.50499999999998,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:01:50"
+  }
+}

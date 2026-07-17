@@ -1,0 +1,60 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        52,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting a snack from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 32.09499999999992,
+      "stamina": 91.93000000000056,
+      "health": 100.0,
+      "mood": 45.350000000000264,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        38
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the garden chair to relax and recharge mood @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u662f\u554a\uff0c\u4f60\u4e5f\u559c\u6b22\u8fd9\u79cd\u70ed\u95f9\u7684\u6d3b\u52a8\u561b\u3002",
+      "satiety": 91.49000000000005,
+      "stamina": 90.94800000000056,
+      "health": 100.0,
+      "mood": 63.05999999999976,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        60,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe to seek food options @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u70ed\u95f9\u7684\u6d3b\u52a8\u786e\u5b9e\u80fd\u8ba9\u4eba\u5fc3\u60c5\u597d\u4e00\u4e9b\u3002",
+      "satiety": 33.489999999999974,
+      "stamina": 97.85600000000063,
+      "health": 100.0,
+      "mood": 56.05999999999986,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:15:20"
+  }
+}

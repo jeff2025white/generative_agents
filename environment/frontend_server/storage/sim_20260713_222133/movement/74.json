@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        70,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 93.62500000000047,
+      "stamina": 93.47600000000045,
+      "health": 100.0,
+      "mood": 56.630000000000024,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:08:30"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        78,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.75000000000051,
+      "stamina": 95.00400000000052,
+      "health": 100.0,
+      "mood": 47.000000000000064,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to relax and lift mood",
+          "created": "2026-07-13 08:11:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax and improve mood",
+          "created": "2026-07-13 08:00:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        33,
+        36
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and lift mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.75000000000051,
+      "stamina": 94.10900000000048,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:12:20"
+  }
+}

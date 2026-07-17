@@ -8,6 +8,14 @@ def _contains_any(text, keywords):
     return any(keyword in text for keyword in keywords)
 
 
+def _looks_like_person_target(target):
+    normalized = normalize_action_target(target)
+    if not normalized or normalized == "person":
+        return False
+    tokens = [part for part in normalized.split() if part]
+    return len(tokens) >= 2 and all(part.isalpha() for part in tokens[:2])
+
+
 def normalize_action_target(target):
     normalized = _normalize_text(target)
     if ":" in normalized:
@@ -78,9 +86,6 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "seek chat": "seek_and_chat",
         "chat": "chat with",
         "talk": "chat with",
-        "socialize": "chat with",
-        "socializing": "chat with",
-        "communicate": "chat with",
         "request": "request",
         "requesting": "request",
         "ask": "request",
@@ -129,6 +134,32 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "mug": "rob",
         "mugging": "rob",
         "creator_comm": "creator_comm",
+        "bandage": "bandage",
+        "bandaging": "bandage",
+        "treat": "bandage",
+        "treating": "bandage",
+        "medicate": "bandage",
+        "medicating": "bandage",
+        "hide": "hide",
+        "hiding": "hide",
+        "worship": "worship",
+        "worshipping": "worship",
+        "pray": "worship",
+        "praying": "worship",
+        "collective_worship": "worship",
+        "occupy": "occupy",
+        "occupying": "occupy",
+        "claim": "occupy",
+        "claiming": "occupy",
+        "occupy_mansion": "occupy",
+        "smash": "smash",
+        "smashing": "smash",
+        "bashing": "smash",
+        "smash_fence": "smash",
+        "plan": "plan",
+        "planning": "plan",
+        "micro-planning": "plan",
+        "long_term_planning": "plan",
         "execute": "use",
         "recreate": "leisure_use",
         "recreation": "leisure_use",
@@ -180,10 +211,53 @@ def normalize_skill_id(raw_action, target=None, detail=None):
         "give",
         "rob",
         "creator_comm",
+        "bandage",
+        "hide",
+        "worship",
+        "occupy",
+        "smash",
+        "plan",
         "leisure_use",
         "study",
         "sing",
     }
+
+    # Correct common mistranslations before preserving explicit skill ids.
+    if action == "consume" and _contains_any(
+        context_text,
+        ["read", "reading", "book", "study", "studying", "research", "homework", "library"],
+    ):
+        return "study"
+    if action == "gather" and _contains_any(
+        context_text,
+        ["bed", "sofa", "couch", "bench", "chair", "nap", "sleep", "rest", "lying down", "lie down"],
+    ):
+        return "rest"
+    if action in {"socialize", "socializing", "communicate"}:
+        if _looks_like_person_target(target) or _contains_any(
+            context_text,
+            [
+                "chat with",
+                "chatting with",
+                "conversation with",
+                "talking with",
+                "talk to",
+                "gossip with",
+                "meeting with",
+            ],
+        ):
+            return "chat with"
+        if _contains_any(
+            context_text,
+            ["bar", "pub", "tavern", "rose and crown", "cafe", "coffee shop", "patrons", "customer seating"],
+        ):
+            return "hangout_social_venue"
+        if _contains_any(
+            context_text,
+            ["park", "garden", "plaza", "courtyard", "bench", "walk", "walking", "stroll", "strolling"],
+        ):
+            return "wander"
+        return "leisure_use"
 
     if action in passthrough_skill_ids:
         return action
@@ -218,6 +292,35 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
     normalized_target = normalize_action_target(target)
     detail_text = _normalize_text(detail)
     context_text = " ".join([normalized_target, detail_text]).strip()
+    mood_keywords = [
+        "mood",
+        "relax",
+        "relaxing",
+        "comfort",
+        "comforting",
+        "feel better",
+        "cheer up",
+        "calm",
+        "calming",
+        "unwind",
+        "fun",
+        "enjoy",
+        "enjoyable",
+        "pleasant",
+        "upbeat",
+        "happy",
+        "sad",
+        "lonely",
+        "low mood",
+        "emotion",
+        "people-watch",
+        "people watching",
+        "music",
+        "song",
+        "karaoke",
+        "television",
+        "tv",
+    ]
     food_keywords = [
         "apple",
         "food",
@@ -230,6 +333,16 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         "toaster",
         "microwave",
         "counter",
+        "grocery",
+        "groceries",
+        "market",
+        "store",
+        "shop",
+        "supply store",
+        "bartender",
+        "bar",
+        "buy",
+        "buying",
         "cabinet",
         "apple tree",
         "cafe",
@@ -237,10 +350,14 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
 
     if normalized_skill == "rest":
         return "restore_stamina"
+    if normalized_skill == "bandage":
+        return "restore_health"
     if normalized_skill == "idle":
         return "idle"
-    if normalized_skill in {"daydream", "wander"}:
-        return "leisure"
+    if normalized_skill in {"daydream", "sing", "leisure_use", "hangout_social_venue"}:
+        return "restore_mood"
+    if normalized_skill == "wander":
+        return "restore_mood" if _contains_any(context_text, mood_keywords) else "leisure"
     if normalized_skill in {"consume", "gather"}:
         if _contains_any(context_text, food_keywords):
             return "restore_satiety"
@@ -257,12 +374,28 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         return "communication"
     if normalized_skill == "avoid":
         return "avoid"
-    if normalized_skill in {"chat with", "seek_and_chat", "creator_comm"}:
+    if normalized_skill == "hide":
+        return "safety"
+    if normalized_skill in {"chat with", "seek_and_chat"}:
+        if _contains_any(context_text, mood_keywords):
+            return "restore_mood"
         return "communication"
+    if normalized_skill == "creator_comm":
+        if _contains_any(context_text, mood_keywords):
+            return "restore_mood"
+        return "communication"
+    if normalized_skill == "worship":
+        return "belonging"
     if normalized_skill == "give":
         return "communication"
+    if normalized_skill == "occupy":
+        return "status"
+    if normalized_skill == "smash":
+        return "autonomy"
     if normalized_skill == "rob":
         return "acquire_resource"
+    if normalized_skill == "plan":
+        return "meaning"
     if normalized_skill == "study":
         return "study"
     if normalized_skill == "work":
@@ -304,6 +437,7 @@ def build_action_command(skill_id=None, target=None, source="unknown", raw_actio
     return {
         "skill_id": normalized_skill_id,
         "target": target,
+        "intent_family": infer_intent_family(normalized_skill_id, target=target, detail=detail),
         "source": source,
         "raw_action": raw_action if raw_action is not None else skill_id,
         "detail": detail,

@@ -1,0 +1,112 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        69,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.68000000000158,
+      "stamina": 96.1430000000004,
+      "health": 100.0,
+      "mood": 35.81999999999952,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the garden chair to breathe deeply and appreciate the serene environment",
+          "created": "2026-07-10 09:02:30"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        98,
+        50
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.68000000000198,
+      "stamina": 83.37400000000119,
+      "health": 100.0,
+      "mood": 58.97999999999937,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        80,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the dorm garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 66.04000000000089,
+      "stamina": 95.46200000000032,
+      "health": 100.0,
+      "mood": 49.92000000000083,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-10 09:02:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-10 08:02:10",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-10 08:33:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-10 08:33:50",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:52:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-10 08:34:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-10 08:32:30",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 09:02:30"
+  }
+}

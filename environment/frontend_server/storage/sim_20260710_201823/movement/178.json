@@ -1,0 +1,110 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        53,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "sitting on the garden chair to breathe deeply and appreciate the serene environment @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 85.47000000000024,
+      "stamina": 88.24100000000122,
+      "health": 100.0,
+      "mood": 46.07999999999972,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-10 08:03:30",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-10 08:20:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-10 08:20:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:11:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Klaus",
+          "created": "2026-07-10 08:20:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-10 08:23:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        116,
+        45
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 85.47000000000064,
+      "stamina": 86.08600000000114,
+      "health": 100.0,
+      "mood": 54.359999999999744,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        47,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 24.784999999999847,
+      "stamina": 88.08200000000069,
+      "health": 100.0,
+      "mood": 48.05000000000051,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the garden chair to breathe deeply and appreciate the serene environment",
+          "created": "2026-07-10 08:29:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:29:40"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        63,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:bar customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 93.03000000000051,
+      "stamina": 94.05400000000041,
+      "health": 100.0,
+      "mood": 47.53999999999991,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        26
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:closet",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.26000000000056,
+      "stamina": 97.66400000000019,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        86,
+        44
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:bar customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.26000000000056,
+      "stamina": 99.89500000000001,
+      "health": 100.0,
+      "mood": 46.72000000000007,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:13:30"
+  }
+}

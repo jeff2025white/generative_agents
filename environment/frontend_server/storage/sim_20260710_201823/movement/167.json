@@ -1,0 +1,62 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        58,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 25.719999999999857,
+      "stamina": 89.05000000000062,
+      "health": 100.0,
+      "mood": 48.60000000000048,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        113,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 86.24000000000056,
+      "stamina": 86.95500000000106,
+      "health": 100.0,
+      "mood": 54.359999999999744,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        44,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "sitting on the garden chair to breathe deeply and appreciate the serene environment @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 86.24000000000017,
+      "stamina": 88.97800000000115,
+      "health": 100.0,
+      "mood": 46.51999999999971,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:27:50"
+  }
+}

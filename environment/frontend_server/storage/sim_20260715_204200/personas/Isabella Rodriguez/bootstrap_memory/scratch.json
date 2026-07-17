@@ -1,0 +1,395 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 15, 2026, 08:27:50",
+  "curr_tile": [
+    72,
+    14
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "even-tempered, empathetic, welcoming",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 88.24000000000115,
+  "stamina": 92.48499999999972,
+  "health": 100.0,
+  "mood": 50.68000000000001,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 88.24000000000115,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 92.48499999999972,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 66.65600000000074,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 50.68000000000001,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 70.97599999999989,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 61.983999999999924,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 56.320000000000334,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 60.143999999999494,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 66.98399999999992,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 15, 2026, 08:22:50",
+  "last_action_switch_time": "July 15, 2026, 08:00:00",
+  "decision_commit_until_step": 2,
+  "last_decision_signature": {
+    "skill_id": "chat with",
+    "target": "park",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "going to the park to socialize and relax",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "last_action_outcome": null,
+  "recent_action_outcomes": [],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-0-chat with-park",
+    "phase": "arrived",
+    "address": "<waiting> 72 14",
+    "command": {
+      "skill_id": "chat with",
+      "target": "park",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "going to the park to socialize and relax"
+    },
+    "description": "going to the park to socialize and relax",
+    "event": [
+      "Isabella Rodriguez",
+      "socialize",
+      "park"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "chat with",
+      "target": "park",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 0,
+    "updated_step": 0,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "arrived",
+    "skill_id": "chat with",
+    "intent_family": "restore_mood",
+    "target": "park",
+    "target_type": "persona",
+    "resolved_target": "park",
+    "resolved_address": "<waiting> 72 14",
+    "description": "going to the park to socialize and relax",
+    "command": {
+      "skill_id": "chat with",
+      "target": "park",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "Socialize",
+      "detail": "going to the park to socialize and relax"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "socialize",
+      "park"
+    ],
+    "duration": 60,
+    "creator_instruction": null,
+    "created_step": 0,
+    "updated_step": 0,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective, thoughtful, dedicated",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "chat_interaction"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "even-tempered, empathetic, welcoming",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is currently in the midst of organizing a Valentine's Day party at Hobbs Cafe, balancing her regular work schedule, and is also contemplating the challenges of managing personal tasks like writing a paper while ensuring the party's success. Her recent reflection thoughts highlight the importance of following up on party preparations, me...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goal is to ensure the survival and success of Hobbs Cafe, providing a welcoming space for our community. I understand the world as a dynamic environment where relationships and routines are key to stability. My ambition is to create a sustainable business that supports my family and contributes positively to our community, as evidenced by my meticulous planning for events like the Valentine's Day part...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Klaus Mueller\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: inquisitive, studious, reflective, thoughtful, dedicated\u3002 Maria Lopez: \u4eb2\u5bc6\u7a0b\u5ea6=0.52, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about the Valentine's Day party at Hobbs Cafe \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Isabella Rodriguez Klaus Mueller mentioned writing a paper and needing a break, which Isabella Rodriguez might find interesting as she's also busy with her own w...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-15 08:22:40",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-15 08:00:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 97,
+  "importance_ele_n": 29,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<waiting> 72 14",
+  "act_start_time": "July 15, 2026, 08:00:00",
+  "act_duration": 60,
+  "act_description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Isabella Rodriguez",
+    "socialize",
+    "park"
+  ],
+  "act_command": {
+    "skill_id": "chat with",
+    "target": "park",
+    "intent_family": "restore_mood",
+    "source": "decision_translation",
+    "raw_action": "Socialize",
+    "detail": "going to the park to socialize and relax"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": []
+}

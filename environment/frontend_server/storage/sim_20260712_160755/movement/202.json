@@ -1,0 +1,75 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u63a8\u8350\u6211\u4eec\u5bb6\u7684\u62db\u724c\u4e09\u660e\u6cbb\uff0c\u8fd8\u6709\u73b0\u78e8\u5496\u5561\u3002\u8d70\u5427\uff0c\u6211\u5e26\u8def\uff1f",
+      "satiety": 25.789999999999942,
+      "stamina": 94.8880000000004,
+      "health": 100.0,
+      "mood": 50.31999999999939,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        97,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food access from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.744999999999827,
+      "stamina": 90.69600000000062,
+      "health": 100.0,
+      "mood": 39.85000000000058,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-12 08:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is seeking food at Hobbs Cafe",
+          "created": "2026-07-12 08:33:20"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez seeks food at different locations",
+          "created": "2026-07-12 08:30:40",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        58,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:The Rose and Crown Pub:pub:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\u554a\uff0c\u90a3\u4f60\u5e97\u91cc\u6709\u4ec0\u4e48\u63a8\u8350\u7684\u5403\u7684\u5417\uff1f",
+      "satiety": 25.789999999999942,
+      "stamina": 95.07100000000051,
+      "health": 100.0,
+      "mood": 38.19999999999954,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:33:40"
+  }
+}

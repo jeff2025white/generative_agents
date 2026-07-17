@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        123,
+        54
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Oak Hill College:hallway:<random>",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.744999999999997,
+      "stamina": 99.77400000000002,
+      "health": 100.0,
+      "mood": 49.85000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        14
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Ryan Park's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.79,
+      "stamina": 99.79700000000001,
+      "health": 100.0,
+      "mood": 49.93999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        129,
+        46
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:cooking area",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.79,
+      "stamina": 99.82800000000002,
+      "health": 100.0,
+      "mood": 49.81999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:00:20"
+  }
+}

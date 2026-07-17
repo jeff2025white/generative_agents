@@ -1,0 +1,206 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        83,
+        35
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "going to the pub to see if Klaus Mueller is there for social interaction @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5176\u5b9e\u4e5f\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u591a\u8ddf\u5ba2\u4eba\u804a\u804a\u5929\uff0c\u8ba9\u4ed6\u4eec\u89c9\u5f97\u8212\u670d\u81ea\u5728\u3002",
+      "satiety": 41.900000000003416,
+      "stamina": 77.42700000000166,
+      "health": 100.0,
+      "mood": 84.54000000000103,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is going to the pub to see if Klaus Mueller is there for social interaction",
+          "created": "2026-07-12 10:17:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a leisurely walk and relaxing in the park garden",
+          "created": "2026-07-12 10:17:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is reading a book in the library",
+          "created": "2026-07-12 10:17:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 09:05:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Library and common room sofas are places of rest and relaxation",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller struggles with a low mood",
+          "created": "2026-07-12 09:34:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Duplicate actions are a common issue",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 09:35:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:16:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 09:35:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom podium is idle",
+          "created": "2026-07-12 10:10:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 09:17:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:19:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:17:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom student seating is idle",
+          "created": "2026-07-12 10:10:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 09:52:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        95,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 41.900000000003416,
+      "stamina": 97.61700000000025,
+      "health": 100.0,
+      "mood": 46.69999999999903,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 10:17:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 09:06:50",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 08:30:30",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 09:45:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 09:53:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        100,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.450000000002298,
+      "stamina": 79.11000000000122,
+      "health": 97.28000000000054,
+      "mood": 18.530000000000108,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 10:18:10"
+  }
+}

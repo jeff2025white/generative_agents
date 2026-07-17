@@ -1,0 +1,114 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        93,
+        37
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 19.279999999999916,
+      "stamina": 85.24200000000152,
+      "health": 100.0,
+      "mood": 31.359999999999346,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:49:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2026-07-10 08:49:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because resource_empty.",
+          "created": "2026-07-10 08:03:30",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on cafe customer seating at the Ville:Hobbs Cafe:cafe:cafe customer seating because resource_empty.",
+          "created": "2026-07-10 08:31:50",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-10 08:19:10",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        110,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing on the common room sofa to lift mood @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.84000000000101,
+      "stamina": 95.99000000000028,
+      "health": 100.0,
+      "mood": 49.22000000000036,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is relaxing on the common room sofa to lift mood",
+          "created": "2026-07-10 08:49:10"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        101,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting in the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 77.2800000000005,
+      "stamina": 84.34800000000128,
+      "health": 100.0,
+      "mood": 50.93999999999921,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is relaxing on the library sofa",
+          "created": "2026-07-10 08:49:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is relaxing on the common room sofa to lift mood",
+          "created": "2026-07-10 08:49:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sitting in the common room sofa to relax",
+          "created": "2026-07-10 08:45:00",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:49:10"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        118,
+        45
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u4e0d\u5ba2\u6c14\u5440\uff0c\u4f60\u6162\u6162\u5403\u3002\u6211\u5f97\u8d76\u7d27\u53bb\u970d\u5e03\u65af\u5496\u5561\u9986\u4e86\uff0c\u8fd8\u5f97\u5b66\u4e60\u5462\u3002",
+      "satiety": 53.800000000000566,
+      "stamina": 71.53200000000199,
+      "health": 100.0,
+      "mood": 59.79000000000112,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe for food and relaxation",
+          "created": "2026-07-12 09:25:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        35
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u653e\u5fc3\uff0c\u4e0d\u4f1a\u8ba9\u4f60\u7b49\u592a\u4e45\u7684\uff0c\u6211\u8fd9\u8fb9\u9a6c\u4e0a\u5c31\u5f04\u597d\u4e86\u3002",
+      "satiety": 61.60000000000105,
+      "stamina": 90.24099999999983,
+      "health": 100.0,
+      "mood": 59.97999999999854,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is getting prepared food from the cafe counter",
+          "created": "2026-07-12 09:25:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "asking Isabella Rodriguez for help with food access @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u8c22\u8c22\u554a\uff0c\u4f60\u81ea\u5df1\u4e5f\u7559\u7740\u70b9\u5403\u3002\u6211\u5403\u5b8c\u4e5f\u5f97\u53bb\u56fe\u4e66\u9986\u4e86\uff0c\u8fd8\u6709\u8bba\u6587\u6ca1\u5199\u5b8c\u5462\u3002",
+      "satiety": 3.599999999999855,
+      "stamina": 79.34100000000213,
+      "health": 98.20000000000036,
+      "mood": 7.219999999999246,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe for food and relaxation",
+          "created": "2026-07-12 09:25:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:26:30"
+  }
+}

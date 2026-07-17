@@ -1,0 +1,77 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        55,
+        20
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting down to relax and reset mood @ the Ville:The Rose and Crown Pub:pub:behind the bar counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 88.27000000000032,
+      "stamina": 89.31400000000086,
+      "health": 100.0,
+      "mood": 54.239999999999725,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting down to relax and reset mood",
+          "created": "2026-07-10 08:22:30"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        116,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 28.18499999999988,
+      "stamina": 87.88200000000084,
+      "health": 100.0,
+      "mood": 43.050000000000395,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        128,
+        50
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple for breakfast @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:desk",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.26999999999996,
+      "stamina": 91.77000000000044,
+      "health": 100.0,
+      "mood": 42.659999999999684,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is eating an apple for breakfast",
+          "created": "2026-07-10 08:22:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a snack at the cafe customer seating",
+          "created": "2026-07-10 08:22:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:23:00"
+  }
+}

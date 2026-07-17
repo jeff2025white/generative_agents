@@ -1,0 +1,148 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        112,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez for comfort and social inclusion @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5176\u5b9e\u793e\u533a\u6539\u9020\u5bf9\u5e97\u94fa\u5f71\u54cd\u633a\u5927\u7684\u3002\u4f60\u5e73\u65f6\u7ecf\u8425\u5496\u5561\u9986\uff0c\u6709\u6ca1\u6709\u89c9\u5f97\u5468\u56f4\u73af\u5883\u53d8\u5316\u5e26\u6765\u7684\u4ec0\u4e48\u4e0d\u4fbf\u5462\uff1f",
+      "satiety": 88.38000000000113,
+      "stamina": 98.89000000000011,
+      "health": 100.0,
+      "mood": 58.00000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short walk in the park garden to unwind",
+          "created": "2026-07-13 08:27:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-13 08:25:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-13 08:24:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-13 08:24:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-13 08:13:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-13 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-13 08:25:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-13 08:24:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        99,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff0c\u662f\u5417\uff1f\u6211\u5728 Hobbs Cafe \u5c31\u662f\u5c3d\u91cf\u8ba9\u987e\u5ba2\u89c9\u5f97\u8212\u670d\uff0c\u4e0d\u8fc7\u5173\u4e8e\u793e\u533a\u6539\u9020\uff0c\u6211\u8fd8\u771f\u6ca1\u60f3\u8fc7\u592a\u591a\u5462\u3002",
+      "satiety": 88.38000000000113,
+      "stamina": 81.05600000000103,
+      "health": 100.0,
+      "mood": 62.400000000000034,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        108,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to unwind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6ca1\u6709\u5462\uff0c\u6211\u662f\u4e13\u95e8\u627e\u60a8\u6709\u70b9\u4e8b\u3002",
+      "satiety": 85.89000000000104,
+      "stamina": 98.01400000000014,
+      "health": 100.0,
+      "mood": 58.269999999999925,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:27:30"
+  }
+}

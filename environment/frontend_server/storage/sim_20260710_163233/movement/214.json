@@ -1,0 +1,80 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        93,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "eating an apple to satisfy hunger @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 24.94999999999994,
+      "stamina": 90.64000000000097,
+      "health": 100.0,
+      "mood": 37.09999999999951,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        110,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recover stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.7250000000005,
+      "stamina": 79.4380000000013,
+      "health": 100.0,
+      "mood": 53.97000000000024,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        42
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting in the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 82.94999999999995,
+      "stamina": 90.74700000000075,
+      "health": 100.0,
+      "mood": 51.71999999999933,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sleeping in bed to recover stamina",
+          "created": "2026-07-10 08:35:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-10 08:15:40",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:35:40"
+  }
+}

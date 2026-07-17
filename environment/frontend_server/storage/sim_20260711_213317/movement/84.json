@@ -1,0 +1,60 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        60,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez to seek food access @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\uff0c\u90a3\u4f60\u5148\u5fd9\uff0c\u6211\u5c31\u5728\u8fd9\u513f\u7b49\u4e00\u4f1a\u513f\u3002\u5bf9\u4e86\uff0c\u4f60\u6458\u82f9\u679c\u662f\u8981\u505a\u4ec0\u4e48\u5440\uff1f",
+      "satiety": 32.77499999999993,
+      "stamina": 96.63400000000051,
+      "health": 100.0,
+      "mood": 55.26000000000018,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        68,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.049999999999976,
+      "stamina": 94.39200000000058,
+      "health": 100.0,
+      "mood": 44.89999999999981,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u5440\uff0c\u4e0d\u8fc7\u6211\u8fd9\u4f1a\u6b63\u5fd9\u7740\u6458\u82f9\u679c\u5462\uff0c\u4f60\u7a0d\u7b49\u6211\u4e00\u4f1a\u513f\u554a\u3002",
+      "satiety": 34.049999999999976,
+      "stamina": 93.35300000000053,
+      "health": 100.0,
+      "mood": 53.03999999999977,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:14:00"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        84,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "heading to Hobbs Cafe to discuss the potential study group @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u529e\u4e2a\u5b66\u4e60\u5c0f\u7ec4\u805a\u4f1a\uff0c\u5927\u6982\u5341\u4e2a\u4eba\u5de6\u53f3\u3002",
+      "satiety": 80.53500000000143,
+      "stamina": 91.06000000000034,
+      "health": 100.0,
+      "mood": 59.4499999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        37,
+        36
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on cafe decorations in the library @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u554a\uff0c\u6211\u4eec\u5496\u5561\u9986\u7ecf\u5e38\u529e\u805a\u4f1a\u5462\u3002\u4f60\u8981\u529e\u4ec0\u4e48\u6837\u7684\u805a\u4f1a\u5440\uff1f",
+      "satiety": 83.97000000000156,
+      "stamina": 85.47100000000084,
+      "health": 100.0,
+      "mood": 98.68000000000035,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        55,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a brief nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.97000000000156,
+      "stamina": 85.79800000000105,
+      "health": 100.0,
+      "mood": 54.840000000000195,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:38:00"
+  }
+}

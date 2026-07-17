@@ -1,0 +1,94 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        112,
+        30
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u5230\u65f6\u5019\u6211\u53bb\u51d1\u4e2a\u70ed\u95f9\u3002\u4f60\u51c6\u5907\u7684\u4e1c\u897f\u80af\u5b9a\u5f88\u4e30\u5bcc\u5427\u3002",
+      "satiety": 81.10000000000184,
+      "stamina": 98.89000000000011,
+      "health": 100.0,
+      "mood": 92.2800000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is resting and relaxing on the library sofa",
+          "created": "2026-07-13 08:44:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at library sofa and recovered stamina.",
+          "created": "2026-07-13 08:42:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-13 08:42:10",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        100,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u7b49\u4e0b\u4e2a\u6708\u8bfe\u7a0b\u6ca1\u8fd9\u4e48\u7d27\u7684\u65f6\u5019\u5c31\u5f00\u59cb\uff0c\u5e94\u8be5\u5f88\u5feb\u4e86\u3002\u5230\u65f6\u5019\u53ef\u5f97\u9ebb\u70e6\u4f60\u591a\u7167\u987e\u554a\uff01",
+      "satiety": 77.05000000000169,
+      "stamina": 97.31000000000019,
+      "health": 100.0,
+      "mood": 98.45000000000009,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax and improve mood",
+          "created": "2026-07-13 08:44:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to relax and lift mood",
+          "created": "2026-07-13 08:12:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-13 08:20:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 25 42",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u8fd8\u597d\u5566\u3002\u5c31\u662f\u51c6\u5907\u7684\u4e1c\u897f\u6bd4\u8f83\u591a\u800c\u5df2\u3002\u5230\u65f6\u5019\u4f60\u6765\u4e86\u5c31\u77e5\u9053\u5566\u3002",
+      "satiety": 81.10000000000184,
+      "stamina": 94.14999999999978,
+      "health": 100.0,
+      "mood": 68.08000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:44:50"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about a customer looking for a quiet study spot"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about community transformation and gentrification"
+      ]
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        83,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "heading to the grocery store to buy food @ the Ville:The Willows Market and Pharmacy:store",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5176\u5b9e\u4e5f\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u591a\u8ddf\u5ba2\u4eba\u804a\u804a\u5929\uff0c\u8ba9\u4ed6\u4eec\u89c9\u5f97\u8212\u670d\u81ea\u5728\u3002",
+      "satiety": 42.74000000000342,
+      "stamina": 78.34100000000159,
+      "health": 100.0,
+      "mood": 85.0200000000011,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        110,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.470000000002308,
+      "stamina": 80.16600000000115,
+      "health": 97.5200000000005,
+      "mood": 14.9100000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 10:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 10:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 10:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-12 08:11:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:10:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-12 09:26:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-12 09:12:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 09:12:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:12:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        107,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 42.74000000000342,
+      "stamina": 98.42100000000016,
+      "health": 100.0,
+      "mood": 47.41999999999906,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the sofa to relax and distract from low mood",
+          "created": "2026-07-12 10:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-12 10:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 10:12:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-12 08:47:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the library sofa to relax",
+          "created": "2026-07-12 09:44:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often uses the library sofa for rest and relaxation",
+          "created": "2026-07-12 09:45:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller experiences leisure activities, sometimes with interruptions",
+          "created": "2026-07-12 09:45:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the common room sofa to relax and distract myself from my low mood",
+          "created": "2026-07-12 10:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 10:16:10"
+  }
+}

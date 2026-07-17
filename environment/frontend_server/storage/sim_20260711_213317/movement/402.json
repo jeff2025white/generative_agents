@@ -1,0 +1,116 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        101,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Klaus Mueller to reconnect and seek comfort @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u6709\u554a\uff0c\u6211\u51c6\u5907\u4e86\u4e13\u95e8\u7684\u62cd\u7167\u89d2\u843d\u5462\u3002",
+      "satiety": 69.79000000000214,
+      "stamina": 98.13800000000015,
+      "health": 100.0,
+      "mood": 77.3599999999994,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is chatting with Klaus Mueller to reconnect and seek comfort",
+          "created": "2026-07-11 09:06:40"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        51
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the garden chair and enjoying the serene environment @ the Ville:Johnson Park:park:park garden",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u592a\u597d\u5566\uff01\u90a3\u6211\u5230\u65f6\u5019\u5e26\u4ed6\u4e00\u8d77\u53bb\u3002\u5bf9\u4e86\uff0c\u6d3e\u5bf9\u4e0a\u6709\u62cd\u7167\u7684\u5730\u65b9\u4e0d\uff1f",
+      "satiety": 63.745000000000964,
+      "stamina": 98.89400000000008,
+      "health": 100.0,
+      "mood": 52.53000000000099,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting food from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-11 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a quick nap on the common room sofa to restore stamina",
+          "created": "2026-07-11 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden to clear the mind",
+          "created": "2026-07-11 09:06:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on my bed to recharge",
+          "created": "2026-07-11 09:02:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        57,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the sofa in the common room to read a book or unwind @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5f53\u7136\u4f1a\u53bb\u554a\uff0c\u6211\u8fd8\u633a\u60f3\u770b\u770b\u4f60\u80fd\u628a\u805a\u4f1a\u529e\u5f97\u591a\u7cbe\u5f69\u5462\u3002",
+      "satiety": 69.79000000000093,
+      "stamina": 79.5870000000017,
+      "health": 100.0,
+      "mood": 49.81999999999912,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-11 09:06:40"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is interested in attending the Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is interested in joining the Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is planning a Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 09:07:00"
+  }
+}

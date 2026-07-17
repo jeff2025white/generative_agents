@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        84,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:toaster",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\uff0c\u90a3\u6211\u7b49\u4f1a\u513f\u3002\u5bf9\u4e86\uff0c\u4f60\u8fd9\u513f\u7ecf\u5e38\u8fd9\u4e48\u5feb\u6ca1\u5403\u7684\u5417\uff1f",
+      "satiety": 31.389999999999965,
+      "stamina": 96.04900000000082,
+      "health": 100.0,
+      "mood": 45.899999999999736,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        19
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 78 19",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u9a6c\u4e0a\u5c31\u6709\u65b0\u7684\u4e86\uff0c\u4f60\u5148\u559d\u676f\u6c34\u7b49\u4f1a\u513f\u3002",
+      "satiety": 31.389999999999965,
+      "stamina": 95.00499999999981,
+      "health": 100.0,
+      "mood": 48.21999999999962,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        76,
+        22
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u62db\u724c\u677e\u997c\u554a\uff0c\u90a3\u884c\uff0c\u7ed9\u6211\u6765\u4e00\u4efd\u3002\u5bf9\u4e86\uff0c\u6211\u8fd8\u60f3\u77e5\u9053\u4f60\u4eec\u8fd9\u6709\u6ca1\u6709\u9002\u5408\u8fb9\u5403\u8fb9\u5b66\u4e60\u7684\u4f4d\u7f6e\u5440\uff1f",
+      "satiety": 29.544999999999895,
+      "stamina": 98.4600000000001,
+      "health": 100.0,
+      "mood": 52.2500000000003,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:20:20"
+  }
+}

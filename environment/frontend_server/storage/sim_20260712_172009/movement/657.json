@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 44.070000000002445,
+      "stamina": 88.85000000000063,
+      "health": 100.0,
+      "mood": 21.80000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        44,
+        54
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\uff0c\u6211\u8fd9\u5e97\u5e73\u65f6\u4eba\u8fd8\u4e0d\u5c11\uff0c\u6c1b\u56f4\u633a\u597d\u7684\u3002",
+      "satiety": 53.940000000003465,
+      "stamina": 92.84500000000058,
+      "health": 100.0,
+      "mood": 76.20000000000086,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 09:49:10"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        46,
+        53
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 53.940000000003465,
+      "stamina": 94.71700000000075,
+      "health": 100.0,
+      "mood": 43.01999999999942,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 09:49:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:49:30"
+  }
+}

@@ -1,0 +1,654 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 10, 2026, 08:14:20",
+  "curr_tile": [
+    59,
+    37
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "inquisitive, studious, friendly, competent, belonging",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 32.604999999999926,
+  "stamina": 92.49600000000052,
+  "health": 100.0,
+  "mood": 45.65000000000025,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 32.604999999999926,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 92.49600000000052,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 58.95599999999996,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 45.65000000000025,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 59.3899999999999,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 56.43399999999994,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 68.60799999999954,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 64.08599999999952,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 58.78199999999975,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 10, 2026, 08:02:30",
+  "decision_commit_until_step": 17,
+  "last_decision_signature": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "gathering apples from the apple tree",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "refrigerator",
+    "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+    "skill_id": "gather",
+    "action_description": "opening the refrigerator to gather food items",
+    "reason": "resource_empty",
+    "payload": {
+      "target": "refrigerator",
+      "clean_target": "refrigerator",
+      "curr_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "action": "gather",
+      "curr_tile": [
+        123,
+        45
+      ]
+    },
+    "curr_step": 14
+  },
+  "active_execution_state": {
+    "id": "Maria Lopez-15-gather-apple tree",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park:apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "description": "gathering apples from the apple tree",
+    "event": [
+      "Maria Lopez",
+      "gather",
+      "apples"
+    ],
+    "path": [
+      [
+        57,
+        37
+      ],
+      [
+        56,
+        37
+      ],
+      [
+        55,
+        37
+      ],
+      [
+        54,
+        37
+      ],
+      [
+        53,
+        37
+      ],
+      [
+        52,
+        37
+      ],
+      [
+        51,
+        37
+      ],
+      [
+        50,
+        37
+      ],
+      [
+        49,
+        37
+      ],
+      [
+        48,
+        37
+      ],
+      [
+        47,
+        37
+      ],
+      [
+        46,
+        37
+      ],
+      [
+        45,
+        37
+      ],
+      [
+        44,
+        37
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        42,
+        37
+      ],
+      [
+        41,
+        37
+      ],
+      [
+        40,
+        37
+      ],
+      [
+        39,
+        37
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        37,
+        37
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        35,
+        37
+      ],
+      [
+        34,
+        37
+      ],
+      [
+        33,
+        37
+      ],
+      [
+        32,
+        37
+      ],
+      [
+        31,
+        37
+      ],
+      [
+        31,
+        38
+      ],
+      [
+        31,
+        39
+      ],
+      [
+        31,
+        40
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 15,
+    "updated_step": 86,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "gather",
+    "intent_family": "restore_satiety",
+    "target": "apple tree",
+    "target_type": "object",
+    "resolved_target": "apple tree",
+    "resolved_address": "the Ville:Johnson Park:park:apple tree",
+    "description": "gathering apples from the apple tree",
+    "command": {
+      "skill_id": "gather",
+      "target": "apple tree",
+      "source": "decision_translation",
+      "raw_action": "Gather",
+      "detail": "gathering apples from the apple tree"
+    },
+    "event": [
+      "Maria Lopez",
+      "gather",
+      "apples"
+    ],
+    "duration": 20,
+    "creator_instruction": null,
+    "created_step": 15,
+    "updated_step": 86,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "gather",
+  "active_skill_id": "Maria Lopez-15-gather",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 15,
+  "active_skill_owner": "Maria Lopez",
+  "active_skill_target": "apple tree",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "gathering apples from the apple tree"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "hospitable, empathetic, organized",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, friendly, competent, belonging",
+        "source": "decision_compile",
+        "updated_at": "2026-07-10 08:02:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-10 08:02:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.. My preferred rhythm is: Maria Lopez goes to bed arou...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-10 08:02:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-10 08:02:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-10 08:02:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 114,
+  "importance_ele_n": 18,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park:apple tree",
+  "act_start_time": "July 10, 2026, 08:02:30",
+  "act_duration": 20,
+  "act_description": "gathering apples from the apple tree",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Maria Lopez",
+    "gather",
+    "apples"
+  ],
+  "act_command": {
+    "skill_id": "gather",
+    "target": "apple tree",
+    "source": "decision_translation",
+    "raw_action": "Gather",
+    "detail": "gathering apples from the apple tree"
+  },
+  "act_obj_description": "apple tree is being opened",
+  "act_obj_pronunciatio": "\ud83c\udf4e",
+  "act_obj_event": [
+    "apple tree",
+    "is",
+    "being opened"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      57,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      46,
+      37
+    ],
+    [
+      45,
+      37
+    ],
+    [
+      44,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      40,
+      37
+    ],
+    [
+      39,
+      37
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      37,
+      37
+    ],
+    [
+      36,
+      37
+    ],
+    [
+      35,
+      37
+    ],
+    [
+      34,
+      37
+    ],
+    [
+      33,
+      37
+    ],
+    [
+      32,
+      37
+    ],
+    [
+      31,
+      37
+    ],
+    [
+      31,
+      38
+    ],
+    [
+      31,
+      39
+    ],
+    [
+      31,
+      40
+    ]
+  ]
+}

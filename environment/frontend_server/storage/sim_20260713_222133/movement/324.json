@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        45,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u7b49\u4e0b\u4e2a\u6708\u8bfe\u7a0b\u6ca1\u8fd9\u4e48\u7d27\u7684\u65f6\u5019\u5c31\u5f00\u59cb\uff0c\u5e94\u8be5\u5f88\u5feb\u4e86\u3002\u5230\u65f6\u5019\u53ef\u5f97\u9ebb\u70e6\u4f60\u591a\u7167\u987e\u554a\uff01",
+      "satiety": 72.37500000000203,
+      "stamina": 92.50800000000052,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        59,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u5230\u65f6\u5019\u6211\u53bb\u51d1\u4e2a\u70ed\u95f9\u3002\u4f60\u51c6\u5907\u7684\u4e1c\u897f\u80af\u5b9a\u5f88\u4e30\u5bcc\u5427\u3002",
+      "satiety": 77.25000000000222,
+      "stamina": 95.2050000000005,
+      "health": 100.0,
+      "mood": 89.28000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        41
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u8fd8\u597d\u5566\u3002\u5c31\u662f\u51c6\u5907\u7684\u4e1c\u897f\u6bd4\u8f83\u591a\u800c\u5df2\u3002\u5230\u65f6\u5019\u4f60\u6765\u4e86\u5c31\u77e5\u9053\u5566\u3002",
+      "satiety": 77.25000000000222,
+      "stamina": 91.67499999999968,
+      "health": 100.0,
+      "mood": 67.2800000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:54:00"
+  }
+}

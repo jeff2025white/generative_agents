@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        103,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.27999999999997,
+      "stamina": 97.2220000000002,
+      "health": 100.0,
+      "mood": 48.40000000000009,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is asking Isabella Rodriguez for food at Hobbs Cafe",
+          "created": "2026-07-11 08:05:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        70,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:behind the bar counter",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.75999999999999,
+      "stamina": 97.5060000000002,
+      "health": 100.0,
+      "mood": 49.3599999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        111,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "asking Isabella Rodriguez for food at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.75999999999999,
+      "stamina": 97.88500000000022,
+      "health": 100.0,
+      "mood": 48.07999999999993,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:05:10"
+  }
+}

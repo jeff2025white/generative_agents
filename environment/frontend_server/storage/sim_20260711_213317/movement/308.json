@@ -1,0 +1,88 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        72,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u6211\u53ef\u5e26\u51e0\u4e2a\u670b\u53cb\u53bb\uff0c\u5230\u65f6\u5019\u7ed9\u4f60\u6367\u4e2a\u4eba\u6c14\u573a\uff01",
+      "satiety": 71.7350000000004,
+      "stamina": 81.31800000000186,
+      "health": 100.0,
+      "mood": 56.240000000000784,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        66,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a quick nap on the common room sofa to restore stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u653e\u5fc3\uff0c\u7edd\u5bf9\u4e0d\u4f1a\u8ba9\u4f60\u5931\u671b\u7684\u3002\u4f60\u5bf9\u805a\u4f1a\u8fd8\u6709\u4ec0\u4e48\u7279\u522b\u7684\u60f3\u6cd5\u5417\uff1f",
+      "satiety": 76.3700000000015,
+      "stamina": 88.71799999999993,
+      "health": 100.0,
+      "mood": 58.83999999999962,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        78,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden to clear the mind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5f53\u7136\u4f1a\u53bb\u554a\uff0c\u6211\u8fd8\u633a\u60f3\u770b\u770b\u4f60\u80fd\u628a\u805a\u4f1a\u529e\u5f97\u591a\u7cbe\u5f69\u5462\u3002",
+      "satiety": 76.37000000000029,
+      "stamina": 89.74000000000106,
+      "health": 100.0,
+      "mood": 41.599999999999305,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-11 08:50:50"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is interested in attending the Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is interested in joining the Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is planning a Valentine's Day party",
+          "created": "2026-07-11 08:42:50",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:51:20"
+  }
+}

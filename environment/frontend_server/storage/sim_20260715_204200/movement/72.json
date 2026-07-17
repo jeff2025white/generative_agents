@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        76,
+        33
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 93.79500000000046,
+      "stamina": 93.65200000000044,
+      "health": 100.0,
+      "mood": 55.95000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-15 08:08:30"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.8900000000005,
+      "stamina": 96.75999999999988,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "idling @ the Ville:the Ville:Oak Hill College:the Ville:Oak Hill College:library:the Ville:Oak Hill College:library:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.8900000000005,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 47.08000000000006,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is relaxing and reading a book on the library sofa",
+          "created": "2026-07-15 08:11:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-15 08:10:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:12:00"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        116,
+        51
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the dorm garden for relaxation @ the Ville:Dorm for Oak Hill College:garden",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.29000000000241,
+      "stamina": 99.79700000000001,
+      "health": 100.0,
+      "mood": 62.11999999999989,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 08:58:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 08:40:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is frequently taking naps on the library sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.99500000000221,
+      "stamina": 85.8500000000008,
+      "health": 100.0,
+      "mood": 37.05000000000007,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        70,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.29000000000241,
+      "stamina": 95.94200000000042,
+      "health": 100.0,
+      "mood": 41.52000000000009,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:58:40"
+  }
+}

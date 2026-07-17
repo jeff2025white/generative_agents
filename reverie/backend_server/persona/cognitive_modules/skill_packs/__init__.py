@@ -73,14 +73,20 @@ SKILL_REGISTRY = {
 
     # Generic non-survival skills
     "use": GenericActivitySkillPack("use", {"stamina": -3.0, "mood": 1.0}, {}),
+    "bandage": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
+    "bandaging": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
+    "treat": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
+    "treating": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
+    "medicate": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
+    "medicating": GenericActivitySkillPack("bandage", {"health": 12.0, "stamina": -1.0}, {"health": 12.0}),
     "working": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}, {}),
     "work": GenericActivitySkillPack("work", {"stamina": -5.0, "mood": -1.0}, {}),
     "study": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}, {}),
     "studying": GenericActivitySkillPack("study", {"stamina": -4.0, "mood": 1.0}, {}),
-    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 7.0}, {}),
+    "leisure_use": GenericActivitySkillPack("leisure_use", {"stamina": -2.0, "mood": 3.0}, {}),
     "hangout_social_venue": SocialVenueHangoutSkillPack(),
     "hangout": SocialVenueHangoutSkillPack(),
-    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 5.0}, {}),
+    "daydream": GenericActivitySkillPack("daydream", {"stamina": 2.0, "mood": 2.0}, {}),
     "wander": GenericActivitySkillPack("wander", {"stamina": -1.0, "mood": 1.0}, {}),
     
     # Custom Motive Skills

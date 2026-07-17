@@ -1,0 +1,156 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        111,
+        41
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk and enjoying nature in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.96000000000254,
+      "stamina": 96.33000000000013,
+      "health": 100.0,
+      "mood": 68.73999999999987,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 09:01:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the dorm garden for relaxation",
+          "created": "2026-07-12 09:01:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 09:01:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the sofa to relax and distract from low mood",
+          "created": "2026-07-12 09:01:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to clear mind",
+          "created": "2026-07-12 09:01:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 08:39:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at none and recovered stamina.",
+          "created": "2026-07-12 08:19:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:00",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 08:38:50",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 08:40:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 08:58:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is frequently taking naps on the library sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often seeks relaxation on the sofa",
+          "created": "2026-07-12 08:38:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the library sofa to relax",
+          "created": "2026-07-12 08:40:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 08:39:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        51,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.96000000000254,
+      "stamina": 94.66900000000055,
+      "health": 100.0,
+      "mood": 40.380000000000045,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 68.38000000000233,
+      "stamina": 84.90000000000086,
+      "health": 100.0,
+      "mood": 36.10000000000012,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:01:50"
+  }
+}

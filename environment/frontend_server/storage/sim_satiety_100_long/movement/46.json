@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        97,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sit on the sofa in the common room to relax and improve mood @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.71000000000032,
+      "stamina": 96.3210000000003,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        111,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "taking a moment to unwind on the common room sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.0050000000003,
+      "stamina": 95.90200000000029,
+      "health": 100.0,
+      "mood": 48.58999999999995,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 96.71000000000032,
+      "stamina": 96.88000000000032,
+      "health": 100.0,
+      "mood": 48.12000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:07:40"
+  }
+}

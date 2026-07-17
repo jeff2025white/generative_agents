@@ -1,0 +1,74 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        101,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.374999999999893,
+      "stamina": 92.83400000000036,
+      "health": 100.0,
+      "mood": 50.750000000000355,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-10 08:20:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        70,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the common room sofa to relax @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 89.25000000000027,
+      "stamina": 90.35200000000079,
+      "health": 100.0,
+      "mood": 54.359999999999744,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        31,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.249999999999964,
+      "stamina": 91.68300000000086,
+      "health": 100.0,
+      "mood": 43.499999999999716,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-10 08:20:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:20:40"
+  }
+}

@@ -1152,7 +1152,7 @@ class Scratch:
     if curr_step is None:
       return None
     family = (action_signature or {}).get("intent_family")
-    if family in {"restore_satiety", "restore_stamina"}:
+    if family in {"restore_satiety", "restore_stamina", "restore_mood"}:
       return curr_step + 2
     if family == "communication":
       return curr_step + 1
@@ -1166,7 +1166,7 @@ class Scratch:
       return True
     if old_signature.get("skill_id") == new_signature.get("skill_id") and old_signature.get("target") == new_signature.get("target"):
       return True
-    if old_signature.get("intent_family") == new_signature.get("intent_family") and old_signature.get("intent_family") in {"restore_satiety", "restore_stamina", "communication"}:
+    if old_signature.get("intent_family") == new_signature.get("intent_family") and old_signature.get("intent_family") in {"restore_satiety", "restore_stamina", "restore_mood", "communication"}:
       return True
     return False
 
@@ -1179,7 +1179,7 @@ class Scratch:
     if old_signature.get("target") != new_signature.get("target"):
       return False
     family = old_signature.get("intent_family")
-    if family not in {"restore_satiety", "restore_stamina"}:
+    if family not in {"restore_satiety", "restore_stamina", "restore_mood"}:
       return False
     old_skill = old_signature.get("skill_id")
     new_skill = new_signature.get("skill_id")
@@ -1251,6 +1251,7 @@ class Scratch:
       "survival_direct",
       "admin_console",
       "creator_injection",
+      "social_trigger",
       "chat_followup",
       "post_gather_followup",
     }
@@ -1264,6 +1265,8 @@ class Scratch:
       return self.satiety < 30.0
     if family == "restore_stamina":
       return self.stamina < 30.0
+    if family == "restore_mood":
+      return self.mood < 30.0
     return False
 
 
@@ -1348,7 +1351,7 @@ class Scratch:
       penalty += 0.12
     if current_family in {"work", "study", "leisure", "acquire_resource"}:
       penalty += 0.05
-    if current_family in {"restore_satiety", "restore_stamina"}:
+    if current_family in {"restore_satiety", "restore_stamina", "restore_mood"}:
       penalty += 0.12
     if new_family == "communication" and current_family not in {"communication", "leisure"}:
       penalty += 0.04
@@ -1983,6 +1986,9 @@ class Scratch:
     snapshot = self._snapshot_current_action()
     if not snapshot:
       return False
+    snapshot["suspend_reason"] = reason
+    snapshot["suspend_source"] = source
+    snapshot["suspend_step"] = self.curr_step
     self.suspended_action = snapshot
     self.suspended_action_step = self.curr_step
     self._append_runtime_log(
@@ -2000,20 +2006,86 @@ class Scratch:
     return True
 
 
+  def _suspended_action_resume_window(self, snapshot, default_max_age_steps=12):
+    reason = str((snapshot or {}).get("suspend_reason") or "").strip().lower()
+    if reason == "social_greeting_interrupt":
+      return 48
+    return default_max_age_steps
+
+
   def should_resume_suspended_action(self, max_age_steps=12):
     snapshot = self.suspended_action or {}
     signature = snapshot.get("signature") or {}
     if not signature:
       return False
+    resolved_max_age_steps = self._suspended_action_resume_window(
+      snapshot,
+      default_max_age_steps=max_age_steps,
+    )
+    age_steps = None
+    if self.curr_step is not None and self.suspended_action_step is not None:
+      age_steps = self.curr_step - self.suspended_action_step
+
+    def _log_resume_check(result, block_reason=None, extra=None):
+      payload = {
+        "persona": self.name,
+        "event": "suspended_action_resume_check",
+        "curr_step": self.curr_step,
+        "signature": signature,
+        "act_description": snapshot.get("act_description"),
+        "suspend_reason": snapshot.get("suspend_reason"),
+        "suspend_source": snapshot.get("suspend_source"),
+        "suspend_step": snapshot.get("suspend_step"),
+        "age_steps": age_steps,
+        "max_age_steps": resolved_max_age_steps,
+        "result": result,
+        "block_reason": block_reason,
+      }
+      if extra:
+        payload.update(extra)
+      self._append_runtime_log("decision_stability.jsonl", payload)
+
     if self.has_active_plan():
+      _log_resume_check(False, block_reason="active_plan_present")
       return False
     if self.curr_step is not None and self.suspended_action_step is not None:
-      if self.curr_step - self.suspended_action_step > max_age_steps:
+      if self.curr_step - self.suspended_action_step > resolved_max_age_steps:
+        _log_resume_check(
+          False,
+          block_reason="expired",
+        )
+        self._append_runtime_log(
+          "decision_stability.jsonl",
+          {
+            "persona": self.name,
+            "event": "suspended_action_discarded",
+            "curr_step": self.curr_step,
+            "signature": signature,
+            "act_description": snapshot.get("act_description"),
+            "suspend_reason": snapshot.get("suspend_reason"),
+            "suspend_source": snapshot.get("suspend_source"),
+            "age_steps": age_steps,
+            "max_age_steps": resolved_max_age_steps,
+          }
+        )
+        self.suspended_action = None
+        self.suspended_action_step = None
         return False
     if self.satiety < 30.0 and signature.get("intent_family") not in {"restore_satiety", "acquire_resource"}:
+      _log_resume_check(
+        False,
+        block_reason="satiety_crisis",
+        extra={"satiety": self.satiety},
+      )
       return False
     if self.stamina < 30.0 and signature.get("intent_family") != "restore_stamina":
+      _log_resume_check(
+        False,
+        block_reason="stamina_crisis",
+        extra={"stamina": self.stamina},
+      )
       return False
+    _log_resume_check(True)
     return True
 
 
@@ -2055,6 +2127,14 @@ class Scratch:
         "curr_step": self.curr_step,
         "signature": snapshot.get("signature"),
         "act_description": self.act_description,
+        "suspend_reason": snapshot.get("suspend_reason"),
+        "suspend_source": snapshot.get("suspend_source"),
+        "suspend_step": snapshot.get("suspend_step"),
+        "age_steps": (
+          self.curr_step - self.suspended_action_step
+          if self.curr_step is not None and self.suspended_action_step is not None
+          else None
+        ),
       }
     )
     self.suspended_action = None

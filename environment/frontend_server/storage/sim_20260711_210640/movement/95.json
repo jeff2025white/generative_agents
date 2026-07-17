@@ -1,0 +1,83 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        57,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe to seek food options @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u70ed\u95f9\u7684\u6d3b\u52a8\u786e\u5b9e\u80fd\u8ba9\u4eba\u5fc3\u60c5\u597d\u4e00\u4e9b\u3002",
+      "satiety": 33.27999999999997,
+      "stamina": 97.65500000000065,
+      "health": 100.0,
+      "mood": 55.87999999999985,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        26,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the garden chair to relax and recharge mood @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u662f\u554a\uff0c\u4f60\u4e5f\u559c\u6b22\u8fd9\u79cd\u70ed\u95f9\u7684\u6d3b\u52a8\u561b\u3002",
+      "satiety": 91.28000000000007,
+      "stamina": 90.71100000000058,
+      "health": 100.0,
+      "mood": 63.05999999999976,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the garden chair to relax and recharge mood",
+          "created": "2026-07-11 08:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-11 08:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez successfully used consume on apple at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-11 08:13:30",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2026-07-11 08:13:30",
+          "poignancy": 7.0
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        49,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.839999999999918,
+      "stamina": 91.70400000000058,
+      "health": 100.0,
+      "mood": 45.20000000000027,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:15:50"
+  }
+}

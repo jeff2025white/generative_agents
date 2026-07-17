@@ -1,0 +1,106 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        84,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "heading to the grocery store to buy food @ the Ville:The Willows Market and Pharmacy:store",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5176\u5b9e\u4e5f\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u591a\u8ddf\u5ba2\u4eba\u804a\u804a\u5929\uff0c\u8ba9\u4ed6\u4eec\u89c9\u5f97\u8212\u670d\u81ea\u5728\u3002",
+      "satiety": 43.16000000000342,
+      "stamina": 78.81500000000155,
+      "health": 100.0,
+      "mood": 85.26000000000114,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is heading to the grocery store to buy food",
+          "created": "2026-07-12 10:15:00"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller struggles with a low mood",
+          "created": "2026-07-12 09:34:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        116,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 30.980000000002313,
+      "stamina": 80.65600000000111,
+      "health": 97.64000000000047,
+      "mood": 14.100000000000101,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is heading to the grocery store to buy food",
+          "created": "2026-07-12 10:15:00"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        111,
+        30
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 43.16000000000342,
+      "stamina": 98.82300000000012,
+      "health": 100.0,
+      "mood": 47.77999999999907,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the common room sofa to relax and distract myself from my low mood",
+          "created": "2026-07-12 10:15:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 10:12:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-12 09:15:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 10:15:10"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        80,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "talking to Klaus Mueller at the cafe @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.89999999999999,
+      "stamina": 97.66400000000019,
+      "health": 100.0,
+      "mood": 49.399999999999906,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        113,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.89999999999999,
+      "stamina": 98.0190000000002,
+      "health": 100.0,
+      "mood": 48.19999999999993,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        105,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food and chatting at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.449999999999974,
+      "stamina": 97.39800000000018,
+      "health": 100.0,
+      "mood": 48.500000000000085,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:04:50"
+  }
+}

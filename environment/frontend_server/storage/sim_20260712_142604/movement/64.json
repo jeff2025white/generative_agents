@@ -1,0 +1,81 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        19
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 78 19",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.44999999999998,
+      "stamina": 97.61499999999991,
+      "health": 100.0,
+      "mood": 48.6999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        88,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.44999999999998,
+      "stamina": 95.70300000000044,
+      "health": 100.0,
+      "mood": 46.09999999999985,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting food from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-12 08:10:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe for food and relaxation",
+          "created": "2026-07-12 08:10:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+          "created": "2026-07-12 08:09:00",
+          "poignancy": 7.12
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        80,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.474999999999945,
+      "stamina": 94.35600000000039,
+      "health": 100.0,
+      "mood": 51.93000000000015,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 08:08:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:10:40"
+  }
+}

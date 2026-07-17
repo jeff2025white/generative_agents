@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        109,
+        47
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.58000000000082,
+      "stamina": 98.7700000000001,
+      "health": 100.0,
+      "mood": 54.359999999999744,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden",
+          "created": "2026-07-10 08:34:10"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        67,
+        17
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "idling @ the Ville:Ryan Park's apartment:main room:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 83.58000000000042,
+      "stamina": 86.43200000000141,
+      "health": 100.0,
+      "mood": 44.999999999999744,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        34,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:Johnson Park:park:park garden",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 80.48999999999982,
+      "stamina": 85.87400000000085,
+      "health": 100.0,
+      "mood": 52.700000000000585,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:34:10"
+  }
+}

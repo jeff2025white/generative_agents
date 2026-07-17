@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        44,
+        53
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and clear the mind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 55.745000000003245,
+      "stamina": 50.75800000000257,
+      "health": 100.0,
+      "mood": 30.06000000000003,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        102,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting a meal from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6211\u89c9\u5f97\u793e\u533a\u6539\u9020\u633a\u590d\u6742\u7684\uff0c\u50cf\u6211\u7814\u7a76\u7684 gentrification \u5c31\u4f1a\u5e26\u6765\u5f88\u591a\u53d8\u5316\u3002",
+      "satiety": 15.79000000000331,
+      "stamina": 88.04900000000123,
+      "health": 100.0,
+      "mood": 79.35999999999807,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        98,
+        43
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5c31\u4eca\u5929\u4e0b\u5348\u505a\u5462\u3002\u5bf9\u4e86\uff0c\u4f60\u8981\u662f\u6709\u7a7a\uff0c\u6765\u5c1d\u5c1d\u5457\u3002",
+      "satiety": 73.79000000000528,
+      "stamina": 73.59500000000268,
+      "health": 100.0,
+      "mood": 85.50000000000077,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-12 11:20:20"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 11:20:20"
+  }
+}

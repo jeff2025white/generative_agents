@@ -1,0 +1,78 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        51,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.98999999999993,
+      "stamina": 84.86000000000115,
+      "health": 100.0,
+      "mood": 36.41999999999945,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        40,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 19.344999999999793,
+      "stamina": 78.76800000000148,
+      "health": 100.0,
+      "mood": 36.93000000000066,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        114,
+        51
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:common room:",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 80.99000000000103,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 54.239999999999725,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting and relaxing in the common room sofa",
+          "created": "2026-07-10 08:40:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sitting down to relax and reset mood",
+          "created": "2026-07-10 08:22:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short walk and relaxing in the dorm garden",
+          "created": "2026-07-10 08:34:10",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:40:20"
+  }
+}

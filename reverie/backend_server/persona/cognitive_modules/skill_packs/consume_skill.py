@@ -16,7 +16,7 @@ class ConsumeSkillPack(BaseSkillPack):
         self.name = "consume"
         self.associated_xp = "cooking"
         self.effect_spec = build_skill_effect_spec(
-            base_state_effects={"satiety": 58.0, "health": 5.0, "mood": 5.0},
+            base_state_effects={"satiety": 58.0, "health": 5.0, "mood": 1.0},
             motive_effects={},
             intent_tags=("consume", "restore_satiety", "recovery"),
         )

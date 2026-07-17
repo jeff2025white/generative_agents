@@ -1,0 +1,292 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        31,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a brief walk in the park garden to clear the mind and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 87.40000000000123,
+      "stamina": 92.99400000000072,
+      "health": 100.0,
+      "mood": 42.80000000000015,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        49,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "taking a walk in the park garden to relax @ the Ville:Johnson Park:park",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u597d\uff0c\u8bf7\u95ee\u4f60\u662f Hobbs Cafe \u7684\u8001\u677f Isabella \u5417\uff1f\u6211\u6709\u4e9b\u4e8b\u60f3\u627e\u4f60\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\uff0c\u6211\u5c31\u662f Isabella\u3002\u4f60\u627e\u6211\u6709\u4ec0\u4e48\u4e8b\u5417\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u6211\u60f3\u95ee\u95ee\uff0c\u4f60\u4eec\u5496\u5561\u9986\u80fd\u4e0d\u80fd\u529e\u4e2a\u5c0f\u578b\u805a\u4f1a\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5f53\u7136\u53ef\u4ee5\u554a\uff0c\u6211\u4eec\u5496\u5561\u9986\u7ecf\u5e38\u529e\u805a\u4f1a\u5462\u3002\u4f60\u8981\u529e\u4ec0\u4e48\u6837\u7684\u805a\u4f1a\u5440\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u6211\u60f3\u529e\u4e2a\u5b66\u4e60\u5c0f\u7ec4\u805a\u4f1a\uff0c\u5927\u6982\u5341\u4e2a\u4eba\u5de6\u53f3\u3002"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u554a\uff0c\u6211\u4eec\u5496\u5561\u9986\u7ecf\u5e38\u529e\u805a\u4f1a\u5462\u3002\u4f60\u8981\u529e\u4ec0\u4e48\u6837\u7684\u805a\u4f1a\u5440\uff1f",
+      "satiety": 87.40000000000123,
+      "stamina": 93.24000000000055,
+      "health": 100.0,
+      "mood": 77.54000000000028,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden to relax",
+          "created": "2026-07-12 08:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is resting on the common room sofa to relax",
+          "created": "2026-07-12 08:15:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:15:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 08:15:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is relaxing on the common room sofa in the library",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a short nap on the common room sofa",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        99,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "studying in the library for mood improvement and academic engagement @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u529e\u4e2a\u5b66\u4e60\u5c0f\u7ec4\u805a\u4f1a\uff0c\u5927\u6982\u5341\u4e2a\u4eba\u5de6\u53f3\u3002",
+      "satiety": 84.70000000000113,
+      "stamina": 99.33400000000005,
+      "health": 100.0,
+      "mood": 59.91999999999996,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is studying in the library for mood improvement and academic engagement",
+          "created": "2026-07-12 08:29:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 08:29:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-12 08:11:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:22:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-12 08:23:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-12 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:10:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:29:50"
+  }
+}

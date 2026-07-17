@@ -1,0 +1,99 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        108,
+        38
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Discuss decorations and logistics to support the community and improve mood.; conversation topic: Valentine's Day party planning @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u4e0d\u4f1a\u7684\u5462\uff0c\u6211\u4eec\u8fd9\u5730\u65b9\u4e0d\u5927\uff0c\u4e0d\u4f1a\u5f88\u6324\u7684\u3002",
+      "satiety": 73.7900000000008,
+      "stamina": 88.39400000000124,
+      "health": 100.0,
+      "mood": 58.099999999999476,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idling to conserve energy",
+          "created": "2026-07-16 08:33:20"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        108,
+        36
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling to conserve energy @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6709\u70b9\u7d2f\u554a\uff0c\u4e0d\u8fc7\u8fd8\u80fd\u575a\u6301\u3002\u5bf9\u4e86\uff0c\u88c5\u9970\u6750\u6599\u6211\u6253\u7b97\u660e\u5929\u53bb\u4e70\uff0c\u4f60\u8981\u4e00\u8d77\u53bb\u5417\uff1f",
+      "satiety": 73.79000000000063,
+      "stamina": 91.76000000000064,
+      "health": 100.0,
+      "mood": 73.85999999999959,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Discuss decorations and logistics to support the community and improve mood.; conversation topic: Valentine's Day party planning",
+          "created": "2026-07-16 08:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-16 08:33:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller spent time on leisure_use with target common room sofa.",
+          "created": "2026-07-16 08:30:40",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is Relaxing on the common room sofa and daydreaming to improve mood.",
+          "created": "2026-07-16 08:31:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-16 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        54,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "Taking a leisurely walk in the park to relax and improve mood. @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u5c31\u597d\uff0c\u6211\u8fd8\u62c5\u5fc3\u4eba\u591a\u4f1a\u5f88\u5608\u6742\u5462\u3002\u4f60\u51c6\u5907\u6d3e\u5bf9\u5fd9\u4e86\u591a\u4e45\u5566\uff1f",
+      "satiety": 70.74500000000035,
+      "stamina": 86.53200000000122,
+      "health": 100.0,
+      "mood": 51.80000000000044,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:33:40"
+  }
+}

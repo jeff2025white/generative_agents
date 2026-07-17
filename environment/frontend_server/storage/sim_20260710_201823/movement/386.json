@@ -1,0 +1,82 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        106,
+        47
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 70.91000000000206,
+      "stamina": 82.50500000000126,
+      "health": 100.0,
+      "mood": 58.75999999999934,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is relaxing on the common room sofa",
+          "created": "2026-07-10 09:04:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-10 08:32:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        69,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the dorm garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.10500000000096,
+      "stamina": 94.49400000000038,
+      "health": 100.0,
+      "mood": 49.370000000000864,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the garden chair to breathe deeply and appreciate the serene environment",
+          "created": "2026-07-10 09:04:10"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        58,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 70.91000000000166,
+      "stamina": 95.40600000000047,
+      "health": 100.0,
+      "mood": 35.15999999999949,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 09:04:20"
+  }
+}

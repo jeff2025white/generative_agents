@@ -1,0 +1,124 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        94,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5176\u5b9e\u4e5f\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u591a\u8ddf\u5ba2\u4eba\u804a\u804a\u5929\uff0c\u8ba9\u4ed6\u4eec\u89c9\u5f97\u8212\u670d\u81ea\u5728\u3002",
+      "satiety": 46.94000000000344,
+      "stamina": 83.0470000000012,
+      "health": 100.0,
+      "mood": 86.64000000000108,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 10:05:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 08:39:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 09:52:10",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 09:35:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 08:40:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 08:39:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        95,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the common room sofa to relax and distract myself from my low mood @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 46.94000000000344,
+      "stamina": 84.16200000000143,
+      "health": 100.0,
+      "mood": 51.01999999999919,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 10:05:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 09:52:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 09:45:20",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 09:45:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 09:53:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.57000000000236,
+      "stamina": 83.85000000000092,
+      "health": 98.72000000000025,
+      "mood": 16.80000000000014,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 10:06:10"
+  }
+}

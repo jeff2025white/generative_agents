@@ -1,0 +1,75 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        58,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u5728 Hobbs Cafe \u7ecf\u5e38\u770b\u5230\u4f60\uff0c\u5c31\u662f\u60f3\u95ee\u95ee\u4f60\u80fd\u8ba9\u6211\u5728\u5e97\u91cc\u76f4\u64ad\u6e38\u620f\u5417\uff1f",
+      "satiety": 92.60500000000054,
+      "stamina": 96.45800000000052,
+      "health": 100.0,
+      "mood": 57.640000000000015,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        40
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and lift mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u55ef\u2026\u2026\u73b0\u5728\u5e97\u91cc\u4eba\u6709\u70b9\u591a\uff0c\u6015\u5f71\u54cd\u5230\u5176\u4ed6\u5ba2\u4eba\u5462\u3002",
+      "satiety": 93.9100000000006,
+      "stamina": 89.22900000000054,
+      "health": 100.0,
+      "mood": 57.70000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        66,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 93.9100000000006,
+      "stamina": 94.2000000000006,
+      "health": 100.0,
+      "mood": 46.520000000000074,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax and improve mood",
+          "created": "2026-07-13 08:14:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-13 08:14:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to relax and lift mood",
+          "created": "2026-07-13 08:11:40",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:14:20"
+  }
+}

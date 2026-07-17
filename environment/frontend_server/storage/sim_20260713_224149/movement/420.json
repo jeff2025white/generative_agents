@@ -1,0 +1,81 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        98,
+        48
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 98 48",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u5c31\u662f\u5173\u4e8e\u4f60\u4eec\u5496\u5561\u9986\u7684\u4e00\u4e9b\u4e8b\u60c5\uff0c\u4e0d\u77e5\u9053\u60a8\u6709\u6ca1\u6709\u65f6\u95f4\uff1f",
+      "satiety": 64.21500000000263,
+      "stamina": 81.01600000000096,
+      "health": 100.0,
+      "mood": 43.43000000000031,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        112,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Klaus Mueller about the Valentine's Day party at Hobbs Cafe @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff1f\u60f3\u804a\u4ec0\u4e48\u5440\uff1f\u6211\u5728\u542c\u5462\u3002",
+      "satiety": 70.53000000000287,
+      "stamina": 99.00700000000008,
+      "health": 100.0,
+      "mood": 77.68000000000075,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sitting quietly on the common room sofa",
+          "created": "2026-07-13 09:10:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is taking a short nap on the library sofa",
+          "created": "2026-07-13 09:10:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-13 09:07:50",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at library sofa and recovered stamina.",
+          "created": "2026-07-13 08:31:40",
+          "poignancy": 6.0
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        42,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book to relax and find inspiration for research @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 70.53000000000287,
+      "stamina": 49.157000000001645,
+      "health": 100.0,
+      "mood": 62.90000000000019,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 09:10:00"
+  }
+}

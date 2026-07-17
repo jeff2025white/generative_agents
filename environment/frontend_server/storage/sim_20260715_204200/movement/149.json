@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        68,
+        30
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u60c5\u4eba\u8282\u6d3e\u5bf9\u542c\u7740\u5c31\u5f88\u70ed\u95f9\u5462\u3002\u5fd9\u5b8c\u8fd9\u4e2a\uff0c\u4f60\u5e94\u8be5\u80fd\u597d\u597d\u653e\u677e\u4e86\u5427\uff1f",
+      "satiety": 89.50000000000102,
+      "stamina": 98.99500000000052,
+      "health": 100.0,
+      "mood": 52.98000000000018,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        100,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading and relaxing in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u53eb Maria\uff0c\u7ecf\u5e38\u6765 Hobbs Cafe\u3002\u6211\u60f3\u95ee\u95ee\u4f60\u60c5\u4eba\u8282\u805a\u4f1a\u7684\u4e8b\u513f\u3002",
+      "satiety": 87.25000000000094,
+      "stamina": 91.0660000000009,
+      "health": 100.0,
+      "mood": 56.11999999999995,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u6211\u4e5f\u662f\uff0c\u6700\u8fd1\u5fd9\u7740\u5f04\u5496\u5561\u9986\u7684\u60c5\u4eba\u8282\u6d3e\u5bf9\uff0c\u7d2f\u574f\u4e86\u3002\u80fd\u5750\u4e0b\u6765\u6b47\u4f1a\u513f\u771f\u597d\u3002",
+      "satiety": 89.50000000000102,
+      "stamina": 93.29499999999975,
+      "health": 100.0,
+      "mood": 50.68000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:24:50"
+  }
+}

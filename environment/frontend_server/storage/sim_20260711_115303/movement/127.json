@@ -1,0 +1,71 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        113,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.11999999999989,
+      "stamina": 86.88800000000077,
+      "health": 100.0,
+      "mood": 45.600000000000364,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        62,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Hobbs Cafe:cafe:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.039999999999964,
+      "stamina": 88.0240000000008,
+      "health": 100.0,
+      "mood": 54.4399999999996,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        28,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.039999999999964,
+      "stamina": 91.60000000000088,
+      "health": 100.0,
+      "mood": 43.31999999999971,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is eating the apple from inventory to restore satiety",
+          "created": "2026-07-11 08:20:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "apple tree is being eaten by Klaus",
+          "created": "2026-07-11 08:20:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:21:10"
+  }
+}

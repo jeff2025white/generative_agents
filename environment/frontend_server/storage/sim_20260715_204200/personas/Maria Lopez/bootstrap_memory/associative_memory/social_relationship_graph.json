@@ -1,0 +1,11 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about the Valentine's Day party at Hobbs Cafe"
+      ]
+    }
+  }
+}

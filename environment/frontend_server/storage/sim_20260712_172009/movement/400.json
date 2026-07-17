@@ -1,0 +1,87 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 65.91500000000251,
+      "stamina": 83.45000000000094,
+      "health": 100.0,
+      "mood": 34.650000000000205,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        86,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk and enjoying nature in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.93000000000274,
+      "stamina": 94.03900000000031,
+      "health": 100.0,
+      "mood": 68.15999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        35,
+        45
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.93000000000274,
+      "stamina": 90.72600000000075,
+      "health": 100.0,
+      "mood": 45.63999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden",
+          "created": "2026-07-12 09:06:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sitting on the library sofa to relax",
+          "created": "2026-07-12 09:06:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 08:30:30",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the sofa to relax and distract from low mood",
+          "created": "2026-07-12 08:12:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-12 08:47:30",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:06:40"
+  }
+}

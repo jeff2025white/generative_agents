@@ -1,0 +1,97 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        69,
+        35
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the common room sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6ca1\u6709\u5462\uff0c\u6211\u662f\u4e13\u95e8\u627e\u60a8\u6709\u70b9\u4e8b\u3002",
+      "satiety": 93.37000000000049,
+      "stamina": 97.25000000000047,
+      "health": 100.0,
+      "mood": 60.910000000000025,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:12:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden to relax",
+          "created": "2026-07-13 08:12:40"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "taking a walk in the park garden to relax @ the Ville:Johnson Park:park",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u90a3\u4e2a\u2026\u2026\u60a8\u662f Hobbs \u9910\u5385\u7684\u8001\u677f\u4f0a\u838e\u8d1d\u62c9\u00b7\u7f57\u5fb7\u91cc\u683c\u65af\u5973\u58eb\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\uff0c\u6211\u5c31\u662f\u3002\u4f60\u662f\u5728\u970d\u5e03\u65af\u5496\u5561\u9986\u89c1\u8fc7\u6211\u5417\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u6ca1\u6709\u5462\uff0c\u6211\u662f\u4e13\u95e8\u627e\u60a8\u6709\u70b9\u4e8b\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u4e13\u95e8\u627e\u6211\u554a\uff0c\u4ec0\u4e48\u4e8b\u5462\uff1f"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u4e13\u95e8\u627e\u6211\u554a\uff0c\u4ec0\u4e48\u4e8b\u5462\uff1f",
+      "satiety": 94.54000000000053,
+      "stamina": 93.90600000000049,
+      "health": 100.0,
+      "mood": 50.68000000000001,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        75,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.54000000000053,
+      "stamina": 94.83200000000053,
+      "health": 100.0,
+      "mood": 55.620000000000125,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:09:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-13 08:09:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:12:50"
+  }
+}

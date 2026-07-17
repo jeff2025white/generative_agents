@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        93,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to unwind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6ca1\u6709\u5462\uff0c\u6211\u662f\u4e13\u95e8\u627e\u60a8\u6709\u70b9\u4e8b\u3002",
+      "satiety": 84.61500000000113,
+      "stamina": 96.69400000000023,
+      "health": 100.0,
+      "mood": 57.81999999999991,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is relaxing on the common room sofa",
+          "created": "2026-07-13 08:30:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        114,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff0c\u662f\u5417\uff1f\u6211\u5728 Hobbs Cafe \u5c31\u662f\u5c3d\u91cf\u8ba9\u987e\u5ba2\u89c9\u5f97\u8212\u670d\uff0c\u4e0d\u8fc7\u5173\u4e8e\u793e\u533a\u6539\u9020\uff0c\u6211\u8fd8\u771f\u6ca1\u60f3\u8fc7\u592a\u591a\u5462\u3002",
+      "satiety": 87.33000000000123,
+      "stamina": 79.87100000000113,
+      "health": 100.0,
+      "mood": 62.36000000000003,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        108,
+        33
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u542c\u4e0a\u53bb\u5f88\u68d2\u554a\uff0c\u90a3\u4e9b\u5c0f\u6e38\u620f\u80af\u5b9a\u5f88\u6709\u8da3\u3002",
+      "satiety": 87.33000000000123,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 63.30000000000024,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is chatting with Isabella Rodriguez for comfort and social inclusion",
+          "created": "2026-07-13 08:29:20"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:30:00"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        19
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u9a6c\u4e0a\u5c31\u6709\u65b0\u7684\u4e86\uff0c\u4f60\u5148\u559d\u676f\u6c34\u7b49\u4f1a\u513f\u3002",
+      "satiety": 29.289999999999957,
+      "stamina": 93.65499999999976,
+      "health": 100.0,
+      "mood": 47.61999999999953,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idling",
+          "created": "2026-07-12 08:25:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed idle attempt on none at the Ville:Isabella Rodriguez's apartment:kitchen:<random> because rest_target_missing.",
+          "created": "2026-07-12 08:25:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 08:24:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-12 08:16:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-12 08:13:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-12 08:15:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 08:01:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-12 08:01:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 08:13:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:24:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:24:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-12 08:01:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        108,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\uff0c\u90a3\u6211\u7b49\u4f1a\u513f\u3002\u5bf9\u4e86\uff0c\u4f60\u8fd9\u513f\u7ecf\u5e38\u8fd9\u4e48\u5feb\u6ca1\u5403\u7684\u5417\uff1f",
+      "satiety": 29.289999999999957,
+      "stamina": 94.03900000000102,
+      "health": 100.0,
+      "mood": 44.09999999999967,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        98,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:kitchen sink",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u62db\u724c\u677e\u997c\u554a\uff0c\u90a3\u884c\uff0c\u7ed9\u6211\u6765\u4e00\u4efd\u3002\u5bf9\u4e86\uff0c\u6211\u8fd8\u60f3\u77e5\u9053\u4f60\u4eec\u8fd9\u6709\u6ca1\u6709\u9002\u5408\u8fb9\u5403\u8fb9\u5b66\u4e60\u7684\u4f4d\u7f6e\u5440\uff1f",
+      "satiety": 26.99499999999987,
+      "stamina": 95.82000000000028,
+      "health": 100.0,
+      "mood": 50.750000000000384,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:25:20"
+  }
+}

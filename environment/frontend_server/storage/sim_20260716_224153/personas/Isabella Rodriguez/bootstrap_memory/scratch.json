@@ -1,0 +1,1848 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 16, 2026, 08:28:30",
+  "curr_tile": [
+    69,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "hospitable, empathetic, community-oriented",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 75.96000000000059,
+  "stamina": 99.24400000000006,
+  "health": 100.0,
+  "mood": 49.19999999999956,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 75.96000000000059,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 99.24400000000006,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 66.62400000000076,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 49.19999999999956,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 70.90399999999988,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 61.93599999999992,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 56.28000000000034,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 60.07599999999948,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 58.93599999999992,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 16, 2026, 08:27:00",
+  "decision_commit_until_step": 164,
+  "last_decision_signature": {
+    "skill_id": "leisure_use",
+    "target": "common room sofa",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "Relax on the common room sofa to improve mood.",
+  "recent_completed_action_signature": {
+    "skill_id": "idle",
+    "target": "idle",
+    "intent_family": "idle"
+  },
+  "recent_completed_action_step": 161,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "idle",
+    "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+    "skill_id": "idle",
+    "action_description": "idling",
+    "curr_step": 161
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Isabella_Rodriguez-161-bae34e1348",
+    "sim_code": null,
+    "persona": "Isabella Rodriguez",
+    "curr_step": 161,
+    "sim_time": "2026-07-16 08:26:50",
+    "wall_ts": "2026-07-16T22:52:41.574529+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "idle",
+      "raw_action": "idle",
+      "intent_family": "idle",
+      "target": "none",
+      "target_type": null,
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "resolved_target": "computer desk",
+      "resolution_kind": null,
+      "detail": "idling"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "none",
+      "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.06,
+      "recency_weight": 1.0,
+      "effective_score": 0.06,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Isabella_Rodriguez-161-bae34e1348",
+      "memory_type": "event",
+      "subject": "Isabella Rodriguez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+      "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+      "keywords": [
+        "execution_result",
+        "idle",
+        "none",
+        "success"
+      ],
+      "poignancy": 4.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "idle",
+        "target": "none",
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "reason": null,
+        "dominant_motive": null,
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-154-bbd39f105f",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 154,
+      "sim_time": "2026-07-16 08:25:40",
+      "wall_ts": "2026-07-16T22:51:39.215591+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-154-bbd39f105f",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-155-648ff4de05",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 155,
+      "sim_time": "2026-07-16 08:25:50",
+      "wall_ts": "2026-07-16T22:51:39.434928+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-155-648ff4de05",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-156-d180a5a63a",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 156,
+      "sim_time": "2026-07-16 08:26:00",
+      "wall_ts": "2026-07-16T22:51:52.600308+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-156-d180a5a63a",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-157-d9b961ca27",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 157,
+      "sim_time": "2026-07-16 08:26:10",
+      "wall_ts": "2026-07-16T22:51:52.801312+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-157-d9b961ca27",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-158-4f26739abb",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 158,
+      "sim_time": "2026-07-16 08:26:20",
+      "wall_ts": "2026-07-16T22:51:53.012952+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-158-4f26739abb",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-159-cb5b964177",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 159,
+      "sim_time": "2026-07-16 08:26:30",
+      "wall_ts": "2026-07-16T22:52:13.837993+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-159-cb5b964177",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-160-8caeac9286",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 160,
+      "sim_time": "2026-07-16 08:26:40",
+      "wall_ts": "2026-07-16T22:52:26.985124+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-160-8caeac9286",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-161-bae34e1348",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 161,
+      "sim_time": "2026-07-16 08:26:50",
+      "wall_ts": "2026-07-16T22:52:41.574529+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+        "resolved_target": "computer desk",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-161-bae34e1348",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:Ryan Park's apartment:main room:computer desk.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:ryan park's apartment:main room:computer desk"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 81,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-80-f0198b5b3e",
+        "Isabella_Rodriguez-81-b87e4a2dd9"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 141,
+      "expires_after_step": 161
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 142,
+      "expires_after_step": 162
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 143,
+      "expires_after_step": 163
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 144,
+      "expires_after_step": 164
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 145,
+      "expires_after_step": 165
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 146,
+      "expires_after_step": 166
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 147,
+      "expires_after_step": 167
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 148,
+      "expires_after_step": 168
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 149,
+      "expires_after_step": 169
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 150,
+      "expires_after_step": 170
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 151,
+      "expires_after_step": 171
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 152,
+      "expires_after_step": 172
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 153,
+      "expires_after_step": 173
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 154,
+      "expires_after_step": 174
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 155,
+      "expires_after_step": 175
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 156,
+      "expires_after_step": 176
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 157,
+      "expires_after_step": 177
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 158,
+      "expires_after_step": 178
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 159,
+      "expires_after_step": 179
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 160,
+      "expires_after_step": 180
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:Ryan Park's apartment:main room:computer desk",
+      "progress_score": 0.0,
+      "curr_step": 161,
+      "expires_after_step": 181
+    }
+  ],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-162-leisure_use-common room sofa",
+    "phase": "pathing",
+    "address": "the Ville:Dorm for Oak Hill College:common room",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "leisure_use",
+      "detail": "Relax on the common room sofa to improve mood."
+    },
+    "description": "Relax on the common room sofa to improve mood.",
+    "event": [
+      "Isabella Rodriguez",
+      "relax",
+      "common room sofa"
+    ],
+    "path": [
+      [
+        71,
+        30
+      ],
+      [
+        72,
+        30
+      ],
+      [
+        73,
+        30
+      ],
+      [
+        74,
+        30
+      ],
+      [
+        75,
+        30
+      ],
+      [
+        76,
+        30
+      ],
+      [
+        77,
+        30
+      ],
+      [
+        78,
+        30
+      ],
+      [
+        79,
+        30
+      ],
+      [
+        80,
+        30
+      ],
+      [
+        81,
+        30
+      ],
+      [
+        82,
+        30
+      ],
+      [
+        83,
+        30
+      ],
+      [
+        84,
+        30
+      ],
+      [
+        85,
+        30
+      ],
+      [
+        86,
+        30
+      ],
+      [
+        87,
+        30
+      ],
+      [
+        88,
+        30
+      ],
+      [
+        89,
+        30
+      ],
+      [
+        90,
+        30
+      ],
+      [
+        91,
+        30
+      ],
+      [
+        92,
+        30
+      ],
+      [
+        93,
+        30
+      ],
+      [
+        94,
+        30
+      ],
+      [
+        95,
+        30
+      ],
+      [
+        96,
+        30
+      ],
+      [
+        97,
+        30
+      ],
+      [
+        98,
+        30
+      ],
+      [
+        99,
+        30
+      ],
+      [
+        100,
+        30
+      ],
+      [
+        101,
+        30
+      ],
+      [
+        102,
+        30
+      ],
+      [
+        103,
+        30
+      ],
+      [
+        103,
+        31
+      ],
+      [
+        103,
+        32
+      ],
+      [
+        104,
+        32
+      ],
+      [
+        105,
+        32
+      ],
+      [
+        106,
+        32
+      ],
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        108,
+        33
+      ],
+      [
+        108,
+        34
+      ],
+      [
+        108,
+        35
+      ],
+      [
+        108,
+        36
+      ],
+      [
+        108,
+        37
+      ],
+      [
+        109,
+        37
+      ],
+      [
+        110,
+        37
+      ],
+      [
+        111,
+        37
+      ],
+      [
+        112,
+        37
+      ],
+      [
+        113,
+        37
+      ],
+      [
+        114,
+        37
+      ],
+      [
+        115,
+        37
+      ],
+      [
+        116,
+        37
+      ],
+      [
+        116,
+        38
+      ],
+      [
+        116,
+        39
+      ],
+      [
+        116,
+        40
+      ],
+      [
+        116,
+        41
+      ],
+      [
+        116,
+        42
+      ],
+      [
+        116,
+        43
+      ],
+      [
+        116,
+        44
+      ],
+      [
+        116,
+        45
+      ],
+      [
+        117,
+        45
+      ],
+      [
+        117,
+        46
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 162,
+    "updated_step": 171,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "leisure_use",
+    "intent_family": "restore_mood",
+    "target": "common room sofa",
+    "target_type": "place",
+    "resolved_target": "sofa",
+    "resolved_address": "the Ville:Dorm for Oak Hill College:common room",
+    "description": "Relax on the common room sofa to improve mood.",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "leisure_use",
+      "detail": "Relax on the common room sofa to improve mood."
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "relax",
+      "common room sofa"
+    ],
+    "duration": 30,
+    "creator_instruction": null,
+    "created_step": 162,
+    "updated_step": 171,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "leisure_use",
+  "active_skill_id": "Isabella Rodriguez-162-leisure_use",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 162,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "common room sofa",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "Relax on the common room sofa to improve mood."
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "analytical, thoughtful, persistent",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "hospitable, empathetic, community-oriented",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:27:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:27:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.. My preferr...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:27:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:27:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-16 08:27:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 2,
+  "importance_ele_n": 121,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Dorm for Oak Hill College:common room",
+  "act_start_time": "July 16, 2026, 08:27:00",
+  "act_duration": 30,
+  "act_description": "Relax on the common room sofa to improve mood.",
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": [
+    "Isabella Rodriguez",
+    "relax",
+    "common room sofa"
+  ],
+  "act_command": {
+    "skill_id": "leisure_use",
+    "target": "common room sofa",
+    "intent_family": "restore_mood",
+    "source": "decision_translation",
+    "raw_action": "leisure_use",
+    "detail": "Relax on the common room sofa to improve mood."
+  },
+  "act_obj_description": "common room is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "common room",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      71,
+      30
+    ],
+    [
+      72,
+      30
+    ],
+    [
+      73,
+      30
+    ],
+    [
+      74,
+      30
+    ],
+    [
+      75,
+      30
+    ],
+    [
+      76,
+      30
+    ],
+    [
+      77,
+      30
+    ],
+    [
+      78,
+      30
+    ],
+    [
+      79,
+      30
+    ],
+    [
+      80,
+      30
+    ],
+    [
+      81,
+      30
+    ],
+    [
+      82,
+      30
+    ],
+    [
+      83,
+      30
+    ],
+    [
+      84,
+      30
+    ],
+    [
+      85,
+      30
+    ],
+    [
+      86,
+      30
+    ],
+    [
+      87,
+      30
+    ],
+    [
+      88,
+      30
+    ],
+    [
+      89,
+      30
+    ],
+    [
+      90,
+      30
+    ],
+    [
+      91,
+      30
+    ],
+    [
+      92,
+      30
+    ],
+    [
+      93,
+      30
+    ],
+    [
+      94,
+      30
+    ],
+    [
+      95,
+      30
+    ],
+    [
+      96,
+      30
+    ],
+    [
+      97,
+      30
+    ],
+    [
+      98,
+      30
+    ],
+    [
+      99,
+      30
+    ],
+    [
+      100,
+      30
+    ],
+    [
+      101,
+      30
+    ],
+    [
+      102,
+      30
+    ],
+    [
+      103,
+      30
+    ],
+    [
+      103,
+      31
+    ],
+    [
+      103,
+      32
+    ],
+    [
+      104,
+      32
+    ],
+    [
+      105,
+      32
+    ],
+    [
+      106,
+      32
+    ],
+    [
+      107,
+      32
+    ],
+    [
+      108,
+      32
+    ],
+    [
+      108,
+      33
+    ],
+    [
+      108,
+      34
+    ],
+    [
+      108,
+      35
+    ],
+    [
+      108,
+      36
+    ],
+    [
+      108,
+      37
+    ],
+    [
+      109,
+      37
+    ],
+    [
+      110,
+      37
+    ],
+    [
+      111,
+      37
+    ],
+    [
+      112,
+      37
+    ],
+    [
+      113,
+      37
+    ],
+    [
+      114,
+      37
+    ],
+    [
+      115,
+      37
+    ],
+    [
+      116,
+      37
+    ],
+    [
+      116,
+      38
+    ],
+    [
+      116,
+      39
+    ],
+    [
+      116,
+      40
+    ],
+    [
+      116,
+      41
+    ],
+    [
+      116,
+      42
+    ],
+    [
+      116,
+      43
+    ],
+    [
+      116,
+      44
+    ],
+    [
+      116,
+      45
+    ],
+    [
+      117,
+      45
+    ],
+    [
+      117,
+      46
+    ]
+  ]
+}

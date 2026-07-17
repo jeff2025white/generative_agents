@@ -1,0 +1,14 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.5800000000000001,
+      "recent_events": [
+        "conversing about conversing about the preparation and participation in a Hobbs Cafe party",
+        "conversing about a planned Valentine's Day party and the preparations being discussed",
+        "conversing about conversing about preparing for a Valentine's Day party and asking for help with the preparations",
+        "conversing about a Valentine's Day party and Isabella Rodriguez's preparations for it, with Klaus Mueller expressing interest in attending"
+      ]
+    }
+  }
+}

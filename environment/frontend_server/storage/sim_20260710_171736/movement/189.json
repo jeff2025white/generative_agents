@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        93,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 23.849999999999838,
+      "stamina": 83.43200000000115,
+      "health": 100.0,
+      "mood": 40.50000000000054,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short walk in the park garden to enjoy the peaceful atmosphere",
+          "created": "2026-07-10 08:30:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is reading a book to distract myself",
+          "created": "2026-07-10 08:30:50"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is studying and relaxing at the library",
+          "created": "2026-07-10 08:30:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        88,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting and relaxing in the common room sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 84.70000000000067,
+      "stamina": 85.31900000000118,
+      "health": 100.0,
+      "mood": 54.239999999999725,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        43
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 26.699999999999946,
+      "stamina": 88.41100000000078,
+      "health": 100.0,
+      "mood": 39.59999999999957,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:31:30"
+  }
+}

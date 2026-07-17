@@ -1,5 +1,5 @@
 from persona.cognitive_modules.skill_packs.base import BaseSkillPack
-from persona.cognitive_modules.action_command_utils import build_action_command, build_decision_signature
+from persona.cognitive_modules.action_command_utils import build_action_command
 from persona.cognitive_modules.action_outcomes import (
     derive_progress_score_breakdown,
 )
@@ -58,24 +58,6 @@ class GatherSkillPack(BaseSkillPack):
     def can_execute(self, persona, target, maze) -> bool:
         clean_target = self._clean_target(target)
         world_state = getattr(persona, "world_resource_state", None)
-        next_signature = build_decision_signature(
-            {"skill_id": "gather", "target": clean_target, "source": "gather_precheck", "raw_action": "gather"},
-            action_address=getattr(persona.scratch, "act_address", None),
-        )
-        if getattr(persona.scratch, "is_recent_duplicate_action", None) and persona.scratch.is_recent_duplicate_action(next_signature, within_steps=2):
-            append_skill_debug_log(
-                {
-                    "persona": persona.name,
-                    "skill": "gather",
-                    "event": "can_execute",
-                    "result": False,
-                    "reason": "recent_duplicate_action",
-                    "target": target,
-                    "clean_target": clean_target,
-                    "recent_completed_action_signature": getattr(persona.scratch, "recent_completed_action_signature", None),
-                }
-            )
-            return self.set_precheck_result(False, "recent_duplicate_action", {"target": target, "clean_target": clean_target})
         # 1. If currently standing on/near a source object, they can gather.
         curr_obj = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
         if curr_obj:

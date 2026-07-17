@@ -1,0 +1,22 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.7000000000000001,
+      "recent_events": [
+        "received a request for apple and helped",
+        "conversing about preparing for a Valentine's Day party and seeking Klaus Mueller's help with decorations",
+        "conversing about planning a Valentine's Day party and discussing a previous gift of apples",
+        "conversing about planning and discussing a Valentine's Day party",
+        "conversing about planning for a Valentine's Day party and discussing decorations and Klaus Mueller's paper writing"
+      ]
+    },
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about a Valentine's Day party preparation and Maria Lopez's interest in attending"
+      ]
+    }
+  }
+}

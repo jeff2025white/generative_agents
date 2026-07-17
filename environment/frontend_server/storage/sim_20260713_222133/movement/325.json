@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        40
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u8fd8\u597d\u5566\u3002\u5c31\u662f\u51c6\u5907\u7684\u4e1c\u897f\u6bd4\u8f83\u591a\u800c\u5df2\u3002\u5230\u65f6\u5019\u4f60\u6765\u4e86\u5c31\u77e5\u9053\u5566\u3002",
+      "satiety": 77.18000000000222,
+      "stamina": 91.59599999999969,
+      "health": 100.0,
+      "mood": 67.2600000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        58,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u5230\u65f6\u5019\u6211\u53bb\u51d1\u4e2a\u70ed\u95f9\u3002\u4f60\u51c6\u5907\u7684\u4e1c\u897f\u80af\u5b9a\u5f88\u4e30\u5bcc\u5427\u3002",
+      "satiety": 77.18000000000222,
+      "stamina": 95.1380000000005,
+      "health": 100.0,
+      "mood": 89.22000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        44,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u80af\u5b9a\u53bb\u5440\uff01\u5230\u65f6\u5019\u6211\u4e5f\u5e26\u7740\u6211\u7684\u6e38\u620f\u8bbe\u5907\uff0c\u8bf4\u4e0d\u5b9a\u80fd\u5728\u6d3e\u5bf9\u4e0a\u5c0f\u9732\u4e00\u624b\u5462\u3002",
+      "satiety": 72.29000000000204,
+      "stamina": 96.42000000000053,
+      "health": 100.0,
+      "mood": 100.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:54:10"
+  }
+}

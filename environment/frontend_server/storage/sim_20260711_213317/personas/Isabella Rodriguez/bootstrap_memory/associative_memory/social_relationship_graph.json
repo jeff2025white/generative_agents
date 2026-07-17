@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.64,
+      "recent_events": [
+        "received a request for apple and helped",
+        "conversing about planning a Valentine's Day party and discussing Klaus's thesis progress"
+      ]
+    }
+  }
+}

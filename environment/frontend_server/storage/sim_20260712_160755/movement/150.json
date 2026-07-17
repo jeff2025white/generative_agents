@@ -1,0 +1,168 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        102,
+        45
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:The Rose and Crown Pub:pub:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\u554a\uff0c\u90a3\u4f60\u5e97\u91cc\u6709\u4ec0\u4e48\u63a8\u8350\u7684\u5403\u7684\u5417\uff1f",
+      "satiety": 29.429999999999957,
+      "stamina": 98.55500000000015,
+      "health": 100.0,
+      "mood": 41.31999999999966,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        85,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "using the library's snack machine for food @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.16499999999987,
+      "stamina": 95.23400000000031,
+      "health": 100.0,
+      "mood": 42.45000000000043,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is asking Isabella Rodriguez for some food",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is opening the refrigerator to gather food items",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is requesting to share a meal or join in on a conversation at the pub",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is using the library's snack machine for food",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+          "created": "2026-07-12 08:22:40",
+          "poignancy": 7.12
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        79,
+        19
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Klaus Mueller at the cafe @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u63a8\u8350\u6211\u4eec\u5bb6\u7684\u62db\u724c\u4e09\u660e\u6cbb\uff0c\u8fd8\u6709\u73b0\u78e8\u5496\u5561\u3002\u8d70\u5427\uff0c\u6211\u5e26\u8def\uff1f",
+      "satiety": 29.429999999999957,
+      "stamina": 98.99600000000007,
+      "health": 100.0,
+      "mood": 51.35999999999955,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-12 08:25:00"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:20:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 08:20:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-12 08:19:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-12 08:18:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:05:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-12 08:25:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:18:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-12 08:21:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-12 08:05:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:25:00"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        30,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 30 40",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u5440\uff0c\u4e0d\u8fc7\u6211\u8fd9\u4f1a\u6b63\u5fd9\u7740\u6458\u82f9\u679c\u5462\uff0c\u4f60\u7a0d\u7b49\u6211\u4e00\u4f1a\u513f\u554a\u3002",
+      "satiety": 90.6500000000001,
+      "stamina": 99.18999999999997,
+      "health": 100.0,
+      "mood": 58.01999999999977,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        48,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 32.64999999999997,
+      "stamina": 93.08100000000071,
+      "health": 100.0,
+      "mood": 43.69999999999976,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        40,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u6211\u53ef\u5e26\u51e0\u4e2a\u670b\u53cb\u53bb\uff0c\u5230\u65f6\u5019\u7ed9\u4f60\u6367\u4e2a\u4eba\u6c14\u573a\uff01",
+      "satiety": 31.07499999999991,
+      "stamina": 98.91200000000063,
+      "health": 100.0,
+      "mood": 60.440000000000204,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:17:20"
+  }
+}

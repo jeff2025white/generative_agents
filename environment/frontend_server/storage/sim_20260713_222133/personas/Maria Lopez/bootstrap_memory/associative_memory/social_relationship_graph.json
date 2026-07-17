@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.6200000000000001,
+      "recent_events": [
+        "conversing about planning a gaming live stream at a cafe",
+        "conversing about whether Maria should try live streaming games and how to handle it",
+        "conversing about planning a Valentine's Day party at Hobbs Cafe and discussing game streaming details",
+        "conversing about planning a game stream at Hobbs Cafe",
+        "conversing about preparing for a Valentine's Day party and discussing the details of Maria Lopez's gaming live stream at Isabella Rodriguez's store"
+      ]
+    }
+  }
+}

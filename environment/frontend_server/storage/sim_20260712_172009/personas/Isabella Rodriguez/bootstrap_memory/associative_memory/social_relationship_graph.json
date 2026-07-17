@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.66,
+      "recent_events": [
+        "conversing about two friends planning to go to a bar to eat and socialize",
+        "received a request for apple and helped",
+        "conversing about Isabella Rodriguez seeking help from Klaus Mueller on community development and discussing a park project as an example"
+      ]
+    }
+  }
+}

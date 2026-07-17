@@ -1,0 +1,805 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 12, 2026, 08:04:50",
+  "curr_tile": [
+    73,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "even-tempered, welcoming, health-conscious",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 97.9000000000002,
+  "stamina": 97.66400000000019,
+  "health": 100.0,
+  "mood": 50.0,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 97.9000000000002,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 97.66400000000019,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 67.76000000000013,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 50.0,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 73.45999999999998,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 63.639999999999986,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.70000000000006,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 62.48999999999991,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 60.639999999999986,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 12, 2026, 08:00:00",
+  "decision_commit_until_step": 3,
+  "last_decision_signature": {
+    "skill_id": "leisure_use",
+    "target": "park garden",
+    "intent_family": "leisure"
+  },
+  "last_decision_reason": "taking a short walk in the park garden",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "last_action_outcome": null,
+  "recent_action_outcomes": [],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-0-leisure_use-park garden",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "park garden",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "taking a short walk in the park garden"
+    },
+    "description": "taking a short walk in the park garden",
+    "event": [
+      "Isabella Rodriguez",
+      "taking",
+      "park garden"
+    ],
+    "path": [
+      [
+        71,
+        30
+      ],
+      [
+        70,
+        30
+      ],
+      [
+        69,
+        30
+      ],
+      [
+        68,
+        30
+      ],
+      [
+        67,
+        30
+      ],
+      [
+        66,
+        30
+      ],
+      [
+        65,
+        30
+      ],
+      [
+        64,
+        30
+      ],
+      [
+        63,
+        30
+      ],
+      [
+        62,
+        30
+      ],
+      [
+        61,
+        30
+      ],
+      [
+        60,
+        30
+      ],
+      [
+        59,
+        30
+      ],
+      [
+        58,
+        30
+      ],
+      [
+        57,
+        30
+      ],
+      [
+        56,
+        30
+      ],
+      [
+        55,
+        30
+      ],
+      [
+        54,
+        30
+      ],
+      [
+        53,
+        30
+      ],
+      [
+        52,
+        30
+      ],
+      [
+        51,
+        30
+      ],
+      [
+        50,
+        30
+      ],
+      [
+        49,
+        30
+      ],
+      [
+        49,
+        31
+      ],
+      [
+        48,
+        31
+      ],
+      [
+        47,
+        31
+      ],
+      [
+        46,
+        31
+      ],
+      [
+        45,
+        31
+      ],
+      [
+        44,
+        31
+      ],
+      [
+        44,
+        32
+      ],
+      [
+        43,
+        32
+      ],
+      [
+        42,
+        32
+      ],
+      [
+        41,
+        32
+      ],
+      [
+        41,
+        33
+      ],
+      [
+        41,
+        34
+      ],
+      [
+        41,
+        35
+      ],
+      [
+        41,
+        36
+      ],
+      [
+        40,
+        36
+      ],
+      [
+        39,
+        36
+      ],
+      [
+        38,
+        36
+      ],
+      [
+        37,
+        36
+      ],
+      [
+        36,
+        36
+      ],
+      [
+        35,
+        36
+      ],
+      [
+        34,
+        36
+      ],
+      [
+        33,
+        36
+      ],
+      [
+        32,
+        36
+      ],
+      [
+        31,
+        36
+      ],
+      [
+        31,
+        37
+      ],
+      [
+        31,
+        38
+      ],
+      [
+        31,
+        39
+      ],
+      [
+        31,
+        40
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "leisure_use",
+      "target": "park garden",
+      "intent_family": "leisure"
+    },
+    "started_step": 0,
+    "updated_step": 29,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "leisure_use",
+    "intent_family": "leisure",
+    "target": "park garden",
+    "target_type": "place",
+    "resolved_target": "park garden",
+    "resolved_address": "the Ville:Johnson Park:park",
+    "description": "taking a short walk in the park garden",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "park garden",
+      "source": "decision_translation",
+      "raw_action": "Recreate",
+      "detail": "taking a short walk in the park garden"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "taking",
+      "park garden"
+    ],
+    "duration": 30,
+    "creator_instruction": null,
+    "created_step": 0,
+    "updated_step": 29,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "leisure_use",
+  "active_skill_id": "Isabella Rodriguez-0-leisure_use",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 0,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "park garden",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "taking a short walk in the park garden"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "even-tempered, welcoming, health-conscious",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 08:00:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 08:00:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.. My preferr...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 08:00:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 08:00:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-12 08:00:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 134,
+  "importance_ele_n": 13,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park",
+  "act_start_time": "July 12, 2026, 08:00:00",
+  "act_duration": 30,
+  "act_description": "taking a short walk in the park garden",
+  "act_pronunciatio": "\ud83d\udeb6",
+  "act_event": [
+    "Isabella Rodriguez",
+    "taking",
+    "park garden"
+  ],
+  "act_command": {
+    "skill_id": "leisure_use",
+    "target": "park garden",
+    "source": "decision_translation",
+    "raw_action": "Recreate",
+    "detail": "taking a short walk in the park garden"
+  },
+  "act_obj_description": "park is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "park",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      71,
+      30
+    ],
+    [
+      70,
+      30
+    ],
+    [
+      69,
+      30
+    ],
+    [
+      68,
+      30
+    ],
+    [
+      67,
+      30
+    ],
+    [
+      66,
+      30
+    ],
+    [
+      65,
+      30
+    ],
+    [
+      64,
+      30
+    ],
+    [
+      63,
+      30
+    ],
+    [
+      62,
+      30
+    ],
+    [
+      61,
+      30
+    ],
+    [
+      60,
+      30
+    ],
+    [
+      59,
+      30
+    ],
+    [
+      58,
+      30
+    ],
+    [
+      57,
+      30
+    ],
+    [
+      56,
+      30
+    ],
+    [
+      55,
+      30
+    ],
+    [
+      54,
+      30
+    ],
+    [
+      53,
+      30
+    ],
+    [
+      52,
+      30
+    ],
+    [
+      51,
+      30
+    ],
+    [
+      50,
+      30
+    ],
+    [
+      49,
+      30
+    ],
+    [
+      49,
+      31
+    ],
+    [
+      48,
+      31
+    ],
+    [
+      47,
+      31
+    ],
+    [
+      46,
+      31
+    ],
+    [
+      45,
+      31
+    ],
+    [
+      44,
+      31
+    ],
+    [
+      44,
+      32
+    ],
+    [
+      43,
+      32
+    ],
+    [
+      42,
+      32
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      41,
+      33
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      41,
+      35
+    ],
+    [
+      41,
+      36
+    ],
+    [
+      40,
+      36
+    ],
+    [
+      39,
+      36
+    ],
+    [
+      38,
+      36
+    ],
+    [
+      37,
+      36
+    ],
+    [
+      36,
+      36
+    ],
+    [
+      35,
+      36
+    ],
+    [
+      34,
+      36
+    ],
+    [
+      33,
+      36
+    ],
+    [
+      32,
+      36
+    ],
+    [
+      31,
+      36
+    ],
+    [
+      31,
+      37
+    ],
+    [
+      31,
+      38
+    ],
+    [
+      31,
+      39
+    ],
+    [
+      31,
+      40
+    ]
+  ]
+}

@@ -54,11 +54,13 @@ from persona.cognitive_modules.motive_selector import (
 from persona.cognitive_modules.stage1_prompt_compiler import (
   refresh_prompt_profile_from_planning,
 )
+from persona.cognitive_modules.structured_action_intent import compile_action_intent
 from persona.training.training_candidate_builder import normalize_training_log_record
 from persona.cognitive_modules.social_trigger import (
   choose_social_focus,
   compute_social_cooldown,
   compute_social_opportunity_score,
+  is_within_social_greeting_range,
   minimum_social_chat_score,
   should_auto_initiate_social_chat,
   social_hard_block,
@@ -349,7 +351,17 @@ def _dominant_motive_from_intent_family(intent_family):
   text = str(intent_family or "").strip().lower()
   if text.startswith(prefix):
     return text[len(prefix):]
-  return None
+  if text in {"satiety", "stamina", "health", "safety", "mood", "belonging", "status", "autonomy", "competence", "meaning"}:
+    return text
+  alias_map = {
+    "social": "belonging",
+    "recognition": "status",
+    "control": "autonomy",
+    "capability": "competence",
+    "curiosity": "meaning",
+    "meaning_order": "meaning",
+  }
+  return alias_map.get(text)
 
 
 def _build_action_record(persona, skill_id, target, act_desp, act_dura, resolved_address, reasoning, resolution_meta=None, creator_instruction=None, decision_id=None, dominant_motive=None):
@@ -797,7 +809,7 @@ def _run_decision_pipeline(persona,
   if decision_convergence_hint:
     translation_convergence_hint = f"{base_translation_hint} {decision_convergence_hint}".strip()
   invalid_targets = build_invalid_targets(persona.scratch)
-  use_joint_decision = os.getenv("ENABLE_JOINT_DECISION_PIPELINE", "0") == "1"
+  use_joint_decision = os.getenv("ENABLE_JOINT_DECISION_PIPELINE", "1") == "1"
   use_semantic_cache = (
     os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
     and not admin_override_instruction
@@ -892,6 +904,23 @@ def _run_decision_pipeline(persona,
       if not thinking_text:
         thinking_text = str(joint_result.get("detail") or "I should pause briefly.").strip()
       return thinking_text, joint_result, translation_convergence_hint, True, timing_meta, cache_signature
+    if os.getenv("ENABLE_LEGACY_TRANSLATION_FALLBACK", "0") != "1":
+      timing_meta["constraint_hits"] = 1.0
+      timing_meta["last_retry_reason"] = "joint_decision_contract_invalid"
+      fallback_thought = str((joint_result or {}).get("thought") or "I should pause briefly.").strip()
+      fallback_decision = {
+        "schema_version": 2,
+        "thought": fallback_thought,
+        "action": "Idle",
+        "target": "none",
+        "target_type": "none",
+        "mode": "idle",
+        "topic": "",
+        "detail": "idling after an invalid structured decision",
+        "duration": 10,
+        "reasoning": "Local fail-safe avoided the legacy translation pipeline.",
+      }
+      return fallback_thought, fallback_decision, translation_convergence_hint, True, timing_meta, cache_signature
 
   stage_started_at = time.perf_counter()
   thinking_text = run_gpt_prompt_demand_thinking(
@@ -1917,20 +1946,11 @@ def _should_react(persona, retrieved, personas):
   """
   def lets_talk(init_persona, target_persona, retrieved):
     hard_blocked, hard_reasons = social_hard_block(init_persona, target_persona)
-    score_detail = compute_social_opportunity_score(init_persona, target_persona, retrieved)
     if hard_blocked:
       return False
-    if score_detail["total"] < minimum_social_chat_score(init_persona):
+    if not is_within_social_greeting_range(init_persona, target_persona):
       return False
-
-    if should_auto_initiate_social_chat(score_detail):
-      return True
-
-    llm_wants_to_talk = generate_decide_to_talk(init_persona, target_persona, retrieved)
-    if llm_wants_to_talk: 
-      return True
-
-    return False
+    return True
 
   def lets_react(init_persona, target_persona, retrieved): 
     if (not target_persona.scratch.act_address 
@@ -1997,8 +2017,19 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                   act_address, act_event, chatting_with, chat, chatting_with_buffer,
                   chatting_end_time, 
                   act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
-                  act_obj_event, act_start_time=None): 
+                  act_obj_event, act_start_time=None, action_command=None): 
   p = persona 
+  if getattr(p.scratch, "has_active_plan", None) and p.scratch.has_active_plan():
+    if getattr(p.scratch, "suspend_current_action", None):
+      p.scratch.suspend_current_action("social_greeting_interrupt", source="social_trigger")
+    if getattr(p.scratch, "interrupt_execution", None):
+      p.scratch.interrupt_execution(
+        "social_greeting_interrupt",
+        payload={
+          "chatting_with": chatting_with,
+          "inserted_act": inserted_act,
+        },
+      )
   hourly_schedule = getattr(p.scratch, "f_daily_schedule_hourly_org", None) or []
   active_schedule = getattr(p.scratch, "f_daily_schedule", None) or []
 
@@ -2022,7 +2053,7 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                              inserted_act,
                              act_pronunciatio,
                              act_event,
-                             None,
+                             action_command,
                              chatting_with,
                              chat,
                              chatting_with_buffer,
@@ -2077,7 +2108,7 @@ def _create_react(persona, inserted_act, inserted_act_dur,
                            inserted_act,
                            act_pronunciatio,
                            act_event,
-                           None,
+                           action_command,
                            chatting_with,
                            chat,
                            chatting_with_buffer,
@@ -2177,6 +2208,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       inserted_act = f"having a conversation with {target_persona.name}"
       act_address = f"<persona> {target_persona.name}"
       act_event = (p.name, "chat with", target_persona.name)
+      action_command = build_action_command("chat with", target_persona.name, source="social_trigger", raw_action="chat with", detail=inserted_act)
       chatting_with = target_persona.name
       chatting_with_buffer = {}
       score_detail = compute_social_opportunity_score(p, target_persona, focused_event)
@@ -2185,6 +2217,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
       inserted_act = f"having a conversation with {init_persona.name}"
       act_address = f"<persona> {init_persona.name}"
       act_event = (p.name, "chat with", init_persona.name)
+      action_command = build_action_command("chat with", init_persona.name, source="social_trigger", raw_action="chat with", detail=inserted_act)
       chatting_with = init_persona.name
       chatting_with_buffer = {}
       score_detail = compute_social_opportunity_score(p, init_persona, focused_event)
@@ -2198,7 +2231,7 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
     _create_react(p, inserted_act, inserted_act_dur,
       act_address, act_event, chatting_with, None, chatting_with_buffer, chatting_end_time,
       act_pronunciatio, act_obj_description, act_obj_pronunciatio, 
-      act_obj_event, act_start_time)
+      act_obj_event, act_start_time, action_command=action_command)
     set_social_dialogue_state(p, dialogue_id, partner_name=chatting_with, role=role)
     if hasattr(p.scratch, "begin_complex_skill"):
       p.scratch.begin_complex_skill(
@@ -2283,7 +2316,7 @@ def decide_survival_action(persona, maze):
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.\n"
       "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n"
       "- Satiety decays by about -0.08 per step during normal activity, and by about -0.04 per step while sleeping.\n"
-      "- If Satiety reaches 0.0, Health decays by -0.05 per step."
+      "- If Satiety reaches 0.0, Health decays by -0.2 per step."
   )
 
   # Compile Cooperative Context
@@ -2393,6 +2426,19 @@ def decide_survival_action(persona, maze):
     persona.scratch.act_obj_event = (target, "consumed_by", persona.name)
     persona.scratch.act_path_set = False
 
+  elif action == "Treat":
+    persona.scratch.act_address = _current_tile_wait_address(persona)
+    persona.scratch.act_description = act_desp or f"bandaging wounds with {target}"
+    persona.scratch.act_duration = 10
+    persona.scratch.act_start_time = persona.scratch.curr_time
+    persona.scratch.act_pronunciatio = "🩹"
+    persona.scratch.act_event = (persona.name, "bandage", target)
+    persona.scratch.act_command = build_action_command("bandage", target, source="survival_direct", raw_action="bandage", detail=persona.scratch.act_description)
+    persona.scratch.act_obj_description = f"being used for treatment by {persona.scratch.first_name}"
+    persona.scratch.act_obj_pronunciatio = "🩹"
+    persona.scratch.act_obj_event = (target, "used_for_treatment_by", persona.name)
+    persona.scratch.act_path_set = False
+
   elif action == "Rest":
     persona.scratch.act_address = address
     persona.scratch.act_description = f"resting at {target}"
@@ -2470,17 +2516,17 @@ def decide_demand_action(persona, maze, personas=None):
       "- Consuming food (Consume action) restores +40.0 Satiety and +5.0 Health, and consumes 1 food item from inventory.",
       "- Gathering food (Gather action) from resources (like apple tree, refrigerator, stove, and cafe counter) adds items to inventory.",
       "- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.",
-      "- Socializing (Socialize action) provides only a tiny mood lift (+1.0 Mood) and a little comfort, but short chats should not dramatically change your emotional state.",
+      "- Socializing (Socialize action) provides a meaningful mood lift (+4.0 Mood) and social comfort, so short chats should usually beat solitary leisure when mood is the main problem and the body is otherwise okay.",
       "- Normal activities decay Satiety by -0.08 per step, and sleeping decays Satiety by -0.04 per step.",
       "- Normal activities decay Stamina by -0.04 per step, and walking/pathing decays Stamina by -0.07 per step.",
       "- Sleeping restores Stamina by +0.15 per step, and resting restores Stamina by +0.08 per step.",
       "- Switch Cost: Changing tasks/actions in under 15 minutes consumes a high penalty of -5.0 Stamina.",
-      "- If Satiety reaches 0.0, Health decays by -0.05 per step."
+      "- If Satiety reaches 0.0, Health decays by -0.2 per step."
   ]
 
   # Add only factual availability and physical consequence notes.
   if persona.scratch.satiety < 40.0:
-    rules_list.insert(0, f"- PHYSICAL WARNING: Your Satiety ({persona.scratch.satiety:.1f}) is low! If Satiety drops to 0.0, the physical world engine will degrade your Health by -0.05 per step until you die.")
+    rules_list.insert(0, f"- PHYSICAL WARNING: Your Satiety ({persona.scratch.satiety:.1f}) is low! If Satiety drops to 0.0, the physical world engine will degrade your Health by -0.2 per step until you die.")
     has_food = False
     for k, v in persona.scratch.inventory.items():
       if v > 0:
@@ -2489,10 +2535,6 @@ def decide_demand_action(persona, maze, personas=None):
         break
     if not has_food:
       rules_list.insert(0, "- EXECUTION CONSTRAINT: Your inventory is empty, so 'Consume' is not currently executable until food is acquired.")
-  if not any(v > 0 for v in persona.scratch.inventory.values()):
-    if world_state and not any(t in gatherable_food_targets for t in ["refrigerator", "stove", "cafe counter"]) and "apple tree" in gatherable_food_targets:
-      rules_list.insert(0, "- WORLD FACT: Known town food sources are depleted or unavailable right now; the apple tree is still available.")
-  
   if persona.scratch.stamina < 40.0:
     rules_list.insert(0, f"- PHYSICAL WARNING: Your Stamina ({persona.scratch.stamina:.1f}) is low! Changing tasks quickly costs -5.0 Stamina, while normal activities decay it by about -0.04 per step and walking/pathing decays it by about -0.07 per step.")
     rules_list.insert(0, "- AVAILABLE RESOURCE: Rest can target a 'bed' or 'sofa' when either is reachable.")
@@ -2602,19 +2644,50 @@ def decide_demand_action(persona, maze, personas=None):
     act_desp,
     reasoning,
   )
-  action, target, act_desp, reasoning, collective_social_reroute = _coerce_collective_social_hangout(
+  original_intent_action = action
+  compiled_intent = compile_action_intent(
+    {
+      **decision,
+      "action": action,
+      "target": target,
+      "detail": act_desp,
+    },
+    personas=personas,
+    inventory=getattr(persona.scratch, "inventory", {}) or {},
+  )
+  decision.update(compiled_intent)
+  action = compiled_intent.get("compiled_skill_id") or action
+  target = compiled_intent.get("target") or target
+  topic = str(compiled_intent.get("topic") or "").strip()
+  if action in {"chat with", "seek_and_chat"} and topic and topic.lower() not in act_desp.lower():
+    act_desp = f"{act_desp}; conversation topic: {topic}"
+  corrections = compiled_intent.get("contract_corrections") or []
+  if corrections:
+    reasoning = f"{reasoning} [typed intent corrections: {', '.join(corrections)}]".strip()
+
+  compiler_collective_reroute = (
+    str(original_intent_action or "").strip().lower() == "socialize"
+    and action == "hangout_social_venue"
+  )
+  compiler_persona_chat_reroute = (
+    str(original_intent_action or "").strip().lower() == "socialize"
+    and action == "seek_and_chat"
+  )
+  action, target, act_desp, reasoning, legacy_collective_reroute = _coerce_collective_social_hangout(
     action,
     target,
     act_desp,
     reasoning,
   )
-  action, target, act_desp, reasoning, explicit_persona_chat_reroute = _coerce_explicit_persona_chat(
+  collective_social_reroute = compiler_collective_reroute or legacy_collective_reroute
+  action, target, act_desp, reasoning, legacy_persona_chat_reroute = _coerce_explicit_persona_chat(
     action,
     target,
     act_desp,
     reasoning,
     personas=personas,
   )
+  explicit_persona_chat_reroute = compiler_persona_chat_reroute or legacy_persona_chat_reroute
   minimal_filter_summary = _build_minimal_filter_summary(persona, object_states, decision_timing_meta=decision_timing_meta)
   motive_debug = persona.scratch.get_motive_debug_snapshot() if hasattr(persona.scratch, "get_motive_debug_snapshot") else {}
   append_debug_log(
@@ -3072,8 +3145,16 @@ def plan(persona, maze, personas, new_day, retrieved):
   if retrieved.keys(): 
     focused_event = _choose_retrieved(persona, retrieved)
   
-  # Step 2: Perceived social opportunities are logged as context only.
-  # Directly injecting a reaction here would bypass the main decision path.
+  # Step 2: Nearby persona sightings can immediately interrupt into greeting chat.
+  if focused_event:
+    reaction_mode = _should_react(persona, focused_event, personas)
+    if reaction_mode and isinstance(reaction_mode, str):
+      if reaction_mode.startswith("chat with "):
+        _chat_react(maze, persona, focused_event, reaction_mode, personas)
+        return persona.scratch.act_address
+      if reaction_mode.startswith("wait: "):
+        _wait_react(persona, reaction_mode)
+        return persona.scratch.act_address
 
   # Step 3: Chat-related state clean up. 
   # If the persona is not chatting with anyone, we clean up any of the 

@@ -1,0 +1,66 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        51,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "requesting a meal at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u6211\u53ef\u5e26\u51e0\u4e2a\u670b\u53cb\u53bb\uff0c\u5230\u65f6\u5019\u7ed9\u4f60\u6367\u4e2a\u4eba\u6c14\u573a\uff01",
+      "satiety": 29.544999999999895,
+      "stamina": 97.36600000000074,
+      "health": 100.0,
+      "mood": 59.540000000000255,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        30,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 30 40",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u592a\u597d\u5566\uff0c\u4eba\u8d8a\u591a\u8d8a\u70ed\u95f9\u561b\uff01\u5bf9\u4e86\uff0c\u4f60\u670b\u53cb\u91cc\u6709\u6ca1\u6709\u559c\u6b22\u62cd\u7167\u7684\u5440\uff1f",
+      "satiety": 89.39000000000023,
+      "stamina": 98.37999999999994,
+      "health": 100.0,
+      "mood": 58.35999999999977,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        30,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.389999999999965,
+      "stamina": 91.93300000000083,
+      "health": 100.0,
+      "mood": 42.61999999999972,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-11 08:20:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:20:20"
+  }
+}

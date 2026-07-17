@@ -1,0 +1,194 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        41,
+        35
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a brief nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 85.16000000000145,
+      "stamina": 86.93700000000094,
+      "health": 100.0,
+      "mood": 55.52000000000018,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        101,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "heading to Hobbs Cafe to discuss the potential study group @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u529e\u4e2a\u5b66\u4e60\u5c0f\u7ec4\u805a\u4f1a\uff0c\u5927\u6982\u5341\u4e2a\u4eba\u5de6\u53f3\u3002",
+      "satiety": 81.98000000000133,
+      "stamina": 92.55600000000024,
+      "health": 100.0,
+      "mood": 59.95999999999992,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is heading to Hobbs Cafe to discuss the potential study group",
+          "created": "2026-07-12 08:35:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is resting on the common room sofa at Hobbs Cafe",
+          "created": "2026-07-12 08:35:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk in the park garden to relax",
+          "created": "2026-07-12 08:35:00"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:32:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is relaxing on the common room sofa in the library",
+          "created": "2026-07-12 08:30:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        24,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on cafe decorations in the library @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u554a\uff0c\u6211\u4eec\u5496\u5561\u9986\u7ecf\u5e38\u529e\u805a\u4f1a\u5462\u3002\u4f60\u8981\u529e\u4ec0\u4e48\u6837\u7684\u805a\u4f1a\u5440\uff1f",
+      "satiety": 85.16000000000145,
+      "stamina": 86.81400000000073,
+      "health": 100.0,
+      "mood": 98.68000000000035,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-12 08:35:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-12 08:15:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-12 08:15:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-12 08:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-12 08:34:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-12 08:34:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-12 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:35:10"
+  }
+}

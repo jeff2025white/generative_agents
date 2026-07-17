@@ -1,0 +1,203 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        65,
+        46
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "gathering food from the grocery counter @ the Ville:Harvey Oak Supply Store:supply store:supply store counter",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\uff0c\u90a3\u6211\u5148\u5927\u6982\u8bf4\u8bf4\u3002\u5c31\u50cf\u4f60\u5f00\u5496\u5561\u9986\u4e00\u6837\uff0c\u6bcf\u4e2a\u793e\u533a\u90fd\u6709\u81ea\u5df1\u7684\u2018\u5473\u9053\u2019\u5462\u3002",
+      "satiety": 12.150000000003295,
+      "stamina": 84.62300000000158,
+      "health": 100.0,
+      "mood": 72.45999999999803,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering food from the grocery counter",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed gather attempt on grocery counter at the Ville:Harvey Oak Supply Store:supply store:supply store counter because invalid_food_source.",
+          "created": "2026-07-12 11:09:50",
+          "poignancy": 7.12
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        45,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "reading a book to improve mood @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 51.3250000000032,
+      "stamina": 42.37200000000254,
+      "health": 100.0,
+      "mood": 40.420000000000016,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short walk in the park garden to relax and clear the mind",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is resting on the library sofa to relax and reassess goals",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is reading a book to improve mood",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 11:23:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 11:23:10",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 11:19:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 11:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a sense of community in the shared spaces",
+          "created": "2026-07-12 11:23:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a recurring theme of self-reflection and reassessment",
+          "created": "2026-07-12 11:03:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The common room and library are popular locations for relaxation and socializing",
+          "created": "2026-07-12 10:42:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-12 10:34:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 11:07:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 10:30:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is reading a book on the library sofa to improve mood",
+          "created": "2026-07-12 09:25:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-12 11:23:40",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        85,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "organizing party materials at the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u554a\uff0c\u6211\u5bf9\u8fd9\u4e2a\u8fd8\u633a\u597d\u5947\u7684\u3002\u4e0d\u8fc7\u4f60\u5148\u522b\u8bb2\u592a\u7ec6\uff0c\u6211\u6015\u4e00\u4f1a\u513f\u8bb0\u4e0d\u4f4f\u5462\u3002",
+      "satiety": 70.15000000000563,
+      "stamina": 68.555000000003,
+      "health": 100.0,
+      "mood": 86.14000000000047,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing party materials for Valentine's Day event at Hobbs Cafe",
+          "created": "2026-07-12 11:28:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is going to the pub to see if Klaus Mueller is there for social interaction",
+          "created": "2026-07-12 11:28:20"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 11:29:00"
+  }
+}

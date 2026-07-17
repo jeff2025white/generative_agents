@@ -1,0 +1,1321 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 12, 2026, 09:52:00",
+  "curr_tile": [
+    118,
+    21
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "inquisitive, studious, friendly, hospitable",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 40.795000000000435,
+  "stamina": 100.0,
+  "health": 100.0,
+  "mood": 55.88000000000114,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 40.795000000000435,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 100.0,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 51.923999999999694,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 55.88000000000114,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 97.3899999999999,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 45.88599999999954,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 59.23199999999853,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 51.19400000000039,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 58.57799999999939,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 12, 2026, 09:37:30",
+  "last_action_switch_time": "July 12, 2026, 09:49:30",
+  "decision_commit_until_step": null,
+  "last_decision_signature": {
+    "skill_id": "rest",
+    "target": "library sofa",
+    "intent_family": "restore_stamina"
+  },
+  "last_decision_reason": "resting on the library sofa to recover stamina",
+  "recent_completed_action_signature": {
+    "skill_id": "rest",
+    "target": "library sofa",
+    "intent_family": "restore_stamina"
+  },
+  "recent_completed_action_step": 672,
+  "suspended_action": {
+    "act_address": "<persona> Isabella Rodriguez",
+    "act_duration": 30,
+    "act_description": "socializing with Isabella Rodriguez at the cafe common room sofa",
+    "act_pronunciatio": "\ud83d\udcac",
+    "act_event": [
+      "Maria Lopez",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "act_command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "socializing with Isabella Rodriguez at the cafe common room sofa"
+    },
+    "act_obj_description": null,
+    "act_obj_pronunciatio": null,
+    "act_obj_event": [
+      null,
+      null,
+      null
+    ],
+    "chatting_with": null,
+    "chat": null,
+    "chatting_with_buffer": {},
+    "chatting_end_time": null,
+    "signature": {
+      "skill_id": "seek_and_chat",
+      "target": "isabella rodriguez",
+      "intent_family": "communication"
+    },
+    "planned_path": [
+      [
+        79,
+        30
+      ],
+      [
+        78,
+        30
+      ]
+    ],
+    "action_record": {
+      "status": "pathing",
+      "skill_id": "seek_and_chat",
+      "intent_family": "communication",
+      "target": "isabella rodriguez",
+      "target_type": "persona",
+      "resolved_target": "Isabella Rodriguez",
+      "resolved_address": "<persona> Isabella Rodriguez",
+      "description": "socializing with Isabella Rodriguez at the cafe common room sofa",
+      "command": {
+        "skill_id": "seek_and_chat",
+        "target": "Isabella Rodriguez",
+        "source": "decision_translation",
+        "raw_action": "seek_and_chat",
+        "detail": "socializing with Isabella Rodriguez at the cafe common room sofa"
+      },
+      "event": [
+        "Maria Lopez",
+        "seek_and_chat",
+        "Isabella Rodriguez"
+      ],
+      "duration": 30,
+      "creator_instruction": null,
+      "created_step": 178,
+      "updated_step": 178,
+      "failure": null
+    }
+  },
+  "suspended_action_step": 179,
+  "pending_interrupt": {
+    "reason": "physiological_crisis_after_chat_wrap",
+    "source": "move",
+    "payload": {
+      "satiety": 23.679999999999836,
+      "stamina": 99.9,
+      "health": 100.0,
+      "act_description": "having a conversation with Isabella Rodriguez",
+      "chat_partner": "Isabella Rodriguez"
+    },
+    "curr_step": 191,
+    "active_signature": {
+      "skill_id": "chat with",
+      "target": "isabella rodriguez",
+      "intent_family": "communication"
+    }
+  },
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "library sofa",
+    "target_address": "the Ville:Oak Hill College:library:library sofa",
+    "skill_id": "rest",
+    "action_description": "resting on the library sofa to recover stamina",
+    "curr_step": 672
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Maria_Lopez-672-f3c628fad1",
+    "sim_code": null,
+    "persona": "Maria Lopez",
+    "curr_step": 672,
+    "sim_time": "2026-07-12 09:52:00",
+    "wall_ts": "2026-07-12T15:03:44.042790+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "rest",
+      "raw_action": "Rest",
+      "intent_family": null,
+      "target": "library sofa",
+      "target_type": "object",
+      "target_address": "the Ville:Oak Hill College:library:library sofa",
+      "resolved_target": "sofa",
+      "resolution_kind": null,
+      "detail": "resting on the library sofa to recover stamina"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "library sofa",
+      "resource_instance_key": "the ville:oak hill college:library:library sofa"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.06,
+      "recency_weight": 1.0,
+      "effective_score": 0.06,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Maria_Lopez-672-f3c628fad1",
+      "memory_type": "event",
+      "subject": "Maria Lopez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+      "embedding_text": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+      "keywords": [
+        "execution_result",
+        "library sofa",
+        "rest",
+        "success"
+      ],
+      "poignancy": 4.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "rest",
+        "target": "library sofa",
+        "target_address": "the Ville:Oak Hill College:library:library sofa",
+        "reason": null,
+        "dominant_motive": null,
+        "resource_instance_key": "the ville:oak hill college:library:library sofa"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-414-c6d86476f0",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 414,
+      "sim_time": "2026-07-12 09:09:00",
+      "wall_ts": "2026-07-12T14:53:48.655411+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food access from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            32,
+            42
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-414-c6d86476f0",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-441-82f18f336f",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 441,
+      "sim_time": "2026-07-12 09:13:30",
+      "wall_ts": "2026-07-12T14:54:07.790584+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            32,
+            42
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-441-82f18f336f",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-524-bb243c9c40",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 524,
+      "sim_time": "2026-07-12 09:27:20",
+      "wall_ts": "2026-07-12T14:55:40.108323+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "Idle",
+        "intent_family": null,
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+        "resolved_target": "refrigerator",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "rest_target_missing",
+        "reason_class": "other",
+        "payload": {
+          "target": "none",
+          "action": "idle",
+          "curr_tile": [
+            122,
+            45
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:dorm for oak hill college:kitchen:refrigerator"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-524-bb243c9c40",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed idle attempt on none at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because rest_target_missing.",
+        "embedding_text": "Maria Lopez experienced a failed idle attempt on none at the Ville:Dorm for Oak Hill College:kitchen:refrigerator because rest_target_missing.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "idle",
+          "none",
+          "rest_target_missing"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+          "reason": "rest_target_missing",
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:dorm for oak hill college:kitchen:refrigerator"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-571-1f56d660a6",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 571,
+      "sim_time": "2026-07-12 09:35:10",
+      "wall_ts": "2026-07-12T14:56:47.668380+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "chatting with Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-571-1f56d660a6",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used seek_and_chat on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "embedding_text": "Maria Lopez successfully used seek_and_chat on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "keywords": [
+          "execution_result",
+          "isabella rodriguez",
+          "seek_and_chat",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-585-3b1650368c",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 585,
+      "sim_time": "2026-07-12 09:37:30",
+      "wall_ts": "2026-07-12T14:57:53.827451+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "having a conversation with Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-585-3b1650368c",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "embedding_text": "Maria Lopez successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "keywords": [
+          "chat with",
+          "execution_result",
+          "isabella rodriguez",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-641-0d1c6aa692",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 641,
+      "sim_time": "2026-07-12 09:46:50",
+      "wall_ts": "2026-07-12T15:01:01.914991+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "Rest",
+        "intent_family": null,
+        "target": "library sofa",
+        "target_type": "object",
+        "target_address": "the Ville:Oak Hill College:library:library sofa",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "taking a short nap on the library sofa to recharge"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "library sofa",
+        "resource_instance_key": "the ville:oak hill college:library:library sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-641-0d1c6aa692",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+        "embedding_text": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+        "keywords": [
+          "execution_result",
+          "library sofa",
+          "rest",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "library sofa",
+          "target_address": "the Ville:Oak Hill College:library:library sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:oak hill college:library:library sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-656-be3a01d469",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 656,
+      "sim_time": "2026-07-12 09:49:20",
+      "wall_ts": "2026-07-12T15:01:39.251454+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting a meal from Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            116,
+            44
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-656-be3a01d469",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-672-f3c628fad1",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 672,
+      "sim_time": "2026-07-12 09:52:00",
+      "wall_ts": "2026-07-12T15:03:44.042790+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "Rest",
+        "intent_family": null,
+        "target": "library sofa",
+        "target_type": "object",
+        "target_address": "the Ville:Oak Hill College:library:library sofa",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "resting on the library sofa to recover stamina"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "library sofa",
+        "resource_instance_key": "the ville:oak hill college:library:library sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-672-f3c628fad1",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+        "embedding_text": "Maria Lopez successfully used rest on library sofa at the Ville:Oak Hill College:library:library sofa.",
+        "keywords": [
+          "execution_result",
+          "library sofa",
+          "rest",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "library sofa",
+          "target_address": "the Ville:Oak Hill College:library:library sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:oak hill college:library:library sofa"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": null,
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 256,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-255-c42068d1e0",
+        "Maria_Lopez-256-2b7b613da6"
+      ]
+    },
+    {
+      "experience_kind": "avoid",
+      "intent_family": null,
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:dorm for oak hill college:kitchen:refrigerator",
+      "resource_type": "refrigerator",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 359,
+      "evidence_summary": "refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator was empty recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-359-ff588223f9"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "library sofa",
+      "target_address": "the Ville:Oak Hill College:library:library sofa",
+      "progress_score": 0.0,
+      "curr_step": 672,
+      "expires_after_step": 692
+    }
+  ],
+  "active_execution_state": {
+    "id": "Maria Lopez-657-rest-library sofa",
+    "phase": "completed",
+    "address": "the Ville:Oak Hill College:library:library sofa",
+    "command": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the library sofa to recover stamina"
+    },
+    "description": "resting on the library sofa to recover stamina",
+    "event": [
+      "Maria Lopez",
+      "rest",
+      "library sofa"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "intent_family": "restore_stamina"
+    },
+    "started_step": 657,
+    "updated_step": 672,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "completed",
+    "skill_id": "rest",
+    "intent_family": "restore_stamina",
+    "target": "library sofa",
+    "target_type": "object",
+    "resolved_target": "sofa",
+    "resolved_address": "the Ville:Oak Hill College:library:library sofa",
+    "description": "resting on the library sofa to recover stamina",
+    "command": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "source": "decision_translation",
+      "raw_action": "Rest",
+      "detail": "resting on the library sofa to recover stamina"
+    },
+    "event": [
+      "Maria Lopez",
+      "rest",
+      "library sofa"
+    ],
+    "duration": 30,
+    "creator_instruction": null,
+    "created_step": 657,
+    "updated_step": 672,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "resilient, empathetic, accommodating",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective, even-tempered, thoughtful",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, friendly, hospitable",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 09:49:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 09:49:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals are to secure a stable income to ensure my survival, while also expanding my understanding of physics and deepening my relationships with friends like Isabella Rodriguez. Despite the poignancy of failed attempts and the blank moments, I am driven by the experiences and connections that shape my perspective of the world, aiming for a future where I can contribute meaningfully to the field of phys...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 09:49:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 09:49:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "I recently talked with \u90a3\u5c31\u597d\uff0c\u6211\u8fd8\u62c5\u5fc3\u4f1a\u7ed9\u4f60\u6dfb\u9ebb\u70e6\u5462\u3002\u5230\u65f6\u5019\u6211\u4eec\u81ea\u5df1\u5e26\u70b9\u5c0f\u96f6\u98df\u53bb\u884c\u4e0d\u884c\u5440\uff1f.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-12 09:49:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 109,
+  "importance_ele_n": 17,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 12, 2026, 09:49:30",
+  "act_duration": 30,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\udecc",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

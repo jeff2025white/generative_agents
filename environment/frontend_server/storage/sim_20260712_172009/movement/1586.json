@@ -1,0 +1,182 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        38,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 23.105000000002917,
+      "stamina": 47.308000000002764,
+      "health": 100.0,
+      "mood": 25.17999999999992,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        109,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\uff0c\u90a3\u6211\u5148\u5927\u6982\u8bf4\u8bf4\u3002\u5c31\u50cf\u4f60\u5f00\u5496\u5561\u9986\u4e00\u6837\uff0c\u6bcf\u4e2a\u793e\u533a\u90fd\u6709\u81ea\u5df1\u7684\u2018\u5473\u9053\u2019\u5462\u3002",
+      "satiety": 0.0,
+      "stamina": 62.9300000000037,
+      "health": 92.05000000000045,
+      "mood": 20.739999999998634,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        113,
+        28
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "gathering information on party planning and decorations @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u554a\uff0c\u6211\u5bf9\u8fd9\u4e2a\u8fd8\u633a\u597d\u5947\u7684\u3002\u4e0d\u8fc7\u4f60\u5148\u522b\u8bb2\u592a\u7ec6\uff0c\u6211\u6015\u4e00\u4f1a\u513f\u8bb0\u4e0d\u4f4f\u5462\u3002",
+      "satiety": 46.91000000000616,
+      "stamina": 57.66700000000352,
+      "health": 100.0,
+      "mood": 68.43999999999869,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting a meal from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-12 12:24:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering information on party planning and decorations",
+          "created": "2026-07-12 12:24:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a walk in the park garden to relax and improve mood",
+          "created": "2026-07-12 12:24:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed request attempt on Klaus Mueller at <persona> Klaus Mueller because target_not_close.",
+          "created": "2026-07-12 10:24:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gave apple to Klaus Mueller after being asked.",
+          "created": "2026-07-12 11:04:40",
+          "poignancy": 4.5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Library and common room sofas are places of rest and relaxation",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food consumption and sourcing challenges",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Interaction and planning between individuals are taking place",
+          "created": "2026-07-12 11:27:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Repeated actions and goals reassessment",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Duplicate actions are a common issue",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:17:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Location-specific interactions are occurring",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is involved in community development projects and facing challenges",
+          "created": "2026-07-12 11:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Failed attempts are common",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is involved in community development projects",
+          "created": "2026-07-12 11:27:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on failed attempts and actions",
+          "created": "2026-07-12 11:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food-related activities are central",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller struggles with a low mood",
+          "created": "2026-07-12 09:34:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a recurring theme of failed actions, indicating challenges in task completion",
+          "created": "2026-07-12 12:15:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Target proximity issues",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 12:24:20"
+  }
+}

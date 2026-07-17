@@ -1,0 +1,21 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.64,
+      "recent_events": [
+        "conversing about a customer waiting for food at a restaurant",
+        "conversing about two friends discussing a meal preparation",
+        "conversing about two friends discussing a meal preparation",
+        "received requested help with apple"
+      ]
+    },
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about two students sharing apples and discussing their plans to study"
+      ]
+    }
+  }
+}

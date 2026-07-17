@@ -1,0 +1,18 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about the Valentine's Day party at Hobbs Cafe"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about two friends, Klaus and Isabella, relaxing and discussing their recent busy schedules and plans for the future"
+      ]
+    }
+  }
+}

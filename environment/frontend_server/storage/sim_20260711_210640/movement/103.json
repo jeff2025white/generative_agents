@@ -1,0 +1,66 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        41,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 31.15999999999991,
+      "stamina": 91.00000000000063,
+      "health": 100.0,
+      "mood": 44.800000000000296,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        49,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe to seek food options @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54c8\u54c8\uff0c\u70ed\u95f9\u7684\u6d3b\u52a8\u786e\u5b9e\u80fd\u8ba9\u4eba\u5fc3\u60c5\u597d\u4e00\u4e9b\u3002",
+      "satiety": 32.71999999999997,
+      "stamina": 97.11900000000071,
+      "health": 100.0,
+      "mood": 55.399999999999835,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        34,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the garden chair to relax and recharge mood @ the Ville:Ryan Park's apartment:bathroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u662f\u554a\uff0c\u4f60\u4e5f\u559c\u6b22\u8fd9\u79cd\u70ed\u95f9\u7684\u6d3b\u52a8\u561b\u3002",
+      "satiety": 90.72000000000013,
+      "stamina": 90.07900000000063,
+      "health": 100.0,
+      "mood": 63.05999999999976,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-11 08:16:40"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:17:10"
+  }
+}

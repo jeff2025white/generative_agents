@@ -1,0 +1,13 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.56,
+      "recent_events": [
+        "conversing about Maria Lopez asking Isabella Rodriguez for permission to eat at Hobbs Cafe while Isabella is busy picking apples",
+        "conversing about planning a Valentine's Day party and inviting friends",
+        "conversing about planning a Valentine's Day party and discussing the guest list"
+      ]
+    }
+  }
+}

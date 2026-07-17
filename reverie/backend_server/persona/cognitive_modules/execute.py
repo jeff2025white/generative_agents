@@ -93,6 +93,15 @@ def _expand_to_approach_tiles(maze, target_tiles):
     deduped_tiles.append(tile)
   return deduped_tiles
 
+
+def _describe_current_address(maze, curr_tile):
+  parts = []
+  for level in ("world", "sector", "arena", "game_object"):
+    value = maze.get_tile_path(curr_tile, level)
+    if value:
+      parts.append(str(value).strip())
+  return ":".join(parts) if parts else "unknown"
+
 def execute(persona, maze, personas, plan): 
   """
   Given a plan (action's string address), we execute the plan (actually 
@@ -142,7 +151,7 @@ def execute(persona, maze, personas, plan):
       persona.scratch.fail_execution("empty_plan_idle_fallback")
     else:
       persona.scratch.clear_current_action()
-    actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+    actual_address = _describe_current_address(maze, persona.scratch.curr_tile)
     description = f"idling @ {actual_address}"
     return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, description
 
@@ -192,7 +201,7 @@ def execute(persona, maze, personas, plan):
           persona.scratch.fail_execution("persona_not_found", payload=failure_payload)
         else:
           persona.scratch.clear_current_action(keep_last_desc=True)
-        return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, f"idling @ {maze.get_tile_path(persona.scratch.curr_tile, 'game_object')}"
+        return persona.scratch.curr_tile, persona.scratch.act_pronunciatio, f"idling @ {_describe_current_address(maze, persona.scratch.curr_tile)}"
       target_p_tile = target_persona.scratch.curr_tile
       potential_path = path_finder(maze.collision_maze, 
                                    persona.scratch.curr_tile, 
@@ -527,13 +536,13 @@ def execute(persona, maze, personas, plan):
 
   description = f"{persona.scratch.act_description}"
   if not persona.scratch.act_address:
-    actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+    actual_address = _describe_current_address(maze, persona.scratch.curr_tile)
     description = f"idling @ {actual_address}"
     execution = ret, persona.scratch.act_pronunciatio, description
     return execution
 
   if "<creator>" in persona.scratch.act_address:
-    actual_address = maze.get_tile_path(persona.scratch.curr_tile, "game_object")
+    actual_address = _describe_current_address(maze, persona.scratch.curr_tile)
     description += f" @ {actual_address}"
   else:
     description += f" @ {persona.scratch.act_address}"

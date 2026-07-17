@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        124,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "I want to chat with Isabella about getting some food and perhaps sharing some laughter to lift my mood.; conversation topic: food and mood @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.404999999999994,
+      "stamina": 99.42200000000004,
+      "health": 100.0,
+      "mood": 49.65000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        48
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Discuss food access and share a casual conversation to boost my mood.; conversation topic: food access and mood improvement @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.509999999999998,
+      "stamina": 99.56000000000004,
+      "health": 100.0,
+      "mood": 49.579999999999984,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        15
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Ryan Park's apartment:main room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.509999999999998,
+      "stamina": 99.48100000000004,
+      "health": 100.0,
+      "mood": 49.85999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:01:00"
+  }
+}

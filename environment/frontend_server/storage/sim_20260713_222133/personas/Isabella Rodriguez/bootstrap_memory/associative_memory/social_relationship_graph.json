@@ -1,0 +1,25 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.6200000000000001,
+      "recent_events": [
+        "conversing about planning a gaming live stream at a cafe",
+        "conversing about whether Maria should try live streaming games and how to handle it",
+        "conversing about planning a Valentine's Day party at Hobbs Cafe and discussing game streaming details",
+        "conversing about planning a game stream at Hobbs Cafe",
+        "conversing about preparing for a Valentine's Day party and discussing the details of Maria Lopez's gaming live stream at Isabella Rodriguez's store"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.5800000000000001,
+      "recent_events": [
+        "conversing about conversing about the preparation and participation in a Hobbs Cafe party",
+        "conversing about a planned Valentine's Day party and the preparations being discussed",
+        "conversing about conversing about preparing for a Valentine's Day party and asking for help with the preparations",
+        "conversing about a Valentine's Day party and Isabella Rodriguez's preparations for it, with Klaus Mueller expressing interest in attending"
+      ]
+    }
+  }
+}

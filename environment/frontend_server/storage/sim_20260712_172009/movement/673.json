@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        31,
+        52
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a leisurely walk in the park garden @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u53ea\u662f\u8fd9\u6837\u554a\uff0c\u6211\u8fd8\u4ee5\u4e3a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u79d8\u8bc0\u5462\u3002",
+      "satiety": 52.82000000000346,
+      "stamina": 93.67400000000086,
+      "health": 100.0,
+      "mood": 42.059999999999384,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        118,
+        20
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 118 20",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 42.71000000000243,
+      "stamina": 88.05000000000068,
+      "health": 100.0,
+      "mood": 21.0000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        31,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5176\u5b9e\u4e5f\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u591a\u8ddf\u5ba2\u4eba\u804a\u804a\u5929\uff0c\u8ba9\u4ed6\u4eec\u89c9\u5f97\u8212\u670d\u81ea\u5728\u3002",
+      "satiety": 52.82000000000346,
+      "stamina": 89.58100000000069,
+      "health": 100.0,
+      "mood": 88.32000000000075,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 09:49:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:52:10"
+  }
+}

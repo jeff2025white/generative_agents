@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        96,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "sitting with Isabella Rodriguez at the library to unwind @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.30000000000075,
+      "stamina": 97.61700000000025,
+      "health": 100.0,
+      "mood": 45.600000000000094,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-15 08:17:30"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff0c\u60c5\u4eba\u8282\u805a\u4f1a\u554a\u3002\u5bf9\uff0c\u6211\u4eec\u5b9a\u57282\u670814\u53f7\u665a\u4e0a\u4e94\u70b9\u5f00\u59cb\uff0c\u5728Hobbs Cafe\u5462\u3002",
+      "satiety": 92.30000000000075,
+      "stamina": 95.09499999999981,
+      "health": 100.0,
+      "mood": 50.34,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        78,
+        18
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading and relaxing in the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u53eb Maria\uff0c\u7ecf\u5e38\u6765 Hobbs Cafe\u3002\u6211\u60f3\u95ee\u95ee\u4f60\u60c5\u4eba\u8282\u805a\u4f1a\u7684\u4e8b\u513f\u3002",
+      "satiety": 90.65000000000069,
+      "stamina": 94.58600000000065,
+      "health": 100.0,
+      "mood": 57.31999999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is reading and relaxing in the library",
+          "created": "2026-07-15 08:17:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 15, 2026, 08:18:10"
+  }
+}

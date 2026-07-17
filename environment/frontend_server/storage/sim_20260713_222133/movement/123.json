@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        31,
+        39
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 91.32000000000085,
+      "stamina": 91.72100000000086,
+      "health": 100.0,
+      "mood": 45.040000000000106,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        41
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Maria Lopez @ <persona> Maria Lopez",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u6ca1\u95ee\u9898\u554a\uff0c\u4e0d\u8fc7\u4f60\u76f4\u64ad\u7684\u65f6\u5019\u522b\u592a\u5435\u5c31\u884c\u3002",
+      "satiety": 91.32000000000085,
+      "stamina": 91.53000000000048,
+      "health": 100.0,
+      "mood": 64.72000000000003,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        25,
+        41
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u4f60\u5230\u65f6\u5019\u5e2e\u6211\u76ef\u7740\u70b9\u5f39\u5e55\uff0c\u6709\u4eba\u95ee\u95ee\u9898\u597d\u63d0\u9192\u6211\u3002",
+      "satiety": 89.46000000000078,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 66.93000000000006,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short walk in the park garden to relax and lift mood",
+          "created": "2026-07-13 08:20:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax and improve mood",
+          "created": "2026-07-13 08:05:00",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:20:30"
+  }
+}

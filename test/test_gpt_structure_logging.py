@@ -115,6 +115,56 @@ class GPTStructureLoggingTests(unittest.TestCase):
         self.assertEqual(len(attempt_events), 2)
         self.assertEqual(summary_events[-1]["status"], "ok")
         self.assertEqual(summary_events[-1]["attempts_used"], 2)
+        self.assertIn("raw_response_preview", attempt_events[0])
+        self.assertIn("parsed_response_preview", attempt_events[0])
+
+    def test_safe_generate_response_logs_invalid_response_previews(self):
+        logs = []
+
+        def capture(_name, payload, level="info"):
+            logs.append(payload)
+
+        response = '{"output": {"action": "Socialize", "mode": "chat with", "target": "Isabella"}}'
+
+        with patch.object(gpt_structure, "ChatGPT_request", return_value=response), \
+             patch.object(gpt_structure, "append_debug_log", side_effect=capture):
+            result = gpt_structure.ChatGPT_safe_generate_response(
+                "pick an action",
+                example_output=None,
+                special_instruction="Return json",
+                repeat=1,
+                fail_safe_response={"action": "FailSafe"},
+                func_validate=lambda resp, prompt="": False,
+                func_clean_up=lambda resp, prompt="": resp,
+            )
+
+        self.assertEqual(result, {"action": "FailSafe"})
+        attempt_events = [item for item in logs if item.get("event") == "chatgpt_safe_attempt"]
+        self.assertEqual(len(attempt_events), 1)
+        self.assertFalse(attempt_events[0]["valid"])
+        self.assertIn('"action": "Socialize"', attempt_events[0]["raw_response_preview"])
+        self.assertIn('"mode": "chat with"', attempt_events[0]["parsed_response_preview"])
+
+    def test_safe_generate_response_omits_example_section_when_example_is_none(self):
+        captured = {}
+
+        def capture_prompt(prompt, **kwargs):
+            captured["prompt"] = prompt
+            return '{"output": {"action": "Idle"}}'
+
+        with patch.object(gpt_structure, "ChatGPT_request", side_effect=capture_prompt):
+            result = gpt_structure.ChatGPT_safe_generate_response(
+                "pick an action from context",
+                example_output=None,
+                special_instruction="Return json",
+                repeat=1,
+                fail_safe_response={"action": "FailSafe"},
+                func_validate=lambda resp, prompt="": isinstance(resp, dict) and resp.get("action") == "Idle",
+                func_clean_up=lambda resp, prompt="": resp,
+            )
+
+        self.assertEqual(result, {"action": "Idle"})
+        self.assertNotIn("Example output json", captured["prompt"])
 
     def test_generate_prompt_discards_template_header_and_keeps_prompt_body(self):
         with NamedTemporaryFile("w", suffix=".txt", encoding="utf-8", delete=False) as tmp:

@@ -1,0 +1,84 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        80,
+        37
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "sleeping in bed to recover stamina @ the Ville:Dorm for Oak Hill College:Maria Lopez's room:bed",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 82.27500000000032,
+      "stamina": 82.07800000000111,
+      "health": 100.0,
+      "mood": 55.09000000000026,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is getting prepared food from the cafe counter",
+          "created": "2026-07-10 08:30:00"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        44,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.049999999999947,
+      "stamina": 92.92400000000058,
+      "health": 100.0,
+      "mood": 46.29999999999942,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        77,
+        30
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:cafe customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.049999999999947,
+      "stamina": 92.62100000000076,
+      "health": 100.0,
+      "mood": 38.89999999999958,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sleeping in bed to recover stamina",
+          "created": "2026-07-10 08:30:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at library sofa and recovered stamina.",
+          "created": "2026-07-10 08:12:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-10 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:30:40"
+  }
+}

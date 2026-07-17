@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        108,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u7b49\u4e0b\u4e2a\u6708\u8bfe\u7a0b\u6ca1\u8fd9\u4e48\u7d27\u7684\u65f6\u5019\u5c31\u5f00\u59cb\uff0c\u5e94\u8be5\u5f88\u5feb\u4e86\u3002\u5230\u65f6\u5019\u53ef\u5f97\u9ebb\u70e6\u4f60\u591a\u7167\u987e\u554a\uff01",
+      "satiety": 77.73000000000164,
+      "stamina": 98.01400000000014,
+      "health": 100.0,
+      "mood": 98.85000000000007,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 25 42",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u8fd8\u597d\u5566\u3002\u5c31\u662f\u51c6\u5907\u7684\u4e1c\u897f\u6bd4\u8f83\u591a\u800c\u5df2\u3002\u5230\u65f6\u5019\u4f60\u6765\u4e86\u5c31\u77e5\u9053\u5566\u3002",
+      "satiety": 81.66000000000179,
+      "stamina": 94.50999999999979,
+      "health": 100.0,
+      "mood": 68.08000000000004,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        119,
+        29
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u5230\u65f6\u5019\u6211\u53bb\u51d1\u4e2a\u70ed\u95f9\u3002\u4f60\u51c6\u5907\u7684\u4e1c\u897f\u80af\u5b9a\u5f88\u4e30\u5bcc\u5427\u3002",
+      "satiety": 81.66000000000179,
+      "stamina": 99.42600000000006,
+      "health": 100.0,
+      "mood": 92.60000000000045,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-13 08:43:20"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:43:30"
+  }
+}

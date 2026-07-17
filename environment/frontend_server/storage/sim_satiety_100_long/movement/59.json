@@ -1,0 +1,85 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        108,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sit on the sofa in the common room to relax and improve mood @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 95.80000000000041,
+      "stamina": 95.29400000000038,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 08:09:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-12 08:09:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sit on the sofa in the common room to relax and improve mood",
+          "created": "2026-07-12 08:09:10"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        119,
+        25
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "taking a moment to unwind on the common room sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 94.90000000000038,
+      "stamina": 94.75800000000037,
+      "health": 100.0,
+      "mood": 48.19999999999993,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u54e6\uff0c\u662f\u5417\uff1f\u90a3\u8fd9\u4e9b\u65b0\u5e97\u6709\u6ca1\u6709\u7ed9\u793e\u533a\u5e26\u6765\u4ec0\u4e48\u53d8\u5316\u5462\uff1f",
+      "satiety": 95.80000000000041,
+      "stamina": 100.0,
+      "health": 100.0,
+      "mood": 50.500000000000064,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 08:09:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sit on the sofa in the common room to relax and improve mood",
+          "created": "2026-07-12 08:09:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:09:50"
+  }
+}

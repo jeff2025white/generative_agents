@@ -24,6 +24,10 @@ from persona.cognitive_modules.stage1_prompt_compiler import (
   compile_stage1_prompt_context,
   load_action_schema_text,
 )
+from persona.cognitive_modules.structured_action_intent import (
+  normalize_action_intent_contract,
+  validate_action_intent_shape,
+)
 from persona.cognitive_modules.motive_selector import (
   build_default_motive_attributes,
   select_motives,
@@ -358,7 +362,7 @@ def _build_recent_result_lines(scratch, max_items=2):
 
     if result == "failed" and reason == "resource_empty":
       lines.append(f"RecentResult: failed {skill_id} -> {target} at {short_address}: empty.")
-      lines.append(f"Hint: try another {target} or another feasible option.")
+      lines.append("ExperienceUpdate: remember that this specific resource instance was empty.")
       continue
     if result == "failed":
       lines.append(f"RecentResult: failed {skill_id} -> {target} at {short_address}: {reason or 'failed'}.")
@@ -3398,7 +3402,7 @@ def run_gpt_prompt_survival_decision(persona, nearby_resources, temporal_context
     if not temporal_context:
       temporal_context = f"Current Time: {persona.scratch.curr_time.strftime('%A %B %d, %Y, %I:%M %p') if persona.scratch.curr_time else 'Unknown'}"
     if not physiological_rules:
-      physiological_rules = "- Eating food (Consume action) restores +40 Satiety and +5 Health.\n- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n- Satiety decays by about -0.08 per step during normal activity and by about -0.04 per step while sleeping.\n- If Satiety reaches 0, Health decays by -0.05 per step."
+      physiological_rules = "- Eating food (Consume action) restores +40 Satiety and +5 Health.\n- Resting (Rest action) restores Stamina over time: sleeping restores about +0.15 per step, and resting restores about +0.08 per step.\n- Satiety decays by about -0.08 per step during normal activity and by about -0.04 per step while sleeping.\n- If Satiety reaches 0, Health decays by -0.2 per step."
     if not cooperative_context:
       cooperative_context = "No special requests or cooperative events are currently active nearby."
       
@@ -3483,7 +3487,8 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
         "- Consuming food (Consume action) restores Satiety (+40.0 Satiety).",
         "- Gathering food (Gather action) adds items to inventory.",
         "- Resting (Rest action) restores Stamina over time (about +0.15 per step while sleeping, about +0.08 per step while resting).",
-        "- Socializing (Socialize action) gives only a tiny Mood lift (+1.0 Mood); a brief chat should not massively change emotion.",
+        "- Treating injuries (Treat action) using a bandage or medicine directly restores some Health.",
+        "- Socializing (Socialize action) gives a meaningful but still moderate Mood lift (+4.0 Mood) and strongly supports belonging; a brief chat should help more than solitary leisure when mood is the main need.",
         "- Giving (Give action) transfers one item from your inventory to another resident.",
         "- Robbing (Rob action) takes one item from another resident's inventory.",
         "- Switch Cost: Switching tasks/actions in under 15 minutes consumes a high cost of -5.0 Stamina. Try to keep doing a task for a reasonable duration."
@@ -3531,7 +3536,7 @@ def run_gpt_prompt_demand_decision(persona, nearby_resources, temporal_context=N
       return {"action": "Idle", "target": "none", "detail": "idling", "duration": 10, "reasoning": "Fallback default"}
 
   def __func_validate(gpt_response, prompt=""):
-    allowed_actions = {"consume", "gather", "rest", "work", "socialize", "give", "rob", "recreate", "idle"}
+    allowed_actions = {"consume", "gather", "rest", "treat", "work", "socialize", "give", "rob", "recreate", "idle"}
     try:
       if isinstance(gpt_response, dict):
         data = gpt_response
@@ -4086,21 +4091,25 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   def __func_clean_up(gpt_response, prompt=""):
     try:
       if isinstance(gpt_response, dict):
-        return gpt_response
+        return normalize_action_intent_contract(gpt_response)
       cleaned = clean_json_str(gpt_response)
       if isinstance(cleaned, dict):
-        return cleaned
+        return normalize_action_intent_contract(cleaned)
       start = cleaned.find("{")
       end = cleaned.rfind("}") + 1
       if start != -1 and end != -1:
         cleaned = cleaned[start:end]
-      return json.loads(cleaned)
+      return normalize_action_intent_contract(json.loads(cleaned))
     except Exception as e:
       print(f"Error cleaning up joint decision response: {e}, raw: {gpt_response}")
       return {
+        "schema_version": 2,
         "thought": "I should pause briefly.",
         "action": "Idle",
         "target": "none",
+        "target_type": "none",
+        "mode": "idle",
+        "topic": "",
         "detail": "idling",
         "duration": 10,
         "reasoning": "Fallback default",
@@ -4109,16 +4118,20 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   def __func_validate(gpt_response, prompt=""):
     try:
       data = __func_clean_up(gpt_response, prompt=prompt)
-      required_keys = {"thought", "action", "target", "detail", "duration", "reasoning"}
-      return isinstance(data, dict) and required_keys.issubset(set(data.keys()))
+      is_valid, _errors = validate_action_intent_shape(data, require_typed_fields=True)
+      return is_valid
     except Exception:
       return False
 
   def get_fail_safe():
     return {
+      "schema_version": 2,
       "thought": "I should pause briefly.",
       "action": "Idle",
       "target": "none",
+      "target_type": "none",
+      "mode": "idle",
+      "topic": "",
       "detail": "idling",
       "duration": 10,
       "reasoning": "Fail-safe triggered",
@@ -4138,9 +4151,11 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   )
   prompt = generate_prompt(prompt_input, prompt_template)
   minimal_filter_context = _build_minimal_decision_filter_context(persona, nearby_resources)
-  example_output = '{"thought": "I am severely hungry and should gather food from the refrigerator now.", "action": "Gather", "target": "refrigerator", "detail": "opening the refrigerator to gather food items", "duration": 10, "reasoning": "Hunger is the dominant need and inventory is empty."}'
+  example_output = None
   special_instruction = (
-    "Return the immediate next action only. Output one valid JSON object with thought, action, target, detail, duration, and reasoning. "
+    "Return the immediate next action only. Output one valid JSON object with schema_version, thought, action, target, target_type, mode, topic, detail, duration, and reasoning. "
+    "target_type must be persona, location, object, inventory_item, or none. Use topic for the intended conversation subject and otherwise return an empty string. "
+    "mode must exactly match one of the modes listed in the schema. Consume and Request may last 5 to 120 minutes; all other actions must last 10 to 120 minutes. "
     "Do not weigh all information equally. Apply this strict priority order before choosing the action: "
     "1) dominant motive guidance, "
     "2) current physical feasibility and latest failure feedback, "

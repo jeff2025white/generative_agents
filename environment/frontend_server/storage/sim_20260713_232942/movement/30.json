@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        72,
+        14
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 72 14",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.83000000000021,
+      "stamina": 98.64999999999995,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        112,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing on the common room sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.83000000000021,
+      "stamina": 97.95200000000021,
+      "health": 100.0,
+      "mood": 48.760000000000026,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        104,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "sitting on the bench for relaxation @ the Ville:Johnson Park:park:park garden",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 97.3650000000002,
+      "stamina": 97.31000000000019,
+      "health": 100.0,
+      "mood": 49.069999999999965,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is relaxing on the common room sofa",
+          "created": "2026-07-13 08:05:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is sitting on the bench for relaxation",
+          "created": "2026-07-13 08:00:50",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:05:00"
+  }
+}

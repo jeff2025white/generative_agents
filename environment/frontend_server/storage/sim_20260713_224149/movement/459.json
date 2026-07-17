@@ -1,0 +1,98 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        81,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book to relax and find inspiration for research @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 67.80000000000314,
+      "stamina": 46.54400000000164,
+      "health": 100.0,
+      "mood": 59.78000000000026,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        98,
+        48
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 98 48",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u5c31\u662f\u5173\u4e8e\u4f60\u4eec\u5496\u5561\u9986\u7684\u4e00\u4e9b\u4e8b\u60c5\uff0c\u4e0d\u77e5\u9053\u60a8\u6709\u6ca1\u6709\u65f6\u95f4\uff1f",
+      "satiety": 60.90000000000261,
+      "stamina": 79.06600000000107,
+      "health": 100.0,
+      "mood": 41.100000000000364,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        83,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff1f\u60f3\u804a\u4ec0\u4e48\u5440\uff1f\u6211\u5728\u542c\u5462\u3002",
+      "satiety": 67.80000000000314,
+      "stamina": 95.96000000000032,
+      "health": 100.0,
+      "mood": 77.24000000000089,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-13 09:16:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is reading a book to relax and find inspiration for research",
+          "created": "2026-07-13 09:16:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is visiting the park garden for mood improvement",
+          "created": "2026-07-13 09:16:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target park garden.",
+          "created": "2026-07-13 08:13:40",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is enjoying fresh air and clearing the mind in the park garden",
+          "created": "2026-07-13 08:50:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax",
+          "created": "2026-07-13 09:14:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-13 08:49:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 09:16:30"
+  }
+}

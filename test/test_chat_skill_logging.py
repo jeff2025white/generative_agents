@@ -207,6 +207,29 @@ class ChatSkillLoggingTests(unittest.TestCase):
             mocked_transcript.call_args.kwargs["convo_summary"],
             "两人聊了咖啡和休息安排。",
         )
+        initiator_rel = initiator.a_mem.get_relationship(target.name)
+        target_rel = target.a_mem.get_relationship(initiator.name)
+        self.assertIsNotNone(initiator_rel)
+        self.assertIsNotNone(target_rel)
+        self.assertGreater(initiator_rel["trust"], 0.5)
+        self.assertGreater(target_rel["trust"], 0.5)
+        self.assertTrue(
+            any(node.args[5] == "两人聊了咖啡和休息安排。" for node in initiator.a_mem.events)
+        )
+        self.assertTrue(
+            any(node.args[5] == "两人聊了咖啡和休息安排。" for node in target.a_mem.events)
+        )
+        self.assertTrue(
+            any(
+                "felt better after talking with" in node.args[5]
+                and node.kwargs.get("attribute_effects", {}).get("mood") == 1.0
+                for node in initiator.a_mem.events
+            )
+        )
+        outcome = initiator.scratch.action_outcome_history[-1]
+        self.assertEqual(outcome["execution"]["result"], "success")
+        self.assertEqual(outcome["effects"]["self_attribute_effects"]["mood"], 1.0)
+        self.assertEqual(outcome["effects"]["self_attribute_effects"]["stamina"], 4.0)
 
 
 if __name__ == "__main__":

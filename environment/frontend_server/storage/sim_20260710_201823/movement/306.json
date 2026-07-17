@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        44,
+        47
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "resting on the common room sofa to recover stamina @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.51000000000151,
+      "stamina": 88.82500000000074,
+      "health": 100.0,
+      "mood": 60.35999999999959,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        113,
+        29
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book on the library sofa @ the Ville:Oak Hill College:classroom:blackboard",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.51000000000111,
+      "stamina": 98.82300000000012,
+      "health": 100.0,
+      "mood": 39.959999999999674,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short nap on the common room sofa",
+          "created": "2026-07-10 08:50:50"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        117,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the common room sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 71.90500000000046,
+      "stamina": 75.10000000000146,
+      "health": 100.0,
+      "mood": 53.63000000000068,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is reading a book on the library sofa",
+          "created": "2026-07-10 08:50:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 10, 2026, 08:51:00"
+  }
+}

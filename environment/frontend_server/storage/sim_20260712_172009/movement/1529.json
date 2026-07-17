@@ -1,0 +1,420 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        80,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Maria Lopez @ <persona> Maria Lopez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\uff0c\u90a3\u6211\u5148\u5927\u6982\u8bf4\u8bf4\u3002\u5c31\u50cf\u4f60\u5f00\u5496\u5561\u9986\u4e00\u6837\uff0c\u6bcf\u4e2a\u793e\u533a\u90fd\u6709\u81ea\u5df1\u7684\u2018\u5473\u9053\u2019\u5462\u3002",
+      "satiety": 0.0,
+      "stamina": 66.66200000000343,
+      "health": 94.90000000000029,
+      "mood": 29.859999999998642,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 12:14:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing party materials at the library",
+          "created": "2026-07-12 12:14:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 12:14:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk and relaxing in the park garden",
+          "created": "2026-07-12 11:08:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 10:55:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 08:49:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The mention of leisure use attempts indicates activity outside of the home",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is attempting to gather resources",
+          "created": "2026-07-12 12:11:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Social interaction and customer service are topics of interest",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is engaging in various activities to cope with his low mood",
+          "created": "2026-07-12 11:14:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller often uses the library sofa for rest and relaxation",
+          "created": "2026-07-12 09:45:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a mention of Maria Lopez and her actions",
+          "created": "2026-07-12 11:52:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is experiencing multiple failed request attempts",
+          "created": "2026-07-12 11:29:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez frequently engages in self-talk",
+          "created": "2026-07-12 10:49:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez has a store where she maintains a comfortable atmosphere",
+          "created": "2026-07-12 10:49:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a mention of a grocery counter at the Ville:Harvey Oak Supply Store",
+          "created": "2026-07-12 11:38:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on the common room and library as places for relaxation and recovery",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is frequently seeking relaxation and recovery",
+          "created": "2026-07-12 10:30:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller's research is related to community transformation",
+          "created": "2026-07-12 10:49:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is experiencing repeated failed request attempts",
+          "created": "2026-07-12 11:14:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        77,
+        27
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "organizing the cafe for the upcoming Valentine's Day party @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u554a\uff0c\u6211\u5bf9\u8fd9\u4e2a\u8fd8\u633a\u597d\u5947\u7684\u3002\u4e0d\u8fc7\u4f60\u5148\u522b\u8bb2\u592a\u7ec6\uff0c\u6211\u6015\u4e00\u4f1a\u513f\u8bb0\u4e0d\u4f4f\u5462\u3002",
+      "satiety": 50.90000000000617,
+      "stamina": 77.00000000000354,
+      "health": 100.0,
+      "mood": 73.71999999999905,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing the cafe for the upcoming Valentine's Day party",
+          "created": "2026-07-12 12:14:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 12:14:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing party materials at the library",
+          "created": "2026-07-12 12:14:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 10:32:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk and relaxing in the park garden",
+          "created": "2026-07-12 10:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 11:42:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering food from the grocery counter",
+          "created": "2026-07-12 12:11:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is involved in community development projects and facing challenges",
+          "created": "2026-07-12 11:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Failed attempts are common",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is involved in community development projects",
+          "created": "2026-07-12 11:27:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on failed attempts and actions",
+          "created": "2026-07-12 11:45:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food-related activities are central",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Duplicate actions are a common issue",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Library and common room sofas are places of rest and relaxation",
+          "created": "2026-07-12 10:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller struggles with a low mood",
+          "created": "2026-07-12 09:34:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Food consumption and sourcing challenges",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Location-specific interactions are occurring",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Target proximity issues",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Interaction and planning between individuals are taking place",
+          "created": "2026-07-12 11:27:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Repeated actions and goals reassessment",
+          "created": "2026-07-12 11:15:20",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        86,
+        46
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to clear the mind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 27.950000000002966,
+      "stamina": 52.32400000000282,
+      "health": 100.0,
+      "mood": 29.169999999999938,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "grocery store counter is idle",
+          "created": "2026-07-12 12:14:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk and relaxing in the park garden",
+          "created": "2026-07-12 12:08:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering food from the grocery counter",
+          "created": "2026-07-12 12:09:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 10:20:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 11:54:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The common room and library are popular locations for relaxation and socializing",
+          "created": "2026-07-12 10:42:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a recurring theme of self-reflection and reassessment",
+          "created": "2026-07-12 11:41:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on self-reflection and reassessment",
+          "created": "2026-07-12 11:41:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a sense of community in the shared spaces",
+          "created": "2026-07-12 11:23:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller frequently seeks relaxation and reassessment",
+          "created": "2026-07-12 11:41:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-12 10:19:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-12 09:12:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-12 08:10:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pharmacy store shelf is idle",
+          "created": "2026-07-12 12:14:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 09:12:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "classroom podium is idle",
+          "created": "2026-07-12 11:41:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-12 09:12:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 12:14:50"
+  }
+}

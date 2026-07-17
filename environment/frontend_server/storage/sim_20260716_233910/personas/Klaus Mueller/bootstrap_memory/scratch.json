@@ -1,0 +1,1287 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 16, 2026, 08:34:10",
+  "curr_tile": [
+    108,
+    37
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "inquisitive, studious, reflective, even-tempered, thoughtful",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 73.58000000000065,
+  "stamina": 91.61700000000066,
+  "health": 100.0,
+  "mood": 73.67999999999958,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 73.58000000000065,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 91.61700000000066,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 64.5279999999999,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 73.67999999999958,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 85.88000000000007,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 46.35199999999945,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 60.527999999999906,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 65.29199999999986,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 69.88000000000082,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 16, 2026, 08:30:40",
+  "last_action_switch_time": "July 16, 2026, 08:34:10",
+  "decision_commit_until_step": null,
+  "last_decision_signature": {
+    "skill_id": "seek_and_chat",
+    "target": "isabella rodriguez",
+    "intent_family": "communication"
+  },
+  "last_decision_reason": "idling to conserve energy",
+  "recent_completed_action_signature": {
+    "skill_id": "leisure_use",
+    "target": "common room sofa",
+    "intent_family": "restore_mood"
+  },
+  "recent_completed_action_step": 184,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "isabella rodriguez",
+    "target_address": "<persona> Isabella Rodriguez",
+    "skill_id": "seek_and_chat",
+    "action_description": "idling to conserve energy",
+    "reason": "recent_social_cooldown",
+    "payload": {
+      "target": "Isabella Rodriguez",
+      "cooldown_steps": 88,
+      "action": "seek_and_chat",
+      "curr_tile": [
+        108,
+        37
+      ]
+    },
+    "curr_step": 205
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Klaus_Mueller-205-31a6a97026",
+    "sim_code": null,
+    "persona": "Klaus Mueller",
+    "curr_step": 205,
+    "sim_time": "2026-07-16 08:34:10",
+    "wall_ts": "2026-07-17T00:00:29.003369+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "seek_and_chat",
+      "raw_action": "seek_and_chat",
+      "intent_family": "communication",
+      "target": "Isabella Rodriguez",
+      "target_type": "persona",
+      "target_address": "<persona> Isabella Rodriguez",
+      "resolved_target": "Isabella Rodriguez",
+      "resolution_kind": null,
+      "detail": "idling to conserve energy"
+    },
+    "execution": {
+      "result": "failed",
+      "reason": "recent_social_cooldown",
+      "reason_class": "other",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "cooldown_steps": 88,
+        "action": "seek_and_chat",
+        "curr_tile": [
+          108,
+          37
+        ]
+      }
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "Isabella Rodriguez",
+      "resource_instance_key": "<persona> isabella rodriguez"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.35,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.41,
+      "recency_weight": 1.0,
+      "effective_score": 0.41,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Klaus_Mueller-205-31a6a97026",
+      "memory_type": "event",
+      "subject": "Klaus Mueller",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+      "embedding_text": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+      "keywords": [
+        "communication",
+        "execution_result",
+        "failed",
+        "isabella rodriguez",
+        "recent_social_cooldown",
+        "seek_and_chat"
+      ],
+      "poignancy": 5.64,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "seek_and_chat",
+        "target": "Isabella Rodriguez",
+        "target_address": "<persona> Isabella Rodriguez",
+        "reason": "recent_social_cooldown",
+        "dominant_motive": null,
+        "resource_instance_key": "<persona> isabella rodriguez"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-105-601dabed58",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 105,
+      "sim_time": "2026-07-16 08:17:30",
+      "wall_ts": "2026-07-16T23:42:35.881675+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "inventory_item",
+        "target_address": "<waiting> 49 37",
+        "resolved_target": "apple",
+        "resolution_kind": null,
+        "detail": "Consume an apple to satisfy my immediate hunger."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.95
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "<waiting> 49 37"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-105-601dabed58",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used consume on apple at <waiting> 49 37.",
+        "embedding_text": "Klaus Mueller successfully used consume on apple at <waiting> 49 37.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "<waiting> 49 37",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<waiting> 49 37"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-106-494b6b03a7",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 106,
+      "sim_time": "2026-07-16 08:17:40",
+      "wall_ts": "2026-07-16T23:44:42.614910+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": "communication",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "having a conversation with Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.2
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.25,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.37,
+        "recency_weight": 1.0,
+        "effective_score": 0.37,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-106-494b6b03a7",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "embedding_text": "Klaus Mueller successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "keywords": [
+          "chat with",
+          "communication",
+          "execution_result",
+          "isabella rodriguez",
+          "success"
+        ],
+        "poignancy": 5.48,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-107-3ba21362d0",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 107,
+      "sim_time": "2026-07-16 08:17:50",
+      "wall_ts": "2026-07-16T23:44:49.134662+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "Seeking comfort and emotional repair through conversation."
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "cooldown_steps": 95,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            50,
+            37
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-107-3ba21362d0",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "embedding_text": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "recent_social_cooldown",
+          "restore_mood",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-108-58e3e6badc",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 108,
+      "sim_time": "2026-07-16 08:18:00",
+      "wall_ts": "2026-07-16T23:48:14.161382+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": "communication",
+        "target": "Isabella Rodriguez",
+        "target_type": "place",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "having a conversation with Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 3.071,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.2
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.204,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.324,
+        "recency_weight": 1.0,
+        "effective_score": 0.324,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-108-58e3e6badc",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "embedding_text": "Klaus Mueller successfully used chat with on Isabella Rodriguez at <persona> Isabella Rodriguez.",
+        "keywords": [
+          "chat with",
+          "communication",
+          "execution_result",
+          "isabella rodriguez",
+          "success"
+        ],
+        "poignancy": 5.3,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 3.071,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-184-1ef1fa8363",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 184,
+      "sim_time": "2026-07-16 08:30:40",
+      "wall_ts": "2026-07-16T23:58:20.398248+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relaxing on the common room sofa and daydreaming to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-184-1ef1fa8363",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Klaus Mueller successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-203-a70ab0e411",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 203,
+      "sim_time": "2026-07-16 08:33:50",
+      "wall_ts": "2026-07-16T23:59:37.638860+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "communication",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "idling to conserve energy"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "cooldown_steps": 90,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            108,
+            36
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-203-a70ab0e411",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "embedding_text": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "keywords": [
+          "communication",
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "recent_social_cooldown",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-204-a1bc001c84",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 204,
+      "sim_time": "2026-07-16 08:34:00",
+      "wall_ts": "2026-07-16T23:59:52.764936+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "I will discuss decorations and social aspects with Isabella to improve my mood.; conversation topic: planning for the Valentine's Day party"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "cooldown_steps": 89,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            108,
+            37
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-204-a1bc001c84",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "embedding_text": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "recent_social_cooldown",
+          "restore_mood",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-205-31a6a97026",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 205,
+      "sim_time": "2026-07-16 08:34:10",
+      "wall_ts": "2026-07-17T00:00:29.003369+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "communication",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "idling to conserve energy"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "cooldown_steps": 88,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            108,
+            37
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-205-31a6a97026",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "embedding_text": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+        "keywords": [
+          "communication",
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "recent_social_cooldown",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "avoid",
+      "intent_family": "restore_satiety",
+      "skill_id": "request",
+      "resource_scope": "instance",
+      "resource_instance_key": "<persona> isabella rodriguez",
+      "resource_type": "Isabella Rodriguez",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.8799999999999999,
+      "freshness_step": 104,
+      "evidence_summary": "Isabella Rodriguez at <persona> Isabella Rodriguez was not close enough to use recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-54-97295295a5",
+        "Klaus_Mueller-82-360c5c1c86",
+        "Klaus_Mueller-104-ba3b0cde39"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "consume",
+      "resource_scope": "instance",
+      "resource_instance_key": "<waiting> 49 37",
+      "resource_type": "apple",
+      "recommendation": "prefer_this_instance",
+      "confidence": 0.925,
+      "freshness_step": 105,
+      "evidence_summary": "apple at <waiting> 49 37 worked well recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-105-601dabed58"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Klaus Mueller-205-seek_and_chat-isabella rodriguez",
+    "phase": "failed",
+    "address": "<persona> Isabella Rodriguez",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "intent_family": "communication",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "idling to conserve energy"
+    },
+    "description": "idling to conserve energy",
+    "event": [
+      "Klaus Mueller",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "seek_and_chat",
+      "target": "isabella rodriguez",
+      "intent_family": "communication"
+    },
+    "started_step": 205,
+    "updated_step": 205,
+    "failure": {
+      "reason": "recent_social_cooldown",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "cooldown_steps": 88,
+        "action": "seek_and_chat",
+        "curr_tile": [
+          108,
+          37
+        ]
+      }
+    }
+  },
+  "current_action_record": {
+    "status": "failed",
+    "skill_id": "seek_and_chat",
+    "intent_family": "communication",
+    "target": "isabella rodriguez",
+    "target_type": "persona",
+    "resolved_target": "Isabella Rodriguez",
+    "resolved_address": "<persona> Isabella Rodriguez",
+    "description": "idling to conserve energy",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "intent_family": "communication",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "idling to conserve energy"
+    },
+    "event": [
+      "Klaus Mueller",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "created_step": 205,
+    "updated_step": 205,
+    "failure": {
+      "reason": "recent_social_cooldown",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "cooldown_steps": 88,
+        "action": "seek_and_chat",
+        "curr_tile": [
+          108,
+          37
+        ]
+      }
+    }
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 0
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "warm, accommodating, dedicated",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, reflective, even-tempered, thoughtful",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:34:10",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:34:10",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller, a dedicated researcher, is deeply immersed in writing a paper on gentrification's impact on low-income communities. Balancing his academic pursuits, he's also planning a Valentine's Day party, which includes coordinating decorations and socializing, a task that has garnered appreciation from Isabella, who finds him '\u5fc3\u7075\u624b\u5de7'. Amidst his busy s...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-16 08:18:10",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goal is to ensure survival and stability while actively pursuing a career in sociology to contribute to social justice. I understand the world as a complex, interconnected society that requires constant learning and engagement. My direction is towards creating and maintaining relationships, routines, and ambitions that align with my values, such as assisting with decorations for social events and valu...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:34:10",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:34:10",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Isabella Rodriguez\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: warm, accommodating, dedicated\u3002 Isabella Rodriguez: \u4eb2\u5bc6\u7a0b\u5ea6=0.64, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about planning and discussing a Valentine's Day party \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Klaus Mueller Isabella asked Klaus to help with the Valentine's Day party decorations.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-16 08:18:10",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-16 08:34:10"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 42,
+  "importance_ele_n": 42,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 16, 2026, 08:34:10",
+  "act_duration": 10,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

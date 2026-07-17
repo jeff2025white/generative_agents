@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.66,
+      "recent_events": [
+        "received requested help with apple",
+        "conversing about preparing for a Valentine's Day party and seeking Klaus Mueller's help with decorations",
+        "conversing about planning a Valentine's Day party and discussing a previous gift of apples",
+        "conversing about planning and discussing a Valentine's Day party",
+        "conversing about planning for a Valentine's Day party and discussing decorations and Klaus Mueller's paper writing"
+      ]
+    }
+  }
+}

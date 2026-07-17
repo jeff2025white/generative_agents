@@ -1,0 +1,1436 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 12, 2026, 12:24:40",
+  "curr_tile": [
+    109,
+    31
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "inquisitive, studious, reflective",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 0.0,
+  "stamina": 62.825000000003705,
+  "health": 91.95000000000046,
+  "mood": 20.419999999998634,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 0.0,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 62.825000000003705,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 91.95000000000046,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 47.93199999999928,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 20.419999999998634,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 70.220000000002,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 35.287999999995755,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 43.93199999999928,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 40.397999999998916,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 42.219999999998585,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 12, 2026, 11:21:50",
+  "last_action_switch_time": "July 12, 2026, 12:24:00",
+  "decision_commit_until_step": 1590,
+  "last_decision_signature": {
+    "skill_id": "request",
+    "target": "isabella rodriguez",
+    "intent_family": "restore_satiety"
+  },
+  "last_decision_reason": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe",
+  "recent_completed_action_signature": {
+    "skill_id": "request",
+    "target": "isabella rodriguez",
+    "intent_family": "restore_satiety"
+  },
+  "recent_completed_action_step": 1108,
+  "suspended_action": {
+    "act_address": "the Ville:Oak Hill College:classroom",
+    "act_duration": 60,
+    "act_description": "searching for a book on social dynamics of gentrification",
+    "act_pronunciatio": "\ud83d\ude42",
+    "act_event": [
+      "Klaus Mueller",
+      "searching",
+      "book on social dynamics of gentrification"
+    ],
+    "act_command": {
+      "skill_id": "work",
+      "target": "library",
+      "source": "decision_translation",
+      "raw_action": "Work",
+      "detail": "searching for a book on social dynamics of gentrification"
+    },
+    "act_obj_description": "classroom is being used",
+    "act_obj_pronunciatio": "\ud83d\udcbc",
+    "act_obj_event": [
+      "classroom",
+      "is",
+      "being used"
+    ],
+    "chatting_with": null,
+    "chat": null,
+    "chatting_with_buffer": {},
+    "chatting_end_time": null,
+    "signature": {
+      "skill_id": "work",
+      "target": "library",
+      "intent_family": "work"
+    },
+    "planned_path": [
+      [
+        107,
+        32
+      ],
+      [
+        108,
+        32
+      ],
+      [
+        109,
+        32
+      ],
+      [
+        109,
+        31
+      ],
+      [
+        109,
+        30
+      ],
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ],
+      [
+        113,
+        30
+      ],
+      [
+        113,
+        29
+      ],
+      [
+        113,
+        28
+      ],
+      [
+        113,
+        27
+      ],
+      [
+        113,
+        26
+      ]
+    ],
+    "action_record": {
+      "status": "pathing",
+      "skill_id": "work",
+      "intent_family": "work",
+      "target": "library",
+      "target_type": "place",
+      "resolved_target": "classroom",
+      "resolved_address": "the Ville:Oak Hill College:classroom",
+      "description": "searching for a book on social dynamics of gentrification",
+      "command": {
+        "skill_id": "work",
+        "target": "library",
+        "source": "decision_translation",
+        "raw_action": "Work",
+        "detail": "searching for a book on social dynamics of gentrification"
+      },
+      "event": [
+        "Klaus Mueller",
+        "searching",
+        "book on social dynamics of gentrification"
+      ],
+      "duration": 60,
+      "creator_instruction": null,
+      "created_step": 1583,
+      "updated_step": 1583,
+      "failure": null
+    }
+  },
+  "suspended_action_step": 1584,
+  "pending_interrupt": {
+    "reason": "physiological_crisis_after_chat_wrap",
+    "source": "move",
+    "payload": {
+      "satiety": 28.810000000003363,
+      "stamina": 87.17500000000153,
+      "health": 100.0,
+      "act_description": "resting on the library sofa to relax and reassess goals",
+      "chat_partner": "Maria Lopez"
+    },
+    "curr_step": 1016,
+    "active_signature": {
+      "skill_id": "rest",
+      "target": "library sofa",
+      "intent_family": "restore_stamina"
+    }
+  },
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "failed",
+    "target": "isabella rodriguez",
+    "target_address": "<persona> Isabella Rodriguez",
+    "skill_id": "request",
+    "action_description": "requesting food from Isabella Rodriguez at Hobbs Cafe",
+    "reason": "target_not_close",
+    "payload": {
+      "target": "Isabella Rodriguez",
+      "target_tile": [
+        113,
+        28
+      ]
+    },
+    "curr_step": 1587
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Klaus_Mueller-1587-b9c53da5a0",
+    "sim_code": null,
+    "persona": "Klaus Mueller",
+    "curr_step": 1587,
+    "sim_time": "2026-07-12 12:24:30",
+    "wall_ts": "2026-07-12T18:27:37.057946+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "request",
+      "raw_action": "Request",
+      "intent_family": null,
+      "target": "Isabella Rodriguez",
+      "target_type": "persona",
+      "target_address": "<persona> Isabella Rodriguez",
+      "resolved_target": "Isabella Rodriguez",
+      "resolution_kind": null,
+      "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "execution": {
+      "result": "failed",
+      "reason": "target_not_close",
+      "reason_class": "other",
+      "payload": {
+        "target": "Isabella Rodriguez",
+        "target_tile": [
+          113,
+          28
+        ]
+      }
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "Isabella Rodriguez",
+      "resource_instance_key": "<persona> isabella rodriguez"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.72,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.78,
+      "recency_weight": 1.0,
+      "effective_score": 0.78,
+      "should_promote_to_experience": true
+    },
+    "memory_projection": {
+      "source_outcome_id": "Klaus_Mueller-1587-b9c53da5a0",
+      "memory_type": "event",
+      "subject": "Klaus Mueller",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+      "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+      "keywords": [
+        "execution_result",
+        "failed",
+        "isabella rodriguez",
+        "request",
+        "target_not_close"
+      ],
+      "poignancy": 7.12,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "request",
+        "target": "Isabella Rodriguez",
+        "target_address": "<persona> Isabella Rodriguez",
+        "reason": "target_not_close",
+        "dominant_motive": null,
+        "resource_instance_key": "<persona> isabella rodriguez"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1454-d383a1176d",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1454,
+      "sim_time": "2026-07-12 12:02:20",
+      "wall_ts": "2026-07-12T18:06:07.470037+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting a snack from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            117,
+            45
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1454-d383a1176d",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1506-7ace7a8de5",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1506,
+      "sim_time": "2026-07-12 12:11:00",
+      "wall_ts": "2026-07-12T18:07:38.125932+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "Gather",
+        "intent_family": null,
+        "target": "cafe customer seating",
+        "target_type": "object",
+        "target_address": "the Ville:Hobbs Cafe:cafe:cafe customer seating",
+        "resolved_target": "cafe customer seating",
+        "resolution_kind": null,
+        "detail": "getting prepared food from the cafe counter"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "resource_empty",
+        "reason_class": "resource_state",
+        "payload": {
+          "target": "cafe customer seating",
+          "clean_target": "cafe counter",
+          "nearest_address": "the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+          "action": "gather",
+          "curr_tile": [
+            74,
+            26
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "cafe customer seating",
+        "resource_instance_key": "the ville:hobbs cafe:cafe:cafe customer seating"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1506-7ace7a8de5",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed gather attempt on cafe customer seating at the Ville:Hobbs Cafe:cafe:cafe customer seating because resource_empty.",
+        "embedding_text": "Klaus Mueller experienced a failed gather attempt on cafe customer seating at the Ville:Hobbs Cafe:cafe:cafe customer seating because resource_empty.",
+        "keywords": [
+          "cafe customer seating",
+          "execution_result",
+          "failed",
+          "gather",
+          "resource_empty"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "cafe customer seating",
+          "target_address": "the Ville:Hobbs Cafe:cafe:cafe customer seating",
+          "reason": "resource_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:hobbs cafe:cafe:cafe customer seating"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1520-9d9c6b2054",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1520,
+      "sim_time": "2026-07-12 12:13:20",
+      "wall_ts": "2026-07-12T18:08:10.351748+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food or trading for food access"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            77,
+            37
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1520-9d9c6b2054",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1526-48fa03f8b7",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1526,
+      "sim_time": "2026-07-12 12:14:20",
+      "wall_ts": "2026-07-12T18:08:22.388230+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_inventory_empty",
+        "reason_class": "resource_state",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_inventory": {
+            "apple": 0
+          }
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1526-48fa03f8b7",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_inventory_empty.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_inventory_empty"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_inventory_empty",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1539-8074366bd1",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1539,
+      "sim_time": "2026-07-12 12:16:30",
+      "wall_ts": "2026-07-12T18:12:08.486815+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Maria Lopez",
+        "target_type": "persona",
+        "target_address": "<persona> Maria Lopez",
+        "resolved_target": "Maria Lopez",
+        "resolution_kind": null,
+        "detail": "requesting food from Maria Lopez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Maria Lopez",
+          "target_tile": [
+            80,
+            43
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Maria Lopez",
+        "resource_instance_key": "<persona> maria lopez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1539-8074366bd1",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Maria Lopez at <persona> Maria Lopez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Maria Lopez at <persona> Maria Lopez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "maria lopez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Maria Lopez",
+          "target_address": "<persona> Maria Lopez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> maria lopez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1548-847d576205",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1548,
+      "sim_time": "2026-07-12 12:18:00",
+      "wall_ts": "2026-07-12T18:12:23.227317+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food or trading for food access from Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            80,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1548-847d576205",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1552-ebf76cef13",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1552,
+      "sim_time": "2026-07-12 12:18:40",
+      "wall_ts": "2026-07-12T18:12:32.592261+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food or trading for food access from Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            84,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1552-ebf76cef13",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-1587-b9c53da5a0",
+      "sim_code": null,
+      "persona": "Klaus Mueller",
+      "curr_step": 1587,
+      "sim_time": "2026-07-12 12:24:30",
+      "wall_ts": "2026-07-12T18:27:37.057946+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "Request",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "requesting food from Isabella Rodriguez at Hobbs Cafe"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "other",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            113,
+            28
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.78,
+        "recency_weight": 1.0,
+        "effective_score": 0.78,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-1587-b9c53da5a0",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "isabella rodriguez",
+          "request",
+          "target_not_close"
+        ],
+        "poignancy": 7.12,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "avoid",
+      "intent_family": null,
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:dorm for oak hill college:kitchen:refrigerator",
+      "resource_type": "refrigerator",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 1348,
+      "evidence_summary": "refrigerator at the Ville:Dorm for Oak Hill College:kitchen:refrigerator was empty recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-1348-ae53109117"
+      ]
+    },
+    {
+      "experience_kind": "avoid",
+      "intent_family": null,
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:hobbs cafe:cafe:cafe customer seating",
+      "resource_type": "cafe customer seating",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 1506,
+      "evidence_summary": "cafe customer seating at the Ville:Hobbs Cafe:cafe:cafe customer seating was empty recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-1506-7ace7a8de5"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Klaus Mueller-1588-request-isabella rodriguez",
+    "phase": "pathing",
+    "address": "<persona> Isabella Rodriguez",
+    "command": {
+      "skill_id": "request",
+      "target": "Isabella Rodriguez",
+      "source": "decision_translation",
+      "raw_action": "Request",
+      "detail": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "description": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe",
+    "event": [
+      "Klaus Mueller",
+      "request",
+      "Isabella Rodriguez"
+    ],
+    "path": [
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "request",
+      "target": "isabella rodriguez",
+      "intent_family": "restore_satiety"
+    },
+    "started_step": 1588,
+    "updated_step": 1588,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "request",
+    "intent_family": "restore_satiety",
+    "target": "isabella rodriguez",
+    "target_type": "persona",
+    "resolved_target": "Isabella Rodriguez",
+    "resolved_address": "<persona> Isabella Rodriguez",
+    "description": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe",
+    "command": {
+      "skill_id": "request",
+      "target": "Isabella Rodriguez",
+      "source": "decision_translation",
+      "raw_action": "Request",
+      "detail": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe"
+    },
+    "event": [
+      "Klaus Mueller",
+      "request",
+      "Isabella Rodriguez"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "created_step": 1588,
+    "updated_step": 1588,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "request",
+  "active_skill_id": "Klaus Mueller-1588-request",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 1588,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "isabella rodriguez",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "stable, welcoming, caring",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bcompetence, \u6b21satiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood, \u6b21satiety",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, reflective",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 12:24:40",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 12:24:40",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals are rooted in survival, understanding the world as a complex and ever-evolving society where social justice and equality are paramount. Beyond immediate survival, I aspire to create a stable life for myself by engaging in meaningful relationships, fostering routines that promote mental well-being, and pursuing a career in sociology to contribute to the understanding and improvement of society. M...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 12:24:40",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-12 12:24:40",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "I recently talked with \u884c\uff0c\u90a3\u6211\u5148\u5927\u6982\u8bf4\u8bf4\u3002\u5c31\u50cf\u4f60\u5f00\u5496\u5561\u9986\u4e00\u6837\uff0c\u6bcf\u4e2a\u793e\u533a\u90fd\u6709\u81ea\u5df1\u7684\u2018\u5473\u9053\u2019\u5462\u3002.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-12 12:24:40"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 36,
+  "importance_ele_n": 30,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<persona> Isabella Rodriguez",
+  "act_start_time": "July 12, 2026, 12:24:40",
+  "act_duration": 10,
+  "act_description": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Klaus Mueller",
+    "request",
+    "Isabella Rodriguez"
+  ],
+  "act_command": {
+    "skill_id": "request",
+    "target": "Isabella Rodriguez",
+    "source": "decision_translation",
+    "raw_action": "Request",
+    "detail": "requesting food or a trade for food access from Isabella Rodriguez at Hobbs Cafe"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      110,
+      30
+    ],
+    [
+      111,
+      30
+    ],
+    [
+      112,
+      30
+    ]
+  ]
+}

@@ -89,7 +89,7 @@ def derive_step_state_deltas(
 
     health_delta = 0.0
     if projected_satiety <= 0.0:
-        health_delta -= 0.05
+        health_delta -= 0.2
     if projected_stamina <= 0.0:
         health_delta -= 0.02
     if projected_mood < 20.0:

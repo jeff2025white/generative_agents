@@ -1,0 +1,76 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        17
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "talking to Klaus Mueller at the cafe @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.37,
+      "stamina": 99.32300000000005,
+      "health": 100.0,
+      "mood": 49.81999999999997,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is talking to Klaus Mueller at the cafe",
+          "created": "2026-07-11 08:00:50"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        122,
+        51
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food and chatting at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.23499999999999,
+      "stamina": 99.24600000000005,
+      "health": 100.0,
+      "mood": 49.550000000000026,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is requesting food and chatting at Hobbs Cafe",
+          "created": "2026-07-11 08:00:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 39.37,
+      "stamina": 99.42600000000006,
+      "health": 100.0,
+      "mood": 49.45999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting food from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-11 08:00:50"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:01:20"
+  }
+}

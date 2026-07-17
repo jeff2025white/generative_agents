@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        77,
+        36
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing and people-watching at bar @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.13499999999994,
+      "stamina": 94.00400000000042,
+      "health": 100.0,
+      "mood": 46.550000000000196,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a walk to clear the mind",
+          "created": "2026-07-11 08:10:50"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        41,
+        34
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk to clear the mind @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.16999999999998,
+      "stamina": 94.61700000000043,
+      "health": 100.0,
+      "mood": 48.619999999999784,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        84,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.16999999999998,
+      "stamina": 95.40600000000047,
+      "health": 100.0,
+      "mood": 45.85999999999984,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:11:20"
+  }
+}

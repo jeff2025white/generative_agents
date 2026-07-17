@@ -1,0 +1,68 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        38,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 21.809999999999967,
+      "stamina": 92.2190000000008,
+      "health": 100.0,
+      "mood": 42.979999999999734,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        55,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Ryan Park's apartment:main room:computer desk",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 79.81000000000022,
+      "stamina": 90.98400000000073,
+      "health": 100.0,
+      "mood": 50.299999999999734,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        31,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 20.0549999999999,
+      "stamina": 89.74200000000071,
+      "health": 100.0,
+      "mood": 45.15000000000033,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:19:10"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:19:20"
+  }
+}

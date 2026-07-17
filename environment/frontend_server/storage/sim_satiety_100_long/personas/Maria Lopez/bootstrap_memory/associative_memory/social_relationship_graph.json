@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about planning to attend a Valentine's Day party at a café",
+        "conversing about planning a Valentine's Day party and discussing the new coffee drinks at the café"
+      ]
+    }
+  }
+}

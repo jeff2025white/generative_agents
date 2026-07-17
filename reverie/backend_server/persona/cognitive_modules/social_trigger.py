@@ -104,6 +104,19 @@ def _distance_score(init_persona, target_persona):
   return 0.06
 
 
+def is_within_social_greeting_range(init_persona, target_persona, max_manhattan=3):
+  """Return True when two personas are close enough for an immediate greeting chat."""
+  init_tile = getattr(init_persona.scratch, "curr_tile", None)
+  target_tile = getattr(target_persona.scratch, "curr_tile", None)
+  if not init_tile or not target_tile:
+    return False
+  try:
+    manhattan = abs(init_tile[0] - target_tile[0]) + abs(init_tile[1] - target_tile[1])
+  except Exception:
+    return False
+  return manhattan <= max_manhattan
+
+
 def _relationship_score(init_persona, target_persona):
   """Score how socially attractive the target is from relationship memory."""
   rel = _get_relationship_info(init_persona, target_persona)

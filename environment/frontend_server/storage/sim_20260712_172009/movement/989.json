@@ -1,0 +1,216 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        79,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "studying and organizing inventory for the Valentine's Day party @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5c31\u4eca\u5929\u4e0b\u5348\u505a\u5462\u3002\u5bf9\u4e86\uff0c\u4f60\u8981\u662f\u6709\u7a7a\uff0c\u6765\u5c1d\u5c1d\u5457\u3002",
+      "satiety": 88.70000000000383,
+      "stamina": 64.21800000000262,
+      "health": 100.0,
+      "mood": 91.70000000000083,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is sitting on the common room sofa to relax",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is searching for food at the bar customer seating",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is studying and organizing inventory for the Valentine's Day party",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-12 10:34:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-12 10:34:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez consumed apple and restored physical condition.",
+          "created": "2026-07-12 10:34:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at common room sofa and recovered stamina.",
+          "created": "2026-07-12 09:34:20",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is sitting on the common room sofa to relax and distract myself from my low mood",
+          "created": "2026-07-12 09:53:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-12 08:19:50",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        39,
+        37
+      ],
+      "pronunciatio": "\ud83c\udfae",
+      "description": "playing a game on the game console @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 73.85000000000261,
+      "stamina": 71.46400000000217,
+      "health": 100.0,
+      "mood": 37.97000000000009,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is taking a short nap on the common room sofa",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is resting on the library sofa to relax and reassess goals",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is taking a short walk in the park garden to relax and clear the mind",
+          "created": "2026-07-12 10:44:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed leisure_use attempt on park garden at the Ville:Johnson Park:park because recent_duplicate_action.",
+          "created": "2026-07-12 10:42:10",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez rested at library sofa and recovered stamina.",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez spent time on leisure_use with target park garden.",
+          "created": "2026-07-12 10:42:00",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The common room and library are popular locations for relaxation and socializing",
+          "created": "2026-07-12 10:42:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a recurring theme of self-reflection and reassessment",
+          "created": "2026-07-12 10:42:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is resting on the library sofa to recover stamina",
+          "created": "2026-07-12 10:30:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is taking a short nap on the library sofa",
+          "created": "2026-07-12 08:10:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a walk and enjoying nature in the park garden",
+          "created": "2026-07-12 10:17:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a leisurely walk in the park garden",
+          "created": "2026-07-12 10:34:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library sofa is idle",
+          "created": "2026-07-12 08:10:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        104,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "resting on the library sofa to relax and reassess goals @ the Ville:Oak Hill College:library:library sofa",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u4f60\u597d\uff0c\u6211\u662f Maria\uff0c\u4e0d\u77e5\u9053\u80fd\u4e0d\u80fd\u6253\u6270\u4f60\u51e0\u5206\u949f\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u5f53\u7136\u53ef\u4ee5\uff0c\u5c31\u5728\u8fd9\u513f\u8bf4\u5427\uff0c\u6211\u542c\u7740\u5462\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8c22\u8c22\uff0c\u5176\u5b9e\u6211\u662f\u60f3\u95ee\u4f60\u5bf9\u793e\u533a\u6539\u9020\u6709\u4ec0\u4e48\u770b\u6cd5\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u89c9\u5f97\u793e\u533a\u6539\u9020\u633a\u590d\u6742\u7684\uff0c\u50cf\u6211\u7814\u7a76\u7684 gentrification \u5c31\u4f1a\u5e26\u6765\u5f88\u591a\u53d8\u5316\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u6211\u89c9\u5f97\u793e\u533a\u6539\u9020\u633a\u590d\u6742\u7684\uff0c\u50cf\u6211\u7814\u7a76\u7684 gentrification \u5c31\u4f1a\u5e26\u6765\u5f88\u591a\u53d8\u5316\u3002",
+      "satiety": 30.70000000000337,
+      "stamina": 88.98400000000134,
+      "health": 100.0,
+      "mood": 85.75999999999857,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 10:44:50"
+  }
+}

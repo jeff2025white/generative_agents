@@ -6,7 +6,7 @@
       "description": "Consume food or drink to restore Satiety and Health.",
       "allowed_targets": ["apple", "cooked meal", "snack", "pancake", "food"],
       "actor_delta_amplitude_by_variant": {
-        "consume": {"satiety": 58.0, "health": 5.0, "mood": 5.0}
+        "consume": {"satiety": 58.0, "health": 5.0, "mood": 1.0}
       }
     },
     "Gather": {
@@ -25,6 +25,14 @@
         "rest": {"stamina": 40.0}
       }
     },
+    "Treat": {
+      "verbs": ["treat", "bandage", "medicate"],
+      "description": "Treat injuries directly to restore Health.",
+      "allowed_targets": ["bandage", "medicine", "first aid kit"],
+      "actor_delta_amplitude_by_variant": {
+        "bandage": {"health": 12.0, "stamina": -1.0}
+      }
+    },
     "Work": {
       "verbs": ["work", "teach", "write", "research", "study", "organize"],
       "description": "Perform professional, academic, or daily tasks.",
@@ -39,8 +47,8 @@
       "description": "Interact or chat with other people to restore Mood.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
       "actor_delta_amplitude_by_variant": {
-        "chat with": {"stamina": 4.0, "mood": 1.0, "belonging": 12.0},
-        "seek_and_chat": {"stamina": 4.0, "mood": 1.0, "belonging": 12.0}
+        "chat with": {"stamina": 4.0, "mood": 4.0, "belonging": 12.0},
+        "seek_and_chat": {"stamina": 4.0, "mood": 4.0, "belonging": 12.0}
       }
     },
     "Request": {
@@ -105,11 +113,11 @@
       "description": "Leisure, games, or music to improve Mood.",
       "allowed_targets": ["game console", "tv", "piano", "easel", "lifting weight", "park garden", "park", "bench", "common room sofa", "cafe customer seating", "pub", "bar", "tavern", "rose and crown"],
       "actor_delta_amplitude_by_variant": {
-        "leisure_use": {"stamina": -2.0, "mood": 7.0},
+        "leisure_use": {"stamina": -2.0, "mood": 3.0},
         "sing": {"stamina": 5.0, "mood": 1.0, "competence": 6.0, "meaning": 4.0},
-        "daydream": {"stamina": 2.0, "mood": 5.0},
+        "daydream": {"stamina": 2.0, "mood": 2.0},
         "wander": {"stamina": -1.0, "mood": 1.0},
-        "hangout_social_venue": {"stamina": -1.0, "mood": 1.0, "belonging": 10.0}
+        "hangout_social_venue": {"stamina": -1.0, "mood": 2.0, "belonging": 10.0}
       }
     }
   }

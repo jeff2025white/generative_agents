@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        71,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:bar customer seating",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.72000000000071,
+      "stamina": 98.42100000000016,
+      "health": 100.0,
+      "mood": 45.84000000000009,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        18
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "starting a conversation with Klaus Mueller to seek comfort and emotional support @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.72000000000071,
+      "stamina": 99.63900000000002,
+      "health": 100.0,
+      "mood": 50.0,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is starting a conversation with Klaus Mueller to seek comfort and emotional support",
+          "created": "2026-07-16 08:16:40"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        57,
+        25
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 91.16000000000065,
+      "stamina": 99.86200000000001,
+      "health": 100.0,
+      "mood": 46.87999999999988,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:17:10"
+  }
+}

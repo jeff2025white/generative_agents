@@ -49,14 +49,22 @@ class JointDecisionPromptTests(unittest.TestCase):
         def fake_safe_generate_response(*args, **kwargs):
             captured["prompt_kind"] = kwargs.get("prompt_kind")
             captured["request_config"] = kwargs.get("request_config")
-            return {
+            captured["example_output"] = args[1]
+            captured["special_instruction"] = args[2]
+            response = {
+                "schema_version": 2,
                 "thought": "I am hungry and should get food now.",
                 "action": "Gather",
                 "target": "refrigerator",
+                "target_type": "object",
+                "mode": "gather",
+                "topic": "",
                 "detail": "opening the refrigerator to gather food items",
                 "duration": 10,
                 "reasoning": "Hunger is the dominant need.",
             }
+            captured["contract_valid"] = kwargs["func_validate"](response)
+            return response
 
         persona = SimpleNamespace(
             scratch=SimpleNamespace(
@@ -82,12 +90,55 @@ class JointDecisionPromptTests(unittest.TestCase):
 
         self.assertEqual(result["action"], "Gather")
         self.assertEqual(result["target"], "refrigerator")
+        self.assertEqual(result["target_type"], "object")
+        self.assertEqual(result["mode"], "gather")
         self.assertEqual(captured["prompt_kind"], "joint_decision")
         self.assertEqual(captured["request_config"], config)
         self.assertIn("joint_decision_v1.txt", captured["prompt_template"])
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
-        self.assertIn("Choose the most immediate next action only.", joined_prompt)
+        self.assertIn("DecisionPriority:", joined_prompt)
         self.assertIn("Standard food sources reduce replanning.", joined_prompt)
+        self.assertIn("target_type", captured["special_instruction"])
+        self.assertIsNone(captured["example_output"])
+        self.assertTrue(captured["contract_valid"])
+
+    def test_joint_decision_repairs_recoverable_contract_without_retry(self):
+        captured = {}
+
+        def fake_safe_generate_response(*args, **kwargs):
+            raw = {
+                "schema_version": 2,
+                "thought": "I should ask Klaus for food.",
+                "action": "Request",
+                "target": "Klaus Mueller",
+                "target_type": "persona",
+                "mode": "request_resource",
+                "topic": "food access",
+                "detail": "requesting food from Klaus",
+                "duration": 5,
+                "reasoning": "Hunger is urgent.",
+            }
+            captured["valid"] = kwargs["func_validate"](raw)
+            return kwargs["func_clean_up"](raw)
+
+        persona = SimpleNamespace(
+            scratch=SimpleNamespace(
+                get_str_iss=lambda: "Maria Lopez is hungry.",
+                get_str_firstname=lambda: "Maria",
+            )
+        )
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", side_effect=fake_safe_generate_response):
+            result = prompt_module.run_gpt_prompt_joint_decision(
+                persona,
+                nearby_resources=["Klaus Mueller"],
+                temporal_context="Current Time: Tuesday July 02, 2026, 12:10 PM",
+            )
+
+        self.assertTrue(captured["valid"])
+        self.assertEqual(result["mode"], "request")
+        self.assertEqual(result["duration"], 5)
 
     def test_joint_template_places_decision_capsule_before_identity(self):
         template_path = ROOT / "reverie" / "backend_server" / "persona" / "prompt_template" / "v2" / "joint_decision_v1.txt"
@@ -153,7 +204,7 @@ class DecisionPipelineFallbackTests(unittest.TestCase):
 
     def test_joint_pipeline_falls_back_when_joint_result_missing_action(self):
         config = {"api_key": "cloud-key", "api_base": "https://api.example/v1", "model": "cloud-model"}
-        with patch.dict(os.environ, {"ENABLE_JOINT_DECISION_PIPELINE": "1"}, clear=False), \
+        with patch.dict(os.environ, {"ENABLE_JOINT_DECISION_PIPELINE": "1", "ENABLE_LEGACY_TRANSLATION_FALLBACK": "1"}, clear=False), \
              patch.object(plan_module, "get_default_decision_request_config", return_value=config), \
              patch.object(plan_module, "run_gpt_prompt_joint_decision", return_value={"thought": "I should get food."}) as joint_mock, \
              patch.object(plan_module, "run_gpt_prompt_demand_thinking", return_value="I should get food from the cafe counter now.") as thinking_mock, \
@@ -189,6 +240,29 @@ class DecisionPipelineFallbackTests(unittest.TestCase):
         self.assertEqual(joint_mock.call_args.kwargs["request_config"], config)
         self.assertEqual(thinking_mock.call_args.kwargs["request_config"], config)
         self.assertEqual(translation_mock.call_args.kwargs["request_config"], config)
+
+    def test_invalid_joint_contract_uses_local_failsafe_by_default(self):
+        with patch.dict(os.environ, {"ENABLE_JOINT_DECISION_PIPELINE": "1", "ENABLE_LEGACY_TRANSLATION_FALLBACK": "0"}, clear=False), \
+             patch.object(plan_module, "run_gpt_prompt_joint_decision", return_value={"thought": "I am uncertain."}), \
+             patch.object(plan_module, "run_gpt_prompt_demand_thinking", side_effect=AssertionError("should not call stage 1 again")), \
+             patch.object(plan_module, "run_gpt_prompt_action_translation", side_effect=AssertionError("should not call translation llm")):
+            thinking_text, decision, _hint, used_joint, timing_meta, _cache_signature = plan_module._run_decision_pipeline(
+                self.persona,
+                object_states=["park", "refrigerator"],
+                temporal_context="- Current Time: Tuesday July 02, 2026, 12:10 PM",
+                status_summary="No urgent need.",
+                physiological_rules="Choose a feasible action.",
+                cooperative_context="No special cooperative tasks.",
+                last_action_desc="walking through town",
+                intent_memory_summary="No especially relevant prior experience was retrieved.",
+            )
+
+        self.assertTrue(used_joint)
+        self.assertEqual(thinking_text, "I am uncertain.")
+        self.assertEqual(decision["action"], "Idle")
+        self.assertEqual(decision["mode"], "idle")
+        self.assertEqual(timing_meta["action_translation"], 0.0)
+        self.assertEqual(timing_meta["last_retry_reason"], "joint_decision_contract_invalid")
 
     def test_semantic_cache_hit_skips_llm_pipeline(self):
         with patch.dict(os.environ, {"ENABLE_SEMANTIC_DECISION_CACHE": "1"}, clear=False), \

@@ -1,0 +1,79 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        57,
+        24
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:The Rose and Crown Pub:pub:bar customer seating",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u4e2a\u2026\u2026\u4f60\u597d\uff0c\u770b\u4f60\u633a\u4e13\u6ce8\u7684\uff0c\u6253\u6270\u4e00\u4e0b\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6ca1\u4e8b\u513f\uff0c\u4f60\u627e\u6211\u6709\u4ec0\u4e48\u4e8b\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u55e8\uff0c\u6ca1\u5927\u4e8b\uff0c\u5c31\u662f\u60f3\u8ddf\u4f60\u8bf4\u8bf4\u6211\u4eec\u7684\u60c5\u4eba\u8282\u6d3e\u5bf9\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u54e6\uff0c\u60c5\u4eba\u8282\u6d3e\u5bf9\u554a\uff0c\u633a\u6709\u610f\u601d\u7684\u3002\u4f60\u4eec\u6253\u7b97\u600e\u4e48\u641e\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u662f\u554a\uff0c\u6211\u4eec\u6253\u7b97\u5e03\u7f6e\u4e00\u4e0b\uff0c\u653e\u70b9\u6d6a\u6f2b\u7684\u97f3\u4e50\uff0c\u8fd8\u6709\u5c0f\u793c\u7269\u54e6\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u54e6\uff0c\u60c5\u4eba\u8282\u6d3e\u5bf9\u554a\uff0c\u633a\u6709\u610f\u601d\u7684\u3002\u4f60\u4eec\u6253\u7b97\u600e\u4e48\u641e\uff1f",
+      "satiety": 90.8300000000009,
+      "stamina": 96.61200000000035,
+      "health": 100.0,
+      "mood": 46.28000000000012,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        79,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 88.86500000000082,
+      "stamina": 97.48600000000017,
+      "health": 100.0,
+      "mood": 46.06999999999985,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        73,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Isabella Rodriguez's apartment:main room:closet",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u662f\u554a\uff0c\u6211\u4eec\u6253\u7b97\u5e03\u7f6e\u4e00\u4e0b\uff0c\u653e\u70b9\u6d6a\u6f2b\u7684\u97f3\u4e50\uff0c\u8fd8\u6709\u5c0f\u793c\u7269\u54e6\u3002",
+      "satiety": 90.8300000000009,
+      "stamina": 99.71800000000002,
+      "health": 100.0,
+      "mood": 55.76000000000005,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:21:40"
+  }
+}

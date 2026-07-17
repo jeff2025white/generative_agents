@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        75,
+        26
+      ],
+      "pronunciatio": "\u2615",
+      "description": "getting prepared food from the cafe counter @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u63a8\u8350\u6211\u4eec\u5bb6\u7684\u62db\u724c\u4e09\u660e\u6cbb\uff0c\u8fd8\u6709\u73b0\u78e8\u5496\u5561\u3002\u8d70\u5427\uff0c\u6211\u5e26\u8def\uff1f",
+      "satiety": 33.769999999999975,
+      "stamina": 98.7700000000001,
+      "health": 100.0,
+      "mood": 52.599999999999746,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        103,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\u554a\uff0c\u90a3\u4f60\u5e97\u91cc\u6709\u4ec0\u4e48\u63a8\u8350\u7684\u5403\u7684\u5417\uff1f",
+      "satiety": 33.769999999999975,
+      "stamina": 94.1530000000006,
+      "health": 100.0,
+      "mood": 45.0399999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is seeking food at Hobbs Cafe",
+          "created": "2026-07-12 08:14:10"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        77,
+        26
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 77 26",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 32.434999999999924,
+      "stamina": 99.55000000000003,
+      "health": 100.0,
+      "mood": 45.55000000000025,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is getting prepared food from the cafe counter",
+          "created": "2026-07-12 08:14:40"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:14:40"
+  }
+}

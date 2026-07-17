@@ -1,0 +1,15 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.6200000000000001,
+      "recent_events": [
+        "conversing about Maria Lopez is looking for food recommendations from Isabella Rodriguez while Isabella is busy.",
+        "conversing about Maria Lopez is looking for food recommendations from Isabella Rodriguez while Isabella is busy.",
+        "conversing about a conversation about ordering food at a cafe",
+        "conversing about a conversation about ordering food at a cafe",
+        "conversing about planning a Valentine's Day party and inviting friends"
+      ]
+    }
+  }
+}

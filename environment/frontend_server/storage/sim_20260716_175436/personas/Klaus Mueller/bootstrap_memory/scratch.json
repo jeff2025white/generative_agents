@@ -1,0 +1,889 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 16, 2026, 08:05:00",
+  "curr_tile": [
+    117,
+    45
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "analytical, thoughtful, persistent",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 27.82999999999999,
+  "stamina": 97.95200000000021,
+  "health": 100.0,
+  "mood": 48.13999999999993,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 27.82999999999999,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 97.95200000000021,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 66.62799999999999,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 48.13999999999993,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 63.3799999999999,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 47.75199999999992,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 62.627999999999986,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 67.44199999999998,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 73.38000000000012,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 16, 2026, 08:04:50",
+  "decision_commit_until_step": 32,
+  "last_decision_signature": {
+    "skill_id": "seek_and_chat",
+    "target": "isabella rodriguez",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": {
+    "act_address": "<persona> Isabella Rodriguez",
+    "act_duration": 15,
+    "act_description": "Chat with Isabella Rodriguez to seek food access and social support.; conversation topic: food access and mood improvement",
+    "act_pronunciatio": "\ud83d\udcac",
+    "act_event": [
+      "Klaus Mueller",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "act_command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "Chat with Isabella Rodriguez to seek food access and social support.; conversation topic: food access and mood improvement"
+    },
+    "act_obj_description": null,
+    "act_obj_pronunciatio": null,
+    "act_obj_event": [
+      null,
+      null,
+      null
+    ],
+    "chatting_with": null,
+    "chat": null,
+    "chatting_with_buffer": {},
+    "chatting_end_time": null,
+    "signature": {
+      "skill_id": "seek_and_chat",
+      "target": "isabella rodriguez",
+      "intent_family": "restore_mood"
+    },
+    "planned_path": [
+      [
+        116,
+        45
+      ],
+      [
+        115,
+        45
+      ],
+      [
+        114,
+        45
+      ],
+      [
+        113,
+        45
+      ],
+      [
+        112,
+        45
+      ],
+      [
+        111,
+        45
+      ],
+      [
+        110,
+        45
+      ],
+      [
+        109,
+        45
+      ],
+      [
+        108,
+        45
+      ],
+      [
+        107,
+        45
+      ],
+      [
+        106,
+        45
+      ],
+      [
+        105,
+        45
+      ],
+      [
+        104,
+        45
+      ],
+      [
+        103,
+        45
+      ],
+      [
+        102,
+        45
+      ],
+      [
+        101,
+        45
+      ],
+      [
+        100,
+        45
+      ],
+      [
+        99,
+        45
+      ],
+      [
+        98,
+        45
+      ],
+      [
+        98,
+        44
+      ],
+      [
+        98,
+        43
+      ],
+      [
+        98,
+        42
+      ],
+      [
+        98,
+        41
+      ],
+      [
+        98,
+        40
+      ],
+      [
+        98,
+        39
+      ],
+      [
+        98,
+        38
+      ],
+      [
+        98,
+        37
+      ],
+      [
+        97,
+        37
+      ],
+      [
+        96,
+        37
+      ],
+      [
+        95,
+        37
+      ],
+      [
+        94,
+        37
+      ],
+      [
+        93,
+        37
+      ],
+      [
+        92,
+        37
+      ],
+      [
+        91,
+        37
+      ],
+      [
+        90,
+        37
+      ]
+    ],
+    "action_record": {
+      "status": "pathing",
+      "skill_id": "seek_and_chat",
+      "intent_family": "restore_mood",
+      "target": "isabella rodriguez",
+      "target_type": "persona",
+      "resolved_target": "Isabella Rodriguez",
+      "resolved_address": "<persona> Isabella Rodriguez",
+      "description": "Chat with Isabella Rodriguez to seek food access and social support.; conversation topic: food access and mood improvement",
+      "command": {
+        "skill_id": "seek_and_chat",
+        "target": "Isabella Rodriguez",
+        "intent_family": "restore_mood",
+        "source": "decision_translation",
+        "raw_action": "seek_and_chat",
+        "detail": "Chat with Isabella Rodriguez to seek food access and social support.; conversation topic: food access and mood improvement"
+      },
+      "event": [
+        "Klaus Mueller",
+        "seek_and_chat",
+        "Isabella Rodriguez"
+      ],
+      "duration": 15,
+      "creator_instruction": null,
+      "created_step": 29,
+      "updated_step": 29,
+      "failure": null
+    },
+    "suspend_reason": "physiological_crisis",
+    "suspend_source": "move",
+    "suspend_step": 30
+  },
+  "suspended_action_step": 30,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "last_action_outcome": null,
+  "recent_action_outcomes": [],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Klaus Mueller-30-seek_and_chat-isabella rodriguez",
+    "phase": "pathing",
+    "address": "<persona> Isabella Rodriguez",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement"
+    },
+    "description": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement",
+    "event": [
+      "Klaus Mueller",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "path": [
+      [
+        115,
+        45
+      ],
+      [
+        114,
+        45
+      ],
+      [
+        113,
+        45
+      ],
+      [
+        112,
+        45
+      ],
+      [
+        111,
+        45
+      ],
+      [
+        110,
+        45
+      ],
+      [
+        109,
+        45
+      ],
+      [
+        108,
+        45
+      ],
+      [
+        107,
+        45
+      ],
+      [
+        106,
+        45
+      ],
+      [
+        105,
+        45
+      ],
+      [
+        104,
+        45
+      ],
+      [
+        103,
+        45
+      ],
+      [
+        102,
+        45
+      ],
+      [
+        101,
+        45
+      ],
+      [
+        100,
+        45
+      ],
+      [
+        99,
+        45
+      ],
+      [
+        98,
+        45
+      ],
+      [
+        98,
+        44
+      ],
+      [
+        98,
+        43
+      ],
+      [
+        98,
+        42
+      ],
+      [
+        98,
+        41
+      ],
+      [
+        98,
+        40
+      ],
+      [
+        98,
+        39
+      ],
+      [
+        98,
+        38
+      ],
+      [
+        98,
+        37
+      ],
+      [
+        97,
+        37
+      ],
+      [
+        96,
+        37
+      ],
+      [
+        95,
+        37
+      ],
+      [
+        94,
+        37
+      ],
+      [
+        93,
+        37
+      ],
+      [
+        92,
+        37
+      ],
+      [
+        91,
+        37
+      ],
+      [
+        90,
+        37
+      ],
+      [
+        89,
+        37
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "seek_and_chat",
+      "target": "isabella rodriguez",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 30,
+    "updated_step": 30,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "seek_and_chat",
+    "intent_family": "restore_mood",
+    "target": "isabella rodriguez",
+    "target_type": "persona",
+    "resolved_target": "Isabella Rodriguez",
+    "resolved_address": "<persona> Isabella Rodriguez",
+    "description": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Isabella Rodriguez",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement"
+    },
+    "event": [
+      "Klaus Mueller",
+      "seek_and_chat",
+      "Isabella Rodriguez"
+    ],
+    "duration": 15,
+    "creator_instruction": null,
+    "created_step": 30,
+    "updated_step": 30,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "seek_and_chat",
+  "active_skill_id": "Klaus Mueller-30-seek_and_chat",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 30,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "isabella rodriguez",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "resilient, warm, attentive",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "analytical, thoughtful, persistent",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:05:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:05:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.. My preferred rhythm is: Klaus Mueller goes to bed around...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:05:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:05:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-16 08:05:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 108,
+  "importance_ele_n": 21,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<persona> Isabella Rodriguez",
+  "act_start_time": "July 16, 2026, 08:05:00",
+  "act_duration": 15,
+  "act_description": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Klaus Mueller",
+    "seek_and_chat",
+    "Isabella Rodriguez"
+  ],
+  "act_command": {
+    "skill_id": "seek_and_chat",
+    "target": "Isabella Rodriguez",
+    "intent_family": "restore_mood",
+    "source": "decision_translation",
+    "raw_action": "seek_and_chat",
+    "detail": "Chat with Isabella Rodriguez to seek food and social support.; conversation topic: food access and mood improvement"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      115,
+      45
+    ],
+    [
+      114,
+      45
+    ],
+    [
+      113,
+      45
+    ],
+    [
+      112,
+      45
+    ],
+    [
+      111,
+      45
+    ],
+    [
+      110,
+      45
+    ],
+    [
+      109,
+      45
+    ],
+    [
+      108,
+      45
+    ],
+    [
+      107,
+      45
+    ],
+    [
+      106,
+      45
+    ],
+    [
+      105,
+      45
+    ],
+    [
+      104,
+      45
+    ],
+    [
+      103,
+      45
+    ],
+    [
+      102,
+      45
+    ],
+    [
+      101,
+      45
+    ],
+    [
+      100,
+      45
+    ],
+    [
+      99,
+      45
+    ],
+    [
+      98,
+      45
+    ],
+    [
+      98,
+      44
+    ],
+    [
+      98,
+      43
+    ],
+    [
+      98,
+      42
+    ],
+    [
+      98,
+      41
+    ],
+    [
+      98,
+      40
+    ],
+    [
+      98,
+      39
+    ],
+    [
+      98,
+      38
+    ],
+    [
+      98,
+      37
+    ],
+    [
+      97,
+      37
+    ],
+    [
+      96,
+      37
+    ],
+    [
+      95,
+      37
+    ],
+    [
+      94,
+      37
+    ],
+    [
+      93,
+      37
+    ],
+    [
+      92,
+      37
+    ],
+    [
+      91,
+      37
+    ],
+    [
+      90,
+      37
+    ],
+    [
+      89,
+      37
+    ]
+  ]
+}

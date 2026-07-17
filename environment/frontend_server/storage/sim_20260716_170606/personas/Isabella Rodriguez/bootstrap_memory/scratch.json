@@ -1,0 +1,1288 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 16, 2026, 08:53:50",
+  "curr_tile": [
+    52,
+    30
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "even-tempered, sociable, welcoming",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 65.32000000000157,
+  "stamina": 98.45400000000012,
+  "health": 100.0,
+  "mood": 49.379999999999086,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 65.32000000000157,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 98.45400000000012,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 65.40800000000144,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 49.379999999999086,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 80.16799999999978,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 60.11199999999985,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 54.760000000000645,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 57.491999999999024,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 57.11199999999985,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 16, 2026, 08:22:30",
+  "last_action_switch_time": "July 16, 2026, 08:50:40",
+  "decision_commit_until_step": 306,
+  "last_decision_signature": {
+    "skill_id": "seek_and_chat",
+    "target": "klaus mueller",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "starting a conversation with Klaus to seek relaxation",
+  "recent_completed_action_signature": {
+    "skill_id": "idle",
+    "target": "idle",
+    "intent_family": "idle"
+  },
+  "recent_completed_action_step": 303,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "idle",
+    "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+    "skill_id": "idle",
+    "action_description": "idling",
+    "curr_step": 303
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Isabella_Rodriguez-303-4e5ec5852b",
+    "sim_code": null,
+    "persona": "Isabella Rodriguez",
+    "curr_step": 303,
+    "sim_time": "2026-07-16 08:50:30",
+    "wall_ts": "2026-07-16T17:16:26.178115+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null
+    },
+    "action": {
+      "skill_id": "idle",
+      "raw_action": "idle",
+      "intent_family": "idle",
+      "target": "none",
+      "target_type": null,
+      "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+      "resolved_target": "common room sofa",
+      "resolution_kind": null,
+      "detail": "idling"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "none",
+      "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.06,
+      "recency_weight": 1.0,
+      "effective_score": 0.06,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Isabella_Rodriguez-303-4e5ec5852b",
+      "memory_type": "event",
+      "subject": "Isabella Rodriguez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+      "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+      "keywords": [
+        "execution_result",
+        "idle",
+        "none",
+        "success"
+      ],
+      "poignancy": 4.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "idle",
+        "target": "none",
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "reason": null,
+        "dominant_motive": null,
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-209-3ec8251172",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 209,
+      "sim_time": "2026-07-16 08:34:50",
+      "wall_ts": "2026-07-16T17:14:15.782957+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-209-3ec8251172",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-232-18e64f07a0",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 232,
+      "sim_time": "2026-07-16 08:38:40",
+      "wall_ts": "2026-07-16T17:14:33.840438+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Klaus Mueller",
+        "target_type": "persona",
+        "target_address": "<persona> Klaus Mueller",
+        "resolved_target": "Klaus Mueller",
+        "resolution_kind": null,
+        "detail": "initiating a conversation with Klaus to improve mood"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Klaus Mueller",
+          "cooldown_steps": 75,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            53,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Klaus Mueller",
+        "resource_instance_key": "<persona> klaus mueller"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-232-18e64f07a0",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "embedding_text": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "klaus mueller",
+          "recent_social_cooldown",
+          "restore_mood",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Klaus Mueller",
+          "target_address": "<persona> Klaus Mueller",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> klaus mueller"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-235-31252a5c9b",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 235,
+      "sim_time": "2026-07-16 08:39:10",
+      "wall_ts": "2026-07-16T17:14:41.062532+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Klaus Mueller",
+        "target_type": "persona",
+        "target_address": "<persona> Klaus Mueller",
+        "resolved_target": "Klaus Mueller",
+        "resolution_kind": null,
+        "detail": "chatting with Klaus Mueller to improve mood"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Klaus Mueller",
+          "cooldown_steps": 73,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            56,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Klaus Mueller",
+        "resource_instance_key": "<persona> klaus mueller"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-235-31252a5c9b",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "embedding_text": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "klaus mueller",
+          "recent_social_cooldown",
+          "restore_mood",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Klaus Mueller",
+          "target_address": "<persona> Klaus Mueller",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> klaus mueller"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-259-e133a22bda",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 259,
+      "sim_time": "2026-07-16 08:43:10",
+      "wall_ts": "2026-07-16T17:15:31.639720+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-259-e133a22bda",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-260-2fe3f09ec8",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 260,
+      "sim_time": "2026-07-16 08:43:20",
+      "wall_ts": "2026-07-16T17:15:41.510113+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-260-2fe3f09ec8",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-281-9fa2c9b3c8",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 281,
+      "sim_time": "2026-07-16 08:46:50",
+      "wall_ts": "2026-07-16T17:15:55.227120+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Klaus Mueller",
+        "target_type": "persona",
+        "target_address": "<persona> Klaus Mueller",
+        "resolved_target": "Klaus Mueller",
+        "resolution_kind": null,
+        "detail": "talking with Klaus to improve mood"
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "recent_social_cooldown",
+        "reason_class": "other",
+        "payload": {
+          "target": "Klaus Mueller",
+          "cooldown_steps": 62,
+          "action": "seek_and_chat",
+          "curr_tile": [
+            53,
+            30
+          ]
+        }
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Klaus Mueller",
+        "resource_instance_key": "<persona> klaus mueller"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.35,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.41,
+        "recency_weight": 1.0,
+        "effective_score": 0.41,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-281-9fa2c9b3c8",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "embedding_text": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "klaus mueller",
+          "recent_social_cooldown",
+          "restore_mood",
+          "seek_and_chat"
+        ],
+        "poignancy": 5.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Klaus Mueller",
+          "target_address": "<persona> Klaus Mueller",
+          "reason": "recent_social_cooldown",
+          "dominant_motive": null,
+          "resource_instance_key": "<persona> klaus mueller"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-302-463d23c28e",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 302,
+      "sim_time": "2026-07-16 08:50:20",
+      "wall_ts": "2026-07-16T17:16:11.004150+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-302-463d23c28e",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-303-4e5ec5852b",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 303,
+      "sim_time": "2026-07-16 08:50:30",
+      "wall_ts": "2026-07-16T17:16:26.178115+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.06,
+        "recency_weight": 1.0,
+        "effective_score": 0.06,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-303-4e5ec5852b",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "embedding_text": "Isabella Rodriguez successfully used idle on none at the Ville:artist's co-living space:common room:common room sofa.",
+        "keywords": [
+          "execution_result",
+          "idle",
+          "none",
+          "success"
+        ],
+        "poignancy": 4.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": null,
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "avoid",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:hobbs cafe:cafe:refrigerator",
+      "resource_type": "refrigerator",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 15,
+      "evidence_summary": "refrigerator at the Ville:Hobbs Cafe:cafe:refrigerator was empty recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-15-af98965e8f"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 89,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-88-d972b44007",
+        "Isabella_Rodriguez-89-2acdcd85a3"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "none",
+      "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+      "progress_score": 0.0,
+      "curr_step": 302,
+      "expires_after_step": 322
+    },
+    {
+      "target": "none",
+      "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+      "progress_score": 0.0,
+      "curr_step": 303,
+      "expires_after_step": 323
+    }
+  ],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-304-seek_and_chat-klaus mueller",
+    "phase": "pathing",
+    "address": "<persona> Klaus Mueller",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Klaus Mueller",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "starting a conversation with Klaus to seek relaxation"
+    },
+    "description": "starting a conversation with Klaus to seek relaxation",
+    "event": [
+      "Isabella Rodriguez",
+      "seek_and_chat",
+      "Klaus Mueller"
+    ],
+    "path": [
+      [
+        54,
+        30
+      ],
+      [
+        55,
+        30
+      ],
+      [
+        56,
+        30
+      ],
+      [
+        57,
+        30
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "seek_and_chat",
+      "target": "klaus mueller",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 304,
+    "updated_step": 323,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "seek_and_chat",
+    "intent_family": "restore_mood",
+    "target": "klaus mueller",
+    "target_type": "persona",
+    "resolved_target": "Klaus Mueller",
+    "resolved_address": "<persona> Klaus Mueller",
+    "description": "starting a conversation with Klaus to seek relaxation",
+    "command": {
+      "skill_id": "seek_and_chat",
+      "target": "Klaus Mueller",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "seek_and_chat",
+      "detail": "starting a conversation with Klaus to seek relaxation"
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "seek_and_chat",
+      "Klaus Mueller"
+    ],
+    "duration": 20,
+    "creator_instruction": null,
+    "created_step": 304,
+    "updated_step": 323,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "seek_and_chat",
+  "active_skill_id": "Isabella Rodriguez-304-seek_and_chat",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 304,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "klaus mueller",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "starting a conversation with Klaus to seek relaxation"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "analytical, thoughtful, persistent",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "even-tempered, sociable, welcoming",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:50:40",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:50:40",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is currently immersed in the preparation phase of hosting a Valentine's Day party at Hobbs Cafe, ensuring an enjoyable and successful event for her customers and colleagues. She is particularly concerned with providing ample food for Klaus, a frequent patron, and values the social aspect of the party, as evidenced by her reflection on K...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-16 08:22:30",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals are to ensure the survival and well-being of those I care about, like making sure there's enough food for Klaus. I see the world as a place where social connections and stable routines are crucial for survival, and I'm pursuing a path that combines my responsibilities at Hobbs Cafe with my ambition to host events that bring people together. I want to create a legacy where the cafe is not just a...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:50:40",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:50:40",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Klaus Mueller\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: analytical, thoughtful, persistent\u3002 \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Isabella Rodriguez Klaus Mueller was interested in the party planning.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-16 08:22:30",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-16 08:50:40"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 37,
+  "importance_ele_n": 50,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "<persona> Klaus Mueller",
+  "act_start_time": "July 16, 2026, 08:50:40",
+  "act_duration": 20,
+  "act_description": "starting a conversation with Klaus to seek relaxation",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Isabella Rodriguez",
+    "seek_and_chat",
+    "Klaus Mueller"
+  ],
+  "act_command": {
+    "skill_id": "seek_and_chat",
+    "target": "Klaus Mueller",
+    "intent_family": "restore_mood",
+    "source": "decision_translation",
+    "raw_action": "seek_and_chat",
+    "detail": "starting a conversation with Klaus to seek relaxation"
+  },
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      54,
+      30
+    ],
+    [
+      55,
+      30
+    ],
+    [
+      56,
+      30
+    ],
+    [
+      57,
+      30
+    ]
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        29,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "eating the apple from inventory to restore satiety @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 19.8849999999999,
+      "stamina": 89.81000000000071,
+      "health": 100.0,
+      "mood": 44.89000000000033,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-16 08:19:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-16 08:19:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:19:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:19:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed consume attempt on apple at the Ville:Dorm for Oak Hill College:Maria Lopez's room:desk because consume_no_food_available.",
+          "created": "2026-07-16 08:00:10",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-16 08:19:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-16 08:19:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is eating the apple from inventory to restore satiety",
+          "created": "2026-07-16 08:18:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-16 08:18:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-16 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-16 08:08:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-16 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "blackboard is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-16 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-16 08:09:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-16 08:02:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        61,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u884c\uff0c\u90a3\u5c31\u8fd9\u4e48\u5b9a\u4e86\u3002\u5bf9\u4e86\uff0c\u4f60\u5199\u8bba\u6587\u7d2f\u4e0d\uff1f",
+      "satiety": 79.67000000000023,
+      "stamina": 98.96200000000071,
+      "health": 100.0,
+      "mood": 53.439999999999735,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        56,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Relaxing on the common room sofa and daydreaming to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u563f\uff0c\u514b\u52b3\u65af\uff0c\u5728\u8fd9\u513f\u5462\u3002\u90a3\u4e2a\uff0c\u60c5\u4eba\u8282\u805a\u4f1a\u7684\u4e8b\u513f\uff0c\u8fd8\u60f3\u9ebb\u70e6\u4f60\u5e2e\u5fd9\u5f04\u4e0b\u88c5\u9970\u554a\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u653e\u5fc3\u5427\uff0c\u88c5\u9970\u8fd9\u65b9\u9762\u4ea4\u7ed9\u6211\uff0c\u4fdd\u8bc1\u8ba9\u4f60\u6ee1\u610f\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u592a\u597d\u4e86\uff0c\u6709\u4f60\u5e2e\u5fd9\u6211\u5c31\u653e\u5fc3\u591a\u4e86\u3002\u5bf9\u4e86\uff0c\u4e0a\u6b21\u7ed9\u4f60\u7684\u82f9\u679c\u597d\u5403\u4e0d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u633a\u597d\u5403\u7684\uff0c\u8c22\u8c22\u554a\u3002\u5bf9\u4e86\uff0c\u88c5\u9970\u6750\u6599\u6211\u5f97\u53bb\u91c7\u8d2d\u4e00\u8d9f\uff0c\u4f60\u90a3\u8fb9\u6e05\u5355\u51c6\u5907\u597d\u6ca1\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5dee\u4e0d\u591a\u5f04\u597d\u4e86\uff0c\u4f60\u770b\u770b\u8fd8\u9700\u8981\u52a0\u4ec0\u4e48\u4e0d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u770b\u4e86\u4e00\u904d\uff0c\u611f\u89c9\u8fd8\u884c\uff0c\u5c31\u5dee\u4e00\u4e9b\u5f69\u5e26\u548c\u6c14\u7403\u5427\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u884c\uff0c\u90a3\u5c31\u8fd9\u4e48\u5b9a\u4e86\u3002\u5bf9\u4e86\uff0c\u4f60\u5199\u8bba\u6587\u7d2f\u4e0d\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6709\u70b9\u7d2f\u554a\uff0c\u4e0d\u8fc7\u8fd8\u80fd\u575a\u6301\u3002\u5bf9\u4e86\uff0c\u88c5\u9970\u6750\u6599\u6211\u6253\u7b97\u660e\u5929\u53bb\u4e70\uff0c\u4f60\u8981\u4e00\u8d77\u53bb\u5417\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u6709\u70b9\u7d2f\u554a\uff0c\u4e0d\u8fc7\u8fd8\u80fd\u575a\u6301\u3002\u5bf9\u4e86\uff0c\u88c5\u9970\u6750\u6599\u6211\u6253\u7b97\u660e\u5929\u53bb\u4e70\uff0c\u4f60\u8981\u4e00\u8d77\u53bb\u5417\uff1f",
+      "satiety": 79.67000000000006,
+      "stamina": 99.35900000000007,
+      "health": 100.0,
+      "mood": 50.81999999999978,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-16 08:18:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-16 08:18:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-16 08:18:10"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:18:10"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-16 08:18:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Klaus Mueller's planning: I should check the decoration materials and assist with the setup.",
+          "created": "2026-07-16 08:18:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-16 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-16 08:18:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-16 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "pool table is idle",
+          "created": "2026-07-16 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "lifting weight is idle",
+          "created": "2026-07-16 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-16 08:00:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-16 08:09:10",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:19:40"
+  }
+}

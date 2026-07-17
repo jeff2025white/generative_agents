@@ -1,0 +1,60 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        51,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:artist's co-living space:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u4f60\u53ef\u5f97\u5feb\u70b9\uff0c\u6211\u8fd9\u91cc\u7684\u4e1c\u897f\u90fd\u662f\u73b0\u505a\u7684\u3002",
+      "satiety": 74.77000000000065,
+      "stamina": 97.69800000000018,
+      "health": 100.0,
+      "mood": 52.07999999999951,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        67,
+        26
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Ryan Park's apartment:main room:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 13.934999999999839,
+      "stamina": 83.52000000000115,
+      "health": 100.0,
+      "mood": 34.79000000000015,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        71,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "opening the refrigerator to gather food items @ the Ville:Ryan Park's apartment:main room:refrigerator",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\u554a\uff0c\u6211\u5feb\u997f\u574f\u4e86\uff0c\u90a3\u6211\u5c31\u53bb\u4f60\u5496\u5561\u9986\uff0c\u987a\u4fbf\u542c\u542c\u4f60\u7684\u6d3e\u5bf9\u8ba1\u5212\u3002",
+      "satiety": 16.769999999999946,
+      "stamina": 87.4530000000013,
+      "health": 100.0,
+      "mood": 47.439999999999735,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 16, 2026, 08:31:20"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about Maria wants to discuss something about the Hobbs Cafe with Isabella"
+      ]
+    }
+  }
+}

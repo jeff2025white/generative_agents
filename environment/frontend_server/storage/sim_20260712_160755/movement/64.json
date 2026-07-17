@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        93,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting to share a meal or join in on a conversation at the pub @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.44999999999998,
+      "stamina": 96.71600000000026,
+      "health": 100.0,
+      "mood": 49.6999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting food from Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-12 08:10:00"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        80,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "seeking food at Hobbs Cafe @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 34.474999999999945,
+      "stamina": 94.3180000000004,
+      "health": 100.0,
+      "mood": 46.750000000000185,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        88,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 35.44999999999998,
+      "stamina": 95.70300000000044,
+      "health": 100.0,
+      "mood": 46.09999999999985,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is requesting to share a meal or join in on a conversation at the pub",
+          "created": "2026-07-12 08:10:00"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:10:40"
+  }
+}

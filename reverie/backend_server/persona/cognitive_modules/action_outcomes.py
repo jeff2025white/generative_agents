@@ -15,6 +15,7 @@ def classify_reason(reason):
         "path_not_found": "navigation",
         "target_not_found": "resolution",
         "invalid_food_source": "resolution",
+        "target_not_close": "resource_state",
         "target_inventory_empty": "resource_state",
     }
     return mapping.get(normalized, "other")
@@ -99,7 +100,13 @@ def build_experience_priority_unit(outcome):
     target_address = action.get("target_address")
     instance_key = _normalize_resource_instance_key(target_address)
 
-    if reason == "resource_empty" and instance_key:
+    if reason in {"resource_empty", "target_not_close", "target_inventory_empty"} and instance_key:
+        if reason == "resource_empty":
+            evidence_summary = f"{resource_type} at {target_address} was empty recently."
+        elif reason == "target_not_close":
+            evidence_summary = f"{resource_type} at {target_address} was not close enough to use recently."
+        else:
+            evidence_summary = f"{resource_type} at {target_address} had no usable inventory recently."
         return {
             "experience_kind": "avoid",
             "intent_family": action.get("intent_family"),
@@ -110,7 +117,7 @@ def build_experience_priority_unit(outcome):
             "recommendation": "avoid_this_instance",
             "confidence": 0.72,
             "freshness_step": outcome.get("curr_step"),
-            "evidence_summary": f"{resource_type} at {target_address} was empty recently.",
+            "evidence_summary": evidence_summary,
             "supporting_outcome_ids": [outcome.get("outcome_id")],
         }
 

@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        116,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "relaxing on the common room sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54e6\uff1f\u60f3\u804a\u4ec0\u4e48\u5440\uff1f\u6211\u5728\u542c\u5462\u3002",
+      "satiety": 72.07000000000272,
+      "stamina": 81.67000000000132,
+      "health": 100.0,
+      "mood": 78.12000000000066,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is reading and relaxing on the library sofa",
+          "created": "2026-07-13 09:05:50"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Isabella Rodriguez's planning: She might appreciate a follow-up on her relaxation needs.",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        98,
+        48
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 98 48",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u5c31\u662f\u5173\u4e8e\u4f60\u4eec\u5496\u5561\u9986\u7684\u4e00\u4e9b\u4e8b\u60c5\uff0c\u4e0d\u77e5\u9053\u60a8\u6709\u6ca1\u6709\u65f6\u95f4\uff1f",
+      "satiety": 66.0850000000025,
+      "stamina": 82.1160000000009,
+      "health": 100.0,
+      "mood": 44.53000000000025,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        33,
+        45
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reading a book to relax and find inspiration for research @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.07000000000272,
+      "stamina": 50.63100000000165,
+      "health": 100.0,
+      "mood": 64.66000000000015,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 09:06:20"
+  }
+}

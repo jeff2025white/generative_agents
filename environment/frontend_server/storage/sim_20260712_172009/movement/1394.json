@@ -1,0 +1,112 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        93,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "reviewing party materials at the library @ the Ville:Oak Hill College:classroom",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u554a\uff0c\u6211\u5bf9\u8fd9\u4e2a\u8fd8\u633a\u597d\u5947\u7684\u3002\u4e0d\u8fc7\u4f60\u5148\u522b\u8bb2\u592a\u7ec6\uff0c\u6211\u6015\u4e00\u4f1a\u513f\u8bb0\u4e0d\u4f4f\u5462\u3002",
+      "satiety": 60.35000000000621,
+      "stamina": 52.597000000003156,
+      "health": 100.0,
+      "mood": 79.5399999999996,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is reviewing party materials at the library",
+          "created": "2026-07-12 11:51:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is organizing party materials for Valentine's Day event at Hobbs Cafe",
+          "created": "2026-07-12 11:27:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is purchasing party materials",
+          "created": "2026-07-12 11:35:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        79,
+        32
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u542c\u4f60\u8fd9\u4e48\u8bf4\uff0c\u611f\u89c9\u8fd9\u8bdd\u9898\u8fd8\u633a\u6df1\u5965\u7684\u3002\u80fd\u591a\u7ed9\u6211\u8bb2\u4e00\u70b9\u5417\uff1f",
+      "satiety": 39.42500000000308,
+      "stamina": 66.12800000000277,
+      "health": 100.0,
+      "mood": 31.619999999999976,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing party materials for Valentine's Day event at Hobbs Cafe",
+          "created": "2026-07-12 11:51:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is reviewing party materials at the library",
+          "created": "2026-07-12 11:50:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is purchasing party materials",
+          "created": "2026-07-12 11:37:30",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        85,
+        36
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "buying a snack to eat @ the Ville:The Willows Market and Pharmacy:store",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u884c\uff0c\u90a3\u6211\u5148\u5927\u6982\u8bf4\u8bf4\u3002\u5c31\u50cf\u4f60\u5f00\u5496\u5561\u9986\u4e00\u6837\uff0c\u6bcf\u4e2a\u793e\u533a\u90fd\u6709\u81ea\u5df1\u7684\u2018\u5473\u9053\u2019\u5462\u3002",
+      "satiety": 2.3500000000032664,
+      "stamina": 75.41700000000253,
+      "health": 100.0,
+      "mood": 51.45999999999823,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is organizing party materials for Valentine's Day event at Hobbs Cafe",
+          "created": "2026-07-12 11:52:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is purchasing party materials",
+          "created": "2026-07-12 11:38:10",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 11:52:20"
+  }
+}

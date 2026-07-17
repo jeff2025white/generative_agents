@@ -27,8 +27,8 @@ Translation Convergence Guidance:
 !<INPUT 5>!
 
 Select:
-1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Work", "Socialize", "Request", "Trade", "Coordinate", "Pressure", "Avoid", "Recreate", "Idle").
-2. "target": Must stay consistent with the stage-1 thought and be grounded in the current Decision Capsule. Use a reachable object, place, food item, or person named there when possible. Another resident's name is allowed for Socialize / Request / Trade / Coordinate / Pressure / Avoid. If no target fits, use "none".
+1. "action": Must be one of the standard categories from the Action Schema (e.g. "Consume", "Gather", "Rest", "Treat", "Work", "Socialize", "Request", "Trade", "Coordinate", "Pressure", "Avoid", "Recreate", "Idle").
+2. "target": Must stay consistent with the stage-1 thought and be grounded in the current Decision Capsule. Use a reachable object, place, food item, or person named there when possible. Another resident's name is allowed for Socialize / Request / Trade / Coordinate / Pressure / Avoid. For Socialize specifically, prefer a person target. If the thought is really about hanging out at a place like a park, cafe, or pub rather than talking to a named person, choose Recreate instead of Socialize. If no target fits, use "none".
 3. "detail": A descriptive action description string (e.g., "eating an apple", "sleeping in bed", "working on research paper").
 4. "duration": Estimate the duration of the action in minutes (between 10 and 120 minutes).
 5. "reasoning": A brief explanation of the physical mapping.

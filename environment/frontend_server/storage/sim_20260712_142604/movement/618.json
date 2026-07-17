@@ -1,0 +1,226 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        93,
+        30
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa @ the Ville:Dorm for Oak Hill College:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u54c8\u54c8\uff0c\u90a3\u6211\u5c31\u7b49\u7740\u4f60\u6765\u5566\u3002\u5bf9\u4e86\uff0c\u4f60\u8bba\u6587\u5199\u5f97\u548b\u6837\u4e86\u554a\uff1f",
+      "satiety": 54.670000000001025,
+      "stamina": 86.59000000000043,
+      "health": 100.0,
+      "mood": 60.17999999999824,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is requesting food from Isabella Rodriguez at the grocery counter",
+          "created": "2026-07-12 09:42:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-12 09:42:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is resting on the library sofa to improve mood and regain stamina",
+          "created": "2026-07-12 09:42:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-12 09:42:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed request attempt on kitchen staff at <waiting> 78 19 because target_not_found.",
+          "created": "2026-07-12 08:26:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed request attempt on Klaus Mueller at <persona> Klaus Mueller because target_not_close.",
+          "created": "2026-07-12 08:31:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed request attempt on person at <waiting> 73 19 because target_not_found.",
+          "created": "2026-07-12 08:38:50",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed idle attempt on none at the Ville:Isabella Rodriguez's apartment:kitchen:<random> because rest_target_missing.",
+          "created": "2026-07-12 08:23:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed gather attempt on cafe counter at the Ville:Hobbs Cafe:cafe:behind the cafe counter because resource_empty.",
+          "created": "2026-07-12 08:01:40",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed gather attempt on behind the cafe counter at the Ville:Hobbs Cafe:cafe:behind the cafe counter because resource_empty.",
+          "created": "2026-07-12 09:36:00",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed gather attempt on refrigerator at the Ville:Hobbs Cafe:cafe:refrigerator because resource_empty.",
+          "created": "2026-07-12 08:35:20",
+          "poignancy": 7.12
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-12 08:50:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-12 08:50:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez rested at park garden and recovered stamina.",
+          "created": "2026-07-12 08:52:50",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gave apple to Klaus Mueller after being asked.",
+          "created": "2026-07-12 09:39:20",
+          "poignancy": 4.5
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idling",
+          "created": "2026-07-12 08:38:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-12 08:39:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is opening the refrigerator to gather food items",
+          "created": "2026-07-12 08:40:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-12 08:25:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is taking a short nap on the library sofa",
+          "created": "2026-07-12 09:40:50",
+          "poignancy": 4
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        108,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a short nap on the library sofa to recharge @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u90a3\u5c31\u597d\uff0c\u6211\u8fd8\u62c5\u5fc3\u4f1a\u7ed9\u4f60\u6dfb\u9ebb\u70e6\u5462\u3002\u5230\u65f6\u5019\u6211\u4eec\u81ea\u5df1\u5e26\u70b9\u5c0f\u96f6\u98df\u53bb\u884c\u4e0d\u884c\u5440\uff1f",
+      "satiety": 45.38500000000048,
+      "stamina": 66.93400000000258,
+      "health": 100.0,
+      "mood": 59.04000000000106,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        93,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "resting on the library sofa to improve mood and regain stamina @ the Ville:Oak Hill College:library:library sofa",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u55e8\uff0c\u514b\u52b3\u65af\uff0c\u4f60\u6700\u8fd1\u600e\u4e48\u6837\uff1f\u6211\u521a\u624d\u770b\u4f60\u5728\u8fd9\u513f\uff0c\u60f3\u95ee\u95ee\u4f60\u6709\u6ca1\u6709\u7a7a\u804a\u4e24\u53e5\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u55e8\uff0c\u4f0a\u838e\u8d1d\u62c9\uff0c\u6211\u8fd8\u4e0d\u9519\u3002\u4e0d\u8fc7\u6211\u6b63\u4e3a\u8bba\u6587\u53d1\u6101\u5462\uff0c\u4f60\u627e\u6211\u662f\u6709\u4ec0\u4e48\u4e8b\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6ca1\u4e8b\uff0c\u5c31\u662f\u60f3\u8ddf\u4f60\u804a\u804a\u3002\u5bf9\u4e86\uff0c\u4f60\u4e0a\u6b21\u5e2e\u6211\u627e\u82f9\u679c\u7684\u4e8b\uff0c\u6211\u8fd8\u6ca1\u8c22\u4f60\u5462\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6ca1\u4e8b\uff0c\u4e3e\u624b\u4e4b\u52b3\u800c\u5df2\u3002\u5bf9\u4e86\uff0c\u4f60\u4e0d\u662f\u8981\u529e\u60c5\u4eba\u8282\u6d3e\u5bf9\u5417\uff0c\u51c6\u5907\u5f97\u600e\u4e48\u6837\u4e86\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u554a\uff0c\u51c6\u5907\u5f97\u5dee\u4e0d\u591a\u4e86\u3002\u4f60\u8981\u662f\u611f\u5174\u8da3\u7684\u8bdd\uff0c\u5230\u65f6\u5019\u53ef\u4e00\u5b9a\u8981\u6765\u5440\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u55ef\uff0c\u5230\u65f6\u5019\u6211\u4e00\u5b9a\u53bb\uff0c\u4f60\u90a3\u513f\u7684\u6d3e\u5bf9\u80af\u5b9a\u5f88\u6709\u8da3\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54c8\u54c8\uff0c\u90a3\u6211\u5c31\u7b49\u7740\u4f60\u6765\u5566\u3002\u5bf9\u4e86\uff0c\u4f60\u8bba\u6587\u5199\u5f97\u548b\u6837\u4e86\u554a\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd8\u5728\u6536\u96c6\u8d44\u6599\u5462\uff0c\u6709\u70b9\u53d1\u6101\u3002\u5bf9\u4e86\uff0c\u4f60\u6d3e\u5bf9\u90a3\u5929\u4f1a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u5b89\u6392\u5417\uff1f"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u8fd8\u5728\u6536\u96c6\u8d44\u6599\u5462\uff0c\u6709\u70b9\u53d1\u6101\u3002\u5bf9\u4e86\uff0c\u4f60\u6d3e\u5bf9\u90a3\u5929\u4f1a\u6709\u4ec0\u4e48\u7279\u522b\u7684\u5b89\u6392\u5417\uff1f",
+      "satiety": 0.0,
+      "stamina": 72.8240000000028,
+      "health": 93.82000000000089,
+      "mood": 5.46,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is sleeping in bed for a short rest",
+          "created": "2026-07-12 09:43:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-12 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 09:43:00"
+  }
+}

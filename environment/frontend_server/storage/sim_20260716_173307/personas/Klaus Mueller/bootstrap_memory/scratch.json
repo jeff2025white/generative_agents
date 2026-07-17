@@ -1,0 +1,713 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 16, 2026, 08:00:00",
+  "curr_tile": [
+    126,
+    46
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "inquisitive, studious, reflective, even-tempered, thoughtful",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 29.93,
+  "stamina": 99.962,
+  "health": 100.0,
+  "mood": 49.94,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 29.93,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 99.962,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 66.988,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 49.94,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 63.98,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 47.992,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 62.988,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 67.982,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 73.98,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 16, 2026, 08:00:00",
+  "decision_commit_until_step": 3,
+  "last_decision_signature": {
+    "skill_id": "idle",
+    "target": "idle",
+    "intent_family": "idle"
+  },
+  "last_decision_reason": "idling",
+  "recent_completed_action_signature": null,
+  "recent_completed_action_step": null,
+  "suspended_action": {
+    "act_address": null,
+    "act_duration": null,
+    "act_description": null,
+    "act_pronunciatio": null,
+    "act_event": [
+      "Klaus Mueller",
+      null,
+      null
+    ],
+    "act_command": {
+      "skill_id": null,
+      "target": null,
+      "intent_family": "unknown",
+      "source": "load",
+      "raw_action": null,
+      "detail": null
+    },
+    "act_obj_description": null,
+    "act_obj_pronunciatio": null,
+    "act_obj_event": [
+      null,
+      null,
+      null
+    ],
+    "chatting_with": null,
+    "chat": null,
+    "chatting_with_buffer": {},
+    "chatting_end_time": null,
+    "signature": {
+      "skill_id": null,
+      "target": "",
+      "intent_family": "unknown"
+    },
+    "planned_path": [],
+    "action_record": null,
+    "suspend_reason": "physiological_crisis",
+    "suspend_source": "move",
+    "suspend_step": 0
+  },
+  "suspended_action_step": 0,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": null,
+  "last_action_outcome": null,
+  "recent_action_outcomes": [],
+  "experience_priority_units": [],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Klaus Mueller-0-idle-idle",
+    "phase": "pathing",
+    "address": "the Ville:Dorm for Oak Hill College:garden:dorm garden",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "description": "idling",
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "idle"
+    ],
+    "path": [
+      [
+        128,
+        46
+      ],
+      [
+        129,
+        46
+      ],
+      [
+        130,
+        46
+      ],
+      [
+        131,
+        46
+      ],
+      [
+        131,
+        47
+      ],
+      [
+        131,
+        48
+      ],
+      [
+        131,
+        49
+      ],
+      [
+        131,
+        50
+      ],
+      [
+        130,
+        50
+      ],
+      [
+        129,
+        50
+      ],
+      [
+        128,
+        50
+      ],
+      [
+        127,
+        50
+      ],
+      [
+        126,
+        50
+      ],
+      [
+        125,
+        50
+      ],
+      [
+        124,
+        50
+      ],
+      [
+        123,
+        50
+      ],
+      [
+        122,
+        50
+      ],
+      [
+        121,
+        50
+      ],
+      [
+        120,
+        50
+      ],
+      [
+        119,
+        50
+      ],
+      [
+        118,
+        50
+      ],
+      [
+        117,
+        50
+      ],
+      [
+        117,
+        49
+      ],
+      [
+        117,
+        48
+      ],
+      [
+        117,
+        47
+      ],
+      [
+        116,
+        47
+      ],
+      [
+        116,
+        46
+      ],
+      [
+        116,
+        45
+      ],
+      [
+        116,
+        44
+      ],
+      [
+        116,
+        43
+      ],
+      [
+        116,
+        42
+      ],
+      [
+        116,
+        41
+      ],
+      [
+        117,
+        41
+      ],
+      [
+        118,
+        41
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "idle",
+      "target": "idle",
+      "intent_family": "idle"
+    },
+    "started_step": 0,
+    "updated_step": 0,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "idle",
+    "intent_family": "idle",
+    "target": "idle",
+    "target_type": null,
+    "resolved_target": "dorm garden",
+    "resolved_address": "the Ville:Dorm for Oak Hill College:garden:dorm garden",
+    "description": "idling",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "event": [
+      "Klaus Mueller",
+      "is",
+      "idle"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "created_step": 0,
+    "updated_step": 0,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "idle",
+  "active_skill_id": "Klaus Mueller-0-idle",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 0,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "idle",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "idling"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {},
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 0
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "hospitable, empathetic, people-oriented",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety, \u6b21mood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, reflective, even-tempered, thoughtful",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:00:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:00:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.. My preferred rhythm is: Klaus Mueller goes to bed around...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:00:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-16 08:00:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-16 08:00:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 145,
+  "importance_ele_n": 5,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Dorm for Oak Hill College:garden:dorm garden",
+  "act_start_time": "July 16, 2026, 08:00:00",
+  "act_duration": 10,
+  "act_description": "idling",
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": [
+    "Klaus Mueller",
+    "is",
+    "idle"
+  ],
+  "act_command": {
+    "skill_id": "idle",
+    "target": "none",
+    "intent_family": "idle",
+    "source": "decision_translation",
+    "raw_action": "idle",
+    "detail": "idling"
+  },
+  "act_obj_description": "dorm garden is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "dorm garden",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      128,
+      46
+    ],
+    [
+      129,
+      46
+    ],
+    [
+      130,
+      46
+    ],
+    [
+      131,
+      46
+    ],
+    [
+      131,
+      47
+    ],
+    [
+      131,
+      48
+    ],
+    [
+      131,
+      49
+    ],
+    [
+      131,
+      50
+    ],
+    [
+      130,
+      50
+    ],
+    [
+      129,
+      50
+    ],
+    [
+      128,
+      50
+    ],
+    [
+      127,
+      50
+    ],
+    [
+      126,
+      50
+    ],
+    [
+      125,
+      50
+    ],
+    [
+      124,
+      50
+    ],
+    [
+      123,
+      50
+    ],
+    [
+      122,
+      50
+    ],
+    [
+      121,
+      50
+    ],
+    [
+      120,
+      50
+    ],
+    [
+      119,
+      50
+    ],
+    [
+      118,
+      50
+    ],
+    [
+      117,
+      50
+    ],
+    [
+      117,
+      49
+    ],
+    [
+      117,
+      48
+    ],
+    [
+      117,
+      47
+    ],
+    [
+      116,
+      47
+    ],
+    [
+      116,
+      46
+    ],
+    [
+      116,
+      45
+    ],
+    [
+      116,
+      44
+    ],
+    [
+      116,
+      43
+    ],
+    [
+      116,
+      42
+    ],
+    [
+      116,
+      41
+    ],
+    [
+      117,
+      41
+    ],
+    [
+      118,
+      41
+    ]
+  ]
+}

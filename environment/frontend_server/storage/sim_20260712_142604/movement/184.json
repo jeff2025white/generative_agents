@@ -1,0 +1,85 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        83,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food from Isabella Rodriguez at the supply store counter @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\uff0c\u90a3\u6211\u7b49\u4f1a\u513f\u3002\u5bf9\u4e86\uff0c\u4f60\u8fd9\u513f\u7ecf\u5e38\u8fd9\u4e48\u5feb\u6ca1\u5403\u7684\u5417\uff1f",
+      "satiety": 27.049999999999947,
+      "stamina": 91.89500000000125,
+      "health": 100.0,
+      "mood": 42.179999999999595,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        82,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting food information from Klaus Mueller @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u9a6c\u4e0a\u5c31\u6709\u65b0\u7684\u4e86\uff0c\u4f60\u5148\u559d\u676f\u6c34\u7b49\u4f1a\u513f\u3002",
+      "satiety": 27.049999999999947,
+      "stamina": 91.50099999999988,
+      "health": 100.0,
+      "mood": 46.97999999999943,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is requesting food information from Klaus Mueller",
+          "created": "2026-07-12 08:30:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is socializing with Isabella Rodriguez at the cafe common room sofa",
+          "created": "2026-07-12 08:30:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is chatting with Isabella Rodriguez at Hobbs Cafe",
+          "created": "2026-07-12 08:30:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is requesting a snack or meal from Isabella Rodriguez",
+          "created": "2026-07-12 08:30:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed request attempt on kitchen staff at <waiting> 78 19 because target_not_found.",
+          "created": "2026-07-12 08:26:30",
+          "poignancy": 7.12
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        80,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u884c\uff0c\u90a3\u4f60\u5148\u5fd9\u3002\u6211\u5c31\u5728\u8fd9\u513f\u4e56\u4e56\u7b49\u7740\uff0c\u4e0d\u6253\u6270\u4f60\u5566\u3002",
+      "satiety": 24.274999999999842,
+      "stamina": 97.19400000000046,
+      "health": 100.0,
+      "mood": 50.52000000000047,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:30:40"
+  }
+}

@@ -18,7 +18,7 @@ class SocialVenueHangoutSkillPack(BaseSkillPack):
         self.name = "hangout_social_venue"
         self.associated_xp = ""
         self.effect_spec = build_skill_effect_spec(
-            base_state_effects={"stamina": -1.0, "mood": 1.0},
+            base_state_effects={"stamina": -1.0, "mood": 2.0},
             motive_effects={"belonging": 10.0},
             intent_tags=("social", "hangout", "belonging"),
         )

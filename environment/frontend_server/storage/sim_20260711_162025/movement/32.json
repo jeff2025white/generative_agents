@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        102,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Isabella Rodriguez at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.19499999999997,
+      "stamina": 97.1340000000002,
+      "health": 100.0,
+      "mood": 48.350000000000094,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is requesting a meal and engaging in conversation at Hobbs Cafe",
+          "created": "2026-07-11 08:05:00"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        110,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "requesting a meal and engaging in conversation at Hobbs Cafe @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.68999999999999,
+      "stamina": 97.81800000000023,
+      "health": 100.0,
+      "mood": 48.019999999999925,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        69,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 37.68999999999999,
+      "stamina": 96.49500000000019,
+      "health": 100.0,
+      "mood": 50.3399999999999,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 11, 2026, 08:05:20"
+  }
+}

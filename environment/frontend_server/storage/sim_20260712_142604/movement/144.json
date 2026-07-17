@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        19
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Hobbs Cafe:cafe:behind the cafe counter",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u9a6c\u4e0a\u5c31\u6709\u65b0\u7684\u4e86\uff0c\u4f60\u5148\u559d\u676f\u6c34\u7b49\u4f1a\u513f\u3002",
+      "satiety": 29.84999999999996,
+      "stamina": 94.01499999999977,
+      "health": 100.0,
+      "mood": 47.77999999999955,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is \u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d...",
+          "created": "2026-07-12 08:24:00"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        90,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u62db\u724c\u677e\u997c\u554a\uff0c\u90a3\u884c\uff0c\u7ed9\u6211\u6765\u4e00\u4efd\u3002\u5bf9\u4e86\uff0c\u6211\u8fd8\u60f3\u77e5\u9053\u4f60\u4eec\u8fd9\u6709\u6ca1\u6709\u9002\u5408\u8fb9\u5403\u8fb9\u5b66\u4e60\u7684\u4f4d\u7f6e\u5440\uff1f",
+      "satiety": 27.674999999999876,
+      "stamina": 96.52400000000023,
+      "health": 100.0,
+      "mood": 51.15000000000036,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        104,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:Dorm for Oak Hill College:kitchen:kitchen sink",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u597d\uff0c\u90a3\u6211\u7b49\u4f1a\u513f\u3002\u5bf9\u4e86\uff0c\u4f60\u8fd9\u513f\u7ecf\u5e38\u8fd9\u4e48\u5feb\u6ca1\u5403\u7684\u5417\uff1f",
+      "satiety": 29.84999999999996,
+      "stamina": 94.57500000000097,
+      "health": 100.0,
+      "mood": 44.579999999999686,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:24:00"
+  }
+}

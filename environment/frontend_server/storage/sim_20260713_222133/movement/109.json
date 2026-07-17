@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        25,
+        42
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 25 42",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u55ef\u2026\u2026\u73b0\u5728\u5e97\u91cc\u4eba\u6709\u70b9\u591a\uff0c\u6015\u5f71\u54cd\u5230\u5176\u4ed6\u5ba2\u4eba\u5462\u3002",
+      "satiety": 92.30000000000075,
+      "stamina": 92.16000000000051,
+      "health": 100.0,
+      "mood": 63.70000000000002,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        43,
+        37
+      ],
+      "pronunciatio": "\ud83d\udeb6",
+      "description": "taking a short walk in the park garden to relax and improve mood @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 92.30000000000075,
+      "stamina": 92.65900000000076,
+      "health": 100.0,
+      "mood": 45.600000000000094,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        35,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u55ef\uff0c\u4eca\u5929\u4e0b\u5348\u89c1\uff01\u6211\u5e26\u76f4\u64ad\u8bbe\u5907\u6765\uff0c\u522b\u592a\u5435\u54c8\uff01",
+      "satiety": 90.65000000000069,
+      "stamina": 98.47200000000066,
+      "health": 100.0,
+      "mood": 63.50000000000006,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 08:18:10"
+  }
+}

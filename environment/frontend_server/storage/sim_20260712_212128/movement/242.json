@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        46,
+        31
+      ],
+      "pronunciatio": "\ud83d\udcda",
+      "description": "working on cafe decorations in the library @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u5f53\u7136\u53ef\u4ee5\u554a\uff0c\u6211\u4eec\u5496\u5561\u9986\u7ecf\u5e38\u529e\u805a\u4f1a\u5462\u3002\u4f60\u8981\u529e\u4ec0\u4e48\u6837\u7684\u805a\u4f1a\u5440\uff1f",
+      "satiety": 82.99000000000166,
+      "stamina": 84.36500000000093,
+      "health": 100.0,
+      "mood": 98.68000000000035,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        69,
+        32
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "taking a brief nap on the library sofa @ the Ville:Oak Hill College:library:library sofa",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 82.99000000000166,
+      "stamina": 84.86000000000115,
+      "health": 100.0,
+      "mood": 54.28000000000021,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is heading to Hobbs Cafe to discuss the potential study group",
+          "created": "2026-07-12 08:40:00"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        70,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6211\u60f3\u529e\u4e2a\u5b66\u4e60\u5c0f\u7ec4\u805a\u4f1a\uff0c\u5927\u6982\u5341\u4e2a\u4eba\u5de6\u53f3\u3002",
+      "satiety": 79.34500000000152,
+      "stamina": 89.86600000000043,
+      "health": 100.0,
+      "mood": 59.23999999999992,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-12 08:40:20"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 12, 2026, 08:40:20"
+  }
+}

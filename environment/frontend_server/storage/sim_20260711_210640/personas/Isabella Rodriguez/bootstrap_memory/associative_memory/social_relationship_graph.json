@@ -1,0 +1,11 @@
+{
+  "relations": {
+    "Maria Lopez": {
+      "relationship": "friend",
+      "trust": 0.62,
+      "recent_events": [
+        "received a request for apple and helped"
+      ]
+    }
+  }
+}

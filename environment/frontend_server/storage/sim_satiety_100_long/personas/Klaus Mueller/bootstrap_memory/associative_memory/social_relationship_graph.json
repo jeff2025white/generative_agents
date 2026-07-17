@@ -1,0 +1,12 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about community changes and the impact of new stores in Hobbs Cafe area",
+        "conversing about whether new store openings are affecting the customer base of a local café"
+      ]
+    }
+  }
+}

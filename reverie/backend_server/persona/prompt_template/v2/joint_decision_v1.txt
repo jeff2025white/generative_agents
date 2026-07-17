@@ -32,11 +32,21 @@ If the dominant motive is mood, choose a directly mood-repairing immediate actio
 Identity and long-term goals may only break ties between currently feasible immediate options.
 If the previous immediate action failed or a target was unreachable, you must choose a different immediate target or materially different plan instead of repeating that failed target.
 If a target appears in InvalidTargets, it is forbidden for this immediate step.
+Describe the selected action with an explicit target type and execution mode. This changes only the response contract; use the Decision Capsule, Background Identity, and Allowed Action Schema exactly as provided above.
+"target_type" must be one of "persona", "location", "object", "inventory_item", or "none".
+"mode" must be one of "conversation", "seek_conversation", "social_venue", "solo_leisure", "wander", "daydream", "consume", "gather", "rest", "treat", "work", "study", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob", or "idle".
+For Socialize, target a named person and use conversation or seek_conversation. For social activity at a park, cafe, pub, or other place, use Recreate with social_venue, wander, or solo_leisure.
+Use "topic" for the intended conversation subject. For non-conversation actions, return an empty string.
+Consume and Request may use a duration from 5 to 120 minutes. All other actions must use a duration from 10 to 120 minutes.
 Return ONLY valid JSON in this format:
 {
+  "schema_version": 2,
   "thought": "<one-sentence natural language thought from the agent perspective>",
-  "action": "<Consume/Gather/Rest/Work/Socialize/Recreate/Idle>",
-  "target": "<single target object, food item, or person name>",
+  "action": "<Consume/Gather/Rest/Treat/Work/Socialize/Request/Trade/Coordinate/Pressure/Avoid/Give/Rob/Recreate/Idle>",
+  "target": "<single target object, food item, place, or person name>",
+  "target_type": "<persona/location/object/inventory_item/none>",
+  "mode": "<execution mode from the list above>",
+  "topic": "<conversation topic or empty string>",
   "detail": "<descriptive action detail string>",
   "duration": <integer_duration_in_minutes>,
   "reasoning": "<brief explanation>"

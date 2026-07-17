@@ -1,0 +1,14 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.64,
+      "recent_events": [
+        "conversing about the customer service and atmosphere at Hobbs Cafe",
+        "conversing about two friends discussing how Isabella maintains a comfortable atmosphere in her store",
+        "conversing about Isabella Rodriguez and Klaus Mueller discussing Isabella's plans to make an apple pie and Klaus's ongoing research on community transformation.",
+        "received requested help with apple"
+      ]
+    }
+  }
+}

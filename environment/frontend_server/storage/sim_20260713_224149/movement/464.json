@@ -1,0 +1,149 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        98,
+        48
+      ],
+      "pronunciatio": "\ud83d\udcad",
+      "description": "\u4e00\u4e2a\u4eba\u81ea\u8a00\u81ea\u8bed\u4e2d... @ <waiting> 98 48",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u5c31\u662f\u5173\u4e8e\u4f60\u4eec\u5496\u5561\u9986\u7684\u4e00\u4e9b\u4e8b\u60c5\uff0c\u4e0d\u77e5\u9053\u60a8\u6709\u6ca1\u6709\u65f6\u95f4\uff1f",
+      "satiety": 60.47500000000261,
+      "stamina": 78.81600000000108,
+      "health": 100.0,
+      "mood": 40.75000000000036,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        86,
+        32
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "reading a book to relax and find inspiration for research @ the Ville:Oak Hill College:library:library sofa",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u54e6\uff0c\u539f\u6765\u4f60\u5728\u7814\u7a76\u8fd9\u4e2a\u554a\uff0c\u6211\u731c\u4f60\u4e00\u5b9a\u5f88\u6709\u89c1\u89e3\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd8\u597d\u5566\uff0c\u5c31\u662f\u8fd8\u5728\u6536\u96c6\u8d44\u6599\u5462\u3002\u4f60\u4eca\u5929\u600e\u4e48\u6709\u7a7a\u6765\u627e\u6211\u5440\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54ce\u5440\uff0c\u521a\u597d\u4eca\u5929\u6709\u7a7a\uff0c\u6240\u4ee5\u60f3\u627e\u4f60\u804a\u804a\u5929\u3002"
+        ],
+        [
+          "Klaus Mueller",
+          "\u8fd9\u6837\u554a\uff0c\u90a3\u633a\u597d\u7684\u3002\u5bf9\u4e86\uff0c\u4f60\u4e4b\u524d\u4e0d\u662f\u5728\u56fe\u4e66\u9986\u6c99\u53d1\u4e0a\u770b\u4e66\u561b\uff0c\u5728\u90a3\u513f\u770b\u6709\u6ca1\u6709\u4ec0\u4e48\u65b0\u53d1\u73b0\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u6ca1\u4ec0\u4e48\u7279\u522b\u7684\u53d1\u73b0\uff0c\u5c31\u662f\u6253\u53d1\u65f6\u95f4\u800c\u5df2\u3002\u5bf9\u4e86\uff0c\u4f60\u7814\u7a76\u7684\u90a3\u4e2a\u6211\u89c9\u5f97\u633a\u6709\u610f\u4e49\u7684\u3002"
+        ]
+      ],
+      "last_chat": "Klaus Mueller: \u8fd9\u6837\u554a\uff0c\u90a3\u633a\u597d\u7684\u3002\u5bf9\u4e86\uff0c\u4f60\u4e4b\u524d\u4e0d\u662f\u5728\u56fe\u4e66\u9986\u6c99\u53d1\u4e0a\u770b\u4e66\u561b\uff0c\u5728\u90a3\u513f\u770b\u6709\u6ca1\u6709\u4ec0\u4e48\u65b0\u53d1\u73b0\uff1f",
+      "satiety": 67.45000000000317,
+      "stamina": 46.20900000000164,
+      "health": 100.0,
+      "mood": 59.76000000000026,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Klaus Mueller",
+          "created": "2026-07-13 09:16:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is chatting with Klaus Mueller about the Valentine's Day party at Hobbs Cafe",
+          "created": "2026-07-13 09:16:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is visiting the park garden for mood improvement",
+          "created": "2026-07-13 09:16:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller spent time on leisure_use with target park garden.",
+          "created": "2026-07-13 08:32:20",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is taking a short walk in the park garden to relax",
+          "created": "2026-07-13 08:50:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is enjoying fresh air and clearing the mind in the park garden",
+          "created": "2026-07-13 09:07:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-13 08:31:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        80,
+        35
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "chatting with Klaus Mueller on the common room sofa @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u6ca1\u4ec0\u4e48\u7279\u522b\u7684\u53d1\u73b0\uff0c\u5c31\u662f\u6253\u53d1\u65f6\u95f4\u800c\u5df2\u3002\u5bf9\u4e86\uff0c\u4f60\u7814\u7a76\u7684\u90a3\u4e2a\u6211\u89c9\u5f97\u633a\u6709\u610f\u4e49\u7684\u3002",
+      "satiety": 67.45000000000317,
+      "stamina": 99.59900000000034,
+      "health": 100.0,
+      "mood": 79.50000000000087,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is sitting on the common room sofa to relax",
+          "created": "2026-07-13 09:17:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is reading and relaxing on the library sofa",
+          "created": "2026-07-13 09:05:50",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is often depicted in a quiet or relaxed state",
+          "created": "2026-07-13 09:16:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Isabella Rodriguez's planning: She might appreciate a follow-up on her relaxation needs.",
+          "created": "2026-07-13 08:00:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Characters are often in various states of rest or relaxation",
+          "created": "2026-07-13 09:16:30",
+          "poignancy": 4
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 13, 2026, 09:17:20"
+  }
+}
