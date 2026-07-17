@@ -1,0 +1,70 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        78,
+        17
+      ],
+      "pronunciatio": "\ud83c\udf74",
+      "description": "Consume the apple to satisfy my hunger. @ the Ville:Hobbs Cafe:cafe:piano",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.369999999999997,
+      "stamina": 99.32300000000005,
+      "health": 100.0,
+      "mood": 49.81999999999997,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Consume the apple to satisfy my hunger.",
+          "created": "2026-07-17 08:00:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        131,
+        50
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food access from Isabella Rodriguez. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.369999999999997,
+      "stamina": 99.42600000000006,
+      "health": 100.0,
+      "mood": 49.45999999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Request food access from Isabella Rodriguez.",
+          "created": "2026-07-17 08:00:50"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        124,
+        53
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food from Isabella Rodriguez. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 29.234999999999992,
+      "stamina": 99.28400000000005,
+      "health": 100.0,
+      "mood": 49.550000000000026,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:01:20"
+  }
+}

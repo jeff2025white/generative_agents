@@ -1,0 +1,112 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        80,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Seek a conversation with Isabella Rodriguez to repair my mood. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\u5440\uff0c\u8c22\u8c22\u3002\u6211\u6700\u8fd1\u786e\u5b9e\u6709\u70b9\u7d2f\uff0c\u5403\u70b9\u4e1c\u897f\u53ef\u80fd\u4f1a\u597d\u4e9b\u3002",
+      "satiety": 71.76500000000027,
+      "stamina": 87.51200000000115,
+      "health": 100.0,
+      "mood": 51.29000000000041,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        67,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 74.63000000000032,
+      "stamina": 87.40800000000131,
+      "health": 100.0,
+      "mood": 40.539999999999566,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        119,
+        46
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:the Ville:Dorm for Oak Hill College:the Ville:Dorm for Oak Hill College:common room:the Ville:Dorm for Oak Hill College:common room:",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u554a\uff0c\u8fd9\u6837\u554a\u3002\u90a3\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u8fd9\u513f\u6709\u82f9\u679c\uff0c\u4f60\u5403\u70b9\u513f\u5417\uff1f",
+      "satiety": 74.63000000000066,
+      "stamina": 81.91700000000114,
+      "health": 100.0,
+      "mood": 59.399999999999515,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:31:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:04:10",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-17 08:17:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 08:15:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-17 08:14:50",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:31:40"
+  }
+}

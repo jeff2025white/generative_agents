@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        97,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.82000000000045,
+      "stamina": 88.29800000000095,
+      "health": 100.0,
+      "mood": 48.71999999999949,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        55,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Playing a game to relax and improve my mood. @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 75.8200000000002,
+      "stamina": 88.54700000000119,
+      "health": 100.0,
+      "mood": 41.559999999999604,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        58,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.21000000000016,
+      "stamina": 84.93200000000105,
+      "health": 100.0,
+      "mood": 42.260000000000424,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:28:50"
+  }
+}

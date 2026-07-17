@@ -645,7 +645,14 @@ def compute_social_chat_turn_limit(persona, target_persona, memory_keys, recent_
         bonus += 1
     if topic_heat >= 0.75:
         bonus += 1
-    return max(3, min(8, base_turns + bonus))
+    return max(3, min(6, base_turns + bonus))
+
+
+def _conversation_reflection_fingerprint(target_name, convo):
+    if not convo:
+        return None
+    last_speaker, last_utterance = convo[-1]
+    return f"{target_name}|{len(convo)}|{last_speaker}|{last_utterance}"
 
 
 def _get_dialogue_topic(persona):
@@ -748,17 +755,16 @@ def _store_post_conversation_reflection(persona, target_persona, convo):
     if not all_utt.strip():
         return
 
-    last_chat = persona.a_mem.get_last_chat(target_persona.name)
+    last_chat_getter = getattr(persona.a_mem, "get_last_chat", None)
+    last_chat = last_chat_getter(target_persona.name) if callable(last_chat_getter) else None
     evidence = [last_chat.node_id] if last_chat else []
     created = persona.scratch.curr_time
     expiration = created + datetime.timedelta(days=30) if created else None
 
     try:
         from persona.cognitive_modules.reflect import (
-            generate_action_event_triple,
             generate_memo_on_convo,
             generate_planning_thought_on_convo,
-            generate_poig_score,
         )
     except Exception:
         return
@@ -787,9 +793,11 @@ def _store_post_conversation_reflection(persona, target_persona, convo):
     created_thoughts = {}
     for thought_text, thought_kind in thought_specs:
         try:
-            s, p, o = generate_action_event_triple(thought_text, persona)
+            s = persona.name
+            p = "plans after conversation" if thought_kind == "planning_thought" else "remembers conversation"
+            o = target_persona.name
             keywords = set([s, p, o])
-            thought_poignancy = generate_poig_score(persona, "thought", thought_text)
+            thought_poignancy = 6.0
             thought_embedding_pair = (thought_text, get_embedding(thought_text))
             persona.a_mem.add_thought(
                 created,
@@ -808,6 +816,10 @@ def _store_post_conversation_reflection(persona, target_persona, convo):
             continue
 
     if created_thoughts:
+        persona.scratch.chat_reflection_completed_fingerprint = _conversation_reflection_fingerprint(
+            target_persona.name,
+            convo,
+        )
         refresh_prompt_profile_from_reflection(
             persona,
             planning_thought=created_thoughts.get("planning_thought"),

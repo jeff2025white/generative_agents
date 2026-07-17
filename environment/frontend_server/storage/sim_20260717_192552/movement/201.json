@@ -1,0 +1,64 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        108,
+        46
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Chat with Klaus Mueller to seek social inclusion and comfort. @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u554a\uff0c\u8fd9\u6837\u554a\u3002\u90a3\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u8fd9\u513f\u6709\u82f9\u679c\uff0c\u4f60\u5403\u70b9\u513f\u5417\uff1f",
+      "satiety": 73.86000000000074,
+      "stamina": 81.0820000000012,
+      "health": 100.0,
+      "mood": 59.17999999999948,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        78,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.8600000000004,
+      "stamina": 86.67100000000138,
+      "health": 100.0,
+      "mood": 39.87999999999954,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        91,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\u5440\uff0c\u8c22\u8c22\u3002\u6211\u6700\u8fd1\u786e\u5b9e\u6709\u70b9\u7d2f\uff0c\u5403\u70b9\u4e1c\u897f\u53ef\u80fd\u4f1a\u597d\u4e9b\u3002",
+      "satiety": 70.83000000000034,
+      "stamina": 86.54400000000122,
+      "health": 100.0,
+      "mood": 50.74000000000044,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:33:30"
+  }
+}

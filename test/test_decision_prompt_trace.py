@@ -109,31 +109,31 @@ class DecisionPromptTraceTests(unittest.TestCase):
             "Relevant food experience.",
         )
         self.assertIn(
-            '"Consume"',
+            "- Consume |",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"actor_delta_amplitude_by_variant"',
+            "effects=",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"satiety": 58.0',
+            "satiety:+58",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"mood": -2.0',
+            "mood:-2",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"Request"',
+            "- Request |",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"Coordinate"',
+            "- Coordinate |",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertIn(
-            '"Pressure"',
+            "- Pressure |",
             payload["stage1_dynamic_fields"]["action_schema_text"],
         )
         self.assertEqual(

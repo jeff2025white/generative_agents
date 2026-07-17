@@ -1,0 +1,2320 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 17, 2026, 08:41:40",
+  "curr_tile": [
+    91,
+    37
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "hospitable, warm, dedicated",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 70.43000000000097,
+  "stamina": 74.4530000000014,
+  "health": 100.0,
+  "mood": 61.29999999999942,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 70.43000000000097,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 74.4530000000014,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 65.99200000000111,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 61.29999999999942,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 99.24399999999997,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 60.987999999999886,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 55.4900000000005,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 58.732999999999244,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 57.987999999999886,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 17, 2026, 08:34:50",
+  "decision_commit_until_step": 211,
+  "last_decision_signature": {
+    "skill_id": "hangout_social_venue",
+    "target": "apple tree",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "Enjoy the peaceful atmosphere of the apple tree.",
+  "recent_completed_action_signature": {
+    "skill_id": "hangout_social_venue",
+    "target": "common room sofa",
+    "intent_family": "restore_mood"
+  },
+  "recent_completed_action_step": 208,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "common room sofa",
+    "target_address": "the Ville:Dorm for Oak Hill College:common room",
+    "skill_id": "hangout_social_venue",
+    "action_description": "Relax on the common room sofa to improve mood.",
+    "curr_step": 208,
+    "goal_status": "no_progress",
+    "goal_progress_score": 0.0,
+    "replan_required": true
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Isabella_Rodriguez-208-df3c35e849",
+    "sim_code": null,
+    "persona": "Isabella Rodriguez",
+    "curr_step": 208,
+    "sim_time": "2026-07-17 08:34:40",
+    "wall_ts": "2026-07-17T19:03:03.843060+08:00",
+    "decision_context": {
+      "decision_id": "Isabella_Rodriguez-208-de420029",
+      "dominant_motive": "satiety",
+      "secondary_motive": null
+    },
+    "action": {
+      "skill_id": "hangout_social_venue",
+      "raw_action": "hangout_social_venue",
+      "intent_family": "restore_mood",
+      "target": "common room sofa",
+      "target_type": "place",
+      "target_address": "the Ville:Dorm for Oak Hill College:common room",
+      "resolved_target": "sofa",
+      "resolution_kind": null,
+      "detail": "Relax on the common room sofa to improve mood."
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "goal": {
+      "status": "no_progress",
+      "progress_score": 0.0,
+      "replan_required": true,
+      "evidence": []
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 0.0,
+        "stamina": -1.0,
+        "health": 0.0,
+        "safety": 0.0,
+        "mood": 2.0,
+        "belonging": 0.018,
+        "status": 0.0,
+        "autonomy": 0.0,
+        "competence": 0.0,
+        "meaning": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "common room sofa",
+      "resource_instance_key": "the ville:dorm for oak hill college:common room"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "motive_effect_magnitude": 0.151,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.95,
+      "base_significance": 0.341,
+      "recency_weight": 1.0,
+      "effective_score": 0.341,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Isabella_Rodriguez-208-df3c35e849",
+      "memory_type": "event",
+      "subject": "Isabella Rodriguez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+      "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+      "keywords": [
+        "common room sofa",
+        "execution_result",
+        "goal_no_progress",
+        "hangout_social_venue",
+        "restore_mood",
+        "satiety",
+        "success"
+      ],
+      "poignancy": 5.36,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 0.0,
+        "stamina": -1.0,
+        "health": 0.0,
+        "safety": 0.0,
+        "mood": 2.0,
+        "belonging": 0.018,
+        "status": 0.0,
+        "autonomy": 0.0,
+        "competence": 0.0,
+        "meaning": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "hangout_social_venue",
+        "target": "common room sofa",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "reason": null,
+        "dominant_motive": "satiety",
+        "outcome_status": "success",
+        "goal_status": "no_progress",
+        "goal_progress_score": 0.0,
+        "replan_required": true,
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-103-b5fe56f726",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 103,
+      "sim_time": "2026-07-17 08:17:10",
+      "wall_ts": "2026-07-17T18:59:37.508565+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-23-6884ab3a",
+        "dominant_motive": "satiety",
+        "secondary_motive": "mood"
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "eating the apple from inventory to restore satiety"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.95,
+        "replan_required": false,
+        "evidence": [
+          "satiety:+58",
+          "mood:+1",
+          "inventory:apple:-1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 52.4,
+          "stamina": -6.161,
+          "health": 0.0,
+          "safety": -0.64,
+          "mood": 0.4,
+          "belonging": -1.44,
+          "status": -0.96,
+          "autonomy": -0.8,
+          "competence": -1.36,
+          "meaning": -0.96
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.95
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 1.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-103-b5fe56f726",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used consume on apple at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Isabella Rodriguez successfully used consume on apple at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "goal_achieved",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 52.4,
+          "stamina": -6.161,
+          "health": 0.0,
+          "safety": -0.64,
+          "mood": 0.4,
+          "belonging": -1.44,
+          "status": -0.96,
+          "autonomy": -0.8,
+          "competence": -1.36,
+          "meaning": -0.96
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.95,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": 52.4,
+            "stamina": -6.161,
+            "health": 0.0,
+            "safety": -0.64,
+            "mood": 0.4,
+            "belonging": -1.44,
+            "status": -0.96,
+            "autonomy": -0.8,
+            "competence": -1.36,
+            "meaning": -0.96
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-202-c0f7e551eb",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 202,
+      "sim_time": "2026-07-17 08:33:40",
+      "wall_ts": "2026-07-17T19:01:07.271349+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-104-9520351c",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -6.86,
+          "stamina": -9.742,
+          "health": 0.0,
+          "safety": -0.784,
+          "mood": 1.22,
+          "belonging": -1.764,
+          "status": -1.176,
+          "autonomy": -0.98,
+          "competence": -1.666,
+          "meaning": -1.176
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.152,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-202-c0f7e551eb",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "leisure_use",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -6.86,
+          "stamina": -9.742,
+          "health": 0.0,
+          "safety": -0.784,
+          "mood": 1.22,
+          "belonging": -1.764,
+          "status": -1.176,
+          "autonomy": -0.98,
+          "competence": -1.666,
+          "meaning": -1.176
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -6.86,
+            "stamina": -9.742,
+            "health": 0.0,
+            "safety": -0.784,
+            "mood": 1.22,
+            "belonging": -1.764,
+            "status": -1.176,
+            "autonomy": -0.98,
+            "competence": -1.666,
+            "meaning": -1.176
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-203-b798e4fb63",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 203,
+      "sim_time": "2026-07-17 08:33:50",
+      "wall_ts": "2026-07-17T19:01:26.179296+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-203-78ebb823",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 14.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.85,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.25,
+        "base_significance": 0.9,
+        "recency_weight": 1.0,
+        "effective_score": 0.9,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-203-b798e4fb63",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 7.6,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 14.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 14.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-204-aa8d98046e",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 204,
+      "sim_time": "2026-07-17 08:34:00",
+      "wall_ts": "2026-07-17T19:01:36.391038+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-204-0fc1e04b",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 14.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.85,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.25,
+        "base_significance": 0.9,
+        "recency_weight": 1.0,
+        "effective_score": 0.9,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-204-aa8d98046e",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 7.6,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 14.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 14.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-205-7275801e44",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 205,
+      "sim_time": "2026-07-17 08:34:10",
+      "wall_ts": "2026-07-17T19:01:49.514367+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-205-9353fb3f",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 1.708,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.235,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.25,
+        "base_significance": 0.285,
+        "recency_weight": 1.0,
+        "effective_score": 0.285,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-205-7275801e44",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 5.14,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 1.708,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 1.708,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-206-3d2c1d6100",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 206,
+      "sim_time": "2026-07-17 08:34:20",
+      "wall_ts": "2026-07-17T19:02:31.016306+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-206-02e0ac1c",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.151,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.25,
+        "base_significance": 0.201,
+        "recency_weight": 1.0,
+        "effective_score": 0.201,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-206-3d2c1d6100",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 4.8,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 0.018,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-207-b859da6442",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 207,
+      "sim_time": "2026-07-17 08:34:30",
+      "wall_ts": "2026-07-17T19:02:48.901135+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-207-8a506091",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.151,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.95,
+        "base_significance": 0.341,
+        "recency_weight": 1.0,
+        "effective_score": 0.341,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-207-b859da6442",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "restore_mood",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 5.36,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 0.018,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-208-df3c35e849",
+      "sim_code": null,
+      "persona": "Isabella Rodriguez",
+      "curr_step": 208,
+      "sim_time": "2026-07-17 08:34:40",
+      "wall_ts": "2026-07-17T19:03:03.843060+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-208-de420029",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "hangout_social_venue",
+        "raw_action": "hangout_social_venue",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Dorm for Oak Hill College:common room",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:dorm for oak hill college:common room"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.151,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.95,
+        "base_significance": 0.341,
+        "recency_weight": 1.0,
+        "effective_score": 0.341,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-208-df3c35e849",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "hangout_social_venue",
+          "restore_mood",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 5.36,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -1.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 2.0,
+          "belonging": 0.018,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "hangout_social_venue",
+          "target": "common room sofa",
+          "target_address": "the Ville:Dorm for Oak Hill College:common room",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -1.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 2.0,
+            "belonging": 0.018,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:common room"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 103,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-102-ecfa384fa4",
+        "Isabella_Rodriguez-103-b5fe56f726"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-209-hangout_social_venue-apple tree",
+    "phase": "pathing",
+    "address": "the Ville:Johnson Park:park",
+    "command": {
+      "skill_id": "hangout_social_venue",
+      "target": "apple tree",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "hangout_social_venue",
+      "detail": "Enjoy the peaceful atmosphere of the apple tree."
+    },
+    "description": "Enjoy the peaceful atmosphere of the apple tree.",
+    "event": [
+      "Isabella Rodriguez",
+      "hangout_social_venue",
+      "apple tree"
+    ],
+    "path": [
+      [
+        89,
+        37
+      ],
+      [
+        88,
+        37
+      ],
+      [
+        87,
+        37
+      ],
+      [
+        86,
+        37
+      ],
+      [
+        85,
+        37
+      ],
+      [
+        84,
+        37
+      ],
+      [
+        83,
+        37
+      ],
+      [
+        82,
+        37
+      ],
+      [
+        81,
+        37
+      ],
+      [
+        80,
+        37
+      ],
+      [
+        79,
+        37
+      ],
+      [
+        78,
+        37
+      ],
+      [
+        77,
+        37
+      ],
+      [
+        76,
+        37
+      ],
+      [
+        75,
+        37
+      ],
+      [
+        74,
+        37
+      ],
+      [
+        73,
+        37
+      ],
+      [
+        72,
+        37
+      ],
+      [
+        71,
+        37
+      ],
+      [
+        70,
+        37
+      ],
+      [
+        69,
+        37
+      ],
+      [
+        68,
+        37
+      ],
+      [
+        67,
+        37
+      ],
+      [
+        66,
+        37
+      ],
+      [
+        65,
+        37
+      ],
+      [
+        64,
+        37
+      ],
+      [
+        63,
+        37
+      ],
+      [
+        62,
+        37
+      ],
+      [
+        61,
+        37
+      ],
+      [
+        60,
+        37
+      ],
+      [
+        59,
+        37
+      ],
+      [
+        58,
+        37
+      ],
+      [
+        57,
+        37
+      ],
+      [
+        56,
+        37
+      ],
+      [
+        55,
+        37
+      ],
+      [
+        54,
+        37
+      ],
+      [
+        53,
+        37
+      ],
+      [
+        52,
+        37
+      ],
+      [
+        51,
+        37
+      ],
+      [
+        50,
+        37
+      ],
+      [
+        49,
+        37
+      ],
+      [
+        48,
+        37
+      ],
+      [
+        47,
+        37
+      ],
+      [
+        46,
+        37
+      ],
+      [
+        45,
+        37
+      ],
+      [
+        44,
+        37
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        42,
+        37
+      ],
+      [
+        41,
+        37
+      ],
+      [
+        40,
+        37
+      ],
+      [
+        39,
+        37
+      ],
+      [
+        38,
+        37
+      ],
+      [
+        38,
+        38
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        38,
+        40
+      ],
+      [
+        38,
+        41
+      ],
+      [
+        38,
+        42
+      ],
+      [
+        38,
+        43
+      ],
+      [
+        38,
+        44
+      ],
+      [
+        37,
+        44
+      ],
+      [
+        36,
+        44
+      ],
+      [
+        36,
+        45
+      ],
+      [
+        36,
+        46
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "hangout_social_venue",
+      "target": "apple tree",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 209,
+    "updated_step": 250,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "hangout_social_venue",
+    "intent_family": "restore_mood",
+    "target": "apple tree",
+    "target_type": "place",
+    "resolved_target": "apple tree",
+    "resolved_address": "the Ville:Johnson Park:park",
+    "description": "Enjoy the peaceful atmosphere of the apple tree.",
+    "command": {
+      "skill_id": "hangout_social_venue",
+      "target": "apple tree",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "hangout_social_venue",
+      "detail": "Enjoy the peaceful atmosphere of the apple tree."
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "hangout_social_venue",
+      "apple tree"
+    ],
+    "duration": 30,
+    "creator_instruction": null,
+    "decision_id": "Isabella_Rodriguez-209-d33e3905",
+    "dominant_motive": "satiety",
+    "secondary_motive": null,
+    "motive_values_before": {
+      "satiety": {
+        "current_value": 73.3000000000007,
+        "initial_value": 62.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.07,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "stamina": {
+        "current_value": 77.69200000000113,
+        "initial_value": 70.0,
+        "safe_threshold": 46.0,
+        "critical_threshold": 20.0,
+        "decay_per_step": 0.045,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "health": {
+        "current_value": 100.0,
+        "initial_value": 86.0,
+        "safe_threshold": 58.0,
+        "critical_threshold": 26.0,
+        "decay_per_step": 0.0,
+        "priority_weight": 1.18,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "safety": {
+        "current_value": 66.32000000000093,
+        "initial_value": 68.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 22.0,
+        "decay_per_step": 0.008,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "mood": {
+        "current_value": 62.93999999999939,
+        "initial_value": 72.0,
+        "safe_threshold": 58.0,
+        "critical_threshold": 35.0,
+        "decay_per_step": 0.02,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "belonging": {
+        "current_value": 99.982,
+        "initial_value": 74.0,
+        "safe_threshold": 60.0,
+        "critical_threshold": 36.0,
+        "decay_per_step": 0.018,
+        "priority_weight": 1.15,
+        "skill_flat_modifiers": {
+          "chat with": 5.0,
+          "hangout_social_venue": 4.0,
+          "give": 2.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "status": {
+        "current_value": 61.479999999999905,
+        "initial_value": 64.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 30.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "autonomy": {
+        "current_value": 55.90000000000042,
+        "initial_value": 58.0,
+        "safe_threshold": 44.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.01,
+        "priority_weight": 0.9,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "competence": {
+        "current_value": 59.42999999999937,
+        "initial_value": 63.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 29.0,
+        "decay_per_step": 0.017,
+        "priority_weight": 0.98,
+        "skill_flat_modifiers": {
+          "work": 3.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "meaning": {
+        "current_value": 58.479999999999905,
+        "initial_value": 61.0,
+        "safe_threshold": 47.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 0.93,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      }
+    },
+    "created_step": 209,
+    "updated_step": 250,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "hangout_social_venue",
+  "active_skill_id": "Isabella Rodriguez-209-hangout_social_venue",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 209,
+  "active_skill_owner": "Isabella Rodriguez",
+  "active_skill_target": "apple tree",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "Enjoy the peaceful atmosphere of the apple tree."
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective, even-tempered, thoughtful",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "inquisitive, studious, friendly, hospitable",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "hospitable, warm, dedicated",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:34:50",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:34:50",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.. My preferr...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:34:50",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:34:50",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-17 08:34:50"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 104,
+  "importance_ele_n": 19,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:Johnson Park:park",
+  "act_start_time": "July 17, 2026, 08:34:50",
+  "act_duration": 30,
+  "act_description": "Enjoy the peaceful atmosphere of the apple tree.",
+  "act_pronunciatio": "\ud83c\udf4e",
+  "act_event": [
+    "Isabella Rodriguez",
+    "hangout_social_venue",
+    "apple tree"
+  ],
+  "act_command": {
+    "skill_id": "hangout_social_venue",
+    "target": "apple tree",
+    "intent_family": "restore_mood",
+    "source": "decision_translation",
+    "raw_action": "hangout_social_venue",
+    "detail": "Enjoy the peaceful atmosphere of the apple tree."
+  },
+  "act_obj_description": "park is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "park",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      89,
+      37
+    ],
+    [
+      88,
+      37
+    ],
+    [
+      87,
+      37
+    ],
+    [
+      86,
+      37
+    ],
+    [
+      85,
+      37
+    ],
+    [
+      84,
+      37
+    ],
+    [
+      83,
+      37
+    ],
+    [
+      82,
+      37
+    ],
+    [
+      81,
+      37
+    ],
+    [
+      80,
+      37
+    ],
+    [
+      79,
+      37
+    ],
+    [
+      78,
+      37
+    ],
+    [
+      77,
+      37
+    ],
+    [
+      76,
+      37
+    ],
+    [
+      75,
+      37
+    ],
+    [
+      74,
+      37
+    ],
+    [
+      73,
+      37
+    ],
+    [
+      72,
+      37
+    ],
+    [
+      71,
+      37
+    ],
+    [
+      70,
+      37
+    ],
+    [
+      69,
+      37
+    ],
+    [
+      68,
+      37
+    ],
+    [
+      67,
+      37
+    ],
+    [
+      66,
+      37
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      64,
+      37
+    ],
+    [
+      63,
+      37
+    ],
+    [
+      62,
+      37
+    ],
+    [
+      61,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      46,
+      37
+    ],
+    [
+      45,
+      37
+    ],
+    [
+      44,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      40,
+      37
+    ],
+    [
+      39,
+      37
+    ],
+    [
+      38,
+      37
+    ],
+    [
+      38,
+      38
+    ],
+    [
+      38,
+      39
+    ],
+    [
+      38,
+      40
+    ],
+    [
+      38,
+      41
+    ],
+    [
+      38,
+      42
+    ],
+    [
+      38,
+      43
+    ],
+    [
+      38,
+      44
+    ],
+    [
+      37,
+      44
+    ],
+    [
+      36,
+      44
+    ],
+    [
+      36,
+      45
+    ],
+    [
+      36,
+      46
+    ]
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.5800000000000001,
+      "recent_events": [
+        "conversing about Maria Lopez seeking relaxation at Hobbs咖啡馆 and Isabella Rodriguez offering help",
+        "conversing about two friends discussing Isabella's apple picking and future plans to relax together",
+        "conversing about a coffee date and a discussion about planning a Valentine's Day party",
+        "conversing about friends discussing a moment of relaxation and sharing a cake before a live broadcast"
+      ]
+    }
+  }
+}

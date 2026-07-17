@@ -78,6 +78,76 @@ class ChatStateProgressionTests(unittest.TestCase):
             ],
         )
 
+    def test_fresh_explicit_decision_is_not_immediately_overridden_by_social_reaction(self):
+        scratch = SimpleNamespace(
+            act_description="",
+            act_address=None,
+            act_event=(None, None, None),
+            act_command=None,
+            act_start_time=None,
+            curr_time=datetime.datetime(2026, 7, 4, 12, 0, 0),
+            chatting_with=None,
+            chat=None,
+            chatting_end_time=None,
+            should_lock_high_level_planning=lambda: False,
+            act_check_finished=lambda: True,
+            should_resume_suspended_action=lambda: False,
+        )
+        persona = SimpleNamespace(name="Maria Lopez", scratch=scratch)
+
+        def decide(*_args, **_kwargs):
+            scratch.act_description = "playing on the game console"
+            scratch.act_address = "the Ville:Dorm:Klaus Mueller's room:game console"
+            scratch.act_event = ("Maria Lopez", "leisure_use", "game console")
+            scratch.act_command = {"source": "decision_translation", "skill_id": "leisure_use", "target": "game console"}
+            scratch.act_start_time = scratch.curr_time
+
+        with patch.object(plan_module, "decide_demand_action", side_effect=decide), \
+             patch.object(plan_module, "_choose_retrieved", return_value=SimpleNamespace(subject="Isabella Rodriguez")), \
+             patch.object(plan_module, "_should_react", return_value="chat with Isabella Rodriguez") as react_mock, \
+             patch.object(plan_module, "clear_social_dialogue_state"), \
+             patch.object(plan_module, "_decrement_chatting_with_buffer"):
+            result = plan_module.plan(
+                persona,
+                maze=None,
+                personas={},
+                new_day=False,
+                retrieved={"nearby": {"curr_event": SimpleNamespace(subject="Isabella Rodriguez")}},
+            )
+
+        self.assertEqual(result, scratch.act_address)
+        react_mock.assert_not_called()
+
+    def test_chat_react_does_not_override_target_fresh_explicit_decision(self):
+        curr_time = datetime.datetime(2026, 7, 4, 12, 0, 0)
+        init_persona = SimpleNamespace(
+            name="Isabella Rodriguez",
+            scratch=SimpleNamespace(act_command=None, act_start_time=curr_time, curr_time=curr_time),
+        )
+        target_persona = SimpleNamespace(
+            name="Maria Lopez",
+            scratch=SimpleNamespace(
+                act_command={"source": "decision_translation", "skill_id": "leisure_use", "target": "game console"},
+                act_start_time=curr_time,
+                curr_time=curr_time,
+                act_description="playing on the game console",
+            ),
+        )
+
+        with patch.object(plan_module, "_create_react") as create_mock, \
+             patch.object(plan_module, "append_debug_log") as log_mock:
+            result = plan_module._chat_react(
+                maze=None,
+                persona=init_persona,
+                focused_event=SimpleNamespace(subject="Maria Lopez"),
+                reaction_mode="chat with Maria Lopez",
+                personas={"Isabella Rodriguez": init_persona, "Maria Lopez": target_persona},
+            )
+
+        self.assertFalse(result)
+        create_mock.assert_not_called()
+        self.assertEqual(log_mock.call_args.args[1]["reason"], "fresh_explicit_decision")
+
     def test_physiological_crisis_wraps_active_chat_before_replanning(self):
         remembered = []
         logged = []

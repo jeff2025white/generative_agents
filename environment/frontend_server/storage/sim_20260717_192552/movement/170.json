@@ -1,0 +1,75 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        47,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.03000000000019,
+      "stamina": 88.74800000000117,
+      "health": 100.0,
+      "mood": 41.73999999999961,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        60,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "having a conversation with Isabella Rodriguez @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 73.46500000000015,
+      "stamina": 85.23400000000103,
+      "health": 100.0,
+      "mood": 48.70000000000037,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-17 08:25:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Chat with Isabella Rodriguez to improve mood.",
+          "created": "2026-07-17 08:25:40"
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        108,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.03000000000053,
+      "stamina": 87.42900000000103,
+      "health": 100.0,
+      "mood": 49.05999999999954,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:28:20"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        114,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "Enjoy the peaceful atmosphere of the apple tree. @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.74000000000075,
+      "stamina": 77.06000000000118,
+      "health": 100.0,
+      "mood": 62.61999999999939,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:35:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:17:00",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:17:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-17 08:17:00",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-17 08:34:20",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:06:40",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-17 08:17:10",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is Enjoy the peaceful atmosphere of the apple tree.",
+          "created": "2026-07-17 08:35:00",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 08:17:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        102,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.47000000000044,
+      "stamina": 81.06000000000132,
+      "health": 100.0,
+      "mood": 40.06000000000055,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        99,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Playing a game to relax and improve my mood. @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.7400000000005,
+      "stamina": 85.5990000000015,
+      "health": 100.0,
+      "mood": 38.919999999999504,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:36:10"
+  }
+}

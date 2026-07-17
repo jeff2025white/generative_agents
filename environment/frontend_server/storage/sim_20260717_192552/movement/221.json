@@ -1,0 +1,177 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        97,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Chat with Klaus Mueller to seek social inclusion and comfort. @ <persona> Klaus Mueller",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u554a\uff0c\u8fd9\u6837\u554a\u3002\u90a3\u4f60\u6765\u5f97\u6b63\u597d\uff0c\u6211\u8fd9\u513f\u6709\u82f9\u679c\uff0c\u4f60\u5403\u70b9\u513f\u5417\uff1f",
+      "satiety": 72.46000000000087,
+      "stamina": 79.50200000000133,
+      "health": 100.0,
+      "mood": 58.639999999999446,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:36:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 7.6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target common room sofa.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent a while relaxing socially at common room sofa.",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 4.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is Relaxing on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:35:50",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:15:50",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        106,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relaxing on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\u5440\uff0c\u8c22\u8c22\u3002\u6211\u6700\u8fd1\u786e\u5b9e\u6709\u70b9\u7d2f\uff0c\u5403\u70b9\u4e1c\u897f\u53ef\u80fd\u4f1a\u597d\u4e9b\u3002",
+      "satiety": 69.13000000000046,
+      "stamina": 84.82200000000134,
+      "health": 100.0,
+      "mood": 49.7400000000005,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Chat with Klaus Mueller to seek social inclusion and comfort.",
+          "created": "2026-07-17 08:36:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 08:33:30",
+          "poignancy": 7.06
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.46000000000053,
+      "stamina": 85.33100000000152,
+      "health": 100.0,
+      "mood": 38.679999999999495,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Chat with Klaus Mueller to seek social inclusion and comfort.",
+          "created": "2026-07-17 08:36:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-17 08:36:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:20:40",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-17 08:20:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:20:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:25:00",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-17 08:11:40",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Klaus",
+          "created": "2026-07-17 08:20:50",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 08:19:10",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:36:50"
+  }
+}

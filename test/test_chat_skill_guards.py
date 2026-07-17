@@ -2,7 +2,7 @@ import sys
 import unittest
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -177,6 +177,30 @@ class ChatSkillGuardTests(unittest.TestCase):
         self.assertGreaterEqual(low_limit, 3)
         self.assertLessEqual(high_limit, 8)
         self.assertLess(low_limit, high_limit)
+
+    def test_post_chat_reflection_keeps_llm_planning_but_uses_structured_memory_metadata(self):
+        add_thought = MagicMock()
+        persona = SimpleNamespace(
+            name="Klaus Mueller",
+            scratch=SimpleNamespace(name="Klaus Mueller", curr_time=None),
+            a_mem=SimpleNamespace(get_last_chat=lambda _name: None, add_thought=add_thought),
+        )
+        target = SimpleNamespace(name="Maria Lopez")
+        convo = [["Klaus Mueller", "派对准备得怎么样？"], ["Maria Lopez", "快准备好了。"]]
+
+        with patch("persona.cognitive_modules.reflect.generate_planning_thought_on_convo", return_value="confirm the party supplies"), \
+             patch("persona.cognitive_modules.reflect.generate_memo_on_convo", return_value="remembers Maria is nearly ready"), \
+             patch.object(chat_skill_module, "get_embedding", return_value=[0.0]), \
+             patch.object(chat_skill_module, "refresh_prompt_profile_from_reflection"):
+            chat_skill_module._store_post_conversation_reflection(persona, target, convo)
+
+        self.assertEqual(add_thought.call_count, 2)
+        self.assertEqual(add_thought.call_args_list[0].args[3], "plans after conversation")
+        self.assertEqual(add_thought.call_args_list[1].args[3], "remembers conversation")
+        self.assertEqual(
+            persona.scratch.chat_reflection_completed_fingerprint,
+            "Maria Lopez|2|Maria Lopez|快准备好了。",
+        )
 
     def test_should_wait_for_dialogue_owner_when_target_arrives_before_chat_ready(self):
         persona = SimpleNamespace(

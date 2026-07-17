@@ -78,6 +78,18 @@ class ActionOutcomeRecordTests(unittest.TestCase):
             "the ville:hobbs cafe:cafe:refrigerator",
         )
 
+    def test_build_action_outcome_record_uses_attached_persona_sim_code(self):
+        persona = self._build_persona()
+        persona.scratch._persona_ref = SimpleNamespace(sim_code="sim_test_123")
+
+        outcome = build_action_outcome_record(
+            persona,
+            result="success",
+            effects={"inventory_delta": {"apple": 1}},
+        )
+
+        self.assertEqual(outcome["sim_code"], "sim_test_123")
+
     def test_build_action_outcome_record_promotes_high_value_success_to_memory_projection(self):
         persona = self._build_persona()
 

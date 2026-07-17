@@ -479,6 +479,23 @@ class LegacyPromptTaskRouteTests(unittest.TestCase):
         mocked_route.assert_called_once_with("memory_reflection")
         self.assertEqual(mocked.call_args.kwargs["request_config"], config)
 
+    def test_poignancy_accepts_centralized_json_scalar_output(self):
+        persona = make_reflection_persona()
+
+        def fake_safe(*_args, **kwargs):
+            self.assertTrue(kwargs["func_validate"](3))
+            return kwargs["func_clean_up"](3)
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", side_effect=fake_safe):
+            event_score, _ = prompt_module.run_gpt_prompt_event_poignancy(persona, "A fire started.")
+            thought_score, _ = prompt_module.run_gpt_prompt_thought_poignancy(persona, "I should leave now.")
+            chat_score, _ = prompt_module.run_gpt_prompt_chat_poignancy(persona, "A meaningful conversation.")
+
+        self.assertEqual(event_score, 3)
+        self.assertEqual(thought_score, 3)
+        self.assertEqual(chat_score, 3)
+
     def test_focal_pt_forwards_explicit_request_config(self):
         persona = make_reflection_persona()
         config = {
@@ -498,6 +515,20 @@ class LegacyPromptTaskRouteTests(unittest.TestCase):
 
         self.assertEqual(result, ["What happened?", "Why now?"])
         self.assertEqual(mocked.call_args.kwargs["request_config"], config)
+
+    def test_focal_pt_accepts_centralized_json_list_output(self):
+        persona = make_reflection_persona()
+        parsed_output = ["What happened?", "Why now?"]
+
+        def fake_safe(*_args, **kwargs):
+            self.assertTrue(kwargs["func_validate"](parsed_output))
+            return kwargs["func_clean_up"](parsed_output)
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", side_effect=fake_safe):
+            result, _ = prompt_module.run_gpt_prompt_focal_pt(persona, "1. A crash occurred.", 2)
+
+        self.assertEqual(result, parsed_output)
 
     def test_insight_and_guidance_uses_memory_reflection_route_by_default(self):
         persona = make_reflection_persona()

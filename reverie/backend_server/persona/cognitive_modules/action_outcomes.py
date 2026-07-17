@@ -439,6 +439,14 @@ def build_action_outcome_record(persona, result, reason=None, payload=None, effe
     )
     goal = build_goal_evaluation(result, normalized_effects, reason=reason)
 
+    sim_code = getattr(persona, "sim_code", None)
+    if not sim_code:
+        persona_ref = getattr(scratch, "_persona_ref", None)
+        sim_code = (
+            getattr(persona_ref, "sim_code", None)
+            or getattr(scratch, "sim_code", None)
+        )
+
     outcome = {
         "schema_version": 1,
         "outcome_id": _build_outcome_id(
@@ -449,7 +457,7 @@ def build_action_outcome_record(persona, result, reason=None, payload=None, effe
             result,
             reason,
         ),
-        "sim_code": getattr(persona, "sim_code", None),
+        "sim_code": sim_code,
         "persona": getattr(persona, "name", None),
         "curr_step": curr_step,
         "sim_time": _format_sim_time(getattr(scratch, "curr_time", None)),

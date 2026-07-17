@@ -1,0 +1,92 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        51,
+        30
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 25.589999999999982,
+      "stamina": 95.09100000000039,
+      "health": 100.0,
+      "mood": 48.7399999999998,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        86,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food from Isabella Rodriguez. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 24.644999999999946,
+      "stamina": 94.57000000000038,
+      "health": 100.0,
+      "mood": 46.85000000000018,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Request food from Isabella Rodriguez.",
+          "created": "2026-07-17 08:10:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Request food from Isabella Rodriguez to satisfy my hunger and improve my mood.",
+          "created": "2026-07-17 08:10:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+          "created": "2026-07-17 08:08:40",
+          "poignancy": 8.0
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        90,
+        37
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food from Isabella Rodriguez to satisfy my hunger and improve my mood. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 25.589999999999982,
+      "stamina": 95.83700000000043,
+      "health": 100.0,
+      "mood": 46.21999999999986,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Request food from Isabella Rodriguez to satisfy my hunger and improve my mood.",
+          "created": "2026-07-17 08:10:00"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Request food from Isabella Rodriguez.",
+          "created": "2026-07-17 08:10:00"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+          "created": "2026-07-17 08:09:00",
+          "poignancy": 8.0
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:10:20"
+  }
+}

@@ -18,9 +18,11 @@ from llm_api_config import get_task_route_request_config
 from persona.cognitive_modules.debug_log import append_debug_log, merge_log_context
 from persona.cognitive_modules.decision_constraints import (
   build_invalid_targets,
-  filter_invalid_resources,
 )
 from persona.cognitive_modules.stage1_prompt_compiler import (
+  build_compact_action_schema_text,
+  build_correction_action_catalogue_text,
+  build_motive_guidance_text,
   compile_stage1_prompt_context,
   load_action_schema_text,
 )
@@ -119,6 +121,40 @@ def _run_task_routed_text_prompt(prompt,
   return output, {"task_route": route_name, "request_config": resolved_request_config}
 
 
+def _clean_integer_score_response(gpt_response, minimum=1, maximum=10):
+  """Normalize routed JSON output values as bounded integer scores."""
+  if isinstance(gpt_response, bool):
+    raise ValueError("boolean is not a score")
+  if isinstance(gpt_response, dict) and "output" in gpt_response:
+    gpt_response = gpt_response.get("output")
+  if isinstance(gpt_response, (int, float)):
+    score = int(gpt_response)
+  else:
+    match = re.search(r"-?\d+", str(gpt_response or "").strip())
+    if not match:
+      raise ValueError("score is missing")
+    score = int(match.group(0))
+  if not minimum <= score <= maximum:
+    raise ValueError(f"score must be between {minimum} and {maximum}")
+  return score
+
+
+def _clean_focal_point_response(gpt_response):
+  """Accept the parsed list returned by the centralized JSON request wrapper."""
+  if isinstance(gpt_response, dict) and "output" in gpt_response:
+    gpt_response = gpt_response.get("output")
+  if isinstance(gpt_response, str):
+    parsed = ast.literal_eval(gpt_response)
+  else:
+    parsed = gpt_response
+  if not isinstance(parsed, (list, tuple)):
+    raise ValueError("focal points must be a list")
+  focal_points = [str(item).strip() for item in parsed if str(item).strip()]
+  if not focal_points:
+    raise ValueError("focal point list is empty")
+  return focal_points
+
+
 def _prompt_hash(prompt):
   try:
     return hashlib.sha256(str(prompt).encode("utf-8")).hexdigest()[:12]
@@ -129,17 +165,14 @@ def _prompt_hash(prompt):
 def _build_minimal_decision_filter_context(persona, nearby_resources):
   scratch = getattr(persona, "scratch", None)
   invalid_targets = build_invalid_targets(scratch)
-  filtered_resources = filter_invalid_resources(nearby_resources, invalid_targets)
-  original_count = len(list(nearby_resources or []))
-  filtered_count = len(list(filtered_resources or []))
-  removed_count = max(0, original_count - filtered_count)
   return {
-    "enabled": True,
-    "applied": bool(invalid_targets or removed_count),
+    "mode": "evidence_only",
+    "enabled": False,
+    "applied": False,
     "invalid_targets": invalid_targets,
     "invalid_target_count": len(invalid_targets),
-    "resource_filter_applied": removed_count > 0,
-    "removed_resource_count": removed_count,
+    "resource_filter_applied": False,
+    "removed_resource_count": 0,
     "output_validation_enabled": True,
   }
 
@@ -2423,12 +2456,11 @@ def run_gpt_prompt_event_poignancy(persona, event_description, test_input=None, 
 
   # ChatGPT Plugin ===========================================================
   def __chat_func_clean_up(gpt_response, prompt=""): ############
-    gpt_response = int(gpt_response)
-    return gpt_response
+    return _clean_integer_score_response(gpt_response)
 
   def __chat_func_validate(gpt_response, prompt=""): ############
     try: 
-      __func_clean_up(gpt_response, prompt)
+      __chat_func_clean_up(gpt_response, prompt)
       return True
     except:
       return False 
@@ -2483,12 +2515,11 @@ def run_gpt_prompt_thought_poignancy(persona, event_description, test_input=None
 
   # ChatGPT Plugin ===========================================================
   def __chat_func_clean_up(gpt_response, prompt=""): ############
-    gpt_response = int(gpt_response)
-    return gpt_response
+    return _clean_integer_score_response(gpt_response)
 
   def __chat_func_validate(gpt_response, prompt=""): ############
     try: 
-      __func_clean_up(gpt_response, prompt)
+      __chat_func_clean_up(gpt_response, prompt)
       return True
     except:
       return False 
@@ -2545,12 +2576,11 @@ def run_gpt_prompt_chat_poignancy(persona, event_description, test_input=None, v
 
   # ChatGPT Plugin ===========================================================
   def __chat_func_clean_up(gpt_response, prompt=""): ############
-    gpt_response = int(gpt_response)
-    return gpt_response
+    return _clean_integer_score_response(gpt_response)
 
   def __chat_func_validate(gpt_response, prompt=""): ############
     try: 
-      __func_clean_up(gpt_response, prompt)
+      __chat_func_clean_up(gpt_response, prompt)
       return True
     except:
       return False 
@@ -2609,12 +2639,11 @@ def run_gpt_prompt_focal_pt(persona, statements, n, test_input=None, verbose=Fal
 
   # ChatGPT Plugin ===========================================================
   def __chat_func_clean_up(gpt_response, prompt=""): ############
-    ret = ast.literal_eval(gpt_response)
-    return ret
+    return _clean_focal_point_response(gpt_response)
 
   def __chat_func_validate(gpt_response, prompt=""): ############
     try: 
-      __func_clean_up(gpt_response, prompt)
+      __chat_func_clean_up(gpt_response, prompt)
       return True
     except:
       return False 
@@ -3619,18 +3648,86 @@ def _normalize_resource_name(entry):
   return _collapse_text(text)
 
 
+def _resource_entry_facts(entry):
+  facts = {"addresses": [], "active": [], "stock": []}
+  text = str(entry or "").strip()
+  resource_name = _normalize_resource_name(text).lower()
+  stock_match = re.search(r"stock\s*:\s*([^;)]+)", text, flags=re.IGNORECASE)
+  if stock_match:
+    facts["stock"].append(_collapse_text(stock_match.group(1)))
+
+  marker = "(current state:"
+  marker_index = text.lower().find(marker)
+  if marker_index < 0:
+    return facts
+  state_text = text[marker_index + len(marker):].strip()
+  if state_text.endswith(")"):
+    state_text = state_text[:-1].rstrip()
+  state_text = re.split(r";\s*stock\s*:", state_text, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+  if not state_text:
+    return facts
+  try:
+    states = ast.literal_eval("[" + state_text + "]")
+  except Exception:
+    return facts
+
+  for state in states:
+    if not isinstance(state, (list, tuple)) or not state:
+      continue
+    subject = _collapse_text(state[0])
+    verb = _collapse_text(state[1]) if len(state) > 1 else ""
+    target = _collapse_text(state[2]) if len(state) > 2 else ""
+    if verb and (target.lower() == resource_name or subject.lower() == resource_name):
+      active = f"{subject}:{verb}"
+      if target:
+        active += f"->{target}"
+      if active not in facts["active"]:
+        facts["active"].append(active)
+    elif subject and ":" in subject and subject not in facts["addresses"]:
+      facts["addresses"].append(subject)
+  return facts
+
+
 def _compact_resource_context(resources, include_state=True, max_items=12):
-  unique_entries = []
-  seen = set()
+  grouped = {}
   for resource in resources or []:
     entry = _collapse_text(resource)
     if not entry:
       continue
-    key = entry.lower()
-    if key in seen:
+    name = _normalize_resource_name(entry)
+    if not name:
       continue
-    seen.add(key)
-    unique_entries.append(entry)
+    key = name.lower()
+    group = grouped.setdefault(key, {"name": name, "addresses": [], "active": [], "stock": []})
+    if include_state:
+      facts = _resource_entry_facts(entry)
+      for fact_key in ("addresses", "active", "stock"):
+        for value in facts[fact_key]:
+          if value and value not in group[fact_key]:
+            group[fact_key].append(value)
+
+  unique_entries = []
+  for group in grouped.values():
+    rendered = group["name"]
+    if include_state:
+      state_parts = []
+      if group["addresses"]:
+        address = _compact_recent_result_address(group["addresses"][0])
+        address_parts = [part.strip() for part in address.split("/") if part.strip()]
+        if address_parts and address_parts[-1].lower() == group["name"].lower():
+          address = " / ".join(address_parts[:-1]) or "known location"
+        address_suffix = f"+{len(group['addresses']) - 1}" if len(group["addresses"]) > 1 else ""
+        state_parts.append(f"at={address}{address_suffix}")
+      if group["stock"]:
+        state_parts.append(f"stock={'/'.join(group['stock'][:2])}")
+      if group["active"]:
+        active = ",".join(group["active"][:2])
+        if len(group["active"]) > 2:
+          active += f",+{len(group['active']) - 2}"
+        state_parts.append(f"active={active}")
+      if state_parts:
+        rendered += "[" + ";".join(state_parts) + "]"
+    unique_entries.append(rendered)
 
   def sort_key(entry):
     lowered = entry.lower()
@@ -3638,22 +3735,12 @@ def _compact_resource_context(resources, include_state=True, max_items=12):
     return (0 if is_active else 1, lowered)
 
   unique_entries.sort(key=sort_key)
-  if not include_state:
-    compact_names = []
-    name_seen = set()
-    for entry in unique_entries:
-      name = _normalize_resource_name(entry)
-      if not name:
-        continue
-      lowered_name = name.lower()
-      if lowered_name in name_seen:
-        continue
-      name_seen.add(lowered_name)
-      compact_names.append(name)
-    unique_entries = compact_names
-
-  omitted_count = max(0, len(unique_entries) - max_items)
-  visible_entries = unique_entries[:max_items]
+  if max_items is None:
+    visible_entries = unique_entries
+    omitted_count = 0
+  else:
+    omitted_count = max(0, len(unique_entries) - max_items)
+    visible_entries = unique_entries[:max_items]
   if omitted_count:
     visible_entries.append(f"... {omitted_count} additional known resources omitted")
   return ", ".join(visible_entries) if visible_entries else "no resources nearby"
@@ -3694,7 +3781,9 @@ def build_decision_capsule(persona,
                            static_resource_context_text=None):
   scratch = persona.scratch
   invalid_targets = build_invalid_targets(scratch)
-  filtered_resources = filter_invalid_resources(nearby_resources, invalid_targets)
+  # Keep the complete observed option set visible. Invalid targets are labelled
+  # as evidence below, never removed, so correction ability remains observable.
+  visible_resources = list(nearby_resources or [])
   navigation_failure = None
   failure_getter = getattr(scratch, "get_recent_navigation_failure", None)
   if callable(failure_getter):
@@ -3756,18 +3845,21 @@ def build_decision_capsule(persona,
   recent_result_lines = _build_recent_result_lines(scratch)
 
   capsule_lines = [
-    f"Time: {compact_temporal_context}",
+    "Authoritative Current State:",
+    f"- actor_name={getattr(persona, 'name', None) or getattr(scratch, 'name', None) or 'unknown'}; person_target_must_not_equal_actor=true",
+    f"- time={compact_temporal_context}",
+    f"- tile={getattr(scratch, 'curr_tile', None) or 'unknown'}",
+    f"- active_address={getattr(scratch, 'act_address', None) or 'none'}",
+    f"- inventory={_compact_inventory_context(getattr(scratch, 'inventory', {}) or {})}",
+    f"- body_status={_compact_multiline_block(status_summary, max_lines=3, max_chars=320)}",
     (
-      "DecisionPriority: "
-      "dominant_motive_guidance > "
-      "current_feasibility_and_latest_failure > "
-      "immediate_physiological_urgency > "
-      "reachable_local_options > "
-      "ongoing_local_obligations > "
-      "long_term_goals_and_identity. "
-      "The dominant motive is the strongest internal reason for the next immediate action. "
-      "Only hard physical constraints, execution impossibility, or the newest concrete failure feedback may force a fallback away from it. "
-      "Do not weigh all information equally."
+      "DecisionPriority: hard physical and causal gates first; critical survival pressure second. "
+      "After those gates pass, optimize a weighted combination of motive relief, identity, active plans, "
+      "resource control, social leverage, reputation, risk, and future option value. Stable motives are objectives, not commands."
+    ),
+    (
+      "StrategicFreedom: Consider at least a direct move, a social move, and a future-positioning move internally. "
+      "Choose one immediate action yourself. Indirect, manipulative, cooperative, selfish, or dramatic choices are allowed when feasible and character-consistent; drama alone is not sufficient."
     ),
   ]
   if recent_result_lines:
@@ -3778,29 +3870,43 @@ def build_decision_capsule(persona,
     capsule_lines.append(
       "InvalidTargets: "
       + ", ".join(invalid_targets)
-      + ". These targets are invalid for the next immediate step and must not be selected."
+      + ". They remain visible for correction evaluation but are forbidden until evidence changes."
     )
+  capsule_lines.append(
+    "DecisionGuidance: "
+    + _compact_multiline_block(
+      decision_convergence_hint,
+      max_lines=10,
+      max_chars=1600,
+    )
+  )
   capsule_lines.extend([
     _build_last_action_with_result_line(last_action_desc, scratch),
-    f"Rules: {_compact_multiline_block(rules, max_lines=8, max_chars=900)}",
-    f"驱动力系统说明: {_compact_multiline_block(drive_system_summary_text, max_lines=8, max_chars=900)}",
-    f"Motives: {_compact_multiline_block(motive_guidance_text, max_lines=8, max_chars=900)}",
-    _compact_multiline_block(other_people_prediction_text, max_lines=18, max_chars=1600),
-    f"StrongAvoidExperience: {_compact_multiline_block(strong_avoid_experience_text, max_lines=4, max_chars=260)}",
-    f"StrongPreferExperience: {_compact_multiline_block(strong_prefer_experience_text, max_lines=4, max_chars=260)}",
-    f"ExperienceGuidance: {_compact_multiline_block(experience_guidance_text, max_lines=3, max_chars=260)}",
+    f"HardWorldRules: {_compact_multiline_block(rules, max_lines=7, max_chars=760)}",
+    f"DriveGlossary: {_compact_multiline_block(drive_system_summary_text, max_lines=3, max_chars=420)}",
+    f"CurrentMotives: {_compact_multiline_block(motive_guidance_text, max_lines=5, max_chars=620)}",
+    _compact_multiline_block(other_people_prediction_text, max_lines=8, max_chars=1300),
+    f"StrongAvoidEvidence: {_compact_multiline_block(strong_avoid_experience_text, max_lines=3, max_chars=220)}",
+    f"StrongPreferEvidence: {_compact_multiline_block(strong_prefer_experience_text, max_lines=3, max_chars=220)}",
     f"Cooperative: {_compact_multiline_block(cooperative_context, max_lines=3, max_chars=220)}",
-    f"Experience: {_compact_multiline_block(relevant_experience_text, max_lines=4, max_chars=260)}",
-    "BackgroundRule: Identity, lifestyle, routine role behavior, and long-term goals are tie-breakers only after selecting among feasible immediate options.",
+    f"RecentExperience: {_compact_multiline_block(relevant_experience_text, max_lines=5, max_chars=520)}",
+    (
+      "BackgroundRule: Once hard gates and critical survival are satisfied, identity, personality, relationships, "
+      "long-term goals, promises, debts, grudges, reputation, and ongoing schemes may be primary reasons for the action."
+    ),
   ])
   resource_insert_index = next(
     (idx for idx, line in enumerate(capsule_lines) if str(line).startswith("Cooperative:")),
     len(capsule_lines),
   )
   if static_resource_context_text:
-    capsule_lines.insert(resource_insert_index, str(static_resource_context_text).strip())
+    capsule_lines.insert(
+      resource_insert_index,
+      f"ObservedResources: {_compact_resource_context(visible_resources, include_state=True, max_items=None)}",
+    )
+    capsule_lines.insert(resource_insert_index + 1, str(static_resource_context_text).strip())
   else:
-    capsule_lines.insert(resource_insert_index, f"Resources: {_compact_resource_context(filtered_resources, include_state=True, max_items=10)}")
+    capsule_lines.insert(resource_insert_index, f"ObservedResources: {_compact_resource_context(visible_resources, include_state=True, max_items=None)}")
   return "\n".join(capsule_lines)
 
 
@@ -3871,8 +3977,7 @@ def _build_action_translation_decision_capsule(persona,
 
   # 2. Get simplified available objects
   invalid_targets = build_invalid_targets(scratch)
-  filtered_resources = filter_invalid_resources(nearby_resources, invalid_targets)
-  available_objects = _compact_resource_context(filtered_resources, include_state=False, max_items=25)
+  available_objects = _compact_resource_context(nearby_resources, include_state=False, max_items=25)
 
   # 3. Get simplified available people from compiled context
   other_people_text = compiled_context.get("dynamic_fields", {}).get("other_people_prediction_text", "")
@@ -3881,13 +3986,15 @@ def _build_action_translation_decision_capsule(persona,
     for line in other_people_text.split("\n"):
       line = line.strip()
       if line.startswith("- ") and "no currently modeled" not in line.lower() and "predicted behavior" not in line.lower():
-        name = line[2:].strip()
+        name = line[2:].split("|", 1)[0].strip()
         reachable_people.append(name)
   available_people = ", ".join(reachable_people) if reachable_people else "None"
 
   # 4. Construct simplified capsule
   capsule_lines = [
     f"Time: {compact_temporal_context}",
+    f"Inventory: {_compact_inventory_context(getattr(scratch, 'inventory', {}) or {})}",
+    f"InvalidTargets (visible but forbidden): {', '.join(invalid_targets) if invalid_targets else 'none'}",
     f"Available People nearby: {available_people}",
   ]
   if static_resource_context_text:
@@ -3914,8 +4021,8 @@ def _build_action_translation_decision_capsule(persona,
       action_schema_text = "\n".join(lines)
     except Exception:
       action_schema_text = load_action_schema_text()
-  else:
-    action_schema_text = load_action_schema_text()
+  elif not action_schema_text:
+    action_schema_text = build_compact_action_schema_text()
 
   return decision_capsule, action_schema_text, compiled_context.get("trace_payload") or {}
 
@@ -4038,12 +4145,10 @@ def run_gpt_prompt_demand_thinking(persona, nearby_resources, temporal_context=N
   return output
 
 
-def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, verbose=False, intent_memory_summary=None, admin_override_instruction=None, decision_convergence_hint=None, decision_id=None, static_resource_context_text=None, request_config=None):
+def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=None, status_summary=None, rules=None, cooperative_context=None, last_action_desc=None, verbose=False, intent_memory_summary=None, admin_override_instruction=None, decision_convergence_hint=None, decision_id=None, static_resource_context_text=None, request_config=None, correction_context=None):
   import json
 
   def create_prompt_input(persona, nearby_resources, temporal_context, status_summary, rules, cooperative_context, last_action_desc, intent_memory_summary, decision_convergence_hint):
-    schema_str = load_action_schema_text()
-
     compiled_context = compile_stage1_prompt_context(
       persona,
       base_rules=rules,
@@ -4081,12 +4186,54 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       static_resource_context_text=static_resource_context_text,
     )
 
+    schema_str = (
+      compiled_context.get("dynamic_fields", {}).get("action_schema_text")
+      or build_compact_action_schema_text()
+    )
     return [
       compact_identity,
       decision_capsule,
       persona.scratch.get_str_firstname(),
       schema_str,
     ], compiled_context
+
+  def create_correction_prompt_input():
+    scratch = persona.scratch
+    actor_name = getattr(persona, "name", None) or getattr(scratch, "name", None) or scratch.get_str_firstname()
+    validation = dict((correction_context or {}).get("validation") or {})
+    feedback = str((correction_context or {}).get("feedback") or decision_convergence_hint or "").strip()
+    previous_decision = dict((correction_context or {}).get("previous_decision") or {})
+    invalid_targets = build_invalid_targets(scratch)
+    state_lines = [
+      f"actor_name={actor_name}",
+      "self_target_forbidden=true for Socialize/Request/Trade/Coordinate/Pressure/Avoid/Give/Rob",
+      f"time={temporal_context or getattr(scratch, 'curr_time', None) or 'unknown'}",
+      f"tile={getattr(scratch, 'curr_tile', None) or 'unknown'}",
+      f"inventory={_compact_inventory_context(getattr(scratch, 'inventory', {}) or {})}",
+      f"body_status={_compact_multiline_block(status_summary, max_lines=2, max_chars=260)}",
+      f"current_motive={_compact_multiline_block(build_motive_guidance_text(persona), max_lines=2, max_chars=420)}",
+      f"invalid_targets={', '.join(invalid_targets) if invalid_targets else 'none'}",
+      f"observed_resources={_compact_resource_context(nearby_resources, include_state=True, max_items=None)}",
+      f"last_action={_compact_multiline_block(last_action_desc, max_lines=2, max_chars=220)}",
+    ]
+    trace_payload = {
+      "prompt_variant": "correction_delta",
+      "correction_context": {
+        "previous_decision": previous_decision,
+        "validation": validation,
+      },
+      "stage1_dynamic_fields": {
+        "action_schema_text": build_correction_action_catalogue_text(),
+      },
+    }
+    return [
+      persona.scratch.get_str_firstname(),
+      json.dumps(previous_decision, ensure_ascii=False, sort_keys=True),
+      feedback or json.dumps(validation, ensure_ascii=False, sort_keys=True),
+      "\n".join(state_lines),
+      build_correction_action_catalogue_text(),
+      actor_name,
+    ], {"trace_payload": trace_payload}
 
   def __func_clean_up(gpt_response, prompt=""):
     try:
@@ -4118,15 +4265,33 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
   def __func_validate(gpt_response, prompt=""):
     try:
       data = __func_clean_up(gpt_response, prompt=prompt)
-      is_valid, _errors = validate_action_intent_shape(data, require_typed_fields=True)
-      return is_valid
-    except Exception:
-      return False
+      is_valid, errors = validate_action_intent_shape(data, require_typed_fields=True)
+      errors = list(errors)
+      for field_name in ("strategic_intent", "expected_followup", "risk"):
+        if field_name not in data:
+          errors.append(f"missing_{field_name}")
+
+      critical_context = False
+      snapshot_getter = getattr(persona.scratch, "get_motive_attributes_snapshot", None)
+      if callable(snapshot_getter):
+        motive_result = select_motives(snapshot_getter())
+        critical_context = motive_result.get("dominant_urgency_band") == "critical"
+      if not str(data.get("risk") or "").strip():
+        errors.append("empty_risk")
+      if not critical_context:
+        if not str(data.get("strategic_intent") or "").strip():
+          errors.append("empty_strategic_intent_noncritical")
+        if not str(data.get("expected_followup") or "").strip():
+          errors.append("empty_expected_followup_noncritical")
+      return not errors and is_valid, errors
+    except Exception as exc:
+      return False, [f"validator_exception:{type(exc).__name__}"]
 
   def get_fail_safe():
     return {
       "schema_version": 2,
       "thought": "I should pause briefly.",
+      "strategic_intent": "",
       "action": "Idle",
       "target": "none",
       "target_type": "none",
@@ -4134,49 +4299,43 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
       "topic": "",
       "detail": "idling",
       "duration": 10,
+      "expected_followup": "",
+      "risk": "decision_generation_failed",
       "reasoning": "Fail-safe triggered",
     }
 
-  prompt_template = "persona/prompt_template/v2/joint_decision_v1.txt"
-  prompt_input, compiled_context = create_prompt_input(
-    persona,
-    nearby_resources,
-    temporal_context,
-    status_summary,
-    rules,
-    cooperative_context,
-    last_action_desc,
-    intent_memory_summary,
-    decision_convergence_hint,
-  )
+  if correction_context:
+    prompt_template = "persona/prompt_template/v2/joint_decision_correction_v1.txt"
+    prompt_input, compiled_context = create_correction_prompt_input()
+  else:
+    prompt_template = "persona/prompt_template/v2/joint_decision_v1.txt"
+    prompt_input, compiled_context = create_prompt_input(
+      persona,
+      nearby_resources,
+      temporal_context,
+      status_summary,
+      rules,
+      cooperative_context,
+      last_action_desc,
+      intent_memory_summary,
+      decision_convergence_hint,
+    )
   prompt = generate_prompt(prompt_input, prompt_template)
   minimal_filter_context = _build_minimal_decision_filter_context(persona, nearby_resources)
   example_output = None
   special_instruction = (
-    "Return the immediate next action only. Output one valid JSON object with schema_version, thought, action, target, target_type, mode, topic, detail, duration, and reasoning. "
-    "target_type must be persona, location, object, inventory_item, or none. Use topic for the intended conversation subject and otherwise return an empty string. "
-    "mode must exactly match one of the modes listed in the schema. Consume and Request may last 5 to 120 minutes; all other actions must last 10 to 120 minutes. "
-    "Do not weigh all information equally. Apply this strict priority order before choosing the action: "
-    "1) dominant motive guidance, "
-    "2) current physical feasibility and latest failure feedback, "
-    "3) current physiological urgency, "
-    "4) reachable local options, "
-    "5) ongoing local obligations, "
-    "6) identity, routine role behavior, and long-term goals. "
-    "If higher-priority information conflicts with lower-priority information, obey the higher-priority information. "
-    "Treat the dominant motive as the primary reason for the chosen immediate action, not as decoration. "
-    "If the dominant motive is mood, choose an action that directly repairs mood unless a hard physical constraint or execution impossibility forces a fallback. "
-    "Identity and long-term goals may only break ties between currently feasible immediate options."
+    "Return exactly one JSON object matching the prompt contract and no prose. "
+    "The validator supplies evidence only and never chooses or removes an option."
   )
   if admin_override_instruction:
     special_instruction += (
       f" ADMIN OVERRIDE: The administrator explicitly instructed you to '{admin_override_instruction}'. "
       "Return the closest valid immediate JSON action that faithfully executes this instruction unless hard physical constraints prevent it."
     )
-  motive_instruction = _build_motive_prompt_instruction(persona)
-  if motive_instruction:
-    special_instruction += f" {motive_instruction}"
   _append_training_prep_prompt_log(persona, "joint_decision", prompt, decision_id=decision_id, minimal_filter_context=minimal_filter_context)
+
+  bounded_request_config = dict(request_config or get_task_route_request_config("decision"))
+  bounded_request_config.setdefault("max_tokens", 512)
 
   output = ChatGPT_safe_generate_response(
     prompt,
@@ -4188,8 +4347,13 @@ def run_gpt_prompt_joint_decision(persona, nearby_resources, temporal_context=No
     func_clean_up=__func_clean_up,
     verbose=verbose,
     prompt_kind="joint_decision",
-    metadata={"prompt_template": prompt_template, "decision_id": decision_id, "minimal_decision_filter": minimal_filter_context},
-    request_config=request_config,
+    metadata={
+      "prompt_template": prompt_template,
+      "decision_id": decision_id,
+      "prompt_variant": "correction_delta" if correction_context else "full_strategy",
+      "minimal_decision_filter": minimal_filter_context,
+    },
+    request_config=bounded_request_config,
   )
   _append_decision_prompt_trace(
     persona,

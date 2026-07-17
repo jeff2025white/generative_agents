@@ -142,6 +142,21 @@ def _resource_purpose_for_label(label):
   return default_registry.get_purpose_text(label)
 
 
+def _dedupe_cooperative_events(events):
+  deduped = []
+  seen = set()
+  for event in events or []:
+    text = str(event or "").strip()
+    if not text:
+      continue
+    key = text.split(" (at ", 1)[0].strip().lower()
+    if key in seen:
+      continue
+    seen.add(key)
+    deduped.append(text)
+  return deduped
+
+
 def _build_static_resource_context_text(persona, maze, dominant_motive=None):
   scratch = getattr(persona, "scratch", None)
   maze_name = getattr(maze, "maze_name", None) or "default"
@@ -167,24 +182,18 @@ def _build_static_resource_context_text(persona, maze, dominant_motive=None):
     entries[label] = purpose
 
   if not entries:
-    text = "可达的资源/场所:\n  暂无稳定关键资源记录"
+    text = "WorldResourceCatalogue: no stable resource types are known"
   else:
-    lines = ["可达的资源/场所:"]
-    group_order = list(MOTIVE_RESOURCE_GROUPS)
-    if dominant_motive:
-      group_order.sort(key=lambda group: group[0] != dominant_motive)
-    for motive_key, group_name in group_order:
-      labels = [
-        label for label in sorted(entries)
+    lines = [
+      "WorldResourceCatalogue (known types; this does not prove current proximity, stock, or ownership):"
+    ]
+    motive_keys = [motive_key for motive_key, _group_name in MOTIVE_RESOURCE_GROUPS]
+    for label in sorted(entries):
+      tags = [
+        motive_key for motive_key in motive_keys
         if default_registry.has_any_affordance(label, motive_key)
       ]
-      if not labels:
-        continue
-      heading = f"与当前主导动机最相关（{group_name} / {motive_key}）:" if motive_key == dominant_motive else f"{group_name}（{motive_key}）:"
-      lines.append(heading)
-      for label in labels:
-        marker = "⭐ " if motive_key == dominant_motive else "  "
-        lines.append(f"{marker}{label} — {entries[label]}")
+      lines.append(f"- {label}[{','.join(tags) or 'none'}]:{entries[label]}")
     text = "\n".join(lines)
 
   if scratch is not None:
@@ -809,13 +818,45 @@ def _summarize_correction_trace(trace, terminal_fallback=False):
   trace = list(trace or [])
   invalid_attempts = [item for item in trace if not item.get("valid")]
   reason_codes = [item.get("reason_code") for item in invalid_attempts]
+  attempt_indexes = []
+  for item in trace:
+    try:
+      attempt_indexes.append(int(item.get("attempt", 0) or 0))
+    except (TypeError, ValueError):
+      continue
   return {
     "first_pass_valid": bool(trace and trace[0].get("valid")),
-    "correction_attempts": max(0, len(trace) - 1),
+    "correction_attempts": max(attempt_indexes, default=max(0, len(trace) - 1)),
     "correction_success": bool(len(trace) > 1 and trace[-1].get("valid")),
     "repeated_invalid": bool(len(reason_codes) > 1 and reason_codes[-1] == reason_codes[-2]),
     "terminal_fallback": bool(terminal_fallback),
   }
+
+
+def _append_correction_budget_exhausted_log(persona, decision_id, correction_mode,
+                                            correction_trace, fallback_decision,
+                                            correction_metrics):
+  attempts = []
+  for item in correction_trace or []:
+    try:
+      attempts.append(int(item.get("attempt", 0) or 0))
+    except (TypeError, ValueError):
+      continue
+  append_debug_log(
+    "decision_correction_trace.jsonl",
+    merge_log_context(
+      {
+        "event": "correction_budget_exhausted",
+        "persona": persona.name,
+        "decision_id": decision_id,
+        "correction_mode": correction_mode,
+        "correction_attempt": max(attempts, default=0),
+        "fallback_decision": fallback_decision,
+        "correction_metrics": correction_metrics,
+      },
+      persona=persona,
+    ),
+  )
 
 
 def _build_validation_failsafe(original_decision, validation):
@@ -852,7 +893,8 @@ def _run_decision_pipeline(persona,
                            decision_convergence_hint=None,
                            allow_retry=True,
                            correction_attempt=0,
-                           static_resource_context_text=None):
+                           static_resource_context_text=None,
+                           correction_context=None):
   base_translation_hint = _build_translation_convergence_hint(persona, intent_memory_summary)
   translation_convergence_hint = base_translation_hint
   if decision_convergence_hint:
@@ -863,6 +905,7 @@ def _run_decision_pipeline(persona,
   use_semantic_cache = (
     os.getenv("ENABLE_SEMANTIC_DECISION_CACHE", "0") == "1"
     and not admin_override_instruction
+    and not correction_context
   )
   timing_meta = {
     "decision_cache_lookup": 0.0,
@@ -906,6 +949,9 @@ def _run_decision_pipeline(persona,
 
   if use_joint_decision:
     stage_started_at = time.perf_counter()
+    joint_convergence_hint = decision_convergence_hint or (
+      "Select one immediate action after applying hard gates, crisis urgency, and strategic utility."
+    )
     joint_result = run_gpt_prompt_joint_decision(
       persona,
       object_states,
@@ -916,10 +962,11 @@ def _run_decision_pipeline(persona,
       last_action_desc=last_action_desc,
       intent_memory_summary=intent_memory_summary,
       admin_override_instruction=admin_override_instruction,
-      decision_convergence_hint=translation_convergence_hint,
+      decision_convergence_hint=joint_convergence_hint,
       decision_id=decision_id,
       static_resource_context_text=static_resource_context_text,
       request_config=decision_request_config,
+      correction_context=correction_context,
     )
     timing_meta["joint_decision"] = _elapsed_ms(stage_started_at)
     if isinstance(joint_result, dict) and joint_result.get("action"):
@@ -976,32 +1023,40 @@ def _run_decision_pipeline(persona,
             allow_retry=allow_retry,
             correction_attempt=correction_attempt + 1,
             static_resource_context_text=static_resource_context_text,
+            correction_context={
+              "previous_decision": dict(joint_result or {}),
+              "validation": dict(validation or {}),
+              "feedback": retry_hint,
+            },
           )
           merged_meta = _merge_timing_meta(timing_meta, retry_timing_meta)
           terminal_fallback = bool((retry_decision or {}).get("correction_fallback"))
           merged_meta["correction_metrics"] = _summarize_correction_trace(
             merged_meta.get("correction_trace"), terminal_fallback=terminal_fallback,
           )
+          if terminal_fallback and correction_attempt == 0:
+            _append_correction_budget_exhausted_log(
+              persona,
+              decision_id,
+              correction_mode,
+              merged_meta.get("correction_trace"),
+              retry_decision,
+              merged_meta["correction_metrics"],
+            )
           return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, merged_meta, retry_cache_signature
         fallback_thought, fallback_decision = _build_validation_failsafe(joint_result, validation)
         timing_meta["correction_metrics"] = _summarize_correction_trace(
           timing_meta["correction_trace"], terminal_fallback=True,
         )
-        append_debug_log(
-          "decision_correction_trace.jsonl",
-          merge_log_context(
-            {
-              "event": "correction_budget_exhausted",
-              "persona": persona.name,
-              "decision_id": decision_id,
-              "correction_mode": correction_mode,
-              "correction_attempt": correction_attempt,
-              "fallback_decision": fallback_decision,
-              "correction_metrics": timing_meta["correction_metrics"],
-            },
-            persona=persona,
-          ),
-        )
+        if correction_attempt == 0:
+          _append_correction_budget_exhausted_log(
+            persona,
+            decision_id,
+            correction_mode,
+            timing_meta["correction_trace"],
+            fallback_decision,
+            timing_meta["correction_metrics"],
+          )
         return fallback_thought, fallback_decision, retry_hint, True, timing_meta, cache_signature
       thinking_text = str(joint_result.get("thought") or "").strip()
       if not thinking_text:
@@ -1132,32 +1187,40 @@ def _run_decision_pipeline(persona,
         allow_retry=allow_retry,
         correction_attempt=correction_attempt + 1,
         static_resource_context_text=static_resource_context_text,
+        correction_context={
+          "previous_decision": dict(decision or {}),
+          "validation": dict(validation or {}),
+          "feedback": retry_hint,
+        },
       )
       merged_meta = _merge_timing_meta(timing_meta, retry_timing_meta)
       terminal_fallback = bool((retry_decision or {}).get("correction_fallback"))
       merged_meta["correction_metrics"] = _summarize_correction_trace(
         merged_meta.get("correction_trace"), terminal_fallback=terminal_fallback,
       )
+      if terminal_fallback and correction_attempt == 0:
+        _append_correction_budget_exhausted_log(
+          persona,
+          decision_id,
+          correction_mode,
+          merged_meta.get("correction_trace"),
+          retry_decision,
+          merged_meta["correction_metrics"],
+        )
       return retry_thinking_text, retry_decision, retry_hint_text, retry_used_joint, merged_meta, retry_cache_signature
     fallback_thought, fallback_decision = _build_validation_failsafe(decision, validation)
     timing_meta["correction_metrics"] = _summarize_correction_trace(
       timing_meta["correction_trace"], terminal_fallback=True,
     )
-    append_debug_log(
-      "decision_correction_trace.jsonl",
-      merge_log_context(
-        {
-          "event": "correction_budget_exhausted",
-          "persona": persona.name,
-          "decision_id": decision_id,
-          "correction_mode": correction_mode,
-          "correction_attempt": correction_attempt,
-          "fallback_decision": fallback_decision,
-          "correction_metrics": timing_meta["correction_metrics"],
-        },
-        persona=persona,
-      ),
-    )
+    if correction_attempt == 0:
+      _append_correction_budget_exhausted_log(
+        persona,
+        decision_id,
+        correction_mode,
+        timing_meta["correction_trace"],
+        fallback_decision,
+        timing_meta["correction_metrics"],
+      )
     return fallback_thought, fallback_decision, retry_hint, False, timing_meta, cache_signature
   timing_meta["correction_metrics"] = _summarize_correction_trace(timing_meta["correction_trace"])
   if correction_attempt > 0:
@@ -1596,6 +1659,19 @@ def generate_action_event_triple(act_desp, persona):
   """
   if debug: print ("GNS FUNCTION: <generate_action_event_triple>")
   return run_gpt_prompt_event_triple(act_desp, persona)[0]
+
+
+def build_structured_action_event(persona, skill_id, target, action_description=None):
+  """Project a validated action command into memory without a second LLM rewrite."""
+  normalized_skill_id = normalize_skill_id(
+    skill_id,
+    target=target,
+    detail=action_description,
+  )
+  if not normalized_skill_id:
+    return generate_action_event_triple(action_description or "idling", persona)
+  normalized_target = str(target or "none").strip() or "none"
+  return (persona.name, normalized_skill_id, normalized_target)
 
 
 def generate_act_obj_desc(act_game_object, act_desp, persona): 
@@ -2190,6 +2266,18 @@ def _should_react(persona, retrieved, personas):
   return False
 
 
+def _has_fresh_explicit_decision(persona):
+  scratch = getattr(persona, "scratch", None)
+  if scratch is None:
+    return False
+  command = getattr(scratch, "act_command", None) or {}
+  if not isinstance(command, dict) or command.get("source") != "decision_translation":
+    return False
+  act_start_time = getattr(scratch, "act_start_time", None)
+  curr_time = getattr(scratch, "curr_time", None)
+  return bool(act_start_time is not None and curr_time is not None and act_start_time == curr_time)
+
+
 def _create_react(persona, inserted_act, inserted_act_dur,
                   act_address, act_event, chatting_with, chat, chatting_with_buffer,
                   chatting_end_time, 
@@ -2363,6 +2451,25 @@ def _chat_react(maze, persona, focused_event, reaction_mode, personas):
   # and the persona who is the target. We get the persona instances here. 
   init_persona = persona
   target_persona = personas[reaction_mode[9:].strip()]
+  fresh_personas = [
+    p for p in (init_persona, target_persona)
+    if _has_fresh_explicit_decision(p)
+  ]
+  if fresh_personas:
+    for fresh_persona in fresh_personas:
+      append_debug_log(
+        "decision_stability.jsonl",
+        merge_log_context(
+          {
+            "persona": getattr(fresh_persona, "name", None),
+            "event": "social_reaction_deferred",
+            "reason": "fresh_explicit_decision",
+            "active_action": getattr(fresh_persona.scratch, "act_description", None),
+          },
+          persona=fresh_persona,
+        ),
+      )
+    return False
   curr_personas = [init_persona, target_persona]
 
   # In the refactored Chat Skill Pack architecture, we perform lazy execution.
@@ -2471,9 +2578,12 @@ def decide_survival_action(persona, maze):
         if tile_details and tile_details["events"]:
           for ev in tile_details["events"]:
             ev_str = str(ev)
-            events_on_obj.append(ev_str)
+            if ev_str not in events_on_obj:
+              events_on_obj.append(ev_str)
             if any(kw in ev_str.lower() for kw in ["waiting", "serve", "served"]):
-              cooperative_events.append(f"{ev_str} (at {obj})")
+              cooperative_event = f"{ev_str} (at {obj})"
+              if cooperative_event not in cooperative_events:
+                cooperative_events.append(cooperative_event)
       if events_on_obj:
         object_states.append(f"{obj} (current state: {', '.join(events_on_obj)})")
       else:
@@ -2499,6 +2609,7 @@ def decide_survival_action(persona, maze):
   # Compile Cooperative Context
   cooperative_context = ""
   if cooperative_events:
+    cooperative_events = _dedupe_cooperative_events(cooperative_events)
     cooperative_context += "Active cooperative/social events nearby:\n" + "\n".join([f"- {ev}" for ev in cooperative_events])
   else:
     cooperative_context += "No special cooperative tasks or wait states are active nearby."
@@ -2676,9 +2787,12 @@ def decide_demand_action(persona, maze, personas=None):
         if tile_details and tile_details["events"]:
           for ev in tile_details["events"]:
             ev_str = str(ev)
-            events_on_obj.append(ev_str)
+            if ev_str not in events_on_obj:
+              events_on_obj.append(ev_str)
             if any(kw in ev_str.lower() for kw in ["waiting", "serve", "served"]):
-              cooperative_events.append(f"{ev_str} (at {obj})")
+              cooperative_event = f"{ev_str} (at {obj})"
+              if cooperative_event not in cooperative_events:
+                cooperative_events.append(cooperative_event)
       if events_on_obj:
         object_states.append(f"{obj} (current state: {', '.join(events_on_obj)}; {resource_state})")
       else:
@@ -2724,6 +2838,7 @@ def decide_demand_action(persona, maze, personas=None):
   # Compile Cooperative Context
   cooperative_context = ""
   if cooperative_events:
+    cooperative_events = _dedupe_cooperative_events(cooperative_events)
     cooperative_context += "Active cooperative/social events nearby:\n" + "\n".join([f"- {ev}" for ev in cooperative_events])
   else:
     cooperative_context += "No special cooperative tasks or wait states are active nearby."
@@ -2764,7 +2879,6 @@ def decide_demand_action(persona, maze, personas=None):
   static_resource_context_text = "\n\n".join([
     static_resource_context_text,
     build_motive_grouped_skill_list(dominant_motive),
-    motive_memory_context,
     build_motive_grouped_experience_list(persona, dominant_motive, secondary_motive),
   ])
 
@@ -3143,10 +3257,14 @@ def decide_demand_action(persona, maze, personas=None):
 
   if normalized_skill_id in {"chat with", "seek_and_chat", "request", "trade", "coordinate", "pressure", "avoid", "give", "rob"} and target_persona_name:
     act_pron = "💬"
-    act_event = (persona.name, normalized_skill_id, target_persona_name)
   else:
     act_pron = generate_action_pronunciatio(act_desp, persona)
-    act_event = generate_action_event_triple(act_desp, persona)
+  act_event = build_structured_action_event(
+    persona,
+    normalized_skill_id,
+    target_persona_name or target,
+    action_description=act_desp,
+  )
   try:
     sim_time = (persona.scratch.curr_time.strftime('%Y-%m-%d %H:%M:%S')
                 if (persona.scratch.curr_time and not isinstance(persona.scratch.curr_time, str))
@@ -3255,6 +3373,7 @@ def plan(persona, maze, personas, new_day, retrieved):
     return persona.scratch.act_address
 
   # Unify scheduling and survival intercepts into one real-time demand-driven decision engine
+  fresh_explicit_decision = False
   act_desc = persona.scratch.act_description if persona.scratch.act_description else ""
   if persona.scratch.act_check_finished() or not act_desc:
     if act_desc:
@@ -3263,6 +3382,7 @@ def plan(persona, maze, personas, new_day, retrieved):
       persona.scratch.resume_suspended_action()
       return persona.scratch.act_address
     decide_demand_action(persona, maze, personas)
+    fresh_explicit_decision = _has_fresh_explicit_decision(persona)
 
   # PART 3: If you perceived an event that needs to be responded to (saw 
   # another persona), and retrieved relevant information. 
@@ -3278,7 +3398,20 @@ def plan(persona, maze, personas, new_day, retrieved):
     focused_event = _choose_retrieved(persona, retrieved)
   
   # Step 2: Nearby persona sightings can immediately interrupt into greeting chat.
-  if focused_event:
+  if focused_event and fresh_explicit_decision:
+    append_debug_log(
+      "decision_stability.jsonl",
+      merge_log_context(
+        {
+          "persona": getattr(persona, "name", None),
+          "event": "social_reaction_deferred",
+          "reason": "fresh_explicit_decision",
+          "active_action": getattr(persona.scratch, "act_description", None),
+        },
+        persona=persona,
+      ),
+    )
+  elif focused_event:
     reaction_mode = _should_react(persona, focused_event, personas)
     if reaction_mode and isinstance(reaction_mode, str):
       if reaction_mode.startswith("chat with "):

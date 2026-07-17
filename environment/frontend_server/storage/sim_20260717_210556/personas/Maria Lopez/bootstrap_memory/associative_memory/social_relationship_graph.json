@@ -1,0 +1,19 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.52,
+      "recent_events": [
+        "conversing about Maria Lopez and Isabella Rodriguez discussing a Valentine's Day party and taking a break together"
+      ]
+    },
+    "Klaus Mueller": {
+      "relationship": "friend",
+      "trust": 0.54,
+      "recent_events": [
+        "conversing about writing a paper and a Valentine's Day party",
+        "conversing about planning a Valentine's Day party and discussing academic work"
+      ]
+    }
+  }
+}

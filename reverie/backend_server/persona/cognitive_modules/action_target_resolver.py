@@ -159,11 +159,15 @@ def _get_failed_resource_address_set(persona, target=None):
     scratch = getattr(persona, "scratch", None)
     normalized_target = _normalize_text(target)
     result = set()
+    current_step = getattr(scratch, "curr_step", None)
     for item in (getattr(scratch, "failed_resource_instances", None) or []):
         if not isinstance(item, dict):
             continue
         item_target = _normalize_text(item.get("target"))
         if normalized_target and item_target and item_target != normalized_target:
+            continue
+        expires_after = item.get("expires_after_step")
+        if current_step is not None and expires_after is not None and expires_after < current_step:
             continue
         address = _normalize_text(item.get("target_address"))
         if address:

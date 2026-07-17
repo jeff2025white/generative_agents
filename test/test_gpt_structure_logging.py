@@ -145,6 +145,27 @@ class GPTStructureLoggingTests(unittest.TestCase):
         self.assertIn('"action": "Socialize"', attempt_events[0]["raw_response_preview"])
         self.assertIn('"mode": "chat with"', attempt_events[0]["parsed_response_preview"])
 
+    def test_safe_generate_response_logs_structured_validation_errors(self):
+        logs = []
+
+        with patch.object(gpt_structure, "ChatGPT_request", return_value='{"output":{"action":"Idle"}}'), \
+             patch.object(gpt_structure, "append_debug_log", side_effect=lambda _name, payload, level="info": logs.append(payload)):
+            gpt_structure.ChatGPT_safe_generate_response(
+                "pick an action",
+                example_output=None,
+                special_instruction="Return json",
+                repeat=1,
+                fail_safe_response={"action": "FailSafe"},
+                func_validate=lambda resp, prompt="": (False, ["missing_expected_followup", "empty_risk"]),
+                func_clean_up=lambda resp, prompt="": resp,
+            )
+
+        attempt = next(item for item in logs if item.get("event") == "chatgpt_safe_attempt")
+        self.assertEqual(
+            attempt["validation_errors"],
+            ["missing_expected_followup", "empty_risk"],
+        )
+
     def test_safe_generate_response_omits_example_section_when_example_is_none(self):
         captured = {}
 

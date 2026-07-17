@@ -77,6 +77,22 @@ class PlanActEventGuardTests(unittest.TestCase):
         self.assertEqual(desc, "library table is being used for work")
         self.assertEqual(event, ("library table", "is", "being used for work"))
 
+    def test_structured_action_event_preserves_validated_gather_semantics(self):
+        persona = SimpleNamespace(name="Klaus Mueller")
+        with patch.object(
+            plan_module,
+            "generate_action_event_triple",
+            side_effect=AssertionError("validated skill events must not be rewritten by an LLM"),
+        ):
+            event = plan_module.build_structured_action_event(
+                persona,
+                "gather",
+                "apple tree",
+                action_description="gathering apples from the apple tree",
+            )
+
+        self.assertEqual(event, ("Klaus Mueller", "gather", "apple tree"))
+
     def test_create_react_clamps_hourly_schedule_tail_index(self):
         add_calls = []
         scratch = SimpleNamespace(

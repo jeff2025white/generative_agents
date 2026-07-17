@@ -1,9 +1,11 @@
-VALID_GATHER_FOOD_SOURCES = {
-    "refrigerator",
-    "stove",
-    "cafe counter",
-    "apple tree",
-}
+from object_affordances import default_registry
+
+
+# Compatibility export for callers outside this module.  Its contents come
+# from configuration rather than a source-code list.
+VALID_GATHER_FOOD_SOURCES = frozenset(
+    default_registry.find_objects_by_affordance("satiety", "can_gather_food")
+)
 
 
 def normalize_food_source_target(target):
@@ -31,4 +33,4 @@ def normalize_food_source_target(target):
 
 def is_valid_gather_food_source(target):
     normalized = normalize_food_source_target(target)
-    return normalized in VALID_GATHER_FOOD_SOURCES
+    return default_registry.has_affordance(normalized, "satiety", "can_gather_food")

@@ -1,0 +1,11 @@
+{
+  "relations": {
+    "Isabella Rodriguez": {
+      "relationship": "friend",
+      "trust": 0.58,
+      "recent_events": [
+        "received requested help with apple"
+      ]
+    }
+  }
+}

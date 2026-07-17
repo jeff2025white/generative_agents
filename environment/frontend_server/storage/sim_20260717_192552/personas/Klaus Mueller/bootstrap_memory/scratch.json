@@ -1,0 +1,2362 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 17, 2026, 10:13:30",
+  "curr_tile": [
+    92,
+    37
+  ],
+  "daily_plan_req": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+  "name": "Klaus Mueller",
+  "first_name": "Klaus",
+  "last_name": "Mueller",
+  "age": 20,
+  "innate": "inquisitive, studious, reflective",
+  "learned": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+  "currently": "Klaus Mueller is writing a research paper on the effects of gentrification in low-income communities.",
+  "lifestyle": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+  "satiety": 83.6200000000016,
+  "stamina": 95.94200000000042,
+  "health": 100.0,
+  "mood": 59.55999999999838,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 83.6200000000016,
+      "initial_value": 57.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 95.94200000000042,
+      "initial_value": 73.0,
+      "safe_threshold": 45.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.038,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 85.0,
+      "safe_threshold": 56.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 57.375999999999635,
+      "initial_value": 67.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 59.55999999999838,
+      "initial_value": 48.0,
+      "safe_threshold": 62.0,
+      "critical_threshold": 40.0,
+      "decay_per_step": 0.04,
+      "priority_weight": 1.2,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 91.96000000000144,
+      "initial_value": 64.0,
+      "safe_threshold": 49.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "chat with": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 41.58399999999786,
+      "initial_value": 48.0,
+      "safe_threshold": 40.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 0.75,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 53.375999999999635,
+      "initial_value": 63.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 53.56399999999945,
+      "initial_value": 68.0,
+      "safe_threshold": 52.0,
+      "critical_threshold": 31.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 57.960000000001045,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {
+        "study": 5.0,
+        "work": 2.0,
+        "chat with": 1.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 17, 2026, 09:11:50",
+  "last_action_switch_time": "July 17, 2026, 10:03:30",
+  "decision_commit_until_step": 744,
+  "last_decision_signature": {
+    "skill_id": "idle",
+    "target": "common room sofa",
+    "intent_family": "idle"
+  },
+  "last_decision_reason": "idling",
+  "recent_completed_action_signature": {
+    "skill_id": "rest",
+    "target": "bed",
+    "intent_family": "restore_stamina"
+  },
+  "recent_completed_action_step": 740,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "bed",
+    "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+    "skill_id": "rest",
+    "action_description": "Resting to conserve energy for future tasks.",
+    "curr_step": 740,
+    "goal_status": "no_progress",
+    "goal_progress_score": 0.0,
+    "replan_required": true
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Klaus_Mueller-740-f98aac4eb4",
+    "sim_code": "sim_20260717_192552",
+    "persona": "Klaus Mueller",
+    "curr_step": 740,
+    "sim_time": "2026-07-17 10:03:20",
+    "wall_ts": "2026-07-17T20:18:34.982978+08:00",
+    "decision_context": {
+      "decision_id": "Klaus_Mueller-609-ab93a96b",
+      "dominant_motive": "satiety",
+      "secondary_motive": null
+    },
+    "action": {
+      "skill_id": "rest",
+      "raw_action": "rest",
+      "intent_family": "restore_stamina",
+      "target": "bed",
+      "target_type": "object",
+      "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+      "resolved_target": "bed",
+      "resolution_kind": null,
+      "detail": "Resting to conserve energy for future tasks."
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "goal": {
+      "status": "no_progress",
+      "progress_score": 0.0,
+      "replan_required": true,
+      "evidence": []
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": -9.17,
+        "stamina": 2.832,
+        "health": 0.0,
+        "safety": -1.572,
+        "mood": -5.24,
+        "belonging": -2.62,
+        "status": -1.048,
+        "autonomy": -1.572,
+        "competence": -2.358,
+        "meaning": -2.62
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "bed",
+      "resource_instance_key": "the ville:dorm for oak hill college:klaus mueller's room:bed"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "motive_effect_magnitude": 1.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 1.0,
+      "base_significance": 1.0,
+      "recency_weight": 1.0,
+      "effective_score": 1.0,
+      "should_promote_to_experience": true
+    },
+    "memory_projection": {
+      "source_outcome_id": "Klaus_Mueller-740-f98aac4eb4",
+      "memory_type": "event",
+      "subject": "Klaus Mueller",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Klaus Mueller completed rest on bed at the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed but made no measurable progress toward the goal.",
+      "embedding_text": "Klaus Mueller completed rest on bed at the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed but made no measurable progress toward the goal.",
+      "keywords": [
+        "bed",
+        "execution_result",
+        "goal_no_progress",
+        "rest",
+        "restore_stamina",
+        "satiety",
+        "success"
+      ],
+      "poignancy": 8.0,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": -9.17,
+        "stamina": 2.832,
+        "health": 0.0,
+        "safety": -1.572,
+        "mood": -5.24,
+        "belonging": -2.62,
+        "status": -1.048,
+        "autonomy": -1.572,
+        "competence": -2.358,
+        "meaning": -2.62
+      },
+      "memory_tags": {
+        "skill_id": "rest",
+        "target": "bed",
+        "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+        "reason": null,
+        "dominant_motive": "satiety",
+        "outcome_status": "success",
+        "goal_status": "no_progress",
+        "goal_progress_score": 0.0,
+        "replan_required": true,
+        "motive_effects": {
+          "satiety": -9.17,
+          "stamina": 2.832,
+          "health": 0.0,
+          "safety": -1.572,
+          "mood": -5.24,
+          "belonging": -2.62,
+          "status": -1.048,
+          "autonomy": -1.572,
+          "competence": -2.358,
+          "meaning": -2.62
+        },
+        "resource_instance_key": "the ville:dorm for oak hill college:klaus mueller's room:bed"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-535-46d34e7329",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 535,
+      "sim_time": "2026-07-17 09:29:10",
+      "wall_ts": "2026-07-17T20:07:51.005533+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-534-171b8416",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.07,
+          "stamina": -0.067,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": 0.94,
+          "belonging": -0.02,
+          "status": -0.008,
+          "autonomy": -0.012,
+          "competence": -0.018,
+          "meaning": -0.02
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 0.058,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.009,
+        "base_significance": 0.415,
+        "recency_weight": 1.0,
+        "effective_score": 0.415,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-535-46d34e7329",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 5.66,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.07,
+          "stamina": -0.067,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": 0.94,
+          "belonging": -0.02,
+          "status": -0.008,
+          "autonomy": -0.012,
+          "competence": -0.018,
+          "meaning": -0.02
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -0.07,
+            "stamina": -0.067,
+            "health": 0.0,
+            "safety": -0.012,
+            "mood": 0.94,
+            "belonging": -0.02,
+            "status": -0.008,
+            "autonomy": -0.012,
+            "competence": -0.018,
+            "meaning": -0.02
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-537-10a04711ec",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 537,
+      "sim_time": "2026-07-17 09:29:30",
+      "wall_ts": "2026-07-17T20:08:09.147678+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-536-0735d630",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.07,
+          "stamina": -0.067,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": 0.94,
+          "belonging": -0.02,
+          "status": -0.008,
+          "autonomy": -0.012,
+          "competence": -0.018,
+          "meaning": -0.02
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 0.058,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.009,
+        "base_significance": 0.415,
+        "recency_weight": 1.0,
+        "effective_score": 0.415,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-537-10a04711ec",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 5.66,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.07,
+          "stamina": -0.067,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": 0.94,
+          "belonging": -0.02,
+          "status": -0.008,
+          "autonomy": -0.012,
+          "competence": -0.018,
+          "meaning": -0.02
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -0.07,
+            "stamina": -0.067,
+            "health": 0.0,
+            "safety": -0.012,
+            "mood": 0.94,
+            "belonging": -0.02,
+            "status": -0.008,
+            "autonomy": -0.012,
+            "competence": -0.018,
+            "meaning": -0.02
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-549-d7554cdcae",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 549,
+      "sim_time": "2026-07-17 09:31:30",
+      "wall_ts": "2026-07-17T20:09:03.569735+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-538-dcdcf960",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "request",
+        "raw_action": "request",
+        "intent_family": "restore_satiety",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "Request food or trade for food access."
+      },
+      "execution": {
+        "result": "failed",
+        "reason": "target_not_close",
+        "reason_class": "resource_state",
+        "payload": {
+          "target": "Isabella Rodriguez",
+          "target_tile": [
+            44,
+            32
+          ]
+        }
+      },
+      "goal": {
+        "status": "blocked",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": [
+          "reason:target_not_close"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -0.77,
+          "stamina": -0.737,
+          "health": 0.0,
+          "safety": -0.132,
+          "mood": -0.66,
+          "belonging": -0.22,
+          "status": -0.088,
+          "autonomy": -0.132,
+          "competence": -0.198,
+          "meaning": -0.22
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.158,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.72,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.096,
+        "base_significance": 0.897,
+        "recency_weight": 1.0,
+        "effective_score": 0.897,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-549-d7554cdcae",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "embedding_text": "Klaus Mueller experienced a failed request attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because target_not_close.",
+        "keywords": [
+          "execution_result",
+          "failed",
+          "goal_blocked",
+          "isabella rodriguez",
+          "request",
+          "restore_satiety",
+          "satiety",
+          "target_not_close"
+        ],
+        "poignancy": 7.59,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -0.77,
+          "stamina": -0.737,
+          "health": 0.0,
+          "safety": -0.132,
+          "mood": -0.66,
+          "belonging": -0.22,
+          "status": -0.088,
+          "autonomy": -0.132,
+          "competence": -0.198,
+          "meaning": -0.22
+        },
+        "memory_tags": {
+          "skill_id": "request",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": "target_not_close",
+          "dominant_motive": "satiety",
+          "outcome_status": "failed",
+          "goal_status": "blocked",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -0.77,
+            "stamina": -0.737,
+            "health": 0.0,
+            "safety": -0.132,
+            "mood": -0.66,
+            "belonging": -0.22,
+            "status": -0.088,
+            "autonomy": -0.132,
+            "competence": -0.198,
+            "meaning": -0.22
+          },
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-565-3939fdd906",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 565,
+      "sim_time": "2026-07-17 09:34:10",
+      "wall_ts": "2026-07-17T20:09:27.720087+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-550-8d109393",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "idle",
+        "raw_action": "idle",
+        "intent_family": "idle",
+        "target": "none",
+        "target_type": null,
+        "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+        "resolved_target": "common room sofa",
+        "resolution_kind": null,
+        "detail": "idling after exhausting autonomous correction attempts"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -1.05,
+          "stamina": 14.695,
+          "health": 0.0,
+          "safety": -0.18,
+          "mood": -0.9,
+          "belonging": -0.3,
+          "status": -0.12,
+          "autonomy": -0.18,
+          "competence": -0.27,
+          "meaning": -0.3
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "none",
+        "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.9,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.131,
+        "base_significance": 0.926,
+        "recency_weight": 1.0,
+        "effective_score": 0.926,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-565-3939fdd906",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller completed idle on none at the Ville:artist's co-living space:common room:common room sofa but made no measurable progress toward the goal.",
+        "embedding_text": "Klaus Mueller completed idle on none at the Ville:artist's co-living space:common room:common room sofa but made no measurable progress toward the goal.",
+        "keywords": [
+          "execution_result",
+          "goal_no_progress",
+          "idle",
+          "none",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 7.7,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -1.05,
+          "stamina": 14.695,
+          "health": 0.0,
+          "safety": -0.18,
+          "mood": -0.9,
+          "belonging": -0.3,
+          "status": -0.12,
+          "autonomy": -0.18,
+          "competence": -0.27,
+          "meaning": -0.3
+        },
+        "memory_tags": {
+          "skill_id": "idle",
+          "target": "none",
+          "target_address": "the Ville:artist's co-living space:common room:common room sofa",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -1.05,
+            "stamina": 14.695,
+            "health": 0.0,
+            "safety": -0.18,
+            "mood": -0.9,
+            "belonging": -0.3,
+            "status": -0.12,
+            "autonomy": -0.18,
+            "competence": -0.27,
+            "meaning": -0.3
+          },
+          "resource_instance_key": "the ville:artist's co-living space:common room:common room sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-566-87ac6f498d",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 566,
+      "sim_time": "2026-07-17 09:34:20",
+      "wall_ts": "2026-07-17T20:09:36.475413+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-566-bba205b4",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "inventory_item",
+        "target_address": "<waiting> 35 31",
+        "resolved_target": "apple",
+        "resolution_kind": null,
+        "detail": "Consume an apple to satisfy hunger."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.95,
+        "replan_required": false,
+        "evidence": [
+          "satiety:+51.69",
+          "mood:+1",
+          "inventory:apple:-1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 51.69,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 51.69,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.95
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "<waiting> 35 31"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 1.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-566-87ac6f498d",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used consume on apple at <waiting> 35 31.",
+        "embedding_text": "Klaus Mueller successfully used consume on apple at <waiting> 35 31.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "goal_achieved",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 51.69,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 51.69,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "<waiting> 35 31",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.95,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": 51.69,
+            "stamina": 0.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "<waiting> 35 31"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-567-e9637d525b",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 567,
+      "sim_time": "2026-07-17 09:34:30",
+      "wall_ts": "2026-07-17T20:10:13.982056+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-567-f9ed041c",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "inventory_item",
+        "target_address": "<waiting> 35 31",
+        "resolved_target": "apple",
+        "resolution_kind": null,
+        "detail": "Consume the apple to satisfy hunger."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "advanced",
+        "progress_score": 0.339,
+        "replan_required": true,
+        "evidence": [
+          "satiety:+0.07",
+          "mood:+1",
+          "inventory:apple:-1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.07,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 0.07,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.339
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "<waiting> 35 31"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.054,
+        "motive_effect_magnitude": 0.054,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.009,
+        "base_significance": 0.31,
+        "recency_weight": 1.0,
+        "effective_score": 0.31,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-567-e9637d525b",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller completed consume on apple at <waiting> 35 31 and made partial progress toward the goal.",
+        "embedding_text": "Klaus Mueller completed consume on apple at <waiting> 35 31 and made partial progress toward the goal.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "goal_advanced",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 5.24,
+        "attribute_effects": {
+          "satiety": 0.07,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 0.07,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "<waiting> 35 31",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "advanced",
+          "goal_progress_score": 0.339,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.07,
+            "stamina": 0.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "<waiting> 35 31"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-608-c977d49fea",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 608,
+      "sim_time": "2026-07-17 09:41:20",
+      "wall_ts": "2026-07-17T20:10:50.724310+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-568-64d108b4",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -2.8,
+          "stamina": -2.68,
+          "health": 0.0,
+          "safety": -0.48,
+          "mood": -0.6,
+          "belonging": -0.8,
+          "status": -0.32,
+          "autonomy": -0.48,
+          "competence": -0.72,
+          "meaning": -0.8
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 0.484,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.35,
+        "base_significance": 0.909,
+        "recency_weight": 1.0,
+        "effective_score": 0.909,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-608-c977d49fea",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Klaus Mueller successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 7.64,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -2.8,
+          "stamina": -2.68,
+          "health": 0.0,
+          "safety": -0.48,
+          "mood": -0.6,
+          "belonging": -0.8,
+          "status": -0.32,
+          "autonomy": -0.48,
+          "competence": -0.72,
+          "meaning": -0.8
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -2.8,
+            "stamina": -2.68,
+            "health": 0.0,
+            "safety": -0.48,
+            "mood": -0.6,
+            "belonging": -0.8,
+            "status": -0.32,
+            "autonomy": -0.48,
+            "competence": -0.72,
+            "meaning": -0.8
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Klaus_Mueller-740-f98aac4eb4",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Klaus Mueller",
+      "curr_step": 740,
+      "sim_time": "2026-07-17 10:03:20",
+      "wall_ts": "2026-07-17T20:18:34.982978+08:00",
+      "decision_context": {
+        "decision_id": "Klaus_Mueller-609-ab93a96b",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "rest",
+        "intent_family": "restore_stamina",
+        "target": "bed",
+        "target_type": "object",
+        "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+        "resolved_target": "bed",
+        "resolution_kind": null,
+        "detail": "Resting to conserve energy for future tasks."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -9.17,
+          "stamina": 2.832,
+          "health": 0.0,
+          "safety": -1.572,
+          "mood": -5.24,
+          "belonging": -2.62,
+          "status": -1.048,
+          "autonomy": -1.572,
+          "competence": -2.358,
+          "meaning": -2.62
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "bed",
+        "resource_instance_key": "the ville:dorm for oak hill college:klaus mueller's room:bed"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Klaus_Mueller-740-f98aac4eb4",
+        "memory_type": "event",
+        "subject": "Klaus Mueller",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Klaus Mueller completed rest on bed at the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed but made no measurable progress toward the goal.",
+        "embedding_text": "Klaus Mueller completed rest on bed at the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed but made no measurable progress toward the goal.",
+        "keywords": [
+          "bed",
+          "execution_result",
+          "goal_no_progress",
+          "rest",
+          "restore_stamina",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -9.17,
+          "stamina": 2.832,
+          "health": 0.0,
+          "safety": -1.572,
+          "mood": -5.24,
+          "belonging": -2.62,
+          "status": -1.048,
+          "autonomy": -1.572,
+          "competence": -2.358,
+          "meaning": -2.62
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "bed",
+          "target_address": "the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -9.17,
+            "stamina": 2.832,
+            "health": 0.0,
+            "safety": -1.572,
+            "mood": -5.24,
+            "belonging": -2.62,
+            "status": -1.048,
+            "autonomy": -1.572,
+            "competence": -2.358,
+            "meaning": -2.62
+          },
+          "resource_instance_key": "the ville:dorm for oak hill college:klaus mueller's room:bed"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 608,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-124-f292fd02fa",
+        "Klaus_Mueller-137-eb4a44d75c",
+        "Klaus_Mueller-533-d2943252c0",
+        "Klaus_Mueller-535-46d34e7329",
+        "Klaus_Mueller-537-10a04711ec",
+        "Klaus_Mueller-608-c977d49fea"
+      ]
+    },
+    {
+      "experience_kind": "avoid",
+      "intent_family": "restore_satiety",
+      "skill_id": "request",
+      "resource_scope": "instance",
+      "resource_instance_key": "<persona> isabella rodriguez",
+      "resource_type": "Isabella Rodriguez",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 549,
+      "evidence_summary": "Isabella Rodriguez at <persona> Isabella Rodriguez was not close enough to use recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-549-d7554cdcae"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "consume",
+      "resource_scope": "instance",
+      "resource_instance_key": "<waiting> 35 31",
+      "resource_type": "apple",
+      "recommendation": "prefer_this_instance",
+      "confidence": 0.925,
+      "freshness_step": 566,
+      "evidence_summary": "apple at <waiting> 35 31 worked well recently.",
+      "supporting_outcome_ids": [
+        "Klaus_Mueller-566-87ac6f498d"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Klaus Mueller-741-idle-common room sofa",
+    "phase": "pathing",
+    "address": "the Ville:artist's co-living space:common room:common room sofa",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "description": "idling",
+    "event": [
+      "Klaus Mueller",
+      "idle",
+      "none"
+    ],
+    "path": [
+      [
+        90,
+        37
+      ],
+      [
+        89,
+        37
+      ],
+      [
+        88,
+        37
+      ],
+      [
+        87,
+        37
+      ],
+      [
+        86,
+        37
+      ],
+      [
+        85,
+        37
+      ],
+      [
+        84,
+        37
+      ],
+      [
+        83,
+        37
+      ],
+      [
+        82,
+        37
+      ],
+      [
+        81,
+        37
+      ],
+      [
+        80,
+        37
+      ],
+      [
+        79,
+        37
+      ],
+      [
+        78,
+        37
+      ],
+      [
+        77,
+        37
+      ],
+      [
+        76,
+        37
+      ],
+      [
+        75,
+        37
+      ],
+      [
+        74,
+        37
+      ],
+      [
+        73,
+        37
+      ],
+      [
+        72,
+        37
+      ],
+      [
+        71,
+        37
+      ],
+      [
+        70,
+        37
+      ],
+      [
+        69,
+        37
+      ],
+      [
+        68,
+        37
+      ],
+      [
+        67,
+        37
+      ],
+      [
+        66,
+        37
+      ],
+      [
+        65,
+        37
+      ],
+      [
+        64,
+        37
+      ],
+      [
+        63,
+        37
+      ],
+      [
+        62,
+        37
+      ],
+      [
+        61,
+        37
+      ],
+      [
+        60,
+        37
+      ],
+      [
+        59,
+        37
+      ],
+      [
+        58,
+        37
+      ],
+      [
+        57,
+        37
+      ],
+      [
+        56,
+        37
+      ],
+      [
+        55,
+        37
+      ],
+      [
+        54,
+        37
+      ],
+      [
+        53,
+        37
+      ],
+      [
+        52,
+        37
+      ],
+      [
+        51,
+        37
+      ],
+      [
+        50,
+        37
+      ],
+      [
+        49,
+        37
+      ],
+      [
+        48,
+        37
+      ],
+      [
+        47,
+        37
+      ],
+      [
+        46,
+        37
+      ],
+      [
+        45,
+        37
+      ],
+      [
+        44,
+        37
+      ],
+      [
+        43,
+        37
+      ],
+      [
+        42,
+        37
+      ],
+      [
+        41,
+        37
+      ],
+      [
+        41,
+        36
+      ],
+      [
+        41,
+        35
+      ],
+      [
+        41,
+        34
+      ],
+      [
+        40,
+        34
+      ],
+      [
+        39,
+        34
+      ],
+      [
+        38,
+        34
+      ],
+      [
+        38,
+        33
+      ],
+      [
+        37,
+        33
+      ],
+      [
+        36,
+        33
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "idle",
+      "target": "common room sofa",
+      "intent_family": "idle"
+    },
+    "started_step": 741,
+    "updated_step": 801,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "idle",
+    "intent_family": "idle",
+    "target": "common room sofa",
+    "target_type": null,
+    "resolved_target": "common room sofa",
+    "resolved_address": "the Ville:artist's co-living space:common room:common room sofa",
+    "description": "idling",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "event": [
+      "Klaus Mueller",
+      "idle",
+      "none"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "decision_id": "Klaus_Mueller-741-a409998f",
+    "dominant_motive": "meaning",
+    "secondary_motive": "mood",
+    "motive_values_before": {
+      "satiety": {
+        "current_value": 87.82000000000119,
+        "initial_value": 57.0,
+        "safe_threshold": 49.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.07,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "stamina": {
+        "current_value": 99.962,
+        "initial_value": 73.0,
+        "safe_threshold": 45.0,
+        "critical_threshold": 20.0,
+        "decay_per_step": 0.038,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "health": {
+        "current_value": 100.0,
+        "initial_value": 85.0,
+        "safe_threshold": 56.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.0,
+        "priority_weight": 1.15,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "safety": {
+        "current_value": 58.09599999999966,
+        "initial_value": 67.0,
+        "safe_threshold": 47.0,
+        "critical_threshold": 22.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 1.08,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "mood": {
+        "current_value": 61.95999999999833,
+        "initial_value": 48.0,
+        "safe_threshold": 62.0,
+        "critical_threshold": 40.0,
+        "decay_per_step": 0.04,
+        "priority_weight": 1.2,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "belonging": {
+        "current_value": 93.1600000000012,
+        "initial_value": 64.0,
+        "safe_threshold": 49.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.02,
+        "priority_weight": 1.02,
+        "skill_flat_modifiers": {
+          "chat with": 2.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "status": {
+        "current_value": 42.06399999999802,
+        "initial_value": 48.0,
+        "safe_threshold": 40.0,
+        "critical_threshold": 22.0,
+        "decay_per_step": 0.008,
+        "priority_weight": 0.75,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "autonomy": {
+        "current_value": 54.09599999999966,
+        "initial_value": 63.0,
+        "safe_threshold": 47.0,
+        "critical_threshold": 26.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 0.94,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "competence": {
+        "current_value": 54.643999999999494,
+        "initial_value": 68.0,
+        "safe_threshold": 52.0,
+        "critical_threshold": 31.0,
+        "decay_per_step": 0.018,
+        "priority_weight": 1.08,
+        "skill_flat_modifiers": {
+          "study": 3.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "meaning": {
+        "current_value": 59.16000000000123,
+        "initial_value": 74.0,
+        "safe_threshold": 60.0,
+        "critical_threshold": 36.0,
+        "decay_per_step": 0.02,
+        "priority_weight": 1.18,
+        "skill_flat_modifiers": {
+          "study": 5.0,
+          "work": 2.0,
+          "chat with": 1.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      }
+    },
+    "created_step": 741,
+    "updated_step": 801,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "idle",
+  "active_skill_id": "Klaus Mueller-741-idle",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 741,
+  "active_skill_owner": "Klaus Mueller",
+  "active_skill_target": "common room sofa",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "idling"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 7
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 30
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 40
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "hospitable, welcoming, empathetic",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "curious, disciplined, social",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bcompetence",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, reflective",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:03:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:03:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Klaus Mueller is currently immersed in the meticulous research phase of his academic career, focusing on the complex socio-economic impact of gentrification in low-income communities. Balancing his extensive research activities with personal and social engagements, he is actively managing the demands of writing his research paper while maintaining a socia...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 08:57:20",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals revolve around ensuring survival and stability first and foremost. I understand the world as a complex web of social dynamics and I aspire to contribute to a more just society. Beyond immediate survival, I aim to build and maintain stable relationships, like my friendship with Isabella Rodriguez, and continue to be proactive in managing my responsibilities, while also seeking emotional support a...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:03:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Klaus Mueller goes to bed around 11pm, awakes up around 7am, eats dinner around 5pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:03:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Klaus Mueller goes to the library at Oak Hill College early in the morning, spends his days writing, and eats at Hobbs Cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Isabella Rodriguez\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: hospitable, welcoming, empathetic\u3002 Isabella Rodriguez: \u4eb2\u5bc6\u7a0b\u5ea6=0.58, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about conversing about preparing for a Valentine's Day party and Klaus Mueller's help with the decorations and his paper writing stress \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Klaus Mueller Isabella is organizing an event and has a clear vision for decorations.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 08:57:20",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-17 10:03:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 85,
+  "importance_ele_n": 27,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:artist's co-living space:common room:common room sofa",
+  "act_start_time": "July 17, 2026, 10:03:30",
+  "act_duration": 10,
+  "act_description": "idling",
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": [
+    "Klaus Mueller",
+    "idle",
+    "none"
+  ],
+  "act_command": {
+    "skill_id": "idle",
+    "target": "none",
+    "intent_family": "idle",
+    "source": "decision_translation",
+    "raw_action": "idle",
+    "detail": "idling"
+  },
+  "act_obj_description": "common room sofa is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "common room sofa",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      90,
+      37
+    ],
+    [
+      89,
+      37
+    ],
+    [
+      88,
+      37
+    ],
+    [
+      87,
+      37
+    ],
+    [
+      86,
+      37
+    ],
+    [
+      85,
+      37
+    ],
+    [
+      84,
+      37
+    ],
+    [
+      83,
+      37
+    ],
+    [
+      82,
+      37
+    ],
+    [
+      81,
+      37
+    ],
+    [
+      80,
+      37
+    ],
+    [
+      79,
+      37
+    ],
+    [
+      78,
+      37
+    ],
+    [
+      77,
+      37
+    ],
+    [
+      76,
+      37
+    ],
+    [
+      75,
+      37
+    ],
+    [
+      74,
+      37
+    ],
+    [
+      73,
+      37
+    ],
+    [
+      72,
+      37
+    ],
+    [
+      71,
+      37
+    ],
+    [
+      70,
+      37
+    ],
+    [
+      69,
+      37
+    ],
+    [
+      68,
+      37
+    ],
+    [
+      67,
+      37
+    ],
+    [
+      66,
+      37
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      64,
+      37
+    ],
+    [
+      63,
+      37
+    ],
+    [
+      62,
+      37
+    ],
+    [
+      61,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      46,
+      37
+    ],
+    [
+      45,
+      37
+    ],
+    [
+      44,
+      37
+    ],
+    [
+      43,
+      37
+    ],
+    [
+      42,
+      37
+    ],
+    [
+      41,
+      37
+    ],
+    [
+      41,
+      36
+    ],
+    [
+      41,
+      35
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      40,
+      34
+    ],
+    [
+      39,
+      34
+    ],
+    [
+      38,
+      34
+    ],
+    [
+      38,
+      33
+    ],
+    [
+      37,
+      33
+    ],
+    [
+      36,
+      33
+    ]
+  ]
+}

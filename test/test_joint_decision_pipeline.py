@@ -1,4 +1,5 @@
 import os
+import hashlib
 import sys
 import unittest
 from pathlib import Path
@@ -93,14 +94,92 @@ class JointDecisionPromptTests(unittest.TestCase):
         self.assertEqual(result["target_type"], "object")
         self.assertEqual(result["mode"], "gather")
         self.assertEqual(captured["prompt_kind"], "joint_decision")
-        self.assertEqual(captured["request_config"], config)
+        self.assertEqual(captured["request_config"]["model"], config["model"])
+        self.assertEqual(captured["request_config"]["max_tokens"], 512)
         self.assertIn("joint_decision_v1.txt", captured["prompt_template"])
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
         self.assertIn("DecisionPriority:", joined_prompt)
+        self.assertIn("DecisionGuidance: Choose the most immediate next action only.", joined_prompt)
         self.assertIn("Standard food sources reduce replanning.", joined_prompt)
-        self.assertIn("target_type", captured["special_instruction"])
+        self.assertIn("validator supplies evidence only", captured["special_instruction"])
         self.assertIsNone(captured["example_output"])
         self.assertTrue(captured["contract_valid"])
+
+    def test_joint_retry_feedback_changes_prompt_hash_and_is_visible(self):
+        prompts = []
+
+        def fake_generate_prompt(prompt_input, _prompt_template):
+            prompt = "\n".join(str(item) for item in prompt_input)
+            prompts.append(prompt)
+            return prompt
+
+        persona = SimpleNamespace(
+            name="Klaus Mueller",
+            scratch=SimpleNamespace(
+                name="Klaus Mueller",
+                curr_time=None,
+                get_str_iss=lambda: "Klaus Mueller is hungry.",
+                get_str_firstname=lambda: "Klaus",
+            )
+        )
+        valid_response = {
+            "schema_version": 2,
+            "thought": "I should gather food.",
+            "action": "Gather",
+            "target": "apple tree",
+            "target_type": "object",
+            "mode": "gather",
+            "topic": "",
+            "detail": "gathering apples",
+            "duration": 10,
+            "reasoning": "Inventory is empty.",
+        }
+
+        correction_context = {
+            "previous_decision": {
+                "schema_version": 2,
+                "thought": "I should eat an apple.",
+                "action": "Consume",
+                "target": "apple",
+                "target_type": "inventory_item",
+                "mode": "consume",
+                "topic": "",
+                "detail": "eating an apple",
+                "duration": 5,
+                "reasoning": "I am hungry.",
+            },
+            "validation": {
+                "valid": False,
+                "reason_code": "inventory_missing",
+                "message": "Consume requires an owned item.",
+                "evidence": {"inventory": {}},
+            },
+            "feedback": "VALIDATION_FEEDBACK reason_code=inventory_missing; inventory is empty.",
+        }
+
+        with patch.object(prompt_module, "generate_prompt", side_effect=fake_generate_prompt), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", return_value=valid_response):
+            prompt_module.run_gpt_prompt_joint_decision(
+                persona,
+                nearby_resources=["apple tree"],
+                decision_convergence_hint="Choose one immediate action.",
+            )
+            prompt_module.run_gpt_prompt_joint_decision(
+                persona,
+                nearby_resources=["apple tree"],
+                correction_context=correction_context,
+            )
+
+        self.assertEqual(len(prompts), 2)
+        self.assertIn("inventory_missing", prompts[1])
+        self.assertIn("actor_name=Klaus Mueller", prompts[1])
+        self.assertIn("self_target_forbidden=true", prompts[1])
+        self.assertLess(len(prompts[1]), len(prompts[0]))
+        self.assertNotEqual(prompts[0], prompts[1])
+        self.assertNotEqual(
+            hashlib.sha256(prompts[0].encode("utf-8")).hexdigest(),
+            hashlib.sha256(prompts[1].encode("utf-8")).hexdigest(),
+        )
 
     def test_joint_decision_repairs_recoverable_contract_without_retry(self):
         captured = {}
@@ -109,6 +188,7 @@ class JointDecisionPromptTests(unittest.TestCase):
             raw = {
                 "schema_version": 2,
                 "thought": "I should ask Klaus for food.",
+                "strategic_intent": "secure reliable food access through cooperation",
                 "action": "Request",
                 "target": "Klaus Mueller",
                 "target_type": "persona",
@@ -116,9 +196,11 @@ class JointDecisionPromptTests(unittest.TestCase):
                 "topic": "food access",
                 "detail": "requesting food from Klaus",
                 "duration": 5,
+                "expected_followup": "receive food or negotiate another source",
+                "risk": "Klaus may refuse",
                 "reasoning": "Hunger is urgent.",
             }
-            captured["valid"] = kwargs["func_validate"](raw)
+            captured["valid"] = kwargs["func_validate"](raw)[0]
             return kwargs["func_clean_up"](raw)
 
         persona = SimpleNamespace(
@@ -140,12 +222,57 @@ class JointDecisionPromptTests(unittest.TestCase):
         self.assertEqual(result["mode"], "request")
         self.assertEqual(result["duration"], 5)
 
+    def test_joint_decision_rejects_missing_noncritical_followup_with_reason(self):
+        captured = {}
+
+        def fake_safe_generate_response(*args, **kwargs):
+            raw = {
+                "schema_version": 2,
+                "thought": "I should play a game to recover my mood.",
+                "strategic_intent": "recover composure before approaching Isabella",
+                "action": "Recreate",
+                "target": "game console",
+                "target_type": "object",
+                "mode": "solo_leisure",
+                "topic": "",
+                "detail": "playing a short game",
+                "duration": 20,
+                "expected_followup": "",
+                "risk": "lose time",
+                "reasoning": "My body is stable and mood is low.",
+            }
+            captured["validation"] = kwargs["func_validate"](raw)
+            return kwargs["fail_safe_response"]
+
+        persona = SimpleNamespace(
+            name="Maria Lopez",
+            scratch=SimpleNamespace(
+                name="Maria Lopez",
+                curr_time=None,
+                inventory={},
+                get_str_iss=lambda: "Maria Lopez wants to recover her mood.",
+                get_str_firstname=lambda: "Maria",
+            ),
+        )
+
+        with patch.object(prompt_module, "generate_prompt", return_value="prompt"), \
+             patch.object(prompt_module, "ChatGPT_safe_generate_response", side_effect=fake_safe_generate_response):
+            prompt_module.run_gpt_prompt_joint_decision(persona, nearby_resources=["game console"])
+
+        self.assertFalse(captured["validation"][0])
+        self.assertIn("empty_expected_followup_noncritical", captured["validation"][1])
+
     def test_joint_template_places_decision_capsule_before_identity(self):
         template_path = ROOT / "reverie" / "backend_server" / "persona" / "prompt_template" / "v2" / "joint_decision_v1.txt"
         template = template_path.read_text(encoding="utf-8")
 
         self.assertLess(template.index("Decision Capsule:"), template.index("Background Identity:"))
-        self.assertIn("Do not weigh all information equally.", template)
+        self.assertIn("Hard gate:", template)
+        self.assertIn("future option value", template)
+        self.assertIn("Complete Action Catalogue", template)
+        self.assertIn('"strategic_intent"', template)
+        self.assertIn('"expected_followup"', template)
+        self.assertIn('"risk"', template)
 
 
 class DecisionPipelineFallbackTests(unittest.TestCase):
@@ -392,7 +519,7 @@ class DecisionPipelineFallbackTests(unittest.TestCase):
             "LLM_CORRECTION_MAX_RETRIES": "1",
         }, clear=False), \
              patch.object(plan_module, "run_gpt_prompt_joint_decision", side_effect=[invalid_consume, invalid_consume]), \
-             patch.object(plan_module, "append_debug_log"):
+             patch.object(plan_module, "append_debug_log") as log_mock:
             _thinking, decision, hint, _used_joint, timing_meta, _cache_signature = plan_module._run_decision_pipeline(
                 self.persona,
                 object_states=["apple tree (idle/normal; stock: infinite)"],
@@ -408,8 +535,19 @@ class DecisionPipelineFallbackTests(unittest.TestCase):
         self.assertIn("correction_fallback", decision)
         self.assertIn("inventory_missing", hint)
         self.assertEqual(len(timing_meta["correction_trace"]), 2)
+        self.assertEqual(timing_meta["correction_metrics"]["correction_attempts"], 1)
         self.assertTrue(timing_meta["correction_metrics"]["repeated_invalid"])
         self.assertTrue(timing_meta["correction_metrics"]["terminal_fallback"])
+        budget_logs = [
+            call.args[1]
+            for call in log_mock.call_args_list
+            if call.args[0] == "decision_correction_trace.jsonl"
+            and call.args[1].get("event") == "correction_budget_exhausted"
+        ]
+        self.assertEqual(len(budget_logs), 1)
+        self.assertEqual(budget_logs[0]["correction_attempt"], 1)
+        self.assertEqual(budget_logs[0]["correction_metrics"]["correction_attempts"], 1)
+        self.assertTrue(budget_logs[0]["correction_metrics"]["repeated_invalid"])
 
 
 if __name__ == "__main__":

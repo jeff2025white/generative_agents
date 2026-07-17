@@ -1,0 +1,66 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        55,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.00999999999992,
+      "stamina": 91.88000000000056,
+      "health": 100.0,
+      "mood": 45.30000000000027,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        91,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling to conserve energy @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 23.419999999999973,
+      "stamina": 93.78900000000064,
+      "health": 100.0,
+      "mood": 44.359999999999786,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        30,
+        40
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "idling @ the Ville:the Ville::the Ville:::the Ville:::",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 81.41999999999997,
+      "stamina": 92.80100000000058,
+      "health": 100.0,
+      "mood": 50.119999999999706,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "apple tree is being eaten by Isabella",
+          "created": "2026-07-17 08:15:30"
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:15:30"
+  }
+}

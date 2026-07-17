@@ -1,0 +1,93 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        45,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Playing a game to relax and improve my mood. @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.52000000000014,
+      "stamina": 89.21700000000112,
+      "health": 100.0,
+      "mood": 42.15999999999963,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:26:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Playing a game to relax and improve my mood.",
+          "created": "2026-07-17 08:26:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:22:30",
+          "poignancy": 4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:03:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "game console is idle",
+          "created": "2026-07-17 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        48,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 74.0600000000001,
+      "stamina": 85.81200000000099,
+      "health": 100.0,
+      "mood": 42.760000000000396,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        87,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.52000000000038,
+      "stamina": 89.08800000000089,
+      "health": 100.0,
+      "mood": 48.91999999999952,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:27:10"
+  }
+}

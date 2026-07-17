@@ -35,6 +35,44 @@ _ATTRIBUTE_PRIORITY_THRESHOLDS = {
   "mood": 60.0,
 }
 
+_MOTIVE_MEMORY_GROUPS = (
+  ("satiety", "饱食 / 食物"),
+  ("stamina", "精力 / 休息"),
+  ("health", "健康 / 恢复"),
+  ("safety", "安全 / 避险"),
+  ("mood", "情绪 / 娱乐"),
+  ("belonging", "归属 / 社交"),
+  ("status", "地位 / 展示"),
+  ("autonomy", "自主 / 控制"),
+  ("competence", "胜任 / 学习工作"),
+  ("meaning", "意义 / 反思"),
+)
+_MOTIVE_MEMORY_KEYWORDS = {
+  "satiety": _INTENT_KEYWORDS["restore_satiety"],
+  "stamina": _INTENT_KEYWORDS["restore_stamina"],
+  "health": _INTENT_KEYWORDS["restore_health"],
+  "safety": {"safe", "safety", "danger", "threat", "hide", "avoid", "escape"},
+  "mood": _INTENT_KEYWORDS["restore_mood"],
+  "belonging": {"social", "chat", "friend", "belong", "together", "company", "conversation"},
+  "status": {"status", "respect", "recognition", "reputation", "prestige", "claim", "occupy"},
+  "autonomy": {"autonomy", "control", "independent", "freedom", "pressure", "smash"},
+  "competence": {"competence", "work", "study", "learn", "teach", "skill", "capable"},
+  "meaning": {"meaning", "purpose", "plan", "reflect", "worship", "order"},
+}
+
+_MOTIVE_FOCAL_TOPICS = {
+  "satiety": ("food access", "eating or gathering food", "food source failures"),
+  "stamina": ("rest and sleep", "energy recovery", "rest failures"),
+  "health": ("treatment and recovery", "health protection", "health recovery failures"),
+  "safety": ("safety and danger avoidance", "safe shelter", "threat or escape outcomes"),
+  "mood": ("emotional recovery", "leisure and comfort", "mood repair outcomes"),
+  "belonging": ("social connection", "companionship and conversation", "social rejection or success"),
+  "status": ("recognition and standing", "public achievement", "status gains or losses"),
+  "autonomy": ("personal control", "independence and access", "blocked control or successful agency"),
+  "competence": ("learning and effective work", "skill improvement", "work or study outcomes"),
+  "meaning": ("purpose and reflection", "long-term direction", "meaningful activity outcomes"),
+}
+
 
 def _normalize_text(value):
   return " ".join(str(value or "").strip().lower().split())
@@ -118,6 +156,12 @@ def build_intent_focal_points(persona, intent_family, action_signature=None):
   return []
 
 
+def build_motive_focal_points(persona, motive_key):
+  firstname = persona.scratch.get_str_firstname() if hasattr(persona.scratch, "get_str_firstname") else persona.name
+  topics = _MOTIVE_FOCAL_TOPICS.get(str(motive_key or "").strip().lower(), ())
+  return [f"Recent {topic} experiences for {firstname}" for topic in topics]
+
+
 def _node_intent_bonus(node, intent_family):
   keywords = _INTENT_KEYWORDS.get(intent_family, set())
   haystacks = [
@@ -198,6 +242,74 @@ def rerank_by_intent(retrieved, intent_family, n_count=5, attribute_preferences=
   return [node for score, node in scored[:n_count]]
 
 
+def rerank_by_motive(retrieved, motive_key, n_count=8):
+  scored = []
+  keywords = _MOTIVE_MEMORY_KEYWORDS.get(motive_key, set())
+  for rank, node in _flatten_unique_nodes(retrieved):
+    memory_tags = getattr(node, "memory_tags", None) or {}
+    haystack = " ".join([
+      _normalize_text(getattr(node, "description", "")),
+      _normalize_text(getattr(node, "subject", "")),
+      _normalize_text(getattr(node, "predicate", "")),
+      _normalize_text(getattr(node, "object", "")),
+      " ".join(sorted(_normalize_text(keyword) for keyword in getattr(node, "keywords", set()))),
+      _normalize_text(memory_tags.get("dominant_motive")),
+    ])
+    keyword_bonus = sum(2.5 for keyword in keywords if keyword in haystack)
+    effects = getattr(node, "motive_effects", None) or getattr(node, "attribute_effects", None) or {}
+    try:
+      effect_bonus = abs(float(effects.get(motive_key, 0.0) or 0.0)) * 0.15
+    except Exception:
+      effect_bonus = 0.0
+    score = keyword_bonus + effect_bonus + max(0.0, 2.0 - rank * 0.2)
+    score += float(getattr(node, "poignancy", 0.0) or 0.0) * 0.05
+    scored.append((score, node))
+  scored.sort(key=lambda item: item[0], reverse=True)
+  return [node for _score, node in scored[:n_count]]
+
+
+def retrieve_memories_by_motives(persona, dominant_motive, secondary_motive=None, n_count_per_motive=8):
+  """Independently retrieve dominant and secondary motive memories, then deduplicate."""
+  if not getattr(persona, "a_mem", None):
+    return {"dominant": [], "secondary": [], "combined": []}
+  if not (persona.a_mem.seq_event or persona.a_mem.seq_thought):
+    return {"dominant": [], "secondary": [], "combined": []}
+
+  results = {}
+  for role, motive in (("dominant", dominant_motive), ("secondary", secondary_motive)):
+    if not motive or (role == "secondary" and motive == dominant_motive):
+      results[role] = []
+      continue
+    focal_points = build_motive_focal_points(persona, motive)
+    raw_retrieved = new_retrieve(persona, focal_points, n_count=max(n_count_per_motive, 12))
+    results[role] = rerank_by_motive(raw_retrieved, motive, n_count=n_count_per_motive)
+
+  combined = []
+  seen = set()
+  for node in results["dominant"] + results["secondary"]:
+    identity = getattr(node, "node_id", None) or id(node)
+    if identity in seen:
+      continue
+    seen.add(identity)
+    combined.append(node)
+  results["combined"] = combined
+  append_debug_log(
+    INTENT_MEMORY_LOG,
+    merge_log_context(
+      {
+        "persona": getattr(persona, "name", None),
+        "retrieval_mode": "dominant_secondary_motives",
+        "dominant_motive": dominant_motive,
+        "secondary_motive": secondary_motive,
+        "dominant_memory_ids": [getattr(node, "node_id", None) for node in results["dominant"]],
+        "secondary_memory_ids": [getattr(node, "node_id", None) for node in results["secondary"]],
+      },
+      persona=persona,
+    ),
+  )
+  return results
+
+
 def summarize_intent_memories(intent_family, retrieved_nodes, max_items=7, max_chars=550):
   if not intent_family or not retrieved_nodes:
     return ""
@@ -248,6 +360,65 @@ def summarize_intent_memories(intent_family, retrieved_nodes, max_items=7, max_c
   if len(summary) > max_chars:
     summary = summary[:max_chars - 15].rstrip() + "...(truncated)"
   return summary
+
+
+def summarize_memories_by_motives(retrieved_nodes, dominant_motive=None, secondary_motive=None, max_items=12):
+  """Format retrieved memories by current motive relevance for the decision Prompt."""
+  if not retrieved_nodes:
+    return ""
+
+  groups = {
+    "dominant": {"success": [], "failure": []},
+    "secondary": {"success": [], "failure": []},
+    "other": {"success": [], "failure": []},
+  }
+  for node in retrieved_nodes[:max_items]:
+    description = str(getattr(node, "description", "") or "").strip()
+    if not description:
+      continue
+    attribute_effects = getattr(node, "attribute_effects", None) or {}
+    text = _normalize_text(" ".join([
+      description,
+      str(getattr(node, "subject", "") or ""),
+      str(getattr(node, "predicate", "") or ""),
+      str(getattr(node, "object", "") or ""),
+    ]))
+
+    def is_relevant(motive):
+      if not motive:
+        return False
+      if float(attribute_effects.get(motive, 0.0) or 0.0) != 0.0:
+        return True
+      return any(keyword in text for keyword in _MOTIVE_MEMORY_KEYWORDS.get(motive, set()))
+
+    is_failure = (
+      any(float(delta or 0.0) < 0.0 for delta in attribute_effects.values())
+      or any(token in text for token in {"failed", "empty", "depleted", "unreachable", "path_not_found", "could not"})
+    )
+    group_key = "dominant" if is_relevant(dominant_motive) else "secondary" if is_relevant(secondary_motive) else "other"
+    groups[group_key]["failure" if is_failure else "success"].append(description)
+
+  name_lookup = dict(_MOTIVE_MEMORY_GROUPS)
+  lines = ["相关记忆 / 经验（按当前动机分类）:"]
+  def append_group(group_key, title):
+    group = groups[group_key]
+    if not group["success"] and not group["failure"]:
+      return
+    lines.append(title)
+    if group["success"]:
+      lines.append("成功经验:")
+      lines.extend(f"⭐ {description}" for description in group["success"][:2])
+    if group["failure"]:
+      lines.append("失败尝试（避免重复）:")
+      lines.extend(f"⚠ {description}" for description in group["failure"][:2])
+
+  if groups["dominant"]["success"] or groups["dominant"]["failure"]:
+    append_group("dominant", f"主导动机相关（{name_lookup.get(dominant_motive, dominant_motive)} / {dominant_motive}）:")
+  if groups["secondary"]["success"] or groups["secondary"]["failure"]:
+    append_group("secondary", f"次要动机相关（{name_lookup.get(secondary_motive, secondary_motive)} / {secondary_motive}）:")
+  if groups["other"]["success"] or groups["other"]["failure"]:
+    append_group("other", "其他可参考经验:")
+  return "\n".join(lines) if len(lines) > 1 else ""
 
 
 def retrieve_intent_memories(persona, intent_family, action_signature=None, n_count=10):

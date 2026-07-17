@@ -47,6 +47,33 @@ class ClearRuntimeLogsTests(unittest.TestCase):
             self.assertEqual(training_log.read_text(encoding="utf-8"), "dataset\n")
             self.assertEqual(cleared, [str(path) for path in sorted([root_log, agent_log])])
 
+    def test_clear_old_sim_logs_keeps_newest(self):
+        import os
+        import time
+        with tempfile.TemporaryDirectory() as temp_dir:
+            logs_root = Path(temp_dir)
+            sim1 = logs_root / "sim_20260701_100000.log"
+            sim2 = logs_root / "sim_20260702_100000.log"
+            sim3 = logs_root / "sim_20260703_100000.log"
+            
+            sim1.write_text("oldest\n", encoding="utf-8")
+            sim2.write_text("middle\n", encoding="utf-8")
+            sim3.write_text("newest\n", encoding="utf-8")
+            
+            now = time.time()
+            os.utime(sim1, (now - 100, now - 100))
+            os.utime(sim2, (now - 50, now - 50))
+            os.utime(sim3, (now, now))
+            
+            cleared = clear_runtime_logs(logs_root)
+            
+            self.assertFalse(sim1.exists())
+            self.assertFalse(sim2.exists())
+            self.assertTrue(sim3.exists())
+            self.assertIn(str(sim1), cleared)
+            self.assertIn(str(sim2), cleared)
+            self.assertNotIn(str(sim3), cleared)
+
 
 if __name__ == "__main__":
     unittest.main()

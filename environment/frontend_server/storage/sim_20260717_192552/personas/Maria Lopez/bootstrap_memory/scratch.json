@@ -1,0 +1,2011 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 17, 2026, 10:13:30",
+  "curr_tile": [
+    55,
+    32
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "curious, disciplined, social",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 72.20500000000204,
+  "stamina": 72.34400000000178,
+  "health": 100.0,
+  "mood": 76.60000000000096,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 72.20500000000204,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 72.34400000000178,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 50.375999999999635,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 76.60000000000096,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 95.64999999999984,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 43.56399999999945,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 57.167999999998756,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 48.35600000000059,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 48.771999999997675,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 17, 2026, 10:01:00",
+  "last_action_switch_time": "July 17, 2026, 10:01:30",
+  "decision_commit_until_step": 732,
+  "last_decision_signature": {
+    "skill_id": "idle",
+    "target": "common room sofa",
+    "intent_family": "idle"
+  },
+  "last_decision_reason": "idling",
+  "recent_completed_action_signature": {
+    "skill_id": "study",
+    "target": "computer",
+    "intent_family": "study"
+  },
+  "recent_completed_action_step": 728,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "computer",
+    "target_address": "the Ville:Oak Hill College:library",
+    "skill_id": "study",
+    "action_description": "idling to conserve energy",
+    "curr_step": 728,
+    "goal_status": "no_progress",
+    "goal_progress_score": 0.0,
+    "replan_required": true
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Maria_Lopez-728-0ced89a7c8",
+    "sim_code": "sim_20260717_192552",
+    "persona": "Maria Lopez",
+    "curr_step": 728,
+    "sim_time": "2026-07-17 10:01:20",
+    "wall_ts": "2026-07-17T20:17:53.832231+08:00",
+    "decision_context": {
+      "decision_id": "Maria_Lopez-728-f30f0669",
+      "dominant_motive": "competence",
+      "secondary_motive": null
+    },
+    "action": {
+      "skill_id": "study",
+      "raw_action": "study",
+      "intent_family": "study",
+      "target": "computer",
+      "target_type": "place",
+      "target_address": "the Ville:Oak Hill College:library",
+      "resolved_target": "computer",
+      "resolution_kind": null,
+      "detail": "idling to conserve energy"
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "goal": {
+      "status": "no_progress",
+      "progress_score": 0.0,
+      "replan_required": true,
+      "evidence": []
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 0.0,
+        "stamina": -4.0,
+        "health": 0.0,
+        "safety": 0.0,
+        "mood": 1.0,
+        "belonging": 0.0,
+        "status": 0.0,
+        "autonomy": 0.0,
+        "competence": 0.0,
+        "meaning": 0.0
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "computer",
+      "resource_instance_key": "the ville:oak hill college:library"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "motive_effect_magnitude": 0.25,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 0.31,
+      "recency_weight": 1.0,
+      "effective_score": 0.31,
+      "should_promote_to_experience": false
+    },
+    "memory_projection": {
+      "source_outcome_id": "Maria_Lopez-728-0ced89a7c8",
+      "memory_type": "event",
+      "subject": "Maria Lopez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+      "embedding_text": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+      "keywords": [
+        "competence",
+        "computer",
+        "execution_result",
+        "goal_no_progress",
+        "study",
+        "success"
+      ],
+      "poignancy": 5.24,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 0.0,
+        "stamina": -4.0,
+        "health": 0.0,
+        "safety": 0.0,
+        "mood": 1.0,
+        "belonging": 0.0,
+        "status": 0.0,
+        "autonomy": 0.0,
+        "competence": 0.0,
+        "meaning": 0.0
+      },
+      "memory_tags": {
+        "skill_id": "study",
+        "target": "computer",
+        "target_address": "the Ville:Oak Hill College:library",
+        "reason": null,
+        "dominant_motive": "competence",
+        "outcome_status": "success",
+        "goal_status": "no_progress",
+        "goal_progress_score": 0.0,
+        "replan_required": true,
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "resource_instance_key": "the ville:oak hill college:library"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-506-6d4ce313c7",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 506,
+      "sim_time": "2026-07-17 09:24:20",
+      "wall_ts": "2026-07-17T20:06:56.381983+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-505-5adf2547",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "rest",
+        "intent_family": "restore_stamina",
+        "target": "common room sofa",
+        "target_type": "object",
+        "target_address": "the Ville:Oak Hill College:library:library sofa",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -0.085,
+          "stamina": 12.486,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": -0.03,
+          "belonging": -0.03,
+          "status": -0.018,
+          "autonomy": -0.016,
+          "competence": -0.022,
+          "meaning": -0.014
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library:library sofa"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.636,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.011,
+        "base_significance": 0.638,
+        "recency_weight": 1.0,
+        "effective_score": 0.638,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-506-6d4ce313c7",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed rest on common room sofa at the Ville:Oak Hill College:library:library sofa but made no measurable progress toward the goal.",
+        "embedding_text": "Maria Lopez completed rest on common room sofa at the Ville:Oak Hill College:library:library sofa but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "rest",
+          "restore_stamina",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 6.55,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -0.085,
+          "stamina": 12.486,
+          "health": 0.0,
+          "safety": -0.012,
+          "mood": -0.03,
+          "belonging": -0.03,
+          "status": -0.018,
+          "autonomy": -0.016,
+          "competence": -0.022,
+          "meaning": -0.014
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library:library sofa",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -0.085,
+            "stamina": 12.486,
+            "health": 0.0,
+            "safety": -0.012,
+            "mood": -0.03,
+            "belonging": -0.03,
+            "status": -0.018,
+            "autonomy": -0.016,
+            "competence": -0.022,
+            "meaning": -0.014
+          },
+          "resource_instance_key": "the ville:oak hill college:library:library sofa"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-616-e03869514b",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 616,
+      "sim_time": "2026-07-17 09:42:40",
+      "wall_ts": "2026-07-17T20:11:12.621993+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-507-62fc7cc2",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -9.265,
+          "stamina": -9.592,
+          "health": 0.0,
+          "safety": -1.308,
+          "mood": -2.27,
+          "belonging": -3.27,
+          "status": -1.962,
+          "autonomy": -1.744,
+          "competence": -2.398,
+          "meaning": -1.526
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-616-e03869514b",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -9.265,
+          "stamina": -9.592,
+          "health": 0.0,
+          "safety": -1.308,
+          "mood": -2.27,
+          "belonging": -3.27,
+          "status": -1.962,
+          "autonomy": -1.744,
+          "competence": -2.398,
+          "meaning": -1.526
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -9.265,
+            "stamina": -9.592,
+            "health": 0.0,
+            "safety": -1.308,
+            "mood": -2.27,
+            "belonging": -3.27,
+            "status": -1.962,
+            "autonomy": -1.744,
+            "competence": -2.398,
+            "meaning": -1.526
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-654-e9b33e9c99",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 654,
+      "sim_time": "2026-07-17 09:49:00",
+      "wall_ts": "2026-07-17T20:11:56.978609+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-617-7dce28fb",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "seek_and_chat",
+        "raw_action": "seek_and_chat",
+        "intent_family": "restore_mood",
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "Chat with Isabella Rodriguez to discuss relaxation and emotional well-being.; conversation topic: Seeking relaxation and emotional support"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -3.145,
+          "stamina": -3.256,
+          "health": 0.0,
+          "safety": -0.444,
+          "mood": -1.11,
+          "belonging": -1.11,
+          "status": -0.666,
+          "autonomy": -0.592,
+          "competence": -0.814,
+          "meaning": -0.518
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.583,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.139,
+        "base_significance": 0.611,
+        "recency_weight": 1.0,
+        "effective_score": 0.611,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-654-e9b33e9c99",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed seek_and_chat on Isabella Rodriguez at <persona> Isabella Rodriguez but made no measurable progress toward the goal.",
+        "embedding_text": "Maria Lopez completed seek_and_chat on Isabella Rodriguez at <persona> Isabella Rodriguez but made no measurable progress toward the goal.",
+        "keywords": [
+          "execution_result",
+          "goal_no_progress",
+          "isabella rodriguez",
+          "mood",
+          "restore_mood",
+          "seek_and_chat",
+          "success"
+        ],
+        "poignancy": 6.44,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -3.145,
+          "stamina": -3.256,
+          "health": 0.0,
+          "safety": -0.444,
+          "mood": -1.11,
+          "belonging": -1.11,
+          "status": -0.666,
+          "autonomy": -0.592,
+          "competence": -0.814,
+          "meaning": -0.518
+        },
+        "memory_tags": {
+          "skill_id": "seek_and_chat",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -3.145,
+            "stamina": -3.256,
+            "health": 0.0,
+            "safety": -0.444,
+            "mood": -1.11,
+            "belonging": -1.11,
+            "status": -0.666,
+            "autonomy": -0.592,
+            "competence": -0.814,
+            "meaning": -0.518
+          },
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-655-9617cfe4aa",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 655,
+      "sim_time": "2026-07-17 09:49:10",
+      "wall_ts": "2026-07-17T20:12:59.487655+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-617-7dce28fb",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": null,
+        "target": "Isabella Rodriguez",
+        "target_type": "persona",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "Isabella Rodriguez",
+        "resolution_kind": null,
+        "detail": "having a conversation with Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "advanced",
+        "progress_score": 0.2,
+        "replan_required": true,
+        "evidence": [
+          "stamina:+4",
+          "mood:+1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -3.23,
+          "stamina": 0.694,
+          "health": 0.0,
+          "safety": -0.456,
+          "mood": 0.23,
+          "belonging": 3.39,
+          "status": -0.684,
+          "autonomy": -0.608,
+          "competence": -0.836,
+          "meaning": -0.532
+        },
+        "inventory_delta": {},
+        "progress_score": 0.2
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.25,
+        "motive_effect_magnitude": 0.533,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.029,
+        "base_significance": 0.849,
+        "recency_weight": 1.0,
+        "effective_score": 0.849,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-655-9617cfe4aa",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+        "embedding_text": "Maria Lopez completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+        "keywords": [
+          "chat with",
+          "execution_result",
+          "goal_advanced",
+          "isabella rodriguez",
+          "mood",
+          "success"
+        ],
+        "poignancy": 7.4,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -3.23,
+          "stamina": 0.694,
+          "health": 0.0,
+          "safety": -0.456,
+          "mood": 0.23,
+          "belonging": 3.39,
+          "status": -0.684,
+          "autonomy": -0.608,
+          "competence": -0.836,
+          "meaning": -0.532
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "advanced",
+          "goal_progress_score": 0.2,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -3.23,
+            "stamina": 0.694,
+            "health": 0.0,
+            "safety": -0.456,
+            "mood": 0.23,
+            "belonging": 3.39,
+            "status": -0.684,
+            "autonomy": -0.608,
+            "competence": -0.836,
+            "meaning": -0.532
+          },
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-656-612b0acfb4",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 656,
+      "sim_time": "2026-07-17 09:49:20",
+      "wall_ts": "2026-07-17T20:14:15.766797+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-656-cd51c39d",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": "communication",
+        "target": "Isabella Rodriguez",
+        "target_type": "place",
+        "target_address": "<persona> Isabella Rodriguez",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "having a conversation with Isabella Rodriguez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "advanced",
+        "progress_score": 0.2,
+        "replan_required": true,
+        "evidence": [
+          "stamina:+4",
+          "mood:+1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.03,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.2
+      },
+      "resource_context": {
+        "resource_type": "Isabella Rodriguez",
+        "resource_instance_key": "<persona> isabella rodriguez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.25,
+        "motive_effect_magnitude": 0.252,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.125,
+        "base_significance": 0.587,
+        "recency_weight": 1.0,
+        "effective_score": 0.587,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-656-612b0acfb4",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+        "embedding_text": "Maria Lopez completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+        "keywords": [
+          "chat with",
+          "communication",
+          "execution_result",
+          "goal_advanced",
+          "isabella rodriguez",
+          "mood",
+          "success"
+        ],
+        "poignancy": 6.35,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": 4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.03,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Isabella Rodriguez",
+          "target_address": "<persona> Isabella Rodriguez",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "advanced",
+          "goal_progress_score": 0.2,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": 4.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.03,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "<persona> isabella rodriguez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-726-f4ed822ace",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 726,
+      "sim_time": "2026-07-17 10:01:00",
+      "wall_ts": "2026-07-17T20:17:28.531295+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-656-cd51c39d",
+        "dominant_motive": "mood",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Relax on the common room sofa to improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -5.95,
+          "stamina": -4.122,
+          "health": 0.0,
+          "safety": -0.84,
+          "mood": 27.09,
+          "belonging": -2.07,
+          "status": -1.26,
+          "autonomy": -1.12,
+          "competence": -1.54,
+          "meaning": -0.98
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-726-f4ed822ace",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed leisure_use on common room sofa at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "embedding_text": "Maria Lopez completed leisure_use on common room sofa at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "goal_no_progress",
+          "leisure_use",
+          "mood",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -5.95,
+          "stamina": -4.122,
+          "health": 0.0,
+          "safety": -0.84,
+          "mood": 27.09,
+          "belonging": -2.07,
+          "status": -1.26,
+          "autonomy": -1.12,
+          "competence": -1.54,
+          "meaning": -0.98
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": "mood",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -5.95,
+            "stamina": -4.122,
+            "health": 0.0,
+            "safety": -0.84,
+            "mood": 27.09,
+            "belonging": -2.07,
+            "status": -1.26,
+            "autonomy": -1.12,
+            "competence": -1.54,
+            "meaning": -0.98
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-727-1580264068",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 727,
+      "sim_time": "2026-07-17 10:01:10",
+      "wall_ts": "2026-07-17T20:17:39.688489+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-727-19b486bf",
+        "dominant_motive": "competence",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "study",
+        "raw_action": "study",
+        "intent_family": "study",
+        "target": "computer",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "computer",
+        "resolution_kind": null,
+        "detail": "Focus on physics study to improve competence."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "computer",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.25,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.31,
+        "recency_weight": 1.0,
+        "effective_score": 0.31,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-727-1580264068",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "embedding_text": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "keywords": [
+          "competence",
+          "computer",
+          "execution_result",
+          "goal_no_progress",
+          "study",
+          "success"
+        ],
+        "poignancy": 5.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "study",
+          "target": "computer",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": "competence",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -4.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-728-0ced89a7c8",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Maria Lopez",
+      "curr_step": 728,
+      "sim_time": "2026-07-17 10:01:20",
+      "wall_ts": "2026-07-17T20:17:53.832231+08:00",
+      "decision_context": {
+        "decision_id": "Maria_Lopez-728-f30f0669",
+        "dominant_motive": "competence",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "study",
+        "raw_action": "study",
+        "intent_family": "study",
+        "target": "computer",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "computer",
+        "resolution_kind": null,
+        "detail": "idling to conserve energy"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "computer",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.25,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 0.31,
+        "recency_weight": 1.0,
+        "effective_score": 0.31,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-728-0ced89a7c8",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "embedding_text": "Maria Lopez completed study on computer at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+        "keywords": [
+          "competence",
+          "computer",
+          "execution_result",
+          "goal_no_progress",
+          "study",
+          "success"
+        ],
+        "poignancy": 5.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": -4.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "study",
+          "target": "computer",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": "competence",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": -4.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 616,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-116-b0f72bff0a",
+        "Maria_Lopez-129-bc350be4f8",
+        "Maria_Lopez-616-e03869514b"
+      ]
+    },
+    {
+      "experience_kind": "avoid",
+      "intent_family": "restore_satiety",
+      "skill_id": "request",
+      "resource_scope": "instance",
+      "resource_instance_key": "<persona> isabella rodriguez",
+      "resource_type": "Isabella Rodriguez",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.72,
+      "freshness_step": 279,
+      "evidence_summary": "Isabella Rodriguez at <persona> Isabella Rodriguez was not close enough to use recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-279-16c95f7aa4"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "consume",
+      "resource_scope": "instance",
+      "resource_instance_key": "<waiting> 102 32",
+      "resource_type": "apple",
+      "recommendation": "prefer_this_instance",
+      "confidence": 0.925,
+      "freshness_step": 474,
+      "evidence_summary": "apple at <waiting> 102 32 worked well recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-474-fcb69d68fb"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Maria Lopez-729-idle-common room sofa",
+    "phase": "pathing",
+    "address": "the Ville:artist's co-living space:common room:common room sofa",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "description": "idling",
+    "event": [
+      "Maria Lopez",
+      "idle",
+      "none"
+    ],
+    "path": [
+      [
+        53,
+        32
+      ],
+      [
+        52,
+        32
+      ],
+      [
+        51,
+        32
+      ],
+      [
+        50,
+        32
+      ],
+      [
+        49,
+        32
+      ],
+      [
+        48,
+        32
+      ],
+      [
+        47,
+        32
+      ],
+      [
+        46,
+        32
+      ],
+      [
+        45,
+        32
+      ],
+      [
+        44,
+        32
+      ],
+      [
+        43,
+        32
+      ],
+      [
+        42,
+        32
+      ],
+      [
+        41,
+        32
+      ],
+      [
+        40,
+        32
+      ],
+      [
+        39,
+        32
+      ],
+      [
+        38,
+        32
+      ],
+      [
+        37,
+        32
+      ],
+      [
+        36,
+        32
+      ],
+      [
+        35,
+        32
+      ]
+    ],
+    "path_set": true,
+    "signature": {
+      "skill_id": "idle",
+      "target": "common room sofa",
+      "intent_family": "idle"
+    },
+    "started_step": 729,
+    "updated_step": 801,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "pathing",
+    "skill_id": "idle",
+    "intent_family": "idle",
+    "target": "common room sofa",
+    "target_type": null,
+    "resolved_target": "common room sofa",
+    "resolved_address": "the Ville:artist's co-living space:common room:common room sofa",
+    "description": "idling",
+    "command": {
+      "skill_id": "idle",
+      "target": "none",
+      "intent_family": "idle",
+      "source": "decision_translation",
+      "raw_action": "idle",
+      "detail": "idling"
+    },
+    "event": [
+      "Maria Lopez",
+      "idle",
+      "none"
+    ],
+    "duration": 10,
+    "creator_instruction": null,
+    "decision_id": "Maria_Lopez-729-42d6fd92",
+    "dominant_motive": "competence",
+    "secondary_motive": null,
+    "motive_values_before": {
+      "satiety": {
+        "current_value": 78.3250000000016,
+        "initial_value": 58.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.085,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "stamina": {
+        "current_value": 78.68000000000134,
+        "initial_value": 72.0,
+        "safe_threshold": 44.0,
+        "critical_threshold": 20.0,
+        "decay_per_step": 0.05,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "health": {
+        "current_value": 100.0,
+        "initial_value": 84.0,
+        "safe_threshold": 55.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.0,
+        "priority_weight": 1.15,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "safety": {
+        "current_value": 51.23999999999967,
+        "initial_value": 60.0,
+        "safe_threshold": 43.0,
+        "critical_threshold": 20.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 0.95,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "mood": {
+        "current_value": 81.64000000000047,
+        "initial_value": 68.0,
+        "safe_threshold": 54.0,
+        "critical_threshold": 32.0,
+        "decay_per_step": 0.035,
+        "priority_weight": 1.02,
+        "skill_flat_modifiers": {
+          "leisure_use": 4.0,
+          "daydream": 2.0,
+          "sing": 3.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "belonging": {
+        "current_value": 97.80999999999992,
+        "initial_value": 62.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.03,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {
+          "chat with": 3.0,
+          "hangout_social_venue": 2.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "status": {
+        "current_value": 44.8599999999995,
+        "initial_value": 58.0,
+        "safe_threshold": 44.0,
+        "critical_threshold": 26.0,
+        "decay_per_step": 0.018,
+        "priority_weight": 0.96,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "autonomy": {
+        "current_value": 58.31999999999863,
+        "initial_value": 70.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.016,
+        "priority_weight": 1.05,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "competence": {
+        "current_value": 49.94000000000048,
+        "initial_value": 66.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 30.0,
+        "decay_per_step": 0.022,
+        "priority_weight": 1.08,
+        "skill_flat_modifiers": {
+          "study": 4.0,
+          "work": 2.0,
+          "creator_task_completion": 2.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "meaning": {
+        "current_value": 49.779999999997884,
+        "initial_value": 60.0,
+        "safe_threshold": 46.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.014,
+        "priority_weight": 0.94,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      }
+    },
+    "created_step": 729,
+    "updated_step": 801,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": "idle",
+  "active_skill_id": "Maria Lopez-729-idle",
+  "active_skill_status": "in_progress",
+  "active_skill_phase": "pathing",
+  "active_skill_started_step": 729,
+  "active_skill_owner": "Maria Lopez",
+  "active_skill_target": "common room sofa",
+  "active_skill_metadata": {
+    "source": "decision_translation",
+    "action_description": "idling"
+  },
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 2
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 10
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "hospitable, welcoming, empathetic",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmeaning",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "curious, disciplined, social",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:01:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:01:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Maria Lopez, a dedicated physics student, is balancing her academic pursuits with gaming on Twitch to supplement her income. She frequents Hobbs Cafe for both study sessions and social interaction, facing challenges in accessing food and seeking support. Maria actively seeks social connections and mood improvement, engaging in conversations with Isabella....",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 09:49:30",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals revolve around ensuring my survival and stability. I believe in understanding the complexities of the world we live in and strive to navigate it with a focus on social connections and personal growth. I aim to build a routine and relationships that support my well-being, while simultaneously pursuing my passion for physics and contributing positively to the community. Reflecting on my mood fluct...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:01:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:01:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Isabella Rodriguez\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: hospitable, welcoming, empathetic\u3002 Isabella Rodriguez: \u4eb2\u5bc6\u7a0b\u5ea6=0.56, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about a coffee date and a discussion about planning a Valentine's Day party \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Maria Lopez Isabella offered to help Maria relax and even invited her to have a coffee after her live stream.",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 09:49:30",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-17 10:01:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": -87,
+  "importance_ele_n": 82,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": "the Ville:artist's co-living space:common room:common room sofa",
+  "act_start_time": "July 17, 2026, 10:01:30",
+  "act_duration": 10,
+  "act_description": "idling",
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": [
+    "Maria Lopez",
+    "idle",
+    "none"
+  ],
+  "act_command": {
+    "skill_id": "idle",
+    "target": "none",
+    "intent_family": "idle",
+    "source": "decision_translation",
+    "raw_action": "idle",
+    "detail": "idling"
+  },
+  "act_obj_description": "common room sofa is being used",
+  "act_obj_pronunciatio": "\ud83d\ude42",
+  "act_obj_event": [
+    "common room sofa",
+    "is",
+    "being used"
+  ],
+  "act_path_set": true,
+  "planned_path": [
+    [
+      53,
+      32
+    ],
+    [
+      52,
+      32
+    ],
+    [
+      51,
+      32
+    ],
+    [
+      50,
+      32
+    ],
+    [
+      49,
+      32
+    ],
+    [
+      48,
+      32
+    ],
+    [
+      47,
+      32
+    ],
+    [
+      46,
+      32
+    ],
+    [
+      45,
+      32
+    ],
+    [
+      44,
+      32
+    ],
+    [
+      43,
+      32
+    ],
+    [
+      42,
+      32
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      40,
+      32
+    ],
+    [
+      39,
+      32
+    ],
+    [
+      38,
+      32
+    ],
+    [
+      37,
+      32
+    ],
+    [
+      36,
+      32
+    ],
+    [
+      35,
+      32
+    ]
+  ]
+}

@@ -1,0 +1,1832 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 17, 2026, 10:13:30",
+  "curr_tile": [
+    77,
+    26
+  ],
+  "daily_plan_req": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+  "name": "Isabella Rodriguez",
+  "first_name": "Isabella",
+  "last_name": "Rodriguez",
+  "age": 34,
+  "innate": "hospitable, welcoming, empathetic",
+  "learned": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+  "currently": "Isabella Rodriguez is planning on having a Valentine's Day party at Hobbs Cafe with her customers on February 14th, 2023 at 5pm. She is gathering party material, and is telling everyone to join the party at Hobbs Cafe on February 14th, 2023, from 5pm to 7pm.",
+  "lifestyle": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+  "living_area": "the Ville:Isabella Rodriguez's apartment:main room",
+  "satiety": 81.66000000000179,
+  "stamina": 83.72600000000091,
+  "health": 100.0,
+  "mood": 87.38000000000008,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 81.66000000000179,
+      "initial_value": 62.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.07,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 83.72600000000091,
+      "initial_value": 70.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.045,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 86.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.18,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 61.58400000000141,
+      "initial_value": 68.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 22.0,
+      "decay_per_step": 0.008,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 87.38000000000008,
+      "initial_value": 72.0,
+      "safe_threshold": 58.0,
+      "critical_threshold": 35.0,
+      "decay_per_step": 0.02,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 97.4079999999999,
+      "initial_value": 74.0,
+      "safe_threshold": 60.0,
+      "critical_threshold": 36.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {
+        "chat with": 5.0,
+        "hangout_social_venue": 4.0,
+        "give": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 54.375999999999635,
+      "initial_value": 64.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 49.980000000001596,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.01,
+      "priority_weight": 0.9,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 49.365999999997584,
+      "initial_value": 63.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 29.0,
+      "decay_per_step": 0.017,
+      "priority_weight": 0.98,
+      "skill_flat_modifiers": {
+        "work": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 51.375999999999635,
+      "initial_value": 61.0,
+      "safe_threshold": 47.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.93,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": "July 17, 2026, 09:58:10",
+  "last_action_switch_time": "July 17, 2026, 10:00:30",
+  "decision_commit_until_step": null,
+  "last_decision_signature": {
+    "skill_id": "work",
+    "target": "hobbs cafe",
+    "intent_family": "work"
+  },
+  "last_decision_reason": "Manage daily operations of the cafe.",
+  "recent_completed_action_signature": {
+    "skill_id": "work",
+    "target": "hobbs cafe",
+    "intent_family": "work"
+  },
+  "recent_completed_action_step": 801,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "hobbs cafe",
+    "target_address": "the Ville:Hobbs Cafe:cafe",
+    "skill_id": "work",
+    "action_description": "Manage daily operations of the cafe.",
+    "curr_step": 801,
+    "goal_status": "no_progress",
+    "goal_progress_score": 0.0,
+    "replan_required": true
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Isabella_Rodriguez-801-0a763b803d",
+    "sim_code": "sim_20260717_192552",
+    "persona": "Isabella Rodriguez",
+    "curr_step": 801,
+    "sim_time": "2026-07-17 10:13:30",
+    "wall_ts": "2026-07-17T20:20:17.190801+08:00",
+    "decision_context": {
+      "decision_id": "Isabella_Rodriguez-723-1c72c7f7",
+      "dominant_motive": "satiety",
+      "secondary_motive": null
+    },
+    "action": {
+      "skill_id": "work",
+      "raw_action": "work",
+      "intent_family": "work",
+      "target": "Hobbs Cafe",
+      "target_type": "place",
+      "target_address": "the Ville:Hobbs Cafe:cafe",
+      "resolved_target": "cafe",
+      "resolution_kind": null,
+      "detail": "Manage daily operations of the cafe."
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "goal": {
+      "status": "no_progress",
+      "progress_score": 0.0,
+      "replan_required": true,
+      "evidence": []
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": -5.46,
+        "stamina": -11.162,
+        "health": 0.0,
+        "safety": -0.624,
+        "mood": -1.0,
+        "belonging": -1.404,
+        "status": -0.936,
+        "autonomy": -0.78,
+        "competence": -1.326,
+        "meaning": -0.936
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "Hobbs Cafe",
+      "resource_instance_key": "the ville:hobbs cafe:cafe"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "motive_effect_magnitude": 1.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.682,
+      "base_significance": 1.0,
+      "recency_weight": 1.0,
+      "effective_score": 1.0,
+      "should_promote_to_experience": true
+    },
+    "memory_projection": {
+      "source_outcome_id": "Isabella_Rodriguez-801-0a763b803d",
+      "memory_type": "event",
+      "subject": "Isabella Rodriguez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+      "embedding_text": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+      "keywords": [
+        "execution_result",
+        "goal_no_progress",
+        "hobbs cafe",
+        "satiety",
+        "success",
+        "work"
+      ],
+      "poignancy": 8.0,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": -5.46,
+        "stamina": -11.162,
+        "health": 0.0,
+        "safety": -0.624,
+        "mood": -1.0,
+        "belonging": -1.404,
+        "status": -0.936,
+        "autonomy": -0.78,
+        "competence": -1.326,
+        "meaning": -0.936
+      },
+      "memory_tags": {
+        "skill_id": "work",
+        "target": "Hobbs Cafe",
+        "target_address": "the Ville:Hobbs Cafe:cafe",
+        "reason": null,
+        "dominant_motive": "satiety",
+        "outcome_status": "success",
+        "goal_status": "no_progress",
+        "goal_progress_score": 0.0,
+        "replan_required": true,
+        "motive_effects": {
+          "satiety": -5.46,
+          "stamina": -11.162,
+          "health": 0.0,
+          "safety": -0.624,
+          "mood": -1.0,
+          "belonging": -1.404,
+          "status": -0.936,
+          "autonomy": -0.78,
+          "competence": -1.326,
+          "meaning": -0.936
+        },
+        "resource_instance_key": "the ville:hobbs cafe:cafe"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-539-26a6cdd3b8",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 539,
+      "sim_time": "2026-07-17 09:29:50",
+      "wall_ts": "2026-07-17T20:08:45.867668+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-539-839b0444",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "inventory_item",
+        "target_address": "<waiting> 36 33",
+        "resolved_target": "apple",
+        "resolution_kind": null,
+        "detail": "Isabella consumes the apple she gathered to satisfy her satiety needs."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.95,
+        "replan_required": false,
+        "evidence": [
+          "satiety:+49.8",
+          "mood:+1",
+          "inventory:apple:-1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 49.8,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 49.8,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.95
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "<waiting> 36 33"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 1.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 1.0,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-539-26a6cdd3b8",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used consume on apple at <waiting> 36 33.",
+        "embedding_text": "Isabella Rodriguez successfully used consume on apple at <waiting> 36 33.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "goal_achieved",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 49.8,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 49.8,
+          "stamina": 0.0,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 1.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "<waiting> 36 33",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.95,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": 49.8,
+            "stamina": 0.0,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 1.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "<waiting> 36 33"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-588-91345a84fd",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 588,
+      "sim_time": "2026-07-17 09:38:00",
+      "wall_ts": "2026-07-17T20:10:37.431614+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-540-48c59bc0",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "work",
+        "raw_action": "work",
+        "intent_family": "work",
+        "target": "Hobbs Cafe",
+        "target_type": "place",
+        "target_address": "the Ville:Hobbs Cafe:cafe",
+        "resolved_target": "cafe",
+        "resolution_kind": null,
+        "detail": "Continue managing daily operations and planning the Valentine's Day party."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -3.36,
+          "stamina": -8.792,
+          "health": 0.0,
+          "safety": -0.384,
+          "mood": -1.0,
+          "belonging": -0.864,
+          "status": -0.576,
+          "autonomy": -0.48,
+          "competence": -0.816,
+          "meaning": -0.576
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Hobbs Cafe",
+        "resource_instance_key": "the ville:hobbs cafe:cafe"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.842,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.42,
+        "base_significance": 0.926,
+        "recency_weight": 1.0,
+        "effective_score": 0.926,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-588-91345a84fd",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+        "keywords": [
+          "execution_result",
+          "goal_no_progress",
+          "hobbs cafe",
+          "satiety",
+          "success",
+          "work"
+        ],
+        "poignancy": 7.7,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -3.36,
+          "stamina": -8.792,
+          "health": 0.0,
+          "safety": -0.384,
+          "mood": -1.0,
+          "belonging": -0.864,
+          "status": -0.576,
+          "autonomy": -0.48,
+          "competence": -0.816,
+          "meaning": -0.576
+        },
+        "memory_tags": {
+          "skill_id": "work",
+          "target": "Hobbs Cafe",
+          "target_address": "the Ville:Hobbs Cafe:cafe",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -3.36,
+            "stamina": -8.792,
+            "health": 0.0,
+            "safety": -0.384,
+            "mood": -1.0,
+            "belonging": -0.864,
+            "status": -0.576,
+            "autonomy": -0.48,
+            "competence": -0.816,
+            "meaning": -0.576
+          },
+          "resource_instance_key": "the ville:hobbs cafe:cafe"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-609-2eb5895bef",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 609,
+      "sim_time": "2026-07-17 09:41:30",
+      "wall_ts": "2026-07-17T20:10:51.017120+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-589-8fedbb0c",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "rest",
+        "intent_family": "restore_stamina",
+        "target": "bed",
+        "target_type": "object",
+        "target_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+        "resolved_target": "bed",
+        "resolution_kind": null,
+        "detail": "idling to conserve energy"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -1.4,
+          "stamina": 8.927,
+          "health": 0.0,
+          "safety": -0.16,
+          "mood": 0.0,
+          "belonging": -0.36,
+          "status": -0.24,
+          "autonomy": -0.2,
+          "competence": -0.34,
+          "meaning": -0.24
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "bed",
+        "resource_instance_key": "the ville:isabella rodriguez's apartment:main room:bed"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.593,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.175,
+        "base_significance": 0.628,
+        "recency_weight": 1.0,
+        "effective_score": 0.628,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-609-2eb5895bef",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed rest on bed at the Ville:Isabella Rodriguez's apartment:main room:bed but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed rest on bed at the Ville:Isabella Rodriguez's apartment:main room:bed but made no measurable progress toward the goal.",
+        "keywords": [
+          "bed",
+          "execution_result",
+          "goal_no_progress",
+          "rest",
+          "restore_stamina",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 6.51,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -1.4,
+          "stamina": 8.927,
+          "health": 0.0,
+          "safety": -0.16,
+          "mood": 0.0,
+          "belonging": -0.36,
+          "status": -0.24,
+          "autonomy": -0.2,
+          "competence": -0.34,
+          "meaning": -0.24
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "bed",
+          "target_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -1.4,
+            "stamina": 8.927,
+            "health": 0.0,
+            "safety": -0.16,
+            "mood": 0.0,
+            "belonging": -0.36,
+            "status": -0.24,
+            "autonomy": -0.2,
+            "competence": -0.34,
+            "meaning": -0.24
+          },
+          "resource_instance_key": "the ville:isabella rodriguez's apartment:main room:bed"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-610-75bd437383",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 610,
+      "sim_time": "2026-07-17 09:41:40",
+      "wall_ts": "2026-07-17T20:11:02.302238+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-610-2f9a5f52",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "rest",
+        "raw_action": "rest",
+        "intent_family": "restore_stamina",
+        "target": "bed",
+        "target_type": "object",
+        "target_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+        "resolved_target": "bed",
+        "resolution_kind": null,
+        "detail": "Resting to recover stamina after a busy day."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": 0.045,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 0.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "bed",
+        "resource_instance_key": "the ville:isabella rodriguez's apartment:main room:bed"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 0.002,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.95,
+        "base_significance": 0.192,
+        "recency_weight": 1.0,
+        "effective_score": 0.192,
+        "should_promote_to_experience": false
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-610-75bd437383",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed rest on bed at the Ville:Isabella Rodriguez's apartment:main room:bed but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed rest on bed at the Ville:Isabella Rodriguez's apartment:main room:bed but made no measurable progress toward the goal.",
+        "keywords": [
+          "bed",
+          "execution_result",
+          "goal_no_progress",
+          "rest",
+          "restore_stamina",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 4.77,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 0.0,
+          "stamina": 0.045,
+          "health": 0.0,
+          "safety": 0.0,
+          "mood": 0.0,
+          "belonging": 0.0,
+          "status": 0.0,
+          "autonomy": 0.0,
+          "competence": 0.0,
+          "meaning": 0.0
+        },
+        "memory_tags": {
+          "skill_id": "rest",
+          "target": "bed",
+          "target_address": "the Ville:Isabella Rodriguez's apartment:main room:bed",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": 0.0,
+            "stamina": 0.045,
+            "health": 0.0,
+            "safety": 0.0,
+            "mood": 0.0,
+            "belonging": 0.0,
+            "status": 0.0,
+            "autonomy": 0.0,
+            "competence": 0.0,
+            "meaning": 0.0
+          },
+          "resource_instance_key": "the ville:isabella rodriguez's apartment:main room:bed"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-657-956b84810a",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 657,
+      "sim_time": "2026-07-17 09:49:30",
+      "wall_ts": "2026-07-17T20:16:24.747984+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-611-d25e5ad3",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "chat with",
+        "raw_action": "chat with",
+        "intent_family": "communication",
+        "target": "Maria Lopez",
+        "target_type": "object",
+        "target_address": "<persona> Maria Lopez",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "having a conversation with Maria Lopez"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "advanced",
+        "progress_score": 0.2,
+        "replan_required": true,
+        "evidence": [
+          "stamina:+3.645",
+          "mood:+1"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 3.645,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -3.22,
+          "stamina": 0.045,
+          "health": 0.0,
+          "safety": -0.368,
+          "mood": 1.68,
+          "belonging": 4.806,
+          "status": -0.552,
+          "autonomy": -0.46,
+          "competence": -0.782,
+          "meaning": -0.552
+        },
+        "inventory_delta": {},
+        "progress_score": 0.2
+      },
+      "resource_context": {
+        "resource_type": "Maria Lopez",
+        "resource_instance_key": "<persona> maria lopez"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.232,
+        "motive_effect_magnitude": 0.623,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.403,
+        "base_significance": 0.996,
+        "recency_weight": 1.0,
+        "effective_score": 0.996,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-657-956b84810a",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed chat with on Maria Lopez at <persona> Maria Lopez and made partial progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed chat with on Maria Lopez at <persona> Maria Lopez and made partial progress toward the goal.",
+        "keywords": [
+          "chat with",
+          "communication",
+          "execution_result",
+          "goal_advanced",
+          "maria lopez",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 7.98,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 3.645,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -3.22,
+          "stamina": 0.045,
+          "health": 0.0,
+          "safety": -0.368,
+          "mood": 1.68,
+          "belonging": 4.806,
+          "status": -0.552,
+          "autonomy": -0.46,
+          "competence": -0.782,
+          "meaning": -0.552
+        },
+        "memory_tags": {
+          "skill_id": "chat with",
+          "target": "Maria Lopez",
+          "target_address": "<persona> Maria Lopez",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "advanced",
+          "goal_progress_score": 0.2,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -3.22,
+            "stamina": 0.045,
+            "health": 0.0,
+            "safety": -0.368,
+            "mood": 1.68,
+            "belonging": 4.806,
+            "status": -0.552,
+            "autonomy": -0.46,
+            "competence": -0.782,
+            "meaning": -0.552
+          },
+          "resource_instance_key": "<persona> maria lopez"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-709-885d097859",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 709,
+      "sim_time": "2026-07-17 09:58:10",
+      "wall_ts": "2026-07-17T20:16:34.712094+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-611-d25e5ad3",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -6.86,
+          "stamina": -4.029,
+          "health": 0.0,
+          "safety": -0.784,
+          "mood": 20.02,
+          "belonging": 3.87,
+          "status": -1.176,
+          "autonomy": -0.98,
+          "competence": -1.666,
+          "meaning": -1.176
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.858,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-709-885d097859",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -6.86,
+          "stamina": -4.029,
+          "health": 0.0,
+          "safety": -0.784,
+          "mood": 20.02,
+          "belonging": 3.87,
+          "status": -1.176,
+          "autonomy": -0.98,
+          "competence": -1.666,
+          "meaning": -1.176
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -6.86,
+            "stamina": -4.029,
+            "health": 0.0,
+            "safety": -0.784,
+            "mood": 20.02,
+            "belonging": 3.87,
+            "status": -1.176,
+            "autonomy": -0.98,
+            "competence": -1.666,
+            "meaning": -1.176
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-722-2a58524cc0",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 722,
+      "sim_time": "2026-07-17 10:00:20",
+      "wall_ts": "2026-07-17T20:17:11.945723+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-710-c0479b2d",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "achieved",
+        "progress_score": 0.683,
+        "replan_required": false,
+        "evidence": [
+          "mood:+1",
+          "inventory:apple:+2"
+        ]
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.84,
+          "stamina": -0.948,
+          "health": 0.0,
+          "safety": -0.096,
+          "mood": 1.0,
+          "belonging": -0.216,
+          "status": -0.144,
+          "autonomy": -0.12,
+          "competence": -0.204,
+          "meaning": -0.144
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 0.186,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.105,
+        "base_significance": 0.561,
+        "recency_weight": 1.0,
+        "effective_score": 0.561,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-722-2a58524cc0",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "goal_achieved",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "satiety",
+          "success"
+        ],
+        "poignancy": 6.24,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": -0.84,
+          "stamina": -0.948,
+          "health": 0.0,
+          "safety": -0.096,
+          "mood": 1.0,
+          "belonging": -0.216,
+          "status": -0.144,
+          "autonomy": -0.12,
+          "competence": -0.204,
+          "meaning": -0.144
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "achieved",
+          "goal_progress_score": 0.683,
+          "replan_required": false,
+          "motive_effects": {
+            "satiety": -0.84,
+            "stamina": -0.948,
+            "health": 0.0,
+            "safety": -0.096,
+            "mood": 1.0,
+            "belonging": -0.216,
+            "status": -0.144,
+            "autonomy": -0.12,
+            "competence": -0.204,
+            "meaning": -0.144
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Isabella_Rodriguez-801-0a763b803d",
+      "sim_code": "sim_20260717_192552",
+      "persona": "Isabella Rodriguez",
+      "curr_step": 801,
+      "sim_time": "2026-07-17 10:13:30",
+      "wall_ts": "2026-07-17T20:20:17.190801+08:00",
+      "decision_context": {
+        "decision_id": "Isabella_Rodriguez-723-1c72c7f7",
+        "dominant_motive": "satiety",
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "work",
+        "raw_action": "work",
+        "intent_family": "work",
+        "target": "Hobbs Cafe",
+        "target_type": "place",
+        "target_address": "the Ville:Hobbs Cafe:cafe",
+        "resolved_target": "cafe",
+        "resolution_kind": null,
+        "detail": "Manage daily operations of the cafe."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "goal": {
+        "status": "no_progress",
+        "progress_score": 0.0,
+        "replan_required": true,
+        "evidence": []
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -5.46,
+          "stamina": -11.162,
+          "health": 0.0,
+          "safety": -0.624,
+          "mood": -1.0,
+          "belonging": -1.404,
+          "status": -0.936,
+          "autonomy": -0.78,
+          "competence": -1.326,
+          "meaning": -0.936
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "Hobbs Cafe",
+        "resource_instance_key": "the ville:hobbs cafe:cafe"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.682,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Isabella_Rodriguez-801-0a763b803d",
+        "memory_type": "event",
+        "subject": "Isabella Rodriguez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+        "embedding_text": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+        "keywords": [
+          "execution_result",
+          "goal_no_progress",
+          "hobbs cafe",
+          "satiety",
+          "success",
+          "work"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": -5.46,
+          "stamina": -11.162,
+          "health": 0.0,
+          "safety": -0.624,
+          "mood": -1.0,
+          "belonging": -1.404,
+          "status": -0.936,
+          "autonomy": -0.78,
+          "competence": -1.326,
+          "meaning": -0.936
+        },
+        "memory_tags": {
+          "skill_id": "work",
+          "target": "Hobbs Cafe",
+          "target_address": "the Ville:Hobbs Cafe:cafe",
+          "reason": null,
+          "dominant_motive": "satiety",
+          "outcome_status": "success",
+          "goal_status": "no_progress",
+          "goal_progress_score": 0.0,
+          "replan_required": true,
+          "motive_effects": {
+            "satiety": -5.46,
+            "stamina": -11.162,
+            "health": 0.0,
+            "safety": -0.624,
+            "mood": -1.0,
+            "belonging": -1.404,
+            "status": -0.936,
+            "autonomy": -0.78,
+            "competence": -1.326,
+            "meaning": -0.936
+          },
+          "resource_instance_key": "the ville:hobbs cafe:cafe"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 722,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-88-d972b44007",
+        "Isabella_Rodriguez-89-2acdcd85a3",
+        "Isabella_Rodriguez-515-db41ed24f1",
+        "Isabella_Rodriguez-709-885d097859",
+        "Isabella_Rodriguez-722-2a58524cc0"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "consume",
+      "resource_scope": "instance",
+      "resource_instance_key": "<waiting> 36 33",
+      "resource_type": "apple",
+      "recommendation": "prefer_this_instance",
+      "confidence": 0.925,
+      "freshness_step": 539,
+      "evidence_summary": "apple at <waiting> 36 33 worked well recently.",
+      "supporting_outcome_ids": [
+        "Isabella_Rodriguez-539-26a6cdd3b8"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [],
+  "active_execution_state": {
+    "id": "Isabella Rodriguez-723-work-hobbs cafe",
+    "phase": "completed",
+    "address": "the Ville:Hobbs Cafe:cafe",
+    "command": {
+      "skill_id": "work",
+      "target": "Hobbs Cafe",
+      "intent_family": "work",
+      "source": "decision_translation",
+      "raw_action": "work",
+      "detail": "Manage daily operations of the cafe."
+    },
+    "description": "Manage daily operations of the cafe.",
+    "event": [
+      "Isabella Rodriguez",
+      "work",
+      "Hobbs Cafe"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "work",
+      "target": "hobbs cafe",
+      "intent_family": "work"
+    },
+    "started_step": 723,
+    "updated_step": 801,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "completed",
+    "skill_id": "work",
+    "intent_family": "work",
+    "target": "hobbs cafe",
+    "target_type": "place",
+    "resolved_target": "cafe",
+    "resolved_address": "the Ville:Hobbs Cafe:cafe",
+    "description": "Manage daily operations of the cafe.",
+    "command": {
+      "skill_id": "work",
+      "target": "Hobbs Cafe",
+      "intent_family": "work",
+      "source": "decision_translation",
+      "raw_action": "work",
+      "detail": "Manage daily operations of the cafe."
+    },
+    "event": [
+      "Isabella Rodriguez",
+      "work",
+      "Hobbs Cafe"
+    ],
+    "duration": 120,
+    "creator_instruction": null,
+    "decision_id": "Isabella_Rodriguez-723-1c72c7f7",
+    "dominant_motive": "satiety",
+    "secondary_motive": null,
+    "motive_values_before": {
+      "satiety": {
+        "current_value": 87.12000000000126,
+        "initial_value": 62.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.07,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "stamina": {
+        "current_value": 94.8880000000004,
+        "initial_value": 70.0,
+        "safe_threshold": 46.0,
+        "critical_threshold": 20.0,
+        "decay_per_step": 0.045,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "health": {
+        "current_value": 100.0,
+        "initial_value": 86.0,
+        "safe_threshold": 58.0,
+        "critical_threshold": 26.0,
+        "decay_per_step": 0.0,
+        "priority_weight": 1.18,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "safety": {
+        "current_value": 62.20800000000162,
+        "initial_value": 68.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 22.0,
+        "decay_per_step": 0.008,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "mood": {
+        "current_value": 88.38000000000008,
+        "initial_value": 72.0,
+        "safe_threshold": 58.0,
+        "critical_threshold": 35.0,
+        "decay_per_step": 0.02,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "belonging": {
+        "current_value": 98.81199999999995,
+        "initial_value": 74.0,
+        "safe_threshold": 60.0,
+        "critical_threshold": 36.0,
+        "decay_per_step": 0.018,
+        "priority_weight": 1.15,
+        "skill_flat_modifiers": {
+          "chat with": 5.0,
+          "hangout_social_venue": 4.0,
+          "give": 2.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "status": {
+        "current_value": 55.31199999999967,
+        "initial_value": 64.0,
+        "safe_threshold": 50.0,
+        "critical_threshold": 30.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 1.0,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "autonomy": {
+        "current_value": 50.76000000000144,
+        "initial_value": 58.0,
+        "safe_threshold": 44.0,
+        "critical_threshold": 25.0,
+        "decay_per_step": 0.01,
+        "priority_weight": 0.9,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "competence": {
+        "current_value": 50.69199999999782,
+        "initial_value": 63.0,
+        "safe_threshold": 48.0,
+        "critical_threshold": 29.0,
+        "decay_per_step": 0.017,
+        "priority_weight": 0.98,
+        "skill_flat_modifiers": {
+          "work": 3.0
+        },
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      },
+      "meaning": {
+        "current_value": 52.31199999999967,
+        "initial_value": 61.0,
+        "safe_threshold": 47.0,
+        "critical_threshold": 28.0,
+        "decay_per_step": 0.012,
+        "priority_weight": 0.93,
+        "skill_flat_modifiers": {},
+        "skill_scale_modifiers": {},
+        "stable_text": null,
+        "warning_text": null,
+        "desire_text": null,
+        "guard_text": null
+      }
+    },
+    "created_step": 723,
+    "updated_step": 801,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 6
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 20
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 30
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmeaning",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Maria Lopez": {
+        "name": "Maria Lopez",
+        "innate_traits_text": "curious, disciplined, social",
+        "learned_traits_text": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "hospitable, welcoming, empathetic",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:00:30",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:00:30",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Isabella Rodriguez, a dedicated cafe owner, is currently in the midst of managing the daily operations of Hobbs Cafe while planning a Valentine's Day party to foster social inclusion and emotional support among her customers. She is keen on ensuring a comfortable atmosphere for all, as evidenced by her consistent efforts to create a welcoming environment....",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 09:49:30",
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "My long-term goals are to ensure the survival and success of Hobbs Cafe, a place that I've poured my heart into, by maintaining stable operations and fostering a community that feels like home. I understand the world as a place where relationships and social connections are vital, and I'm pursuing a longer-term direction of creating a legacy where people find solace, support, and joy. Beyond immediate survival, I...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:00:30",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Isabella Rodriguez goes to bed around 11pm, awakes up around 6am.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 10:00:30",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Isabella Rodriguez opens Hobbs Cafe at 8am everyday, and works at the counter until 8pm, at which point she closes the cafe.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "\u5f53\u524d\u6b63\u5728\u4ea4\u6d41\u5bf9\u8c61: Maria Lopez\u3002 \u5bf9\u65b9\u5929\u751f\u7279\u8d28: curious, disciplined, social\u3002 Klaus Mueller: \u4eb2\u5bc6\u7a0b\u5ea6=0.60, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about planning an event and discussing academic responsibilities Maria Lopez: \u4eb2\u5bc6\u7a0b\u5ea6=0.56, \u5173\u7cfb=friend, \u6700\u8fd1\u4e92\u52a8=conversing about a coffee date and a discussion about planning a Valentine's Day party \u6700\u8fd1\u793e\u4ea4\u53cd\u601d: Isabella Rodriguez Maria Lopez mentioned sh...",
+        "source": "chat_settlement",
+        "updated_at": "2026-07-17 09:49:30",
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-17 10:00:30"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": -27,
+  "importance_ele_n": 74,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 17, 2026, 10:00:30",
+  "act_duration": 120,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

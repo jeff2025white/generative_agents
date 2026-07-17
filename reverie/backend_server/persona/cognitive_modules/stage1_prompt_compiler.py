@@ -7,6 +7,7 @@ per-decision prompt assembly logic used by demand thinking and joint decision.
 
 import os
 import re
+import json
 from pathlib import Path
 
 from persona.cognitive_modules.decision_constraints import build_invalid_targets
@@ -20,30 +21,17 @@ from persona.prompt_template.gpt_structure import ChatGPT_single_request, genera
 
 
 DRIVE_SYSTEM_SUMMARY_TEXT = (
-  "satiety=food pressure, when low seek food access or a reliable way to eat; "
-  "stamina=rest pressure, when low reduce exertion and favor recovery; "
-  "health=injury risk, when low protect the body before non-survival goals; "
-  "safety=threat avoidance, when low avoid danger and unstable confrontation; "
-  "mood=emotional repair, when low prefer soothing, leisure, or supportive company but usually not over urgent bodily needs; "
-  "belonging=connection pressure, when low seek company, warmth, or social inclusion; "
-  "status=recognition pressure, when low care more about respect, face, and standing; "
-  "autonomy=control pressure, when low prefer moves that restore agency and reduce being constrained; "
-  "competence=effectiveness pressure, when low prefer moves that prove capability or improve execution; "
-  "meaning=purpose pressure, when low prefer actions that restore direction, order, or identity-consistent purpose."
+  "satiety=food; stamina=rest; health=injury recovery; safety=threat avoidance; "
+  "mood=emotional repair; belonging=connection; status=recognition/face; "
+  "autonomy=agency/control; competence=effectiveness/mastery; meaning=purpose/direction. "
+  "Lower values mean stronger pressure. Critical bodily pressure overrides strategy; stable drives are weighted objectives, not commands."
 )
 WORLD_RULES_TEXT = (
-  "Sandbox World Rules: You are living in a small town-like social sandbox: homes, cafes, classrooms, shops, gardens, streets, and shared public spaces are all real places in the same physical world. "
-  "This is not a symbolic story world. People have one body, stand in one place at a time, move through reachable space, and can only act on people, objects, and resources that are actually present and reachable now. "
-  "Each step allows only one immediate action. The next move must be concrete, local, and physically executable right now. "
-  "Respect causal order: if you do not already have edible food in inventory, Consume is invalid until food is first gathered, received, requested, traded for, or otherwise physically obtained. "
-  "Any target listed in InvalidTargets is forbidden for this step. "
-  "Treat the town as a lived social environment, not just a map of objects. Other people are part of the world: they may be helpers, gatekeepers, collaborators, obstacles, witnesses, leverage points, or safer alternatives to a failed object path. "
-  "You may approach, avoid, request, trade, coordinate with, pressure, help, or position around them, but only if they are truly present and reachable. "
-  "Failure is real evidence. If a target was just unreachable or produced path_not_found, do not immediately repeat the same failed move. Change the target or change the approach. "
-  "If a resource was reached but found empty, accept that update and switch to another feasible source instead of pretending the world did not change. "
-  "Think like someone managing life inside a real town. Survival and feasibility come first: urgent satiety, stamina, and health needs override routine role behavior. "
-  "Within those hard limits, do not only ask what relieves pain fastest. Also ask who controls access, whose cooperation matters, who can be used as leverage, what move quietly improves your position, and what immediate action leaves you with more options in the next step. "
-  "Identity, lifestyle, relationships, and long-term goals matter only after the action is physically feasible."
+  "Physical sandbox: each person has one body and one location; each step executes exactly one concrete immediate action on a currently reachable person, place, object, or owned inventory item. "
+  "Causal preconditions are hard gates: Consume requires the exact item in inventory; Gather targets a configured world food source; person actions require a present person. InvalidTargets are forbidden. "
+  "Treat the newest execution result as authoritative evidence: do not repeat an unreachable or empty instance unless evidence changed. "
+  "After feasibility and critical survival gates pass, reason freely about identity, long-term plans, resource control, alliances, debts, reputation, leverage, witnesses, risk, and future option value. "
+  "Strategic, indirect, selfish, cooperative, deceptive, or dramatic moves are permitted when consistent with known personality and facts, but drama alone is never a reason."
 )
 LEGACY_PROMPT_PROFILE_SOURCES = {"legacy_bootstrap", "legacy_fallback"}
 _PROMPT_TEMPLATE_ROOT = Path(__file__).resolve().parents[1] / "prompt_template" / "v2"
@@ -158,20 +146,21 @@ def build_motive_guidance_text(persona):
   }
   dominant_score = score_lookup.get(dominant)
   secondary_score = score_lookup.get(secondary) if secondary else None
-  parts = [
-    f"dominant={dominant}",
-    f"urgency={urgency_band}",
-  ]
-  if secondary and has_urgent_motive:
-    parts.append(f"secondary={secondary}")
-  if not has_urgent_motive:
-    parts.append("No urgent internal need dominates this step.")
-  elif motive_sentence:
-    parts.append(motive_sentence)
-  if dominant_score:
-    parts.append(f"DominantMeaning: {_explain_motive_score(dominant_score, dominant, role='dominant')}")
-  if secondary and secondary_score:
-    parts.append(f"SecondaryMeaning: {_explain_motive_score(secondary_score, secondary, role='secondary')}")
+  def compact_score(name, score):
+    if not name or not isinstance(score, dict):
+      return ""
+    return (
+      f"{name}(value={_safe_float(score.get('current_value')):.1f},"
+      f"safe={_safe_float(score.get('safe_threshold')):.1f},"
+      f"critical={_safe_float(score.get('critical_threshold')):.1f},"
+      f"trend=-{_safe_float(score.get('decay_per_step')):.2f}/step)"
+    )
+
+  parts = [f"dominant={compact_score(dominant, dominant_score) or dominant}", f"urgency={urgency_band}"]
+  if secondary:
+    parts.append(f"secondary={compact_score(secondary, secondary_score) or secondary}")
+  if has_urgent_motive and motive_sentence:
+    parts.append(f"felt_pressure={motive_sentence}")
   dominant_reason = _compact_text(reasoning.get("dominant_reason"))
   secondary_reason = _compact_text(reasoning.get("secondary_reason"))
   if dominant_reason:
@@ -179,12 +168,14 @@ def build_motive_guidance_text(persona):
   if secondary_reason:
     parts.append(f"SecondaryReasoning: {secondary_reason}")
   if urgency_band == "critical":
-    parts.append("StrategyFreedom: The dominant need is too urgent for decorative planning; take the fastest reliable immediate step.")
+    parts.append("policy=critical survival pressure overrides strategic detours")
   elif urgency_band == "warning":
-    parts.append("StrategyFreedom: A short, smarter detour is acceptable only if it improves access, leverage, or reliability for the dominant need.")
-  if dominant_strength == "weak":
-    parts.append("Dominant motive should only act as a light tie-breaker right now.")
-  return " ".join(parts)
+    parts.append("policy=short strategic detours are allowed when they improve reliable access or leverage")
+  else:
+    parts.append("policy=stable drives are weighted objectives; identity, plans, social leverage, and future options may dominate")
+  if dominant_strength == "weak" and urgency_band != "critical":
+    parts.append("weight=light")
+  return "; ".join(parts)
 
 
 def build_world_rules_text(persona, base_rules=None):
@@ -199,6 +190,94 @@ def load_action_schema_text():
       "Action Schema defining Categories: Consume, Gather, Rest, Work, "
       "Socialize, Give, Rob, Recreate, Idle."
     )
+
+
+def build_compact_action_schema_text():
+  """Render every configured action without implying current target availability."""
+  try:
+    schema = json.loads(ACTION_SCHEMA_PATH.read_text(encoding="utf-8"))
+  except Exception:
+    return load_action_schema_text()
+
+  lines = [
+    "Complete Action Catalogue (no action has been filtered):",
+    "target_examples describe compatible target kinds only; they do NOT prove that a target is present, reachable, stocked, or owned now.",
+    "Consume requires target_type=inventory_item and positive inventory count. Gather targets a world resource, never an inventory item.",
+  ]
+  for category, info in (schema.get("categories") or {}).items():
+    verbs = ",".join(str(item) for item in (info.get("verbs") or []))
+    motives = ",".join(str(item) for item in (info.get("motive_tags") or [])) or "none"
+    targets = ",".join(str(item) for item in (info.get("allowed_targets") or [])) or "none"
+    variants = []
+    for variant, deltas in (info.get("actor_delta_amplitude_by_variant") or {}).items():
+      delta_text = ",".join(
+        f"{name}:{float(value):+g}"
+        for name, value in (deltas or {}).items()
+      ) or "none"
+      variants.append(f"{variant}({delta_text})")
+    lines.append(
+      f"- {category} | motives={motives} | verbs={verbs} | target_examples={targets} | "
+      f"effects={';'.join(variants) or 'none'} | meaning={_compact_text(info.get('description'))}"
+    )
+  return "\n".join(lines)
+
+
+def build_correction_action_catalogue_text():
+  """Keep every action visible in retries without resending rich effect guidance."""
+  try:
+    schema = json.loads(ACTION_SCHEMA_PATH.read_text(encoding="utf-8"))
+  except Exception:
+    return load_action_schema_text()
+  lines = [
+    "Correction Action Catalogue (all configured categories):",
+    "target_examples are type examples, not current availability.",
+    "Consume=owned inventory item only; Gather=configured world food source; Socialize/Request/Trade/Coordinate/Pressure/Avoid/Give/Rob=named present persona.",
+    "target_type=persona|location|object|inventory_item|none; mode=conversation|seek_conversation|social_venue|solo_leisure|wander|daydream|consume|gather|rest|treat|work|study|request|trade|coordinate|pressure|avoid|give|rob|idle.",
+    "duration=5..120 for Consume/Request; 10..120 otherwise.",
+  ]
+  for category, info in (schema.get("categories") or {}).items():
+    targets = ",".join(str(item) for item in (info.get("allowed_targets") or [])) or "none"
+    motives = ",".join(str(item) for item in (info.get("motive_tags") or [])) or "none"
+    lines.append(f"- {category} | motives={motives} | target_examples={targets}")
+  return "\n".join(lines)
+
+
+def build_motive_grouped_skill_list(dominant_motive=None):
+  """Render a compact motive index while preserving the full action catalogue elsewhere."""
+  try:
+    schema = json.loads(ACTION_SCHEMA_PATH.read_text(encoding="utf-8"))
+  except Exception:
+    return "可用技能:\n  动作 Schema 暂不可用"
+
+  motive_groups = (
+    ("satiety", "饱食 / 食物"),
+    ("stamina", "精力 / 休息"),
+    ("health", "健康 / 恢复"),
+    ("safety", "安全 / 庇护"),
+    ("mood", "情绪 / 娱乐"),
+    ("belonging", "归属 / 社交"),
+    ("status", "地位 / 展示"),
+    ("autonomy", "自主 / 私密"),
+    ("competence", "胜任 / 学习工作"),
+    ("meaning", "意义 / 反思"),
+  )
+  categories = schema.get("categories", {})
+  group_order = list(motive_groups)
+  if dominant_motive:
+    group_order.sort(key=lambda group: group[0] != dominant_motive)
+
+  lines = ["MotiveActionIndex（仅索引，不筛选动作）:"]
+  for motive_key, group_name in group_order:
+    matched = [
+      (category, info) for category, info in categories.items()
+      if motive_key in (info.get("motive_tags") or [])
+    ]
+    if not matched:
+      continue
+    label = f"{group_name}/{motive_key}"
+    categories_text = ",".join(category for category, _info in matched)
+    lines.append(f"- {label}=[{categories_text}]")
+  return "\n".join(lines)
 
 
 def build_relevant_experience_text(intent_memory_summary=None):
@@ -257,6 +336,42 @@ def build_experience_priority_texts(persona, intent_family=None):
     "StrongPreferExperience": "\n".join(prefer_lines) if prefer_lines else "None.",
     "ExperienceGuidance": default_blocks["ExperienceGuidance"],
   }
+
+
+def build_motive_grouped_experience_list(persona, dominant_motive=None, secondary_motive=None):
+  """Present persisted instance-level avoid/prefer evidence for both active motives."""
+  scratch = getattr(persona, "scratch", None)
+  getter = getattr(scratch, "get_experience_priority_units", None) if scratch is not None else None
+  if not callable(getter):
+    return ""
+  family_to_motive = {
+    "restore_satiety": "satiety", "restore_stamina": "stamina", "restore_health": "health",
+    "restore_mood": "mood", "communication": "belonging", "safety": "safety",
+    "status": "status", "autonomy": "autonomy", "competence": "competence", "meaning": "meaning",
+  }
+  units = list(getter() or [])
+  lines = ["实例经验（按当前动机分类）:"]
+  for role, motive in (("主导动机", dominant_motive), ("次要动机", secondary_motive)):
+    if not motive or (role == "次要动机" and motive == dominant_motive):
+      continue
+    matched = [
+      item for item in units
+      if family_to_motive.get(str(item.get("intent_family") or "").lower()) == motive
+    ]
+    if not matched:
+      continue
+    avoid = [item for item in matched if item.get("experience_kind") == "avoid"][:2]
+    prefer = [item for item in matched if item.get("experience_kind") == "prefer"][:2]
+    if not avoid and not prefer:
+      continue
+    lines.append(f"{role}相关（{motive}）:")
+    if prefer:
+      lines.append("成功实例:")
+      lines.extend(f"⭐ {_build_experience_priority_line(item)}" for item in prefer)
+    if avoid:
+      lines.append("失败实例（避免重复）:")
+      lines.extend(f"⚠ {_build_experience_priority_line(item)}" for item in avoid)
+  return "\n".join(lines) if len(lines) > 1 else ""
 
 
 def build_decision_social_context_text(persona, cooperative_context=None):
@@ -612,26 +727,26 @@ def _build_suggested_use_now_text(observer_persona, resources, affordances, reac
 def _build_behavior_prediction_text(dominant_motive, secondary_motive, resources, affordances, reachable_now):
   motive = _compact_text(dominant_motive) or "unknown"
   prediction_map = {
-    "satiety": "Likely to protect, seek, or negotiate for food access.",
-    "stamina": "Likely to conserve effort, reduce exertion, or seek rest.",
-    "health": "Likely to protect the body and avoid costly strain or harm.",
-    "safety": "Likely to avoid risk, uncertainty, and unstable confrontation.",
-    "mood": "Likely to seek comfort, soothing activity, or emotionally easier company.",
-    "belonging": "Likely to seek company, inclusion, or cooperative contact.",
-    "status": "Likely to protect face, seek respect, or resist humiliation.",
-    "autonomy": "Likely to resist control and prefer choices that preserve agency.",
-    "competence": "Likely to pursue useful action, effective progress, or proof of capability.",
-    "meaning": "Likely to favor purposeful, orderly, or identity-consistent action.",
+    "satiety": "protect/seek/negotiate food access",
+    "stamina": "conserve effort and seek rest",
+    "health": "protect body and avoid strain",
+    "safety": "avoid risk and unstable confrontation",
+    "mood": "seek comfort or emotionally easy company",
+    "belonging": "seek inclusion and cooperative contact",
+    "status": "protect face and seek respect",
+    "autonomy": "resist control and preserve agency",
+    "competence": "seek effective progress and proof of capability",
+    "meaning": "seek purposeful identity-consistent action",
   }
-  base = prediction_map.get(motive, "Likely to act in line with their strongest current pressure.")
+  base = prediction_map.get(motive, "act on strongest known pressure")
   if secondary_motive:
-    base += f" Secondary pressure may also pull toward {secondary_motive}."
+    base += f"; secondary={secondary_motive}"
   if "request" in affordances or "trade" in affordances:
-    base += " They may respond to exchange, help, or negotiated access."
+    base += "; may respond to exchange/help"
   if not reachable_now:
-    base += " Treat this as predictive context unless they become reachable."
+    base += "; predictive only until reachable"
   if "food" in resources and motive == "satiety":
-    base += " Food-related behavior is especially plausible."
+    base += "; food behavior likely"
   return base
 
 
@@ -651,36 +766,22 @@ def _build_other_people_social_leverage_text(observer_persona, max_people=4):
     likely_resources = _infer_likely_resources(innate_traits, learned_traits)
     social_affordances = _infer_social_affordances(likely_resources, relation_payload)
     leverage_points = _infer_leverage_points(innate_traits, learned_traits, relation_payload)
-    lines = [
-      f"- {name}",
-      f"  - reachable_now: {'yes' if reachable_now else 'unknown'}",
-      f"  - current_relevance: {_build_current_relevance_text(observer_persona, name, likely_resources, reachable_now)}",
-      f"  - role_identity: {_infer_role_identity_text(name, learned_traits)}",
-      (
-        f"  - likely_current_motive: {dominant_motive}"
-        + (f" (secondary {secondary_motive})" if secondary_motive else "")
-      ),
-      f"  - likely_behavior_now: {_build_behavior_prediction_text(dominant_motive, secondary_motive, likely_resources, social_affordances, reachable_now)}",
-      f"  - likely_resources: {', '.join(likely_resources)}",
-      f"  - social_affordances: {', '.join(social_affordances)}",
-      f"  - leverage_points: {', '.join(leverage_points)}",
-      f"  - relationship_state: {_build_relationship_state_text(relation_payload)}",
-      f"  - recent_social_feedback: {_build_recent_social_feedback_text(observer_persona, name, relation_payload)}",
-      (
-        "  - risks: "
-        + ("low; reachable and socially usable." if reachable_now else "medium; local reachability is not confirmed.")
-      ),
-      f"  - suggested_use_now: {_build_suggested_use_now_text(observer_persona, likely_resources, social_affordances, reachable_now)}",
-    ]
-    entries.append("\n".join(lines))
+    motive_text = dominant_motive + (f"/{secondary_motive}" if secondary_motive else "")
+    entries.append(
+      f"- {name} | reachable={'yes' if reachable_now else 'unknown'} | "
+      f"role={_infer_role_identity_text(name, learned_traits)} | motives={motive_text} | "
+      f"predicted={_build_behavior_prediction_text(dominant_motive, secondary_motive, likely_resources, social_affordances, reachable_now)} | "
+      f"assets={','.join(likely_resources)} | possible_interactions={','.join(social_affordances)} | "
+      f"leverage={','.join(leverage_points)} | relation={_build_relationship_state_text(relation_payload)} | "
+      f"recent={_build_recent_social_feedback_text(observer_persona, name, relation_payload)}"
+    )
     if len(entries) >= max_people:
       break
   if not entries:
     return "Other People / Predicted Behavior:\n- No currently modeled nearby people with usable motive-based behavior forecasts."
   guidance = (
-    "Other People / Predicted Behavior:\n"
-    "Use the motives below to predict what nearby people are likely trying to protect, seek, avoid, trade, or cooperate around right now.\n"
-    "Treat them as possible allies, gatekeepers, collaborators, blockers, competitors, witnesses, or leverage points when direct object paths are weak or recently failed.\n"
+    "Other People / Power Map (facts and forecasts, not recommended actions):\n"
+    "Consider allies, gatekeepers, competitors, witnesses, resource controllers, debts, and leverage. Decide the use yourself.\n"
   )
   return guidance + "\n".join(entries)
 
@@ -1245,7 +1346,7 @@ def compile_stage1_prompt_context(persona,
     "drive_system_summary_text": build_drive_system_summary_text(),
     "motive_guidance_text": build_motive_guidance_text(persona),
     "other_people_prediction_text": _build_other_people_social_leverage_text(persona),
-    "action_schema_text": load_action_schema_text(),
+    "action_schema_text": build_compact_action_schema_text(),
     "relevant_experience_text": build_relevant_experience_text(intent_memory_summary),
     "strong_avoid_experience_text": experience_blocks["StrongAvoidExperience"],
     "strong_prefer_experience_text": experience_blocks["StrongPreferExperience"],

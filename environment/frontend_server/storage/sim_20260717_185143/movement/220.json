@@ -1,0 +1,100 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        102,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Playing a game to relax and improve my mood. @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.53000000000053,
+      "stamina": 85.39800000000152,
+      "health": 100.0,
+      "mood": 38.7399999999995,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        111,
+        46
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "Enjoy the peaceful atmosphere of the apple tree. @ the Ville:Johnson Park:park",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 72.53000000000077,
+      "stamina": 76.8230000000012,
+      "health": 100.0,
+      "mood": 62.499999999999396,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:36:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:33:40",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:34:00",
+          "poignancy": 7.6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target common room sofa.",
+          "created": "2026-07-17 08:33:40",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent a while relaxing socially at common room sofa.",
+          "created": "2026-07-17 08:34:00",
+          "poignancy": 4.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:33:50",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        105,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 69.21500000000046,
+      "stamina": 80.79600000000134,
+      "health": 100.0,
+      "mood": 39.91000000000056,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:36:40"
+  }
+}

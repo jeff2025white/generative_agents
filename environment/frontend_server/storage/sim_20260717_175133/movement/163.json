@@ -1,0 +1,80 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        97,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 76.52000000000045,
+      "stamina": 87.30500000000103,
+      "health": 100.0,
+      "mood": 49.11999999999955,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Request food access from Isabella Rodriguez.",
+          "created": "2026-07-17 08:26:40"
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        44,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Sit on the common room sofa to relax and improve mood. @ the Ville:Oak Hill College:library",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 74.06000000000007,
+      "stamina": 85.92600000000098,
+      "health": 100.0,
+      "mood": 42.440000000000374,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        98,
+        40
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Requesting food from Isabella Rodriguez who may have a faster food-access path. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 18.519999999999953,
+      "stamina": 89.15700000000112,
+      "health": 100.0,
+      "mood": 38.399999999999665,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:26:40"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:03:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:27:10"
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        87,
+        32
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:artist's co-living space:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\u554a\uff0c\u90a3\u76f4\u64ad\u5b8c\u6211\u5c31\u6765\u3002",
+      "satiety": 75.01000000000184,
+      "stamina": 75.24800000000158,
+      "health": 100.0,
+      "mood": 78.91000000000074,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Chat with Klaus Mueller to seek social inclusion and comfort.",
+          "created": "2026-07-17 10:07:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 09:03:00",
+          "poignancy": 7.35
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social interaction and support",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social support and conversation",
+          "created": "2026-07-17 08:43:20",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez completed seek_and_chat on Isabella Rodriguez at <persona> Isabella Rodriguez but made no measurable progress toward the goal.",
+          "created": "2026-07-17 09:49:00",
+          "poignancy": 6.44
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        49,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Manage daily operations of the cafe. @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u653e\u5fc3\u5566\uff0c\u6211\u7684\u86cb\u7cd5\u4e0d\u4f1a\u8ba9\u4f60\u5403\u80d6\u7684\u3002\u7b49\u4f60\u76f4\u64ad\u5b8c\u518d\u6765\u559d\u676f\u5496\u5561\u653e\u677e\u4e0b\uff1f",
+      "satiety": 83.97000000000156,
+      "stamina": 91.3330000000007,
+      "health": 100.0,
+      "mood": 88.38000000000008,
+      "inventory": {
+        "apple": 6
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-17 10:07:30"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez seeks emotional support and comfort through conversations",
+          "created": "2026-07-17 09:10:10",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez seeks emotional support and relaxation through conversations with Isabella Rodriguez",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed chat with on Maria Lopez at <persona> Maria Lopez and made partial progress toward the goal.",
+          "created": "2026-07-17 09:49:30",
+          "poignancy": 7.98
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed chat with on Klaus Mueller at <persona> Klaus Mueller and made partial progress toward the goal.",
+          "created": "2026-07-17 08:57:20",
+          "poignancy": 7.85
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller also seeks comfort and social inclusion through conversations with Isabella Rodriguez",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez also seeks relaxation and emotional support",
+          "created": "2026-07-17 09:10:10",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Isabella Rodriguez's planning: I should schedule a chat with Maria after the apple picking.",
+          "created": "2026-07-17 09:49:10",
+          "poignancy": 3
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        114,
+        47
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling @ the Ville:artist's co-living space:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6210\uff0c\u5230\u65f6\u5019\u6211\u627e\u4f60\u3002\u90a3\u6211\u5148\u53bb\u56fe\u4e66\u9986\u4e86\u554a\u3002",
+      "satiety": 85.93000000000137,
+      "stamina": 98.15300000000019,
+      "health": 100.0,
+      "mood": 60.879999999998354,
+      "inventory": {
+        "apple": 7
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-17 10:07:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Resting to conserve energy for future tasks.",
+          "created": "2026-07-17 10:07:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Chat with Klaus Mueller to seek social inclusion and comfort.",
+          "created": "2026-07-17 10:07:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller completed idle on none at the Ville:artist's co-living space:common room:common room sofa but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:55:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller completed rest on bed at the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed but made no measurable progress toward the goal.",
+          "created": "2026-07-17 10:03:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 08:57:00",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Emotional support is sought from Isabella Rodriguez",
+          "created": "2026-07-17 10:03:30",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is managing multiple responsibilities",
+          "created": "2026-07-17 10:03:30",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is actively involved in the planning of the Valentine's Day party and supports Klaus Mueller",
+          "created": "2026-07-17 09:34:30",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is experiencing stress related to his academic responsibilities and is seeking emotional support from Isabella Rodriguez",
+          "created": "2026-07-17 09:34:30",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is gathering resources",
+          "created": "2026-07-17 08:55:30",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at none and recovered stamina.",
+          "created": "2026-07-17 09:34:10",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at bed and recovered stamina.",
+          "created": "2026-07-17 10:03:20",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is proactive in managing tasks",
+          "created": "2026-07-17 09:34:30",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Social interactions are a key method for improving mood",
+          "created": "2026-07-17 09:29:00",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling after exhausting autonomous correction attempts",
+          "created": "2026-07-17 09:35:50",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is actively involved in various tasks",
+          "created": "2026-07-17 09:29:00",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is engaged in multiple activities",
+          "created": "2026-07-17 08:55:30",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Social interactions are a common method to improve mood",
+          "created": "2026-07-17 08:55:30",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "There is a focus on the decorations and social aspects of the party, suggesting a festive and community-oriented event",
+          "created": "2026-07-17 09:34:30",
+          "poignancy": 5
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 10:08:00"
+  }
+}

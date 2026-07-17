@@ -199,6 +199,39 @@ class StructuredActionIntentTests(unittest.TestCase):
 
         self.assertEqual(result["duration"], 10)
 
+    def test_all_model_facing_action_categories_compile_to_runtime_skills(self):
+        cases = {
+            "Consume": ("apple", "inventory_item", "consume", "consume"),
+            "Gather": ("apple tree", "object", "gather", "gather"),
+            "Rest": ("bed", "object", "rest", "rest"),
+            "Treat": ("bandage", "inventory_item", "treat", "bandage"),
+            "Work": ("desk", "object", "work", "work"),
+            "Socialize": ("Klaus Mueller", "persona", "conversation", "seek_and_chat"),
+            "Request": ("Klaus Mueller", "persona", "request", "request"),
+            "Trade": ("Klaus Mueller", "persona", "trade", "trade"),
+            "Coordinate": ("Klaus Mueller", "persona", "coordinate", "coordinate"),
+            "Pressure": ("Klaus Mueller", "persona", "pressure", "pressure"),
+            "Avoid": ("Klaus Mueller", "persona", "avoid", "avoid"),
+            "Give": ("Klaus Mueller", "persona", "give", "give"),
+            "Rob": ("Klaus Mueller", "persona", "rob", "rob"),
+            "Recreate": ("game console", "object", "solo_leisure", "leisure_use"),
+            "Idle": ("none", "none", "idle", "idle"),
+        }
+        for action, (target, target_type, mode, expected_skill) in cases.items():
+            with self.subTest(action=action):
+                result = compile_action_intent(
+                    {
+                        "action": action,
+                        "target": target,
+                        "target_type": target_type,
+                        "mode": mode,
+                        "detail": f"performing {action.lower()}",
+                    },
+                    personas=self.personas,
+                    inventory={"apple": 1, "bandage": 1},
+                )
+                self.assertEqual(result["compiled_skill_id"], expected_skill)
+
 
 if __name__ == "__main__":
     unittest.main()

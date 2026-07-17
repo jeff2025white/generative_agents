@@ -1,0 +1,1611 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "July 17, 2026, 08:41:00",
+  "curr_tile": [
+    119,
+    27
+  ],
+  "daily_plan_req": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+  "name": "Maria Lopez",
+  "first_name": "Maria",
+  "last_name": "Lopez",
+  "age": 21,
+  "innate": "inquisitive, studious, friendly, hospitable",
+  "learned": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+  "currently": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+  "lifestyle": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+  "living_area": "the Ville:Dorm for Oak Hill College:Maria Lopez's room",
+  "satiety": 67.00500000000059,
+  "stamina": 66.81200000000148,
+  "health": 100.0,
+  "mood": 55.97000000000056,
+  "motive_attributes": {
+    "satiety": {
+      "current_value": 67.00500000000059,
+      "initial_value": 58.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.085,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "stamina": {
+      "current_value": 66.81200000000148,
+      "initial_value": 72.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.05,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "health": {
+      "current_value": 100.0,
+      "initial_value": 84.0,
+      "safe_threshold": 55.0,
+      "critical_threshold": 25.0,
+      "decay_per_step": 0.0,
+      "priority_weight": 1.15,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "safety": {
+      "current_value": 57.03599999999989,
+      "initial_value": 60.0,
+      "safe_threshold": 43.0,
+      "critical_threshold": 20.0,
+      "decay_per_step": 0.012,
+      "priority_weight": 0.95,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "mood": {
+      "current_value": 55.97000000000056,
+      "initial_value": 68.0,
+      "safe_threshold": 54.0,
+      "critical_threshold": 32.0,
+      "decay_per_step": 0.035,
+      "priority_weight": 1.02,
+      "skill_flat_modifiers": {
+        "leisure_use": 4.0,
+        "daydream": 2.0,
+        "sing": 3.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "belonging": {
+      "current_value": 54.58999999999972,
+      "initial_value": 62.0,
+      "safe_threshold": 48.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.03,
+      "priority_weight": 1.0,
+      "skill_flat_modifiers": {
+        "chat with": 3.0,
+        "hangout_social_venue": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "status": {
+      "current_value": 53.55399999999983,
+      "initial_value": 58.0,
+      "safe_threshold": 44.0,
+      "critical_threshold": 26.0,
+      "decay_per_step": 0.018,
+      "priority_weight": 0.96,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "autonomy": {
+      "current_value": 66.04799999999868,
+      "initial_value": 70.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.016,
+      "priority_weight": 1.05,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "competence": {
+      "current_value": 60.56599999999974,
+      "initial_value": 66.0,
+      "safe_threshold": 50.0,
+      "critical_threshold": 30.0,
+      "decay_per_step": 0.022,
+      "priority_weight": 1.08,
+      "skill_flat_modifiers": {
+        "study": 4.0,
+        "work": 2.0,
+        "creator_task_completion": 2.0
+      },
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    },
+    "meaning": {
+      "current_value": 56.541999999999284,
+      "initial_value": 60.0,
+      "safe_threshold": 46.0,
+      "critical_threshold": 28.0,
+      "decay_per_step": 0.014,
+      "priority_weight": 0.94,
+      "skill_flat_modifiers": {},
+      "skill_scale_modifiers": {},
+      "stable_text": null,
+      "warning_text": null,
+      "desire_text": null,
+      "guard_text": null
+    }
+  },
+  "last_social_time": null,
+  "last_action_switch_time": "July 17, 2026, 08:22:20",
+  "decision_commit_until_step": null,
+  "last_decision_signature": {
+    "skill_id": "leisure_use",
+    "target": "common room sofa",
+    "intent_family": "restore_mood"
+  },
+  "last_decision_reason": "Sit on the common room sofa to relax and improve mood.",
+  "recent_completed_action_signature": {
+    "skill_id": "leisure_use",
+    "target": "common room sofa",
+    "intent_family": "restore_mood"
+  },
+  "recent_completed_action_step": 246,
+  "suspended_action": null,
+  "suspended_action_step": null,
+  "pending_interrupt": null,
+  "navigation_failure": null,
+  "last_action_observation": {
+    "kind": "execution_result",
+    "result": "completed",
+    "target": "common room sofa",
+    "target_address": "the Ville:Oak Hill College:library",
+    "skill_id": "leisure_use",
+    "action_description": "Sit on the common room sofa to relax and improve mood.",
+    "curr_step": 246
+  },
+  "last_action_outcome": {
+    "schema_version": 1,
+    "outcome_id": "Maria_Lopez-246-2b9dca849a",
+    "sim_code": null,
+    "persona": "Maria Lopez",
+    "curr_step": 246,
+    "sim_time": "2026-07-17 08:41:00",
+    "wall_ts": "2026-07-17T18:02:43.512336+08:00",
+    "decision_context": {
+      "decision_id": null,
+      "dominant_motive": null,
+      "secondary_motive": null
+    },
+    "action": {
+      "skill_id": "leisure_use",
+      "raw_action": "leisure_use",
+      "intent_family": "restore_mood",
+      "target": "common room sofa",
+      "target_type": "place",
+      "target_address": "the Ville:Oak Hill College:library",
+      "resolved_target": "sofa",
+      "resolution_kind": null,
+      "detail": "Sit on the common room sofa to relax and improve mood."
+    },
+    "execution": {
+      "result": "success",
+      "reason": null,
+      "reason_class": "other",
+      "payload": {}
+    },
+    "effects": {
+      "self_attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 67.005,
+        "stamina": 66.812,
+        "health": 100.0,
+        "safety": 57.036,
+        "mood": 55.97,
+        "belonging": 54.59,
+        "status": 53.554,
+        "autonomy": 66.048,
+        "competence": 60.566,
+        "meaning": 56.542
+      },
+      "inventory_delta": {},
+      "progress_score": 0.0
+    },
+    "resource_context": {
+      "resource_type": "common room sofa",
+      "resource_instance_key": "the ville:oak hill college:library"
+    },
+    "experience_scoring": {
+      "self_effect_magnitude": 0.0,
+      "motive_effect_magnitude": 1.0,
+      "other_effect_magnitude": 0.0,
+      "failure_learning_value": 0.0,
+      "novelty_value": 0.0,
+      "dominant_motive_alignment": 0.3,
+      "base_significance": 1.0,
+      "recency_weight": 1.0,
+      "effective_score": 1.0,
+      "should_promote_to_experience": true
+    },
+    "memory_projection": {
+      "source_outcome_id": "Maria_Lopez-246-2b9dca849a",
+      "memory_type": "event",
+      "subject": "Maria Lopez",
+      "predicate": "experienced",
+      "object": "execution_result",
+      "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+      "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+      "keywords": [
+        "common room sofa",
+        "execution_result",
+        "leisure_use",
+        "restore_mood",
+        "success"
+      ],
+      "poignancy": 8.0,
+      "attribute_effects": {
+        "satiety": 0.0,
+        "stamina": 0.0,
+        "health": 0.0,
+        "mood": 0.0
+      },
+      "motive_effects": {
+        "satiety": 67.005,
+        "stamina": 66.812,
+        "health": 100.0,
+        "safety": 57.036,
+        "mood": 55.97,
+        "belonging": 54.59,
+        "status": 53.554,
+        "autonomy": 66.048,
+        "competence": 60.566,
+        "meaning": 56.542
+      },
+      "memory_tags": {
+        "skill_id": "leisure_use",
+        "target": "common room sofa",
+        "target_address": "the Ville:Oak Hill College:library",
+        "reason": null,
+        "dominant_motive": null,
+        "outcome_status": "success",
+        "motive_effects": {
+          "satiety": 67.005,
+          "stamina": 66.812,
+          "health": 100.0,
+          "safety": 57.036,
+          "mood": 55.97,
+          "belonging": 54.59,
+          "status": 53.554,
+          "autonomy": 66.048,
+          "competence": 60.566,
+          "meaning": 56.542
+        },
+        "resource_instance_key": "the ville:oak hill college:library"
+      }
+    }
+  },
+  "recent_action_outcomes": [
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-120-5afc0b8771",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 120,
+      "sim_time": "2026-07-17 08:20:00",
+      "wall_ts": "2026-07-17T17:56:35.494151+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "gather",
+        "raw_action": "gather",
+        "intent_family": "restore_satiety",
+        "target": "apple tree",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "gathering apples from the apple tree"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 19.715,
+          "stamina": 89.504,
+          "health": 100.0,
+          "safety": 58.548,
+          "mood": 44.63,
+          "belonging": 58.37,
+          "status": 55.822,
+          "autonomy": 68.064,
+          "competence": 63.338,
+          "meaning": 58.306
+        },
+        "inventory_delta": {
+          "apple": 2
+        },
+        "progress_score": 0.683
+      },
+      "resource_context": {
+        "resource_type": "apple tree",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.05,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-120-5afc0b8771",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "apple tree",
+          "execution_result",
+          "gather",
+          "inventory_plus_apple",
+          "restore_satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 19.715,
+          "stamina": 89.504,
+          "health": 100.0,
+          "safety": 58.548,
+          "mood": 44.63,
+          "belonging": 58.37,
+          "status": 55.822,
+          "autonomy": 68.064,
+          "competence": 63.338,
+          "meaning": 58.306
+        },
+        "memory_tags": {
+          "skill_id": "gather",
+          "target": "apple tree",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 19.715,
+            "stamina": 89.504,
+            "health": 100.0,
+            "safety": 58.548,
+            "mood": 44.63,
+            "belonging": 58.37,
+            "status": 55.822,
+            "autonomy": 68.064,
+            "competence": 63.338,
+            "meaning": 58.306
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-133-e3f987a23e",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 133,
+      "sim_time": "2026-07-17 08:22:10",
+      "wall_ts": "2026-07-17T17:56:41.860650+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "consume",
+        "raw_action": "consume",
+        "intent_family": "restore_satiety",
+        "target": "apple",
+        "target_type": "object",
+        "target_address": "the Ville:Johnson Park:park:apple tree",
+        "resolved_target": "apple tree",
+        "resolution_kind": null,
+        "detail": "eating the apple from inventory to restore satiety"
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 76.61,
+          "stamina": 88.528,
+          "health": 100.0,
+          "safety": 58.392,
+          "mood": 43.94,
+          "belonging": 57.98,
+          "status": 55.588,
+          "autonomy": 67.856,
+          "competence": 63.052,
+          "meaning": 58.124
+        },
+        "inventory_delta": {
+          "apple": -1
+        },
+        "progress_score": 0.95
+      },
+      "resource_context": {
+        "resource_type": "apple",
+        "resource_instance_key": "the ville:johnson park:park:apple tree"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 1.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.1,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-133-e3f987a23e",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used consume on apple at the Ville:Johnson Park:park:apple tree.",
+        "embedding_text": "Maria Lopez successfully used consume on apple at the Ville:Johnson Park:park:apple tree.",
+        "keywords": [
+          "apple",
+          "consume",
+          "execution_result",
+          "inventory_minus_apple",
+          "restore_satiety",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 58.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 1.0
+        },
+        "motive_effects": {
+          "satiety": 76.61,
+          "stamina": 88.528,
+          "health": 100.0,
+          "safety": 58.392,
+          "mood": 43.94,
+          "belonging": 57.98,
+          "status": 55.588,
+          "autonomy": 67.856,
+          "competence": 63.052,
+          "meaning": 58.124
+        },
+        "memory_tags": {
+          "skill_id": "consume",
+          "target": "apple",
+          "target_address": "the Ville:Johnson Park:park:apple tree",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 76.61,
+            "stamina": 88.528,
+            "health": 100.0,
+            "safety": 58.392,
+            "mood": 43.94,
+            "belonging": 57.98,
+            "status": 55.588,
+            "autonomy": 67.856,
+            "competence": 63.052,
+            "meaning": 58.124
+          },
+          "resource_instance_key": "the ville:johnson park:park:apple tree"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-241-7debd866f9",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 241,
+      "sim_time": "2026-07-17 08:40:10",
+      "wall_ts": "2026-07-17T18:00:51.059028+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa to relax and improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.43,
+          "stamina": 77.062,
+          "health": 100.0,
+          "safety": 57.096,
+          "mood": 41.32,
+          "belonging": 54.74,
+          "status": 53.644,
+          "autonomy": 66.128,
+          "competence": 60.676,
+          "meaning": 56.612
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-241-7debd866f9",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.43,
+          "stamina": 77.062,
+          "health": 100.0,
+          "safety": 57.096,
+          "mood": 41.32,
+          "belonging": 54.74,
+          "status": 53.644,
+          "autonomy": 66.128,
+          "competence": 60.676,
+          "meaning": 56.612
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.43,
+            "stamina": 77.062,
+            "health": 100.0,
+            "safety": 57.096,
+            "mood": 41.32,
+            "belonging": 54.74,
+            "status": 53.644,
+            "autonomy": 66.128,
+            "competence": 60.676,
+            "meaning": 56.612
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-242-507fba7e01",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 242,
+      "sim_time": "2026-07-17 08:40:20",
+      "wall_ts": "2026-07-17T18:01:33.776320+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa for leisure and mood improvement."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.345,
+          "stamina": 75.012,
+          "health": 100.0,
+          "safety": 57.084,
+          "mood": 44.25,
+          "belonging": 54.71,
+          "status": 53.626,
+          "autonomy": 66.112,
+          "competence": 60.654,
+          "meaning": 56.598
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-242-507fba7e01",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.345,
+          "stamina": 75.012,
+          "health": 100.0,
+          "safety": 57.084,
+          "mood": 44.25,
+          "belonging": 54.71,
+          "status": 53.626,
+          "autonomy": 66.112,
+          "competence": 60.654,
+          "meaning": 56.598
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.345,
+            "stamina": 75.012,
+            "health": 100.0,
+            "safety": 57.084,
+            "mood": 44.25,
+            "belonging": 54.71,
+            "status": 53.626,
+            "autonomy": 66.112,
+            "competence": 60.654,
+            "meaning": 56.598
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-243-2129434f36",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 243,
+      "sim_time": "2026-07-17 08:40:30",
+      "wall_ts": "2026-07-17T18:01:56.549789+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa for relaxation."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.26,
+          "stamina": 72.962,
+          "health": 100.0,
+          "safety": 57.072,
+          "mood": 47.18,
+          "belonging": 54.68,
+          "status": 53.608,
+          "autonomy": 66.096,
+          "competence": 60.632,
+          "meaning": 56.584
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-243-2129434f36",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.26,
+          "stamina": 72.962,
+          "health": 100.0,
+          "safety": 57.072,
+          "mood": 47.18,
+          "belonging": 54.68,
+          "status": 53.608,
+          "autonomy": 66.096,
+          "competence": 60.632,
+          "meaning": 56.584
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.26,
+            "stamina": 72.962,
+            "health": 100.0,
+            "safety": 57.072,
+            "mood": 47.18,
+            "belonging": 54.68,
+            "status": 53.608,
+            "autonomy": 66.096,
+            "competence": 60.632,
+            "meaning": 56.584
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-244-5dda1d6532",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 244,
+      "sim_time": "2026-07-17 08:40:40",
+      "wall_ts": "2026-07-17T18:02:09.840506+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa for relaxation."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.175,
+          "stamina": 70.912,
+          "health": 100.0,
+          "safety": 57.06,
+          "mood": 50.11,
+          "belonging": 54.65,
+          "status": 53.59,
+          "autonomy": 66.08,
+          "competence": 60.61,
+          "meaning": 56.57
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-244-5dda1d6532",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.175,
+          "stamina": 70.912,
+          "health": 100.0,
+          "safety": 57.06,
+          "mood": 50.11,
+          "belonging": 54.65,
+          "status": 53.59,
+          "autonomy": 66.08,
+          "competence": 60.61,
+          "meaning": 56.57
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.175,
+            "stamina": 70.912,
+            "health": 100.0,
+            "safety": 57.06,
+            "mood": 50.11,
+            "belonging": 54.65,
+            "status": 53.59,
+            "autonomy": 66.08,
+            "competence": 60.61,
+            "meaning": 56.57
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-245-7cd421f893",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 245,
+      "sim_time": "2026-07-17 08:40:50",
+      "wall_ts": "2026-07-17T18:02:26.408340+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa to relax and improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.09,
+          "stamina": 68.862,
+          "health": 100.0,
+          "safety": 57.048,
+          "mood": 53.04,
+          "belonging": 54.62,
+          "status": 53.572,
+          "autonomy": 66.064,
+          "competence": 60.588,
+          "meaning": 56.556
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-245-7cd421f893",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.09,
+          "stamina": 68.862,
+          "health": 100.0,
+          "safety": 57.048,
+          "mood": 53.04,
+          "belonging": 54.62,
+          "status": 53.572,
+          "autonomy": 66.064,
+          "competence": 60.588,
+          "meaning": 56.556
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.09,
+            "stamina": 68.862,
+            "health": 100.0,
+            "safety": 57.048,
+            "mood": 53.04,
+            "belonging": 54.62,
+            "status": 53.572,
+            "autonomy": 66.064,
+            "competence": 60.588,
+            "meaning": 56.556
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    },
+    {
+      "schema_version": 1,
+      "outcome_id": "Maria_Lopez-246-2b9dca849a",
+      "sim_code": null,
+      "persona": "Maria Lopez",
+      "curr_step": 246,
+      "sim_time": "2026-07-17 08:41:00",
+      "wall_ts": "2026-07-17T18:02:43.512336+08:00",
+      "decision_context": {
+        "decision_id": null,
+        "dominant_motive": null,
+        "secondary_motive": null
+      },
+      "action": {
+        "skill_id": "leisure_use",
+        "raw_action": "leisure_use",
+        "intent_family": "restore_mood",
+        "target": "common room sofa",
+        "target_type": "place",
+        "target_address": "the Ville:Oak Hill College:library",
+        "resolved_target": "sofa",
+        "resolution_kind": null,
+        "detail": "Sit on the common room sofa to relax and improve mood."
+      },
+      "execution": {
+        "result": "success",
+        "reason": null,
+        "reason_class": "other",
+        "payload": {}
+      },
+      "effects": {
+        "self_attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.005,
+          "stamina": 66.812,
+          "health": 100.0,
+          "safety": 57.036,
+          "mood": 55.97,
+          "belonging": 54.59,
+          "status": 53.554,
+          "autonomy": 66.048,
+          "competence": 60.566,
+          "meaning": 56.542
+        },
+        "inventory_delta": {},
+        "progress_score": 0.0
+      },
+      "resource_context": {
+        "resource_type": "common room sofa",
+        "resource_instance_key": "the ville:oak hill college:library"
+      },
+      "experience_scoring": {
+        "self_effect_magnitude": 0.0,
+        "motive_effect_magnitude": 1.0,
+        "other_effect_magnitude": 0.0,
+        "failure_learning_value": 0.0,
+        "novelty_value": 0.0,
+        "dominant_motive_alignment": 0.3,
+        "base_significance": 1.0,
+        "recency_weight": 1.0,
+        "effective_score": 1.0,
+        "should_promote_to_experience": true
+      },
+      "memory_projection": {
+        "source_outcome_id": "Maria_Lopez-246-2b9dca849a",
+        "memory_type": "event",
+        "subject": "Maria Lopez",
+        "predicate": "experienced",
+        "object": "execution_result",
+        "description": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "embedding_text": "Maria Lopez successfully used leisure_use on common room sofa at the Ville:Oak Hill College:library.",
+        "keywords": [
+          "common room sofa",
+          "execution_result",
+          "leisure_use",
+          "restore_mood",
+          "success"
+        ],
+        "poignancy": 8.0,
+        "attribute_effects": {
+          "satiety": 0.0,
+          "stamina": 0.0,
+          "health": 0.0,
+          "mood": 0.0
+        },
+        "motive_effects": {
+          "satiety": 67.005,
+          "stamina": 66.812,
+          "health": 100.0,
+          "safety": 57.036,
+          "mood": 55.97,
+          "belonging": 54.59,
+          "status": 53.554,
+          "autonomy": 66.048,
+          "competence": 60.566,
+          "meaning": 56.542
+        },
+        "memory_tags": {
+          "skill_id": "leisure_use",
+          "target": "common room sofa",
+          "target_address": "the Ville:Oak Hill College:library",
+          "reason": null,
+          "dominant_motive": null,
+          "outcome_status": "success",
+          "motive_effects": {
+            "satiety": 67.005,
+            "stamina": 66.812,
+            "health": 100.0,
+            "safety": 57.036,
+            "mood": 55.97,
+            "belonging": 54.59,
+            "status": 53.554,
+            "autonomy": 66.048,
+            "competence": 60.566,
+            "meaning": 56.542
+          },
+          "resource_instance_key": "the ville:oak hill college:library"
+        }
+      }
+    }
+  ],
+  "experience_priority_units": [
+    {
+      "experience_kind": "avoid",
+      "intent_family": "restore_satiety",
+      "skill_id": "request",
+      "resource_scope": "instance",
+      "resource_instance_key": "<persona> isabella rodriguez",
+      "resource_type": "Isabella Rodriguez",
+      "recommendation": "avoid_this_instance",
+      "confidence": 0.7999999999999999,
+      "freshness_step": 73,
+      "evidence_summary": "Isabella Rodriguez at <persona> Isabella Rodriguez was not close enough to use recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-52-5e2fbb099b",
+        "Maria_Lopez-73-5188607560"
+      ]
+    },
+    {
+      "experience_kind": "prefer",
+      "intent_family": "restore_satiety",
+      "skill_id": "gather",
+      "resource_scope": "instance",
+      "resource_instance_key": "the ville:johnson park:park:apple tree",
+      "resource_type": "apple tree",
+      "recommendation": "prefer_this_instance",
+      "confidence": 1.0,
+      "freshness_step": 133,
+      "evidence_summary": "apple tree at the Ville:Johnson Park:park:apple tree worked well recently.",
+      "supporting_outcome_ids": [
+        "Maria_Lopez-120-5afc0b8771",
+        "Maria_Lopez-133-e3f987a23e"
+      ]
+    }
+  ],
+  "failed_resource_instances": [],
+  "successful_resource_instances": [
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 241,
+      "expires_after_step": 261
+    },
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 242,
+      "expires_after_step": 262
+    },
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 243,
+      "expires_after_step": 263
+    },
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 244,
+      "expires_after_step": 264
+    },
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 245,
+      "expires_after_step": 265
+    },
+    {
+      "target": "common room sofa",
+      "target_address": "the Ville:Oak Hill College:library",
+      "progress_score": 0.0,
+      "curr_step": 246,
+      "expires_after_step": 266
+    }
+  ],
+  "active_execution_state": {
+    "id": "Maria Lopez-246-leisure_use-common room sofa",
+    "phase": "completed",
+    "address": "the Ville:Oak Hill College:library",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "leisure_use",
+      "detail": "Sit on the common room sofa to relax and improve mood."
+    },
+    "description": "Sit on the common room sofa to relax and improve mood.",
+    "event": [
+      "Maria Lopez",
+      "Sit",
+      "common room sofa"
+    ],
+    "path": [],
+    "path_set": true,
+    "signature": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood"
+    },
+    "started_step": 246,
+    "updated_step": 246,
+    "failure": null
+  },
+  "current_action_record": {
+    "status": "completed",
+    "skill_id": "leisure_use",
+    "intent_family": "restore_mood",
+    "target": "common room sofa",
+    "target_type": "place",
+    "resolved_target": "sofa",
+    "resolved_address": "the Ville:Oak Hill College:library",
+    "description": "Sit on the common room sofa to relax and improve mood.",
+    "command": {
+      "skill_id": "leisure_use",
+      "target": "common room sofa",
+      "intent_family": "restore_mood",
+      "source": "decision_translation",
+      "raw_action": "leisure_use",
+      "detail": "Sit on the common room sofa to relax and improve mood."
+    },
+    "event": [
+      "Maria Lopez",
+      "Sit",
+      "common room sofa"
+    ],
+    "duration": 60,
+    "creator_instruction": null,
+    "created_step": 246,
+    "updated_step": 246,
+    "failure": null
+  },
+  "admin_override_intent": null,
+  "admin_override_source": null,
+  "admin_override_step": null,
+  "active_skill_name": null,
+  "active_skill_id": null,
+  "active_skill_status": null,
+  "active_skill_phase": null,
+  "active_skill_started_step": null,
+  "active_skill_owner": null,
+  "active_skill_target": null,
+  "active_skill_metadata": null,
+  "social_dialogue_id": null,
+  "social_dialogue_partner": null,
+  "social_dialogue_role": null,
+  "social_dialogue_started_step": null,
+  "social_dialogue_topic": null,
+  "inventory": {
+    "apple": 1
+  },
+  "skills": {
+    "farming": {
+      "level": 1,
+      "xp": 0
+    },
+    "cooking": {
+      "level": 1,
+      "xp": 10
+    },
+    "gathering": {
+      "level": 1,
+      "xp": 0
+    },
+    "singing": {
+      "level": 1,
+      "xp": 0
+    }
+  },
+  "personal_knowledge": {
+    "persona_profiles": {
+      "Isabella Rodriguez": {
+        "name": "Isabella Rodriguez",
+        "innate_traits_text": "hospitable, empathetic, community-oriented",
+        "learned_traits_text": "Isabella Rodriguez is a cafe owner of Hobbs Cafe who loves to make people feel welcome. She is always looking for ways to make the cafe a place where people can come to relax and enjoy themselves.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bsatiety",
+        "source": "runtime:runtime_known_personas"
+      },
+      "Klaus Mueller": {
+        "name": "Klaus Mueller",
+        "innate_traits_text": "inquisitive, studious, reflective, even-tempered, thoughtful",
+        "learned_traits_text": "Klaus Mueller is a student at Oak Hill College studying sociology. He is passionate about social justice and loves to explore different perspectives.",
+        "motive_summary_text": "\u4e3b\u6b21\u52a8\u673a=\u4e3bmood",
+        "source": "runtime:runtime_known_personas"
+      }
+    }
+  },
+  "prompt_profile": {
+    "schema_version": 1,
+    "fields": {
+      "innate_traits_text": {
+        "value": "inquisitive, studious, friendly, hospitable",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:41:00",
+        "version": 1
+      },
+      "learned_traits_text": {
+        "value": "Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:41:00",
+        "version": 1
+      },
+      "current_situation_text": {
+        "value": "Maria Lopez is working on her physics degree and streaming games on Twitch to make some extra money. She visits Hobbs Cafe for studying and eating just about everyday.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "long_term_goals_text": {
+        "value": "First, stay alive and preserve my basic wellbeing in this sandbox world. I need reliable food, rest, and safety so I do not fall into an unrecoverable state. I want to keep building on my developed strengths: Maria Lopez is a student at Oak Hill College studying physics and a part time Twitch game streamer who loves to connect with people and explore new ideas.. My preferred rhythm is: Maria Lopez goes to bed arou...",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:41:00",
+        "version": 1
+      },
+      "lifestyle_text": {
+        "value": "Maria Lopez goes to bed around 2am, awakes up around 9am, eats dinner around 6pm. She likes to hang out at Hobbs Cafe if it's before 6pm.",
+        "source": "decision_compile",
+        "updated_at": "2026-07-17 08:41:00",
+        "version": 1
+      },
+      "daily_plan_text": {
+        "value": "Maria Lopez spends at least 3 hours a day Twitch streaming or gaming.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      },
+      "social_relationships_text": {
+        "value": "No social relationship summary has been cached yet.",
+        "source": "legacy_bootstrap",
+        "updated_at": null,
+        "version": 1
+      }
+    },
+    "last_compiled_at": "2026-07-17 08:41:00"
+  },
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.99,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 143,
+  "importance_ele_n": 7,
+  "thought_count": 5,
+  "daily_req": [],
+  "f_daily_schedule": [],
+  "f_daily_schedule_hourly_org": [],
+  "act_address": null,
+  "act_start_time": "July 17, 2026, 08:41:00",
+  "act_duration": 60,
+  "act_description": null,
+  "act_pronunciatio": "\ud83d\ude42",
+  "act_event": null,
+  "act_command": null,
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "act_path_set": false,
+  "planned_path": []
+}

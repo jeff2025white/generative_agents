@@ -2,6 +2,7 @@
   "prompt_delta_amplitude_note": "Signed delta amplitudes for prompt guidance only. Positive values mean likely improvement, negative values mean likely cost or penalty. These numbers are hints, not runtime settlement and not guaranteed execution results.",
   "categories": {
     "Consume": {
+      "motive_tags": ["satiety"],
       "verbs": ["consume", "eat", "drink", "have", "snack"],
       "description": "Consume food or drink to restore Satiety and Health.",
       "allowed_targets": ["apple", "cooked meal", "snack", "pancake", "food"],
@@ -10,6 +11,7 @@
       }
     },
     "Gather": {
+      "motive_tags": ["satiety"],
       "verbs": ["gather", "get", "take", "harvest", "prepare"],
       "description": "Gather food from resources to add to inventory.",
       "allowed_targets": ["refrigerator", "stove", "cafe counter", "apple tree"],
@@ -18,6 +20,7 @@
       }
     },
     "Rest": {
+      "motive_tags": ["stamina"],
       "verbs": ["rest", "sleep", "nap", "idle", "relax"],
       "description": "Rest or sleep to restore Stamina.",
       "allowed_targets": ["bed", "sofa", "couch", "library sofa", "chair"],
@@ -26,6 +29,7 @@
       }
     },
     "Treat": {
+      "motive_tags": ["health"],
       "verbs": ["treat", "bandage", "medicate"],
       "description": "Treat injuries directly to restore Health.",
       "allowed_targets": ["bandage", "medicine", "first aid kit"],
@@ -34,6 +38,7 @@
       }
     },
     "Work": {
+      "motive_tags": ["competence"],
       "verbs": ["work", "teach", "write", "research", "study", "organize"],
       "description": "Perform professional, academic, or daily tasks.",
       "allowed_targets": ["desk", "computer", "computer desk", "classroom podium", "library table"],
@@ -43,6 +48,7 @@
       }
     },
     "Socialize": {
+      "motive_tags": ["belonging", "mood"],
       "verbs": ["socialize", "chat", "talk", "communicate"],
       "description": "Interact or chat with other people to restore Mood.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -52,6 +58,7 @@
       }
     },
     "Request": {
+      "motive_tags": ["belonging", "competence"],
       "verbs": ["request", "ask", "seek"],
       "description": "Ask another person for a concrete resource, access right, item, or immediate practical help.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -61,6 +68,7 @@
       }
     },
     "Trade": {
+      "motive_tags": ["autonomy", "competence"],
       "verbs": ["trade", "exchange", "barter"],
       "description": "Exchange value, labor, items, or future favor for needed resources or access.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -69,6 +77,7 @@
       }
     },
     "Coordinate": {
+      "motive_tags": ["belonging", "competence"],
       "verbs": ["coordinate", "cooperate", "align", "team up"],
       "description": "Align actions with another person for shared benefit, easier execution, or higher success odds.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -77,6 +86,7 @@
       }
     },
     "Pressure": {
+      "motive_tags": ["autonomy", "status"],
       "verbs": ["pressure", "push", "corner", "demand"],
       "description": "Socially pressure another person to comply when softer methods are insufficient.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -85,6 +95,7 @@
       }
     },
     "Avoid": {
+      "motive_tags": ["safety"],
       "verbs": ["avoid", "bypass", "disengage", "leave"],
       "description": "Deliberately avoid a person who is dangerous, costly, obstructive, or likely to derail the current need.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -93,6 +104,7 @@
       }
     },
     "Give": {
+      "motive_tags": ["belonging", "status"],
       "verbs": ["give", "gift", "donate", "share"],
       "description": "Give one inventory item to another resident. The detail field should mention what item is being transferred.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -101,6 +113,7 @@
       }
     },
     "Rob": {
+      "motive_tags": ["autonomy", "status"],
       "verbs": ["rob", "steal", "loot", "mug"],
       "description": "Take one inventory item from another resident. The detail field should mention what item is being taken if possible.",
       "allowed_targets": ["Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "person"],
@@ -109,6 +122,7 @@
       }
     },
     "Recreate": {
+      "motive_tags": ["mood", "meaning"],
       "verbs": ["recreate", "play", "watch", "sing", "listen"],
       "description": "Leisure, games, or music to improve Mood.",
       "allowed_targets": ["game console", "tv", "piano", "easel", "lifting weight", "park garden", "park", "bench", "common room sofa", "cafe customer seating", "pub", "bar", "tavern", "rose and crown"],
@@ -118,6 +132,15 @@
         "daydream": {"stamina": 2.0, "mood": 2.0},
         "wander": {"stamina": -1.0, "mood": 1.0},
         "hangout_social_venue": {"stamina": -1.0, "mood": 2.0, "belonging": 10.0}
+      }
+    },
+    "Idle": {
+      "motive_tags": ["stamina"],
+      "verbs": ["idle", "wait", "pause"],
+      "description": "Pause without pursuing another objective; the runtime treats this as passive rest.",
+      "allowed_targets": ["none"],
+      "actor_delta_amplitude_by_variant": {
+        "idle": {"stamina": 40.0}
       }
     }
   }

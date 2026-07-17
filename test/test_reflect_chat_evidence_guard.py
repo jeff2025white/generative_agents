@@ -37,6 +37,26 @@ import persona.cognitive_modules.reflect as reflect_module
 class ReflectChatEvidenceGuardTests(unittest.TestCase):
     """Ensure reflection survives missing last-chat memory nodes."""
 
+    def test_reflect_skips_duplicate_chat_reflection_already_stored_by_chat_skill(self):
+        curr_time = datetime.datetime(2026, 7, 2, 13, 0, 0)
+        scratch = SimpleNamespace(
+            name="Maria Lopez",
+            curr_time=curr_time,
+            chatting_end_time=curr_time + datetime.timedelta(seconds=10),
+            chat=[("Maria Lopez", "See you later.")],
+            chatting_with="Klaus Mueller",
+            chat_reflection_completed_fingerprint="Klaus Mueller|1|Maria Lopez|See you later.",
+        )
+        persona = SimpleNamespace(a_mem=SimpleNamespace(), scratch=scratch)
+
+        with patch.object(reflect_module, "reflection_trigger", return_value=False), \
+             patch.object(reflect_module, "generate_planning_thought_on_convo") as planning_mock, \
+             patch.object(reflect_module, "generate_memo_on_convo") as memo_mock:
+            reflect_module.reflect(persona)
+
+        planning_mock.assert_not_called()
+        memo_mock.assert_not_called()
+
     def test_reflect_handles_missing_last_chat_node(self):
         curr_time = datetime.datetime(2026, 7, 2, 13, 0, 0)
         a_mem = SimpleNamespace(
@@ -68,4 +88,3 @@ class ReflectChatEvidenceGuardTests(unittest.TestCase):
         second_evidence = a_mem.add_thought.call_args_list[1].args[-1]
         self.assertEqual(first_evidence, [])
         self.assertEqual(second_evidence, [])
-

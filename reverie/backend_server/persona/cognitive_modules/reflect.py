@@ -172,6 +172,15 @@ def reset_reflection_counter(persona):
   persona.scratch.importance_ele_n = 0
 
 
+def _current_chat_reflection_fingerprint(persona):
+  convo = getattr(persona.scratch, "chat", None) or []
+  target_name = getattr(persona.scratch, "chatting_with", None)
+  if not convo or not target_name:
+    return None
+  last_speaker, last_utterance = convo[-1]
+  return f"{target_name}|{len(convo)}|{last_speaker}|{last_utterance}"
+
+
 def reflect(persona):
   """
   The main reflection module for the persona. We first check if the trigger 
@@ -193,6 +202,13 @@ def reflect(persona):
   if persona.scratch.chatting_end_time: 
     # print("DEBUG", persona.scratch.curr_time + datetime.timedelta(0,10))
     if persona.scratch.curr_time + datetime.timedelta(0,10) == persona.scratch.chatting_end_time: 
+      completed_fingerprint = getattr(
+        persona.scratch,
+        "chat_reflection_completed_fingerprint",
+        None,
+      )
+      if completed_fingerprint and completed_fingerprint == _current_chat_reflection_fingerprint(persona):
+        return
       # print ("KABOOOOOMMMMMMM")
       all_utt = ""
       if persona.scratch.chat: 
@@ -249,7 +265,6 @@ def reflect(persona):
         memo_thought=memo_thought,
         source="conversation_reflection",
       )
-
 
 
 

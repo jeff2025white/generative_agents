@@ -1,4 +1,5 @@
 import datetime
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -36,11 +37,13 @@ import persona.cognitive_modules.plan as plan_module
 from persona.cognitive_modules.stage1_prompt_compiler import (
     WORLD_RULES_TEXT,
     build_background_identity_text,
+    build_compact_action_schema_text,
     build_experience_priority_texts,
     build_motive_guidance_text,
     build_world_rules_text,
     load_action_schema_text,
 )
+from persona.cognitive_modules.structured_action_intent import ACTION_CATEGORIES
 
 
 class DemandThinkingMemoryContextTests(unittest.TestCase):
@@ -118,30 +121,19 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         text = plan_module._build_static_resource_context_text(persona, maze)
 
-        self.assertIn("可达的资源/场所:", text)
-        self.assertIn("apple tree:", text)
-        self.assertIn("用途: 可获取食物", text)
-        self.assertIn("bed:", text)
-        self.assertIn("用途: 休息 / 恢复体力", text)
-        self.assertIn("behind the cafe counter:", text)
-        self.assertIn("用途: 潜在食物来源 / 工作点位", text)
-        self.assertIn("common room sofa:", text)
-        self.assertIn("用途: 休息 / 放松", text)
-        self.assertIn("computer desk:", text)
-        self.assertIn("用途: 工作 / 学习", text)
-        self.assertIn("behind the bar counter:", text)
-        self.assertIn("用途: 社交服务 / 工作点位", text)
-        self.assertIn("bar customer seating:", text)
-        self.assertIn("用途: 社交 / 休息", text)
-        self.assertIn("library sofa:", text)
-        self.assertIn("用途: 休息 / 阅读", text)
-        self.assertIn("classroom student seating:", text)
-        self.assertIn("用途: 学习 / 听课", text)
-        self.assertIn("classroom podium:", text)
-        self.assertIn("用途: 教学 / 演讲", text)
-        self.assertIn("game console:", text)
-        self.assertIn("用途: 娱乐 / 情绪修复", text)
-        self.assertNotIn("refrigerator:", text)
+        self.assertIn("WorldResourceCatalogue", text)
+        self.assertIn("apple tree[satiety]:可获取食物", text)
+        self.assertIn("bed[stamina,health]:休息 / 恢复体力", text)
+        self.assertIn("behind the cafe counter[satiety,competence]:潜在食物来源 / 工作点位", text)
+        self.assertIn("common room sofa[stamina,mood,belonging]:休息 / 放松", text)
+        self.assertIn("computer desk[competence]:工作 / 学习", text)
+        self.assertIn("behind the bar counter[competence]:社交服务 / 工作点位", text)
+        self.assertIn("bar customer seating[mood,belonging]:社交 / 休息", text)
+        self.assertIn("library sofa[stamina,meaning]:休息 / 阅读", text)
+        self.assertIn("classroom student seating[competence]:学习 / 听课", text)
+        self.assertIn("classroom podium[status,competence]:教学 / 演讲", text)
+        self.assertIn("game console[mood]:娱乐 / 情绪修复", text)
+        self.assertNotIn("refrigerator[", text)
 
     def test_world_rules_text_uses_static_sandbox_rules(self):
         persona = SimpleNamespace(
@@ -242,11 +234,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         )
 
         self.assertIn("DecisionPriority:", capsule)
-        self.assertIn("Rules:", capsule)
+        self.assertIn("HardWorldRules:", capsule)
         self.assertIn("可达的资源/场所:", capsule)
         self.assertIn("apple tree:", capsule)
-        self.assertIn("驱动力系统说明:", capsule)
-        self.assertIn("Experience:", capsule)
+        self.assertIn("DriveGlossary:", capsule)
+        self.assertIn("RecentExperience:", capsule)
         self.assertIn("BackgroundRule:", capsule)
         self.assertNotIn("社交关系:", capsule)
         self.assertIn("LastAction: walking through the dorm common room | execution_status=unknown | failure_reason=none", capsule)
@@ -257,6 +249,30 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertNotIn("Interpretation:", capsule)
         self.assertNotIn("DriveSystem:", capsule)
         self.assertNotIn("Social:", capsule)
+
+    def test_resource_context_keeps_all_names_but_deduplicates_runtime_state(self):
+        resources = [
+            "apple tree (current state: ('the Ville:Johnson Park:park:apple tree', None, None, None), ('Isabella Rodriguez', 'gather', 'apple tree', 'gathering apples'); stock: infinite)",
+            "apple tree (current state: ('the Ville:Johnson Park:park:apple tree', None, None, None); stock: infinite)",
+            "cafe customer seating (current state: ('the Ville:Hobbs Cafe:cafe:cafe customer seating', None, None, None), ('Maria Lopez', 'seek_and_chat', 'Isabella Rodriguez', 'walking over'))",
+            "game console (idle/normal)",
+        ]
+
+        compact = prompt_module._compact_resource_context(
+            resources,
+            include_state=True,
+            max_items=None,
+        )
+
+        self.assertTrue(compact.startswith("apple tree["))
+        self.assertEqual(compact.count("stock=infinite"), 1)
+        self.assertIn("stock=infinite", compact)
+        self.assertIn("Isabella Rodriguez:gather->apple tree", compact)
+        self.assertNotIn("Maria Lopez:seek_and_chat->Isabella Rodriguez", compact)
+        self.assertIn("game console", compact)
+        self.assertNotIn("additional known resources omitted", compact)
+        self.assertNotIn("None, None, None", compact)
+        self.assertLess(len(compact), 320)
 
     def test_build_motive_guidance_text_uses_neutral_text_for_stable_motives(self):
         persona = SimpleNamespace(
@@ -302,7 +318,8 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         self.assertIn("dominant=satiety", text)
         self.assertIn("urgency=stable", text)
-        self.assertIn("No urgent internal need dominates this step.", text)
+        self.assertIn("policy=stable drives are weighted objectives", text)
+        self.assertIn("weight=light", text)
         self.assertNotIn("secondary=unknown", text)
         self.assertNotIn("我很饿", text)
 
@@ -388,7 +405,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertIn("apple tree", capsule)
         self.assertIn("was not reachable", capsule)
         self.assertIn("Choose a different feasible target now.", capsule)
-        self.assertIn("must not be selected", capsule)
+        self.assertIn("forbidden until evidence changes", capsule)
         self.assertLess(capsule.index("NavigationFailure:"), capsule.index("LastAction:"))
         self.assertLess(capsule.index("DecisionPriority:"), capsule.index("LastAction:"))
 
@@ -563,12 +580,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         self.assertIn("refrigerator", result.lower())
         joined_prompt = "\n".join(str(item) for item in captured["prompt_input"])
-        self.assertIn("StrongAvoidExperience:", joined_prompt)
+        self.assertIn("StrongAvoidEvidence:", joined_prompt)
         self.assertIn("refrigerator at Dorm for Oak Hill College was empty recently.", joined_prompt)
-        self.assertIn("StrongPreferExperience:", joined_prompt)
+        self.assertIn("StrongPreferEvidence:", joined_prompt)
         self.assertIn("apple tree worked well recently.", joined_prompt)
-        self.assertIn("ExperienceGuidance:", joined_prompt)
-        self.assertIn("Experience:", joined_prompt)
+        self.assertIn("RecentExperience:", joined_prompt)
         self.assertIn("restored her satiety effectively", joined_prompt)
         self.assertIn("Failed attempts:", joined_prompt)
 
@@ -628,7 +644,7 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         identity_summary = captured["prompt_input"][0]
         decision_capsule = captured["prompt_input"][1]
         self.assertIn("社交关系:", identity_summary)
-        self.assertNotIn("Other People / Predicted Behavior:", identity_summary)
+        self.assertNotIn("Other People / Power Map", identity_summary)
         self.assertIn("Other People / Predicted Behavior:", decision_capsule)
         self.assertIn("likely_behavior_now:", decision_capsule)
         self.assertNotIn("社交关系:", decision_capsule)
@@ -807,12 +823,11 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
             )
 
         self.assertIn("Current motive guidance:", captured["prompt"])
-        self.assertEqual(captured["prompt_input"][3], load_action_schema_text())
-        self.assertIn('"Consume"', captured["prompt_input"][3])
-        self.assertIn('"actor_delta_amplitude_by_variant"', captured["prompt_input"][3])
-        self.assertIn('"satiety": 58.0', captured["prompt_input"][3])
-        self.assertIn('"belonging": 12.0', captured["prompt_input"][3])
-        self.assertIn('"mood": -2.0', captured["prompt_input"][3])
+        self.assertEqual(captured["prompt_input"][3], build_compact_action_schema_text())
+        self.assertIn("- Consume |", captured["prompt_input"][3])
+        self.assertIn("consume(satiety:+58", captured["prompt_input"][3])
+        self.assertIn("belonging:+12", captured["prompt_input"][3])
+        self.assertIn("mood:-2", captured["prompt_input"][3])
         self.assertNotIn("Decision Convergence Guidance:", captured["prompt"])
         self.assertNotIn("Use this strict priority order:", captured["prompt"])
         self.assertNotIn("Write the answer in Maria's first-person voice.", captured["prompt"])
@@ -872,12 +887,14 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
 
         prompt_input = captured["prompt_input"]
         decision_capsule = prompt_input[1]
-        self.assertIn("Time: Current Time", decision_capsule)
-        self.assertIn("Rules:", decision_capsule)
-        self.assertEqual(prompt_input[3], load_action_schema_text())
+        self.assertIn("time=Current Time", decision_capsule)
+        self.assertIn("HardWorldRules:", decision_capsule)
+        self.assertEqual(prompt_input[3], build_compact_action_schema_text())
         resource_context = decision_capsule
         self.assertIn("refrigerator", resource_context)
-        self.assertIn("additional known resources omitted", resource_context)
+        self.assertNotIn("additional known resources omitted", resource_context)
+        self.assertIn("refrigerator", resource_context)
+        self.assertIn("game console", resource_context)
         self.assertEqual(resource_context.lower().count("refrigerator"), 1)
         self.assertNotIn("Extra line that should be compacted", decision_capsule)
         self.assertIn("more lines omitted", decision_capsule)
@@ -908,6 +925,23 @@ class DemandThinkingMemoryContextTests(unittest.TestCase):
         self.assertIn('"status": 2.0', schema_text)
         self.assertIn('"rob_actor": {', schema_text)
         self.assertIn('"mood": -2.0', schema_text)
+
+    def test_compact_action_catalogue_keeps_every_configured_category(self):
+        compact = build_compact_action_schema_text()
+        for category in (
+            "Consume", "Gather", "Rest", "Treat", "Work", "Socialize",
+            "Request", "Trade", "Coordinate", "Pressure", "Avoid", "Give",
+            "Rob", "Recreate", "Idle",
+        ):
+            self.assertIn(f"- {category} |", compact)
+        self.assertIn("no action has been filtered", compact)
+        self.assertIn("do NOT prove", compact)
+        self.assertLess(len(compact), len(load_action_schema_text()))
+        schema_categories = {
+            name.lower()
+            for name in json.loads(load_action_schema_text())["categories"]
+        }
+        self.assertEqual(schema_categories, ACTION_CATEGORIES)
 
 
 if __name__ == "__main__":

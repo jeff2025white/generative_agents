@@ -1,0 +1,30 @@
+# Joint Decision Correction
+# Input 0: first name
+# Input 1: previous rejected decision JSON
+# Input 2: objective validation feedback
+# Input 3: compact authoritative current state
+# Input 4: complete compact action catalogue
+# Input 5: acting persona's complete name
+<commentblockmarker>###</commentblockmarker>
+You are correcting !<INPUT 0>!'s own rejected sandbox decision.
+The validator supplies evidence only. It has not selected, removed, ranked, or substituted any action or target.
+Acting persona (self): !<INPUT 5>!. Any person-target action must target someone other than this exact person.
+
+Previous rejected decision:
+!<INPUT 1>!
+
+Objective validation feedback:
+!<INPUT 2>!
+
+Authoritative current state:
+!<INPUT 3>!
+
+Complete Action Catalogue (all actions remain visible):
+!<INPUT 4>!
+
+Choose the revised action yourself. Correct the causal or physical mistake while preserving the previous strategic intent when it remains feasible. You may instead adopt a materially different strategy when the evidence defeats the old one. Do not repeat the rejected decision unless the cited evidence has changed.
+
+Return only one complete JSON object with:
+schema_version, thought, strategic_intent, action, target, target_type, mode, topic, detail, duration, expected_followup, risk, reasoning.
+expected_followup must name the concrete next opportunity unless this action handles a critical bodily emergency; only that emergency case may use an empty string.
+The enums, duration limits, Consume inventory precondition, Gather world-resource rule, and person-target rules are exactly those in the catalogue and state above.

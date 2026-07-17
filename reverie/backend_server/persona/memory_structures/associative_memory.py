@@ -15,6 +15,8 @@ import datetime
 
 from global_methods import *
 
+MOTIVE_KEYS = ("satiety", "stamina", "health", "safety", "mood", "belonging", "status", "autonomy", "competence", "meaning")
+
 
 class ConceptNode: 
   def __init__(self,
@@ -22,7 +24,7 @@ class ConceptNode:
                created, expiration, 
                s, p, o, 
                description, embedding_key, poignancy, keywords, filling,
-               attribute_effects=None): 
+               attribute_effects=None, motive_effects=None, memory_tags=None):
     self.node_id = node_id
     self.node_count = node_count
     self.type_count = type_count
@@ -43,6 +45,8 @@ class ConceptNode:
     self.keywords = keywords
     self.filling = filling
     self.attribute_effects = normalize_attribute_effects(attribute_effects)
+    self.motive_effects = normalize_motive_effects(motive_effects)
+    self.memory_tags = normalize_memory_tags(memory_tags)
 
 
   def spo_summary(self): 
@@ -64,6 +68,27 @@ def normalize_attribute_effects(attribute_effects=None):
       normalized[key] = float(attribute_effects.get(key, 0.0) or 0.0)
     except Exception:
       normalized[key] = 0.0
+  return normalized
+
+
+def normalize_memory_tags(memory_tags=None):
+  if not isinstance(memory_tags, dict):
+    return {}
+  return {
+    str(key): value for key, value in memory_tags.items()
+    if str(key).strip() and value is not None
+  }
+
+
+def normalize_motive_effects(motive_effects=None):
+  normalized = {key: 0.0 for key in MOTIVE_KEYS}
+  if not isinstance(motive_effects, dict):
+    return normalized
+  for key in normalized:
+    try:
+      normalized[key] = float(motive_effects.get(key, 0.0) or 0.0)
+    except Exception:
+      continue
   return normalized
 
 
@@ -130,19 +155,21 @@ class AssociativeMemory:
       attribute_effects = normalize_attribute_effects(
         node_details.get("attribute_effects")
       )
+      memory_tags = normalize_memory_tags(node_details.get("memory_tags"))
+      motive_effects = normalize_motive_effects(node_details.get("motive_effects"))
       
       if node_type == "event": 
         self.add_event(created, expiration, s, p, o, 
                    description, keywords, poignancy, embedding_pair, filling,
-                   attribute_effects=attribute_effects)
+                   attribute_effects=attribute_effects, motive_effects=motive_effects, memory_tags=memory_tags)
       elif node_type == "chat": 
         self.add_chat(created, expiration, s, p, o, 
                    description, keywords, poignancy, embedding_pair, filling,
-                   attribute_effects=attribute_effects)
+                   attribute_effects=attribute_effects, motive_effects=motive_effects, memory_tags=memory_tags)
       elif node_type == "thought": 
         self.add_thought(created, expiration, s, p, o, 
                    description, keywords, poignancy, embedding_pair, filling,
-                   attribute_effects=attribute_effects)
+                   attribute_effects=attribute_effects, motive_effects=motive_effects, memory_tags=memory_tags)
 
     with open(f_saved + "/kw_strength.json", "r", encoding="utf-8") as kw_file:
       kw_strength_load = json.load(kw_file)
@@ -191,6 +218,8 @@ class AssociativeMemory:
       r[node_id]["attribute_effects"] = normalize_attribute_effects(
         getattr(node, "attribute_effects", None)
       )
+      r[node_id]["memory_tags"] = normalize_memory_tags(getattr(node, "memory_tags", None))
+      r[node_id]["motive_effects"] = normalize_motive_effects(getattr(node, "motive_effects", None))
 
     with open(out_json+"/nodes.json", "w") as outfile:
       json.dump(r, outfile)
@@ -246,7 +275,7 @@ class AssociativeMemory:
 
   def add_event(self, created, expiration, s, p, o, 
                       description, keywords, poignancy, 
-                      embedding_pair, filling=None, attribute_effects=None):
+                      embedding_pair, filling=None, attribute_effects=None, motive_effects=None, memory_tags=None):
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_event) + 1
@@ -265,7 +294,7 @@ class AssociativeMemory:
                        created, expiration, 
                        s, p, o, 
                        description, embedding_pair[0], 
-                       poignancy, keywords, filling, attribute_effects)
+                       poignancy, keywords, filling, attribute_effects, motive_effects, memory_tags)
 
     # Creating various dictionary cache for fast access. 
     self.seq_event[0:0] = [node]
@@ -293,7 +322,7 @@ class AssociativeMemory:
 
   def add_thought(self, created, expiration, s, p, o, 
                         description, keywords, poignancy, 
-                        embedding_pair, filling, attribute_effects=None):
+                        embedding_pair, filling, attribute_effects=None, motive_effects=None, memory_tags=None):
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_thought) + 1
@@ -311,7 +340,7 @@ class AssociativeMemory:
                        created, expiration, 
                        s, p, o, 
                        description, embedding_pair[0], poignancy, keywords, filling,
-                       attribute_effects)
+                       attribute_effects, motive_effects, memory_tags)
 
     # Creating various dictionary cache for fast access. 
     self.seq_thought[0:0] = [node]
@@ -339,7 +368,7 @@ class AssociativeMemory:
 
   def add_chat(self, created, expiration, s, p, o, 
                      description, keywords, poignancy, 
-                     embedding_pair, filling, attribute_effects=None): 
+                     embedding_pair, filling, attribute_effects=None, motive_effects=None, memory_tags=None):
     # Setting up the node ID and counts.
     node_count = len(self.id_to_node.keys()) + 1
     type_count = len(self.seq_chat) + 1
@@ -352,7 +381,7 @@ class AssociativeMemory:
                        created, expiration, 
                        s, p, o, 
                        description, embedding_pair[0], poignancy, keywords, filling,
-                       attribute_effects)
+                       attribute_effects, motive_effects, memory_tags)
 
     # Creating various dictionary cache for fast access. 
     self.seq_chat[0:0] = [node]
@@ -430,9 +459,6 @@ class AssociativeMemory:
       return self.kw_to_chat[target_persona_name.lower()][0]
     else: 
       return False
-
-
-
 
 
 

@@ -1,0 +1,359 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        36,
+        33
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling after exhausting autonomous correction attempts @ the Ville:artist's co-living space:common room:common room sofa",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6210\uff0c\u5230\u65f6\u5019\u6211\u627e\u4f60\u3002\u90a3\u6211\u5148\u53bb\u56fe\u4e66\u9986\u4e86\u554a\u3002",
+      "satiety": 48.59000000000129,
+      "stamina": 84.5010000000015,
+      "health": 100.0,
+      "mood": 66.19999999999906,
+      "inventory": {
+        "apple": 7
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idling",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Continue managing daily operations and planning the Valentine's Day party.",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is Seeking to repair my mood by conversing with Isabella Rodriguez, who is known for her welcoming and empathetic nature.; conversation topic: seeking comfort and emotional support",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Discuss party details and seek his input.; conversation topic: Valentine's Day party planning",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller completed idle on none at the Ville:artist's co-living space:common room:common room sofa but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:55:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 08:57:00",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller rested at none and recovered stamina.",
+          "created": "2026-07-17 08:55:20",
+          "poignancy": 6.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling after exhausting autonomous correction attempts",
+          "created": "2026-07-17 09:32:30",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller is actively involved in various tasks",
+          "created": "2026-07-17 09:29:00",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idling",
+          "created": "2026-07-17 08:53:20",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 09:30:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-17 09:22:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:56:50",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is idle",
+          "created": "2026-07-17 08:41:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-17 09:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "computer desk is idle",
+          "created": "2026-07-17 08:41:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bookshelf is idle",
+          "created": "2026-07-17 08:41:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room table is idle",
+          "created": "2026-07-17 08:57:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "library table is idle",
+          "created": "2026-07-17 08:41:00",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-17 08:00:00",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        56,
+        30
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Continue managing daily operations and planning the Valentine's Day party. @ the Ville:Hobbs Cafe:cafe",
+      "chat": null,
+      "last_chat": "Isabella Rodriguez: \u597d\u5440\uff0c\u90a3\u4f60\u5c31\u5148\u5fd9\u7740\u8bba\u6587\u5427\u3002\u7b49\u4f60\u5fd9\u5b8c\u4e86\uff0c\u54b1\u4eec\u518d\u4e00\u8d77\u53bb\u4e70\u88c5\u9970\u7528\u54c1\u3002",
+      "satiety": 98.39000000000016,
+      "stamina": 98.17200000000014,
+      "health": 100.0,
+      "mood": 68.3599999999999,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez seeks emotional support and comfort through conversations",
+          "created": "2026-07-17 09:10:10",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez seeks emotional support and relaxation through conversations with Isabella Rodriguez",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed leisure_use on game console at the Ville:artist's co-living space:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:56:10",
+          "poignancy": 7.99
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 7.6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed chat with on Klaus Mueller at <persona> Klaus Mueller and made partial progress toward the goal.",
+          "created": "2026-07-17 08:38:00",
+          "poignancy": 7.3
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Klaus Mueller also seeks comfort and social inclusion through conversations with Isabella Rodriguez",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target game console.",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target common room sofa.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 5.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez also seeks relaxation and emotional support",
+          "created": "2026-07-17 09:10:10",
+          "poignancy": 5
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent a while relaxing socially at common room sofa.",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 4.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is Relaxing on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:38:10",
+          "poignancy": 3
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:58:00",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 09:14:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "common room sofa is idle",
+          "created": "2026-07-17 08:57:10",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The common room sofa at the Ville is a popular spot for relaxation and social interaction",
+          "created": "2026-07-17 08:56:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        76,
+        32
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u597d\u5440\uff0c\u8c22\u8c22\u3002\u6211\u6700\u8fd1\u786e\u5b9e\u6709\u70b9\u7d2f\uff0c\u5403\u70b9\u4e1c\u897f\u53ef\u80fd\u4f1a\u597d\u4e9b\u3002",
+      "satiety": 92.52000000000055,
+      "stamina": 95.11000000000034,
+      "health": 100.0,
+      "mood": 53.1700000000005,
+      "inventory": {
+        "apple": 0
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Discuss ideas and ask for support to create a warm and inclusive ambiance.; conversation topic: planning the Valentine's Day party",
+          "created": "2026-07-17 09:33:20"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:19:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 09:03:00",
+          "poignancy": 7.35
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:19:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-17 08:19:20",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social interaction and support",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social support and conversation",
+          "created": "2026-07-17 08:43:20",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller is gathering apples from the apple tree",
+          "created": "2026-07-17 09:25:50",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is being eaten by Maria",
+          "created": "2026-07-17 08:19:30",
+          "poignancy": 2
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-17 09:32:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 08:23:20",
+          "poignancy": 1
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 09:33:40"
+  }
+}

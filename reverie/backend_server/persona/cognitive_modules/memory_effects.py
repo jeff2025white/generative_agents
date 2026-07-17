@@ -130,16 +130,21 @@ def record_projected_action_outcome(persona, outcome):
   embedding_pair = (embedding_text, embedding)
   keywords = set(projection.get("keywords") or [])
   attribute_effects = projection.get("attribute_effects")
-  return persona.a_mem.add_event(
-    persona.scratch.curr_time,
-    None,
+  motive_effects = projection.get("motive_effects")
+  memory_tags = projection.get("memory_tags")
+  args = (
+    persona.scratch.curr_time, None,
     projection.get("subject") or persona.name,
     projection.get("predicate") or "experienced",
     projection.get("object") or "execution_result",
-    description,
-    keywords,
-    float(projection.get("poignancy", 5.0) or 5.0),
-    embedding_pair,
-    None,
-    attribute_effects=attribute_effects,
+    description, keywords, float(projection.get("poignancy", 5.0) or 5.0),
+    embedding_pair, None,
   )
+  try:
+    return persona.a_mem.add_event(
+      *args, attribute_effects=attribute_effects, motive_effects=motive_effects, memory_tags=memory_tags,
+    )
+  except TypeError as error:
+    if "memory_tags" not in str(error) and "motive_effects" not in str(error):
+      raise
+    return persona.a_mem.add_event(*args, attribute_effects=attribute_effects)

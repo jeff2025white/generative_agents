@@ -1,0 +1,58 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        102,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food from Isabella Rodriguez. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 26.85499999999997,
+      "stamina": 96.82000000000022,
+      "health": 100.0,
+      "mood": 48.150000000000105,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        29
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.40999999999999,
+      "stamina": 97.14500000000022,
+      "health": 100.0,
+      "mood": 49.259999999999884,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Klaus Mueller": {
+      "movement": [
+        106,
+        47
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Request food access from Isabella Rodriguez. @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 27.40999999999999,
+      "stamina": 97.55000000000025,
+      "health": 100.0,
+      "mood": 47.779999999999916,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:06:00"
+  }
+}

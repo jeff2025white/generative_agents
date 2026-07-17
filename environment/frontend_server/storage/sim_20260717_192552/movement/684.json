@@ -1,0 +1,357 @@
+{
+  "persona": {
+    "Klaus Mueller": {
+      "movement": [
+        95,
+        56
+      ],
+      "pronunciatio": "\ud83d\udecc",
+      "description": "Resting to conserve energy for future tasks. @ the Ville:Dorm for Oak Hill College:Klaus Mueller's room:bed",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u6210\uff0c\u5230\u65f6\u5019\u6211\u627e\u4f60\u3002\u90a3\u6211\u5148\u53bb\u56fe\u4e66\u9986\u4e86\u554a\u3002",
+      "satiety": 91.8100000000008,
+      "stamina": 92.14300000000081,
+      "health": 100.0,
+      "mood": 64.23999999999832,
+      "inventory": {
+        "apple": 7
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        38,
+        39
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": [
+        [
+          "Maria Lopez",
+          "\u563f\uff0c\u4f0a\u838e\u8d1d\u62c9\uff0c\u5728\u5fd9\u7740\u6458\u82f9\u679c\u5462\uff1f\u6700\u8fd1\u6709\u70b9\u7d2f\uff0c\u6765\u4f60\u8fd9\u513f\u627e\u70b9\u653e\u677e\u7684\u611f\u89c9\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u55e8\uff0c\u739b\u4e3d\u4e9a\uff0c\u662f\u554a\uff0c\u5728\u51c6\u5907\u6458\u70b9\u82f9\u679c\u5462\u3002\u7d2f\u4e86\u5c31\u591a\u4f11\u606f\u4e0b\u5440\uff0c\u8fd9\u513f\u968f\u65f6\u6b22\u8fce\u4f60\u6765\u653e\u677e\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u8c22\u8c22\uff0c\u6709\u4f60\u8fd9\u53e5\u8bdd\u6211\u5c31\u8e0f\u5b9e\u591a\u4e86\u3002\u5bf9\u4e86\uff0c\u4f60\u5fd9\u5b8c\u82f9\u679c\u7684\u4e8b\u513f\uff0c\u5e97\u91cc\u662f\u4e0d\u662f\u8fd8\u6709\u6d3b\u513f\u5440\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\u5440\uff0c\u8fd8\u6709\u4e9b\u4e8b\u8981\u5904\u7406\u5462\u3002\u7b49\u5fd9\u5b8c\u8fd9\u9635\uff0c\u54b1\u4fe9\u518d\u597d\u597d\u804a\u804a\u5929\u653e\u677e\u4e0b\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u884c\uff0c\u90a3\u4f60\u5148\u5fd9\u3002\u7b49\u4f60\u5fd9\u5b8c\u4e86\uff0c\u54b1\u4eec\u53ef\u5f97\u597d\u597d\u5520\u5520\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u597d\u561e\uff0c\u90a3\u4f60\u5148\u5fd9\u4f60\u7684\uff0c\u7b49\u6211\u628a\u8fd9\u4e9b\u82f9\u679c\u6458\u5b8c\u5c31\u53bb\u627e\u4f60\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u884c\uff0c\u90a3\u4f60\u8d76\u7d27\u5f04\u5427\uff0c\u6211\u7b49\u4f60\u554a\u3002\u5bf9\u4e86\uff0c\u4f60\u6458\u82f9\u679c\u662f\u4e3a\u4e86\u5e97\u91cc\u7528\u5417\uff1f"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u653e\u5fc3\u5566\uff0c\u6211\u7684\u86cb\u7cd5\u4e0d\u4f1a\u8ba9\u4f60\u5403\u80d6\u7684\u3002\u7b49\u4f60\u76f4\u64ad\u5b8c\u518d\u6765\u559d\u676f\u5496\u5561\u653e\u677e\u4e0b\uff1f",
+      "satiety": 89.85000000000099,
+      "stamina": 97.90100000000017,
+      "health": 100.0,
+      "mood": 77.88,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-17 09:49:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is gathering apples from the apple tree",
+          "created": "2026-07-17 09:49:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 09:49:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Chat with Isabella Rodriguez to discuss relaxation and emotional well-being.; conversation topic: Seeking relaxation and emotional support",
+          "created": "2026-07-17 09:49:40"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Continue managing daily operations and planning the Valentine's Day party.",
+          "created": "2026-07-17 09:49:40"
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is a source of emotional support",
+          "created": "2026-07-17 09:10:10",
+          "poignancy": 9
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "this is blank",
+          "created": "2026-07-17 09:49:30",
+          "poignancy": 8
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 09:25:50",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed leisure_use on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed work on Hobbs Cafe at the Ville:Hobbs Cafe:cafe but made no measurable progress toward the goal.",
+          "created": "2026-07-17 09:38:00",
+          "poignancy": 7.7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed hangout_social_venue on common room sofa at the Ville:Dorm for Oak Hill College:common room but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:31:30",
+          "poignancy": 7.6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed idle on none at the Ville:artist's co-living space:common room:common room sofa but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:57:50",
+          "poignancy": 7.34
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez experienced a failed seek_and_chat attempt on Klaus Mueller at <persona> Klaus Mueller because recent_social_cooldown.",
+          "created": "2026-07-17 09:15:20",
+          "poignancy": 7.14
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez is a social and empathetic individual",
+          "created": "2026-07-17 09:29:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez Klaus Mueller is interested in helping with the Valentine's Day party.",
+          "created": "2026-07-17 08:57:00",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered apples from the apple tree and felt more optimistic about survival.",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez gathered food from apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 7.0
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Isabella Rodriguez Maria Lopez is interested in joining the Valentine's Day party at Isabella Rodriguez's caf\u00e9.",
+          "created": "2026-07-17 09:49:20",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "For Isabella Rodriguez's planning: Maria will be coming after her live stream.",
+          "created": "2026-07-17 09:49:30",
+          "poignancy": 6
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez spent time on leisure_use with target common room sofa.",
+          "created": "2026-07-17 08:31:20",
+          "poignancy": 5.0
+        }
+      ]
+    },
+    "Maria Lopez": {
+      "movement": [
+        85,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Oak Hill College:library",
+      "chat": [
+        [
+          "Isabella Rodriguez",
+          "\u739b\u5229\u4e9a\uff0c\u770b\u4f60\u8fd9\u6837\u5b50\uff0c\u662f\u4e0d\u662f\u6700\u8fd1\u5b66\u4e60\u538b\u529b\u53c8\u5927\u4e86\uff1f\u6765\u6211\u8fd9\u513f\u653e\u677e\u653e\u677e\u5440\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u5bf9\u5440\uff0c\u7269\u7406\u4f5c\u4e1a\u5feb\u628a\u6211\u538b\u57ae\u4e86\u3002\u4f60\u80fd\u5e2e\u6211\u653e\u677e\u4e0b\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5f53\u7136\u5566\uff0c\u6765\u6211\u8fd9\u513f\u5c31\u662f\u653e\u677e\u7684\u561b\u3002\u8981\u4e0d\u8981\u5c1d\u5c1d\u6211\u65b0\u505a\u7684\u86cb\u7cd5\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u554a\uff0c\u6211\u90fd\u6709\u70b9\u997f\u4e86\u3002\u4e0d\u8fc7\u5403\u5b8c\u4e86\u6211\u8fd8\u5f97\u56de\u53bb\u76f4\u64ad\u5462\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u90a3\u4f60\u5148\u5403\u70b9\uff0c\u5403\u5b8c\u56de\u53bb\u76f4\u64ad\u4e5f\u6709\u529b\u6c14\u3002\u6211\u8fd9\u86cb\u7cd5\u53ef\u597d\u5403\u4e86\u3002"
+        ],
+        [
+          "Maria Lopez",
+          "\u90a3\u6211\u5c31\u5c1d\u5c1d\uff0c\u4e0d\u8fc7\u53ef\u4e0d\u80fd\u5403\u592a\u591a\uff0c\u4e0d\u7136\u76f4\u64ad\u7684\u65f6\u5019\u809a\u5b50\u5706\u6eda\u6eda\u7684\u591a\u5c34\u5c2c\u554a\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u653e\u5fc3\u5566\uff0c\u6211\u7684\u86cb\u7cd5\u4e0d\u4f1a\u8ba9\u4f60\u5403\u80d6\u7684\u3002\u7b49\u4f60\u76f4\u64ad\u5b8c\u518d\u6765\u559d\u676f\u5496\u5561\u653e\u677e\u4e0b\uff1f"
+        ],
+        [
+          "Maria Lopez",
+          "\u597d\u554a\uff0c\u90a3\u76f4\u64ad\u5b8c\u6211\u5c31\u6765\u3002"
+        ]
+      ],
+      "last_chat": "Maria Lopez: \u597d\u554a\uff0c\u90a3\u76f4\u64ad\u5b8c\u6211\u5c31\u6765\u3002",
+      "satiety": 82.15000000000131,
+      "stamina": 92.52600000000108,
+      "health": 100.0,
+      "mood": 62.87000000000049,
+      "inventory": {
+        "apple": 2
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is idle",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is having a conversation with Maria Lopez",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is Chat with Isabella Rodriguez to discuss relaxation and emotional well-being.; conversation topic: Seeking relaxation and emotional support",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Continue managing daily operations and planning the Valentine's Day party.",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "perceived_event",
+          "description": "Maria Lopez is gathering apples from the apple tree",
+          "created": "2026-07-17 09:49:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez completed rest on common room sofa at the Ville:Oak Hill College:library:library sofa but made no measurable progress toward the goal.",
+          "created": "2026-07-17 09:23:50",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez completed hangout_social_venue on common room sofa at the Ville:Oak Hill College:library but made no measurable progress toward the goal.",
+          "created": "2026-07-17 09:13:50",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez successfully used gather on apple tree at the Ville:Johnson Park:park:apple tree.",
+          "created": "2026-07-17 08:19:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+          "created": "2026-07-17 09:49:10",
+          "poignancy": 7.4
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Maria Lopez experienced a failed seek_and_chat attempt on Isabella Rodriguez at <persona> Isabella Rodriguez because recent_social_cooldown.",
+          "created": "2026-07-17 09:03:00",
+          "poignancy": 7.35
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is experiencing mood fluctuations and seeking ways to improve it",
+          "created": "2026-07-17 09:19:00",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is facing recent social cooldowns affecting her interactions",
+          "created": "2026-07-17 09:42:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez Isabella is preparing a Valentine's Day party at her caf\u00e9.",
+          "created": "2026-07-17 09:49:20",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "The characters display a pattern of seeking and discussing various life aspects",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is having conversations with Isabella Rodriguez to improve her mood",
+          "created": "2026-07-17 09:19:00",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is having conversations with Isabella Rodriguez to discuss needs and explore options",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is exploring options and discussing needs with Isabella Rodriguez",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social interaction and support",
+          "created": "2026-07-17 08:58:50",
+          "poignancy": 7
+        },
+        {
+          "type": "retrieved_thought",
+          "description": "Maria Lopez is seeking social support and conversation",
+          "created": "2026-07-17 08:43:20",
+          "poignancy": 7
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 09:54:00"
+  }
+}

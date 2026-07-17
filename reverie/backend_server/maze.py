@@ -14,9 +14,11 @@ import math
 
 from global_methods import *
 from utils import *
+from object_affordances import ObjectAffordanceRegistry
 
 class Maze: 
   def __init__(self, maze_name): 
+    self.affordance_registry = ObjectAffordanceRegistry()
     # READING IN THE BASIC META INFORMATION ABOUT THE MAP
     self.maze_name = maze_name
     # Reading in the meta information about the world. If you want tp see the
@@ -142,6 +144,7 @@ class Maze:
         tile_details["game_object"] = ""
         if game_object_maze[i][j] in gob_dict: 
           tile_details["game_object"] = gob_dict[game_object_maze[i][j]]
+        tile_details["affordances"] = self.affordance_registry.get_affordances(tile_details["game_object"])
         
         tile_details["spawning_location"] = ""
         if spawning_location_maze[i][j] in slb_dict: 
@@ -380,7 +383,6 @@ class Maze:
     for event in curr_tile_ev_cp: 
       if event[0] == subject:  
         self.tiles[tile[1]][tile[0]]["events"].remove(event)
-
 
 
 

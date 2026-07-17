@@ -188,6 +188,7 @@ def _cache_scope(label, request_config=None):
       "label": label,
       "api_base": cfg.get("api_base"),
       "model": cfg.get("model"),
+      "max_tokens": cfg.get("max_tokens"),
       "sim_code": _cache_sim_scope,
     },
     ensure_ascii=False,
@@ -319,12 +320,16 @@ def ChatGPT_request(prompt, prompt_kind="generic", metadata=None, request_config
   # temp_sleep()
   started_at = time.perf_counter()
   try: 
+    completion_options = {}
+    if resolved_config.get("max_tokens") is not None:
+      completion_options["max_tokens"] = int(resolved_config["max_tokens"])
     completion = _chat_completion_create(
       [
         {"role": "system", "content": "You are a precise text completion engine. When given a prompt that ends in a sentence fragment, complete it directly without any introduction or conversational text. Do not repeat the prompt. Output ONLY the text that completes the sentence fragment. If the prompt asks for a JSON object, output only the JSON object."},
         {"role": "user", "content": prompt}
       ],
       request_config=resolved_config,
+      **completion_options,
     )
     metrics = _extract_ollama_metrics(completion)
     result = completion["choices"][0]["message"]["content"]
@@ -503,7 +508,18 @@ def ChatGPT_safe_generate_response(prompt,
         curr_gpt_response = data
       parsed_response_preview = _preview_response(curr_gpt_response)
       
-      is_valid = func_validate(curr_gpt_response, prompt=prompt)
+      validation_result = func_validate(curr_gpt_response, prompt=prompt)
+      validation_errors = []
+      if isinstance(validation_result, tuple):
+        is_valid = bool(validation_result[0])
+        if len(validation_result) > 1:
+          raw_errors = validation_result[1]
+          if isinstance(raw_errors, (list, tuple, set)):
+            validation_errors = [_truncate_text(item, 160) for item in raw_errors]
+          elif raw_errors:
+            validation_errors = [_truncate_text(raw_errors, 160)]
+      else:
+        is_valid = bool(validation_result)
       _log_llm_event(
         "chatgpt_safe_attempt",
         {
@@ -516,6 +532,7 @@ def ChatGPT_safe_generate_response(prompt,
           "raw_response_chars": len(str(raw_response)),
           "raw_response_preview": _preview_response(raw_response),
           "parsed_response_preview": parsed_response_preview,
+          "validation_errors": validation_errors,
           "duration_ms": round((time.perf_counter() - attempt_started_at) * 1000.0, 3),
           "status": "ok",
           "metadata": metadata,
@@ -817,8 +834,6 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
 
 
 

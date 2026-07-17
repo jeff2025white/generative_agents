@@ -1,0 +1,66 @@
+{
+  "persona": {
+    "Isabella Rodriguez": {
+      "movement": [
+        33,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "Relax on the common room sofa to improve mood. @ the Ville:Dorm for Oak Hill College:common room",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 81.00000000000001,
+      "stamina": 92.36100000000062,
+      "health": 100.0,
+      "mood": 50.119999999999706,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is Relax on the common room sofa to improve mood.",
+          "created": "2026-07-17 08:15:50"
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        97,
+        37
+      ],
+      "pronunciatio": "\ud83d\ude42",
+      "description": "idling to conserve energy @ the Ville:Dorm for Oak Hill College:kitchen:refrigerator",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 22.99999999999997,
+      "stamina": 93.38700000000068,
+      "health": 100.0,
+      "mood": 43.99999999999977,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Maria Lopez": {
+      "movement": [
+        49,
+        37
+      ],
+      "pronunciatio": "\ud83c\udf4e",
+      "description": "gathering apples from the apple tree @ the Ville:Johnson Park:park:apple tree",
+      "chat": null,
+      "last_chat": "None at the moment",
+      "satiety": 21.499999999999915,
+      "stamina": 91.3520000000006,
+      "health": 100.0,
+      "mood": 45.000000000000284,
+      "inventory": {},
+      "next_action": "None",
+      "retrieved_memories": []
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:16:30"
+  }
+}

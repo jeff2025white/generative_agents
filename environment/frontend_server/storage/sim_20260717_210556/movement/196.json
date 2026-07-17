@@ -1,0 +1,181 @@
+{
+  "persona": {
+    "Maria Lopez": {
+      "movement": [
+        76,
+        27
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling to conserve energy @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Maria Lopez: \u6d3e\u5bf9\u554a\uff0c\u90a3\u80af\u5b9a\u5f97\u53bb\u554a\uff01",
+      "satiety": 71.25500000000031,
+      "stamina": 87.02200000000119,
+      "health": 100.0,
+      "mood": 49.880000000000436,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": []
+    },
+    "Isabella Rodriguez": {
+      "movement": [
+        76,
+        25
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling to conserve energy @ <persona> Klaus Mueller",
+      "chat": [
+        [
+          "Klaus Mueller",
+          "\u90a3\u4e2a\u2026\u2026\u6253\u6270\u4e00\u4e0b\uff0c\u60a8\u662f Hobbs Cafe \u7684\u8001\u677f\u5417\uff1f"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u5bf9\uff0c\u6211\u5c31\u662f\u3002\u4f60\u600e\u4e48\u77e5\u9053\u7684\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u6211\u6765\u5e97\u91cc\u559d\u8fc7\u5496\u5561\uff0c\u770b\u5230\u95e8\u53e3\u8d34\u7684\u6d3b\u52a8\u6d77\u62a5\uff0c\u89c9\u5f97\u633a\u6709\u610f\u601d\u7684\u3002"
+        ],
+        [
+          "Isabella Rodriguez",
+          "\u54e6\uff1f\u4f60\u89c9\u5f97\u54ea\u4e2a\u6d3b\u52a8\u6709\u610f\u601d\u554a\uff1f"
+        ],
+        [
+          "Klaus Mueller",
+          "\u5c31\u662f\u90a3\u4e2a\u60c5\u4eba\u8282\u805a\u4f1a\uff0c\u770b\u7740\u633a\u6e29\u99a8\u7684\u3002"
+        ]
+      ],
+      "last_chat": "Isabella Rodriguez: \u54e6\uff1f\u4f60\u89c9\u5f97\u54ea\u4e2a\u6d3b\u52a8\u6709\u610f\u601d\u554a\uff1f",
+      "satiety": 74.21000000000076,
+      "stamina": 98.45400000000012,
+      "health": 100.0,
+      "mood": 59.45999999999953,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Isabella Rodriguez is idle",
+          "created": "2026-07-17 08:30:50"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Isabella Rodriguez completed idle on none at the Ville:Isabella Rodriguez's apartment:main room:bed but made no measurable progress toward the goal.",
+          "created": "2026-07-17 08:29:20",
+          "poignancy": 8.0
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cafe customer seating is idle",
+          "created": "2026-07-17 08:26:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "shelf is idle",
+          "created": "2026-07-17 08:29:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "behind the cafe counter is idle",
+          "created": "2026-07-17 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "cooking area is idle",
+          "created": "2026-07-17 08:26:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "park garden is idle",
+          "created": "2026-07-17 08:14:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "closet is idle",
+          "created": "2026-07-17 08:29:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "bed is idle",
+          "created": "2026-07-17 08:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "apple tree is idle",
+          "created": "2026-07-17 08:16:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "refrigerator is idle",
+          "created": "2026-07-17 08:28:20",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "kitchen sink is idle",
+          "created": "2026-07-17 08:26:40",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "piano is idle",
+          "created": "2026-07-17 08:02:30",
+          "poignancy": 1
+        },
+        {
+          "type": "retrieved_event",
+          "description": "desk is idle",
+          "created": "2026-07-17 08:28:20",
+          "poignancy": 1
+        }
+      ]
+    },
+    "Klaus Mueller": {
+      "movement": [
+        71,
+        30
+      ],
+      "pronunciatio": "\ud83d\udcac",
+      "description": "idling to conserve energy @ <persona> Isabella Rodriguez",
+      "chat": null,
+      "last_chat": "Klaus Mueller: \u5c31\u662f\u90a3\u4e2a\u60c5\u4eba\u8282\u805a\u4f1a\uff0c\u770b\u7740\u633a\u6e29\u99a8\u7684\u3002",
+      "satiety": 74.21000000000036,
+      "stamina": 91.06400000000134,
+      "health": 100.0,
+      "mood": 50.679999999999616,
+      "inventory": {
+        "apple": 1
+      },
+      "next_action": "None",
+      "retrieved_memories": [
+        {
+          "type": "perceived_event",
+          "description": "Klaus Mueller is having a conversation with Isabella Rodriguez",
+          "created": "2026-07-17 08:32:30"
+        },
+        {
+          "type": "retrieved_event",
+          "description": "Klaus Mueller completed chat with on Isabella Rodriguez at <persona> Isabella Rodriguez and made partial progress toward the goal.",
+          "created": "2026-07-17 08:31:10",
+          "poignancy": 8.0
+        }
+      ]
+    }
+  },
+  "meta": {
+    "curr_time": "July 17, 2026, 08:32:40"
+  }
+}

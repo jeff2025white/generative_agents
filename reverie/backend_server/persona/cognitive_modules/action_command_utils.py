@@ -1,3 +1,6 @@
+from object_affordances import default_registry
+
+
 def _normalize_text(raw_text):
     if not raw_text:
         return ""
@@ -292,7 +295,7 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
     normalized_target = normalize_action_target(target)
     detail_text = _normalize_text(detail)
     context_text = " ".join([normalized_target, detail_text]).strip()
-    mood_keywords = [
+    mood_keywords = default_registry.find_objects_by_affordance("mood", "can_leisure") + [
         "mood",
         "relax",
         "relaxing",
@@ -321,15 +324,13 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         "television",
         "tv",
     ]
-    food_keywords = [
+    food_keywords = default_registry.find_objects_by_affordance("satiety", "can_gather_food") + [
         "apple",
         "food",
         "meal",
         "snack",
         "crackers",
-        "refrigerator",
         "fridge",
-        "stove",
         "toaster",
         "microwave",
         "counter",
@@ -344,7 +345,6 @@ def infer_intent_family(skill_id=None, target=None, detail=None):
         "buy",
         "buying",
         "cabinet",
-        "apple tree",
         "cafe",
     ]
 
